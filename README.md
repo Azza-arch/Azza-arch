@@ -16,6 +16,4 @@
 💞️ I'm eager to collaborate on **innovative tech projects**, especially in **social networking**, **business solutions**, and anything that sparks creativity and connects passionate individuals. Let’s work together to make a real impact!
 
 📫 You can reach me at syhaziqdev [at]gmail.com or connect with me on [LinkedIn](https://linkedin.com/in/syhaziqdev) to discuss new ideas or exciting opportunities.
-
-😄 **Pronouns**: He/Him 
 ⚡ **Fun fact**: I have a serious obsession with discovering hidden food gems 🍜 and turning that passion into tech ideas—right now, I’m working on an exciting **local social network project** inspired by the layers of **kueh lapis**, celebrating diversity and connection!
