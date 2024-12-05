@@ -1,5 +1,5 @@
-<div class="flex flex-col-reverse mb-10 lg:flex-row mx-24 lg:my-24">
-    <div class="mt-10 mb-14">
+<div class="flex flex-col-reverse lg:flex-row lg:mx-24 mx-10 lg:my-24">
+    <div class="mt-10">
         <div class="lg:flex grid space-x-6 lg:pb-11 pb-5">
             <div class="flex-shrink-0">
                 <img src="assets/images/myfave.jpeg" alt="ZiqFolio logo" class="mx-auto rounded-md w-64 h-64">
@@ -40,11 +40,12 @@
                             class="rounded mr-4 py-1 px-3" title="Download my resume">
                             <span class="relative inline-block text-base group">
                                 <span
-                                    class="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 border-2 border-gray-900 rounded-lg ">
+                                    class="relative animate-bounce z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 border-2 border-gray-900 rounded-lg ">
                                     <span class="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
                                     <span
                                         class="absolute left-0 w-32 h-32 -ml-2 origin-top-right -rotate-90 -translate-x-full translate-y-10 bg-gray-900 "></span>
-                                    <span class="relative"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    <span class="relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />

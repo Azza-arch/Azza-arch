@@ -1,6 +1,6 @@
-<div id="skill" class="mx-24 lg:mb-32 items-center justify-center space-y-4">
+<div id="skill" class="lg:mx-24 mx-6 lg:mb-32 items-center justify-center">
     <div><h1 class="font-bold text-3xl py-4">Skills .</h1></div>
-    <div class="overflow-hidden font-mono rounded-lg border border-gray-300 mr-60">
+    <div class="overflow-hidden font-mono rounded-lg border border-gray-300">
         <table class="table-auto border-collapse w-full">
             <thead class="bg-gray-200">
                 <tr>
