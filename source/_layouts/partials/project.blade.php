@@ -1,4 +1,4 @@
-<div id="project" class="lg:mx-24 mx-10 bg-blue-50 px-5 py-3 rounded-2xl shadow-inner">
+<div id="project" class="lg:mx-24 mx-6 bg-blue-50 px-5 py-3 rounded-2xl shadow-inner">
     <h1 class="font-bold text-3xl py-4">Projects .</h1>
     <div class="font-mono lg:text-xl text-xs grid grid-rows-1 grid-cols-3 gap-3">
 
@@ -7,7 +7,7 @@
                 <div class="shadow-md bg-white hover:bg-slate-200 p-2 rounded-tl-3xl">
                     <a href="https://github.com/Azza-arch/sistem-kehadiran">
                         <div class="lg:py-3 py-1 px-6">Attendance System</div>
-                        <img src="assets/images/attend.png" class= "w-auto lg:h-4/5 h-2/3 object-cover">
+                        <img src="assets/images/attend.png" class= "w-auto lg:h-4/5 h-1/3 object-cover">
                     </a>
                 </div>
             </div>
