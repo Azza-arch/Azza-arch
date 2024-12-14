@@ -37,21 +37,6 @@
     {{-- <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <div class="elfsight-app-0df03723-92dd-464c-98f9-bca966e9f39b" data-elfsight-app-lazy></div> --}}
     @yield('body')
-    <div
-        class="fixed text-gray-900 lg:bottom-5 text-base font-bold lg:inset-[500px] inset-0 lg:pt-0 pt-[550px] items-center justify-center flex gap-4">
-        <div class="rounded-full shadow-md bg-white border-4 border-gray-900 px-4 py-2">
-            <button class="px-2">
-                <a href="#about">about</a>
-            </button>
-            <button class="px-2">
-                <a href="#project">project</a>
-            </button>
-            <button class="px-2">
-                <a href="#skill">skill</a>
-            </button>
-            <button class="px-2"><a href="#service">service</a></button>
-        </div>
-    </div>
 </body>
 
 </html>
