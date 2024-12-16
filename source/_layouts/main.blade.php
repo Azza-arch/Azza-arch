@@ -37,6 +37,10 @@
     {{-- <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <div class="elfsight-app-0df03723-92dd-464c-98f9-bca966e9f39b" data-elfsight-app-lazy></div> --}}
     @yield('body')
+    <footer class="bg-gray-900 text-white py-4 text-center">
+        <p>&copy; 2024 Syhaziqdev. All rights reserved.</p>
+    </footer>
+
 </body>
 
 </html>

@@ -1,96 +1,49 @@
-<div id="service" class="lg:h-screen lg:mx-24 mx-10 pb-10">
-    <h1 class="font-bold text-3xl py-4">Services .</h1>
-    <ul>
-        <li>Beautiful, functional <strong>landing pages</strong> tailored to your needs using <i>Jigsaw</i> and
-            <i>Tailwind CSS</i>.
-        </li>
-        <li> Designed to make a strong online presence for businesses, startups, or personal branding.
-        </li>
-        <li>Mobile-friendly and optimized for performance.</li>
-        <hr>
-        <li>*website still in progress*</li>
-    </ul>
+<div id="service" class="lg:h-screen lg:mx-24 mx-10 pb-10 flex flex-col gap-6">
+    <h1 class="font-bold text-3xl py-4 text-center">Services</h1>
+    <div class="flex flex-wrap gap-4 justify-center">
+        <div class="service-item bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md">
+            <h2 class="font-semibold text-lg">Landing Pages</h2>
+            <p class="text-sm mt-2">Beautiful, functional landing pages using <i>Jigsaw</i> and <i>Tailwind CSS</i>. Optimized for performance and mobile-friendly.</p>
+        </div>
+        <div class="service-item bg-gray-100 px-6 py-3 rounded-lg shadow-md">
+            <h2 class="font-semibold text-lg">Character Design</h2>
+            <p class="text-sm mt-2">Custom character designs tailored to your preferences, blending creativity and uniqueness.</p>
+        </div>
+        <div class="service-item bg-gray-100 px-6 py-3 rounded-lg shadow-md">
+            <h2 class="font-semibold text-lg">Freelance Jobs</h2>
+            <p class="text-sm mt-2">Offering to collab in work web design, development, and consulting services for startups, businesses, and personal brands.</p>
+        </div>
+    </div>
 
-    {{-- <span>Custom landing pages</span>
-    <span>Create visually apealing and responsive lanfing pages tailor to client needs</span>
-    Design and development
-    Design
-    development
-    support and maintanance
+    <div class="pricing-section mt-10 z-30">
+        <h2 class="font-bold text-2xl mb-4 text-center">Pricing Plans</h2>
+        <div class="flex flex-wrap gap-4 justify-center">
+            <div class="pricing-item bg-gray-100 px-6 py-4 rounded-lg shadow-md text-center">
+                <h3 class="font-semibold text-lg">Basic Plan</h3>
+                <p class="text-sm mt-2">RM 500</p>
+                <ul class="text-sm mt-2 list-disc list-inside">
+                    <li>Responsive static page</li>
+                    <li>SEO-friendly structure</li>
+                    <li>1 contact form</li> 
+                    <li>Delivery in 3-5 days</li>
+                </ul>
+            </div>
+            <div class="pricing-item bg-gray-100 px-6 py-4 rounded-lg shadow-md text-center">
+                <h3 class="font-semibold text-lg">Standard Plan</h3>
+                <p class="text-sm mt-2">RM 700</p>
+                <ul class="text-sm mt-2 list-disc list-inside">
+                    <li>Everything in Basic Plan</li>
+                    <li>Advanced animations</li>
+                    <li>Google Analytics integration</li>
+                    <li>Content updates (1 month)</li>
+                    <li>Delivery in 5-7 days</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-    SDLC
-
-    Requirement Gathering
-    Design Phase
-    Development
-    Testing
-    Deployment
-
-    ### **1. Create Pricing Tiers**
-    Offering multiple tiers helps clients choose a package that fits their needs and budget. Here's a suggested
-    structure:
-
-    #### **Basic Plan** (RM 500)
-    - A simple, static landing page.
-    - Responsive design for mobile, tablet, and desktop.
-    - SEO-optimized structure.
-    - 1 contact form (basic integration).
-    - Delivery in 3–5 days.
-
-    **Best For**: Clients who need a quick, no-frills landing page.
-
-    ---
-
-    #### **Standard Plan** (RM 700)
-    - Everything in the Basic Plan, plus:
-    - Advanced animations and effects (using Tailwind CSS or Alpine.js).
-    - Integration with Google Analytics or Facebook Pixel.
-    - Up to 2 custom forms (e.g., contact or newsletter signup).
-    - Content updates for 1 month after delivery.
-    - Delivery in 5–7 days.
-
-    **Best For**: Businesses looking for a functional and feature-rich landing page.
-
-    ---
-
-    #### **Premium Plan** (RM 1000+)
-    - Everything in the Standard Plan, plus:
-    - Custom design consultation.
-    - Integration with APIs (Mailchimp, Stripe, Zapier, etc.).
-    - Hosting setup (Netlify, Vercel, or custom hosting).
-    - Post-launch support for 3 months.
-    - Delivery in 7–10 days.
-
-    **Best For**: Clients needing advanced features and long-term support.
-
-    ---
-
-    ### **2. Add-On Services**
-    Offer additional services at fixed rates to upsell clients:
-    - **Content Writing**: RM 150/page.
-    - **Extra Forms/Features**: RM 100 per form or feature.
-    - **Custom Animations**: RM 200+.
-    - **Maintenance**: RM 150/month for updates and fixes.
-
-    ---
-
-    ### **3. Payment Terms**
-    To make payments manageable for clients and ensure commitment:
-    - **50% upfront**: Before starting the project.
-    - **50% on completion**: After client approval and delivery.
-
-    ---
-
-    ### **4. Discounts for Long-Term Clients**
-    Offer discounts to encourage repeat business:
-    - 10% off for 3+ landing pages.
-    - 15% off for referrals.
-
-    ---
-
-    ### **5. Justify Your Pricing**
-    To make clients comfortable with your pricing, explain the value:
-    - Highlight your expertise in **Ligsaw Laravel** and how it ensures performance.
-    - Emphasize the benefits: **faster loading times, improved SEO, and conversion-focused designs**.
-    - Show testimonials or case studies if possible. --}}
+    <div class="note-section mt-10 text-center text-sm text-gray-600">
+        <p>*Website still in progress*</p>
+        <p>Offering quality services backed by 1+ year of experience in Laravel and Livewire.</p>
+    </div>
 </div>
