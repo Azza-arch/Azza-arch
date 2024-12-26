@@ -53,7 +53,7 @@
 }
 
 .bg-myface {
-background-image: url('source/assets/images/myfave.jpeg');
+background-image: url('https://azza-arch.github.io/Azza-arch/source/assets/images/myfave.jpeg');
 }
 ::backdrop {
   --tw-border-spacing-x: 0;
