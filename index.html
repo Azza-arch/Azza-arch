@@ -1,73 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Haziq">
-    <meta name="description"
-        content="Hi, I'm Haziq, a Full-Stack Developer in Malaysia specializing in Laravel, Tailwind CSS, and Node.js. I craft responsive landing pages and web applications tailored for local businesses, enhancing digital presence. / Pembangunan laman web dan aplikasi responsif untuk perniagaan tempatan di Malaysia.">
-    <meta name="keywords"
-        content="Full-Stack Developer Malaysia, Landing Page Development, Laravel Developer, Tailwind CSS, Node.js, Web Design Malaysia, SEO Landing Pages, Mobile-Friendly Websites, Responsive Design Malaysia, Pembangunan Laman Web Malaysia, Reka Bentuk Halaman Pendaratan Malaysia">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <!-- Open Graph Meta Tags (for Social Media Preview, e.g., Facebook, LinkedIn) -->
-    <meta property="og:site_name" content="ZiqFolio">
-    <meta property="og:title" content="ZiqFolio - Portfolio of Haziq">
-    <meta property="og:description"
-        content="Explore the portfolio of Haziq, a Full-Stack Developer specializing in Laravel, Tailwind CSS, and Node.js.">
-    <meta property="og:url" content="https://azza-arch.github.io/Azza-arch/">
-    <meta property="og:image" content="https://azza-arch.github.io/Azza-arch/source/assets/images/myfave.jpeg">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://azza-arch.github.io/Azza-arch/source/assets/images/myfave.jpeg">
+    <!-- Open Graph Meta -->
+    <meta property="og:site_name" content="ZiqFolio" />
+    <meta property="og:title" content="ZiqFolio" />
+    <meta property="og:description" content="My own portfolio by Haziq" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="source/assets/img/logo.png" />
+    <meta property="og:type" content="website" />
 
+    <!-- Twitter Meta -->
+    <meta name="twitter:image:alt" content="ZiqFolio">
+    <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-99QLMPDHBC"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-99QLMPDHBC');
-    </script>
-
+    <!-- Favicon -->
+    <link rel="icon" href="source/assets/images/myfave.jpeg">
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i"
         rel="stylesheet">
 
-    <meta charset="utf-8">
-    <title>ZiqFolio - Portfolio of Haziq</title>
-    <link rel="stylesheet" href="source/assets/build/css/main.css?id=d18fa3c51d1c24bc24df53b67d8b1a62">
-    <script defer src="source/assets/build/js/main.js?id=fabf9fcce3b91248e39518e8eebfad1d"></script>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="source/assets/build/css/main.css?id=0db4abb1717b44cd538a95f736d81b2d">
+
+    <!-- Add JavaScript Class to HTML -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        document.documentElement.classList.add('js');
+    </script>
+
+    <!-- Title and Meta Description -->
+    <title>Ziqfolio</title>
+    <meta name="description" content="Website description.">
 </head>
 
-<body class="text-gray-900 relative bg-gray-50 font-sans antialiased">
-
+<body class="text-gray-900 relative bg-gray-50 font-sans antialiased overflow-x-hidden">
+    <!-- Yield Body Content -->
     <div class="flex flex-col gap-9">
         <div id="about">
             <div class="flex flex-col-reverse lg:flex-row lg:h-screen lg:mx-24 mx-10 mt-24">
-                <div class=""><img src="source/assets/images/oc.png"
+                <div><img src="source/assets/images/oc.png"
                         class="object-cover w-44 h-44 absolute rotate-180 top-0 right-0"
                         style="mix-blend-mode: multiply;" alt=""></div>
-<!--                 <div
-                    class="text-sm z-0 uppercase absolute lg:top-44 lg:left-24 top-36 left-28 rotate-90 font-bold text-gray-900 drop-shadow-xl">
-                    _haziq
-                </div> -->
+
                 <div class="lg:mt-10 mt-5">
                     <div class="lg:flex grid lg:space-x-6 space-x-0 lg:pb-11 pb-5">
-                     <div class="relative h-[500px] lg:h-[700px] overflow-hidden">
-   <div class="relative bg-myface bg-fixed bg-center mx-auto rounded-md lg:w-64 h-auto w-32">
-         <div class="flex-shrink-0">
+                        <div class="flex-shrink-0">
                             <img src="source/assets/images/myfave.jpeg" alt="ZiqFolio logo"
-                                class="mx-auto rounded-md lg:w-64 relative bg-fixed h-auto w-32">
-                        </div> 
-</div>
-</div>
-
+                                class="mx-auto rounded-md lg:w-64 h-auto w-32">
+                        </div>
                         <div class="grid lg:text-left text-center">
-                            <span class="lg:text-7xl text-2xl font-bold z-10 text-gray-900">full-stack <br> <span
-                                    class="lg:blur-sm hover:blur-0">dev</span></span>
+                            <span data-aos="fade-left"
+                                class="lg:text-7xl text-2xl font-bold z-10 text-gray-900">full-stack <br>
+                                <span class="lg:blur-sm hover:blur-0">dev</span></span>
 
                             <div class="text-justify z-20 lg:w-3/4 w-full">
                                 <p class="font-mono text-slate-700 text-sm">
@@ -75,11 +65,13 @@
                                     <span class="font-bold"><a href="#project">projects</a></span> here and they're
                                     kinda dope!
                                 </p>
+
                             </div>
 
                             <div class="flex">
 
-                                <div class="mt-4 justify-center items-center place-self-center">
+                                <div data-aos="zoom-in"
+                                    class=" delay-0 mt-4 justify-center items-center place-self-center">
                                     <a href="https://www.linkedin.com/in/syhaziqdev/" class="rounded py-1 px-3"
                                         title="my linkedin">
                                         <span
@@ -104,7 +96,8 @@
                                     </a>
                                 </div>
 
-                                <div class="mt-4 justify-center items-center place-self-center">
+                                <div data-aos="zoom-in"
+                                    class=" delay-100 mt-4 justify-center items-center place-self-center">
                                     <a href="https://github.com/Azza-arch" class="rounded py-1 px-3" title="my github">
                                         <span
                                             class="relative inline-block text-base hover:scale-110 transition duration-300  group">
@@ -128,7 +121,8 @@
                                     </a>
                                 </div>
 
-                                <div class="mt-4 justify-center items-center place-self-center">
+                                <div data-aos="zoom-in"
+                                    class=" delay-150 mt-4 justify-center items-center place-self-center">
                                     <a href="mailto:syhaziqdev@gmail.com" class="rounded py-1 px-3" title="my linkedin">
                                         <span
                                             class="relative inline-block text-base hover:scale-110 transition duration-300  group">
@@ -154,45 +148,52 @@
             </div>
         </div>
         <div id="project">
-            <div class="bg-gray-900 lg:mx-20 mx-8 px-5 py-5 rounded-xl shadow-inner">
+            <div data-aos="fade-in" data-aos-once="false"
+                class="bg-gray-900 lg:mx-20 mx-8 px-5 py-5 rounded-xl shadow-inner">
                 <h1 class="font-bold text-3xl text-white py-4">Projects .</h1>
                 <div class="text-white grid lg:grid-cols-3 py-2 grid-cols-1 justify-items-center gap-4">
 
-                    <a href="https://github.com/Azza-arch/sistem-kehadiran">
+                    <div data-aos="zoom-in" data-aos-once="false">
                         <div
-                            class="p-2 text-gray-900 hover:scale-90 transition duration-300 text-center border-dashed border-2 border-gray-900 text-sm bg-slate-100 rounded-sm rotate-2 font-bold w-56">
+                            class="p-2 delay-100 text-gray-900 hover:scale-90 transition duration-300 text-center border-dashed border-4 border-gray-900 text-sm bg-slate-100 rounded-sm rotate-2 font-bold w-56">
                             <img src="source/assets/images/attend.png" class="h-28 w-auto ">
                             <div class="py-7">Attendance System</div>
                         </div>
-                    </a>
-                    <div
-                        class="p-2 text-gray-50 hover:scale-90 transition duration-300 text-center border-dashed border-2 border-gray-900 text-sm bg-blue-600 rounded-sm rotate-2 font-bold w-56">
-                        <img src="source/assets/images/bitmap.png" class="h-36 w-auto">
-                        <div class="py-4">My-Rumah Design</div>
                     </div>
-                    <a href="https://lapacee.com">
+                    <div data-aos="zoom-in" data-aos-once="false">
                         <div
-                            class="p-2 text-gray-900 hover:scale-90 transition duration-300 text-center border-dashed border-2 border-gray-900 text-sm bg-yellow-300 rounded-sm rotate-2 font-bold w-56">
+                            class="p-2 text-gray-50 hover:scale-90 transition duration-300 text-center border-dashed border-4 border-gray-900 text-sm bg-blue-600 rounded-sm rotate-2 font-bold w-56">
+                            <img src="source/assets/images/bitmap.png" class="h-36 w-auto">
+                            <div class="py-4">My-Rumah Design</div>
+                        </div>
+                    </div>
+                    <div data-aos="zoom-in" data-aos-once="false">
+                        <div
+                            class="p-2 text-gray-900 hover:scale-90 transition duration-300 text-center border-dashed border-4 border-gray-900 text-sm bg-yellow-300 rounded-sm rotate-2 font-bold w-56">
                             <img src="source/assets/images/lapacee2.png" class="h-28 w-auto ">
                             <div class="py-7">Lapacee</div>
                         </div>
-                    </a>
-                    <div
-                        class="p-2 text-gray-50 hover:scale-90 transition duration-300 text-center border-dashed border-2 border-gray-900 text-sm bg-purple-800 rounded-sm -rotate-2 font-bold w-56">
-                        <img src="source/assets/images/myspm.png" class="h-28 w-auto ">
-                        <div class="py-7">Management System</div>
                     </div>
-                    <a href="https://yeet-a-capybara.vercel.app/">
+                    <div data-aos="zoom-in" data-aos-once="false">
                         <div
-                            class="p-2 justify-items-center hover:scale-90 transition duration-300 text-gray-900 text-center border-dashed border-2 border-gray-900 text-sm bg-green-600 rounded-sm -rotate-2 font-bold w-56">
+                            class="p-2 text-gray-50 hover:scale-90 transition duration-300 text-center border-dashed border-4 border-gray-900 text-sm bg-purple-800 rounded-sm -rotate-2 font-bold w-56">
+                            <img src="source/assets/images/myspm.png" class="h-28 w-auto ">
+                            <div class="py-7">Management System</div>
+                        </div>
+                    </div>
+                    <div data-aos="zoom-in" data-aos-once="false">
+                        <div
+                            class="p-2 justify-items-center hover:scale-90 transition duration-300 text-gray-900 text-center border-dashed border-4 border-gray-900 text-sm bg-green-600 rounded-sm -rotate-2 font-bold w-56">
                             <img src="source/assets/images/capybara.jpg" class="h-28 w-auto">
                             <div class="py-7">Yeet-that-Capybara Game</div>
                         </div>
-                    </a>
-                    <div
-                        class="p-2 text-gray-50 hover:scale-90 transition duration-300 text-center border-dashed border-2 border-gray-900 text-sm bg-red-500 rounded-sm rotate-2 font-bold w-56">
-                        <img src="source/assets/images/design.jpg" class="h-28 w-auto ">
-                        <div class="py-7">Character Design</div>
+                    </div>
+                    <div data-aos="zoom-in" data-aos-once="false">
+                        <div
+                            class="p-2 text-gray-50 hover:scale-90 transition duration-300 text-center border-dashed border-4 border-gray-900 text-sm bg-red-500 rounded-sm rotate-2 font-bold w-56">
+                            <img src="source/assets/images/design.jpg" class="h-28 w-auto ">
+                            <div class="py-7">Character Design</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -201,66 +202,66 @@
             <div id="service" class="lg:h-screen lg:mx-24 mx-10 pb-10 flex flex-col gap-6">
                 <h1 class="font-bold text-3xl py-4 text-center">Services</h1>
                 <div class="flex flex-wrap gap-4 justify-center">
-                    <div class="service-item bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md">
+                    <div data-aos-once="false" data-aos="fade-left"
+                        class="service-item bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md">
                         <h2 class="font-semibold text-lg">Landing Pages</h2>
                         <p class="text-sm mt-2">Beautiful, functional landing pages using <i>Jigsaw</i> and <i>Tailwind
-                                CSS</i>. Optimized for performance and mobile-friendly.</p>
+                                CSS</i>.
+                            Optimized for performance and mobile-friendly.</p>
                     </div>
-                    <div class="service-item bg-gray-100 px-6 py-3 rounded-lg shadow-md">
+                    <div data-aos-once="false" data-aos="fade-right"
+                        class="service-item delay-75 bg-gray-100 px-6 py-3 rounded-lg shadow-md">
                         <h2 class="font-semibold text-lg">Character Design</h2>
                         <p class="text-sm mt-2">Custom character designs tailored to your preferences, blending
-                            creativity and uniqueness.</p>
+                            creativity and
+                            uniqueness.</p>
                     </div>
-                    <div class="service-item bg-gray-100 px-6 py-3 rounded-lg shadow-md">
+                    <div data-aos-once="false" data-aos="fade-left"
+                        class="service-item delay-100 bg-gray-100 px-6 py-3 rounded-lg shadow-md">
                         <h2 class="font-semibold text-lg">Freelance Jobs</h2>
                         <p class="text-sm mt-2">Offering to collab in work web design, development, and consulting
-                            services for startups, businesses, and personal brands.</p>
+                            services for
+                            startups, businesses, and personal brands.</p>
                     </div>
                 </div>
 
                 <div class="pricing-section mt-10 z-30">
                     <h2 class="font-bold text-2xl mb-4 text-center">Pricing Plans</h2>
                     <div class="flex flex-wrap gap-4 justify-center">
-                        <div class="pricing-container flex gap-6">
-                            <!-- Basic Plan -->
-                            <div
-                                class="pricing-item bg-gray-100 px-6 py-4 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
-                                <h3 class="font-semibold text-lg text-indigo-600">Basic Plan</h3>
-                                <p class="text-sm mt-2 font-medium">RM 650 -> RM 899</p>
-                                <ul class="text-sm mt-4 list-none space-y-2">
-                                    <li>✅ Responsive static page</li>
-                                    <li>📈 Starter SEO (meta tags, page speed)</li>
-                                    <li>📩 WhatsApp or Email Redirect</li>
-                                    <li>🚚 Delivery in 3-5 days</li>
-                                    <li>🤝 Post-delivery support for 1 month</li>
-                                </ul>
-                            </div>
-                            <!-- Standard Plan -->
-                            <div
-                                class="pricing-item bg-gray-100 px-6 py-4 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
-                                <h3 class="font-semibold text-lg text-indigo-600">Standard Plan</h3>
-                                <p class="text-sm mt-2 font-medium">RM 900 -> RM 1100</p>
-                                <ul class="text-sm mt-4 list-none space-y-2">
-                                    <li>✅ Everything in Basic Plan</li>
-                                    <li>✨ Advanced animations (sliders, hover effects)</li>
-                                    <li>📊 Google Analytics integration</li>
-                                    <li>📝 Content updates (up to 3 in 1 month)</li>
-                                    <li>🚚 Delivery in 5-7 days</li>
-                                    <li>🤝 Post-delivery support for 2 months</li>
-                                </ul>
-                            </div>
+                        <div data-aos="flip-left" data-aos-once="false"
+                            class="pricing-item bg-gray-100 px-6 py-4 rounded-lg shadow-md text-center">
+                            <h3 class="font-semibold text-lg">Basic Plan</h3>
+                            <p class="text-sm mt-2">RM 500</p>
+                            <ul class="text-sm mt-2 list-disc list-inside">
+                                <li>Responsive static page</li>
+                                <li>SEO-friendly structure</li>
+                                <li>1 contact form</li>
+                                <li>Delivery in 3-5 days</li>
+                            </ul>
                         </div>
-
+                        <div data-aos="flip-right" data-aos-once="false"
+                            class="pricing-item bg-gray-100 px-6 py-4 rounded-lg shadow-md text-center">
+                            <h3 class="font-semibold text-lg">Standard Plan</h3>
+                            <p class="text-sm mt-2">RM 700</p>
+                            <ul class="text-sm mt-2 list-disc list-inside">
+                                <li>Everything in Basic Plan</li>
+                                <li>Advanced animations</li>
+                                <li>Google Analytics integration</li>
+                                <li>Content updates (1 month)</li>
+                                <li>Delivery in 5-7 days</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
                 <div class="note-section mt-10 text-center text-sm text-gray-600">
                     <p>*Website still in progress*</p>
+                    <p>Offering quality services backed by 1+ year of experience in Laravel and Livewire.</p>
                 </div>
             </div>
         </div>
         <div id="skill" class="bg-white">
-            <div class="lg:h-screen lg:mx-24 mx-6 lg:mb-32 py-5 items-center justify-center">
+            <div class="lg:mx-24 mx-6 lg:mb-32 py-5 items-center justify-center">
                 <div>
                     <h1 class="font-bold text-3xl py-4">Skills .</h1>
                 </div>
@@ -318,10 +319,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
     <footer class="bg-gray-900 text-white py-4 text-center">
         <p>&copy; 2024 Syhaziqdev. All rights reserved.</p>
     </footer>
 
+    <!-- TAOS JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 650, // Animation duration in milliseconds
+                once: true, // Only trigger animations once
+            });
+        });
+    </script>
+
+
+    <!-- Custom JS -->
+    <script defer src="source/assets/build/js/main.js?id=2f836786f79f4c701101ba20385775d4"></script>
 </body>
 
 </html>
