@@ -1048,6 +1048,10 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 @media (min-width: 1024px) {
 
+  .lg\:fixed {
+    position: fixed;
+  }
+
   .lg\:inset-\[500px\] {
     inset: 500px;
   }

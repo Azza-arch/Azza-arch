@@ -70,7 +70,7 @@
 
 <body class="text-gray-900 relative bg-gray-50 font-sans antialiased overflow-x-hidden">
     <!-- Yield Body Content -->
-    <div><img src="assets/images/oc.png" class="object-cover fixed z-50 w-44 h-44 rotate-180 top-0 right-0"
+    <div><img src="assets/images/oc.png" class="object-cover lg:fixed relative z-50 w-44 h-44 rotate-180 top-0 right-0"
             style="mix-blend-mode: multiply;" alt=""></div>
     @yield('body')
 
