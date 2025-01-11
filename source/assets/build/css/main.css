@@ -52,6 +52,9 @@
   --tw-contain-style:  ;
 }
 
+.bg-myface {
+background-image: url('https://azza-arch.github.io/Azza-arch/source/assets/images/myfave.jpeg');
+}
 ::backdrop {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
