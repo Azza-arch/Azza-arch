@@ -1,4 +1,4 @@
-<div class="lg:h-screen lg:mx-24 mx-6 lg:mb-32 py-5 items-center justify-center">
+<div class="lg:mx-24 mx-6 lg:mb-32 py-5 items-center justify-center">
     <div><h1 class="font-bold text-3xl py-4">Skills .</h1></div>
     <div class="overflow-hidden font-mono rounded-lg border border-gray-900">
         <table class="table-auto border-collapse w-full">

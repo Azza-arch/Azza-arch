@@ -1,10 +1,19 @@
+const fastGlob = require('fast-glob');
+
 module.exports = {
- content: require('fast-glob').sync([
+  content: fastGlob.sync([
     'source/**/*.{blade.php,blade.md,md,html,vue}',
-    '!source/**/_tmp/*' // exclude temporary files
-  ],{ dot: true }),
+    '!source/**/_tmp/*', // exclude temporary files
+  ], { dot: true }),
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('taos/plugin'),
+  ],
+  safelist: [
+    '!duration-[0ms]',
+    '!delay-[0ms]',
+    'html.js :where([class*="taos:"]:not(.taos-init))',
+  ],
 };
