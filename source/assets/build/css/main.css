@@ -52,9 +52,6 @@
   --tw-contain-style:  ;
 }
 
-.bg-myface {
-background-image: url('https://azza-arch.github.io/Azza-arch/source/assets/images/myfave.jpeg');
-}
 ::backdrop {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -506,6 +503,9 @@ video {
 html.js :where([class*="taos:"]:not(.taos-init)) {
   visibility: hidden;
 }
+.visible {
+  visibility: visible;
+}
 .static {
   position: static;
 }
@@ -517,6 +517,9 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 .relative {
   position: relative;
+}
+.sticky {
+  position: sticky;
 }
 .inset-0 {
   inset: 0px;
@@ -556,6 +559,9 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 .z-40 {
   z-index: 40;
+}
+.z-50 {
+  z-index: 50;
 }
 .mx-10 {
   margin-left: 2.5rem;
@@ -600,9 +606,6 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 .mt-5 {
   margin-top: 1.25rem;
 }
-.mb-11 {
-  margin-bottom: 2.75rem;
-}
 .block {
   display: block;
 }
@@ -617,6 +620,9 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 .grid {
   display: grid;
+}
+.hidden {
+  display: none;
 }
 .h-10 {
   height: 2.5rem;
@@ -692,9 +698,6 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 .rotate-90 {
   --tw-rotate: 90deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-.transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .list-inside {
@@ -801,10 +804,6 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
-}
-.bg-gray-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
 .bg-gray-900 {
   --tw-bg-opacity: 1;
@@ -979,10 +978,6 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
-.text-yellow-400 {
-  --tw-text-opacity: 1;
-  color: rgb(250 204 21 / var(--tw-text-opacity, 1));
-}
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1013,19 +1008,11 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
 .\!delay-\[0ms\] {
   transition-delay: 0ms !important;
 }
-.delay-\[300ms\] {
-  transition-delay: 300ms;
-}
-.delay-75 {
-  transition-delay: 75ms;
+.delay-0 {
+  transition-delay: 0s;
 }
 .delay-100 {
   transition-delay: 100ms;
@@ -1033,8 +1020,8 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 .delay-150 {
   transition-delay: 150ms;
 }
-.delay-0 {
-  transition-delay: 0s;
+.delay-75 {
+  transition-delay: 75ms;
 }
 .\!duration-\[0ms\] {
   transition-duration: 0ms !important;
@@ -1042,8 +1029,8 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 .duration-300 {
   transition-duration: 300ms;
 }
-.duration-\[600ms\] {
-  transition-duration: 600ms;
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1;

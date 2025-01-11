@@ -37,10 +37,41 @@
     <!-- Title and Meta Description -->
     <title>{{ $page->title }}</title>
     <meta name="description" content="{{ $page->description }}">
+    <style>
+        .section {
+            position: relative;
+        }
+
+        /* Sticky content behavior */
+        .content-to-stick {
+            position: sticky;
+            top: 0;
+            opacity: 1;
+        }
+
+        #about.is-scrolled-past {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        window.addEventListener('scroll', function() {
+            const aboutSection = document.getElementById('about');
+            const projectSection = document.getElementById('project');
+
+            // Check if the About section has been scrolled past the Project section
+            if (window.scrollY >= projectSection.offsetTop) {
+                aboutSection.classList.add('is-scrolled-past');
+            } else {
+                aboutSection.classList.remove('is-scrolled-past');
+            }
+        });
+    </script>
 </head>
 
 <body class="text-gray-900 relative bg-gray-50 font-sans antialiased overflow-x-hidden">
     <!-- Yield Body Content -->
+    <div><img src="assets/images/oc.png" class="object-cover fixed z-50 w-44 h-44 rotate-180 top-0 right-0"
+            style="mix-blend-mode: multiply;" alt=""></div>
     @yield('body')
 
     <!-- Footer -->
@@ -50,14 +81,13 @@
 
     <!-- TAOS JS -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          AOS.init({
-            duration: 650, // Animation duration in milliseconds
-            once: true, // Only trigger animations once
-          });
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 650, // Animation duration in milliseconds
+                once: true, // Only trigger animations once
+            });
         });
-      </script>
-      
+    </script>
 
     <!-- Custom JS -->
     <script defer src="{{ mix('js/main.js', 'assets/build') }}"></script>

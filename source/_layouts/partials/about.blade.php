@@ -1,6 +1,4 @@
 <div class="flex flex-col-reverse lg:flex-row lg:h-screen lg:mx-24 mx-10 mt-24">
-    <div><img src="assets/images/oc.png" class="object-cover w-44 h-44 absolute rotate-180 top-0 right-0"
-            style="mix-blend-mode: multiply;" alt=""></div>
     {{-- <div
         class="text-sm z-0 uppercase absolute lg:top-44 lg:left-24 top-36 left-28 rotate-90 font-bold text-gray-900 drop-shadow-xl">
         _haziq
