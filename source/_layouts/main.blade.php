@@ -25,7 +25,8 @@
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}">
+         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}"> -->
 
     <!-- Add JavaScript Class to HTML -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
@@ -68,15 +69,13 @@
     </script>
 </head>
 
-<body class="text-gray-900 relative bg-gray-50 font-sans antialiased overflow-x-hidden">
-    <!-- Yield Body Content -->
-    <div><img src="assets/images/oc.png" class="object-cover lg:fixed relative z-50 w-44 h-44 rotate-180 top-0 right-0"
-            style="mix-blend-mode: multiply;" alt=""></div>
+<body class="text-gray-900 relative font-sans antialiased">
+   
     @yield('body')
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-4 text-center">
-        <p>&copy; 2024 Syhaziqdev. All rights reserved.</p>
+        <p>&copy; 2025 Syhaziqdev. All rights reserved.</p>
     </footer>
 
     <!-- TAOS JS -->

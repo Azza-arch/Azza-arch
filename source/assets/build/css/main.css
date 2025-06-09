@@ -503,9 +503,6 @@ video {
 html.js :where([class*="taos:"]:not(.taos-init)) {
   visibility: hidden;
 }
-.visible {
-  visibility: visible;
-}
 .static {
   position: static;
 }
@@ -620,9 +617,6 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 .grid {
   display: grid;
-}
-.hidden {
-  display: none;
 }
 .h-10 {
   height: 2.5rem;
@@ -779,9 +773,6 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 .border-4 {
   border-width: 4px;
-}
-.border-8 {
-  border-width: 8px;
 }
 .border-t {
   border-top-width: 1px;
@@ -1028,9 +1019,6 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
 }
 .duration-300 {
   transition-duration: 300ms;
-}
-.ease-in-out {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1;
