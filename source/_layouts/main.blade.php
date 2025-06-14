@@ -21,10 +21,9 @@
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-         <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
-    <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}">
-    <!-- <link href="/public/css/main.css" rel="stylesheet"> -->
-    <!-- Add JavaScript Class to HTML -->
+         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}"> -->
+
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
