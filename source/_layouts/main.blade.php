@@ -14,10 +14,6 @@
     <meta property="og:image" content="source/assets/img/logo.png" />
     <meta property="og:type" content="website" />
 
-    <!-- Twitter Meta -->
-    <meta name="twitter:image:alt" content="ZiqFolio">
-    <meta name="twitter:card" content="summary_large_image">
-
     <!-- Favicon -->
     <link rel="icon" href="assets/images/myfave.jpeg">
     <!-- Fonts -->
@@ -25,9 +21,9 @@
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}"> -->
-
+         <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+    <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}">
+    <!-- <link href="/public/css/main.css" rel="stylesheet"> -->
     <!-- Add JavaScript Class to HTML -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
@@ -74,7 +70,7 @@
     @yield('body')
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-4 text-center">
+    <footer class="bg-slate-900 text-white py-4 text-center">
         <p>&copy; 2025 Syhaziqdev. All rights reserved.</p>
     </footer>
 
