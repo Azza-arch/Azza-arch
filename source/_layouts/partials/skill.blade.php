@@ -7,7 +7,7 @@
                                 <div class="absolute rounded-md lg:w-64 w-32 lg:h-64 h-32 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-3 border-2 border-lime-200 border-solid bg-transparent ">
                                     <div class="absolute rounded-md lg:w-56 w-28 lg:h-56 h-28 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-2 border-2 border-lime-300 border-solid bg-transparent ">
                                         <div class="absolute rounded-md lg:w-48 w-24 lg:h-48 h-24 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-1 border-2 border-lime-400 border-solid bg-transparent ">
-                                            <div class="absolute lg:text-4xl text-2xl rounded-md lg:w-40 w-20 lg:h-40 h-20 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-lime-300 shadow-2xl inset-shadow-sm shadow-lime-500/50 flex justify-center p-2 font-bold items-center uppercase">skills</div>
+                                            <div class="absolute lg:text-4xl text-2xl rounded-md lg:w-40 md:w-32 w-20 lg:h-40 md:h-32 h-20 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-lime-300 shadow-2xl inset-shadow-sm shadow-lime-500/50 flex justify-center p-2 font-bold items-center uppercase">skills</div>
                                         </div>
                                     </div>
                                 </div>

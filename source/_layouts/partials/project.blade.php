@@ -1,4 +1,4 @@
-<div class="bg-gradient-to-b from-transparent via-white to-white">
+<div class="bg-gradient-to-b via-white to-white">
     <div class="bg-slate-200 lg:mx-20 mx-8 px-5 py-5 rounded-xl shadow-inner">
     <div class="grid grid-cols-3 text-black py-2 gap-4">
         <div class="bg-white rounded-xl shadow-lg" >
