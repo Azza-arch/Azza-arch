@@ -1,230 +1,172 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>ZiqFolio</title>
+  <meta name="description" content="Portfolio of Syed Muhammad Haziq - game & web developer">
 
-    <!-- Open Graph Meta -->
-    <meta property="og:site_name" content="ZiqFolio" />
-    <meta property="og:title" content="ZiqFolio" />
-    <meta property="og:description" content="My own portfolio by Haziq" />
-    <meta property="og:url" content="/" />
-    <meta property="og:image" content="source/assets/img/logo.png" />
-    <meta property="og:type" content="website" />
+  <!-- Open Graph Meta -->
+  <meta property="og:site_name" content="ZiqFolio" />
+  <meta property="og:title" content="ZiqFolio" />
+  <meta property="og:description" content="My own portfolio by Haziq" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="source/assets/images/logo.png" />
+  <meta property="og:type" content="website" />
 
-    <!-- Favicon -->
-    <link rel="icon" href="source/assets/images/myfave.jpeg">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i"
-        rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" href="source/assets/images/myfave.jpeg">
 
-    <!-- Tailwind CSS -->
-         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- <link rel="stylesheet" href="/assets/build/css/main.css?id=4caa7f0b77ca5e8ca02542ce3816562e"> -->
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700,800" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        document.documentElement.classList.add('js');
-    </script>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Title and Meta Description -->
-    <title>Ziqfolio</title>
-    <meta name="description" content="Website description.">
-    <style>
-        .section {
-            position: relative;
-        }
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-        /* Sticky content behavior */
-        .content-to-stick {
-            position: sticky;
-            top: 0;
-            opacity: 1;
-        }
-
-        #about.is-scrolled-past {
-            opacity: 0;
-        }
-    </style>
-    <script>
-        window.addEventListener('scroll', function() {
-            const aboutSection = document.getElementById('about');
-            const projectSection = document.getElementById('project');
-
-            // Check if the About section has been scrolled past the Project section
-            if (window.scrollY >= projectSection.offsetTop) {
-                aboutSection.classList.add('is-scrolled-past');
-            } else {
-                aboutSection.classList.remove('is-scrolled-past');
-            }
-        });
-    </script>
+  <!-- Custom Floating Animation -->
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .text-shadow-md { text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+    .text-shadow-lg { text-shadow: 2px 2px 5px rgba(0,0,0,0.6); }
+  </style>
 </head>
 
-<body class="text-gray-900 relative font-sans antialiased">
-   
-        <div class="flex relative flex-col gap-9">
-        <div id="about" class="section content-to-stick">
-            <div
-    class="h-[400px] lg:h-screen px-5 py-5 bg-gradient-to-t from-white from-10% via-[#081844] via-30% to-[#274bc4] to-90%">
-    <div class="xl:mt-10 mt-5">
-        <div class="relative grid gap-10">
-            <img src="source/assets/images/design5.png" class=" absolute left-1/2 pr-5 lg:h-52 h-32 w-auto" alt="">
-            <div class="grid mx-auto italic">
-                <div class="relative group">
-                    <!-- <marquee class="absolute w-[900px] p-4 bg-yellow-300 rotate-45 top-10 -right-[800px]">lol</marquee> -->
-                    <div
-                        class="absolute top-24 right-10 -translate-x-1/2 rotate-3 delay-75 px-2 py-1 bg-yellow-300 text-slate-900 text-sm rounded opacity-0 group-hover:opacity-100 transition">
-                        haziq</div>
-                    <img src="source/assets/images/logo.png" alt="lapacee"
-                        class="cursor-pointer lg:w-96 w-52 lg:h-96 h-52 transition hover:rotate-3">
-                </div>
-                <span data-aos="fade-right"
-                    class="font-mono absolute lg:top-80 top-44 text-center text-slate-50 lg:text-lg text-shadow-md text-xs">
-                    A game developer by day, <br> a part-time web developer by <span
-                        class="lg:text-xl font-bold animate-pulse text-yellow-300 italic">heart</span>
-                </span>
-                <div data-aos="zoom-in" class=" delay-0 mt-4 justify-center items-center place-self-center">
-                    <a href="https://www.linkedin.com/in/syhaziqdev/" class="rounded py-1 px-3" title="my linkedin">
-                        <span class="relative inline-block text-base hover:scale-110 transition duration-300  group">
-                            <span
-                                class="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-slate-950 border-2 border-gray-900 rounded-lg ">
-                                <span class="relative z-20">let's chat</span>
-                                <span
-                                    class="absolute inset-0 w-full h-full z-0 px-5 py-3 rounded-lg bg-yellow-300"></span>
-                                <span
-                                    class="absolute left-0 w-32 h-32 -ml-2 origin-top-right -rotate-90 -translate-x-full translate-y-10 bg-gray-900"></span>
-                            </span>
-                            <span
-                                class="absolute bottom-0 right-0 w-full h-10 -mb-1 -mr-1 bg-gray-900 rounded-lg "></span>
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
+<body class="relative font-sans text-gray-900 antialiased">
+
+  <!-- HERO / ABOUT SECTION -->
+  <section id="about" class="relative w-full h-screen bg-gradient-to-t from-white from-10% via-[#081844] via-30% to-[#274bc4] to-90%">
+    <div class="absolute inset-0 flex flex-col items-center justify-center gap-6 px-5">
+      <!-- Floating Logo -->
+      <img src="source/assets/images/logo.png" 
+           class="lg:w-96 w-52 lg:h-96 h-52 transition-transform hover:rotate-3 animate-float" 
+           alt="ZiqFolio Logo">
+
+      <!-- Title & Description -->
+      <h1 class="text-white text-3xl lg:text-5xl font-extrabold text-center">Syed Muhammad Haziq</h1>
+      <p class="text-slate-50 lg:text-lg text-center text-shadow-md">
+        Game Developer by Day, <span class="text-yellow-300 font-bold italic animate-pulse">Web Developer</span> by Heart
+      </p>
+
+      <!-- CTA Button -->
+      <a href="https://www.linkedin.com/in/syhaziqdev/" class="relative inline-block group">
+        <span class="relative z-10 block px-8 py-3 text-lg font-medium text-slate-950 border-2 border-gray-900 rounded-lg overflow-hidden">
+          <span class="relative z-20">Let's Chat</span>
+          <span class="absolute inset-0 bg-yellow-300 rounded-lg"></span>
+        </span>
+      </a>
     </div>
-</div>
-        </div>
-        <div id="project" class="section">
-            <div class="bg-gradient-to-b via-white to-white">
-    <div class="bg-slate-200 lg:mx-20 mx-8 px-5 py-5 rounded-xl shadow-inner">
-        <div class="grid grid-cols-3 text-black py-2 gap-4">
-            <div class="bg-white relative rounded-xl shadow-lg">
-                <img class="rounded-xl" src="source/assets/images/3.png" alt="">
-            </div>
-            <div class="bg-white rounded-xl shadow-lg">
-                <img class="rounded-xl" src="source/assets/images/5.png" alt="">
-            </div>
-            <div class="relative bg-white rounded-xl flex justify-center items-center shadow-lg">
-                <a href="https://senibina.my.canva.site/studioseni-bina"><span class="xl:text-9xl lg:text-4xl text-2xl hover:text-4xl transition delay-75 font-bold">?</span></a>
-            </div>
-            <div class="bg-white rounded-xl shadow-lg col-span-2">
-                <img class="rounded-xl h-full w-full" src="source/assets/images/2.png" alt="">
-            </div>
+  </section>
 
-            <div class="relative bg-white rounded-xl shadow-lg">
-                <a href="https://play.google.com/store/apps/details?id=com.oxfordeduvision.sirahexplorer&pcampaignid=web_share"><img class="rounded-xl h-full w-full" src="source/assets/images/sirah.png" alt=""></a>
-            </div>
-            <div class="bg-white rounded-xl shadow-lg">
-                <img class="rounded-xl h-full w-full" src="source/assets/images/4.png" alt="">
-            </div>
-            <div class="bg-white rounded-xl shadow-lg col-span-2">
-                <img class="rounded-xl h-full w-full" src="source/assets/images/1.png" alt="">
-            </div>
+  <!-- PROJECTS SECTION -->
+  <section id="project" class="py-16 bg-gradient-to-b from-white via-white to-white">
+    <div class="container mx-auto px-5">
+      <h2 class="text-3xl font-bold text-center mb-10">Projects</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+          <img src="source/assets/images/3.png" alt="Project 3" class="w-full h-auto">
         </div>
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+          <img src="source/assets/images/5.png" alt="Project 5" class="w-full h-auto">
+        </div>
+        <div class="bg-white rounded-xl shadow-lg flex items-center justify-center">
+          <a href="https://senibina.my.canva.site/studioseni-bina" class="text-4xl font-bold hover:text-6xl transition">?</a>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg col-span-2">
+          <img src="source/assets/images/2.png" alt="Project 2" class="w-full h-full object-cover">
+        </div>
+        <div class="bg-white rounded-xl shadow-lg">
+          <a href="https://play.google.com/store/apps/details?id=com.oxfordeduvision.sirahexplorer">
+            <img src="source/assets/images/sirah.png" alt="Sirah Explorer" class="w-full h-full object-cover">
+          </a>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg">
+          <img src="source/assets/images/4.png" alt="Project 4" class="w-full h-full object-cover">
+        </div>
+        <div class="bg-white rounded-xl shadow-lg col-span-2">
+          <img src="source/assets/images/1.png" alt="Project 1" class="w-full h-full object-cover">
+        </div>
+      </div>
     </div>
+  </section>
 
-</div>        </div>
-        <div id="service" class="section bg-white">
-            <div id="service" class="lg:h-screen bg-white lg:mx-24 mx-10 xl:pb-12 lg:pb-10 pb-5 flex flex-col gap-6">
-    <h1 class="font-bold text-3xl py-4 text-center">Services</h1>
-    <div class="flex flex-wrap gap-4 justify-center">
-        <div class="service-item bg-gray-900 text-lime-300 px-6 py-3 rounded-lg shadow-md">
-            <h2 class="font-semibold text-lg">Landing Pages</h2>
-            <p class="text-sm mt-2">Beautiful, functional landing pages using <i>Jigsaw</i> and <i>Tailwind CSS</i>.
-                Optimized for performance and mobile-friendly.</p>
+  <!-- SERVICES SECTION -->
+  <section id="service" class="py-16 bg-white">
+    <div class="container mx-auto px-5">
+      <h2 class="text-3xl font-bold text-center mb-10">Services</h2>
+      <div class="flex flex-wrap justify-center gap-6">
+        <div class="bg-gray-900 text-lime-300 px-6 py-4 rounded-lg shadow-md w-64 hover:scale-105 transition">
+          <h3 class="text-xl font-semibold">Landing Pages</h3>
+          <p class="mt-2 text-sm">Beautiful, functional landing pages using <i>Jigsaw</i> and <i>Tailwind CSS</i>.</p>
         </div>
-        <div class="service-item delay-100 bg-gray-100 px-6 py-3 rounded-lg shadow-md">
-            <h2 class="font-semibold text-lg">Freelance Jobs</h2>
-            <p class="text-sm mt-2">Offering to collab in work web design, development, and consulting services for
-                startups, businesses, and personal brands.</p>
+        <div class="bg-gray-100 px-6 py-4 rounded-lg shadow-md w-64 hover:scale-105 transition">
+          <h3 class="text-xl font-semibold">Freelance Jobs</h3>
+          <p class="mt-2 text-sm">Collaborations for web design, development, and consulting for startups and personal brands.</p>
         </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="mt-16 text-center">
+        <h3 class="text-2xl font-bold mb-6">Pricing Plans</h3>
+        <div class="flex flex-wrap justify-center gap-6">
+          <div class="bg-gray-900 text-white px-6 py-6 rounded-lg shadow-md w-64 hover:scale-105 transition" data-aos="flip-left">
+            <h4 class="text-xl font-semibold">Basic Plan (Canva)</h4>
+            <p class="mt-2">RM 200+</p>
+            <ul class="mt-2 text-left list-disc list-inside text-sm">
+              <li>1 Halaman Landing Page</li>
+              <li>Responsive design</li>
+              <li>Delivery 2-3 days</li>
+              <li>Includes domain*</li>
+            </ul>
+          </div>
+          <div class="bg-gray-900 text-white px-6 py-6 rounded-lg shadow-md w-64 hover:scale-105 transition" data-aos="flip-right">
+            <h4 class="text-xl font-semibold">Standard Plan (Jigsaw)</h4>
+            <p class="mt-2">RM 400+</p>
+            <ul class="mt-2 text-left list-disc list-inside text-sm">
+              <li>1 Custom Landing Page</li>
+              <li>Lightweight animations (AOS)</li>
+              <li>Basic SEO</li>
+              <li>Delivery 5-7 days</li>
+              <li>Includes domain*</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="pricing-section mt-10 text-white z-30">
-        <h2 class="font-bold text-2xl mb-4 text-center">Pricing Plans</h2>
-        <div class="flex flex-wrap gap-4 justify-center">
-            <div data-aos="flip-left" data-aos-once="false"
-                class="pricing-item bg-gray-900 px-6 py-4 rounded-lg shadow-md text-center">
-                <h3 class="font-semibold text-lg">Basic Plan (Canva)</h3>
-                <p class="text-sm mt-2">RM 200+</p>
-                <ul class="text-sm text-left mt-2 list-disc list-inside">
-                    <li>1 Halaman Landing Page</li>
-                    <li>Rekaan responsif ( mesra telefon pintar )</li>
-                    <li>Siap dalam 2-3 hari bekerja</li>
-                    <li>Termasuk domain*</li>
-                </ul>
-            </div>
-            <div data-aos="flip-right" data-aos-once="false"
-                class="pricing-item bg-gray-900 px-6 py-4 rounded-lg shadow-md text-center">
-                <h3 class="font-semibold text-lg">Standard Plan (Jigsaw)</h3>
-                <p class="text-sm mt-2">RM 400+</p>
-                <ul class="text-sm mt-2 text-left list-disc list-inside">
-                    <li>1 Halaman Landing Page rekaan khas</li>
-                    <li>Animasi ringan ( AOS )</li>
-                    <li>Basic SEO</li>
-                    <li>Siap dalam 5-7 hari bekerja</li>
-                    <li>Termasuk domain*</li>
-                </ul>
-            </div>
-        </div>
+  <!-- SKILLS SECTION -->
+  <section id="skill" class="relative h-screen bg-gradient-to-b from-white via-white to-slate-900">
+    <h2 class="text-center text-3xl font-bold text-white pt-12">Skills</h2>
+    <div class="absolute inset-0 flex justify-center items-center gap-10">
+      <img src="source/assets/images/Tailwind.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Tailwind">
+      <img src="source/assets/images/Unity.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Unity">
+      <img src="source/assets/images/laravel.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Laravel">
+      <img src="source/assets/images/canva.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Canva">
+      <img src="source/assets/images/github.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="GitHub">
+      <img src="source/assets/images/php.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="PHP">
     </div>
+  </section>
 
-</div>
-        </div>
-        <div id="skill" class="section bg-white">
-            <div class="h-[600px] lg:h-screen relative bg-gradient-to-b from-white via-white to-slate-900">
-                <img src="source/assets/images/Tailwind.png" alt="ZiqFolio logo" class="absolute bg-slate-100 rounded-md lg:w-20 w-16 xl:h-28 xl:w-28 lg:h-20 h-16 lg:top-24 top-60 lg:left-1/4 left-10 rotate-3 p-2 shadow-md">
-                <img src="source/assets/images/Unity.png" alt="ZiqFolio logo" class="absolute bg-slate-100 rounded-md xl:h-28 xl:w-28 lg:w-20 w-16 lg:h-20 h-16 lg:top-24 top-60 lg:right-1/4 right-4 -rotate-6 p-2 shadow-md">
-                <img src="source/assets/images/laravel.png" alt="ZiqFolio logo" class="absolute bg-slate-100 rounded-md xl:h-28 xl:w-28 lg:w-20 w-16 lg:h-20 h-16 lg:bottom-5 bottom-32 left-1/2 -translate-x-1/2 p-2 shadow-md">
-                        <div class="absolute rounded-md lg:w-80 w-40 lg:h-80 h-40 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-12 border-2 border-lime-100 border-solid bg-transparent ">
-                            <div class="absolute rounded-md lg:w-72 w-36 lg:h-72 h-36 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-6 border-2 border-lime-200 border-solid bg-transparent ">
-                                <div class="absolute rounded-md lg:w-64 w-32 lg:h-64 h-32 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-3 border-2 border-lime-200 border-solid bg-transparent ">
-                                    <div class="absolute rounded-md lg:w-56 w-28 lg:h-56 h-28 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-2 border-2 border-lime-300 border-solid bg-transparent ">
-                                        <div class="absolute rounded-md lg:w-48 w-24 lg:h-48 h-24 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-1 border-2 border-lime-400 border-solid bg-transparent ">
-                                            <div class="absolute lg:text-4xl text-2xl rounded-md lg:w-40 md:w-32 w-20 lg:h-40 md:h-32 h-20 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-lime-300 shadow-2xl inset-shadow-sm shadow-lime-500/50 flex justify-center p-2 font-bold items-center uppercase">skills</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                <img src="source/assets/images/canva.png" alt="ZiqFolio logo" class="absolute bg-slate-100 rounded-md xl:h-28 xl:w-28 lg:w-20 w-16 lg:h-20 h-16 lg:top-5 top-36 left-1/2 -translate-x-1/2 p-2 shadow-md">
-                <img src="source/assets/images/github.png" alt="ZiqFolio logo" class="absolute bg-slate-100 rounded-md xl:h-28 xl:w-28 lg:w-20 w-16 lg:h-20 h-16 lg:bottom-1/4 bottom-1/3 lg:right-1/4 right-10 rotate-12 p-2 shadow-md">
-                <img src="source/assets/images/php.png" alt="ZiqFolio logo" class="absolute bg-slate-100 rounded-md xl:h-28 xl:w-28 lg:w-20 w-16 lg:h-20 h-16 lg:bottom-1/4 bottom-1/3 lg:left-1/4 left-10 -rotate-12 p-2 shadow-md">
-</div>
-        </div>
-    </div>
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-white py-6 text-center">
+    <p>&copy; 2026 Syhaziqdev. All rights reserved.</p>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-white py-4 text-center">
-        <p>&copy; 2025 Syhaziqdev. All rights reserved.</p>
-    </footer>
-
-    <!-- TAOS JS -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({
-                duration: 650, // Animation duration in milliseconds
-                once: true, // Only trigger animations once
-            });
-        });
-    </script>
-
-    <!-- Custom JS -->
-    <script defer src="/assets/build/js/main.js?id=2f836786f79f4c701101ba20385775d4"></script>
+  <!-- AOS Init -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AOS.init({ duration: 700, once: true });
+    });
+  </script>
 </body>
-
 </html>
