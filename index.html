@@ -1,270 +1,771 @@
-<!-- EXPERIENCE / TIMELINE -->
-<section id="timeline" class="py-28 bg-white relative overflow-hidden">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 
-  <!-- Blur BG -->
-  <div class="absolute top-20 left-10 w-72 h-72 bg-lime-300/20 blur-3xl rounded-full"></div>
-  <div class="absolute bottom-10 right-10 w-72 h-72 bg-purple-400/20 blur-3xl rounded-full"></div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <div class="max-w-5xl mx-auto px-6 relative z-10">
+  <title>ZiqFolio — Syed Muhammad Haziq</title>
 
-    <!-- Heading -->
-    <div class="mb-20 text-center" data-aos="fade-up">
+  <meta name="description" content="Portfolio of Syed Muhammad Haziq">
 
-      <span class="uppercase tracking-[0.3em] text-sm text-purple-500 font-bold">
-        My Journey
-      </span>
+  <!-- Open Graph -->
+  <meta property="og:title" content="ZiqFolio">
+  <meta property="og:description" content="Portfolio of Syed Muhammad Haziq">
+  <meta property="og:image" content="source/assets/images/logo.png">
+  <meta property="og:type" content="website">
 
-      <h2 class="text-5xl lg:text-6xl font-bold mt-4 leading-tight">
-        Work Experience
-      </h2>
+  <!-- Favicon -->
+  <link rel="icon" href="source/assets/images/myfave.jpeg">
 
-      <p class="text-slate-500 mt-5 max-w-2xl mx-auto">
-        From internship experiments to building products & games used by real users.
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- Heroicons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <style>
+    :root {
+      --navy: #081844;
+      --blue: #274bc4;
+      --lime: #c7ff41;
+      --purple: #c4b5fd;
+      --dark: #0a0929;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: white;
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      transition: .3s;
+    }
+
+    .navbar.scrolled {
+      background: rgba(10, 9, 41, .92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    /* BUTTON */
+    .btn-primary {
+      background: var(--lime);
+      color: #111827;
+      font-weight: 800;
+      transition: .25s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: white;
+      transition: .25s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, .06);
+    }
+
+    /* PROJECT */
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #111827;
+      min-height: 300px;
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .4s ease;
+    }
+
+    .project-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: linear-gradient(to top, rgba(10, 9, 41, .95), transparent);
+      opacity: 0;
+      transition: .3s;
+    }
+
+    .project-card:hover .project-overlay {
+      opacity: 1;
+    }
+
+    /* GLASS */
+    .glass {
+      background: rgba(255, 255, 255, .06);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    /* MARQUEE */
+    @keyframes marqueeLeft {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .marquee-track {
+      width: max-content;
+      display: flex;
+      animation: marqueeLeft 28s linear infinite;
+    }
+
+    .tech-pill {
+      border-right: 1px solid rgba(255, 255, 255, .08);
+      padding: 14px 28px;
+      font-weight: 700;
+      color: white;
+      white-space: nowrap;
+    }
+
+    /* TIMELINE */
+    .timeline-line {
+      position: absolute;
+      left: 18px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(199, 255, 65, 0.12);
+      border: 1px solid rgba(199, 255, 65, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c7ff41;
+      z-index: 10;
+    }
+
+    .timeline-card {
+      margin-left: 72px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .06);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 28px;
+      transition: .3s;
+    }
+
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(199, 255, 65, .2);
+    }
+
+    .tag {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, .06);
+      color: rgba(255, 255, 255, .85);
+    }
+
+    @media(max-width:768px) {
+      .timeline-card {
+        margin-left: 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+      <a href="#" class="flex items-center gap-3">
+        <img src="source/assets/images/logo.png" class="w-10 h-10 object-contain">
+        <span class="text-lime-300 font-extrabold text-lg">
+          ZiqFolio
+        </span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#projects" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
+          Projects
+        </a>
+
+        <a href="#services" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
+          Services
+        </a>
+
+        <a href="#timeline" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
+          Experience
+        </a>
+
+        <a href="#stack" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
+          Stack
+        </a>
+      </div>
+
+      <a href="https://www.linkedin.com/in/syhaziqdev/"
+        target="_blank"
+        class="px-5 py-2 rounded-full btn-primary text-sm">
+        Let's Chat
+      </a>
+
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="relative min-h-screen overflow-hidden bg-gradient-to-t from-white via-[#081844] to-[#274bc4] flex items-center justify-center">
+
+    <div class="absolute top-20 left-10 w-72 h-72 bg-lime-300/20 blur-3xl rounded-full"></div>
+    <div class="absolute bottom-20 right-10 w-72 h-72 bg-purple-400/20 blur-3xl rounded-full"></div>
+
+    <div class="relative z-10 text-center px-6 max-w-4xl">
+
+      <img src="source/assets/images/logo.png"
+        class="w-52 h-52 lg:w-80 lg:h-80 object-contain mx-auto animate-float"
+        data-aos="zoom-in">
+
+      <h1 class="text-white text-4xl lg:text-7xl font-bold mt-6"
+        data-aos="fade-up">
+        Syed Muhammad Haziq
+      </h1>
+
+      <p class="text-slate-200 mt-5 text-lg lg:text-2xl"
+        data-aos="fade-up"
+        data-aos-delay="100">
+        Game Developer by Day,
+        <span class="text-lime-300 font-bold italic">
+          Web Developer
+        </span>
+        by Heart
       </p>
+
+      <div class="flex flex-wrap justify-center gap-4 mt-10"
+        data-aos="fade-up"
+        data-aos-delay="200">
+
+        <a href="https://www.linkedin.com/in/syhaziqdev/"
+          target="_blank"
+          class="px-8 py-4 rounded-full btn-primary">
+          Let's Chat
+        </a>
+
+        <a href="#projects"
+          class="px-8 py-4 rounded-full btn-secondary">
+          See My Work
+        </a>
+
+      </div>
 
     </div>
 
-    <!-- Timeline -->
-    <ol class="relative border-s border-slate-200">
+  </section>
 
-      <!-- KadMe -->
-      <li class="mb-16 ms-8" data-aos="fade-up">
+  <!-- STATS -->
+  <section class="bg-[#0a0929] border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
 
-        <span class="absolute flex items-center justify-center w-7 h-7 bg-lime-300 rounded-full -start-3.5 ring-8 ring-white shadow-lg">
-          <svg class="w-3.5 h-3.5 text-slate-900"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 24 24"
-               stroke="currentColor">
-            <path stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3"/>
-          </svg>
+      <div>
+        <h3 class="text-4xl font-bold text-lime-300">3+</h3>
+        <p class="text-white/60 mt-2">Years Building</p>
+      </div>
+
+      <div>
+        <h3 class="text-4xl font-bold text-purple-300">4</h3>
+        <p class="text-white/60 mt-2">Games & Apps Shipped</p>
+      </div>
+
+      <div>
+        <h3 class="text-4xl font-bold text-lime-300">100%</h3>
+        <p class="text-white/60 mt-2">Made in Malaysia</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="py-28 bg-white">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+      <div class="mb-14" data-aos="fade-up">
+
+        <span class="uppercase tracking-[0.3em] text-sm text-purple-500 font-bold">
+          Selected Works
         </span>
 
-        <time class="inline-block px-4 py-1 rounded-full bg-lime-100 text-lime-700 text-xs font-bold uppercase tracking-wider">
-          Jan 2026 — Present
-        </time>
+        <h2 class="text-5xl lg:text-6xl font-bold mt-4">
+          Projects & Work Samples
+        </h2>
 
-        <div class="mt-5 bg-white border border-slate-200 rounded-[28px] p-8 shadow-xl">
+      </div>
 
-          <div class="flex flex-wrap items-center gap-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-            <h3 class="text-2xl font-bold text-slate-900">
+        <a href="#" class="project-card" data-aos="fade-up">
+          <img src="source/assets/images/3.png">
+
+          <div class="project-overlay">
+            <h3 class="text-white text-2xl font-bold">
+              Sirah Explorer
+            </h3>
+
+            <p class="text-lime-300 mt-2 text-sm uppercase tracking-widest">
+              Educational Game · Unity
+            </p>
+          </div>
+        </a>
+
+        <a href="#" class="project-card" data-aos="fade-up" data-aos-delay="100">
+          <img src="source/assets/images/5.png">
+
+          <div class="project-overlay">
+            <h3 class="text-white text-2xl font-bold">
+              Tarannum
+            </h3>
+
+            <p class="text-purple-300 mt-2 text-sm uppercase tracking-widest">
+              Mobile App · Unity
+            </p>
+          </div>
+        </a>
+
+        <a href="https://kadmehq.com"
+          target="_blank"
+          class="project-card flex items-center justify-center bg-[#1B19B9]"
+          data-aos="fade-up"
+          data-aos-delay="200">
+
+          <div class="text-center">
+            <h3 class="text-5xl font-bold text-lime-300">
+              KadMe
+            </h3>
+
+            <p class="text-white/60 mt-3 uppercase tracking-widest text-xs">
+              SaaS · Laravel
+            </p>
+          </div>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="py-28 bg-[#0a0929]">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+      <div class="mb-16 text-center" data-aos="fade-up">
+
+        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
+          What I Offer
+        </span>
+
+        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">
+          Services
+        </h2>
+
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="glass rounded-[28px] p-10" data-aos="fade-up">
+
+          <div class="w-14 h-14 rounded-2xl bg-lime-300/10 flex items-center justify-center text-lime-300">
+            <i data-feather="layout"></i>
+          </div>
+
+          <h3 class="text-white text-3xl font-bold mt-6">
+            Landing Pages
+          </h3>
+
+          <p class="text-white/60 mt-4 leading-8">
+            Modern landing pages using Tailwind CSS,
+            lightweight animation and clean responsive UI.
+          </p>
+
+        </div>
+
+        <div class="glass rounded-[28px] p-10" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="w-14 h-14 rounded-2xl bg-purple-300/10 flex items-center justify-center text-purple-300">
+            <i data-feather="code"></i>
+          </div>
+
+          <h3 class="text-white text-3xl font-bold mt-6">
+            Freelance Development
+          </h3>
+
+          <p class="text-white/60 mt-4 leading-8">
+            Portfolio websites, startup landing pages,
+            web systems and full stack development.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline" class="py-28 bg-[#081844] overflow-hidden">
+
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="mb-20 text-center" data-aos="fade-up">
+
+        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
+          Journey
+        </span>
+
+        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">
+          Work Experience
+        </h2>
+
+        <p class="text-white/50 mt-6 max-w-2xl mx-auto">
+          From internship experiments to building products and games used by real users.
+        </p>
+
+      </div>
+
+      <div class="relative">
+
+        <div class="timeline-line"></div>
+
+        <!-- ITEM -->
+        <div class="relative mb-14" data-aos="fade-up">
+
+          <div class="timeline-dot">
+            <i data-feather="briefcase" class="w-4 h-4"></i>
+          </div>
+
+          <div class="timeline-card">
+
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-lime-300/10 text-lime-300">
+              Jan 2026 — Present
+            </span>
+
+            <h3 class="text-white text-2xl font-bold mt-5">
               Founder
             </h3>
 
-            <span class="px-3 py-1 rounded-full bg-lime-300/20 text-lime-700 text-xs font-semibold">
-              Self-Initiated 🚀
-            </span>
+            <p class="text-purple-300 mt-2">
+              KadMe HQ · Remote
+            </p>
 
-          </div>
+            <p class="text-white/60 leading-8 mt-5">
+              Built KadMe — digital business card platform,
+              website builder and job board for Malaysians.
+            </p>
 
-          <p class="text-purple-600 font-semibold mt-2">
-            KadMe HQ · Remote
-          </p>
-
-          <p class="text-slate-600 leading-8 mt-5">
-            Built KadMe — a digital business card, mini website & job board platform for Malaysians.
-            Designed, developed and launched solo using Laravel + Tailwind.
-          </p>
-
-          <div class="flex flex-wrap gap-3 mt-6">
-
-            <span class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold">
-              Laravel
-            </span>
-
-            <span class="px-4 py-2 rounded-full bg-lime-100 text-lime-700 text-sm font-semibold">
-              Tailwind CSS
-            </span>
-
-            <span class="px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold">
-              Alpine.js
-            </span>
-
-            <span class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold">
-              SaaS
-            </span>
+            <div class="flex flex-wrap gap-3 mt-6">
+              <span class="tag">Laravel</span>
+              <span class="tag">Tailwind</span>
+              <span class="tag">Alpine.js</span>
+              <span class="tag">PHP</span>
+            </div>
 
           </div>
 
         </div>
 
-      </li>
+        <!-- ITEM -->
+        <div class="relative mb-14" data-aos="fade-up">
 
-      <!-- Oxford -->
-      <li class="mb-16 ms-8" data-aos="fade-up" data-aos-delay="100">
+          <div class="timeline-dot">
+            <i data-feather="cpu" class="w-4 h-4"></i>
+          </div>
 
-        <span class="absolute flex items-center justify-center w-7 h-7 bg-purple-300 rounded-full -start-3.5 ring-8 ring-white shadow-lg">
-          <svg class="w-3.5 h-3.5 text-slate-900"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 24 24"
-               stroke="currentColor">
-            <path stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9.75 17L15 12l-5.25-5"/>
-          </svg>
-        </span>
+          <div class="timeline-card">
 
-        <time class="inline-block px-4 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-bold uppercase tracking-wider">
-          Jan 2025 — Present
-        </time>
-
-        <div class="mt-5 bg-[#0a0929] rounded-[28px] p-8 shadow-2xl border border-white/10">
-
-          <h3 class="text-2xl font-bold text-white">
-            Game Developer
-          </h3>
-
-          <p class="text-lime-300 font-semibold mt-2">
-            Oxford EduVision (M)
-          </p>
-
-          <p class="text-white/60 leading-8 mt-5">
-            Developed educational mobile games using Unity including
-            Sirah Explorer, Tarannum, Smart Science & Asas Qurani.
-          </p>
-
-          <div class="flex flex-wrap gap-3 mt-6">
-
-            <span class="px-4 py-2 rounded-full bg-lime-300/10 text-lime-300 text-sm font-semibold">
-              Unity
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-purple-300/10 text-purple-300">
+              Jan 2025 — Present
             </span>
 
-            <span class="px-4 py-2 rounded-full bg-purple-300/10 text-purple-300 text-sm font-semibold">
-              C#
-            </span>
+            <h3 class="text-white text-2xl font-bold mt-5">
+              Game Developer
+            </h3>
 
-            <span class="px-4 py-2 rounded-full bg-white/10 text-white/70 text-sm font-semibold">
-              Mobile Games
-            </span>
+            <p class="text-purple-300 mt-2">
+              Oxford EduVision (M)
+            </p>
 
-            <span class="px-4 py-2 rounded-full bg-white/10 text-white/70 text-sm font-semibold">
-              Google Play
-            </span>
+            <p class="text-white/60 leading-8 mt-5">
+              Developing educational mobile games using Unity
+              and shipping apps to Google Play Store.
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-6">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Mobile</span>
+              <span class="tag">Google Play</span>
+            </div>
 
           </div>
 
         </div>
 
-      </li>
+        <!-- ITEM -->
+        <div class="relative mb-14" data-aos="fade-up">
 
-      <!-- Lapacee -->
-      <li class="mb-16 ms-8" data-aos="fade-up" data-aos-delay="200">
+          <div class="timeline-dot">
+            <i data-feather="globe" class="w-4 h-4"></i>
+          </div>
 
-        <span class="absolute flex items-center justify-center w-7 h-7 bg-slate-300 rounded-full -start-3.5 ring-8 ring-white shadow-lg">
-          <svg class="w-3.5 h-3.5 text-slate-900"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 24 24"
-               stroke="currentColor">
-            <path stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 12h14"/>
-          </svg>
-        </span>
+          <div class="timeline-card">
 
-        <time class="inline-block px-4 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider">
-          Oct 2024 — Jan 2025
-        </time>
-
-        <div class="mt-5 bg-white border border-slate-200 rounded-[28px] p-8 shadow-xl">
-
-          <h3 class="text-2xl font-bold text-slate-900">
-            Founder — Lapacee
-          </h3>
-
-          <p class="text-purple-600 font-semibold mt-2">
-            Freelance · Remote
-          </p>
-
-          <p class="text-slate-600 leading-8 mt-5">
-            Created a social platform project focused on connecting Malaysians through
-            community interaction, profiles & collaboration.
-          </p>
-
-          <div class="flex flex-wrap gap-3 mt-6">
-
-            <span class="px-4 py-2 rounded-full bg-lime-100 text-lime-700 text-sm font-semibold">
-              Laravel
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-lime-300/10 text-lime-300">
+              Oct 2024 — Jan 2025
             </span>
 
-            <span class="px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold">
-              Community Platform
-            </span>
+            <h3 class="text-white text-2xl font-bold mt-5">
+              Founder
+            </h3>
 
-            <span class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold">
-              Full Stack
-            </span>
+            <p class="text-purple-300 mt-2">
+              Lapacee
+            </p>
+
+            <p class="text-white/60 leading-8 mt-5">
+              Built a Malaysian social networking platform
+              focused on collaboration and local communities.
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-6">
+              <span class="tag">Laravel</span>
+              <span class="tag">Community Platform</span>
+              <span class="tag">Web Dev</span>
+            </div>
 
           </div>
 
         </div>
 
-      </li>
+        <!-- ITEM -->
+        <div class="relative" data-aos="fade-up">
 
-      <!-- Internship -->
-      <li class="ms-8" data-aos="fade-up" data-aos-delay="300">
+          <div class="timeline-dot">
+            <i data-feather="terminal" class="w-4 h-4"></i>
+          </div>
 
-        <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-300 rounded-full -start-3.5 ring-8 ring-white shadow-lg">
-          <svg class="w-3.5 h-3.5 text-slate-900"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 24 24"
-               stroke="currentColor">
-            <path stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 17l4 4 4-4m0-5l-4-4-4 4"/>
-          </svg>
-        </span>
+          <div class="timeline-card">
 
-        <time class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider">
-          Oct 2023 — Mar 2024
-        </time>
-
-        <div class="mt-5 bg-[#0a0929] rounded-[28px] p-8 shadow-2xl border border-white/10">
-
-          <h3 class="text-2xl font-bold text-white">
-            Technology Assistant & Application
-          </h3>
-
-          <p class="text-lime-300 font-semibold mt-2">
-            Mysoftcare Solution
-          </p>
-
-          <p class="text-white/60 leading-8 mt-5">
-            Internship experience handling full-stack development tasks,
-            assisting internal systems and learning modern web workflows.
-          </p>
-
-          <div class="flex flex-wrap gap-3 mt-6">
-
-            <span class="px-4 py-2 rounded-full bg-white/10 text-white/70 text-sm font-semibold">
-              PHP
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-white">
+              Oct 2023 — Mar 2024
             </span>
 
-            <span class="px-4 py-2 rounded-full bg-white/10 text-white/70 text-sm font-semibold">
-              Bootstrap
-            </span>
+            <h3 class="text-white text-2xl font-bold mt-5">
+              Technology Assistant & Application
+            </h3>
 
-            <span class="px-4 py-2 rounded-full bg-purple-300/10 text-purple-300 text-sm font-semibold">
-              Node.js
-            </span>
+            <p class="text-purple-300 mt-2">
+              Mysoftcare Solution
+            </p>
+
+            <p class="text-white/60 leading-8 mt-5">
+              Internship experience involving full stack web development,
+              internal systems and multiple frameworks.
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-6">
+              <span class="tag">Bootstrap</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">PHP</span>
+            </div>
 
           </div>
 
         </div>
 
-      </li>
+      </div>
 
-    </ol>
+    </div>
 
-  </div>
+  </section>
 
-</section>
+  <!-- TECH STACK -->
+  <section id="stack" class="bg-[#0a0929] py-24 overflow-hidden">
+
+    <div class="text-center mb-14 px-6" data-aos="fade-up">
+
+      <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
+        Tools of the Trade
+      </span>
+
+      <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">
+        My Tech Stack
+      </h2>
+
+    </div>
+
+    <div class="overflow-hidden border-y border-white/10">
+
+      <div class="marquee-track py-5">
+
+        <div class="tech-pill text-lime-300">Unity</div>
+        <div class="tech-pill text-purple-300">Laravel</div>
+        <div class="tech-pill">Tailwind CSS</div>
+        <div class="tech-pill text-lime-300">PHP</div>
+        <div class="tech-pill text-purple-300">Canva</div>
+        <div class="tech-pill">GitHub</div>
+        <div class="tech-pill text-lime-300">VS Code</div>
+
+        <div class="tech-pill text-lime-300">Unity</div>
+        <div class="tech-pill text-purple-300">Laravel</div>
+        <div class="tech-pill">Tailwind CSS</div>
+        <div class="tech-pill text-lime-300">PHP</div>
+        <div class="tech-pill text-purple-300">Canva</div>
+        <div class="tech-pill">GitHub</div>
+        <div class="tech-pill text-lime-300">VS Code</div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="py-32 bg-[#081844] text-center relative overflow-hidden">
+
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-500/10 blur-3xl rounded-full"></div>
+
+    <div class="relative z-10 px-6">
+
+      <h2 class="text-5xl lg:text-7xl font-bold text-lime-300 leading-tight"
+        data-aos="zoom-in">
+        Let's Build <br>
+        Something Cool
+      </h2>
+
+      <p class="text-white/50 mt-6 text-lg"
+        data-aos="fade-up">
+        Open for freelance, collaborations and opportunities.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4 mt-10"
+        data-aos="fade-up"
+        data-aos-delay="100">
+
+        <a href="https://www.linkedin.com/in/syhaziqdev/"
+          target="_blank"
+          class="px-8 py-4 rounded-full btn-primary">
+          Hit Me Up
+        </a>
+
+        <a href="https://kadmehq.com"
+          target="_blank"
+          class="px-8 py-4 rounded-full btn-secondary">
+          Visit KadMe
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#081844] border-t border-white/5 py-8 text-center text-white/40 text-sm">
+    © 2026 Syhaziqdev. Made with caffeine & chaos.
+  </footer>
+
+  <script>
+
+    AOS.init({
+      duration: 700,
+      once: true
+    });
+
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    feather.replace();
+
+  </script>
+
+</body>
+
+</html>
