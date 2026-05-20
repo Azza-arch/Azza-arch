@@ -4,363 +4,323 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>ZiqFolio — Syed Muhammad Haziq</title>
-
   <meta name="description" content="Portfolio of Syed Muhammad Haziq">
-
-  <!-- Open Graph -->
   <meta property="og:title" content="ZiqFolio">
   <meta property="og:description" content="Portfolio of Syed Muhammad Haziq">
   <meta property="og:image" content="source/assets/images/logo.png">
   <meta property="og:type" content="website">
-
-  <!-- Favicon -->
   <link rel="icon" href="source/assets/images/myfave.jpeg">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- AOS -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
-  <!-- Feather Icons -->
   <script src="https://unpkg.com/feather-icons"></script>
 
   <style>
-    :root{
-      --bg:#070b1a;
-      --navy:#081844;
-      --white:#f8fafc;
-      --slate:#94a3b8;
-
-      --lime:#c7ff41;
-      --lime-soft:#d9ff7a;
-
-      --purple:#c4b5fd;
-      --purple-soft:#ddd6fe;
-
-      --card:#0f172a;
-      --border:rgba(255,255,255,.08);
+    :root {
+      --bg: #070b1a;
+      --navy: #081844;
+      --white: #f8fafc;
+      --slate: #94a3b8;
+      --lime: #c7ff41;
+      --lime-soft: #d9ff7a;
+      --purple: #c4b5fd;
+      --purple-soft: #ddd6fe;
+      --card: #0f172a;
+      --border: rgba(255,255,255,.08);
     }
 
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: white;
+      color: #0f172a;
+      overflow-x: hidden;
     }
 
-    body{
-      font-family:'Plus Jakarta Sans',sans-serif;
-      background:white;
-      color:#0f172a;
-      overflow-x:hidden;
+    h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+    img { display: block; }
+
+    .sw { max-width: 1280px; margin: auto; padding-left: 24px; padding-right: 24px; }
+
+    .slabel {
+      font-size: .78rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 18px;
     }
 
-    h1,h2,h3{
-      font-family:'Space Grotesk',sans-serif;
+    .sh {
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      line-height: .95;
+      font-weight: 800;
     }
 
-    img{
-      display:block;
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
     }
-
-    .sw{
-      max-width:1280px;
-      margin:auto;
-      padding-left:24px;
-      padding-right:24px;
-    }
-
-    .slabel{
-      font-size:.78rem;
-      letter-spacing:.28em;
-      text-transform:uppercase;
-      font-weight:800;
-      margin-bottom:18px;
-    }
-
-    .sh{
-      font-size:clamp(2.6rem,5vw,5rem);
-      line-height:.95;
-      font-weight:800;
-    }
-
-    /* FLOAT */
-    @keyframes float{
-      0%,100%{
-        transform:translateY(0);
-      }
-      50%{
-        transform:translateY(-12px);
-      }
-    }
-
-    .animate-float{
-      animation:float 4s ease-in-out infinite;
-    }
+    .animate-float { animation: float 4s ease-in-out infinite; }
 
     /* NAVBAR */
-    .navbar{
-      position:fixed;
-      top:0;
-      left:0;
-      right:0;
-      z-index:100;
-      transition:.3s;
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: .3s; }
+    .navbar.scrolled {
+      background: rgba(7,11,26,.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
     }
 
-    .navbar.scrolled{
-      background:rgba(7,11,26,.92);
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(255,255,255,.06);
+    /* BUTTONS */
+    .btn-primary { background: var(--lime); color: #111827; font-weight: 800; transition: .25s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(199,255,65,.3); }
+    .btn-secondary { border: 1px solid rgba(255,255,255,.15); color: white; transition: .25s; }
+    .btn-secondary:hover { background: rgba(255,255,255,.06); }
+
+    /* PROJECTS */
+    .proj-bg { background: white; padding: 7rem 0; }
+
+    /* Row 1: 2 equal cards */
+    .proj-row-1 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 4rem;
     }
 
-    /* BUTTON */
-    .btn-primary{
-      background:var(--lime);
-      color:#111827;
-      font-weight:800;
-      transition:.25s;
+    /* Row 2: 3 cards — left big, right 2 stacked */
+    .proj-row-2 {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
     }
 
-    .btn-primary:hover{
-      transform:translateY(-2px);
+    .proj-row-2-right {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 18px;
     }
 
-    .btn-secondary{
-      border:1px solid rgba(255,255,255,.15);
-      color:white;
-      transition:.25s;
+    /* KadMe in row 2 right bottom — smaller */
+    .pcard {
+      position: relative;
+      overflow: hidden;
+      background: #111827;
+      min-height: 280px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
     }
 
-    .btn-secondary:hover{
-      background:rgba(255,255,255,.06);
+    .pcard.short { min-height: 200px; }
+
+    .pcard::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.88), transparent 45%);
+      z-index: 1;
     }
 
-    /* PROJECT */
-    .proj-bg{
-      background:white;
-      padding:7rem 0;
+    .pcard.no-gradient::after { display: none; }
+
+    .pcard img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
     }
 
-    .proj-grid{
-      margin-top:4rem;
-      display:grid;
-      grid-template-columns:repeat(12,1fr);
-      gap:18px;
+    .pcard:hover img { transform: scale(1.05); }
+
+    .pcard-overlay {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      z-index: 4;
     }
 
-    .pcard{
-      position:relative;
-      overflow:hidden;
-      background:#111827;
-      min-height:320px;
-      cursor:pointer;
+    .pcard-title { color: white; font-size: 1.5rem; font-weight: 800; font-family: 'Space Grotesk', sans-serif; }
+    .pcard-sub {
+      color: var(--lime);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .72rem;
+      font-weight: 700;
     }
 
-    .pcard::after{
-      content:'';
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,.88), transparent 45%);
-      z-index:1;
+    .play-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 5;
+      width: 52px;
+      height: 52px;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .2s;
     }
 
-    .pcard img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:transform .45s ease;
+    .pcard:hover .play-btn { transform: scale(1.1); }
+
+    .vid-title-static {
+      position: absolute;
+      left: 24px;
+      top: 20px;
+      z-index: 5;
+      color: white;
+      font-weight: 800;
+      font-size: .95rem;
+      background: rgba(0,0,0,.4);
+      padding: 4px 10px;
+      backdrop-filter: blur(4px);
     }
 
-    .pcard:hover img{
-      transform:scale(1.05);
-    }
-
-    .pcard-overlay{
-      position:absolute;
-      left:24px;
-      bottom:24px;
-      z-index:4;
-    }
-
-    .pcard-title{
-      color:white;
-      font-size:1.7rem;
-      font-weight:800;
-    }
-
-    .pcard-sub{
-      color:var(--lime);
-      margin-top:6px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.72rem;
-      font-weight:700;
-    }
-
-    .pcard:nth-child(1){
-      grid-column:span 7;
-    }
-
-    .pcard:nth-child(2){
-      grid-column:span 5;
-    }
-
-    .pcard:nth-child(3){
-      grid-column:span 4;
-    }
-
-    .pcard:nth-child(4){
-      grid-column:span 8;
-    }
-
-    .pcard:nth-child(5){
-      grid-column:span 4;
-    }
-
-    .play-btn{
-      position:absolute;
-      top:20px;
-      right:20px;
-      z-index:5;
-      width:58px;
-      height:58px;
-      background:var(--lime);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .vid-title-static{
-      position:absolute;
-      left:24px;
-      top:22px;
-      z-index:5;
-      color:white;
-      font-weight:800;
-      font-size:1rem;
+    /* external link badge */
+    .ext-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 5;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 4px 10px;
+      font-size: .7rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: .1em;
+      text-transform: uppercase;
     }
 
     /* GLASS */
-    .glass{
-      background:rgba(255,255,255,.06);
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,.08);
+    .glass {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.08);
     }
 
     /* TIMELINE */
-    .timeline-line{
-      position:absolute;
-      left:18px;
-      top:0;
-      width:2px;
-      height:100%;
-      background:rgba(255,255,255,.08);
+    .timeline-line {
+      position: absolute;
+      left: 18px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,.08);
     }
 
-    .timeline-dot{
-      position:absolute;
-      left:0;
-      top:0;
-      width:38px;
-      height:38px;
-      background:rgba(199,255,65,.12);
-      border:1px solid rgba(199,255,65,.25);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:var(--lime);
-      z-index:5;
+    .timeline-dot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 38px;
+      height: 38px;
+      background: rgba(199,255,65,.12);
+      border: 1px solid rgba(199,255,65,.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lime);
+      z-index: 5;
     }
 
-    .timeline-card{
-      margin-left:72px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.06);
-      backdrop-filter:blur(10px);
-      padding:28px;
-      transition:.3s;
+    .timeline-card {
+      margin-left: 72px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      padding: 28px;
+      transition: .3s;
     }
 
-    .timeline-card:hover{
-      transform:translateY(-4px);
-      border-color:rgba(199,255,65,.2);
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(199,255,65,.2);
     }
 
-    .tag{
-      padding:8px 14px;
-      font-size:13px;
-      font-weight:600;
-      background:rgba(255,255,255,.06);
-      color:rgba(255,255,255,.85);
+    /* TECH STACK CATEGORIES */
+    .stack-section { background: #070b1a; padding: 7rem 0; overflow: hidden; }
+
+    .stack-category {
+      margin-bottom: 2.5rem;
     }
 
-    /* STACK */
-    .stack-wrap{
-      overflow:hidden;
-      border-top:1px solid rgba(255,255,255,.08);
-      border-bottom:1px solid rgba(255,255,255,.08);
+    .stack-cat-label {
+      font-size: .7rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      font-weight: 800;
+      padding: 0 24px;
+      margin-bottom: 1rem;
     }
 
-    .stack-track{
-      width:max-content;
-      display:flex;
-      animation:stackMove 24s linear infinite;
+    .stack-wrap {
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
-    .stack-track:hover{
-      animation-play-state:paused;
+    .stack-track {
+      width: max-content;
+      display: flex;
+      animation: stackMove 28s linear infinite;
     }
 
-    @keyframes stackMove{
-      from{
-        transform:translateX(0);
-      }
-      to{
-        transform:translateX(-50%);
-      }
+    .stack-track.reverse { animation: stackMoveReverse 26s linear infinite; }
+    .stack-track.slow { animation: stackMove 36s linear infinite; }
+
+    .stack-track:hover { animation-play-state: paused; }
+
+    @keyframes stackMove {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
     }
 
-    .tech-pill{
-      padding:20px 34px;
-      border-right:1px solid rgba(255,255,255,.06);
-      color:white;
-      font-weight:700;
-      white-space:nowrap;
-      font-size:1rem;
+    @keyframes stackMoveReverse {
+      from { transform: translateX(-50%); }
+      to { transform: translateX(0); }
     }
 
-    @media(max-width:900px){
+    .tech-pill {
+      padding: 18px 30px;
+      border-right: 1px solid rgba(255,255,255,.06);
+      font-weight: 700;
+      white-space: nowrap;
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: .2s;
+    }
 
-      .proj-grid{
-        grid-template-columns:1fr;
-      }
+    .tech-pill:hover { background: rgba(255,255,255,.04); }
 
-      .pcard,
-      .pcard:nth-child(1),
-      .pcard:nth-child(2),
-      .pcard:nth-child(3),
-      .pcard:nth-child(4),
-      .pcard:nth-child(5){
-        grid-column:span 1;
-        min-height:260px;
-      }
+    .tech-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
 
-      .timeline-card{
-        margin-left:60px;
-      }
-
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .proj-row-1 { grid-template-columns: 1fr; }
+      .proj-row-2 { grid-template-columns: 1fr; }
+      .proj-row-2-right { grid-template-rows: auto; }
+      .pcard { min-height: 240px; }
+      .pcard.short { min-height: 200px; }
+      .timeline-card { margin-left: 60px; }
     }
   </style>
 </head>
@@ -369,496 +329,358 @@
 
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
-
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
       <a href="#" class="flex items-center gap-3">
         <img src="source/assets/images/logo.png" class="w-10 h-10 object-contain">
-
-        <span class="text-lime-300 font-extrabold text-lg">
-          ZiqFolio
-        </span>
+        <span class="text-lime-300 font-extrabold text-lg">ZiqFolio</span>
       </a>
 
       <div class="hidden md:flex items-center gap-8">
-
-        <a href="#projects" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
-          Projects
-        </a>
-
-        <a href="#services" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
-          Services
-        </a>
-
-        <a href="#timeline" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
-          Experience
-        </a>
-
-        <a href="#stack" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">
-          Stack
-        </a>
-
+        <a href="#projects" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Projects</a>
+        <a href="#services" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Services</a>
+        <a href="#timeline" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Experience</a>
+        <a href="#stack" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Stack</a>
       </div>
 
-      <a href="https://www.linkedin.com/in/syhaziqdev/"
-        target="_blank"
-        class="px-5 py-2 btn-primary text-sm">
+      <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-5 py-2 btn-primary text-sm">
         Let's Chat
       </a>
-
     </div>
-
   </nav>
 
   <!-- HERO -->
   <section class="relative min-h-screen overflow-hidden bg-gradient-to-t from-[#070b1a] via-[#081844] to-[#274bc4] flex items-center justify-center">
-
     <div class="absolute top-20 left-10 w-72 h-72 bg-lime-300/20 blur-3xl"></div>
     <div class="absolute bottom-20 right-10 w-72 h-72 bg-purple-400/20 blur-3xl"></div>
 
     <div class="relative z-10 text-center px-6 max-w-4xl">
-
       <img src="source/assets/images/logo.png"
         class="w-52 h-52 lg:w-80 lg:h-80 object-contain mx-auto animate-float"
         data-aos="zoom-in">
 
-      <h1 class="text-white text-4xl lg:text-7xl font-bold mt-6"
-        data-aos="fade-up">
+      <h1 class="text-white text-4xl lg:text-7xl font-bold mt-6" data-aos="fade-up">
         Syed Muhammad Haziq
       </h1>
 
-      <p class="text-slate-200 mt-5 text-lg lg:text-2xl"
-        data-aos="fade-up"
-        data-aos-delay="100">
-
+      <p class="text-slate-200 mt-5 text-lg lg:text-2xl" data-aos="fade-up" data-aos-delay="100">
         Game Developer by Day,
-        <span class="text-lime-300 font-bold italic">
-          Web Developer
-        </span>
-        by Heart
-
+        <span class="text-lime-300 font-bold italic">Web Developer</span> by Heart
       </p>
 
-      <div class="flex flex-wrap justify-center gap-4 mt-10"
-        data-aos="fade-up"
-        data-aos-delay="200">
-
-        <a href="https://www.linkedin.com/in/syhaziqdev/"
-          target="_blank"
-          class="px-8 py-4 btn-primary">
-          Let's Chat
-        </a>
-
-        <a href="#projects"
-          class="px-8 py-4 btn-secondary">
-          See My Work
-        </a>
-
+      <div class="flex flex-wrap justify-center gap-4 mt-10" data-aos="fade-up" data-aos-delay="200">
+        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-8 py-4 btn-primary">Let's Chat</a>
+        <a href="#projects" class="px-8 py-4 btn-secondary">See My Work</a>
       </div>
-
     </div>
-
   </section>
 
   <!-- STATS -->
   <section class="bg-[#070b1a] border-t border-white/5">
-
     <div class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-
       <div>
         <h3 class="text-4xl font-bold text-lime-300">3+</h3>
         <p class="text-white/60 mt-2">Years Building</p>
       </div>
-
       <div>
         <h3 class="text-4xl font-bold text-purple-300">5</h3>
         <p class="text-white/60 mt-2">Games & Apps Shipped</p>
       </div>
-
       <div>
         <h3 class="text-4xl font-bold text-lime-300">100%</h3>
         <p class="text-white/60 mt-2">Made in Malaysia</p>
       </div>
-
     </div>
-
   </section>
 
   <!-- PROJECTS -->
   <section id="projects" class="proj-bg">
-
     <div class="sw">
 
       <div data-aos="fade-up">
+        <div class="slabel text-purple-400">What I've shipped</div>
+        <h2 class="sh text-[#0f172a]">Projects &<br>work samples.</h2>
+      </div>
 
-        <div class="slabel text-purple-400">
-          What I've shipped
-        </div>
+      <!-- ROW 1: Sirah Explorer + Tarannum -->
+      <div class="proj-row-1" data-aos="fade-up" data-aos-delay="100">
 
-        <h2 class="sh text-[#0f172a]">
-          Projects &<br>
-          work samples.
-        </h2>
+        <a class="pcard" href="https://www.youtube.com/watch?v=r37gB06A4Yc" target="_blank" rel="noopener">
+          <img src="https://img.youtube.com/vi/r37gB06A4Yc/maxresdefault.jpg" alt="Sirah Explorer">
+          <div class="ext-badge">▶ YouTube</div>
+          <div class="play-btn"><i data-feather="play"></i></div>
+          <div class="pcard-overlay">
+            <div class="pcard-title">Sirah Explorer</div>
+            <div class="pcard-sub">Educational Game · Unity</div>
+          </div>
+        </a>
+
+        <a class="pcard" href="https://www.youtube.com/watch?v=pA19bV2anYQ" target="_blank" rel="noopener">
+          <img src="https://img.youtube.com/vi/pA19bV2anYQ/maxresdefault.jpg" alt="Tarannum">
+          <div class="ext-badge">▶ YouTube</div>
+          <div class="play-btn"><i data-feather="play"></i></div>
+          <div class="pcard-overlay">
+            <div class="pcard-title">Tarannum</div>
+            <div class="pcard-sub">Mobile App · Unity</div>
+          </div>
+        </a>
 
       </div>
 
-      <div class="proj-grid" data-aos="fade-up" data-aos-delay="100">
+      <!-- ROW 2: Smart Science (big left) + Asas Qurani + KadMe (right col) -->
+      <div class="proj-row-2" data-aos="fade-up" data-aos-delay="150">
 
-        <!-- SIRAH -->
-        <div class="pcard">
-
-          <img src="https://img.youtube.com/vi/r37gB06A4Yc/maxresdefault.jpg">
-
-          <div class="play-btn">
-            <i data-feather="play"></i>
-          </div>
-
-          <div class="vid-title-static">
-            Sirah Explorer
-          </div>
-
+        <a class="pcard" href="https://www.youtube.com/watch?v=_vaJAihEo_A" target="_blank" rel="noopener">
+          <img src="https://img.youtube.com/vi/_vaJAihEo_A/maxresdefault.jpg" alt="Smart Science">
+          <div class="ext-badge">▶ YouTube</div>
+          <div class="play-btn"><i data-feather="play"></i></div>
           <div class="pcard-overlay">
-            <div class="pcard-title">
-              Sirah Explorer
+            <div class="pcard-title">Smart Science</div>
+            <div class="pcard-sub">Educational Game · Unity</div>
+          </div>
+        </a>
+
+        <div class="proj-row-2-right">
+
+          <a class="pcard short" href="https://www.youtube.com/watch?v=aqcSGj73w1k" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/aqcSGj73w1k/maxresdefault.jpg" alt="Asas Qurani">
+            <div class="ext-badge">▶ YouTube</div>
+            <div class="play-btn" style="width:42px;height:42px;"><i data-feather="play" style="width:16px;height:16px;"></i></div>
+            <div class="pcard-overlay">
+              <div class="pcard-title" style="font-size:1.2rem;">Asas Qurani</div>
+              <div class="pcard-sub">Mobile Game · Unity</div>
             </div>
+          </a>
 
-            <div class="pcard-sub">
-              Educational Game · Unity
+          <a class="pcard short no-gradient bg-[#1B19B9] flex items-center justify-center flex-col gap-3"
+            href="https://kadmehq.com" target="_blank" rel="noopener"
+            style="text-decoration:none;">
+            <div style="position:absolute;top:14px;right:14px;z-index:5;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:3px 10px;font-size:.68rem;font-weight:700;color:white;letter-spacing:.1em;text-transform:uppercase;">
+              🌐 Live
             </div>
-          </div>
-
-        </div>
-
-        <!-- TARANNUM -->
-        <div class="pcard">
-
-          <img src="https://img.youtube.com/vi/pA19bV2anYQ/maxresdefault.jpg">
-
-          <div class="play-btn">
-            <i data-feather="play"></i>
-          </div>
-
-          <div class="vid-title-static">
-            Tarannum
-          </div>
-
-          <div class="pcard-overlay">
-            <div class="pcard-title">
-              Tarannum
+            <div class="text-4xl font-black text-lime-300" style="font-family:'Space Grotesk',sans-serif;position:relative;z-index:2;">KadMe</div>
+            <div class="uppercase tracking-[0.2em] text-xs text-white/60 font-bold" style="position:relative;z-index:2;">SaaS · Laravel</div>
+            <div style="position:absolute;bottom:18px;left:20px;z-index:4;">
+              <div class="pcard-title" style="font-size:1rem;">KadMe HQ</div>
+              <div class="pcard-sub">Founder · kadmehq.com</div>
             </div>
-
-            <div class="pcard-sub">
-              Mobile App · Unity
-            </div>
-          </div>
-
-        </div>
-
-        <!-- SMART SCIENCE -->
-        <div class="pcard">
-
-          <img src="https://img.youtube.com/vi/_vaJAihEo_A/maxresdefault.jpg">
-
-          <div class="play-btn">
-            <i data-feather="play"></i>
-          </div>
-
-          <div class="vid-title-static">
-            Smart Science
-          </div>
-
-          <div class="pcard-overlay">
-            <div class="pcard-title">
-              Smart Science
-            </div>
-
-            <div class="pcard-sub">
-              Educational Game · Unity
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ASAS -->
-        <div class="pcard">
-
-          <img src="https://img.youtube.com/vi/aqcSGj73w1k/maxresdefault.jpg">
-
-          <div class="play-btn">
-            <i data-feather="play"></i>
-          </div>
-
-          <div class="vid-title-static">
-            Asas Qurani
-          </div>
-
-          <div class="pcard-overlay">
-            <div class="pcard-title">
-              Asas Qurani
-            </div>
-
-            <div class="pcard-sub">
-              Mobile Game · Unity
-            </div>
-          </div>
-
-        </div>
-
-        <!-- KADME -->
-        <div class="pcard bg-[#1B19B9] flex items-center justify-center flex-col gap-4">
-
-          <div class="text-5xl font-black text-lime-300">
-            KadMe
-          </div>
-
-          <div class="uppercase tracking-[0.2em] text-xs text-white/60 font-bold">
-            SaaS · Laravel
-          </div>
-
-          <div class="pcard-overlay">
-
-            <div class="pcard-title">
-              KadMe HQ
-            </div>
-
-            <div class="pcard-sub">
-              Founder · kadmehq.com
-            </div>
-
-          </div>
+          </a>
 
         </div>
 
       </div>
 
     </div>
-
   </section>
 
   <!-- SERVICES -->
   <section id="services" class="py-28 bg-[#070b1a]">
-
     <div class="max-w-7xl mx-auto px-6">
-
       <div class="mb-16 text-center" data-aos="fade-up">
-
-        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
-          What I Offer
-        </span>
-
-        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">
-          Services
-        </h2>
-
+        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">What I Offer</span>
+        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">Services</h2>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
-
         <div class="glass p-10" data-aos="fade-up">
-
           <div class="w-14 h-14 bg-lime-300/10 flex items-center justify-center text-lime-300">
             <i data-feather="layout"></i>
           </div>
-
-          <h3 class="text-white text-3xl font-bold mt-6">
-            Landing Pages
-          </h3>
-
-          <p class="text-white/60 mt-4 leading-8">
-            Modern landing pages using Tailwind CSS,
-            smooth animations and clean responsive UI.
-          </p>
-
+          <h3 class="text-white text-3xl font-bold mt-6">Landing Pages</h3>
+          <p class="text-white/60 mt-4 leading-8">Modern landing pages using Tailwind CSS, smooth animations and clean responsive UI.</p>
         </div>
 
         <div class="glass p-10" data-aos="fade-up" data-aos-delay="100">
-
           <div class="w-14 h-14 bg-purple-300/10 flex items-center justify-center text-purple-300">
             <i data-feather="code"></i>
           </div>
-
-          <h3 class="text-white text-3xl font-bold mt-6">
-            Freelance Development
-          </h3>
-
-          <p class="text-white/60 mt-4 leading-8">
-            Startup landing pages, portfolio websites,
-            web systems and full stack development.
-          </p>
-
+          <h3 class="text-white text-3xl font-bold mt-6">Freelance Development</h3>
+          <p class="text-white/60 mt-4 leading-8">Startup landing pages, portfolio websites, web systems and full stack development.</p>
         </div>
-
       </div>
-
     </div>
-
   </section>
 
   <!-- TIMELINE -->
   <section id="timeline" class="py-28 bg-[#081844] overflow-hidden">
-
     <div class="max-w-5xl mx-auto px-6">
-
       <div class="mb-20 text-center" data-aos="fade-up">
-
-        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
-          Journey
-        </span>
-
-        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">
-          Work Experience
-        </h2>
-
+        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">Journey</span>
+        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">Work Experience</h2>
       </div>
 
       <div class="relative">
-
         <div class="timeline-line"></div>
 
-        <!-- ITEM -->
-        <div class="relative mb-14">
-
-          <div class="timeline-dot">
-            <i data-feather="briefcase"></i>
-          </div>
-
+        <div class="relative mb-14" data-aos="fade-up">
+          <div class="timeline-dot"><i data-feather="briefcase"></i></div>
           <div class="timeline-card">
-
-            <span class="text-lime-300 text-sm font-bold">
-              Jan 2026 — Present
-            </span>
-
-            <h3 class="text-white text-2xl font-bold mt-4">
-              Founder
-            </h3>
-
-            <p class="text-purple-300 mt-2">
-              KadMe HQ
-            </p>
-
+            <span class="text-lime-300 text-sm font-bold">Jan 2026 — Present</span>
+            <h3 class="text-white text-2xl font-bold mt-4">Founder</h3>
+            <p class="text-purple-300 mt-2">KadMe HQ</p>
             <p class="text-white/60 mt-5 leading-8">
-              Built KadMe — digital business card platform,
-              website builder and job board for Malaysians.
+              Built KadMe — digital business card platform, website builder and job board for Malaysians.
             </p>
-
+            <a href="https://kadmehq.com" target="_blank" class="inline-flex items-center gap-2 mt-5 text-lime-300 text-sm font-bold hover:underline">
+              <i data-feather="external-link" style="width:14px;height:14px;"></i> kadmehq.com
+            </a>
           </div>
-
         </div>
 
-        <!-- ITEM -->
-        <div class="relative mb-14">
-
-          <div class="timeline-dot">
-            <i data-feather="cpu"></i>
-          </div>
-
+        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="100">
+          <div class="timeline-dot"><i data-feather="cpu"></i></div>
           <div class="timeline-card">
-
-            <span class="text-purple-300 text-sm font-bold">
-              Jan 2025 — Present
-            </span>
-
-            <h3 class="text-white text-2xl font-bold mt-4">
-              Game Developer
-            </h3>
-
-            <p class="text-purple-300 mt-2">
-              Oxford EduVision
-            </p>
-
+            <span class="text-purple-300 text-sm font-bold">Jan 2025 — Present</span>
+            <h3 class="text-white text-2xl font-bold mt-4">Game Developer</h3>
+            <p class="text-purple-300 mt-2">Oxford EduVision</p>
             <p class="text-white/60 mt-5 leading-8">
-              Developing educational mobile games
-              using Unity and shipping apps.
+              Developing educational mobile games using Unity and shipping apps to the Play Store.
             </p>
-
           </div>
+        </div>
 
+        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="150">
+          <div class="timeline-dot"><i data-feather="globe"></i></div>
+          <div class="timeline-card">
+            <span class="text-slate-400 text-sm font-bold">Oct 2024 — Jan 2025</span>
+            <h3 class="text-white text-2xl font-bold mt-4">Founder</h3>
+            <p class="text-purple-300 mt-2">Lapacee</p>
+            <p class="text-white/60 mt-5 leading-8">
+              Local social networking platform connecting Malaysians to collaborate and build vibrant local communities.
+            </p>
+          </div>
+        </div>
+
+        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="200">
+          <div class="timeline-dot"><i data-feather="monitor"></i></div>
+          <div class="timeline-card">
+            <span class="text-slate-400 text-sm font-bold">Oct 2023 — Mar 2024</span>
+            <h3 class="text-white text-2xl font-bold mt-4">Internship Trainee</h3>
+            <p class="text-purple-300 mt-2">Mysoftcare Solution</p>
+            <p class="text-white/60 mt-5 leading-8">
+              Full stack web development internship. Gained hands-on experience with Bootstrap, Node.js and multiple frameworks.
+            </p>
+          </div>
         </div>
 
       </div>
-
     </div>
-
   </section>
 
-  <!-- STACK -->
-  <section id="stack" class="bg-[#070b1a] py-28 overflow-hidden">
+  <!-- TECH STACK — Categorized infinite scrollers -->
+  <section id="stack" class="stack-section">
 
     <div class="text-center mb-16 px-6" data-aos="fade-up">
-
-      <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
-        Tools of the Trade
-      </span>
-
-      <h2 class="text-5xl lg:text-7xl text-white font-bold mt-5">
-        My Tech Stack
-      </h2>
-
+      <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">Tools of the Trade</span>
+      <h2 class="text-5xl lg:text-7xl text-white font-bold mt-5">My Tech Stack</h2>
     </div>
 
-    <div class="stack-wrap">
-
-      <div class="stack-track">
-
-        <div class="tech-pill text-lime-300">Unity</div>
-        <div class="tech-pill text-purple-300">Laravel</div>
-        <div class="tech-pill text-white">Tailwind CSS</div>
-        <div class="tech-pill text-lime-300">PHP</div>
-        <div class="tech-pill text-purple-300">Canva</div>
-        <div class="tech-pill text-white">GitHub</div>
-        <div class="tech-pill text-lime-300">VS Code</div>
-        <div class="tech-pill text-purple-300">Alpine.js</div>
-
-        <!-- DUPLICATE -->
-        <div class="tech-pill text-lime-300">Unity</div>
-        <div class="tech-pill text-purple-300">Laravel</div>
-        <div class="tech-pill text-white">Tailwind CSS</div>
-        <div class="tech-pill text-lime-300">PHP</div>
-        <div class="tech-pill text-purple-300">Canva</div>
-        <div class="tech-pill text-white">GitHub</div>
-        <div class="tech-pill text-lime-300">VS Code</div>
-        <div class="tech-pill text-purple-300">Alpine.js</div>
-
+    <!-- Row 1: Programming Languages -->
+    <div class="stack-category" data-aos="fade-up">
+      <div class="stack-cat-label text-lime-300">⌨️ Programming Languages</div>
+      <div class="stack-wrap">
+        <div class="stack-track">
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#c7ff41;"></span>PHP</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#3572A5;"></span>Python</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#c4b5fd;"></span>C#</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#f7df1e;"></span>JavaScript</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#e34c26;"></span>HTML5</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#264de4;"></span>CSS3</div>
+          <!-- duplicate -->
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#c7ff41;"></span>PHP</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#3572A5;"></span>Python</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#c4b5fd;"></span>C#</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#f7df1e;"></span>JavaScript</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#e34c26;"></span>HTML5</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#264de4;"></span>CSS3</div>
+        </div>
       </div>
+    </div>
 
+    <!-- Row 2: Frameworks & Libraries -->
+    <div class="stack-category" data-aos="fade-up" data-aos-delay="80">
+      <div class="stack-cat-label text-purple-300">🧱 Frameworks & Libraries</div>
+      <div class="stack-wrap">
+        <div class="stack-track reverse">
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#FF2D20;"></span>Laravel</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#38bdf8;"></span>Tailwind CSS</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#77C1D2;"></span>Alpine.js</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#4ade80;"></span>Livewire</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#68A063;"></span>Node.js</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#7B5EA7;"></span>Bootstrap</div>
+          <!-- duplicate -->
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#FF2D20;"></span>Laravel</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#38bdf8;"></span>Tailwind CSS</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#77C1D2;"></span>Alpine.js</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#4ade80;"></span>Livewire</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#68A063;"></span>Node.js</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#7B5EA7;"></span>Bootstrap</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Game Dev & AI/ML -->
+    <div class="stack-category" data-aos="fade-up" data-aos-delay="160">
+      <div class="stack-cat-label text-white" style="color:rgba(255,255,255,.6);">🎮 Game Dev & AI / ML</div>
+      <div class="stack-wrap">
+        <div class="stack-track slow">
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#000;border:1px solid #c7ff41;"></span>Unity</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#3572A5;"></span>YOLOv (Python)</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#FF6F00;"></span>TensorFlow</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#013243;"></span>NumPy</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#150458;"></span>Pandas</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#11557C;"></span>OpenCV</div>
+          <!-- duplicate -->
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#000;border:1px solid #c7ff41;"></span>Unity</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#3572A5;"></span>YOLOv (Python)</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#FF6F00;"></span>TensorFlow</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#013243;"></span>NumPy</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#150458;"></span>Pandas</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#11557C;"></span>OpenCV</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Database & Tools -->
+    <div class="stack-category" data-aos="fade-up" data-aos-delay="240">
+      <div class="stack-cat-label" style="color:#94a3b8;padding:0 24px;margin-bottom:1rem;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;font-weight:800;">🗄️ Database & DevTools</div>
+      <div class="stack-wrap">
+        <div class="stack-track reverse" style="animation-duration:22s;">
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#4479A1;"></span>MySQL</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#47A248;"></span>MongoDB</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#F05032;"></span>GitHub</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#007ACC;"></span>VS Code</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#00C4CC;"></span>Canva</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#7400C8;"></span>CapCut</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#17A2B8;"></span>REST API</div>
+          <!-- duplicate -->
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#4479A1;"></span>MySQL</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#47A248;"></span>MongoDB</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#F05032;"></span>GitHub</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#007ACC;"></span>VS Code</div>
+          <div class="tech-pill text-lime-300"><span class="dot" style="background:#00C4CC;"></span>Canva</div>
+          <div class="tech-pill text-white"><span class="dot" style="background:#7400C8;"></span>CapCut</div>
+          <div class="tech-pill text-purple-300"><span class="dot" style="background:#17A2B8;"></span>REST API</div>
+        </div>
+      </div>
     </div>
 
   </section>
 
   <!-- CTA -->
   <section class="py-32 bg-[#081844] text-center relative overflow-hidden">
-
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-500/10 blur-3xl"></div>
 
     <div class="relative z-10 px-6">
-
       <h2 class="text-5xl lg:text-7xl font-bold text-lime-300 leading-tight">
-        Let's Build <br>
-        Something Cool
+        Let's Build <br>Something Cool
       </h2>
-
-      <p class="text-white/50 mt-6 text-lg">
-        Open for freelance, collaborations and opportunities.
-      </p>
+      <p class="text-white/50 mt-6 text-lg">Open for freelance, collaborations and opportunities.</p>
 
       <div class="flex flex-wrap justify-center gap-4 mt-10">
-
-        <a href="https://www.linkedin.com/in/syhaziqdev/"
-          target="_blank"
-          class="px-8 py-4 btn-primary">
-          Hit Me Up
-        </a>
-
-        <a href="https://kadmehq.com"
-          target="_blank"
-          class="px-8 py-4 btn-secondary">
-          Visit KadMe
-        </a>
-
+        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-8 py-4 btn-primary">Hit Me Up</a>
+        <a href="https://kadmehq.com" target="_blank" class="px-8 py-4 btn-secondary">Visit KadMe</a>
       </div>
-
     </div>
-
   </section>
 
   <!-- FOOTER -->
@@ -867,26 +689,18 @@
   </footer>
 
   <script>
-
-    AOS.init({
-      duration:700,
-      once:true
-    });
+    AOS.init({ duration: 700, once: true });
 
     const navbar = document.getElementById('navbar');
-
     window.addEventListener('scroll', () => {
-
-      if(window.scrollY > 40){
+      if (window.scrollY > 40) {
         navbar.classList.add('scrolled');
-      }else{
+      } else {
         navbar.classList.remove('scrolled');
       }
-
     });
 
     feather.replace();
-
   </script>
 
 </body>
