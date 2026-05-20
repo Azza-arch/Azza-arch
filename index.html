@@ -1,172 +1,509 @@
+```blade
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>ZiqFolio</title>
-  <meta name="description" content="Portfolio of Syed Muhammad Haziq - game & web developer">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziqfolio</title>
 
-  <!-- Open Graph Meta -->
-  <meta property="og:site_name" content="ZiqFolio" />
-  <meta property="og:title" content="ZiqFolio" />
-  <meta property="og:description" content="My own portfolio by Haziq" />
-  <meta property="og:url" content="/" />
-  <meta property="og:image" content="source/assets/images/logo.png" />
-  <meta property="og:type" content="website" />
+    <link rel="icon" type="image/png" href="{{ asset('ziqfolio.png') }}">
 
-  <!-- Favicon -->
-  <link rel="icon" href="source/assets/images/myfave.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700,800" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-  <!-- AOS Animation Library -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-  <!-- Custom Floating Animation -->
-  <style>
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    .animate-float { animation: float 3s ease-in-out infinite; }
-    .text-shadow-md { text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
-    .text-shadow-lg { text-shadow: 2px 2px 5px rgba(0,0,0,0.6); }
-  </style>
+    <style>
+        :root {
+            --lime: #B8FF65;
+            --light-lime: #E8FFC7;
+            --purple: #DDD6FF;
+            --purple-dark: #B9A7FF;
+            --white: #ffffff;
+            --slate: #0f172a;
+            --slate-soft: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--white);
+            color: var(--slate);
+            overflow-x: hidden;
+        }
+
+        .wrap {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 5rem 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: var(--light-lime);
+            color: var(--slate);
+            padding: .7rem 1rem;
+            border-radius: 999px;
+            font-size: .8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #22c55e;
+        }
+
+        .hero-title-small {
+            font-size: clamp(70px, 11vw, 160px);
+            line-height: .9;
+            font-weight: 800;
+            color: var(--slate);
+            letter-spacing: -.06em;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(75px, 12vw, 180px);
+            line-height: .88;
+            font-weight: 700;
+            letter-spacing: -.08em;
+            color: var(--purple-dark);
+        }
+
+        .hero-desc {
+            margin-top: 2rem;
+            max-width: 450px;
+            font-size: 15px;
+            line-height: 1.9;
+            color: var(--slate-soft);
+        }
+
+        .hero-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-main {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.5rem;
+            border-radius: 999px;
+            background: var(--lime);
+            color: var(--slate);
+            font-size: .95rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-sec {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.5rem;
+            border-radius: 999px;
+            border: 1.5px solid var(--border);
+            color: var(--slate);
+            font-size: .95rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .hero-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, .06);
+        }
+
+        .browser {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .browser span {
+            width: 11px;
+            height: 11px;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+
+        .portfolio {
+            background: var(--purple);
+            border-radius: 28px;
+            padding: 2rem;
+        }
+
+        .portfolio-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 999px;
+            background: var(--lime);
+        }
+
+        .portfolio h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--slate);
+        }
+
+        .portfolio p {
+            font-size: .9rem;
+            color: rgba(15, 23, 42, .7);
+            margin-top: .2rem;
+        }
+
+        .stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .7rem;
+            margin-top: 2rem;
+        }
+
+        .stack span {
+            padding: .7rem 1rem;
+            border-radius: 999px;
+            background: var(--white);
+            font-size: .8rem;
+            font-weight: 700;
+            color: var(--slate);
+        }
+
+        .section {
+            padding: 7rem 0;
+        }
+
+        .section-label {
+            font-size: .8rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--purple-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(40px, 5vw, 70px);
+            line-height: 1;
+            letter-spacing: -.05em;
+            color: var(--slate);
+        }
+
+        .features {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 2rem;
+            background: var(--white);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            background: var(--light-lime);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: .8rem;
+        }
+
+        .feature-card p {
+            font-size: .92rem;
+            line-height: 1.8;
+            color: var(--slate-soft);
+        }
+
+        .cta {
+            padding: 7rem 0;
+        }
+
+        .cta-box {
+            background: var(--purple);
+            border-radius: 40px;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(45px, 7vw, 100px);
+            line-height: .9;
+            letter-spacing: -.08em;
+            color: var(--slate);
+        }
+
+        .cta-desc {
+            margin-top: 1.5rem;
+            color: rgba(15, 23, 42, .7);
+            font-size: 1rem;
+        }
+
+        .cta-btn {
+            margin-top: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.8rem;
+            border-radius: 999px;
+            background: var(--lime);
+            color: var(--slate);
+            font-size: .95rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        footer {
+            padding: 2rem 0 3rem;
+            text-align: center;
+            color: var(--slate-soft);
+            font-size: .9rem;
+        }
+
+        @media(max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero {
+                padding-top: 3rem;
+            }
+        }
+    </style>
 </head>
 
-<body class="relative font-sans text-gray-900 antialiased">
+<body>
 
-  <!-- HERO / ABOUT SECTION -->
-  <section id="about" class="relative w-full h-screen bg-gradient-to-t from-white from-10% via-[#081844] via-30% to-[#274bc4] to-90%">
-    <div class="absolute inset-0 flex flex-col items-center justify-center gap-6 px-5">
-      <!-- Floating Logo -->
-      <img src="source/assets/images/logo.png" 
-           class="lg:w-96 w-52 lg:h-96 h-52 transition-transform hover:rotate-3 animate-float" 
-           alt="ZiqFolio Logo">
+    <main>
 
-      <!-- Title & Description -->
-      <h1 class="text-white text-3xl lg:text-5xl font-extrabold text-center">Syed Muhammad Haziq</h1>
-      <p class="text-slate-50 lg:text-lg text-center text-shadow-md">
-        Game Developer by Day, <span class="text-yellow-300 font-bold italic animate-pulse">Web Developer</span> by Heart
-      </p>
+        <section class="hero">
+            <div class="wrap">
 
-      <!-- CTA Button -->
-      <a href="https://www.linkedin.com/in/syhaziqdev/" class="relative inline-block group">
-        <span class="relative z-10 block px-8 py-3 text-lg font-medium text-slate-950 border-2 border-gray-900 rounded-lg overflow-hidden">
-          <span class="relative z-20">Let's Chat</span>
-          <span class="absolute inset-0 bg-yellow-300 rounded-lg"></span>
-        </span>
-      </a>
-    </div>
-  </section>
+                <div class="hero-grid">
 
-  <!-- PROJECTS SECTION -->
-  <section id="project" class="py-16 bg-gradient-to-b from-white via-white to-white">
-    <div class="container mx-auto px-5">
-      <h2 class="text-3xl font-bold text-center mb-10">Projects</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-          <img src="source/assets/images/3.png" alt="Project 3" class="w-full h-auto">
-        </div>
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-          <img src="source/assets/images/5.png" alt="Project 5" class="w-full h-auto">
-        </div>
-        <div class="bg-white rounded-xl shadow-lg flex items-center justify-center">
-          <a href="https://senibina.my.canva.site/studioseni-bina" class="text-4xl font-bold hover:text-6xl transition">?</a>
-        </div>
-        <div class="bg-white rounded-xl shadow-lg col-span-2">
-          <img src="source/assets/images/2.png" alt="Project 2" class="w-full h-full object-cover">
-        </div>
-        <div class="bg-white rounded-xl shadow-lg">
-          <a href="https://play.google.com/store/apps/details?id=com.oxfordeduvision.sirahexplorer">
-            <img src="source/assets/images/sirah.png" alt="Sirah Explorer" class="w-full h-full object-cover">
-          </a>
-        </div>
-        <div class="bg-white rounded-xl shadow-lg">
-          <img src="source/assets/images/4.png" alt="Project 4" class="w-full h-full object-cover">
-        </div>
-        <div class="bg-white rounded-xl shadow-lg col-span-2">
-          <img src="source/assets/images/1.png" alt="Project 1" class="w-full h-full object-cover">
-        </div>
-      </div>
-    </div>
-  </section>
+                    <div data-aos="fade-up">
 
-  <!-- SERVICES SECTION -->
-  <section id="service" class="py-16 bg-white">
-    <div class="container mx-auto px-5">
-      <h2 class="text-3xl font-bold text-center mb-10">Services</h2>
-      <div class="flex flex-wrap justify-center gap-6">
-        <div class="bg-gray-900 text-lime-300 px-6 py-4 rounded-lg shadow-md w-64 hover:scale-105 transition">
-          <h3 class="text-xl font-semibold">Landing Pages</h3>
-          <p class="mt-2 text-sm">Beautiful, functional landing pages using <i>Jigsaw</i> and <i>Tailwind CSS</i>.</p>
-        </div>
-        <div class="bg-gray-100 px-6 py-4 rounded-lg shadow-md w-64 hover:scale-105 transition">
-          <h3 class="text-xl font-semibold">Freelance Jobs</h3>
-          <p class="mt-2 text-sm">Collaborations for web design, development, and consulting for startups and personal brands.</p>
-        </div>
-      </div>
+                        <div class="tag">
+                            <span class="dot"></span>
+                            portfolio builder for creatives
+                        </div>
 
-      <!-- Pricing -->
-      <div class="mt-16 text-center">
-        <h3 class="text-2xl font-bold mb-6">Pricing Plans</h3>
-        <div class="flex flex-wrap justify-center gap-6">
-          <div class="bg-gray-900 text-white px-6 py-6 rounded-lg shadow-md w-64 hover:scale-105 transition" data-aos="flip-left">
-            <h4 class="text-xl font-semibold">Basic Plan (Canva)</h4>
-            <p class="mt-2">RM 200+</p>
-            <ul class="mt-2 text-left list-disc list-inside text-sm">
-              <li>1 Halaman Landing Page</li>
-              <li>Responsive design</li>
-              <li>Delivery 2-3 days</li>
-              <li>Includes domain*</li>
-            </ul>
-          </div>
-          <div class="bg-gray-900 text-white px-6 py-6 rounded-lg shadow-md w-64 hover:scale-105 transition" data-aos="flip-right">
-            <h4 class="text-xl font-semibold">Standard Plan (Jigsaw)</h4>
-            <p class="mt-2">RM 400+</p>
-            <ul class="mt-2 text-left list-disc list-inside text-sm">
-              <li>1 Custom Landing Page</li>
-              <li>Lightweight animations (AOS)</li>
-              <li>Basic SEO</li>
-              <li>Delivery 5-7 days</li>
-              <li>Includes domain*</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+                        <div class="hero-title-small">
+                            this is
+                        </div>
 
-  <!-- SKILLS SECTION -->
-  <section id="skill" class="relative h-screen bg-gradient-to-b from-white via-white to-slate-900">
-    <h2 class="text-center text-3xl font-bold text-white pt-12">Skills</h2>
-    <div class="absolute inset-0 flex justify-center items-center gap-10">
-      <img src="source/assets/images/Tailwind.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Tailwind">
-      <img src="source/assets/images/Unity.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Unity">
-      <img src="source/assets/images/laravel.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Laravel">
-      <img src="source/assets/images/canva.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="Canva">
-      <img src="source/assets/images/github.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="GitHub">
-      <img src="source/assets/images/php.png" class="animate-float w-20 lg:w-28 h-16 lg:h-28" alt="PHP">
-    </div>
-  </section>
+                        <div class="hero-title">
+                            ziqfolio.
+                        </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-900 text-white py-6 text-center">
-    <p>&copy; 2026 Syhaziqdev. All rights reserved.</p>
-  </footer>
+                        <p class="hero-desc">
+                            build your portfolio, showcase your work,
+                            share your tech stack and create your own
+                            digital presence in minutes.
+                        </p>
 
-  <!-- AOS Init -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      AOS.init({ duration: 700, once: true });
-    });
-  </script>
+                        <div class="hero-btns">
+                            <a href="#" class="btn-main">Start Building →</a>
+                            <a href="#features" class="btn-sec">Explore Features</a>
+                        </div>
+
+                    </div>
+
+                    <div data-aos="fade-left">
+
+                        <div class="hero-card">
+
+                            <div class="browser">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="portfolio">
+
+                                <div class="portfolio-top">
+                                    <div class="avatar"></div>
+
+                                    <div>
+                                        <h3>Syed Haziq</h3>
+                                        <p>Full Stack Developer · Designer</p>
+                                    </div>
+                                </div>
+
+                                <div class="stack">
+                                    <span>Laravel</span>
+                                    <span>Livewire</span>
+                                    <span>Tailwind</span>
+                                    <span>Unity</span>
+                                    <span>Flutter</span>
+                                    <span>UI/UX</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <div class="wrap">
+
+                <div class="section-label" data-aos="fade-up">
+                    Features
+                </div>
+
+                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">
+                    clean portfolio.<br>
+                    modern showcase.
+                </h2>
+
+                <div class="features">
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon"></div>
+                        <h3>Portfolio Builder</h3>
+                        <p>
+                            create a minimal portfolio website with your projects,
+                            experience and social links.
+                        </p>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="180">
+                        <div class="feature-icon"></div>
+                        <h3>Tech Stack Section</h3>
+                        <p>
+                            showcase your favourite frameworks, tools and skills
+                            in a clean and simple layout.
+                        </p>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="260">
+                        <div class="feature-icon"></div>
+                        <h3>Custom Themes</h3>
+                        <p>
+                            personalise your portfolio with modern colour styles
+                            and responsive layouts.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="wrap">
+
+                <div class="cta-box" data-aos="zoom-in">
+
+                    <h2 class="cta-title">
+                        build your<br>
+                        portfolio today.
+                    </h2>
+
+                    <p class="cta-desc">
+                        simple. modern. fast.
+                    </p>
+
+                    <a href="#" class="cta-btn">
+                        Create Portfolio →
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        © {{ date('Y') }} Ziqfolio. All rights reserved.
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 700,
+                    once: true,
+                    easing: 'ease-out-cubic'
+                });
+            }
+        });
+    </script>
+
 </body>
+
 </html>
+```
