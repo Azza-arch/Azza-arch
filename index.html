@@ -1,509 +1,538 @@
-```blade
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en" class="scroll-smooth">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ziqfolio</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZiqFolio — Syed Muhammad Haziq</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('ziqfolio.png') }}">
+  <meta name="description" content="Portfolio of Syed Muhammad Haziq - game & web developer">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Open Graph -->
+  <meta property="og:title" content="ZiqFolio">
+  <meta property="og:description" content="Portfolio of Syed Muhammad Haziq">
+  <meta property="og:image" content="source/assets/images/logo.png">
+  <meta property="og:type" content="website">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
-        rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" href="source/assets/images/myfave.jpeg">
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
-    <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --lime: #B8FF65;
-            --light-lime: #E8FFC7;
-            --purple: #DDD6FF;
-            --purple-dark: #B9A7FF;
-            --white: #ffffff;
-            --slate: #0f172a;
-            --slate-soft: #64748b;
-            --border: #e2e8f0;
-        }
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-        html {
-            scroll-behavior: smooth;
-        }
+  <style>
+    :root{
+      --navy:#081844;
+      --blue:#274bc4;
+      --lime:#c7ff41;
+      --lime-dark:#a3e635;
+      --purple:#c4b5fd;
+      --purple-dark:#8b5cf6;
+      --dark:#0a0929;
+      --white:#ffffff;
+    }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--white);
-            color: var(--slate);
-            overflow-x: hidden;
-        }
+    *{
+      box-sizing:border-box;
+    }
 
-        .wrap {
-            max-width: 1150px;
-            margin: 0 auto;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-        }
+    body{
+      font-family:'Plus Jakarta Sans',sans-serif;
+      background:#fff;
+      color:#0f172a;
+      overflow-x:hidden;
+    }
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 5rem 0;
-        }
+    h1,h2,h3{
+      font-family:'Space Grotesk',sans-serif;
+    }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 5rem;
-            align-items: center;
-        }
+    /* FLOAT */
+    @keyframes float {
+      0%,100%{
+        transform:translateY(0px);
+      }
+      50%{
+        transform:translateY(-12px);
+      }
+    }
 
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            background: var(--light-lime);
-            color: var(--slate);
-            padding: .7rem 1rem;
-            border-radius: 999px;
-            font-size: .8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
+    .animate-float{
+      animation:float 4s ease-in-out infinite;
+    }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: #22c55e;
-        }
+    /* NAV */
+    .navbar{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:100;
+      transition:.3s;
+    }
 
-        .hero-title-small {
-            font-size: clamp(70px, 11vw, 160px);
-            line-height: .9;
-            font-weight: 800;
-            color: var(--slate);
-            letter-spacing: -.06em;
-        }
+    .navbar.scrolled{
+      background:rgba(10,9,41,.92);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
 
-        .hero-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(75px, 12vw, 180px);
-            line-height: .88;
-            font-weight: 700;
-            letter-spacing: -.08em;
-            color: var(--purple-dark);
-        }
+    /* PROJECT CARD */
+    .project-card{
+      position:relative;
+      overflow:hidden;
+      background:#111827;
+      border:1px solid rgba(255,255,255,.06);
+    }
 
-        .hero-desc {
-            margin-top: 2rem;
-            max-width: 450px;
-            font-size: 15px;
-            line-height: 1.9;
-            color: var(--slate-soft);
-        }
+    .project-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:transform .5s ease;
+    }
 
-        .hero-btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
+    .project-card:hover img{
+      transform:scale(1.05);
+    }
 
-        .btn-main {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 1.5rem;
-            border-radius: 999px;
-            background: var(--lime);
-            color: var(--slate);
-            font-size: .95rem;
-            font-weight: 800;
-            text-decoration: none;
-            transition: .2s ease;
-        }
+    .project-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(10,9,41,.95), transparent);
+      opacity:0;
+      transition:.3s;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:24px;
+    }
 
-        .btn-main:hover {
-            transform: translateY(-2px);
-        }
+    .project-card:hover .project-overlay{
+      opacity:1;
+    }
 
-        .btn-sec {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 1.5rem;
-            border-radius: 999px;
-            border: 1.5px solid var(--border);
-            color: var(--slate);
-            font-size: .95rem;
-            font-weight: 700;
-            text-decoration: none;
-        }
+    /* MARQUEE */
+    @keyframes marqueeLeft{
+      from{
+        transform:translateX(0);
+      }
+      to{
+        transform:translateX(-50%);
+      }
+    }
 
-        .hero-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 2rem;
-            box-shadow: 0 20px 60px rgba(15, 23, 42, .06);
-        }
+    .marquee-track{
+      width:max-content;
+      display:flex;
+      animation:marqueeLeft 28s linear infinite;
+    }
 
-        .browser {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            margin-bottom: 1.5rem;
-        }
+    .tech-pill{
+      border-right:1px solid rgba(255,255,255,.08);
+      padding:14px 28px;
+      font-weight:700;
+      color:white;
+      white-space:nowrap;
+    }
 
-        .browser span {
-            width: 11px;
-            height: 11px;
-            border-radius: 999px;
-            background: #e2e8f0;
-        }
+    /* GLASS */
+    .glass{
+      background:rgba(255,255,255,.06);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.08);
+    }
 
-        .portfolio {
-            background: var(--purple);
-            border-radius: 28px;
-            padding: 2rem;
-        }
+    /* BUTTON */
+    .btn-primary{
+      background:var(--lime);
+      color:#111827;
+      font-weight:800;
+      transition:.25s;
+    }
 
-        .portfolio-top {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      background:var(--lime-dark);
+    }
 
-        .avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 999px;
-            background: var(--lime);
-        }
+    .btn-secondary{
+      border:1px solid rgba(255,255,255,.2);
+      color:white;
+      transition:.25s;
+    }
 
-        .portfolio h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--slate);
-        }
+    .btn-secondary:hover{
+      background:rgba(255,255,255,.08);
+      border-color:white;
+    }
 
-        .portfolio p {
-            font-size: .9rem;
-            color: rgba(15, 23, 42, .7);
-            margin-top: .2rem;
-        }
-
-        .stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .7rem;
-            margin-top: 2rem;
-        }
-
-        .stack span {
-            padding: .7rem 1rem;
-            border-radius: 999px;
-            background: var(--white);
-            font-size: .8rem;
-            font-weight: 700;
-            color: var(--slate);
-        }
-
-        .section {
-            padding: 7rem 0;
-        }
-
-        .section-label {
-            font-size: .8rem;
-            font-weight: 800;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--purple-dark);
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(40px, 5vw, 70px);
-            line-height: 1;
-            letter-spacing: -.05em;
-            color: var(--slate);
-        }
-
-        .features {
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 2rem;
-            background: var(--white);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 20px;
-            background: var(--light-lime);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: .8rem;
-        }
-
-        .feature-card p {
-            font-size: .92rem;
-            line-height: 1.8;
-            color: var(--slate-soft);
-        }
-
-        .cta {
-            padding: 7rem 0;
-        }
-
-        .cta-box {
-            background: var(--purple);
-            border-radius: 40px;
-            padding: 5rem 2rem;
-            text-align: center;
-        }
-
-        .cta-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(45px, 7vw, 100px);
-            line-height: .9;
-            letter-spacing: -.08em;
-            color: var(--slate);
-        }
-
-        .cta-desc {
-            margin-top: 1.5rem;
-            color: rgba(15, 23, 42, .7);
-            font-size: 1rem;
-        }
-
-        .cta-btn {
-            margin-top: 2rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 1.8rem;
-            border-radius: 999px;
-            background: var(--lime);
-            color: var(--slate);
-            font-size: .95rem;
-            font-weight: 800;
-            text-decoration: none;
-        }
-
-        footer {
-            padding: 2rem 0 3rem;
-            text-align: center;
-            color: var(--slate-soft);
-            font-size: .9rem;
-        }
-
-        @media(max-width: 900px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .hero {
-                padding-top: 3rem;
-            }
-        }
-    </style>
+  </style>
 </head>
 
 <body>
 
-    <main>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        <section class="hero">
-            <div class="wrap">
+      <a href="#" class="flex items-center gap-3">
+        <img src="source/assets/images/logo.png" class="w-9 h-9 object-contain">
+        <span class="text-lime-300 font-extrabold text-lg">ZiqFolio</span>
+      </a>
 
-                <div class="hero-grid">
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#projects" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Projects</a>
+        <a href="#services" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Services</a>
+        <a href="#stack" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Stack</a>
+      </div>
 
-                    <div data-aos="fade-up">
+      <a href="https://www.linkedin.com/in/syhaziqdev/"
+         target="_blank"
+         class="px-5 py-2 rounded-full btn-primary text-sm">
+        Let's Chat →
+      </a>
 
-                        <div class="tag">
-                            <span class="dot"></span>
-                            portfolio builder for creatives
-                        </div>
+    </div>
+  </nav>
 
-                        <div class="hero-title-small">
-                            this is
-                        </div>
+  <!-- HERO -->
+  <section class="relative min-h-screen overflow-hidden bg-gradient-to-t from-white via-[#081844] to-[#274bc4] flex items-center justify-center">
 
-                        <div class="hero-title">
-                            ziqfolio.
-                        </div>
+    <!-- Blur -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-lime-300/20 blur-3xl rounded-full"></div>
+    <div class="absolute bottom-20 right-10 w-72 h-72 bg-purple-400/20 blur-3xl rounded-full"></div>
 
-                        <p class="hero-desc">
-                            build your portfolio, showcase your work,
-                            share your tech stack and create your own
-                            digital presence in minutes.
-                        </p>
+    <div class="relative z-10 text-center px-6 max-w-4xl">
 
-                        <div class="hero-btns">
-                            <a href="#" class="btn-main">Start Building →</a>
-                            <a href="#features" class="btn-sec">Explore Features</a>
-                        </div>
+      <img src="source/assets/images/logo.png"
+           class="w-52 h-52 lg:w-80 lg:h-80 object-contain mx-auto animate-float"
+           data-aos="zoom-in">
 
-                    </div>
+      <h1 class="text-white text-4xl lg:text-7xl font-bold mt-6"
+          data-aos="fade-up"
+          data-aos-delay="100">
+        Syed Muhammad Haziq
+      </h1>
 
-                    <div data-aos="fade-left">
+      <p class="text-slate-200 mt-5 text-lg lg:text-2xl"
+         data-aos="fade-up"
+         data-aos-delay="200">
+        Game Developer by Day,
+        <span class="text-lime-300 font-bold italic">
+          Web Developer
+        </span>
+        by Heart
+      </p>
 
-                        <div class="hero-card">
+      <div class="flex flex-wrap justify-center gap-4 mt-10"
+           data-aos="fade-up"
+           data-aos-delay="300">
 
-                            <div class="browser">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
+        <a href="https://www.linkedin.com/in/syhaziqdev/"
+           target="_blank"
+           class="px-8 py-4 rounded-full btn-primary">
+          Let's Chat →
+        </a>
 
-                            <div class="portfolio">
+        <a href="#projects"
+           class="px-8 py-4 rounded-full btn-secondary">
+          See My Work
+        </a>
 
-                                <div class="portfolio-top">
-                                    <div class="avatar"></div>
+      </div>
 
-                                    <div>
-                                        <h3>Syed Haziq</h3>
-                                        <p>Full Stack Developer · Designer</p>
-                                    </div>
-                                </div>
+    </div>
 
-                                <div class="stack">
-                                    <span>Laravel</span>
-                                    <span>Livewire</span>
-                                    <span>Tailwind</span>
-                                    <span>Unity</span>
-                                    <span>Flutter</span>
-                                    <span>UI/UX</span>
-                                </div>
+  </section>
 
-                            </div>
+  <!-- STATS -->
+  <section class="bg-[#0a0929] border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
 
-                        </div>
+      <div>
+        <h3 class="text-4xl font-bold text-lime-300">3+</h3>
+        <p class="text-white/60 mt-2">Years Building</p>
+      </div>
 
-                    </div>
+      <div>
+        <h3 class="text-4xl font-bold text-purple-300">4</h3>
+        <p class="text-white/60 mt-2">Games & Apps Shipped</p>
+      </div>
 
-                </div>
+      <div>
+        <h3 class="text-4xl font-bold text-lime-300">100%</h3>
+        <p class="text-white/60 mt-2">Made in Malaysia 🇲🇾</p>
+      </div>
 
-            </div>
-        </section>
+    </div>
+  </section>
 
-        <section class="section" id="features">
-            <div class="wrap">
+  <!-- PROJECTS -->
+  <section id="projects" class="py-28 bg-white">
 
-                <div class="section-label" data-aos="fade-up">
-                    Features
-                </div>
+    <div class="max-w-7xl mx-auto px-6">
 
-                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">
-                    clean portfolio.<br>
-                    modern showcase.
-                </h2>
+      <div class="mb-14" data-aos="fade-up">
+        <span class="uppercase tracking-[0.3em] text-sm text-purple-500 font-bold">
+          Selected Works
+        </span>
 
-                <div class="features">
+        <h2 class="text-5xl lg:text-6xl font-bold mt-4 leading-tight">
+          Projects & Work Samples
+        </h2>
+      </div>
 
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="feature-icon"></div>
-                        <h3>Portfolio Builder</h3>
-                        <p>
-                            create a minimal portfolio website with your projects,
-                            experience and social links.
-                        </p>
-                    </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="180">
-                        <div class="feature-icon"></div>
-                        <h3>Tech Stack Section</h3>
-                        <p>
-                            showcase your favourite frameworks, tools and skills
-                            in a clean and simple layout.
-                        </p>
-                    </div>
+        <!-- Card -->
+        <a href="#" class="project-card h-[280px]" data-aos="fade-up">
+          <img src="source/assets/images/3.png">
+          <div class="project-overlay">
+            <h3 class="text-white text-2xl font-bold">Sirah Explorer</h3>
+            <p class="text-lime-300 mt-2 text-sm uppercase tracking-widest">
+              Educational Game · Unity
+            </p>
+          </div>
+        </a>
 
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="260">
-                        <div class="feature-icon"></div>
-                        <h3>Custom Themes</h3>
-                        <p>
-                            personalise your portfolio with modern colour styles
-                            and responsive layouts.
-                        </p>
-                    </div>
+        <a href="#" class="project-card h-[280px]" data-aos="fade-up" data-aos-delay="100">
+          <img src="source/assets/images/5.png">
+          <div class="project-overlay">
+            <h3 class="text-white text-2xl font-bold">Tarannum</h3>
+            <p class="text-purple-300 mt-2 text-sm uppercase tracking-widest">
+              Mobile App · Unity
+            </p>
+          </div>
+        </a>
 
-                </div>
+        <a href="https://kadmehq.com"
+           target="_blank"
+           class="project-card h-[280px] flex items-center justify-center bg-[#1B19B9]"
+           data-aos="fade-up"
+           data-aos-delay="200">
 
-            </div>
-        </section>
+          <div class="text-center">
+            <h3 class="text-5xl font-bold text-lime-300">KadMe</h3>
+            <p class="text-white/60 mt-3 uppercase tracking-widest text-xs">
+              SaaS · Laravel
+            </p>
+          </div>
 
-        <section class="cta">
-            <div class="wrap">
+        </a>
 
-                <div class="cta-box" data-aos="zoom-in">
+        <a href="#" class="project-card md:col-span-2 h-[320px]" data-aos="fade-up">
+          <img src="source/assets/images/2.png">
+          <div class="project-overlay">
+            <h3 class="text-white text-3xl font-bold">Asas Qurani</h3>
+            <p class="text-lime-300 mt-2 text-sm uppercase tracking-widest">
+              Educational Mobile Game
+            </p>
+          </div>
+        </a>
 
-                    <h2 class="cta-title">
-                        build your<br>
-                        portfolio today.
-                    </h2>
+        <a href="#" class="project-card h-[320px]" data-aos="fade-up">
+          <img src="source/assets/images/4.png">
+          <div class="project-overlay">
+            <h3 class="text-white text-2xl font-bold">Creative Visual</h3>
+            <p class="text-purple-300 mt-2 text-sm uppercase tracking-widest">
+              Design & Motion
+            </p>
+          </div>
+        </a>
 
-                    <p class="cta-desc">
-                        simple. modern. fast.
-                    </p>
+      </div>
 
-                    <a href="#" class="cta-btn">
-                        Create Portfolio →
-                    </a>
+    </div>
 
-                </div>
+  </section>
 
-            </div>
-        </section>
+  <!-- SERVICES -->
+  <section id="services" class="py-28 bg-[#0a0929] overflow-hidden">
 
-    </main>
+    <div class="max-w-7xl mx-auto px-6">
 
-    <footer>
-        © {{ date('Y') }} Ziqfolio. All rights reserved.
-    </footer>
+      <div class="mb-16 text-center" data-aos="fade-up">
+        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
+          What I Offer
+        </span>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 700,
-                    once: true,
-                    easing: 'ease-out-cubic'
-                });
-            }
-        });
-    </script>
+        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">
+          Services
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="glass rounded-[28px] p-10" data-aos="fade-up">
+          <div class="text-5xl mb-5">🚀</div>
+
+          <h3 class="text-white text-3xl font-bold">
+            Landing Pages
+          </h3>
+
+          <p class="text-white/60 mt-4 leading-8">
+            Modern landing pages using Tailwind CSS, smooth animation,
+            lightweight performance and clean UI.
+          </p>
+
+          <div class="mt-6 flex gap-3 flex-wrap">
+            <span class="px-4 py-2 rounded-full bg-lime-300/10 text-lime-300 text-sm">
+              Tailwind
+            </span>
+
+            <span class="px-4 py-2 rounded-full bg-purple-300/10 text-purple-300 text-sm">
+              Jigsaw
+            </span>
+          </div>
+
+        </div>
+
+        <div class="glass rounded-[28px] p-10" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="text-5xl mb-5">💻</div>
+
+          <h3 class="text-white text-3xl font-bold">
+            Freelance Development
+          </h3>
+
+          <p class="text-white/60 mt-4 leading-8">
+            Web design, portfolio sites, startup landing pages,
+            custom systems and collaborations.
+          </p>
+
+          <div class="mt-6 flex gap-3 flex-wrap">
+            <span class="px-4 py-2 rounded-full bg-lime-300/10 text-lime-300 text-sm">
+              Laravel
+            </span>
+
+            <span class="px-4 py-2 rounded-full bg-purple-300/10 text-purple-300 text-sm">
+              Full Stack
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="stack" class="bg-[#081844] py-24 overflow-hidden">
+
+    <div class="text-center mb-14 px-6" data-aos="fade-up">
+      <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">
+        Tools of the Trade
+      </span>
+
+      <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">
+        My Tech Stack
+      </h2>
+    </div>
+
+    <div class="overflow-hidden border-y border-white/10">
+
+      <div class="marquee-track py-5">
+
+        <div class="tech-pill text-lime-300">🎮 Unity</div>
+        <div class="tech-pill text-purple-300">⚡ Laravel</div>
+        <div class="tech-pill">🌊 Tailwind CSS</div>
+        <div class="tech-pill text-lime-300">🐘 PHP</div>
+        <div class="tech-pill text-purple-300">🎨 Canva</div>
+        <div class="tech-pill">🐙 GitHub</div>
+        <div class="tech-pill text-lime-300">💙 VS Code</div>
+
+        <div class="tech-pill text-lime-300">🎮 Unity</div>
+        <div class="tech-pill text-purple-300">⚡ Laravel</div>
+        <div class="tech-pill">🌊 Tailwind CSS</div>
+        <div class="tech-pill text-lime-300">🐘 PHP</div>
+        <div class="tech-pill text-purple-300">🎨 Canva</div>
+        <div class="tech-pill">🐙 GitHub</div>
+        <div class="tech-pill text-lime-300">💙 VS Code</div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="py-32 bg-[#0a0929] text-center relative overflow-hidden">
+
+    <div class="absolute inset-0">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-500/10 blur-3xl rounded-full"></div>
+    </div>
+
+    <div class="relative z-10 px-6">
+
+      <h2 class="text-5xl lg:text-7xl font-bold text-lime-300 leading-tight"
+          data-aos="zoom-in">
+        Let's Build <br>
+        Something Cool.
+      </h2>
+
+      <p class="text-white/50 mt-6 text-lg"
+         data-aos="fade-up">
+        Open for freelance, collabs & opportunities.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4 mt-10"
+           data-aos="fade-up"
+           data-aos-delay="100">
+
+        <a href="https://www.linkedin.com/in/syhaziqdev/"
+           target="_blank"
+           class="px-8 py-4 rounded-full btn-primary">
+          Hit Me Up →
+        </a>
+
+        <a href="https://kadmehq.com"
+           target="_blank"
+           class="px-8 py-4 rounded-full btn-secondary">
+          Visit KadMe
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#0a0929] border-t border-white/5 py-8 text-center text-white/40 text-sm">
+    © 2026 Syhaziqdev. Made with caffeine & chaos.
+  </footer>
+
+  <script>
+
+    AOS.init({
+      duration:700,
+      once:true
+    });
+
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 40){
+        navbar.classList.add('scrolled');
+      }else{
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+  </script>
 
 </body>
-
 </html>
-```
