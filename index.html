@@ -283,7 +283,7 @@
   </nav>
 
   <!-- HERO -->
-  <section class="relative min-h-screen overflow-hidden bg-gradient-to-t from-white via-[#081844] to-[#274bc4] flex items-center justify-center">
+  <section class="relative min-h-screen overflow-hidden bg-gradient-to-t from-white to-[#274bc4] flex items-center justify-center">
 
     <div class="absolute top-20 left-10 w-72 h-72 bg-lime-300/20 blur-3xl rounded-full"></div>
     <div class="absolute bottom-20 right-10 w-72 h-72 bg-purple-400/20 blur-3xl rounded-full"></div>
@@ -340,8 +340,8 @@
       </div>
 
       <div>
-        <h3 class="text-4xl font-bold text-purple-300">4</h3>
-        <p class="text-white/60 mt-2">Games & Apps Shipped</p>
+        <h3 class="text-4xl font-bold text-purple-300">5</h3>
+        <p class="text-white/60 mt-2">Games & Web-apps Shipped</p>
       </div>
 
       <div>
@@ -352,77 +352,81 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="py-28 bg-white">
-
-    <div class="max-w-7xl mx-auto px-6">
-
-      <div class="mb-14" data-aos="fade-up">
-
-        <span class="uppercase tracking-[0.3em] text-sm text-purple-500 font-bold">
-          Selected Works
-        </span>
-
-        <h2 class="text-5xl lg:text-6xl font-bold mt-4">
-          Projects & Work Samples
-        </h2>
-
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-
-        <a href="#" class="project-card" data-aos="fade-up">
-          <img src="source/assets/images/3.png">
-
-          <div class="project-overlay">
-            <h3 class="text-white text-2xl font-bold">
-              Sirah Explorer
-            </h3>
-
-            <p class="text-lime-300 mt-2 text-sm uppercase tracking-widest">
-              Educational Game · Unity
-            </p>
-          </div>
-        </a>
-
-        <a href="#" class="project-card" data-aos="fade-up" data-aos-delay="100">
-          <img src="source/assets/images/5.png">
-
-          <div class="project-overlay">
-            <h3 class="text-white text-2xl font-bold">
-              Tarannum
-            </h3>
-
-            <p class="text-purple-300 mt-2 text-sm uppercase tracking-widest">
-              Mobile App · Unity
-            </p>
-          </div>
-        </a>
-
-        <a href="https://kadmehq.com"
-          target="_blank"
-          class="project-card flex items-center justify-center bg-[#1B19B9]"
-          data-aos="fade-up"
-          data-aos-delay="200">
-
-          <div class="text-center">
-            <h3 class="text-5xl font-bold text-lime-300">
-              KadMe
-            </h3>
-
-            <p class="text-white/60 mt-3 uppercase tracking-widest text-xs">
-              SaaS · Laravel
-            </p>
-          </div>
-
-        </a>
-
-      </div>
-
+<section id="projects" class="proj-bg">
+  <div class="sw">
+    <div data-aos="fade-up">
+      <div class="slabel" style="color:var(--rust)">What I've shipped</div>
+      <h2 class="sh" style="color:var(--ink)">Projects &amp;<br>work samples.</h2>
     </div>
-
-  </section>
-
+ 
+    <div class="proj-grid" data-aos="fade-up" data-aos-delay="80">
+ 
+      <!-- Sirah Explorer -->
+      <div class="pcard pcard-video" onclick="openModal('https://www.youtube.com/embed/r37gB06A4Yc')">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/r37gB06A4Yc/hqdefault.jpg" alt="Sirah Explorer">
+        <div class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0f172a"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="vid-title-static">Sirah Explorer</div>
+        <div class="pcard-overlay">
+          <div class="pcard-title">Sirah Explorer</div>
+          <div class="pcard-sub">Educational Game · Unity</div>
+        </div>
+      </div>
+ 
+      <!-- Tarannum -->
+      <div class="pcard pcard-video" onclick="openModal('https://www.youtube.com/embed/pA19bV2anYQ')">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/pA19bV2anYQ/hqdefault.jpg" alt="Tarannum">
+        <div class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0f172a"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="vid-title-static">Tarannum</div>
+        <div class="pcard-overlay">
+          <div class="pcard-title">Tarannum</div>
+          <div class="pcard-sub">Mobile App · Unity</div>
+        </div>
+      </div>
+ 
+      <!-- Smart Science -->
+      <div class="pcard pcard-video" onclick="openModal('https://www.youtube.com/embed/_vaJAihEo_A')">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/_vaJAihEo_A/hqdefault.jpg" alt="Smart Science">
+        <div class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0f172a"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="vid-title-static">Smart Science</div>
+        <div class="pcard-overlay">
+          <div class="pcard-title">Smart Science</div>
+          <div class="pcard-sub">Educational Game · Unity</div>
+        </div>
+      </div>
+ 
+      <!-- Asas Qurani — span 2 -->
+      <div class="pcard pcard-video span2" onclick="openModal('https://www.youtube.com/embed/aqcSGj73w1k')">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/aqcSGj73w1k/hqdefault.jpg" alt="Asas Qurani">
+        <div class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0f172a"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="vid-title-static">Asas Qurani</div>
+        <div class="pcard-overlay">
+          <div class="pcard-title">Asas Qurani</div>
+          <div class="pcard-sub">Mobile Game · Unity</div>
+        </div>
+      </div>
+ 
+      <!-- KadMe HQ -->
+      <div class="pcard" style="background:#1B19B9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.6rem;" onclick="window.open('https://kadmehq.com','_blank')">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--lime);letter-spacing:-.02em">KadMe</div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase">SaaS · Laravel · Live</div>
+        <div class="pcard-overlay">
+          <div class="pcard-title">KadMe HQ</div>
+          <div class="pcard-sub">Founder · kadmehq.com</div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+</section>
+  
   <!-- SERVICES -->
   <section id="services" class="py-28 bg-[#0a0929]">
 
@@ -453,8 +457,8 @@
           </h3>
 
           <p class="text-white/60 mt-4 leading-8">
-            Modern landing pages using Tailwind CSS,
-            lightweight animation and clean responsive UI.
+            Modern landing pages using (Kadme-coming soon) Tailwind CSS,
+            AOS animation and clean responsive UI.
           </p>
 
         </div>
