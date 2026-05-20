@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZiqFolio</title>
+  <title>ZiqFolio — Syed Muhammad Haziq</title>
   <meta name="description" content="Portfolio of Syed Muhammad Haziq">
   <meta property="og:title" content="ZiqFolio">
   <meta property="og:description" content="Portfolio of Syed Muhammad Haziq">
@@ -25,14 +25,10 @@
     :root {
       --bg: #070b1a;
       --navy: #081844;
+      --lime: #c7ff41;
+      --purple: #c4b5fd;
       --white: #f8fafc;
       --slate: #94a3b8;
-      --lime: #c7ff41;
-      --lime-soft: #d9ff7a;
-      --purple: #c4b5fd;
-      --purple-soft: #ddd6fe;
-      --card: #0f172a;
-      --border: rgba(255,255,255,.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -80,13 +76,12 @@
     /* BUTTONS */
     .btn-primary { background: var(--lime); color: #111827; font-weight: 800; transition: .25s; }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(199,255,65,.3); }
-    .btn-secondary { border: 1px solid rgba(255,255,255,.15); color: white; transition: .25s; }
-    .btn-secondary:hover { background: rgba(255,255,255,.06); }
+    .btn-secondary { border: 1px solid rgba(255,255,255,.2); color: white; transition: .25s; font-weight: 700; }
+    .btn-secondary:hover { background: rgba(255,255,255,.08); }
 
     /* PROJECTS */
     .proj-bg { background: white; padding: 7rem 0; }
 
-    /* Row 1: 2 equal cards */
     .proj-row-1 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -94,7 +89,6 @@
       margin-top: 4rem;
     }
 
-    /* Row 2: 3 cards — left big, right 2 stacked */
     .proj-row-2 {
       display: grid;
       grid-template-columns: 1.4fr 1fr;
@@ -108,7 +102,6 @@
       gap: 18px;
     }
 
-    /* KadMe in row 2 right bottom — smaller */
     .pcard {
       position: relative;
       overflow: hidden;
@@ -169,32 +162,19 @@
       align-items: center;
       justify-content: center;
       transition: .2s;
+      color: #111827;
     }
 
     .pcard:hover .play-btn { transform: scale(1.1); }
 
-    .vid-title-static {
-      position: absolute;
-      left: 24px;
-      top: 20px;
-      z-index: 5;
-      color: white;
-      font-weight: 800;
-      font-size: .95rem;
-      background: rgba(0,0,0,.4);
-      padding: 4px 10px;
-      backdrop-filter: blur(4px);
-    }
-
-    /* external link badge */
     .ext-badge {
       position: absolute;
       top: 16px;
       left: 16px;
       z-index: 5;
-      background: rgba(255,255,255,.15);
+      background: rgba(255,255,255,.12);
       backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,.18);
       padding: 4px 10px;
       font-size: .7rem;
       font-weight: 700;
@@ -205,7 +185,7 @@
 
     /* GLASS */
     .glass {
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.05);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,.08);
     }
@@ -249,64 +229,82 @@
       border-color: rgba(199,255,65,.2);
     }
 
-    /* TECH STACK CATEGORIES */
-    .stack-section { background: #070b1a; padding: 7rem 0; overflow: hidden; }
-
-    .stack-category {
-      margin-bottom: 2.5rem;
+    /* TECH STACK CARDS */
+    .stack-card {
+      background: #0f172a;
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 28px;
+      transition: .3s;
     }
 
-    .stack-cat-label {
-      font-size: .7rem;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      font-weight: 800;
-      padding: 0 24px;
-      margin-bottom: 1rem;
+    .stack-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(199,255,65,.25);
     }
 
-    .stack-wrap {
+    .stack-card.purple-hover:hover {
+      border-color: rgba(196,181,253,.35);
+    }
+
+    .stack-icon {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stack-icon.lime {
+      background: rgba(199,255,65,.1);
+      border: 1px solid rgba(199,255,65,.2);
+      color: var(--lime);
+    }
+
+    .stack-icon.purple {
+      background: rgba(196,181,253,.1);
+      border: 1px solid rgba(196,181,253,.2);
+      color: var(--purple);
+    }
+
+    /* INFINITE SCROLL ROWS */
+    .scroll-row-wrap {
       overflow: hidden;
-      border-top: 1px solid rgba(255,255,255,.08);
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      margin-top: 3.5rem;
     }
 
-    .stack-track {
+    .scroll-track {
       width: max-content;
       display: flex;
-      animation: stackMove 28s linear infinite;
+      animation: scrollLeft 30s linear infinite;
     }
 
-    .stack-track.reverse { animation: stackMoveReverse 26s linear infinite; }
-    .stack-track.slow { animation: stackMove 36s linear infinite; }
+    .scroll-track.rev { animation: scrollRight 28s linear infinite; }
+    .scroll-track:hover { animation-play-state: paused; }
 
-    .stack-track:hover { animation-play-state: paused; }
-
-    @keyframes stackMove {
+    @keyframes scrollLeft {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
     }
 
-    @keyframes stackMoveReverse {
+    @keyframes scrollRight {
       from { transform: translateX(-50%); }
       to { transform: translateX(0); }
     }
 
-    .tech-pill {
-      padding: 18px 30px;
+    .scroll-pill {
+      padding: 16px 28px;
       border-right: 1px solid rgba(255,255,255,.06);
       font-weight: 700;
       white-space: nowrap;
-      font-size: .95rem;
+      font-size: .9rem;
       display: flex;
       align-items: center;
       gap: 10px;
-      transition: .2s;
     }
 
-    .tech-pill:hover { background: rgba(255,255,255,.04); }
-
-    .tech-pill .dot {
+    .scroll-pill .dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
@@ -332,14 +330,14 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3">
         <img src="source/assets/images/logo.png" class="w-10 h-10 object-contain">
-        <span class="text-lime-300 font-extrabold text-lg">ZiqFolio</span>
+        <span style="color:var(--lime);font-weight:900;font-size:1.1rem;font-family:'Space Grotesk',sans-serif;">ZiqFolio</span>
       </a>
 
       <div class="hidden md:flex items-center gap-8">
-        <a href="#projects" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Projects</a>
-        <a href="#services" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Services</a>
-        <a href="#timeline" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Experience</a>
-        <a href="#stack" class="text-white/70 hover:text-lime-300 transition text-sm font-semibold">Stack</a>
+        <a href="#projects" class="text-white/60 hover:text-white transition text-sm font-semibold">Projects</a>
+        <a href="#services" class="text-white/60 hover:text-white transition text-sm font-semibold">Services</a>
+        <a href="#timeline" class="text-white/60 hover:text-white transition text-sm font-semibold">Experience</a>
+        <a href="#stack" class="text-white/60 hover:text-white transition text-sm font-semibold">Stack</a>
       </div>
 
       <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-5 py-2 btn-primary text-sm">
@@ -349,9 +347,11 @@
   </nav>
 
   <!-- HERO -->
-  <section class="relative min-h-screen overflow-hidden bg-gradient-to-t from-purple-600 to-[#274bc4] flex items-center justify-center">
-    <div class="absolute top-20 left-10 w-72 h-72 bg-lime-300/20 blur-3xl"></div>
-    <div class="absolute bottom-20 right-10 w-72 h-72 bg-purple-400/20 blur-3xl"></div>
+  <section class="relative min-h-screen overflow-hidden flex items-center justify-center"
+    style="background: linear-gradient(to top, #070b1a, #081844, #274bc4);">
+
+    <div class="absolute top-20 left-10 w-72 h-72 blur-3xl" style="background:rgba(199,255,65,.15);"></div>
+    <div class="absolute bottom-20 right-10 w-72 h-72 blur-3xl" style="background:rgba(196,181,253,.15);"></div>
 
     <div class="relative z-10 text-center px-6 max-w-4xl">
       <img src="source/assets/images/logo.png"
@@ -362,9 +362,9 @@
         Syed Muhammad Haziq
       </h1>
 
-      <p class="text-slate-200 mt-5 text-lg lg:text-2xl" data-aos="fade-up" data-aos-delay="100">
+      <p class="mt-5 text-lg lg:text-2xl text-white/70" data-aos="fade-up" data-aos-delay="100">
         Game Developer by Day,
-        <span class="text-lime-300 font-bold italic">Web Developer</span> by Heart
+        <span style="color:var(--lime);font-weight:800;font-style:italic;">Web Developer</span> by Heart
       </p>
 
       <div class="flex flex-wrap justify-center gap-4 mt-10" data-aos="fade-up" data-aos-delay="200">
@@ -375,19 +375,19 @@
   </section>
 
   <!-- STATS -->
-  <section class="bg-[#070b1a] border-t border-white/5">
+  <section style="background:#070b1a;border-top:1px solid rgba(255,255,255,.05);">
     <div class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
       <div>
-        <h3 class="text-4xl font-bold text-lime-300">3+</h3>
-        <p class="text-white/60 mt-2">Years Building</p>
+        <h3 class="text-4xl font-bold" style="color:var(--lime);">3+</h3>
+        <p class="mt-2 text-white/50">Years Building</p>
       </div>
       <div>
-        <h3 class="text-4xl font-bold text-purple-300">5</h3>
-        <p class="text-white/60 mt-2">Games & Apps Shipped</p>
+        <h3 class="text-4xl font-bold" style="color:var(--purple);">5</h3>
+        <p class="mt-2 text-white/50">Games & Apps Shipped</p>
       </div>
       <div>
-        <h3 class="text-4xl font-bold text-lime-300">100%</h3>
-        <p class="text-white/60 mt-2">Made in Malaysia</p>
+        <h3 class="text-4xl font-bold" style="color:var(--lime);">100%</h3>
+        <p class="mt-2 text-white/50">Made in Malaysia</p>
       </div>
     </div>
   </section>
@@ -395,13 +395,12 @@
   <!-- PROJECTS -->
   <section id="projects" class="proj-bg">
     <div class="sw">
-
       <div data-aos="fade-up">
-        <div class="slabel text-purple-400">What I've shipped</div>
+        <div class="slabel" style="color:var(--purple);">What I've shipped</div>
         <h2 class="sh text-[#0f172a]">Projects &<br>work samples.</h2>
       </div>
 
-      <!-- ROW 1: Sirah Explorer + Tarannum -->
+      <!-- ROW 1 -->
       <div class="proj-row-1" data-aos="fade-up" data-aos-delay="100">
 
         <a class="pcard" href="https://www.youtube.com/watch?v=r37gB06A4Yc" target="_blank" rel="noopener">
@@ -426,7 +425,7 @@
 
       </div>
 
-      <!-- ROW 2: Smart Science (big left) + Asas Qurani + KadMe (right col) -->
+      <!-- ROW 2 -->
       <div class="proj-row-2" data-aos="fade-up" data-aos-delay="150">
 
         <a class="pcard" href="https://www.youtube.com/watch?v=_vaJAihEo_A" target="_blank" rel="noopener">
@@ -444,21 +443,21 @@
           <a class="pcard short" href="https://www.youtube.com/watch?v=aqcSGj73w1k" target="_blank" rel="noopener">
             <img src="https://img.youtube.com/vi/aqcSGj73w1k/maxresdefault.jpg" alt="Asas Qurani">
             <div class="ext-badge">▶ YouTube</div>
-            <div class="play-btn" style="width:42px;height:42px;"><i data-feather="play" style="width:16px;height:16px;"></i></div>
+            <div class="play-btn" style="width:42px;height:42px;"><i data-feather="play" style="width:15px;height:15px;"></i></div>
             <div class="pcard-overlay">
               <div class="pcard-title" style="font-size:1.2rem;">Asas Qurani</div>
               <div class="pcard-sub">Mobile Game · Unity</div>
             </div>
           </a>
 
-          <a class="pcard short no-gradient bg-[#1B19B9] flex items-center justify-center flex-col gap-3"
+          <a class="pcard short no-gradient flex items-center justify-center flex-col gap-3"
             href="https://kadmehq.com" target="_blank" rel="noopener"
-            style="text-decoration:none;">
-            <div style="position:absolute;top:14px;right:14px;z-index:5;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:3px 10px;font-size:.68rem;font-weight:700;color:white;letter-spacing:.1em;text-transform:uppercase;">
+            style="background:#1B19B9;text-decoration:none;">
+            <div style="position:absolute;top:14px;right:14px;z-index:5;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:3px 10px;font-size:.68rem;font-weight:700;color:white;letter-spacing:.1em;text-transform:uppercase;">
               🌐 Live
             </div>
-            <div class="text-4xl font-black text-lime-300" style="font-family:'Space Grotesk',sans-serif;position:relative;z-index:2;">KadMe</div>
-            <div class="uppercase tracking-[0.2em] text-xs text-white/60 font-bold" style="position:relative;z-index:2;">SaaS · Laravel</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:900;color:var(--lime);position:relative;z-index:2;">KadMe</div>
+            <div style="text-transform:uppercase;letter-spacing:.2em;font-size:.72rem;color:rgba(255,255,255,.5);font-weight:700;position:relative;z-index:2;">SaaS · Laravel</div>
             <div style="position:absolute;bottom:18px;left:20px;z-index:4;">
               <div class="pcard-title" style="font-size:1rem;">KadMe HQ</div>
               <div class="pcard-sub">Founder · kadmehq.com</div>
@@ -466,45 +465,44 @@
           </a>
 
         </div>
-
       </div>
 
     </div>
   </section>
 
   <!-- SERVICES -->
-  <section id="services" class="py-28 bg-[#070b1a]">
+  <section id="services" class="py-28" style="background:#070b1a;">
     <div class="max-w-7xl mx-auto px-6">
       <div class="mb-16 text-center" data-aos="fade-up">
-        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">What I Offer</span>
+        <span style="text-transform:uppercase;letter-spacing:.3em;font-size:.75rem;color:var(--lime);font-weight:800;">What I Offer</span>
         <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">Services</h2>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
         <div class="glass p-10" data-aos="fade-up">
-          <div class="w-14 h-14 bg-lime-300/10 flex items-center justify-center text-lime-300">
-            <i data-feather="layout"></i>
-          </div>
+          <div class="stack-icon lime"><i data-feather="layout"></i></div>
           <h3 class="text-white text-3xl font-bold mt-6">Landing Pages</h3>
-          <p class="text-white/60 mt-4 leading-8">Modern landing pages using Tailwind CSS, smooth animations and clean responsive UI.</p>
+          <p class="mt-4 leading-8" style="color:rgba(255,255,255,.55);">
+            Modern landing pages using Tailwind CSS, smooth animations and clean responsive UI.
+          </p>
         </div>
 
         <div class="glass p-10" data-aos="fade-up" data-aos-delay="100">
-          <div class="w-14 h-14 bg-purple-300/10 flex items-center justify-center text-purple-300">
-            <i data-feather="code"></i>
-          </div>
+          <div class="stack-icon purple"><i data-feather="code"></i></div>
           <h3 class="text-white text-3xl font-bold mt-6">Freelance Development</h3>
-          <p class="text-white/60 mt-4 leading-8">Startup landing pages, portfolio websites, web systems and full stack development.</p>
+          <p class="mt-4 leading-8" style="color:rgba(255,255,255,.55);">
+            Startup landing pages, portfolio websites, web systems and full stack development.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- TIMELINE -->
-  <section id="timeline" class="py-28 bg-[#081844] overflow-hidden">
+  <section id="timeline" class="py-28 overflow-hidden" style="background:#081844;">
     <div class="max-w-5xl mx-auto px-6">
       <div class="mb-20 text-center" data-aos="fade-up">
-        <span class="uppercase tracking-[0.3em] text-sm text-lime-300 font-bold">Journey</span>
+        <span style="text-transform:uppercase;letter-spacing:.3em;font-size:.75rem;color:var(--lime);font-weight:800;">Journey</span>
         <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">Work Experience</h2>
       </div>
 
@@ -514,37 +512,39 @@
         <div class="relative mb-14" data-aos="fade-up">
           <div class="timeline-dot"><i data-feather="briefcase"></i></div>
           <div class="timeline-card">
-            <span class="text-lime-300 text-sm font-bold">Jan 2026 — Present</span>
+            <span style="color:var(--lime);font-size:.85rem;font-weight:700;">Jan 2026 — Present</span>
             <h3 class="text-white text-2xl font-bold mt-4">Founder</h3>
-            <p class="text-purple-300 mt-2">KadMe HQ</p>
-            <p class="text-white/60 mt-5 leading-8">
+            <p style="color:var(--purple);margin-top:.5rem;">KadMe HQ</p>
+            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
               Built KadMe — digital business card platform, website builder and job board for Malaysians.
             </p>
-            <a href="https://kadmehq.com" target="_blank" class="inline-flex items-center gap-2 mt-5 text-lime-300 text-sm font-bold hover:underline">
-              <i data-feather="external-link" style="width:14px;height:14px;"></i> kadmehq.com
+            <a href="https://kadmehq.com" target="_blank"
+              style="display:inline-flex;align-items:center;gap:6px;margin-top:1.2rem;color:var(--lime);font-size:.85rem;font-weight:700;text-decoration:none;"
+              onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+              <i data-feather="external-link" style="width:13px;height:13px;"></i> kadmehq.com
             </a>
           </div>
         </div>
 
-        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="100">
+        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="80">
           <div class="timeline-dot"><i data-feather="cpu"></i></div>
           <div class="timeline-card">
-            <span class="text-purple-300 text-sm font-bold">Jan 2025 — Present</span>
+            <span style="color:var(--purple);font-size:.85rem;font-weight:700;">Jan 2025 — Present</span>
             <h3 class="text-white text-2xl font-bold mt-4">Game Developer</h3>
-            <p class="text-purple-300 mt-2">Oxford EduVision</p>
-            <p class="text-white/60 mt-5 leading-8">
+            <p style="color:var(--purple);margin-top:.5rem;">Oxford EduVision</p>
+            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
               Developing educational mobile games using Unity and shipping apps to the Play Store.
             </p>
           </div>
         </div>
 
-        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="150">
+        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="140">
           <div class="timeline-dot"><i data-feather="globe"></i></div>
           <div class="timeline-card">
-            <span class="text-slate-400 text-sm font-bold">Oct 2024 — Jan 2025</span>
+            <span style="color:rgba(255,255,255,.4);font-size:.85rem;font-weight:700;">Oct 2024 — Jan 2025</span>
             <h3 class="text-white text-2xl font-bold mt-4">Founder</h3>
-            <p class="text-purple-300 mt-2">Lapacee</p>
-            <p class="text-white/60 mt-5 leading-8">
+            <p style="color:var(--purple);margin-top:.5rem;">Lapacee</p>
+            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
               Local social networking platform connecting Malaysians to collaborate and build vibrant local communities.
             </p>
           </div>
@@ -553,11 +553,11 @@
         <div class="relative mb-14" data-aos="fade-up" data-aos-delay="200">
           <div class="timeline-dot"><i data-feather="monitor"></i></div>
           <div class="timeline-card">
-            <span class="text-slate-400 text-sm font-bold">Oct 2023 — Mar 2024</span>
+            <span style="color:rgba(255,255,255,.4);font-size:.85rem;font-weight:700;">Oct 2023 — Mar 2024</span>
             <h3 class="text-white text-2xl font-bold mt-4">Internship Trainee</h3>
-            <p class="text-purple-300 mt-2">Mysoftcare Solution</p>
-            <p class="text-white/60 mt-5 leading-8">
-              Full stack web development internship. Gained hands-on experience with Bootstrap, Node.js and multiple frameworks.
+            <p style="color:var(--purple);margin-top:.5rem;">Mysoftcare Solution</p>
+            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
+              Full stack web development internship. Hands-on experience with Bootstrap, Node.js and multiple frameworks.
             </p>
           </div>
         </div>
@@ -565,226 +565,152 @@
       </div>
     </div>
   </section>
-<!-- TECH STACK -->
-<section id="stack" class="py-28 bg-lime-300 overflow-hidden">
 
-  <div class="max-w-7xl mx-auto px-6">
+  <!-- TECH STACK -->
+  <section id="stack" class="py-28 overflow-hidden" style="background:var(--lime);">
+    <div class="max-w-7xl mx-auto px-6">
 
-    <!-- HEADING -->
-    <div class="text-center mb-16" data-aos="fade-up">
+      <div class="text-center mb-14" data-aos="fade-up">
+        <span style="text-transform:uppercase;letter-spacing:.3em;font-size:.75rem;color:#5a2d82;font-weight:800;">Tools of the Trade</span>
+        <h2 style="font-size:clamp(2.8rem,6vw,5rem);font-weight:900;color:#081844;margin-top:.75rem;line-height:.95;">Tech Stack</h2>
+        <p style="color:#1e293b;margin-top:1.2rem;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;font-weight:500;">
+          Technologies and tools I use to build products, games and digital experiences.
+        </p>
+      </div>
 
-      <span class="uppercase tracking-[0.3em] text-sm text-purple-600 font-extrabold">
-        Tools of the Trade
-      </span>
+      <!-- CARDS GRID -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" data-aos="fade-up" data-aos-delay="100">
 
-      <h2 class="text-5xl lg:text-6xl text-[#081844] font-black mt-4">
-        Tech Stack
-      </h2>
-
-      <p class="text-[#1e293b] mt-5 max-w-2xl mx-auto leading-8 font-medium">
-        Technologies, frameworks and creative tools I use to build
-        products, games and digital experiences.
-      </p>
-
-    </div>
-
-    <!-- GRID -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-
-      <!-- Laravel -->
-      <div class="group bg-[#081844] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-lime-200">
-
-        <div class="w-14 h-14 bg-lime-300/10 border border-lime-300/20 flex items-center justify-center text-lime-300">
-          <i data-feather="layers"></i>
+        <!-- Laravel -->
+        <div class="stack-card">
+          <div class="stack-icon lime"><i data-feather="layers"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">Laravel</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            Backend framework for scalable SaaS platforms and web applications.
+          </p>
         </div>
 
-        <h3 class="text-lime-300 text-xl font-bold mt-6">
-          Laravel
-        </h3>
+        <!-- Filament -->
+        <div class="stack-card purple-hover">
+          <div class="stack-icon purple"><i data-feather="grid"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">FilamentPHP</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            Admin dashboards and internal systems with clean developer workflow.
+          </p>
+        </div>
 
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          Backend framework for scalable SaaS platforms and modern web applications.
-        </p>
+        <!-- MySQL -->
+        <div class="stack-card">
+          <div class="stack-icon lime"><i data-feather="database"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">MySQL</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            Relational database management for scalable applications and systems.
+          </p>
+        </div>
+
+        <!-- Tailwind -->
+        <div class="stack-card purple-hover">
+          <div class="stack-icon purple"><i data-feather="layout"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">Tailwind CSS</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            Utility-first CSS framework for responsive and modern UI design.
+          </p>
+        </div>
+
+        <!-- TALL Stack -->
+        <div class="stack-card">
+          <div class="stack-icon lime"><i data-feather="cpu"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">TALL Stack</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            Tailwind, Alpine.js, Laravel and Livewire — full dev workflow.
+          </p>
+        </div>
+
+        <!-- Unity -->
+        <div class="stack-card purple-hover">
+          <div class="stack-icon purple"><i data-feather="box"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">Unity</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            Educational games and interactive mobile app experiences.
+          </p>
+        </div>
+
+        <!-- Python + YOLO -->
+        <div class="stack-card">
+          <div class="stack-icon lime"><i data-feather="activity"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">Python & YOLOv</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            AI/ML experiments, object detection and automation workflows.
+          </p>
+        </div>
+
+        <!-- Creative Tools -->
+        <div class="stack-card purple-hover">
+          <div class="stack-icon purple"><i data-feather="film"></i></div>
+          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">CapCut & Canva</h3>
+          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
+            Video editing, motion visuals, posters and social media content.
+          </p>
+        </div>
 
       </div>
 
-      <!-- Filament -->
-      <div class="group bg-[#0f172a] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-purple-300">
-
-        <div class="w-14 h-14 bg-purple-300/10 border border-purple-300/20 flex items-center justify-center text-purple-300">
-          <i data-feather="grid"></i>
+      <!-- INFINITE SCROLL MARQUEE — extra pills -->
+      <div class="scroll-row-wrap" data-aos="fade-up" data-aos-delay="200" style="margin-top:3.5rem;">
+        <div class="scroll-track">
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>PHP</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>C#</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Node.js</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Alpine.js</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Livewire</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Bootstrap</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>GitHub</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>REST API</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>VS Code</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>MongoDB</div>
+          <!-- dupe -->
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>PHP</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>C#</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Node.js</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Alpine.js</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Livewire</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Bootstrap</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>GitHub</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>REST API</div>
+          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>VS Code</div>
+          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>MongoDB</div>
         </div>
-
-        <h3 class="text-purple-300 text-xl font-bold mt-6">
-          FilamentPHP
-        </h3>
-
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          Admin dashboards and internal systems with clean developer workflow.
-        </p>
-
-      </div>
-
-      <!-- MySQL -->
-      <div class="group bg-[#111827] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-cyan-300">
-
-        <div class="w-14 h-14 bg-cyan-300/10 border border-cyan-300/20 flex items-center justify-center text-cyan-300">
-          <i data-feather="database"></i>
-        </div>
-
-        <h3 class="text-cyan-300 text-xl font-bold mt-6">
-          MySQL
-        </h3>
-
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          Relational database management for scalable applications and systems.
-        </p>
-
-      </div>
-
-      <!-- Tailwind -->
-      <div class="group bg-[#1e1b4b] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-sky-300">
-
-        <div class="w-14 h-14 bg-sky-300/10 border border-sky-300/20 flex items-center justify-center text-sky-300">
-          <i data-feather="layout"></i>
-        </div>
-
-        <h3 class="text-sky-300 text-xl font-bold mt-6">
-          Tailwind CSS
-        </h3>
-
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          Utility-first CSS framework for responsive and modern UI design.
-        </p>
-
-      </div>
-
-      <!-- TALL Stack -->
-      <div class="group bg-[#081844] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-lime-200">
-
-        <div class="w-14 h-14 bg-lime-300/10 border border-lime-300/20 flex items-center justify-center text-lime-300">
-          <i data-feather="cpu"></i>
-        </div>
-
-        <h3 class="text-lime-300 text-xl font-bold mt-6">
-          TALL Stack
-        </h3>
-
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          Tailwind, Alpine.js, Laravel and Livewire development workflow.
-        </p>
-
-      </div>
-
-      <!-- Unity -->
-      <div class="group bg-[#312e81] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-purple-300">
-
-        <div class="w-14 h-14 bg-purple-300/10 border border-purple-300/20 flex items-center justify-center text-purple-300">
-          <i data-feather="box"></i>
-        </div>
-
-        <h3 class="text-purple-300 text-xl font-bold mt-6">
-          Unity
-        </h3>
-
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          Educational games and interactive mobile app experiences.
-        </p>
-
-      </div>
-
-      <!-- Python -->
-      <div class="group bg-[#172554] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-amber-300">
-
-        <div class="w-14 h-14 bg-amber-300/10 border border-amber-300/20 flex items-center justify-center text-amber-300">
-          <i data-feather="code"></i>
-        </div>
-
-        <h3 class="text-amber-300 text-xl font-bold mt-6">
-          Python
-        </h3>
-
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          AI workflows, automation and machine learning experiments.
-        </p>
-
-      </div>
-
-      <!-- Creative -->
-      <div class="group bg-[#3f1d2e] border border-white/10 p-7 transition duration-300 hover:-translate-y-2 hover:border-rose-300">
-
-        <div class="w-14 h-14 bg-rose-300/10 border border-rose-300/20 flex items-center justify-center text-rose-300">
-          <i data-feather="film"></i>
-        </div>
-
-        <h3 class="text-rose-300 text-xl font-bold mt-6">
-          CapCut & Canva
-        </h3>
-
-        <p class="text-slate-300 text-sm leading-7 mt-3">
-          Video editing, motion visuals, posters and social media content.
-        </p>
-
       </div>
 
     </div>
+  </section>
 
-  </div>
-
-</section>
-  
   <!-- CTA -->
-  <section class="py-32 bg-purple-600 text-center relative overflow-hidden">
-
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-500/10 blur-3xl"></div>
-
+  <section class="py-32 text-center relative overflow-hidden" style="background:#081844;">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] blur-3xl" style="background:rgba(196,181,253,.08);"></div>
     <div class="relative z-10 px-6">
-
-      <h2 class="text-5xl lg:text-7xl font-bold text-lime-300 leading-tight">
-        Let's Build <br>
-        Something Cool
+      <h2 class="text-5xl lg:text-7xl font-bold leading-tight" style="color:var(--lime);">
+        Let's Build <br>Something Cool
       </h2>
-
-      <p class="text-white/50 mt-6 text-lg">
-        Open for freelance, collaborations and opportunities.
-      </p>
-
+      <p class="mt-6 text-lg" style="color:rgba(255,255,255,.4);">Open for freelance, collaborations and opportunities.</p>
       <div class="flex flex-wrap justify-center gap-4 mt-10">
-
-        <a href="https://www.linkedin.com/in/syhaziqdev/"
-          target="_blank"
-          class="px-8 py-4 btn-primary">
-          Hit Me Up
-        </a>
-
-        <a href="https://kadmehq.com"
-          target="_blank"
-          class="px-8 py-4 btn-secondary">
-          Visit KadMe
-        </a>
-
+        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-8 py-4 btn-primary">Hit Me Up</a>
+        <a href="https://kadmehq.com" target="_blank" class="px-8 py-4 btn-secondary">Visit KadMe</a>
       </div>
-
     </div>
-
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-purple-600 border-t border-white/5 py-8 text-center text-white/40 text-sm">
+  <footer style="background:#070b1a;border-top:1px solid rgba(255,255,255,.05);padding:2rem;text-align:center;color:rgba(255,255,255,.3);font-size:.85rem;">
     © 2026 Syhaziqdev. Made with caffeine & chaos.
   </footer>
-
 
   <script>
     AOS.init({ duration: 700, once: true });
 
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
     });
 
     feather.replace();
