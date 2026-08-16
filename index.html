@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZiqFolio — Syed Muhammad Haziq</title>
-  <meta name="description" content="Portfolio of Syed Muhammad Haziq">
-  <meta property="og:title" content="ZiqFolio">
-  <meta property="og:description" content="Portfolio of Syed Muhammad Haziq">
-  <meta property="og:image" content="source/assets/images/logo.png">
+  <title>Syed Muhammad Haziq — Landing Page & Web Developer Malaysia</title>
+  <meta name="description" content="Professional landing pages, sales pages and lightweight business websites for Malaysian businesses, startups and personal brands. Built by Syed Muhammad Haziq.">
+  <meta property="og:title" content="Syed Muhammad Haziq — Landing Page & Web Developer">
+  <meta property="og:description" content="Professional landing pages and business websites without agency-sized complexity.">
   <meta property="og:type" content="website">
   <link rel="icon" href="source/assets/images/logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -22,699 +20,644 @@
   <script src="https://unpkg.com/feather-icons"></script>
 
   <style>
-    :root {
-      --bg: #070b1a;
-      --navy: #081844;
-      --lime: #c7ff41;
-      --purple: #c4b5fd;
-      --white: #f8fafc;
-      --slate: #94a3b8;
+    :root{
+      --ink:#070b1a;
+      --navy:#081844;
+      --blue:#274bc4;
+      --lime:#c7ff41;
+      --purple:#c4b5fd;
+      --white:#f8fafc;
+      --muted:#94a3b8;
+      --line:rgba(255,255,255,.08);
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: white;
-      color: #0f172a;
-      overflow-x: hidden;
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#0f172a;overflow-x:hidden}
+    h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+    a{text-decoration:none}
+    .wrap{max-width:1180px;margin:auto;padding-left:24px;padding-right:24px}
+    .eyebrow{text-transform:uppercase;letter-spacing:.24em;font-size:.75rem;font-weight:800}
+    .display{font-size:clamp(3rem,7vw,6.5rem);line-height:.92;letter-spacing:-.045em;font-weight:700}
+    .section-title{font-size:clamp(2.5rem,5vw,4.7rem);line-height:.98;letter-spacing:-.035em;font-weight:700}
+    .glass{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(14px)}
+    .card{border:1px solid #e2e8f0;background:#fff}
+    .shadow-soft{box-shadow:0 18px 60px rgba(15,23,42,.08)}
+    .nav{position:fixed;left:0;right:0;top:0;z-index:50;transition:.25s}
+    .nav.scrolled{background:rgba(7,11,26,.93);border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}
+    .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:var(--lime);color:#101827;font-weight:800;padding:15px 22px;transition:.2s}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(199,255,65,.25)}
+    .btn-dark{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:#0f172a;color:#fff;font-weight:800;padding:15px 22px;transition:.2s}
+    .btn-dark:hover{transform:translateY(-2px)}
+    .btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;color:#fff;border:1px solid rgba(255,255,255,.22);padding:15px 22px;font-weight:700;transition:.2s}
+    .btn-outline:hover{background:rgba(255,255,255,.07)}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
+    .hero-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}
+    .hero-proof>div{background:#08102d;padding:20px}
+    .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .portfolio-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+    .project-card{position:relative;overflow:hidden;min-height:330px;background:#111827}
+    .project-card.small{min-height:220px}
+    .project-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:.4s}
+    .project-card:hover img{transform:scale(1.035)}
+    .project-card:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.12) 65%,transparent)}
+    .project-copy{position:absolute;left:24px;right:24px;bottom:23px;z-index:3}
+    .project-badge{position:absolute;top:17px;left:17px;z-index:4;background:rgba(7,11,26,.78);border:1px solid rgba(255,255,255,.13);color:#fff;padding:7px 10px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+    .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .price-card{position:relative;padding:34px;border:1px solid #dbe3ef;background:#fff}
+    .price-card.featured{border:2px solid #0f172a;transform:translateY(-8px)}
+    .popular{position:absolute;right:20px;top:18px;background:var(--lime);padding:6px 10px;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:900}
+    .check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;color:#475569;font-size:.92rem;line-height:1.6}
+    .check svg{width:17px;height:17px;flex:0 0 17px;margin-top:3px}
+    .experience-grid{display:grid;grid-template-columns:.65fr 1.35fr;gap:46px}
+    .timeline-item{position:relative;padding:0 0 42px 34px;border-left:1px solid rgba(255,255,255,.12)}
+    .timeline-item:before{content:"";position:absolute;left:-6px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 5px rgba(199,255,65,.08)}
+    .case-strip{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .faq{border-top:1px solid #dbe3ef}
+    details{border-bottom:1px solid #dbe3ef;padding:21px 0}
+    summary{font-weight:800;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px}
+    summary::-webkit-details-marker{display:none}
+    summary:after{content:"+";font-size:1.4rem}
+    details[open] summary:after{content:"–"}
+    .contact-box{display:grid;grid-template-columns:1fr .8fr;gap:24px}
+    .contact-input{width:100%;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055);color:#fff;padding:14px 15px;outline:none}
+    .contact-input:focus{border-color:rgba(199,255,65,.6)}
+    select.contact-input option{color:#111827}
+    .tiny{font-size:.78rem}
+    @media(max-width:900px){
+      .hero-grid,.portfolio-grid,.experience-grid,.contact-box{grid-template-columns:1fr}
+      .service-grid,.price-grid{grid-template-columns:1fr}
+      .price-card.featured{transform:none}
+      .hero-proof{grid-template-columns:1fr}
+      .case-strip{grid-template-columns:1fr}
     }
-
-    h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
-    img { display: block; }
-
-    .sw { max-width: 1280px; margin: auto; padding-left: 24px; padding-right: 24px; }
-
-    .slabel {
-      font-size: .78rem;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-      font-weight: 800;
-      margin-bottom: 18px;
-    }
-
-    .sh {
-      font-size: clamp(2.6rem, 5vw, 5rem);
-      line-height: .95;
-      font-weight: 800;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-    .animate-float { animation: float 4s ease-in-out infinite; }
-
-    /* NAVBAR */
-    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: .3s; }
-    .navbar.scrolled {
-      background: rgba(7,11,26,.92);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    /* BUTTONS */
-    .btn-primary { background: var(--lime); color: #111827; font-weight: 800; transition: .25s; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(199,255,65,.3); }
-    .btn-secondary { border: 1px solid rgba(255,255,255,.2); color: white; transition: .25s; font-weight: 700; }
-    .btn-secondary:hover { background: rgba(255,255,255,.08); }
-
-    /* PROJECTS */
-    .proj-bg { background: white; padding: 7rem 0; }
-
-    .proj-row-1 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 4rem;
-    }
-
-    .proj-row-2 {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .proj-row-2-right {
-      display: grid;
-      grid-template-rows: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .pcard {
-      position: relative;
-      overflow: hidden;
-      background: #111827;
-      min-height: 280px;
-      cursor: pointer;
-      text-decoration: none;
-      display: block;
-    }
-
-    .pcard.short { min-height: 200px; }
-
-    .pcard::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.88), transparent 45%);
-      z-index: 1;
-    }
-
-    .pcard.no-gradient::after { display: none; }
-
-    .pcard img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .45s ease;
-    }
-
-    .pcard:hover img { transform: scale(1.05); }
-
-    .pcard-overlay {
-      position: absolute;
-      left: 24px;
-      bottom: 24px;
-      z-index: 4;
-    }
-
-    .pcard-title { color: white; font-size: 1.5rem; font-weight: 800; font-family: 'Space Grotesk', sans-serif; }
-    .pcard-sub {
-      color: var(--lime);
-      margin-top: 6px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: .72rem;
-      font-weight: 700;
-    }
-
-    .play-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 5;
-      width: 52px;
-      height: 52px;
-      background: var(--lime);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: .2s;
-      color: #111827;
-    }
-
-    .pcard:hover .play-btn { transform: scale(1.1); }
-
-    .ext-badge {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      z-index: 5;
-      background: rgba(255,255,255,.12);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,.18);
-      padding: 4px 10px;
-      font-size: .7rem;
-      font-weight: 700;
-      color: white;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    /* GLASS */
-    .glass {
-      background: rgba(255,255,255,.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    /* TIMELINE */
-    .timeline-line {
-      position: absolute;
-      left: 18px;
-      top: 0;
-      width: 2px;
-      height: 100%;
-      background: rgba(255,255,255,.08);
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 38px;
-      height: 38px;
-      background: rgba(199,255,65,.12);
-      border: 1px solid rgba(199,255,65,.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--lime);
-      z-index: 5;
-    }
-
-    .timeline-card {
-      margin-left: 72px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.06);
-      backdrop-filter: blur(10px);
-      padding: 28px;
-      transition: .3s;
-    }
-
-    .timeline-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(199,255,65,.2);
-    }
-
-    /* TECH STACK CARDS */
-    .stack-card {
-      background: #0f172a;
-      border: 1px solid rgba(255,255,255,.08);
-      padding: 28px;
-      transition: .3s;
-    }
-
-    .stack-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(199,255,65,.25);
-    }
-
-    .stack-card.purple-hover:hover {
-      border-color: rgba(196,181,253,.35);
-    }
-
-    .stack-icon {
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .stack-icon.lime {
-      background: rgba(199,255,65,.1);
-      border: 1px solid rgba(199,255,65,.2);
-      color: var(--lime);
-    }
-
-    .stack-icon.purple {
-      background: rgba(196,181,253,.1);
-      border: 1px solid rgba(196,181,253,.2);
-      color: var(--purple);
-    }
-
-    /* INFINITE SCROLL ROWS */
-    .scroll-row-wrap {
-      overflow: hidden;
-      border-top: 1px solid rgba(255,255,255,.06);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      margin-top: 3.5rem;
-    }
-
-    .scroll-track {
-      width: max-content;
-      display: flex;
-      animation: scrollLeft 30s linear infinite;
-    }
-
-    .scroll-track.rev { animation: scrollRight 28s linear infinite; }
-    .scroll-track:hover { animation-play-state: paused; }
-
-    @keyframes scrollLeft {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    @keyframes scrollRight {
-      from { transform: translateX(-50%); }
-      to { transform: translateX(0); }
-    }
-
-    .scroll-pill {
-      padding: 16px 28px;
-      border-right: 1px solid rgba(255,255,255,.06);
-      font-weight: 700;
-      white-space: nowrap;
-      font-size: .9rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .scroll-pill .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .proj-row-1 { grid-template-columns: 1fr; }
-      .proj-row-2 { grid-template-columns: 1fr; }
-      .proj-row-2-right { grid-template-rows: auto; }
-      .pcard { min-height: 240px; }
-      .pcard.short { min-height: 200px; }
-      .timeline-card { margin-left: 60px; }
+    @media(max-width:720px){
+      .nav-links{display:none}
+      .display{font-size:clamp(3rem,15vw,5rem)}
     }
   </style>
 </head>
 
 <body>
+  <!--
+    IMPORTANT BEFORE PUBLISHING:
+    Replace CONTACT_EMAIL below (near bottom script) with your real professional email.
+    Example: hello@syhaziq.dev
+  -->
 
-  <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3">
-        <img src="source/assets/images/logo.png" class="w-10 h-10 object-contain">
-        <span style="color:var(--lime);font-weight:900;font-size:1.1rem;font-family:'Space Grotesk',sans-serif;">ZiqFolio</span>
+  <!-- NAV -->
+  <nav class="nav" id="navbar">
+    <div class="wrap py-4 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-3">
+        <img src="source/assets/images/logo.png" alt="Syed Muhammad Haziq" class="w-10 h-10 object-contain">
+        <span class="text-white font-extrabold">SYHAZIQ<span style="color:var(--lime)">DEV</span></span>
       </a>
 
-      <div class="hidden md:flex items-center gap-8">
-        <a href="#projects" class="text-white/60 hover:text-white transition text-sm font-semibold">Projects</a>
-        <a href="#services" class="text-white/60 hover:text-white transition text-sm font-semibold">Services</a>
-        <a href="#timeline" class="text-white/60 hover:text-white transition text-sm font-semibold">Experience</a>
-        <a href="#stack" class="text-white/60 hover:text-white transition text-sm font-semibold">Stack</a>
+      <div class="nav-links flex gap-7 text-sm font-semibold">
+        <a href="#services" class="text-white/60 hover:text-white">Services</a>
+        <a href="#work" class="text-white/60 hover:text-white">Work</a>
+        <a href="#experience" class="text-white/60 hover:text-white">Experience</a>
+        <a href="#kadme" class="text-white/60 hover:text-white">KadMeHQ</a>
       </div>
 
-      <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-5 py-2 btn-primary text-sm">
-        Let's Chat
-      </a>
+      <a href="#contact" class="btn-primary !py-2.5 !px-4 text-sm">Request a Quote</a>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="relative min-h-screen overflow-hidden flex items-center justify-center"
-    style="background: linear-gradient(to top, #070b1a, #081844, #274bc4);">
+  <header id="top" class="min-h-screen flex items-center pt-28 pb-16 overflow-hidden relative" style="background:linear-gradient(145deg,#070b1a 10%,#081844 58%,#274bc4 130%)">
+    <div class="absolute -top-28 -left-28 w-[520px] h-[520px] blur-3xl rounded-full" style="background:rgba(199,255,65,.08)"></div>
+    <div class="absolute bottom-0 right-0 w-[520px] h-[520px] blur-3xl rounded-full" style="background:rgba(196,181,253,.10)"></div>
 
-    <div class="absolute top-20 left-10 w-72 h-72 blur-3xl" style="background:rgba(199,255,65,.15);"></div>
-    <div class="absolute bottom-20 right-10 w-72 h-72 blur-3xl" style="background:rgba(196,181,253,.15);"></div>
-
-    <div class="relative z-10 text-center px-6 max-w-4xl">
-      <img src="source/assets/images/logo.png"
-        class="w-52 h-52 lg:w-80 lg:h-80 object-contain mx-auto animate-float"
-        data-aos="zoom-in">
-
-      <h1 class="text-white text-4xl lg:text-7xl font-bold mt-6" data-aos="fade-up">
-        Syed Muhammad Haziq
-      </h1>
-
-      <p class="mt-5 text-lg lg:text-2xl text-white/70" data-aos="fade-up" data-aos-delay="100">
-        Game Developer by Day,
-        <span style="color:var(--lime);font-weight:800;font-style:italic;">Web Developer</span> by Heart
-      </p>
-
-      <div class="flex flex-wrap justify-center gap-4 mt-10" data-aos="fade-up" data-aos-delay="200">
-        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-8 py-4 btn-primary">Let's Chat</a>
-        <a href="#projects" class="px-8 py-4 btn-secondary">See My Work</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section style="background:#070b1a;border-top:1px solid rgba(255,255,255,.05);">
-    <div class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-      <div>
-        <h3 class="text-4xl font-bold" style="color:var(--lime);">3+</h3>
-        <p class="mt-2 text-white/50">Years Building</p>
-      </div>
-      <div>
-        <h3 class="text-4xl font-bold" style="color:var(--purple);">5</h3>
-        <p class="mt-2 text-white/50">Games & Apps Shipped</p>
-      </div>
-      <div>
-        <h3 class="text-4xl font-bold" style="color:var(--lime);">100%</h3>
-        <p class="mt-2 text-white/50">Made in Malaysia</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects" class="proj-bg">
-    <div class="sw">
+    <div class="wrap hero-grid relative z-10">
       <div data-aos="fade-up">
-        <div class="slabel" style="color:var(--purple);">What I've shipped</div>
-        <h2 class="sh text-[#0f172a]">Projects &<br>work samples.</h2>
+        <div class="eyebrow mb-5" style="color:var(--lime)">Malaysia · Freelance Web Developer</div>
+        <h1 class="display text-white">
+          Websites that make your business look <span style="color:var(--lime)">serious.</span>
+        </h1>
+        <p class="mt-7 text-lg md:text-xl leading-8 text-white/60 max-w-2xl">
+          I build focused landing pages, sales pages and lightweight business websites for Malaysian businesses, organisations and personal brands.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mt-9">
+          <a href="#contact" class="btn-primary">
+            Request a Quote <i data-feather="arrow-up-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#work" class="btn-outline">See My Work</a>
+        </div>
+
+        <p class="mt-5 text-sm text-white/40">
+          Need something simpler? <a href="https://kadmehq.com" target="_blank" rel="noopener" class="font-bold" style="color:var(--lime)">Start free with KadMeHQ →</a>
+        </p>
       </div>
 
-      <!-- ROW 1 -->
-      <div class="proj-row-1" data-aos="fade-up" data-aos-delay="100">
-
-        <a class="pcard" href="https://www.youtube.com/watch?v=r37gB06A4Yc" target="_blank" rel="noopener">
-          <img src="https://img.youtube.com/vi/r37gB06A4Yc/maxresdefault.jpg" alt="Sirah Explorer">
-          <div class="ext-badge">▶ YouTube</div>
-          <div class="play-btn"><i data-feather="play"></i></div>
-          <div class="pcard-overlay">
-            <div class="pcard-title">Sirah Explorer</div>
-            <div class="pcard-sub">Educational Game · Unity</div>
-          </div>
-        </a>
-
-        <a class="pcard" href="https://www.youtube.com/watch?v=pA19bV2anYQ" target="_blank" rel="noopener">
-          <img src="https://img.youtube.com/vi/pA19bV2anYQ/maxresdefault.jpg" alt="Tarannum">
-          <div class="ext-badge">▶ YouTube</div>
-          <div class="play-btn"><i data-feather="play"></i></div>
-          <div class="pcard-overlay">
-            <div class="pcard-title">Tarannum</div>
-            <div class="pcard-sub">Mobile App · Unity</div>
-          </div>
-        </a>
-
-      </div>
-
-      <!-- ROW 2 -->
-      <div class="proj-row-2" data-aos="fade-up" data-aos-delay="150">
-
-        <a class="pcard" href="https://www.youtube.com/watch?v=_vaJAihEo_A" target="_blank" rel="noopener">
-          <img src="https://img.youtube.com/vi/_vaJAihEo_A/maxresdefault.jpg" alt="Smart Science">
-          <div class="ext-badge">▶ YouTube</div>
-          <div class="play-btn"><i data-feather="play"></i></div>
-          <div class="pcard-overlay">
-            <div class="pcard-title">Smart Science</div>
-            <div class="pcard-sub">Educational Game · Unity</div>
-          </div>
-        </a>
-
-        <div class="proj-row-2-right">
-
-          <a class="pcard short" href="https://www.youtube.com/watch?v=aqcSGj73w1k" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/aqcSGj73w1k/maxresdefault.jpg" alt="Asas Qurani">
-            <div class="ext-badge">▶ YouTube</div>
-            <div class="play-btn" style="width:42px;height:42px;"><i data-feather="play" style="width:15px;height:15px;"></i></div>
-            <div class="pcard-overlay">
-              <div class="pcard-title" style="font-size:1.2rem;">Asas Qurani</div>
-              <div class="pcard-sub">Mobile Game · Unity</div>
+      <div data-aos="fade-left" data-aos-delay="120">
+        <div class="glass p-5">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <div class="tiny uppercase tracking-[.2em] text-white/35 font-bold">What I focus on</div>
+              <div class="text-white text-2xl font-bold mt-1">Simple. Clear. Useful.</div>
             </div>
-          </a>
-
-          <a class="pcard short no-gradient flex items-center justify-center flex-col gap-3"
-            href="https://kadmehq.com" target="_blank" rel="noopener"
-            style="background:#1B19B9;text-decoration:none;">
-            <div style="position:absolute;top:14px;right:14px;z-index:5;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:3px 10px;font-size:.68rem;font-weight:700;color:white;letter-spacing:.1em;text-transform:uppercase;">
-              🌐 Live
+            <div class="w-12 h-12 flex items-center justify-center" style="background:var(--lime);color:#111827">
+              <i data-feather="layout"></i>
             </div>
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:900;color:var(--lime);position:relative;z-index:2;">KadMe</div>
-            <div style="text-transform:uppercase;letter-spacing:.2em;font-size:.72rem;color:rgba(255,255,255,.5);font-weight:700;position:relative;z-index:2;">SaaS · Laravel</div>
-            <div style="position:absolute;bottom:18px;left:20px;z-index:4;">
-              <div class="pcard-title" style="font-size:1rem;">KadMe HQ</div>
-              <div class="pcard-sub">Founder · kadmehq.com</div>
-            </div>
-          </a>
+          </div>
 
+          <div class="hero-proof">
+            <div>
+              <div class="text-2xl font-extrabold" style="color:var(--lime)">01</div>
+              <div class="text-white font-bold mt-1">Landing Pages</div>
+              <div class="text-white/40 text-sm mt-1">Clear offer, clear CTA.</div>
+            </div>
+            <div>
+              <div class="text-2xl font-extrabold" style="color:var(--purple)">02</div>
+              <div class="text-white font-bold mt-1">Sales Pages</div>
+              <div class="text-white/40 text-sm mt-1">Made to convert.</div>
+            </div>
+            <div>
+              <div class="text-2xl font-extrabold" style="color:var(--lime)">03</div>
+              <div class="text-white font-bold mt-1">Business Sites</div>
+              <div class="text-white/40 text-sm mt-1">Lightweight, professional.</div>
+            </div>
+          </div>
+
+          <div class="mt-5 p-5 border border-white/10 bg-black/10">
+            <div class="text-white/45 text-sm leading-6">
+              Focused freelance work: polished front-facing websites, not large backend-heavy systems.
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </header>
 
+  <!-- TRUST -->
+  <section class="border-b border-slate-200 bg-white">
+    <div class="wrap py-7 flex flex-wrap gap-x-10 gap-y-4 justify-between text-sm font-bold text-slate-500">
+      <span>Malaysia-based developer</span>
+      <span>Web + UI/UX focused</span>
+      <span>Real production experience</span>
+      <span>Direct communication</span>
+      <span>Reasonable project scope</span>
     </div>
   </section>
 
   <!-- SERVICES -->
-  <section id="services" class="py-28" style="background:#070b1a;">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="mb-16 text-center" data-aos="fade-up">
-        <span style="text-transform:uppercase;letter-spacing:.3em;font-size:.75rem;color:var(--lime);font-weight:800;">What I Offer</span>
-        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">Services</h2>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="glass p-10" data-aos="fade-up">
-          <div class="stack-icon lime"><i data-feather="layout"></i></div>
-          <h3 class="text-white text-3xl font-bold mt-6">Landing Pages</h3>
-          <p class="mt-4 leading-8" style="color:rgba(255,255,255,.55);">
-            Modern landing pages using Tailwind CSS, smooth animations and clean responsive UI.
-          </p>
-        </div>
-
-        <div class="glass p-10" data-aos="fade-up" data-aos-delay="100">
-          <div class="stack-icon purple"><i data-feather="code"></i></div>
-          <h3 class="text-white text-3xl font-bold mt-6">Freelance Development</h3>
-          <p class="mt-4 leading-8" style="color:rgba(255,255,255,.55);">
-            Startup landing pages, portfolio websites, web systems and full stack development.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TIMELINE -->
-  <section id="timeline" class="py-28 overflow-hidden" style="background:#081844;">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="mb-20 text-center" data-aos="fade-up">
-        <span style="text-transform:uppercase;letter-spacing:.3em;font-size:.75rem;color:var(--lime);font-weight:800;">Journey</span>
-        <h2 class="text-5xl lg:text-6xl text-white font-bold mt-4">Work Experience</h2>
-      </div>
-
-      <div class="relative">
-        <div class="timeline-line"></div>
-
-        <div class="relative mb-14" data-aos="fade-up">
-          <div class="timeline-dot"><i data-feather="briefcase"></i></div>
-          <div class="timeline-card">
-            <span style="color:var(--lime);font-size:.85rem;font-weight:700;">Jan 2026 — Present</span>
-            <h3 class="text-white text-2xl font-bold mt-4">Founder</h3>
-            <p style="color:var(--purple);margin-top:.5rem;">KadMe HQ</p>
-            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
-              Built KadMe — digital business card platform, website builder and job board for Malaysians.
-            </p>
-            <a href="https://kadmehq.com" target="_blank"
-              style="display:inline-flex;align-items:center;gap:6px;margin-top:1.2rem;color:var(--lime);font-size:.85rem;font-weight:700;text-decoration:none;"
-              onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-              <i data-feather="external-link" style="width:13px;height:13px;"></i> kadmehq.com
-            </a>
-          </div>
-        </div>
-
-        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="80">
-          <div class="timeline-dot"><i data-feather="cpu"></i></div>
-          <div class="timeline-card">
-            <span style="color:var(--purple);font-size:.85rem;font-weight:700;">Jan 2025 — Present</span>
-            <h3 class="text-white text-2xl font-bold mt-4">Game Developer</h3>
-            <p style="color:var(--purple);margin-top:.5rem;">Oxford EduVision</p>
-            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
-              Developing educational mobile games using Unity and shipping apps to the Play Store.
-            </p>
-          </div>
-        </div>
-
-        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="140">
-          <div class="timeline-dot"><i data-feather="globe"></i></div>
-          <div class="timeline-card">
-            <span style="color:rgba(255,255,255,.4);font-size:.85rem;font-weight:700;">Oct 2024 — Jan 2025</span>
-            <h3 class="text-white text-2xl font-bold mt-4">Founder</h3>
-            <p style="color:var(--purple);margin-top:.5rem;">Lapacee</p>
-            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
-              Local social networking platform connecting Malaysians to collaborate and build vibrant local communities.
-            </p>
-          </div>
-        </div>
-
-        <div class="relative mb-14" data-aos="fade-up" data-aos-delay="200">
-          <div class="timeline-dot"><i data-feather="monitor"></i></div>
-          <div class="timeline-card">
-            <span style="color:rgba(255,255,255,.4);font-size:.85rem;font-weight:700;">Oct 2023 — Mar 2024</span>
-            <h3 class="text-white text-2xl font-bold mt-4">Internship Trainee</h3>
-            <p style="color:var(--purple);margin-top:.5rem;">Mysoftcare Solution</p>
-            <p class="mt-5 leading-8" style="color:rgba(255,255,255,.55);">
-              Full stack web development internship. Hands-on experience with Bootstrap, Node.js and multiple frameworks.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- TECH STACK -->
-  <section id="stack" class="py-28 overflow-hidden" style="background:var(--lime);">
-    <div class="max-w-7xl mx-auto px-6">
-
-      <div class="text-center mb-14" data-aos="fade-up">
-        <span style="text-transform:uppercase;letter-spacing:.3em;font-size:.75rem;color:#5a2d82;font-weight:800;">Tools of the Trade</span>
-        <h2 style="font-size:clamp(2.8rem,6vw,5rem);font-weight:900;color:#081844;margin-top:.75rem;line-height:.95;">Tech Stack</h2>
-        <p style="color:#1e293b;margin-top:1.2rem;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;font-weight:500;">
-          Technologies and tools I use to build products, games and digital experiences.
+  <section id="services" class="py-28 bg-slate-50">
+    <div class="wrap">
+      <div class="max-w-3xl" data-aos="fade-up">
+        <div class="eyebrow text-indigo-700">What I actually offer</div>
+        <h2 class="section-title mt-4">Focused web work.<br>No unnecessary complexity.</h2>
+        <p class="mt-6 text-slate-500 leading-8 text-lg">
+          I’m not trying to be your ERP vendor. My freelance work is intentionally focused on websites that help people understand your business, trust it and take action.
         </p>
       </div>
 
-      <!-- CARDS GRID -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" data-aos="fade-up" data-aos-delay="100">
+      <div class="service-grid mt-14">
+        <article class="card p-8 shadow-soft" data-aos="fade-up">
+          <div class="w-12 h-12 flex items-center justify-center bg-slate-900 text-white"><i data-feather="monitor"></i></div>
+          <h3 class="text-2xl font-bold mt-6">Landing Page</h3>
+          <p class="text-slate-500 leading-7 mt-3">A focused one-page website for a business, campaign, service, event or personal brand.</p>
+          <div class="mt-6 text-sm font-bold text-slate-900">Ideal for:</div>
+          <p class="text-sm text-slate-500 mt-2 leading-6">New businesses · services · portfolios · campaigns · launches</p>
+        </article>
 
-        <!-- Laravel -->
-        <div class="stack-card">
-          <div class="stack-icon lime"><i data-feather="layers"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">Laravel</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            Backend framework for scalable SaaS platforms and web applications.
-          </p>
-        </div>
+        <article class="card p-8 shadow-soft" data-aos="fade-up" data-aos-delay="70">
+          <div class="w-12 h-12 flex items-center justify-center" style="background:var(--lime);color:#111827"><i data-feather="trending-up"></i></div>
+          <h3 class="text-2xl font-bold mt-6">Sales Page</h3>
+          <p class="text-slate-500 leading-7 mt-3">A conversion-focused page that explains your offer clearly and pushes visitors toward one action.</p>
+          <div class="mt-6 text-sm font-bold text-slate-900">Ideal for:</div>
+          <p class="text-sm text-slate-500 mt-2 leading-6">Courses · products · promotions · lead generation · WhatsApp campaigns</p>
+        </article>
 
-        <!-- Filament -->
-        <div class="stack-card purple-hover">
-          <div class="stack-icon purple"><i data-feather="grid"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">FilamentPHP</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            Admin dashboards and internal systems with clean developer workflow.
-          </p>
-        </div>
-
-        <!-- MySQL -->
-        <div class="stack-card">
-          <div class="stack-icon lime"><i data-feather="database"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">MySQL</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            Relational database management for scalable applications and systems.
-          </p>
-        </div>
-
-        <!-- Tailwind -->
-        <div class="stack-card purple-hover">
-          <div class="stack-icon purple"><i data-feather="layout"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">Tailwind CSS</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            Utility-first CSS framework for responsive and modern UI design.
-          </p>
-        </div>
-
-        <!-- TALL Stack -->
-        <div class="stack-card">
-          <div class="stack-icon lime"><i data-feather="cpu"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">TALL Stack</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            Tailwind, Alpine.js, Laravel and Livewire — full dev workflow.
-          </p>
-        </div>
-
-        <!-- Unity -->
-        <div class="stack-card purple-hover">
-          <div class="stack-icon purple"><i data-feather="box"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">Unity</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            Educational games and interactive mobile app experiences.
-          </p>
-        </div>
-
-        <!-- Python + YOLO -->
-        <div class="stack-card">
-          <div class="stack-icon lime"><i data-feather="activity"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--lime);">Python & YOLOv</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            AI/ML experiments, object detection and automation workflows.
-          </p>
-        </div>
-
-        <!-- Creative Tools -->
-        <div class="stack-card purple-hover">
-          <div class="stack-icon purple"><i data-feather="film"></i></div>
-          <h3 class="font-bold mt-5 text-xl" style="color:var(--purple);">CapCut & Canva</h3>
-          <p class="text-sm mt-3 leading-7" style="color:rgba(255,255,255,.55);">
-            Video editing, motion visuals, posters and social media content.
-          </p>
-        </div>
-
-      </div>
-
-      <!-- INFINITE SCROLL MARQUEE — extra pills -->
-      <div class="scroll-row-wrap" data-aos="fade-up" data-aos-delay="200" style="margin-top:3.5rem;">
-        <div class="scroll-track">
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>PHP</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>C#</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Node.js</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Alpine.js</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Livewire</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Bootstrap</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>GitHub</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>REST API</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>VS Code</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>MongoDB</div>
-          <!-- dupe -->
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>PHP</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>C#</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Node.js</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Alpine.js</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>Livewire</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>Bootstrap</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>GitHub</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>REST API</div>
-          <div class="scroll-pill" style="color:var(--lime);"><span class="dot" style="background:var(--lime);"></span>VS Code</div>
-          <div class="scroll-pill" style="color:#081844;font-weight:800;"><span class="dot" style="background:#081844;"></span>MongoDB</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-32 text-center relative overflow-hidden" style="background:#081844;">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] blur-3xl" style="background:rgba(196,181,253,.08);"></div>
-    <div class="relative z-10 px-6">
-      <h2 class="text-5xl lg:text-7xl font-bold leading-tight" style="color:var(--lime);">
-        Let's Build <br>Something Cool
-      </h2>
-      <p class="mt-6 text-lg" style="color:rgba(255,255,255,.4);">Open for freelance, collaborations and opportunities.</p>
-      <div class="flex flex-wrap justify-center gap-4 mt-10">
-        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="px-8 py-4 btn-primary">Hit Me Up</a>
-        <a href="https://kadmehq.com" target="_blank" class="px-8 py-4 btn-secondary">Visit KadMe</a>
+        <article class="card p-8 shadow-soft" data-aos="fade-up" data-aos-delay="140">
+          <div class="w-12 h-12 flex items-center justify-center bg-indigo-700 text-white"><i data-feather="briefcase"></i></div>
+          <h3 class="text-2xl font-bold mt-6">Business Website</h3>
+          <p class="text-slate-500 leading-7 mt-3">A lightweight multi-section or small multi-page website for businesses that need a stronger online presence.</p>
+          <div class="mt-6 text-sm font-bold text-slate-900">Ideal for:</div>
+          <p class="text-sm text-slate-500 mt-2 leading-6">SMEs · organisations · consultants · local brands · professional services</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer style="background:#070b1a;border-top:1px solid rgba(255,255,255,.05);padding:2rem;text-align:center;color:rgba(255,255,255,.3);font-size:.85rem;">
-    © 2026 Syhaziqdev. Made with caffeine & chaos.
+  <!-- PRICING -->
+  <section class="py-28 bg-white">
+    <div class="wrap">
+      <div class="text-center max-w-2xl mx-auto" data-aos="fade-up">
+        <div class="eyebrow text-indigo-700">Simple starting prices</div>
+        <h2 class="section-title mt-4">Start with what you need.</h2>
+        <p class="mt-5 text-slate-500 leading-7">Final pricing depends on content, design complexity and scope. These packages keep expectations clear from the beginning.</p>
+      </div>
+
+      <div class="price-grid mt-14">
+        <div class="price-card" data-aos="fade-up">
+          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-400">Starter</div>
+          <div class="mt-4 text-4xl font-extrabold">RM399<span class="text-base text-slate-400">+</span></div>
+          <p class="mt-3 text-slate-500 leading-7">A clean one-page website for getting your business online professionally.</p>
+          <div class="mt-7">
+            <div class="check"><i data-feather="check"></i><span>One-page responsive website</span></div>
+            <div class="check"><i data-feather="check"></i><span>Up to 5 main sections</span></div>
+            <div class="check"><i data-feather="check"></i><span>WhatsApp / email call-to-action</span></div>
+            <div class="check"><i data-feather="check"></i><span>Mobile optimisation</span></div>
+            <div class="check"><i data-feather="check"></i><span>Basic SEO setup</span></div>
+            <div class="check"><i data-feather="check"></i><span>1 revision round</span></div>
+          </div>
+          <a href="#contact" class="btn-dark w-full mt-8">Request Starter Quote</a>
+        </div>
+
+        <div class="price-card featured shadow-soft" data-aos="fade-up" data-aos-delay="80">
+          <div class="popular">Best fit</div>
+          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-400">Sales / Business</div>
+          <div class="mt-4 text-4xl font-extrabold">RM799<span class="text-base text-slate-400">+</span></div>
+          <p class="mt-3 text-slate-500 leading-7">For businesses that need stronger structure, more content and a more persuasive page.</p>
+          <div class="mt-7">
+            <div class="check"><i data-feather="check"></i><span>Custom page structure</span></div>
+            <div class="check"><i data-feather="check"></i><span>Conversion-focused sections</span></div>
+            <div class="check"><i data-feather="check"></i><span>Testimonials / FAQ / offer sections</span></div>
+            <div class="check"><i data-feather="check"></i><span>Contact or enquiry form</span></div>
+            <div class="check"><i data-feather="check"></i><span>Analytics setup</span></div>
+            <div class="check"><i data-feather="check"></i><span>2 revision rounds</span></div>
+          </div>
+          <a href="#contact" class="btn-primary w-full mt-8">Request Business Quote</a>
+        </div>
+
+        <div class="price-card" data-aos="fade-up" data-aos-delay="160">
+          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-400">Custom Front-End</div>
+          <div class="mt-4 text-4xl font-extrabold">Quote</div>
+          <p class="mt-3 text-slate-500 leading-7">For unique marketing websites that need more pages, richer visual work or custom front-end interactions.</p>
+          <div class="mt-7">
+            <div class="check"><i data-feather="check"></i><span>Custom visual direction</span></div>
+            <div class="check"><i data-feather="check"></i><span>Multiple marketing pages</span></div>
+            <div class="check"><i data-feather="check"></i><span>Interactive UI where useful</span></div>
+            <div class="check"><i data-feather="check"></i><span>Responsive implementation</span></div>
+            <div class="check"><i data-feather="check"></i><span>Scope agreed before work begins</span></div>
+          </div>
+          <a href="#contact" class="btn-dark w-full mt-8">Discuss Your Project</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="py-28" style="background:#070b1a">
+    <div class="wrap">
+      <div class="max-w-3xl" data-aos="fade-up">
+        <div class="eyebrow" style="color:var(--lime)">Selected Projects & Work</div>
+        <h2 class="section-title text-white mt-4">Real things I’ve built, shipped and contributed to.</h2>
+        <p class="mt-5 text-white/45 leading-8">
+          My freelance focus is websites, but my wider development experience includes public web platforms,
+          SaaS products, internal systems and educational games.
+        </p>
+      </div>
+
+      <!-- WEB / PRODUCT WORK -->
+      <div class="mt-14">
+        <div class="flex items-end justify-between gap-5 mb-6" data-aos="fade-up">
+          <div>
+            <div class="text-xs uppercase tracking-[.2em] font-extrabold" style="color:var(--purple)">Web & Product Work</div>
+            <h3 class="text-white text-2xl font-bold mt-2">Front-facing platforms and product work</h3>
+          </div>
+          <div class="hidden md:block text-white/30 text-sm">The work most relevant to freelance web clients</div>
+        </div>
+
+        <div class="portfolio-grid">
+          <div class="flex flex-col gap-[18px]">
+            <a href="https://tafaqquh.my/" target="_blank" rel="noopener" class="project-card" data-aos="fade-up">
+              <div class="absolute inset-0" style="background:linear-gradient(135deg,#0f766e,#164e63 55%,#0f172a)"></div>
+              <div class="project-badge">Web Platform</div>
+              <div class="project-copy">
+                <div class="text-white text-3xl font-bold">Tafaqquh.my</div>
+                <p class="text-white/55 mt-2 max-w-xl leading-6">
+                  Contributed to the development and UX improvement of a digital Islamic learning platform.
+                </p>
+                <div class="mt-3 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--lime)">Web Development · UX Contribution</div>
+              </div>
+            </a>
+
+            <a href="https://eduv.my/pelaporan/" target="_blank" rel="noopener" class="project-card small" data-aos="fade-up">
+              <div class="absolute inset-0" style="background:linear-gradient(135deg,#312e81,#1d4ed8 60%,#172554)"></div>
+              <div class="project-badge">Web</div>
+              <div class="project-copy">
+                <div class="text-white text-2xl font-bold">EduVision Pelaporan</div>
+                <p class="text-white/50 mt-2 leading-6">
+                  A web-based reporting experience developed as part of my work at Oxford EduVision.
+                </p>
+                <div class="mt-3 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--purple)">Web Development</div>
+              </div>
+            </a>
+          </div>
+
+          <div class="flex flex-col gap-[18px]">
+            <a href="https://kadmehq.com" target="_blank" rel="noopener" class="project-card small" data-aos="fade-up">
+              <div class="absolute inset-0" style="background:linear-gradient(135deg,#1B19B9,#5b21b6 65%,#1e1b4b)"></div>
+              <div class="project-badge">Founder · SaaS</div>
+              <div class="project-copy">
+                <div class="text-white text-2xl font-bold">KadMeHQ</div>
+                <p class="text-white/50 mt-2 leading-6">
+                  A Malaysian digital profile and lightweight website platform I founded and develop.
+                </p>
+                <div class="mt-3 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--lime)">Product · Laravel · UI/UX</div>
+              </div>
+            </a>
+
+            <div class="project-card" data-aos="fade-up">
+              <div class="absolute inset-0" style="background:linear-gradient(135deg,#111827,#0f172a 50%,#172554)"></div>
+              <div class="project-badge">Internal Product Experience</div>
+              <div class="project-copy">
+                <div class="text-white text-3xl font-bold">SPEED Internal System</div>
+                <p class="text-white/50 mt-3 leading-7">
+                  Internal operations platform developed at Oxford EduVision, covering administrative workflows and operational processes.
+                </p>
+                <div class="mt-4 text-xs uppercase tracking-[.14em] font-bold text-white/35">
+                  Internal system experience
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME / INTERACTIVE WORK -->
+      <div class="mt-20">
+        <div class="flex items-end justify-between gap-5 mb-6" data-aos="fade-up">
+          <div>
+            <div class="text-xs uppercase tracking-[.2em] font-extrabold" style="color:var(--lime)">Games & Interactive Work</div>
+            <h3 class="text-white text-2xl font-bold mt-2">Educational experiences built with Unity</h3>
+          </div>
+          <div class="hidden md:block text-white/30 text-sm">Supporting proof of broader development experience</div>
+        </div>
+
+        <!-- FLAGSHIP -->
+        <a href="https://www.youtube.com/watch?v=Y7_bN_8fVEE" target="_blank" rel="noopener"
+           class="project-card block" style="min-height:430px" data-aos="fade-up">
+          <img src="https://img.youtube.com/vi/Y7_bN_8fVEE/maxresdefault.jpg" alt="Misi Sejarah 3D">
+          <div class="project-badge">Featured · Unity · Educational Game</div>
+          <div class="project-copy">
+            <div class="text-white text-4xl font-bold">Misi Sejarah 3D</div>
+            <p class="text-white/60 mt-3 max-w-2xl leading-7">
+              An interactive 3D educational game designed to make Malaysian history more engaging through exploration,
+              missions and gamified learning.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="px-3 py-1.5 text-xs font-bold uppercase tracking-[.12em]" style="background:var(--lime);color:#111827">Unity</span>
+              <span class="px-3 py-1.5 text-xs font-bold uppercase tracking-[.12em] border border-white/15 text-white/70">3D Game</span>
+              <span class="px-3 py-1.5 text-xs font-bold uppercase tracking-[.12em] border border-white/15 text-white/70">Interactive Learning</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- SUPPORTING GAME GRID -->
+        <div class="grid md:grid-cols-2 gap-[18px] mt-[18px]">
+          <a href="https://www.youtube.com/watch?v=r37gB06A4Yc" target="_blank" rel="noopener"
+             class="project-card small" data-aos="fade-up">
+            <img src="https://img.youtube.com/vi/r37gB06A4Yc/maxresdefault.jpg" alt="Sirah Explorer">
+            <div class="project-badge">Unity</div>
+            <div class="project-copy">
+              <div class="text-white text-2xl font-bold">Sirah Explorer</div>
+              <div class="mt-2 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--lime)">Educational Game</div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=pA19bV2anYQ" target="_blank" rel="noopener"
+             class="project-card small" data-aos="fade-up" data-aos-delay="60">
+            <img src="https://img.youtube.com/vi/pA19bV2anYQ/maxresdefault.jpg" alt="Tarannum">
+            <div class="project-badge">Unity</div>
+            <div class="project-copy">
+              <div class="text-white text-2xl font-bold">Tarannum</div>
+              <div class="mt-2 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--purple)">Mobile App</div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=_vaJAihEo_A" target="_blank" rel="noopener"
+             class="project-card small" data-aos="fade-up">
+            <img src="https://img.youtube.com/vi/_vaJAihEo_A/maxresdefault.jpg" alt="Smart Science">
+            <div class="project-badge">Unity</div>
+            <div class="project-copy">
+              <div class="text-white text-2xl font-bold">Smart Science</div>
+              <div class="mt-2 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--lime)">Educational Game</div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=aqcSGj73w1k" target="_blank" rel="noopener"
+             class="project-card small" data-aos="fade-up" data-aos-delay="60">
+            <img src="https://img.youtube.com/vi/aqcSGj73w1k/maxresdefault.jpg" alt="Asas Qurani">
+            <div class="project-badge">Unity</div>
+            <div class="project-copy">
+              <div class="text-white text-2xl font-bold">Asas Qurani</div>
+              <div class="mt-2 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--purple)">Mobile Game</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KADME -->
+  <section id="kadme" class="py-28 overflow-hidden relative" style="background:var(--lime)">
+    <div class="wrap grid md:grid-cols-2 gap-14 items-center relative z-10">
+      <div data-aos="fade-up">
+        <div class="eyebrow text-indigo-800">Not ready for a custom website?</div>
+        <h2 class="section-title mt-4 text-slate-900">Start free with KadMeHQ.</h2>
+        <p class="mt-6 text-slate-700 leading-8 text-lg">
+          KadMeHQ is the DIY option I built for people who need a simple online presence without hiring a developer yet.
+        </p>
+        <div class="mt-7 space-y-4">
+          <div class="flex gap-3"><b>01</b><span>Build a simple page for free.</span></div>
+          <div class="flex gap-3"><b>02</b><span>Upgrade to additional customisation from RM25.</span></div>
+          <div class="flex gap-3"><b>03</b><span>When you outgrow it, come back for a professionally built website.</span></div>
+        </div>
+        <a href="https://kadmehq.com" target="_blank" rel="noopener" class="btn-dark mt-8">Try KadMeHQ Free <i data-feather="arrow-up-right" class="w-4 h-4"></i></a>
+      </div>
+
+      <div class="bg-slate-950 p-8 shadow-soft" data-aos="fade-left">
+        <div class="text-xs uppercase tracking-[.2em] font-bold text-white/30">Two ways to work with me</div>
+        <div class="mt-7 border-t border-white/10 pt-6">
+          <div class="text-white/45 text-sm">DIY / Lowest cost</div>
+          <div class="flex justify-between items-end gap-5 mt-1">
+            <div class="text-white text-2xl font-bold">KadMeHQ</div>
+            <div class="text-3xl font-extrabold" style="color:var(--lime)">Free</div>
+          </div>
+        </div>
+        <div class="mt-6 border-t border-white/10 pt-6">
+          <div class="text-white/45 text-sm">Done professionally for you</div>
+          <div class="flex justify-between items-end gap-5 mt-1">
+            <div class="text-white text-2xl font-bold">Freelance Website</div>
+            <div class="text-3xl font-extrabold" style="color:var(--purple)">RM399+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="py-28" style="background:#081844">
+    <div class="wrap experience-grid">
+      <div data-aos="fade-up">
+        <div class="eyebrow" style="color:var(--lime)">Experience</div>
+        <h2 class="section-title text-white mt-4">Web, products & interactive learning.</h2>
+        <p class="text-white/45 leading-7 mt-5">My day job and product work give me broader technical experience, while my freelance offer stays intentionally focused.</p>
+      </div>
+
+      <div>
+        <div class="timeline-item" data-aos="fade-up">
+          <div class="text-sm font-bold" style="color:var(--lime)">JAN 2025 — PRESENT</div>
+          <h3 class="text-white text-2xl font-bold mt-2">Web & Game Developer</h3>
+          <div class="text-white/55 mt-1">Oxford EduVision</div>
+          <p class="text-white/45 leading-7 mt-4">
+            Building and contributing to web platforms, internal systems and educational applications including Tafaqquh.my, EduVision Pelaporan, SPEED and Unity-based educational games.
+          </p>
+        </div>
+
+        <div class="timeline-item" data-aos="fade-up">
+          <div class="text-sm font-bold" style="color:var(--purple)">2026 — PRESENT</div>
+          <h3 class="text-white text-2xl font-bold mt-2">Founder & Developer</h3>
+          <div class="text-white/55 mt-1">KadMeHQ</div>
+          <p class="text-white/45 leading-7 mt-4">
+            Building a Malaysian digital-profile and simple website platform, including product design, publishing flow, subscriptions and the overall user experience.
+          </p>
+        </div>
+
+        <div class="timeline-item !pb-0" data-aos="fade-up">
+          <div class="text-sm font-bold text-white/35">OCT 2023 — MAR 2024</div>
+          <h3 class="text-white text-2xl font-bold mt-2">Web Developer Intern</h3>
+          <div class="text-white/55 mt-1">Mysoftcare Solution</div>
+          <p class="text-white/45 leading-7 mt-4">
+            Hands-on experience in full-stack web development, interfaces and practical production workflows.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 bg-slate-50">
+    <div class="wrap grid md:grid-cols-[.7fr_1.3fr] gap-14">
+      <div>
+        <div class="eyebrow text-indigo-700">FAQ</div>
+        <h2 class="section-title mt-4">Good to know.</h2>
+      </div>
+
+      <div class="faq">
+        <details open>
+          <summary>What type of projects do you accept?</summary>
+          <p class="mt-4 text-slate-500 leading-7">Landing pages, sales pages, portfolios and lightweight business websites. I currently avoid large backend-heavy systems and complex multi-role platforms.</p>
+        </details>
+        <details>
+          <summary>What if I only need something very simple?</summary>
+          <p class="mt-4 text-slate-500 leading-7">Try KadMeHQ first. You can start free, and it may already be enough for a simple digital presence.</p>
+        </details>
+        <details>
+          <summary>How do I contact you?</summary>
+          <p class="mt-4 text-slate-500 leading-7">Email is the main channel for freelance enquiries so project scope, references and decisions stay organised.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-28 relative overflow-hidden" style="background:#070b1a">
+    <div class="absolute top-0 left-1/3 w-[500px] h-[500px] blur-3xl rounded-full" style="background:rgba(199,255,65,.06)"></div>
+    <div class="wrap contact-box relative z-10">
+      <div>
+        <div class="eyebrow" style="color:var(--lime)">Project enquiry</div>
+        <h2 class="section-title text-white mt-4">Need a website?<br>Tell me what you’re building.</h2>
+        <p class="text-white/45 leading-8 mt-5 max-w-xl">
+          Email is my primary contact for freelance work. Give me the basics and I’ll have enough context to understand the project properly.
+        </p>
+
+        <div class="mt-8 text-white/55 text-sm leading-7">
+          <b class="text-white">Best fit:</b> landing pages, sales pages, business websites, portfolios.<br>
+          <b class="text-white">Not currently taking:</b> large custom systems or backend-heavy platforms.
+        </div>
+      </div>
+
+      <form id="quoteForm" class="glass p-6 md:p-8">
+        <label class="block text-white/55 text-sm mb-2" for="name">Your name</label>
+        <input id="name" class="contact-input mb-4" required placeholder="Your name">
+
+        <label class="block text-white/55 text-sm mb-2" for="business">Business / organisation</label>
+        <input id="business" class="contact-input mb-4" placeholder="Business name">
+
+        <label class="block text-white/55 text-sm mb-2" for="type">What do you need?</label>
+        <select id="type" class="contact-input mb-4">
+          <option>Landing page</option>
+          <option>Sales page</option>
+          <option>Business website</option>
+          <option>Portfolio website</option>
+          <option>Not sure yet</option>
+        </select>
+
+        <label class="block text-white/55 text-sm mb-2" for="budget">Approximate budget</label>
+        <select id="budget" class="contact-input mb-4">
+          <option>RM399–RM799</option>
+          <option>RM800–RM1,500</option>
+          <option>RM1,500+</option>
+          <option>Not sure yet</option>
+        </select>
+
+        <label class="block text-white/55 text-sm mb-2" for="details">Brief project details</label>
+        <textarea id="details" class="contact-input min-h-[130px]" required placeholder="What does your business do, and what do you want the website to achieve?"></textarea>
+
+        <button class="btn-primary w-full mt-5" type="submit">
+          Prepare Email <i data-feather="mail" class="w-4 h-4"></i>
+        </button>
+        <p class="text-white/30 text-xs leading-5 mt-3">
+          This opens your email app with the project details pre-filled. No information is stored by this page.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#050814;border-top:1px solid rgba(255,255,255,.06)">
+    <div class="wrap py-8 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/30">
+      <div>© 2026 Syed Muhammad Haziq. Web & Game Developer · Product Builder.</div>
+      <div class="flex gap-5">
+        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="hover:text-white">LinkedIn</a>
+        <a href="https://kadmehq.com" target="_blank" class="hover:text-white">KadMeHQ</a>
+        <a href="#contact" class="hover:text-white">Request a Quote</a>
+      </div>
+    </div>
   </footer>
 
   <script>
-    AOS.init({ duration: 700, once: true });
+    AOS.init({ duration: 650, once: true, offset: 40 });
+    feather.replace();
 
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 24));
+
+    // TODO: REPLACE THIS WITH YOUR REAL PROFESSIONAL EMAIL BEFORE PUBLISHING.
+    const CONTACT_EMAIL = 'syhaziqdev@gmail.com';
+
+    document.getElementById('quoteForm').addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const business = document.getElementById('business').value.trim();
+      const type = document.getElementById('type').value;
+      const budget = document.getElementById('budget').value;
+      const details = document.getElementById('details').value.trim();
+
+      const subject = `Website enquiry — ${business || name}`;
+      const body =
+`Hi Syed,
+
+I found your portfolio and I’m interested in discussing a website project.
+
+Name: ${name}
+Business / Organisation: ${business || '-'}
+Project type: ${type}
+Approximate budget: ${budget}
+
+Project details:
+${details}
+
+Thank you.`;
+
+      window.location.href =
+        `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
-
-    feather.replace();
   </script>
-
 </body>
 </html>
