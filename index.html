@@ -43,6 +43,28 @@
     .shadow-soft{box-shadow:0 18px 60px rgba(15,23,42,.08)}
     .nav{position:fixed;left:0;right:0;top:0;z-index:50;transition:.25s}
     .nav.scrolled{background:rgba(7,11,26,.93);border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}
+    .nav-toggle{display:none;position:relative;width:44px;height:44px;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(255,255,255,.22);padding:0;cursor:pointer;flex:0 0 auto}
+    .nav-toggle-bar{position:absolute;left:12px;right:12px;height:2px;background:#fff;transition:transform .18s ease,opacity .18s ease}
+    .nav-toggle-bar:nth-child(1){top:15px}
+    .nav-toggle-bar:nth-child(2){top:21px}
+    .nav-toggle-bar:nth-child(3){top:27px}
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2){opacity:0}
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    .nav-toggle:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+    .mobile-menu{display:grid;grid-template-rows:0fr;background:#070b1a;border-bottom:1px solid transparent;transition:grid-template-rows .22s ease,border-color .22s ease}
+    .mobile-menu.is-open{grid-template-rows:1fr;border-bottom-color:var(--line)}
+    .mobile-menu-inner{display:flex;flex-direction:column;overflow:hidden;min-height:0}
+    .mobile-menu-link{padding:14px 24px;color:rgba(255,255,255,.65);font-weight:600;font-size:.95rem;border-top:1px solid rgba(255,255,255,.06)}
+    .mobile-menu-link:first-child{border-top:none}
+    .mobile-menu-link:hover,.mobile-menu-link:focus-visible{color:#fff}
+    .mobile-menu-cta{padding:14px 24px;color:var(--lime);font-weight:800;font-size:.95rem;border-top:1px solid rgba(255,255,255,.06)}
+    .mobile-menu-cta:hover,.mobile-menu-cta:focus-visible{color:#fff}
+    .mobile-menu-link:focus-visible,.mobile-menu-cta:focus-visible{outline:2px solid var(--lime);outline-offset:-2px}
+    @media(prefers-reduced-motion:reduce){
+      .mobile-menu{transition:none}
+      .nav-toggle-bar{transition:none}
+    }
     .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:var(--lime);color:#101827;font-weight:800;padding:15px 22px;transition:.2s}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(199,255,65,.25)}
     .btn-dark{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:#0f172a;color:#fff;font-weight:800;padding:15px 22px;transition:.2s}
@@ -50,8 +72,20 @@
     .btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;color:#fff;border:1px solid rgba(255,255,255,.22);padding:15px 22px;font-weight:700;transition:.2s}
     .btn-outline:hover{background:rgba(255,255,255,.07)}
     .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
-    .hero-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}
-    .hero-proof>div{background:#08102d;padding:20px}
+    /* Editorial hero portrait: a fixed-height clipping stage masks the source
+       PNG's own bottom edge, independent of viewport height or navbar centering. */
+    /* min-height tracks the hero's own min-h-screen box (100vh minus its
+       pt-28, now that pb-16 is gone), not just the text column, so the crop
+       point lands near the hero's real bottom edge instead of leaving a gap
+       of bare background between the portrait and the section boundary. The
+       580px floor keeps the short-viewport headroom safety margin verified
+       previously. */
+    .hero-person-stage{position:relative;min-height:max(580px,calc(100vh - 112px));align-self:stretch;overflow:hidden}
+    .hero-person-glow{position:absolute;right:0;bottom:-4%;width:62%;height:56%;background:radial-gradient(closest-side,rgba(199,255,65,.09),transparent 72%);filter:blur(42px);pointer-events:none;z-index:0}
+    .hero-person{position:absolute;z-index:1;right:0;bottom:-80px;width:clamp(380px,32vw,460px);max-width:none;height:auto;object-fit:contain;object-position:bottom center;filter:drop-shadow(0 28px 36px rgba(0,0,0,.22));transition:transform .3s ease-out;will-change:transform}
+    @media(prefers-reduced-motion:reduce){
+      .hero-person{transition:none}
+    }
     .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .portfolio-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
     .project-card{position:relative;overflow:hidden;min-height:330px;background:#111827}
@@ -80,18 +114,46 @@
     .contact-box{display:grid;grid-template-columns:1fr .8fr;gap:24px}
     .contact-input{width:100%;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055);color:#fff;padding:14px 15px;outline:none}
     .contact-input:focus{border-color:rgba(199,255,65,.6)}
+    .contact-input.field-invalid{border-color:#f87171}
     select.contact-input option{color:#111827}
     .tiny{font-size:.78rem}
+    #contact a:focus-visible,
+    #contact button:focus-visible,
+    #contact .contact-input:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+    .contact-email{color:var(--lime);font-weight:800;text-decoration:underline;text-underline-offset:3px;word-break:break-all}
+    .contact-email:hover{color:#fff}
+    .form-error{border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#fecaca;padding:12px 14px;font-size:.875rem;line-height:1.5}
     @media(max-width:900px){
       .hero-grid,.portfolio-grid,.experience-grid,.contact-box{grid-template-columns:1fr}
       .service-grid,.price-grid{grid-template-columns:1fr}
       .price-card.featured{transform:none}
-      .hero-proof{grid-template-columns:1fr}
       .case-strip{grid-template-columns:1fr}
+    }
+    /* Hero portrait below the stacked breakpoint: centered under the copy, smaller stage. */
+    @media(max-width:900px){
+      .hero-person-stage{min-height:420px;margin-top:8px}
+      .hero-person{left:50%;right:auto;bottom:-45px;width:min(340px,88vw);transform:translateX(-50%)}
+    }
+    @media(max-width:480px){
+      .hero-person-stage{min-height:380px}
+      .hero-person{width:min(300px,86vw);bottom:-40px}
+    }
+    /* Tablet band: keep the two-column composition a little past the general
+       900px stack point, at a smaller scale than desktop. Overrides both the
+       shared stack rule above and the mobile hero-person rules for this band
+       only, via source order at equal specificity. */
+    @media(min-width:769px) and (max-width:1024px){
+      .hero-grid{grid-template-columns:1.1fr .9fr;gap:36px}
+      .hero-person-stage{min-height:max(480px,calc(100vh - 112px));margin-top:0}
+      .hero-person{left:auto;right:0;bottom:-65px;width:clamp(320px,34vw,400px);transform:none}
     }
     @media(max-width:720px){
       .nav-links{display:none}
+      .nav-toggle{display:flex}
       .display{font-size:clamp(3rem,15vw,5rem)}
+    }
+    @media(min-width:721px){
+      .mobile-menu{grid-template-rows:0fr!important}
     }
   </style>
 </head>
@@ -118,20 +180,34 @@
         <a href="#kadme" class="text-white/60 hover:text-white">KadMeHQ</a>
       </div>
 
-      <a href="#contact" class="btn-primary !py-2.5 !px-4 text-sm">Request a Quote</a>
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="btn-primary !py-2.5 !px-4 text-sm">Request a Quote</a>
+        <button type="button" id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="mobile-menu">
+      <div class="mobile-menu-inner">
+        <a href="#services" class="mobile-menu-link">Services</a>
+        <a href="#work" class="mobile-menu-link">Work</a>
+        <a href="#experience" class="mobile-menu-link">Experience</a>
+        <a href="#kadme" class="mobile-menu-link">KadMeHQ</a>
+        <a href="#contact" class="mobile-menu-cta">Request a Quote</a>
+      </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header id="top" class="min-h-screen flex items-center pt-28 pb-16 overflow-hidden relative" style="background:linear-gradient(145deg,#070b1a 10%,#081844 58%,#274bc4 130%)">
-    <div class="absolute -top-28 -left-28 w-[520px] h-[520px] blur-3xl rounded-full" style="background:rgba(199,255,65,.08)"></div>
-    <div class="absolute bottom-0 right-0 w-[520px] h-[520px] blur-3xl rounded-full" style="background:rgba(196,181,253,.10)"></div>
-
+  <header id="top" class="min-h-screen flex items-center pt-28 overflow-hidden relative" style="background:linear-gradient(145deg,#070b1a 10%,#081844 58%,#274bc4 130%)">
     <div class="wrap hero-grid relative z-10">
       <div data-aos="fade-up">
         <div class="eyebrow mb-5" style="color:var(--lime)">Malaysia · Freelance Web Developer</div>
         <h1 class="display text-white">
-          Websites that make your business look <span style="color:var(--lime)">serious.</span>
+          Websites that look <span style="color:var(--lime)">serious.</span>
         </h1>
         <p class="mt-7 text-lg md:text-xl leading-8 text-white/60 max-w-2xl">
           I build focused landing pages, sales pages and lightweight business websites for Malaysian businesses, organisations and personal brands.
@@ -149,42 +225,9 @@
         </p>
       </div>
 
-      <div data-aos="fade-left" data-aos-delay="120">
-        <div class="glass p-5">
-          <div class="flex items-center justify-between mb-5">
-            <div>
-              <div class="tiny uppercase tracking-[.2em] text-white/35 font-bold">What I focus on</div>
-              <div class="text-white text-2xl font-bold mt-1">Simple. Clear. Useful.</div>
-            </div>
-            <div class="w-12 h-12 flex items-center justify-center" style="background:var(--lime);color:#111827">
-              <i data-feather="layout"></i>
-            </div>
-          </div>
-
-          <div class="hero-proof">
-            <div>
-              <div class="text-2xl font-extrabold" style="color:var(--lime)">01</div>
-              <div class="text-white font-bold mt-1">Landing Pages</div>
-              <div class="text-white/40 text-sm mt-1">Clear offer, clear CTA.</div>
-            </div>
-            <div>
-              <div class="text-2xl font-extrabold" style="color:var(--purple)">02</div>
-              <div class="text-white font-bold mt-1">Sales Pages</div>
-              <div class="text-white/40 text-sm mt-1">Made to convert.</div>
-            </div>
-            <div>
-              <div class="text-2xl font-extrabold" style="color:var(--lime)">03</div>
-              <div class="text-white font-bold mt-1">Business Sites</div>
-              <div class="text-white/40 text-sm mt-1">Lightweight, professional.</div>
-            </div>
-          </div>
-
-          <div class="mt-5 p-5 border border-white/10 bg-black/10">
-            <div class="text-white/45 text-sm leading-6">
-              Focused freelance work: polished front-facing websites, not large backend-heavy systems.
-            </div>
-          </div>
-        </div>
+      <div data-aos="fade-left" data-aos-delay="120" class="hero-person-stage">
+        <div class="hero-person-glow" aria-hidden="true"></div>
+        <img id="heroPortrait" src="source/assets/images/hero-cutout.png" alt="Syed Muhammad Haziq" class="hero-person">
       </div>
     </div>
   </header>
@@ -572,9 +615,11 @@
         </div>
       </div>
 
-      <form id="quoteForm" class="glass p-6 md:p-8">
-        <label class="block text-white/55 text-sm mb-2" for="name">Your name</label>
-        <input id="name" class="contact-input mb-4" required placeholder="Your name">
+      <form id="quoteForm" class="glass p-6 md:p-8" novalidate>
+        <div id="formError" class="form-error mb-4 hidden" role="alert"></div>
+
+        <label class="block text-white/55 text-sm mb-2" for="name">Your name <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
+        <input id="name" class="contact-input mb-4" required aria-required="true" placeholder="Your name">
 
         <label class="block text-white/55 text-sm mb-2" for="business">Business / organisation</label>
         <input id="business" class="contact-input mb-4" placeholder="Business name">
@@ -596,15 +641,29 @@
           <option>Not sure yet</option>
         </select>
 
-        <label class="block text-white/55 text-sm mb-2" for="details">Brief project details</label>
-        <textarea id="details" class="contact-input min-h-[130px]" required placeholder="What does your business do, and what do you want the website to achieve?"></textarea>
+        <label class="block text-white/55 text-sm mb-2" for="details">Brief project details <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
+        <textarea id="details" class="contact-input min-h-[130px]" required aria-required="true" placeholder="What does your business do, and what do you want the website to achieve?"></textarea>
 
         <button class="btn-primary w-full mt-5" type="submit">
           Prepare Email <i data-feather="mail" class="w-4 h-4"></i>
         </button>
+
+        <p class="text-white/55 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
+          Prefer email directly? <a id="contactEmailLink" class="contact-email" href="mailto:">
+            <span id="contactEmailText">syhaziqdev@gmail.com</span>
+          </a>
+        </p>
+
         <p class="text-white/30 text-xs leading-5 mt-3">
           This opens your email app with the project details pre-filled. No information is stored by this page.
         </p>
+
+        <noscript>
+          <p class="text-white/55 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
+            This form needs JavaScript to prepare your email. Please email
+            <a class="contact-email" href="mailto:syhaziqdev@gmail.com">syhaziqdev@gmail.com</a> directly instead.
+          </p>
+        </noscript>
       </form>
     </div>
   </section>
@@ -627,17 +686,145 @@
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 24));
 
+    // HERO PORTRAIT PARALLAX
+    // Subtle pointer + scroll depth, desktop fine-pointer only. Skips entirely
+    // under prefers-reduced-motion, and never attaches on touch (mobile) devices.
+    (function () {
+      const portrait = document.getElementById('heroPortrait');
+      const hero = document.getElementById('top');
+      if (!portrait || !hero) return;
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const finePointer = window.matchMedia('(pointer: fine)').matches;
+      if (reducedMotion || !finePointer) return;
+
+      const MAX_POINTER_X = 6;     // px, horizontal cap
+      const MAX_POINTER_Y = 4;     // px, vertical cap
+      const MAX_SCROLL_SHIFT = 10; // px, total scroll depth
+      let pointerX = 0, pointerY = 0, scrollShift = 0;
+
+      // Explicit clamps (not just the multiplier math) so head/crop safety
+      // holds even if this gets tuned later: vertical movement never exceeds
+      // MAX_POINTER_Y, keeping it far inside the stage's headroom/crop margins.
+      function render() {
+        const clampedY = Math.max(-MAX_POINTER_Y, Math.min(MAX_POINTER_Y, pointerY)) + scrollShift;
+        portrait.style.transform = `translate3d(${pointerX}px, ${clampedY}px, 0)`;
+      }
+
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+        pointerX = relX * MAX_POINTER_X * 2;
+        pointerY = relY * MAX_POINTER_Y * 2;
+        render();
+      });
+
+      hero.addEventListener('mouseleave', () => {
+        pointerX = 0;
+        pointerY = 0;
+        render();
+      });
+
+      window.addEventListener('scroll', () => {
+        const heroHeight = hero.offsetHeight || 1;
+        const progress = Math.min(Math.max(window.scrollY / heroHeight, 0), 1);
+        scrollShift = progress * MAX_SCROLL_SHIFT;
+        render();
+      }, { passive: true });
+    })();
+
+    // MOBILE NAV
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function isMenuOpen() {
+      return navToggle.getAttribute('aria-expanded') === 'true';
+    }
+
+    function openMobileMenu() {
+      mobileMenu.classList.add('is-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Close menu');
+      mobileMenu.removeAttribute('inert');
+    }
+
+    function closeMobileMenu(opts) {
+      mobileMenu.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Open menu');
+      mobileMenu.setAttribute('inert', '');
+      if (opts && opts.returnFocus) navToggle.focus();
+    }
+
+    closeMobileMenu();
+
+    navToggle.addEventListener('click', () => {
+      isMenuOpen() ? closeMobileMenu() : openMobileMenu();
+    });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => closeMobileMenu());
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isMenuOpen()) closeMobileMenu({ returnFocus: true });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!isMenuOpen()) return;
+      if (mobileMenu.contains(e.target) || navToggle.contains(e.target)) return;
+      closeMobileMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 720 && isMenuOpen()) closeMobileMenu();
+    });
+
     // TODO: REPLACE THIS WITH YOUR REAL PROFESSIONAL EMAIL BEFORE PUBLISHING.
     const CONTACT_EMAIL = 'syhaziqdev@gmail.com';
 
-    document.getElementById('quoteForm').addEventListener('submit', function(e){
+    // Single source of truth: the visible email link always mirrors CONTACT_EMAIL,
+    // so it cannot drift from the address the form actually sends to.
+    const emailLink = document.getElementById('contactEmailLink');
+    const emailText = document.getElementById('contactEmailText');
+    if (emailLink && emailText) {
+      emailLink.href = `mailto:${CONTACT_EMAIL}`;
+      emailText.textContent = CONTACT_EMAIL;
+    }
+
+    const quoteForm = document.getElementById('quoteForm');
+    const formError = document.getElementById('formError');
+    const nameField = document.getElementById('name');
+    const detailsField = document.getElementById('details');
+
+    quoteForm.addEventListener('submit', function(e){
       e.preventDefault();
 
-      const name = document.getElementById('name').value.trim();
+      const name = nameField.value.trim();
       const business = document.getElementById('business').value.trim();
       const type = document.getElementById('type').value;
       const budget = document.getElementById('budget').value;
-      const details = document.getElementById('details').value.trim();
+      const details = detailsField.value.trim();
+
+      const missing = [];
+      [[nameField, name, 'your name'], [detailsField, details, 'a few project details']].forEach(function(entry){
+        const field = entry[0], value = entry[1], label = entry[2];
+        const invalid = !value;
+        field.setAttribute('aria-invalid', invalid ? 'true' : 'false');
+        field.classList.toggle('field-invalid', invalid);
+        if (invalid) missing.push(label);
+      });
+
+      if (missing.length) {
+        formError.textContent = `Please add ${missing.join(' and ')} before sending — or email ${CONTACT_EMAIL} directly.`;
+        formError.classList.remove('hidden');
+        (nameField.getAttribute('aria-invalid') === 'true' ? nameField : detailsField).focus();
+        return;
+      }
+
+      formError.classList.add('hidden');
+      formError.textContent = '';
 
       const subject = `Website enquiry — ${business || name}`;
       const body =
