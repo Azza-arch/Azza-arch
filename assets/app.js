@@ -14,6 +14,16 @@
     window.addEventListener('scroll', function () {
       navbar.classList.toggle('scrolled', window.scrollY > 24);
     }, { passive: true });
+
+    // Hide the nav "Request a Quote" button while the hero is on screen —
+    // the hero already carries its own quote CTA. Falls back to always
+    // showing it if IntersectionObserver is unavailable.
+    var heroEl = document.getElementById('top');
+    if (heroEl && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        navbar.classList.toggle('at-hero', entries[0].intersectionRatio > 0.12);
+      }, { threshold: [0, 0.12, 0.4, 1] }).observe(heroEl);
+    }
   }
 
   // HERO PORTRAIT PARALLAX

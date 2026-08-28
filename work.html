@@ -31,7 +31,7 @@
   <link href="assets/vendor/aos.css" rel="stylesheet">
   <script src="assets/vendor/aos.js" defer></script>
   <script src="assets/vendor/feather.min.js" defer></script>
-  <script src="assets/app.js?v=email-form" defer></script>
+  <script src="assets/app.js?v=nav-cta" defer></script>
 
   <style>
     :root{--ink:#070b1a;--navy:#081844;--blue:#274bc4;--lime:#c7ff41;--purple:#c4b5fd;--white:#f8fafc;--line:rgba(255,255,255,.08)}
@@ -47,6 +47,8 @@
     .text-white\/75{color:rgba(255,255,255,.75)}
     .text-white\/80{color:rgba(255,255,255,.8)}
     .nav{position:fixed;left:0;right:0;top:0;z-index:50;background:rgba(7,11,26,.93);border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}
+    .nav-quote{transition:opacity .25s ease,transform .25s ease,visibility .25s}
+    .nav.at-hero .nav-quote{opacity:0;visibility:hidden;transform:translateY(-8px);pointer-events:none}
     .nav-toggle{display:none;position:relative;width:44px;height:44px;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(255,255,255,.22);padding:0;cursor:pointer;flex:0 0 auto}
     .nav-toggle-bar{position:absolute;left:12px;right:12px;height:2px;background:#fff;transition:transform .18s ease,opacity .18s ease}
     .nav-toggle-bar:nth-child(1){top:15px}.nav-toggle-bar:nth-child(2){top:21px}.nav-toggle-bar:nth-child(3){top:27px}
@@ -122,7 +124,7 @@
         <a href="index.html#kadme" class="text-white/75 hover:text-white">KadMeHQ</a>
       </div>
       <div class="flex items-center gap-3">
-        <a href="index.html#contact" class="btn-primary !py-2.5 !px-4 text-sm">Request a Quote</a>
+        <a href="index.html#contact" class="btn-primary nav-quote !py-2.5 !px-4 text-sm">Request a Quote</a>
         <button type="button" id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
           <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
         </button>
