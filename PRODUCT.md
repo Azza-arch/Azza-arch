@@ -20,7 +20,7 @@ Founder-minded developer from Terengganu who builds practical websites and produ
 
 ## Operating Context
 
-The site is deployed to Cloudflare Pages from GitHub for `haziqbuilds.com`. Contact should stay simple and reliable: email-first, with WhatsApp as a secondary direct channel.
+The site is deployed to Cloudflare Pages from GitHub for `haziqbuilds.com`. Contact should stay simple and reliable: email-first, with WhatsApp as a secondary direct channel. Security headers (CSP, HSTS, etc.) are served from the `_headers` file; the per-page `<meta>` CSP is kept as a fallback until `_headers` is verified live.
 
 ## Capabilities and Constraints
 
