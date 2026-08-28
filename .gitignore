@@ -4,6 +4,8 @@
 /vendor/
 /.idea/
 /.vscode/
+.dev.vars*
+.env*
 npm-debug.log
 
 # Optional ignores

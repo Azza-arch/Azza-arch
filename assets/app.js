@@ -28,14 +28,12 @@
     var finePointer = window.matchMedia('(pointer: fine)').matches;
     if (reducedMotion || !finePointer) return;
 
-    var MAX_POINTER_X = 6;     // px, horizontal cap
-    var MAX_POINTER_Y = 4;     // px, vertical cap
-    var MAX_SCROLL_SHIFT = 10; // px, total scroll depth
+    var MAX_POINTER_X = 6;
+    var MAX_POINTER_Y = 4;
+    var MAX_SCROLL_SHIFT = 10;
     var pointerX = 0, pointerY = 0, scrollShift = 0;
 
-    // Explicit clamps (not just the multiplier math) so head/crop safety
-    // holds even if this gets tuned later: vertical movement never exceeds
-    // MAX_POINTER_Y, keeping it far inside the stage's headroom/crop margins.
+    // Explicit clamps so head/crop safety holds even if this gets tuned later.
     function render() {
       var clampedY = Math.max(-MAX_POINTER_Y, Math.min(MAX_POINTER_Y, pointerY)) + scrollShift;
       portrait.style.transform = 'translate3d(' + pointerX + 'px, ' + clampedY + 'px, 0)';
@@ -114,8 +112,6 @@
   }
 
   // CONTACT EMAIL + QUOTE FORM
-  // Single source of truth: the visible email link always mirrors CONTACT_EMAIL,
-  // so it cannot drift from the address the form actually sends to.
   var CONTACT_EMAIL = 'syhaziqdev@gmail.com';
 
   var emailLink = document.getElementById('contactEmailLink');
@@ -125,29 +121,52 @@
     emailText.textContent = CONTACT_EMAIL;
   }
 
+  function buildMailtoHref(data) {
+    var subject = 'Website enquiry - ' + (data.business || data.name);
+    var body =
+      'Hi Syed,\n\n' +
+      'I found your portfolio and I am interested in discussing a website project.\n\n' +
+      'Name: ' + data.name + '\n' +
+      'Business / Organisation: ' + (data.business || '-') + '\n' +
+      'Project type: ' + data.type + '\n' +
+      'Approximate budget: ' + data.budget + '\n\n' +
+      'Project details:\n' + data.details + '\n\n' +
+      'Thank you.';
+
+    return 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  }
+
   var quoteForm = document.getElementById('quoteForm');
   var formError = document.getElementById('formError');
+  var formStatus = document.getElementById('formStatus');
   var nameField = document.getElementById('name');
+  var businessField = document.getElementById('business');
   var typeField = document.getElementById('type');
   var budgetField = document.getElementById('budget');
   var detailsField = document.getElementById('details');
+  var websiteField = document.getElementById('website');
+  var quoteSubmit = document.getElementById('quoteSubmit');
 
-  if (quoteForm && formError && nameField && typeField && budgetField && detailsField) {
-    quoteForm.addEventListener('submit', function (e) {
+  if (quoteForm && formError && formStatus && nameField && businessField && typeField && budgetField && detailsField && websiteField && quoteSubmit) {
+    quoteForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      var name = nameField.value.trim();
-      var business = document.getElementById('business').value.trim();
-      var type = typeField.value;
-      var budget = budgetField.value;
-      var details = detailsField.value.trim();
+      var payload = {
+        name: nameField.value.trim(),
+        business: businessField.value.trim(),
+        type: typeField.value,
+        budget: budgetField.value,
+        details: detailsField.value.trim(),
+        website: websiteField.value.trim(),
+        page: window.location.href
+      };
 
       var missing = [];
       [
-        [nameField, name, 'your name'],
-        [typeField, type, 'what you need'],
-        [budgetField, budget, 'an approximate budget'],
-        [detailsField, details, 'a few project details']
+        [nameField, payload.name, 'your name'],
+        [typeField, payload.type, 'what you need'],
+        [budgetField, payload.budget, 'an approximate budget'],
+        [detailsField, payload.details, 'a few project details']
       ].forEach(function (entry) {
         var field = entry[0], value = entry[1], label = entry[2];
         var invalid = !value;
@@ -156,8 +175,11 @@
         if (invalid) missing.push(label);
       });
 
+      formStatus.classList.add('hidden');
+      formStatus.textContent = '';
+
       if (missing.length) {
-        formError.textContent = 'Please add ' + missing.join(' and ') + ' before sending — or email ' + CONTACT_EMAIL + ' directly.';
+        formError.textContent = 'Please add ' + missing.join(' and ') + ' before sending - or email ' + CONTACT_EMAIL + ' directly.';
         formError.classList.remove('hidden');
         var firstInvalid = quoteForm.querySelector('[aria-invalid="true"]');
         if (firstInvalid) firstInvalid.focus();
@@ -166,20 +188,30 @@
 
       formError.classList.add('hidden');
       formError.textContent = '';
+      quoteSubmit.disabled = true;
+      quoteSubmit.textContent = 'Sending...';
 
-      var subject = 'Website enquiry — ' + (business || name);
-      var body =
-        'Hi Syed,\n\n' +
-        'I found your portfolio and I’m interested in discussing a website project.\n\n' +
-        'Name: ' + name + '\n' +
-        'Business / Organisation: ' + (business || '-') + '\n' +
-        'Project type: ' + type + '\n' +
-        'Approximate budget: ' + budget + '\n\n' +
-        'Project details:\n' + details + '\n\n' +
-        'Thank you.';
+      try {
+        var response = await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-      window.location.href =
-        'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        if (!response.ok) throw new Error('Bad response');
+
+        quoteForm.reset();
+        formStatus.textContent = 'Thanks - your enquiry has been sent. I will reply as soon as I can.';
+        formStatus.classList.remove('hidden');
+      } catch (error) {
+        formError.textContent = 'I could not send this automatically. Please email ' + CONTACT_EMAIL + ' directly, or use the WhatsApp button.';
+        formError.classList.remove('hidden');
+        if (emailLink) emailLink.href = buildMailtoHref(payload);
+      } finally {
+        quoteSubmit.disabled = false;
+        quoteSubmit.innerHTML = 'Send Enquiry <i data-feather="send" class="w-4 h-4"></i>';
+        if (window.feather) feather.replace();
+      }
     });
   }
 })();

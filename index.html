@@ -101,6 +101,7 @@
     }
     .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:var(--lime);color:#101827;font-weight:800;padding:15px 22px;transition:.2s}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(199,255,65,.25)}
+    .btn-primary:disabled{opacity:.72;cursor:wait;transform:none;box-shadow:none}
     .btn-dark{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:#0f172a;color:#fff;font-weight:800;padding:15px 22px;transition:.2s}
     .btn-dark:hover{transform:translateY(-2px)}
     .btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;color:#fff;border:1px solid rgba(255,255,255,.22);padding:15px 22px;font-weight:700;transition:.2s}
@@ -229,6 +230,8 @@
     .contact-email{color:var(--lime);font-weight:800;text-decoration:underline;text-underline-offset:3px;word-break:break-all}
     .contact-email:hover{color:#fff}
     .form-error{border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#fecaca;padding:12px 14px;font-size:.875rem;line-height:1.5}
+    .form-success{border:1px solid rgba(199,255,65,.45);background:rgba(199,255,65,.1);color:#ecfccb;padding:12px 14px;font-size:.875rem;line-height:1.5}
+    .form-honeypot{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
     @media(max-width:900px){
       .hero-grid,.portfolio-grid,.experience-grid,.contact-box{grid-template-columns:1fr}
       .service-grid,.price-grid{grid-template-columns:1fr}
@@ -757,6 +760,12 @@
 
       <form id="quoteForm" class="glass p-6 md:p-8" novalidate>
         <div id="formError" class="form-error mb-4 hidden" role="alert"></div>
+        <div id="formStatus" class="form-success mb-4 hidden" role="status" aria-live="polite"></div>
+
+        <div class="form-honeypot" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
 
         <label class="block text-white/80 text-sm mb-2" for="name">Your name <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
         <input id="name" class="contact-input mb-4" required aria-required="true" placeholder="Your name">
@@ -786,8 +795,8 @@
         <label class="block text-white/80 text-sm mb-2" for="details">Brief project details <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
         <textarea id="details" class="contact-input min-h-[130px]" required aria-required="true" placeholder="What does your business do, and what do you want the website to achieve?"></textarea>
 
-        <button class="btn-primary w-full mt-5" type="submit">
-          Prepare Email <i data-feather="mail" class="w-4 h-4"></i>
+        <button id="quoteSubmit" class="btn-primary w-full mt-5" type="submit">
+          Send Enquiry <i data-feather="send" class="w-4 h-4"></i>
         </button>
 
         <p class="text-white/80 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
@@ -797,7 +806,7 @@
         </p>
 
         <p class="text-white/80 text-xs leading-5 mt-3">
-          This opens your email app with the project details pre-filled. No information is stored by this page.
+          This sends your enquiry to my private Telegram inbox. No information is stored by this page.
         </p>
 
         <noscript>
