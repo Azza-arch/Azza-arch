@@ -132,10 +132,6 @@
     .project-card:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.12) 65%,transparent)}
     .project-copy{position:absolute;left:24px;right:24px;bottom:23px;z-index:3}
     .project-badge{position:absolute;top:17px;left:17px;z-index:4;background:rgba(7,11,26,.82);border:1px solid rgba(255,255,255,.16);color:#fff;padding:7px 13px;border-radius:5px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;line-height:1}
-    /* opacity helpers — the prebuilt tailwind subset only ships /10-/60 and /70 */
-    .text-white\/75{color:rgba(255,255,255,.75)}
-    .text-white\/80{color:rgba(255,255,255,.8)}
-    .text-white\/90{color:rgba(255,255,255,.9)}
     /* WORK — primary web/product cards (screenshot-forward) */
     .work-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
     .work-card{display:flex;flex-direction:column;background:#0c1226;border:1px solid rgba(255,255,255,.09);overflow:hidden;transition:transform .2s ease,border-color .2s ease}
@@ -281,8 +277,8 @@
 
       <div class="nav-links flex gap-7 text-sm font-semibold">
         <a href="#services" class="text-white/75 hover:text-white">Services</a>
-        <a href="work.html" class="text-white/75 hover:text-white">Work</a>
-        <a href="about.html" class="text-white/75 hover:text-white">About</a>
+        <a href="#work" class="text-white/75 hover:text-white">Work</a>
+        <a href="#about" class="text-white/75 hover:text-white">About</a>
         <a href="#experience" class="text-white/75 hover:text-white">Experience</a>
         <a href="#kadme" class="text-white/75 hover:text-white">KadMeHQ</a>
       </div>
@@ -300,8 +296,8 @@
     <div id="mobileMenu" class="mobile-menu">
       <div class="mobile-menu-inner">
         <a href="#services" class="mobile-menu-link">Services</a>
-        <a href="work.html" class="mobile-menu-link">Work</a>
-        <a href="about.html" class="mobile-menu-link">About</a>
+        <a href="#work" class="mobile-menu-link">Work</a>
+        <a href="#about" class="mobile-menu-link">About</a>
         <a href="#experience" class="mobile-menu-link">Experience</a>
         <a href="#kadme" class="mobile-menu-link">KadMeHQ</a>
         <a href="#contact" class="mobile-menu-cta">Request a Quote</a>
@@ -325,7 +321,7 @@
           <a href="#contact" class="btn-primary">
             Request a Quote <i data-feather="arrow-up-right" class="w-4 h-4"></i>
           </a>
-          <a href="work.html" class="btn-outline">See My Work</a>
+          <a href="#work" class="btn-outline">See My Work</a>
         </div>
 
         <p class="mt-5 text-sm text-white/80">

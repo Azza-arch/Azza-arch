@@ -25,6 +25,11 @@ The site is deployed to Cloudflare Pages from GitHub for `haziqbuilds.com`. Cont
 ## Capabilities and Constraints
 
 - Static hand-written HTML/CSS/JS only for now; no build step.
+- `assets/tailwind.css` is a pre-generated Tailwind 3.4 subset, not rebuilt on
+  deploy. Only the opacity steps `/10`-`/60` and `/70` exist for `text-white`;
+  new utility classes must be added by hand to the end of that file (see the
+  "utilities added after the last Tailwind build" block) or the whole file
+  regenerated. Page-specific CSS lives in each page's `<style>` block.
 - Official accent color is lime `#c7ff41`.
 - KadMeHQ / KadMe is Haziq's own product.
 - Tafaqquh and FoTLI are Oxford EduVision work and must be credited that way.
