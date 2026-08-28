@@ -67,6 +67,7 @@
     body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#0f172a;overflow-x:hidden}
     h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
     a{text-decoration:none}
+    section[id]{scroll-margin-top:88px}
     .wrap{max-width:1180px;margin:auto;padding-left:24px;padding-right:24px}
     .eyebrow{text-transform:uppercase;letter-spacing:.24em;font-size:.75rem;font-weight:800}
     .display{font-size:clamp(3rem,7vw,6.5rem);line-height:.92;letter-spacing:-.045em;font-weight:700}
@@ -176,6 +177,30 @@
       .work-card.lead .shot{aspect-ratio:16/9}
     }
     @media(max-width:560px){.games-mini{grid-template-columns:1fr}}
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+    .about-copy{max-width:68ch}
+    .about-copy p{color:#475569;line-height:1.8;font-size:1.02rem;margin-top:18px}
+    .about-skills{display:flex;flex-wrap:wrap;gap:9px;margin-top:30px}
+    .about-skills span{display:inline-flex;align-items:center;min-height:32px;border:1px solid #dbe3ef;background:#fff;color:#0f172a;padding:8px 13px;border-radius:5px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+    .about-visual{position:relative;background:#070b1a;min-height:560px;overflow:hidden;box-shadow:0 24px 70px rgba(15,23,42,.16)}
+    .about-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(199,255,65,.16),transparent 38%),linear-gradient(to top,rgba(39,75,196,.2),transparent 58%);pointer-events:none}
+    .about-portrait-stage{position:absolute;inset:0;overflow:hidden}
+    .about-portrait{position:absolute;right:-72px;bottom:-155px;width:min(540px,96%);height:auto;filter:drop-shadow(0 28px 40px rgba(0,0,0,.34))}
+    .about-proof{position:absolute;left:22px;right:22px;bottom:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:2}
+    .about-proof span{display:flex;align-items:center;min-height:48px;background:rgba(248,250,252,.94);color:#0f172a;padding:12px 13px;border-radius:5px;font-size:.78rem;font-weight:800;line-height:1.25;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+    @media(max-width:900px){
+      .about-grid{grid-template-columns:1fr;gap:38px}
+      .about-visual{min-height:480px}
+      .about-portrait{right:50%;bottom:-150px;width:min(480px,94vw);transform:translateX(50%)}
+    }
+    @media(max-width:560px){
+      .about-copy p{font-size:.98rem}
+      .about-visual{min-height:500px}
+      .about-portrait{bottom:-70px;width:min(410px,102vw)}
+      .about-proof{left:14px;right:14px;bottom:14px;grid-template-columns:1fr}
+      .about-proof span{min-height:42px}
+    }
     .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .price-card{position:relative;padding:34px;border:1px solid #dbe3ef;background:#fff}
     .price-card.featured{border:2px solid #0f172a;transform:translateY(-8px)}
@@ -231,7 +256,11 @@
     @media(max-width:720px){
       .nav-links{display:none}
       .nav-toggle{display:flex}
+      .nav .wrap > .flex .btn-primary{display:none}
       .display{font-size:clamp(3rem,15vw,5rem)}
+    }
+    @media(max-width:480px){
+      .nav .wrap{padding-left:20px;padding-right:20px}
     }
     @media(min-width:721px){
       .mobile-menu{grid-template-rows:0fr!important}
@@ -253,6 +282,7 @@
       <div class="nav-links flex gap-7 text-sm font-semibold">
         <a href="#services" class="text-white/75 hover:text-white">Services</a>
         <a href="#work" class="text-white/75 hover:text-white">Work</a>
+        <a href="#about" class="text-white/75 hover:text-white">About</a>
         <a href="#experience" class="text-white/75 hover:text-white">Experience</a>
         <a href="#kadme" class="text-white/75 hover:text-white">KadMeHQ</a>
       </div>
@@ -271,6 +301,7 @@
       <div class="mobile-menu-inner">
         <a href="#services" class="mobile-menu-link">Services</a>
         <a href="#work" class="mobile-menu-link">Work</a>
+        <a href="#about" class="mobile-menu-link">About</a>
         <a href="#experience" class="mobile-menu-link">Experience</a>
         <a href="#kadme" class="mobile-menu-link">KadMeHQ</a>
         <a href="#contact" class="mobile-menu-cta">Request a Quote</a>
@@ -563,6 +594,47 @@
     </div>
   </section>
 
+  <!-- ABOUT -->
+  <section id="about" class="py-28 bg-slate-50">
+    <div class="wrap about-grid">
+      <div class="about-copy">
+        <h2 class="section-title text-slate-900">Founder-minded developer from Terengganu.</h2>
+        <p>
+          I'm Syed Muhammad Haziq, a Malaysian web developer and product builder from Terengganu. I build focused websites for businesses, and I also build KadMeHQ, so I think about a site beyond how it looks: what it helps people understand, trust and do.
+        </p>
+        <p>
+          At Oxford EduVision, I work on production web platforms and educational apps. Outside client work, I ship my own product and build Unity-based learning games, including Misi Sejarah 3D, winner of the EduGC 2025 Professional Category.
+        </p>
+        <p>
+          My edge is practical taste: clean interfaces, clear content, fast pages, and enough visual character to make the work feel owned.
+        </p>
+        <div class="about-skills" aria-label="Core strengths">
+          <span>Focused websites</span>
+          <span>Product thinking</span>
+          <span>Laravel platforms</span>
+          <span>KadMeHQ founder</span>
+          <span>Unity learning games</span>
+          <span>UI direction</span>
+        </div>
+      </div>
+
+      <div class="about-visual">
+        <div class="about-portrait-stage" aria-hidden="true">
+          <picture>
+            <source srcset="assets/images/hero-cutout.webp" type="image/webp">
+            <img src="assets/images/hero-cutout.png" alt="" width="1080" height="1350" loading="lazy" decoding="async" class="about-portrait">
+          </picture>
+        </div>
+        <div class="about-proof" aria-label="Background highlights">
+          <span>KadMeHQ founder</span>
+          <span>Oxford EduVision developer</span>
+          <span>EduGC 2025 winner</span>
+          <span>Software Development graduate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- KADME -->
   <section id="kadme" class="py-28 overflow-hidden relative" style="background:var(--lime)">
     <div class="wrap grid md:grid-cols-2 gap-14 items-center relative z-10">
@@ -773,7 +845,7 @@
         "jobTitle": "Web & Game Developer",
         "email": "mailto:syhaziqdev@gmail.com",
         "nationality": "Malaysian",
-        "knowsAbout": ["Landing page development", "Sales page development", "Business websites", "Front-end development", "UI/UX design", "Laravel", "Tailwind CSS", "Unity"],
+        "knowsAbout": ["Landing page development", "Sales page development", "Business websites", "Front-end development", "Product development", "UI direction", "UI/UX design", "Laravel", "Tailwind CSS", "Unity"],
         "sameAs": [
           "https://www.linkedin.com/in/syhaziqdev/",
           "https://kadmehq.com"
