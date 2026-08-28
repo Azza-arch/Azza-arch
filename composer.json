@@ -1,8 +1,0 @@
-{
-    "require": {
-        "tightenco/jigsaw": "^1.7"
-    },
-    "require-dev": {
-        "phpstan/phpstan": "^2.1"
-    }
-}
