@@ -1,0 +1,14 @@
+{
+  "name": "Syed Muhammad Haziq — Web Developer",
+  "short_name": "SYHAZIQDEV",
+  "description": "Freelance web developer in Malaysia building focused landing pages, sales pages and lightweight business websites.",
+  "start_url": "/Azza-arch/",
+  "scope": "/Azza-arch/",
+  "display": "browser",
+  "background_color": "#070b1a",
+  "theme_color": "#070b1a",
+  "icons": [
+    { "src": "/Azza-arch/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/Azza-arch/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

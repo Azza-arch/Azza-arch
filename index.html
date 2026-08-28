@@ -3,21 +3,53 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Syed Muhammad Haziq — Landing Page & Web Developer Malaysia</title>
-  <meta name="description" content="Professional landing pages, sales pages and lightweight business websites for Malaysian businesses, startups and personal brands. Built by Syed Muhammad Haziq.">
-  <meta property="og:title" content="Syed Muhammad Haziq — Landing Page & Web Developer">
-  <meta property="og:description" content="Professional landing pages and business websites without agency-sized complexity.">
+
+  <!--
+    Content-Security-Policy delivered via meta because GitHub Pages does not allow
+    custom HTTP response headers. Meta CSP covers everything except frame-ancestors,
+    sandbox and report-uri/report-to — those genuinely require server/CDN control
+    and are documented as deferred, not faked here.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.youtube.com https://i.ytimg.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>Syed Muhammad Haziq — Landing Page &amp; Web Developer, Malaysia</title>
+  <meta name="description" content="Freelance web developer in Malaysia building focused landing pages, sales pages and lightweight business websites for businesses, organisations and personal brands. Starter projects from RM399.">
+  <meta name="author" content="Syed Muhammad Haziq">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="theme-color" content="#070b1a">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://azza-arch.github.io/Azza-arch/">
+
+  <meta property="og:title" content="Syed Muhammad Haziq — Landing Page &amp; Web Developer">
+  <meta property="og:description" content="Freelance web developer in Malaysia building focused landing pages, sales pages and lightweight business websites — without agency-sized complexity.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="source/assets/images/logo.png">
+  <meta property="og:url" content="https://azza-arch.github.io/Azza-arch/">
+  <meta property="og:site_name" content="Syed Muhammad Haziq">
+  <meta property="og:locale" content="en_MY">
+  <meta property="og:image" content="https://azza-arch.github.io/Azza-arch/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Syed Muhammad Haziq — Landing Page & Web Developer, Malaysia">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Syed Muhammad Haziq — Landing Page &amp; Web Developer">
+  <meta name="twitter:description" content="Freelance web developer in Malaysia building focused landing pages, sales pages and lightweight business websites.">
+  <meta name="twitter:image" content="https://azza-arch.github.io/Azza-arch/og-image.png">
+
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="source/assets/images/logo.png" sizes="128x128" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script src="https://unpkg.com/feather-icons"></script>
+  <link href="assets/tailwind.css" rel="stylesheet">
+  <link href="assets/vendor/aos.css" rel="stylesheet">
+  <script src="assets/vendor/aos.js" defer></script>
+  <script src="assets/vendor/feather.min.js" defer></script>
+  <script src="assets/app.js" defer></script>
 
   <style>
     :root{
@@ -31,6 +63,8 @@
       --line:rgba(255,255,255,.08);
     }
     *{box-sizing:border-box}
+    .skip-link{position:absolute;left:8px;top:-48px;z-index:100;background:var(--lime);color:#101827;font-weight:800;padding:10px 16px;transition:top .15s ease}
+    .skip-link:focus{top:8px;outline:2px solid #101827;outline-offset:2px}
     body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#0f172a;overflow-x:hidden}
     h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
     a{text-decoration:none}
@@ -159,17 +193,13 @@
 </head>
 
 <body>
-  <!--
-    IMPORTANT BEFORE PUBLISHING:
-    Replace CONTACT_EMAIL below (near bottom script) with your real professional email.
-    Example: hello@syhaziq.dev
-  -->
+  <a href="#top" class="skip-link">Skip to content</a>
 
   <!-- NAV -->
   <nav class="nav" id="navbar">
     <div class="wrap py-4 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-3">
-        <img src="source/assets/images/logo.png" alt="Syed Muhammad Haziq" class="w-10 h-10 object-contain">
+        <img src="source/assets/images/logo.png" alt="" width="40" height="40" decoding="async" class="w-10 h-10 object-contain">
         <span class="text-white font-extrabold">SYHAZIQ<span style="color:var(--lime)">DEV</span></span>
       </a>
 
@@ -227,7 +257,10 @@
 
       <div data-aos="fade-left" data-aos-delay="120" class="hero-person-stage">
         <div class="hero-person-glow" aria-hidden="true"></div>
-        <img id="heroPortrait" src="source/assets/images/hero-cutout.png" alt="Syed Muhammad Haziq" class="hero-person">
+        <picture>
+          <source srcset="source/assets/images/hero-cutout.webp" type="image/webp">
+          <img id="heroPortrait" src="source/assets/images/hero-cutout.png" alt="Syed Muhammad Haziq, freelance web developer" width="1080" height="1350" fetchpriority="high" decoding="async" class="hero-person">
+        </picture>
       </div>
     </div>
   </header>
@@ -247,8 +280,7 @@
   <section id="services" class="py-28 bg-slate-50">
     <div class="wrap">
       <div class="max-w-3xl" data-aos="fade-up">
-        <div class="eyebrow text-indigo-700">What I actually offer</div>
-        <h2 class="section-title mt-4">Focused web work.<br>No unnecessary complexity.</h2>
+        <h2 class="section-title">Focused web work.<br>No unnecessary complexity.</h2>
         <p class="mt-6 text-slate-500 leading-8 text-lg">
           I’m not trying to be your ERP vendor. My freelance work is intentionally focused on websites that help people understand your business, trust it and take action.
         </p>
@@ -286,8 +318,7 @@
   <section class="py-28 bg-white">
     <div class="wrap">
       <div class="text-center max-w-2xl mx-auto" data-aos="fade-up">
-        <div class="eyebrow text-indigo-700">Simple starting prices</div>
-        <h2 class="section-title mt-4">Start with what you need.</h2>
+        <h2 class="section-title">Start with what you need.</h2>
         <p class="mt-5 text-slate-500 leading-7">Final pricing depends on content, design complexity and scope. These packages keep expectations clear from the beginning.</p>
       </div>
 
@@ -344,8 +375,7 @@
   <section id="work" class="py-28" style="background:#070b1a">
     <div class="wrap">
       <div class="max-w-3xl" data-aos="fade-up">
-        <div class="eyebrow" style="color:var(--lime)">Selected Projects & Work</div>
-        <h2 class="section-title text-white mt-4">Real things I’ve built, shipped and contributed to.</h2>
+        <h2 class="section-title text-white">Real things I’ve built, shipped and contributed to.</h2>
         <p class="mt-5 text-white/45 leading-8">
           My freelance focus is websites, but my wider development experience includes public web platforms,
           SaaS products, internal systems and educational games.
@@ -432,7 +462,7 @@
         <!-- FLAGSHIP -->
         <a href="https://www.youtube.com/watch?v=Y7_bN_8fVEE" target="_blank" rel="noopener"
            class="project-card block" style="min-height:430px" data-aos="fade-up">
-          <img src="https://img.youtube.com/vi/Y7_bN_8fVEE/maxresdefault.jpg" alt="Misi Sejarah 3D">
+          <img src="https://img.youtube.com/vi/Y7_bN_8fVEE/maxresdefault.jpg" alt="Misi Sejarah 3D" width="1280" height="720" loading="lazy" decoding="async">
           <div class="project-badge">Featured · Unity · Educational Game</div>
           <div class="project-copy">
             <div class="text-white text-4xl font-bold">Misi Sejarah 3D</div>
@@ -452,7 +482,7 @@
         <div class="grid md:grid-cols-2 gap-[18px] mt-[18px]">
           <a href="https://www.youtube.com/watch?v=r37gB06A4Yc" target="_blank" rel="noopener"
              class="project-card small" data-aos="fade-up">
-            <img src="https://img.youtube.com/vi/r37gB06A4Yc/maxresdefault.jpg" alt="Sirah Explorer">
+            <img src="https://img.youtube.com/vi/r37gB06A4Yc/maxresdefault.jpg" alt="Sirah Explorer" width="1280" height="720" loading="lazy" decoding="async">
             <div class="project-badge">Unity</div>
             <div class="project-copy">
               <div class="text-white text-2xl font-bold">Sirah Explorer</div>
@@ -462,7 +492,7 @@
 
           <a href="https://www.youtube.com/watch?v=pA19bV2anYQ" target="_blank" rel="noopener"
              class="project-card small" data-aos="fade-up" data-aos-delay="60">
-            <img src="https://img.youtube.com/vi/pA19bV2anYQ/maxresdefault.jpg" alt="Tarannum">
+            <img src="https://img.youtube.com/vi/pA19bV2anYQ/maxresdefault.jpg" alt="Tarannum" width="1280" height="720" loading="lazy" decoding="async">
             <div class="project-badge">Unity</div>
             <div class="project-copy">
               <div class="text-white text-2xl font-bold">Tarannum</div>
@@ -472,7 +502,7 @@
 
           <a href="https://www.youtube.com/watch?v=_vaJAihEo_A" target="_blank" rel="noopener"
              class="project-card small" data-aos="fade-up">
-            <img src="https://img.youtube.com/vi/_vaJAihEo_A/maxresdefault.jpg" alt="Smart Science">
+            <img src="https://img.youtube.com/vi/_vaJAihEo_A/maxresdefault.jpg" alt="Smart Science" width="1280" height="720" loading="lazy" decoding="async">
             <div class="project-badge">Unity</div>
             <div class="project-copy">
               <div class="text-white text-2xl font-bold">Smart Science</div>
@@ -482,7 +512,7 @@
 
           <a href="https://www.youtube.com/watch?v=aqcSGj73w1k" target="_blank" rel="noopener"
              class="project-card small" data-aos="fade-up" data-aos-delay="60">
-            <img src="https://img.youtube.com/vi/aqcSGj73w1k/maxresdefault.jpg" alt="Asas Qurani">
+            <img src="https://img.youtube.com/vi/aqcSGj73w1k/maxresdefault.jpg" alt="Asas Qurani" width="1280" height="720" loading="lazy" decoding="async">
             <div class="project-badge">Unity</div>
             <div class="project-copy">
               <div class="text-white text-2xl font-bold">Asas Qurani</div>
@@ -500,8 +530,7 @@
   <section id="kadme" class="py-28 overflow-hidden relative" style="background:var(--lime)">
     <div class="wrap grid md:grid-cols-2 gap-14 items-center relative z-10">
       <div data-aos="fade-up">
-        <div class="eyebrow text-indigo-800">Not ready for a custom website?</div>
-        <h2 class="section-title mt-4 text-slate-900">Start free with KadMeHQ.</h2>
+        <h2 class="section-title text-slate-900">Start free with KadMeHQ.</h2>
         <p class="mt-6 text-slate-700 leading-8 text-lg">
           KadMeHQ is the DIY option I built for people who need a simple online presence without hiring a developer yet.
         </p>
@@ -537,8 +566,7 @@
   <section id="experience" class="py-28" style="background:#081844">
     <div class="wrap experience-grid">
       <div data-aos="fade-up">
-        <div class="eyebrow" style="color:var(--lime)">Experience</div>
-        <h2 class="section-title text-white mt-4">Web, products & interactive learning.</h2>
+        <h2 class="section-title text-white">Web, products & interactive learning.</h2>
         <p class="text-white/45 leading-7 mt-5">My day job and product work give me broader technical experience, while my freelance offer stays intentionally focused.</p>
       </div>
 
@@ -577,8 +605,7 @@
   <section class="py-24 bg-slate-50">
     <div class="wrap grid md:grid-cols-[.7fr_1.3fr] gap-14">
       <div>
-        <div class="eyebrow text-indigo-700">FAQ</div>
-        <h2 class="section-title mt-4">Good to know.</h2>
+        <h2 class="section-title">Good to know.</h2>
       </div>
 
       <div class="faq">
@@ -603,8 +630,7 @@
     <div class="absolute top-0 left-1/3 w-[500px] h-[500px] blur-3xl rounded-full" style="background:rgba(199,255,65,.06)"></div>
     <div class="wrap contact-box relative z-10">
       <div>
-        <div class="eyebrow" style="color:var(--lime)">Project enquiry</div>
-        <h2 class="section-title text-white mt-4">Need a website?<br>Tell me what you’re building.</h2>
+        <h2 class="section-title text-white">Need a website?<br>Tell me what you’re building.</h2>
         <p class="text-white/45 leading-8 mt-5 max-w-xl">
           Email is my primary contact for freelance work. Give me the basics and I’ll have enough context to understand the project properly.
         </p>
@@ -672,179 +698,65 @@
     <div class="wrap py-8 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/30">
       <div>© 2026 Syed Muhammad Haziq. Web & Game Developer · Product Builder.</div>
       <div class="flex gap-5">
-        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" class="hover:text-white">LinkedIn</a>
-        <a href="https://kadmehq.com" target="_blank" class="hover:text-white">KadMeHQ</a>
+        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" rel="noopener" class="hover:text-white">LinkedIn</a>
+        <a href="https://kadmehq.com" target="_blank" rel="noopener" class="hover:text-white">KadMeHQ</a>
         <a href="#contact" class="hover:text-white">Request a Quote</a>
       </div>
     </div>
   </footer>
 
-  <script>
-    AOS.init({ duration: 650, once: true, offset: 40 });
-    feather.replace();
-
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 24));
-
-    // HERO PORTRAIT PARALLAX
-    // Subtle pointer + scroll depth, desktop fine-pointer only. Skips entirely
-    // under prefers-reduced-motion, and never attaches on touch (mobile) devices.
-    (function () {
-      const portrait = document.getElementById('heroPortrait');
-      const hero = document.getElementById('top');
-      if (!portrait || !hero) return;
-
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const finePointer = window.matchMedia('(pointer: fine)').matches;
-      if (reducedMotion || !finePointer) return;
-
-      const MAX_POINTER_X = 6;     // px, horizontal cap
-      const MAX_POINTER_Y = 4;     // px, vertical cap
-      const MAX_SCROLL_SHIFT = 10; // px, total scroll depth
-      let pointerX = 0, pointerY = 0, scrollShift = 0;
-
-      // Explicit clamps (not just the multiplier math) so head/crop safety
-      // holds even if this gets tuned later: vertical movement never exceeds
-      // MAX_POINTER_Y, keeping it far inside the stage's headroom/crop margins.
-      function render() {
-        const clampedY = Math.max(-MAX_POINTER_Y, Math.min(MAX_POINTER_Y, pointerY)) + scrollShift;
-        portrait.style.transform = `translate3d(${pointerX}px, ${clampedY}px, 0)`;
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://azza-arch.github.io/Azza-arch/#website",
+        "url": "https://azza-arch.github.io/Azza-arch/",
+        "name": "Syed Muhammad Haziq — Portfolio",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://azza-arch.github.io/Azza-arch/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://azza-arch.github.io/Azza-arch/#person",
+        "name": "Syed Muhammad Haziq",
+        "url": "https://azza-arch.github.io/Azza-arch/",
+        "image": "https://azza-arch.github.io/Azza-arch/source/assets/images/hero-cutout.png",
+        "jobTitle": "Web & Game Developer",
+        "email": "mailto:syhaziqdev@gmail.com",
+        "nationality": "Malaysian",
+        "knowsAbout": ["Landing page development", "Sales page development", "Business websites", "Front-end development", "UI/UX design", "Laravel", "Tailwind CSS", "Unity"],
+        "sameAs": [
+          "https://www.linkedin.com/in/syhaziqdev/",
+          "https://kadmehq.com"
+        ],
+        "worksFor": { "@type": "Organization", "name": "Oxford EduVision" },
+        "makesOffer": { "@type": "Offer", "itemOffered": { "@id": "https://azza-arch.github.io/Azza-arch/#service" } }
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://azza-arch.github.io/Azza-arch/#service",
+        "name": "Syed Muhammad Haziq — Freelance Web Development",
+        "url": "https://azza-arch.github.io/Azza-arch/",
+        "image": "https://azza-arch.github.io/Azza-arch/og-image.png",
+        "description": "Freelance web development for focused landing pages, sales pages and lightweight business websites for businesses, organisations and personal brands.",
+        "provider": { "@id": "https://azza-arch.github.io/Azza-arch/#person" },
+        "areaServed": "MY",
+        "availableLanguage": ["en", "ms"],
+        "serviceType": ["Landing page design", "Sales page design", "Business website design", "Custom front-end development"],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Web development packages",
+          "itemListElement": [
+            { "@type": "Offer", "name": "Starter", "price": "399", "priceCurrency": "MYR", "priceSpecification": { "@type": "PriceSpecification", "price": "399", "priceCurrency": "MYR", "valueAddedTaxIncluded": false }, "description": "A clean one-page website with up to 5 sections, mobile optimisation, basic SEO and one revision round." },
+            { "@type": "Offer", "name": "Sales / Business", "price": "799", "priceCurrency": "MYR", "description": "Custom page structure, conversion-focused sections, enquiry form, analytics setup and two revision rounds." },
+            { "@type": "Offer", "name": "Custom Front-End", "description": "Custom visual direction, multiple marketing pages and interactive UI; scope and quote agreed before work begins." }
+          ]
+        }
       }
-
-      hero.addEventListener('mousemove', (e) => {
-        const rect = hero.getBoundingClientRect();
-        const relX = (e.clientX - rect.left) / rect.width - 0.5;
-        const relY = (e.clientY - rect.top) / rect.height - 0.5;
-        pointerX = relX * MAX_POINTER_X * 2;
-        pointerY = relY * MAX_POINTER_Y * 2;
-        render();
-      });
-
-      hero.addEventListener('mouseleave', () => {
-        pointerX = 0;
-        pointerY = 0;
-        render();
-      });
-
-      window.addEventListener('scroll', () => {
-        const heroHeight = hero.offsetHeight || 1;
-        const progress = Math.min(Math.max(window.scrollY / heroHeight, 0), 1);
-        scrollShift = progress * MAX_SCROLL_SHIFT;
-        render();
-      }, { passive: true });
-    })();
-
-    // MOBILE NAV
-    const navToggle = document.getElementById('navToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    function isMenuOpen() {
-      return navToggle.getAttribute('aria-expanded') === 'true';
-    }
-
-    function openMobileMenu() {
-      mobileMenu.classList.add('is-open');
-      navToggle.setAttribute('aria-expanded', 'true');
-      navToggle.setAttribute('aria-label', 'Close menu');
-      mobileMenu.removeAttribute('inert');
-    }
-
-    function closeMobileMenu(opts) {
-      mobileMenu.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.setAttribute('aria-label', 'Open menu');
-      mobileMenu.setAttribute('inert', '');
-      if (opts && opts.returnFocus) navToggle.focus();
-    }
-
-    closeMobileMenu();
-
-    navToggle.addEventListener('click', () => {
-      isMenuOpen() ? closeMobileMenu() : openMobileMenu();
-    });
-
-    mobileMenu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => closeMobileMenu());
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isMenuOpen()) closeMobileMenu({ returnFocus: true });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!isMenuOpen()) return;
-      if (mobileMenu.contains(e.target) || navToggle.contains(e.target)) return;
-      closeMobileMenu();
-    });
-
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 720 && isMenuOpen()) closeMobileMenu();
-    });
-
-    // TODO: REPLACE THIS WITH YOUR REAL PROFESSIONAL EMAIL BEFORE PUBLISHING.
-    const CONTACT_EMAIL = 'syhaziqdev@gmail.com';
-
-    // Single source of truth: the visible email link always mirrors CONTACT_EMAIL,
-    // so it cannot drift from the address the form actually sends to.
-    const emailLink = document.getElementById('contactEmailLink');
-    const emailText = document.getElementById('contactEmailText');
-    if (emailLink && emailText) {
-      emailLink.href = `mailto:${CONTACT_EMAIL}`;
-      emailText.textContent = CONTACT_EMAIL;
-    }
-
-    const quoteForm = document.getElementById('quoteForm');
-    const formError = document.getElementById('formError');
-    const nameField = document.getElementById('name');
-    const detailsField = document.getElementById('details');
-
-    quoteForm.addEventListener('submit', function(e){
-      e.preventDefault();
-
-      const name = nameField.value.trim();
-      const business = document.getElementById('business').value.trim();
-      const type = document.getElementById('type').value;
-      const budget = document.getElementById('budget').value;
-      const details = detailsField.value.trim();
-
-      const missing = [];
-      [[nameField, name, 'your name'], [detailsField, details, 'a few project details']].forEach(function(entry){
-        const field = entry[0], value = entry[1], label = entry[2];
-        const invalid = !value;
-        field.setAttribute('aria-invalid', invalid ? 'true' : 'false');
-        field.classList.toggle('field-invalid', invalid);
-        if (invalid) missing.push(label);
-      });
-
-      if (missing.length) {
-        formError.textContent = `Please add ${missing.join(' and ')} before sending — or email ${CONTACT_EMAIL} directly.`;
-        formError.classList.remove('hidden');
-        (nameField.getAttribute('aria-invalid') === 'true' ? nameField : detailsField).focus();
-        return;
-      }
-
-      formError.classList.add('hidden');
-      formError.textContent = '';
-
-      const subject = `Website enquiry — ${business || name}`;
-      const body =
-`Hi Syed,
-
-I found your portfolio and I’m interested in discussing a website project.
-
-Name: ${name}
-Business / Organisation: ${business || '-'}
-Project type: ${type}
-Approximate budget: ${budget}
-
-Project details:
-${details}
-
-Thank you.`;
-
-      window.location.href =
-        `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
+    ]
+  }
   </script>
 </body>
 </html>

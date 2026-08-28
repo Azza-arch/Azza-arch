@@ -1,0 +1,36 @@
+# Syed Muhammad Haziq
+
+> Freelance web developer based in Malaysia. Builds focused landing pages,
+> sales pages and lightweight business websites for businesses, organisations
+> and personal brands. Not currently taking on large custom systems or
+> backend-heavy platforms.
+
+## Services
+
+- Landing Page: a focused one-page website for a business, campaign, service, event or personal brand.
+- Sales Page: a conversion-focused page that explains one offer and pushes visitors toward one action.
+- Business Website: a lightweight multi-section or small multi-page website for a stronger online presence.
+
+## Pricing (starting prices, MYR)
+
+- Starter: RM399+ — one-page responsive website, up to 5 main sections, WhatsApp/email call-to-action, mobile optimisation, basic SEO setup, 1 revision round.
+- Sales / Business: RM799+ — custom page structure, conversion-focused sections, contact or enquiry form, analytics setup, 2 revision rounds.
+- Custom Front-End: quote on request — custom visual direction, multiple marketing pages, interactive UI where useful; scope agreed before work begins.
+
+Final pricing depends on content, design complexity and scope.
+
+## Experience
+
+- Web & Game Developer, Oxford EduVision (Jan 2025 – present).
+- Founder & Developer, KadMeHQ (2026 – present).
+- Web Developer Intern, Mysoftcare Solution (Oct 2023 – Mar 2024).
+
+## Contact
+
+- Email (primary): syhaziqdev@gmail.com
+- LinkedIn: https://www.linkedin.com/in/syhaziqdev/
+
+## Links
+
+- Portfolio: https://azza-arch.github.io/Azza-arch/
+- KadMeHQ (free DIY website builder, founded by Haziq): https://kadmehq.com

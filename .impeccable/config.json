@@ -14,6 +14,15 @@
         "value": "space grotesk",
         "createdAt": "2026-08-16T16:59:38.592Z",
         "reason": "user confirmed: pinned brand typography (Space Grotesk + Plus Jakarta Sans) stated explicitly in /impeccable critique brief"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-08-28T02:03:15.496Z",
+        "reason": "user brief: strict security/SEO/perf/a11y pass with explicit NON-NEGOTIABLE 'do not redesign / do not change branding'; lime accent glow is pre-existing established brand styling, out of scope"
       }
     ]
   }
