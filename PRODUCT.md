@@ -12,7 +12,7 @@ Primary visitors are Malaysian SME owners, organisations, educators, founders an
 
 ## Product Purpose
 
-`haziqbuilds.com` is the personal portfolio and freelance enquiry site for Syed Muhammad Haziq / SYHAZIQDEV. It should help visitors understand what Haziq builds, trust the quality of his work, review selected projects, and contact him for website work.
+`haziqbuilds.com` is the personal portfolio and freelance enquiry site for Syed Muhammad Haziq, trading as **haziqbuilds**. It should help visitors understand what Haziq builds, trust the quality of his work, review selected projects, and contact him for website work.
 
 ## Positioning
 
@@ -39,7 +39,7 @@ The site is deployed to Cloudflare Pages from GitHub for `haziqbuilds.com`. Cont
 
 ## Brand Commitments
 
-Use the `SYHAZIQDEV` / `haziqbuilds` identity. Voice should be clear, practical, direct and fully English on the public site. The brand may show personality, but the primary positioning is developer + founder, not artist-first.
+Use the `haziqbuilds` identity (the wordmark is `haziq` + lime `builds`); `SYHAZIQDEV` is a legacy handle only. Voice should be clear, practical, direct and fully English on the public site. The brand may show personality, but the primary positioning is developer + founder, not artist-first.
 
 ## Evidence on Hand
 
