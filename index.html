@@ -5,39 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!--
-    Content-Security-Policy delivered via meta because GitHub Pages does not allow
-    custom HTTP response headers. Meta CSP covers everything except frame-ancestors,
-    sandbox and report-uri/report-to — those genuinely require server/CDN control
-    and are documented as deferred, not faked here.
+    Content-Security-Policy delivered via meta for now. Cloudflare Pages can serve
+    real response headers (_headers file) — moving CSP + HSTS there, and adding a
+    proper frame-ancestors / report-to, is deferred to a later phase.
   -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.youtube.com https://i.ytimg.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
-  <title>Syed Muhammad Haziq — Landing Page &amp; Web Developer, Malaysia</title>
+  <title>SYHAZIQDEV — Landing Page &amp; Web Developer, Malaysia | Syed Muhammad Haziq</title>
   <meta name="description" content="Freelance web developer in Malaysia building focused landing pages, sales pages and lightweight business websites for businesses, organisations and personal brands. Starter projects from RM399.">
   <meta name="author" content="Syed Muhammad Haziq">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="theme-color" content="#070b1a">
   <meta name="color-scheme" content="dark light">
-  <link rel="canonical" href="https://azza-arch.github.io/Azza-arch/">
+  <link rel="canonical" href="https://haziqbuilds.com/">
 
-  <meta property="og:title" content="Syed Muhammad Haziq — Landing Page &amp; Web Developer">
+  <meta property="og:title" content="SYHAZIQDEV — Landing Page &amp; Web Developer">
   <meta property="og:description" content="Freelance web developer in Malaysia building focused landing pages, sales pages and lightweight business websites — without agency-sized complexity.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://azza-arch.github.io/Azza-arch/">
-  <meta property="og:site_name" content="Syed Muhammad Haziq">
+  <meta property="og:url" content="https://haziqbuilds.com/">
+  <meta property="og:site_name" content="SYHAZIQDEV — Syed Muhammad Haziq">
   <meta property="og:locale" content="en_MY">
-  <meta property="og:image" content="https://azza-arch.github.io/Azza-arch/og-image.png">
+  <meta property="og:image" content="https://haziqbuilds.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Syed Muhammad Haziq — Landing Page & Web Developer, Malaysia">
+  <meta property="og:image:alt" content="SYHAZIQDEV — Landing Page & Web Developer, Malaysia">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Syed Muhammad Haziq — Landing Page &amp; Web Developer">
+  <meta name="twitter:title" content="SYHAZIQDEV — Landing Page &amp; Web Developer">
   <meta name="twitter:description" content="Freelance web developer in Malaysia building focused landing pages, sales pages and lightweight business websites.">
-  <meta name="twitter:image" content="https://azza-arch.github.io/Azza-arch/og-image.png">
+  <meta name="twitter:image" content="https://haziqbuilds.com/og-image.png">
 
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="source/assets/images/logo.png" sizes="128x128" type="image/png">
+  <link rel="icon" href="assets/images/logo.png" sizes="128x128" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
@@ -132,7 +131,7 @@
     .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .price-card{position:relative;padding:34px;border:1px solid #dbe3ef;background:#fff}
     .price-card.featured{border:2px solid #0f172a;transform:translateY(-8px)}
-    .popular{position:absolute;right:20px;top:18px;background:var(--lime);padding:6px 10px;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:900}
+    .popular{position:absolute;right:20px;top:18px;background:var(--lime);color:#101827;padding:6px 11px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:900}
     .check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;color:#475569;font-size:.92rem;line-height:1.6}
     .check svg{width:17px;height:17px;flex:0 0 17px;margin-top:3px}
     .experience-grid{display:grid;grid-template-columns:.65fr 1.35fr;gap:46px}
@@ -193,13 +192,13 @@
 </head>
 
 <body>
-  <a href="#top" class="skip-link">Skip to content</a>
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- NAV -->
-  <nav class="nav" id="navbar">
+  <nav class="nav" id="navbar" aria-label="Primary">
     <div class="wrap py-4 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-3">
-        <img src="source/assets/images/logo.png" alt="" width="40" height="40" decoding="async" class="w-10 h-10 object-contain">
+        <img src="assets/images/logo.png" alt="" width="40" height="40" decoding="async" class="w-10 h-10 object-contain">
         <span class="text-white font-extrabold">SYHAZIQ<span style="color:var(--lime)">DEV</span></span>
       </a>
 
@@ -250,7 +249,7 @@
           <a href="#work" class="btn-outline">See My Work</a>
         </div>
 
-        <p class="mt-5 text-sm text-white/40">
+        <p class="mt-5 text-sm text-white/70">
           Need something simpler? <a href="https://kadmehq.com" target="_blank" rel="noopener" class="font-bold" style="color:var(--lime)">Start free with KadMeHQ →</a>
         </p>
       </div>
@@ -258,12 +257,14 @@
       <div data-aos="fade-left" data-aos-delay="120" class="hero-person-stage">
         <div class="hero-person-glow" aria-hidden="true"></div>
         <picture>
-          <source srcset="source/assets/images/hero-cutout.webp" type="image/webp">
-          <img id="heroPortrait" src="source/assets/images/hero-cutout.png" alt="Syed Muhammad Haziq, freelance web developer" width="1080" height="1350" fetchpriority="high" decoding="async" class="hero-person">
+          <source srcset="assets/images/hero-cutout.webp" type="image/webp">
+          <img id="heroPortrait" src="assets/images/hero-cutout.png" alt="Syed Muhammad Haziq, freelance web developer" width="1080" height="1350" fetchpriority="high" decoding="async" class="hero-person">
         </picture>
       </div>
     </div>
   </header>
+
+  <main id="main">
 
   <!-- TRUST -->
   <section class="border-b border-slate-200 bg-white">
@@ -324,8 +325,8 @@
 
       <div class="price-grid mt-14">
         <div class="price-card" data-aos="fade-up">
-          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-400">Starter</div>
-          <div class="mt-4 text-4xl font-extrabold">RM399<span class="text-base text-slate-400">+</span></div>
+          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Starter</div>
+          <div class="mt-4 text-4xl font-extrabold">RM399<span class="text-base text-slate-500">+</span></div>
           <p class="mt-3 text-slate-500 leading-7">A clean one-page website for getting your business online professionally.</p>
           <div class="mt-7">
             <div class="check"><i data-feather="check"></i><span>One-page responsive website</span></div>
@@ -340,8 +341,8 @@
 
         <div class="price-card featured shadow-soft" data-aos="fade-up" data-aos-delay="80">
           <div class="popular">Best fit</div>
-          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-400">Sales / Business</div>
-          <div class="mt-4 text-4xl font-extrabold">RM799<span class="text-base text-slate-400">+</span></div>
+          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Sales / Business</div>
+          <div class="mt-4 text-4xl font-extrabold">RM799<span class="text-base text-slate-500">+</span></div>
           <p class="mt-3 text-slate-500 leading-7">For businesses that need stronger structure, more content and a more persuasive page.</p>
           <div class="mt-7">
             <div class="check"><i data-feather="check"></i><span>Custom page structure</span></div>
@@ -355,7 +356,7 @@
         </div>
 
         <div class="price-card" data-aos="fade-up" data-aos-delay="160">
-          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-400">Custom Front-End</div>
+          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Custom Front-End</div>
           <div class="mt-4 text-4xl font-extrabold">Quote</div>
           <p class="mt-3 text-slate-500 leading-7">For unique marketing websites that need more pages, richer visual work or custom front-end interactions.</p>
           <div class="mt-7">
@@ -376,7 +377,7 @@
     <div class="wrap">
       <div class="max-w-3xl" data-aos="fade-up">
         <h2 class="section-title text-white">Real things I’ve built, shipped and contributed to.</h2>
-        <p class="mt-5 text-white/45 leading-8">
+        <p class="mt-5 text-white/65 leading-8">
           My freelance focus is websites, but my wider development experience includes public web platforms,
           SaaS products, internal systems and educational games.
         </p>
@@ -389,7 +390,7 @@
             <div class="text-xs uppercase tracking-[.2em] font-extrabold" style="color:var(--purple)">Web & Product Work</div>
             <h3 class="text-white text-2xl font-bold mt-2">Front-facing platforms and product work</h3>
           </div>
-          <div class="hidden md:block text-white/30 text-sm">The work most relevant to freelance web clients</div>
+          <div class="hidden md:block text-white/70 text-sm">The work most relevant to freelance web clients</div>
         </div>
 
         <div class="portfolio-grid">
@@ -399,7 +400,7 @@
               <div class="project-badge">Web Platform</div>
               <div class="project-copy">
                 <div class="text-white text-3xl font-bold">Tafaqquh.my</div>
-                <p class="text-white/55 mt-2 max-w-xl leading-6">
+                <p class="text-white/65 mt-2 max-w-xl leading-6">
                   Contributed to the development and UX improvement of a digital Islamic learning platform.
                 </p>
                 <div class="mt-3 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--lime)">Web Development · UX Contribution</div>
@@ -411,7 +412,7 @@
               <div class="project-badge">Web</div>
               <div class="project-copy">
                 <div class="text-white text-2xl font-bold">EduVision Pelaporan</div>
-                <p class="text-white/50 mt-2 leading-6">
+                <p class="text-white/65 mt-2 leading-6">
                   A web-based reporting experience developed as part of my work at Oxford EduVision.
                 </p>
                 <div class="mt-3 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--purple)">Web Development</div>
@@ -425,7 +426,7 @@
               <div class="project-badge">Founder · SaaS</div>
               <div class="project-copy">
                 <div class="text-white text-2xl font-bold">KadMeHQ</div>
-                <p class="text-white/50 mt-2 leading-6">
+                <p class="text-white/65 mt-2 leading-6">
                   A Malaysian digital profile and lightweight website platform I founded and develop.
                 </p>
                 <div class="mt-3 text-sm font-bold uppercase tracking-[.12em]" style="color:var(--lime)">Product · Laravel · UI/UX</div>
@@ -437,10 +438,10 @@
               <div class="project-badge">Internal Product Experience</div>
               <div class="project-copy">
                 <div class="text-white text-3xl font-bold">SPEED Internal System</div>
-                <p class="text-white/50 mt-3 leading-7">
+                <p class="text-white/65 mt-3 leading-7">
                   Internal operations platform developed at Oxford EduVision, covering administrative workflows and operational processes.
                 </p>
-                <div class="mt-4 text-xs uppercase tracking-[.14em] font-bold text-white/35">
+                <div class="mt-4 text-xs uppercase tracking-[.14em] font-bold text-white/70">
                   Internal system experience
                 </div>
               </div>
@@ -456,7 +457,7 @@
             <div class="text-xs uppercase tracking-[.2em] font-extrabold" style="color:var(--lime)">Games & Interactive Work</div>
             <h3 class="text-white text-2xl font-bold mt-2">Educational experiences built with Unity</h3>
           </div>
-          <div class="hidden md:block text-white/30 text-sm">Supporting proof of broader development experience</div>
+          <div class="hidden md:block text-white/70 text-sm">Supporting proof of broader development experience</div>
         </div>
 
         <!-- FLAGSHIP -->
@@ -522,8 +523,6 @@
         </div>
       </div>
     </div>
-      </div>
-    </div>
   </section>
 
   <!-- KADME -->
@@ -543,16 +542,16 @@
       </div>
 
       <div class="bg-slate-950 p-8 shadow-soft" data-aos="fade-left">
-        <div class="text-xs uppercase tracking-[.2em] font-bold text-white/30">Two ways to work with me</div>
+        <div class="text-xs uppercase tracking-[.2em] font-bold text-white/70">Two ways to work with me</div>
         <div class="mt-7 border-t border-white/10 pt-6">
-          <div class="text-white/45 text-sm">DIY / Lowest cost</div>
+          <div class="text-white/65 text-sm">DIY / Lowest cost</div>
           <div class="flex justify-between items-end gap-5 mt-1">
             <div class="text-white text-2xl font-bold">KadMeHQ</div>
             <div class="text-3xl font-extrabold" style="color:var(--lime)">Free</div>
           </div>
         </div>
         <div class="mt-6 border-t border-white/10 pt-6">
-          <div class="text-white/45 text-sm">Done professionally for you</div>
+          <div class="text-white/65 text-sm">Done professionally for you</div>
           <div class="flex justify-between items-end gap-5 mt-1">
             <div class="text-white text-2xl font-bold">Freelance Website</div>
             <div class="text-3xl font-extrabold" style="color:var(--purple)">RM399+</div>
@@ -567,15 +566,15 @@
     <div class="wrap experience-grid">
       <div data-aos="fade-up">
         <h2 class="section-title text-white">Web, products & interactive learning.</h2>
-        <p class="text-white/45 leading-7 mt-5">My day job and product work give me broader technical experience, while my freelance offer stays intentionally focused.</p>
+        <p class="text-white/65 leading-7 mt-5">My day job and product work give me broader technical experience, while my freelance offer stays intentionally focused.</p>
       </div>
 
       <div>
         <div class="timeline-item" data-aos="fade-up">
           <div class="text-sm font-bold" style="color:var(--lime)">JAN 2025 — PRESENT</div>
           <h3 class="text-white text-2xl font-bold mt-2">Web & Game Developer</h3>
-          <div class="text-white/55 mt-1">Oxford EduVision</div>
-          <p class="text-white/45 leading-7 mt-4">
+          <div class="text-white/65 mt-1">Oxford EduVision</div>
+          <p class="text-white/65 leading-7 mt-4">
             Building and contributing to web platforms, internal systems and educational applications including Tafaqquh.my, EduVision Pelaporan, SPEED and Unity-based educational games.
           </p>
         </div>
@@ -583,17 +582,17 @@
         <div class="timeline-item" data-aos="fade-up">
           <div class="text-sm font-bold" style="color:var(--purple)">2026 — PRESENT</div>
           <h3 class="text-white text-2xl font-bold mt-2">Founder & Developer</h3>
-          <div class="text-white/55 mt-1">KadMeHQ</div>
-          <p class="text-white/45 leading-7 mt-4">
+          <div class="text-white/65 mt-1">KadMeHQ</div>
+          <p class="text-white/65 leading-7 mt-4">
             Building a Malaysian digital-profile and simple website platform, including product design, publishing flow, subscriptions and the overall user experience.
           </p>
         </div>
 
         <div class="timeline-item !pb-0" data-aos="fade-up">
-          <div class="text-sm font-bold text-white/35">OCT 2023 — MAR 2024</div>
+          <div class="text-sm font-bold text-white/70">OCT 2023 — MAR 2024</div>
           <h3 class="text-white text-2xl font-bold mt-2">Web Developer Intern</h3>
-          <div class="text-white/55 mt-1">Mysoftcare Solution</div>
-          <p class="text-white/45 leading-7 mt-4">
+          <div class="text-white/65 mt-1">Mysoftcare Solution</div>
+          <p class="text-white/65 leading-7 mt-4">
             Hands-on experience in full-stack web development, interfaces and practical production workflows.
           </p>
         </div>
@@ -631,11 +630,11 @@
     <div class="wrap contact-box relative z-10">
       <div>
         <h2 class="section-title text-white">Need a website?<br>Tell me what you’re building.</h2>
-        <p class="text-white/45 leading-8 mt-5 max-w-xl">
+        <p class="text-white/65 leading-8 mt-5 max-w-xl">
           Email is my primary contact for freelance work. Give me the basics and I’ll have enough context to understand the project properly.
         </p>
 
-        <div class="mt-8 text-white/55 text-sm leading-7">
+        <div class="mt-8 text-white/65 text-sm leading-7">
           <b class="text-white">Best fit:</b> landing pages, sales pages, business websites, portfolios.<br>
           <b class="text-white">Not currently taking:</b> large custom systems or backend-heavy platforms.
         </div>
@@ -644,14 +643,15 @@
       <form id="quoteForm" class="glass p-6 md:p-8" novalidate>
         <div id="formError" class="form-error mb-4 hidden" role="alert"></div>
 
-        <label class="block text-white/55 text-sm mb-2" for="name">Your name <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
+        <label class="block text-white/65 text-sm mb-2" for="name">Your name <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
         <input id="name" class="contact-input mb-4" required aria-required="true" placeholder="Your name">
 
-        <label class="block text-white/55 text-sm mb-2" for="business">Business / organisation</label>
+        <label class="block text-white/65 text-sm mb-2" for="business">Business / organisation</label>
         <input id="business" class="contact-input mb-4" placeholder="Business name">
 
-        <label class="block text-white/55 text-sm mb-2" for="type">What do you need?</label>
-        <select id="type" class="contact-input mb-4">
+        <label class="block text-white/65 text-sm mb-2" for="type">What do you need? <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
+        <select id="type" class="contact-input mb-4" required aria-required="true">
+          <option value="" disabled selected>Select project type…</option>
           <option>Landing page</option>
           <option>Sales page</option>
           <option>Business website</option>
@@ -659,33 +659,34 @@
           <option>Not sure yet</option>
         </select>
 
-        <label class="block text-white/55 text-sm mb-2" for="budget">Approximate budget</label>
-        <select id="budget" class="contact-input mb-4">
+        <label class="block text-white/65 text-sm mb-2" for="budget">Approximate budget <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
+        <select id="budget" class="contact-input mb-4" required aria-required="true">
+          <option value="" disabled selected>Select budget…</option>
           <option>RM399–RM799</option>
           <option>RM800–RM1,500</option>
           <option>RM1,500+</option>
           <option>Not sure yet</option>
         </select>
 
-        <label class="block text-white/55 text-sm mb-2" for="details">Brief project details <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
+        <label class="block text-white/65 text-sm mb-2" for="details">Brief project details <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
         <textarea id="details" class="contact-input min-h-[130px]" required aria-required="true" placeholder="What does your business do, and what do you want the website to achieve?"></textarea>
 
         <button class="btn-primary w-full mt-5" type="submit">
           Prepare Email <i data-feather="mail" class="w-4 h-4"></i>
         </button>
 
-        <p class="text-white/55 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
+        <p class="text-white/65 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
           Prefer email directly? <a id="contactEmailLink" class="contact-email" href="mailto:">
             <span id="contactEmailText">syhaziqdev@gmail.com</span>
           </a>
         </p>
 
-        <p class="text-white/30 text-xs leading-5 mt-3">
+        <p class="text-white/70 text-xs leading-5 mt-3">
           This opens your email app with the project details pre-filled. No information is stored by this page.
         </p>
 
         <noscript>
-          <p class="text-white/55 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
+          <p class="text-white/65 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
             This form needs JavaScript to prepare your email. Please email
             <a class="contact-email" href="mailto:syhaziqdev@gmail.com">syhaziqdev@gmail.com</a> directly instead.
           </p>
@@ -694,9 +695,11 @@
     </div>
   </section>
 
+  </main>
+
   <footer style="background:#050814;border-top:1px solid rgba(255,255,255,.06)">
-    <div class="wrap py-8 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/30">
-      <div>© 2026 Syed Muhammad Haziq. Web & Game Developer · Product Builder.</div>
+    <div class="wrap py-8 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/70">
+      <div>© 2026 Syed Muhammad Haziq. Web &amp; Game Developer · Product Builder.</div>
       <div class="flex gap-5">
         <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" rel="noopener" class="hover:text-white">LinkedIn</a>
         <a href="https://kadmehq.com" target="_blank" rel="noopener" class="hover:text-white">KadMeHQ</a>
@@ -711,18 +714,19 @@
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://azza-arch.github.io/Azza-arch/#website",
-        "url": "https://azza-arch.github.io/Azza-arch/",
-        "name": "Syed Muhammad Haziq — Portfolio",
+        "@id": "https://haziqbuilds.com/#website",
+        "url": "https://haziqbuilds.com/",
+        "name": "SYHAZIQDEV — Syed Muhammad Haziq Portfolio",
         "inLanguage": "en",
-        "publisher": { "@id": "https://azza-arch.github.io/Azza-arch/#person" }
+        "publisher": { "@id": "https://haziqbuilds.com/#person" }
       },
       {
         "@type": "Person",
-        "@id": "https://azza-arch.github.io/Azza-arch/#person",
+        "@id": "https://haziqbuilds.com/#person",
         "name": "Syed Muhammad Haziq",
-        "url": "https://azza-arch.github.io/Azza-arch/",
-        "image": "https://azza-arch.github.io/Azza-arch/source/assets/images/hero-cutout.png",
+        "alternateName": "SYHAZIQDEV",
+        "url": "https://haziqbuilds.com/",
+        "image": "https://haziqbuilds.com/assets/images/hero-cutout.png",
         "jobTitle": "Web & Game Developer",
         "email": "mailto:syhaziqdev@gmail.com",
         "nationality": "Malaysian",
@@ -732,16 +736,16 @@
           "https://kadmehq.com"
         ],
         "worksFor": { "@type": "Organization", "name": "Oxford EduVision" },
-        "makesOffer": { "@type": "Offer", "itemOffered": { "@id": "https://azza-arch.github.io/Azza-arch/#service" } }
+        "makesOffer": { "@type": "Offer", "itemOffered": { "@id": "https://haziqbuilds.com/#service" } }
       },
       {
         "@type": "ProfessionalService",
-        "@id": "https://azza-arch.github.io/Azza-arch/#service",
-        "name": "Syed Muhammad Haziq — Freelance Web Development",
-        "url": "https://azza-arch.github.io/Azza-arch/",
-        "image": "https://azza-arch.github.io/Azza-arch/og-image.png",
+        "@id": "https://haziqbuilds.com/#service",
+        "name": "SYHAZIQDEV — Freelance Web Development",
+        "url": "https://haziqbuilds.com/",
+        "image": "https://haziqbuilds.com/og-image.png",
         "description": "Freelance web development for focused landing pages, sales pages and lightweight business websites for businesses, organisations and personal brands.",
-        "provider": { "@id": "https://azza-arch.github.io/Azza-arch/#person" },
+        "provider": { "@id": "https://haziqbuilds.com/#person" },
         "areaServed": "MY",
         "availableLanguage": ["en", "ms"],
         "serviceType": ["Landing page design", "Sales page design", "Business website design", "Custom front-end development"],

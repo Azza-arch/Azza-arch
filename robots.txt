@@ -1,16 +1,4 @@
-# NOTE: This is a GitHub Pages *project* site (azza-arch.github.io/Azza-arch/).
-# Crawlers only read robots.txt from the host root
-# (https://azza-arch.github.io/robots.txt), which belongs to a different repo.
-# This file is therefore advisory only; submit the sitemap directly in
-# Google Search Console / Bing Webmaster Tools.
-
 User-agent: *
 Allow: /
 
-# Housekeeping / build files that add no search value
-Disallow: /Azza-arch/build_production/
-Disallow: /Azza-arch/source/_layouts/
-Disallow: /Azza-arch/PRODUCT.md
-Disallow: /Azza-arch/README.md
-
-Sitemap: https://azza-arch.github.io/Azza-arch/sitemap.xml
+Sitemap: https://haziqbuilds.com/sitemap.xml

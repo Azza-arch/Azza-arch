@@ -1,4 +1,4 @@
-/* Site behaviour for azza-arch.github.io/Azza-arch/
+/* Site behaviour for haziqbuilds.com
    Loaded with `defer` after aos.js and feather.min.js, so both globals exist
    and the DOM is fully parsed by the time this runs. Kept as an external file
    so the Content-Security-Policy can use `script-src 'self'` with no
@@ -128,20 +128,27 @@
   var quoteForm = document.getElementById('quoteForm');
   var formError = document.getElementById('formError');
   var nameField = document.getElementById('name');
+  var typeField = document.getElementById('type');
+  var budgetField = document.getElementById('budget');
   var detailsField = document.getElementById('details');
 
-  if (quoteForm && formError && nameField && detailsField) {
+  if (quoteForm && formError && nameField && typeField && budgetField && detailsField) {
     quoteForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
       var name = nameField.value.trim();
       var business = document.getElementById('business').value.trim();
-      var type = document.getElementById('type').value;
-      var budget = document.getElementById('budget').value;
+      var type = typeField.value;
+      var budget = budgetField.value;
       var details = detailsField.value.trim();
 
       var missing = [];
-      [[nameField, name, 'your name'], [detailsField, details, 'a few project details']].forEach(function (entry) {
+      [
+        [nameField, name, 'your name'],
+        [typeField, type, 'what you need'],
+        [budgetField, budget, 'an approximate budget'],
+        [detailsField, details, 'a few project details']
+      ].forEach(function (entry) {
         var field = entry[0], value = entry[1], label = entry[2];
         var invalid = !value;
         field.setAttribute('aria-invalid', invalid ? 'true' : 'false');
@@ -152,7 +159,8 @@
       if (missing.length) {
         formError.textContent = 'Please add ' + missing.join(' and ') + ' before sending — or email ' + CONTACT_EMAIL + ' directly.';
         formError.classList.remove('hidden');
-        (nameField.getAttribute('aria-invalid') === 'true' ? nameField : detailsField).focus();
+        var firstInvalid = quoteForm.querySelector('[aria-invalid="true"]');
+        if (firstInvalid) firstInvalid.focus();
         return;
       }
 
