@@ -4,9 +4,10 @@
 /vendor/
 /.idea/
 /.vscode/
+npm-debug.log
 .dev.vars*
 .env*
-npm-debug.log
+.impeccable/review/
 
 # Optional ignores
 # /build_staging/

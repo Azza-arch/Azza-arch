@@ -48,7 +48,7 @@
   <link href="assets/vendor/aos.css" rel="stylesheet">
   <script src="assets/vendor/aos.js" defer></script>
   <script src="assets/vendor/feather.min.js" defer></script>
-  <script src="assets/app.js?v=telegram-form" defer></script>
+  <script src="assets/app.js?v=email-form" defer></script>
 
   <style>
     :root{
@@ -101,7 +101,6 @@
     }
     .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:var(--lime);color:#101827;font-weight:800;padding:15px 22px;transition:.2s}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(199,255,65,.25)}
-    .btn-primary:disabled{opacity:.72;cursor:wait;transform:none;box-shadow:none}
     .btn-dark{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:#0f172a;color:#fff;font-weight:800;padding:15px 22px;transition:.2s}
     .btn-dark:hover{transform:translateY(-2px)}
     .btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;color:#fff;border:1px solid rgba(255,255,255,.22);padding:15px 22px;font-weight:700;transition:.2s}
@@ -230,8 +229,6 @@
     .contact-email{color:var(--lime);font-weight:800;text-decoration:underline;text-underline-offset:3px;word-break:break-all}
     .contact-email:hover{color:#fff}
     .form-error{border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#fecaca;padding:12px 14px;font-size:.875rem;line-height:1.5}
-    .form-success{border:1px solid rgba(199,255,65,.45);background:rgba(199,255,65,.1);color:#ecfccb;padding:12px 14px;font-size:.875rem;line-height:1.5}
-    .form-honeypot{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
     @media(max-width:900px){
       .hero-grid,.portfolio-grid,.experience-grid,.contact-box{grid-template-columns:1fr}
       .service-grid,.price-grid{grid-template-columns:1fr}
@@ -284,8 +281,8 @@
 
       <div class="nav-links flex gap-7 text-sm font-semibold">
         <a href="#services" class="text-white/75 hover:text-white">Services</a>
-        <a href="#work" class="text-white/75 hover:text-white">Work</a>
-        <a href="#about" class="text-white/75 hover:text-white">About</a>
+        <a href="work.html" class="text-white/75 hover:text-white">Work</a>
+        <a href="about.html" class="text-white/75 hover:text-white">About</a>
         <a href="#experience" class="text-white/75 hover:text-white">Experience</a>
         <a href="#kadme" class="text-white/75 hover:text-white">KadMeHQ</a>
       </div>
@@ -303,8 +300,8 @@
     <div id="mobileMenu" class="mobile-menu">
       <div class="mobile-menu-inner">
         <a href="#services" class="mobile-menu-link">Services</a>
-        <a href="#work" class="mobile-menu-link">Work</a>
-        <a href="#about" class="mobile-menu-link">About</a>
+        <a href="work.html" class="mobile-menu-link">Work</a>
+        <a href="about.html" class="mobile-menu-link">About</a>
         <a href="#experience" class="mobile-menu-link">Experience</a>
         <a href="#kadme" class="mobile-menu-link">KadMeHQ</a>
         <a href="#contact" class="mobile-menu-cta">Request a Quote</a>
@@ -328,7 +325,7 @@
           <a href="#contact" class="btn-primary">
             Request a Quote <i data-feather="arrow-up-right" class="w-4 h-4"></i>
           </a>
-          <a href="#work" class="btn-outline">See My Work</a>
+          <a href="work.html" class="btn-outline">See My Work</a>
         </div>
 
         <p class="mt-5 text-sm text-white/80">
@@ -472,7 +469,7 @@
             <div class="text-xs uppercase tracking-[.2em] font-extrabold" style="color:var(--lime)">Web &amp; Product Work</div>
             <h3 class="text-white text-2xl font-bold mt-2">Platforms I've designed, built and shipped</h3>
           </div>
-          <div class="hidden md:block text-white/80 text-sm">The work most relevant to freelance web clients</div>
+          <a href="work.html" class="hidden md:inline-flex btn-outline !py-2.5 !px-4 text-sm">View case notes</a>
         </div>
 
         <!-- Lead: my own product -->
@@ -760,12 +757,6 @@
 
       <form id="quoteForm" class="glass p-6 md:p-8" novalidate>
         <div id="formError" class="form-error mb-4 hidden" role="alert"></div>
-        <div id="formStatus" class="form-success mb-4 hidden" role="status" aria-live="polite"></div>
-
-        <div class="form-honeypot" aria-hidden="true">
-          <label for="website">Website</label>
-          <input id="website" name="website" tabindex="-1" autocomplete="off">
-        </div>
 
         <label class="block text-white/80 text-sm mb-2" for="name">Your name <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
         <input id="name" class="contact-input mb-4" required aria-required="true" placeholder="Your name">
@@ -795,8 +786,8 @@
         <label class="block text-white/80 text-sm mb-2" for="details">Brief project details <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
         <textarea id="details" class="contact-input min-h-[130px]" required aria-required="true" placeholder="What does your business do, and what do you want the website to achieve?"></textarea>
 
-        <button id="quoteSubmit" class="btn-primary w-full mt-5" type="submit">
-          Send Enquiry <i data-feather="send" class="w-4 h-4"></i>
+        <button class="btn-primary w-full mt-5" type="submit">
+          Prepare Email <i data-feather="mail" class="w-4 h-4"></i>
         </button>
 
         <p class="text-white/80 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
@@ -806,7 +797,7 @@
         </p>
 
         <p class="text-white/80 text-xs leading-5 mt-3">
-          This sends your enquiry to my private Telegram inbox. No information is stored by this page.
+          This opens your email app with the project details pre-filled. No information is stored by this page.
         </p>
 
         <noscript>
@@ -825,6 +816,8 @@
     <div class="wrap py-8 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/80">
       <div>© 2026 Syed Muhammad Haziq. Web &amp; Game Developer · Product Builder.</div>
       <div class="flex gap-5">
+        <a href="work.html" class="hover:text-white">Work</a>
+        <a href="about.html" class="hover:text-white">About</a>
         <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" rel="noopener" class="hover:text-white">LinkedIn</a>
         <a href="https://kadmehq.com" target="_blank" rel="noopener" class="hover:text-white">KadMeHQ</a>
         <a href="#contact" class="hover:text-white">Request a Quote</a>

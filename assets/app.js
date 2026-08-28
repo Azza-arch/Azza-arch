@@ -138,17 +138,14 @@
 
   var quoteForm = document.getElementById('quoteForm');
   var formError = document.getElementById('formError');
-  var formStatus = document.getElementById('formStatus');
   var nameField = document.getElementById('name');
   var businessField = document.getElementById('business');
   var typeField = document.getElementById('type');
   var budgetField = document.getElementById('budget');
   var detailsField = document.getElementById('details');
-  var websiteField = document.getElementById('website');
-  var quoteSubmit = document.getElementById('quoteSubmit');
 
-  if (quoteForm && formError && formStatus && nameField && businessField && typeField && budgetField && detailsField && websiteField && quoteSubmit) {
-    quoteForm.addEventListener('submit', async function (e) {
+  if (quoteForm && formError && nameField && businessField && typeField && budgetField && detailsField) {
+    quoteForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
       var payload = {
@@ -156,9 +153,7 @@
         business: businessField.value.trim(),
         type: typeField.value,
         budget: budgetField.value,
-        details: detailsField.value.trim(),
-        website: websiteField.value.trim(),
-        page: window.location.href
+        details: detailsField.value.trim()
       };
 
       var missing = [];
@@ -175,9 +170,6 @@
         if (invalid) missing.push(label);
       });
 
-      formStatus.classList.add('hidden');
-      formStatus.textContent = '';
-
       if (missing.length) {
         formError.textContent = 'Please add ' + missing.join(' and ') + ' before sending - or email ' + CONTACT_EMAIL + ' directly.';
         formError.classList.remove('hidden');
@@ -188,30 +180,7 @@
 
       formError.classList.add('hidden');
       formError.textContent = '';
-      quoteSubmit.disabled = true;
-      quoteSubmit.textContent = 'Sending...';
-
-      try {
-        var response = await fetch('/api/quote', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) throw new Error('Bad response');
-
-        quoteForm.reset();
-        formStatus.textContent = 'Thanks - your enquiry has been sent. I will reply as soon as I can.';
-        formStatus.classList.remove('hidden');
-      } catch (error) {
-        formError.textContent = 'I could not send this automatically. Please email ' + CONTACT_EMAIL + ' directly, or use the WhatsApp button.';
-        formError.classList.remove('hidden');
-        if (emailLink) emailLink.href = buildMailtoHref(payload);
-      } finally {
-        quoteSubmit.disabled = false;
-        quoteSubmit.innerHTML = 'Send Enquiry <i data-feather="send" class="w-4 h-4"></i>';
-        if (window.feather) feather.replace();
-      }
+      window.location.href = buildMailtoHref(payload);
     });
   }
 })();

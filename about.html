@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>About Syed Muhammad Haziq | SYHAZIQDEV</title>
+  <meta name="description" content="About Syed Muhammad Haziq, a founder-minded web developer from Terengganu building focused websites, KadMeHQ and educational apps.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#070b1a">
+  <link rel="canonical" href="https://haziqbuilds.com/about.html">
+  <meta property="og:title" content="About Syed Muhammad Haziq | SYHAZIQDEV">
+  <meta property="og:description" content="Founder-minded web developer from Terengganu building focused websites, KadMeHQ and educational apps.">
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://haziqbuilds.com/about.html">
+  <meta property="og:image" content="https://haziqbuilds.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Syed Muhammad Haziq | SYHAZIQDEV">
+  <meta name="twitter:description" content="Founder-minded web developer from Terengganu building focused websites, KadMeHQ and educational apps.">
+  <meta name="twitter:image" content="https://haziqbuilds.com/og-image.png">
+
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="assets/tailwind.css" rel="stylesheet">
+  <link href="assets/vendor/aos.css" rel="stylesheet">
+  <script src="assets/vendor/aos.js" defer></script>
+  <script src="assets/vendor/feather.min.js" defer></script>
+  <script src="assets/app.js?v=email-form" defer></script>
+
+  <style>
+    :root{--ink:#070b1a;--navy:#081844;--blue:#274bc4;--lime:#c7ff41;--purple:#c4b5fd;--white:#f8fafc;--line:rgba(255,255,255,.08)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#0f172a;overflow-x:hidden}
+    h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:0}
+    a{text-decoration:none}
+    .skip-link{position:absolute;left:8px;top:-48px;z-index:100;background:var(--lime);color:#101827;font-weight:800;padding:10px 16px;transition:top .15s ease}
+    .skip-link:focus{top:8px;outline:2px solid #101827;outline-offset:2px}
+    .wrap{max-width:1180px;margin:auto;padding-left:24px;padding-right:24px}
+    .flex-wrap{flex-wrap:wrap}
+    .text-white\/75{color:rgba(255,255,255,.75)}
+    .text-white\/80{color:rgba(255,255,255,.8)}
+    .nav{position:fixed;left:0;right:0;top:0;z-index:50;background:rgba(7,11,26,.93);border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}
+    .nav-toggle{display:none;position:relative;width:44px;height:44px;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(255,255,255,.22);padding:0;cursor:pointer;flex:0 0 auto}
+    .nav-toggle-bar{position:absolute;left:12px;right:12px;height:2px;background:#fff;transition:transform .18s ease,opacity .18s ease}
+    .nav-toggle-bar:nth-child(1){top:15px}.nav-toggle-bar:nth-child(2){top:21px}.nav-toggle-bar:nth-child(3){top:27px}
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2){opacity:0}
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    .mobile-menu{display:grid;grid-template-rows:0fr;background:#070b1a;border-bottom:1px solid transparent;transition:grid-template-rows .22s ease,border-color .22s ease}
+    .mobile-menu.is-open{grid-template-rows:1fr;border-bottom-color:var(--line)}
+    .mobile-menu-inner{display:flex;flex-direction:column;overflow:hidden;min-height:0}
+    .mobile-menu-link,.mobile-menu-cta{padding:14px 24px;font-weight:700;font-size:.95rem;border-top:1px solid rgba(255,255,255,.06)}
+    .mobile-menu-link{color:rgba(255,255,255,.82)}.mobile-menu-cta{color:var(--lime)}
+    .btn-primary,.btn-dark,.btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;font-weight:800;padding:15px 22px;transition:.2s;max-width:100%;text-align:center}
+    .btn-primary{background:var(--lime);color:#101827}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(2,6,23,.28)}
+    .btn-dark{background:#0f172a;color:#fff}.btn-dark:hover{transform:translateY(-2px)}
+    .btn-outline{color:#fff;border:1px solid rgba(255,255,255,.22)}.btn-outline:hover{background:rgba(255,255,255,.07)}
+    .page-hero{min-height:86vh;padding:128px 0 70px;background:linear-gradient(145deg,#070b1a 10%,#081844 58%,#274bc4 130%);color:#fff;display:flex;align-items:center;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:end}
+    .display{font-size:clamp(3rem,7vw,6rem);line-height:.95;font-weight:700;letter-spacing:-.035em;overflow-wrap:break-word}
+    .hero-copy{max-width:68ch}.hero-copy p{color:rgba(255,255,255,.78);font-size:1.08rem;line-height:1.85;margin-top:24px}
+    .portrait-panel{position:relative;min-height:600px;overflow:hidden;background:#050814;box-shadow:0 26px 80px rgba(0,0,0,.28)}
+    .portrait-panel:before{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(199,255,65,.18),transparent 36%),linear-gradient(to top,rgba(196,181,253,.16),transparent 58%)}
+    .portrait-panel img{position:absolute;right:-70px;bottom:-140px;width:min(560px,96%);height:auto;filter:drop-shadow(0 28px 42px rgba(0,0,0,.34))}
+    .marker-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:34px}
+    .marker{min-height:64px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);padding:14px;color:#fff;font-weight:800;line-height:1.3}
+    .section-title{font-size:clamp(2.3rem,5vw,4.4rem);line-height:1;font-weight:700;letter-spacing:-.025em}
+    .story-band{background:#f8fafc;padding:104px 0}.story-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:58px}
+    .story-copy p{color:#475569;line-height:1.85;font-size:1.03rem;margin-bottom:22px;max-width:72ch}
+    .skills{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}.skills span{border:1px solid #dbe3ef;background:#fff;color:#0f172a;padding:8px 13px;border-radius:5px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+    .timeline{background:#fff;padding:104px 0}.timeline-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:38px}
+    .step{border:1px solid #e2e8f0;background:#fff;padding:26px;box-shadow:0 18px 60px rgba(15,23,42,.07)}
+    .step strong{display:block;color:#64748b;font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+    .step h3{font-size:1.45rem;font-weight:700}.step p{color:#475569;line-height:1.7;margin-top:12px}
+    .principles{background:#081844;color:#fff;padding:104px 0}.principle-list{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:42px}
+    .principle{border-top:1px solid rgba(255,255,255,.16);padding-top:22px}.principle h3{font-size:1.35rem;font-weight:700}.principle p{color:rgba(255,255,255,.78);line-height:1.75;margin-top:10px}
+    .cta{background:var(--lime);padding:76px 0}.cta-grid{display:flex;align-items:center;justify-content:space-between;gap:24px}.cta p{color:#334155;line-height:1.7;margin-top:12px;max-width:56ch}
+    footer{background:#050814;border-top:1px solid rgba(255,255,255,.06)}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+    ::selection{background:var(--lime);color:#101827}
+    @media(max-width:900px){.hero-grid,.story-grid,.timeline-grid,.principle-list{grid-template-columns:1fr}.portrait-panel{min-height:520px}.portrait-panel img{right:50%;transform:translateX(50%);bottom:-110px;width:min(480px,92vw)}.cta-grid{align-items:flex-start;flex-direction:column}}
+    @media(max-width:720px){.nav-links{display:none}.nav-toggle{display:flex}.nav .wrap > .flex .btn-primary{display:none}.display{font-size:clamp(2.45rem,12vw,3.7rem);letter-spacing:-.02em}.marker-strip{grid-template-columns:1fr}.page-hero{padding-top:112px}.portrait-panel{min-height:470px}}
+    @media(max-width:560px){.hero-copy .btn-primary,.hero-copy .btn-outline,.cta .btn-dark{width:100%}}
+    @media(min-width:721px){.mobile-menu{grid-template-rows:0fr!important}}
+  </style>
+</head>
+<body>
+  <!--
+    THESIS: About turns Haziq from "another freelancer" into a founder-minded builder with real production context.
+    OWN-WORLD: Preserve the existing navy, lime, white and compact proof-marker language from the homepage.
+    STORY: Visitors learn where Haziq comes from, why KadMeHQ matters, and how Oxford/game work shapes his website judgement.
+    FIRST VIEWPORT: Big founder statement on the left, cropped portrait on the right, four proof markers under the copy.
+    FORM: Static extension page inside the established world; seed manual-static-about.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <nav class="nav" id="navbar" aria-label="Primary">
+    <div class="wrap py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/images/logo.png" alt="" width="40" height="40" decoding="async" class="w-10 h-10 object-contain">
+        <span class="text-white font-extrabold">SYHAZIQ<span style="color:var(--lime)">DEV</span></span>
+      </a>
+      <div class="nav-links flex gap-7 text-sm font-semibold">
+        <a href="index.html#services" class="text-white/75 hover:text-white">Services</a>
+        <a href="work.html" class="text-white/75 hover:text-white">Work</a>
+        <a href="about.html" class="text-white font-bold">About</a>
+        <a href="index.html#experience" class="text-white/75 hover:text-white">Experience</a>
+        <a href="index.html#kadme" class="text-white/75 hover:text-white">KadMeHQ</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="index.html#contact" class="btn-primary !py-2.5 !px-4 text-sm">Request a Quote</a>
+        <button type="button" id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+          <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+      <div class="mobile-menu-inner">
+        <a href="index.html#services" class="mobile-menu-link">Services</a>
+        <a href="work.html" class="mobile-menu-link">Work</a>
+        <a href="about.html" class="mobile-menu-link">About</a>
+        <a href="index.html#experience" class="mobile-menu-link">Experience</a>
+        <a href="index.html#kadme" class="mobile-menu-link">KadMeHQ</a>
+        <a href="index.html#contact" class="mobile-menu-cta">Request a Quote</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header id="top" class="page-hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-aos="fade-up">
+          <h1 class="display">Founder-minded developer from Terengganu.</h1>
+          <p>
+            I'm Syed Muhammad Haziq, a Malaysian web developer and product builder. I build focused websites for businesses, and I also build KadMeHQ, so I think about a site beyond how it looks: what it helps people understand, trust and do.
+          </p>
+          <div class="marker-strip" aria-label="Background highlights">
+            <div class="marker">KadMeHQ founder</div>
+            <div class="marker">Oxford EduVision developer</div>
+            <div class="marker">EduGC 2025 winner</div>
+            <div class="marker">Software Development graduate</div>
+          </div>
+        </div>
+        <div class="portrait-panel" data-aos="fade-left" data-aos-delay="100">
+          <picture>
+            <source srcset="assets/images/hero-cutout.webp" type="image/webp">
+            <img src="assets/images/hero-cutout.png" alt="Syed Muhammad Haziq" width="1080" height="1350" decoding="async">
+          </picture>
+        </div>
+      </div>
+    </header>
+
+    <section class="story-band">
+      <div class="wrap story-grid">
+        <div>
+          <h2 class="section-title">The way I build.</h2>
+        </div>
+        <div class="story-copy">
+          <p>
+            I care about websites that are easy to understand, easy to trust and easy to act on. That means structure before decoration: clear offers, readable sections, fast pages, working contact paths and enough visual character to feel owned.
+          </p>
+          <p>
+            KadMeHQ pushes me to think like a founder, not only a developer. Every small decision has a product question behind it: what should the user see first, what can be simplified, what can be shipped now, and what can improve over time.
+          </p>
+          <p>
+            At Oxford EduVision, I work on production web platforms and educational apps. That mix keeps my freelance work grounded: simple pages should still be reliable, maintainable and useful to real people.
+          </p>
+          <div class="skills" aria-label="Core strengths">
+            <span>Focused websites</span>
+            <span>Product thinking</span>
+            <span>Laravel platforms</span>
+            <span>KadMeHQ founder</span>
+            <span>Unity learning games</span>
+            <span>UI direction</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline">
+      <div class="wrap">
+        <h2 class="section-title">Current focus.</h2>
+        <div class="timeline-grid">
+          <article class="step">
+            <strong>Freelance</strong>
+            <h3>Focused websites</h3>
+            <p>Landing pages, sales pages, portfolios and lightweight business websites for people who need clarity before complexity.</p>
+          </article>
+          <article class="step">
+            <strong>Product</strong>
+            <h3>KadMeHQ</h3>
+            <p>A Laravel-based website and digital profile product for Malaysian SMEs, built and improved in public as the product matures.</p>
+          </article>
+          <article class="step">
+            <strong>Production</strong>
+            <h3>Oxford EduVision</h3>
+            <p>Web platforms and educational apps, including Islamic learning platforms and Unity-based learning games.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles">
+      <div class="wrap">
+        <h2 class="section-title">What I optimise for.</h2>
+        <div class="principle-list">
+          <article class="principle">
+            <h3>Clarity first</h3>
+            <p>A visitor should know what the site offers, who it is for and what to do next without hunting.</p>
+          </article>
+          <article class="principle">
+            <h3>Practical taste</h3>
+            <p>The page should look intentional, but the visual work must support the business goal.</p>
+          </article>
+          <article class="principle">
+            <h3>Ship, then improve</h3>
+            <p>A useful launched version beats a perfect idea that never meets real users.</p>
+          </article>
+          <article class="principle">
+            <h3>Honest scope</h3>
+            <p>I keep freelance work focused so the result is manageable, maintainable and delivered with care.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap cta-grid">
+        <div>
+          <h2 class="section-title text-slate-900">Need a focused website?</h2>
+          <p>Send the basics by email and I will look at the offer, structure and best next step.</p>
+        </div>
+        <a href="index.html#contact" class="btn-dark">Request a Quote <i data-feather="arrow-up-right" class="w-4 h-4"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap py-8 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-white/80">
+      <div>&copy; 2026 Syed Muhammad Haziq. Web &amp; Game Developer - Product Builder.</div>
+      <div class="flex gap-5">
+        <a href="work.html" class="hover:text-white">Work</a>
+        <a href="https://www.linkedin.com/in/syhaziqdev/" target="_blank" rel="noopener" class="hover:text-white">LinkedIn</a>
+        <a href="index.html#contact" class="hover:text-white">Request a Quote</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
