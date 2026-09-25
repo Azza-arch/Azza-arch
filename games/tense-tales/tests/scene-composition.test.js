@@ -4,6 +4,7 @@ const Catalog=require('../src/data/assetCatalog.js');
 const Anchors=require('../src/utils/characterAnchors.js');
 const Validation=require('../src/utils/sceneValidation.js');
 const Composition=require('../src/utils/sceneComposition.js');
+const fs=require('fs');const path=require('path');
 let passed=0,failed=0;function test(name,fn){try{fn();passed++;console.log('PASS  '+name);}catch(e){failed++;console.log('FAIL  '+name+'\n      '+e.message);}}
 function basic(layers){return{environment:'forest',layers:layers};}
 const boy=(x=40,flipX=false)=>({id:'boy',assetId:'characterKidMale',pose:'hold',role:'actor',x:x,y:84,scale:1,flipX,z:3});
@@ -19,5 +20,6 @@ test('duplicate IDs, missing assets and illegal semantics are detected',()=>{con
 test('continuity detects unexplained scale changes',()=>{const story={id:'x',panels:[{id:'a',scene:{layers:[{id:'p',continuityKey:'p',scale:.2}]}},{id:'b',scene:{layers:[{id:'p',continuityKey:'p',scale:.3}]}}]};assert.ok(Validation.validateContinuity(story).some(f=>f.code==='CONTINUITY_SCALE_CHANGE'));});
 test('responsive scaling preserves relative attachment positions',()=>{const s=basic([boy(),phone()]),a=Composition.resolveScene(s,{width:400,height:286},Catalog),b=Composition.resolveScene(s,{width:800,height:572},Catalog);assert.ok(Math.abs(b.byId.phone.boundsPx.left/a.byId.phone.boundsPx.left-2)<.001);});
 test('z-order is deterministic',()=>{const r=Composition.resolveScene(basic([phone(),boy()]),{width:400,height:286},Catalog);for(let i=1;i<r.layers.length;i++)assert.ok(r.layers[i-1].z<=r.layers[i].z);});
+test('pencil catalog ratio matches its real PNG dimensions',()=>{const asset=Catalog.objectPencil;const file=path.join(__dirname,'..',asset.path);const bytes=fs.readFileSync(file);const width=bytes.readUInt32BE(16),height=bytes.readUInt32BE(20);assert.strictEqual(width,42);assert.strictEqual(height,74);assert.ok(Math.abs(asset.aspectRatio-width/height)<.0001);});
 test('all 20 canonical frames have zero validation findings at desktop and mobile sizes',()=>{let count=0;Object.values(Stories).forEach(story=>{assert.strictEqual(Validation.validateContinuity(story).length,0);story.panels.forEach(panel=>{count++;[{width:340,height:243},{width:300,height:225}].forEach(frame=>{const r=Composition.resolveScene(panel.scene,frame,Catalog,{storyId:story.id,panelId:panel.id});assert.deepStrictEqual(r.findings,[],panel.id+': '+r.findings.map(f=>f.code).join(','));});});});assert.strictEqual(count,20);});
 console.log(`\n${passed} passed, ${failed} failed`);process.exit(failed?1:0);

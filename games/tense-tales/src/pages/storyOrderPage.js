@@ -17,6 +17,7 @@
   let currentTense = 'pastSimple';
   let resizeObserver = null;
   let stageMode = 'gameplay'; // 'gameplay' (2x2 grid) or 'completion' (1x4 mini row)
+  let narrationRun = 0;
 
   function cacheEls() {
     els.gameRoot = document.getElementById('game-root');
@@ -31,6 +32,7 @@
     els.completionHeading = document.getElementById('so-completion-heading');
     els.feedbackTitle = document.getElementById('so-feedback-title');
     els.feedbackBody = document.getElementById('so-feedback-body');
+    els.feedback = document.getElementById('so-feedback');
     els.canvasMount = document.getElementById('so-canvas-mount');
     els.instruction = document.getElementById('so-instruction');
     els.gameplayActions = document.getElementById('so-gameplay-actions');
@@ -38,10 +40,14 @@
     els.continueBtn = document.getElementById('so-continue');
     els.completionBlock = document.getElementById('so-completion-block');
     els.recap = document.getElementById('so-recap');
+    els.tenseCompare = document.getElementById('so-tense-compare');
     els.playAgain = document.getElementById('so-play-again');
+    els.readStory = document.getElementById('so-read-story');
     els.nextLevel = document.getElementById('so-next-level');
     els.backMenu = document.getElementById('so-back-menu');
     els.dots = Array.prototype.slice.call(document.querySelectorAll('#so-progress .so-dot'));
+    els.keyboardSlots = document.getElementById('so-keyboard-slots');
+    els.slotStatus = document.getElementById('so-slot-status');
   }
 
   function setProgress(filledCount) {
@@ -111,14 +117,76 @@
 
   function onGridReady() {
     scene.events.on('state', onStateChanged);
+    renderKeyboardSlots();
   }
 
   function onStateChanged() {
     // Clearing feedback text is the only page-level reaction to a swap;
     // correctness itself is only surfaced by Check Story.
+    clearFeedback();
+    window.TenseTales.utils.audioManager.tone('move');
+    renderKeyboardSlots();
+  }
+
+  function renderKeyboardSlots() {
+    if (!scene || !els.keyboardSlots) return;
+    const state = scene.getState();
+    const focused = document.activeElement && document.activeElement.dataset.slotIndex;
+    els.keyboardSlots.textContent = '';
+    state.orderedPanelIds.forEach((id, index) => {
+      const panel = currentStory.panels.find((item) => item.id === id);
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'so-slot-button'; button.dataset.slotIndex = String(index);
+      button.setAttribute('aria-pressed', String(state.selectedSlot === index)); button.textContent = `Slot ${index + 1}: ${panel.actionLabel}`;
+      button.addEventListener('click', () => { scene.handleTapSlot(index); els.slotStatus.textContent = `Selected slot ${index + 1}. Select another slot to swap pictures.`; });
+      els.keyboardSlots.appendChild(button);
+    });
+    if (focused != null) { const next = els.keyboardSlots.querySelector(`[data-slot-index="${focused}"]`); if (next) next.focus(); }
+  }
+
+  function clearFeedback() {
+    els.feedback.hidden = true;
+    els.feedback.className = 'learning-feedback';
     els.feedbackTitle.textContent = '';
-    els.feedbackTitle.className = 'so-feedback-title';
     els.feedbackBody.textContent = '';
+  }
+
+  function showFeedback(kind, title, body) {
+    els.feedback.hidden = false;
+    els.feedback.className = `learning-feedback is-${kind}`;
+    els.feedbackTitle.textContent = title;
+    els.feedbackBody.textContent = body;
+  }
+
+  function appendMarkedSentence(container, parts) {
+    const line = document.createElement('p');
+    line.className = 'marked-sentence';
+    const subjectText = typeof parts.subject === 'string' ? parts.subject : parts.subject.text;
+    const subject = document.createElement('mark');
+    subject.className = 'grammar-subject';
+    subject.textContent = subjectText;
+    const verb = document.createElement('mark');
+    verb.className = 'grammar-verb';
+    verb.textContent = parts.verb;
+    const sentence = parts.sentence;
+    const subjectStart = sentence.indexOf(subjectText);
+    const verbStart = sentence.indexOf(parts.verb, subjectStart + subjectText.length);
+    if (subjectStart > 0) line.append(document.createTextNode(sentence.slice(0, subjectStart)));
+    line.append(subject, document.createTextNode(sentence.slice(subjectStart + subjectText.length, verbStart)), verb, document.createTextNode(sentence.slice(verbStart + parts.verb.length)));
+    container.appendChild(line);
+  }
+
+  function renderComparison(container, panel) {
+    const comparison = window.TenseTales.gameplay.learningFeedback.comparison(panel, currentTense);
+    container.textContent = '';
+    [comparison.selected, comparison.other].forEach((parts) => {
+      const column = document.createElement('div');
+      const label = document.createElement('span');
+      label.className = 'tense-compare-label';
+      label.textContent = parts.timeLabel;
+      column.appendChild(label);
+      appendMarkedSentence(column, parts);
+      container.appendChild(column);
+    });
   }
 
   function resetGameplayPanel() {
@@ -129,9 +197,7 @@
     els.completionBlock.hidden = true;
     els.check.hidden = false;
     els.continueBtn.hidden = true;
-    els.feedbackTitle.textContent = '';
-    els.feedbackTitle.className = 'so-feedback-title';
-    els.feedbackBody.textContent = '';
+    clearFeedback();
     setProgress(0);
   }
 
@@ -141,18 +207,15 @@
     if (!result) return;
 
     if (result.correct) {
-      els.feedbackTitle.textContent = 'Nice! The story is in the right order.';
-      els.feedbackTitle.className = 'so-feedback-title so-feedback-correct';
-      els.feedbackBody.textContent = '';
+      window.TenseTales.utils.audioManager.tone('correct');
+      showFeedback('correct', 'The story is in the right order.', 'Now read how each action changes with time.');
       els.check.hidden = true;
       els.continueBtn.hidden = false;
       setProgress(4);
     } else {
-      els.feedbackTitle.textContent = 'Not quite.';
-      els.feedbackTitle.className = 'so-feedback-title so-feedback-incorrect';
-      els.feedbackBody.textContent = result.showHint
-        ? currentStory.hints.secondAttempt
-        : 'Look at what happened first.';
+      window.TenseTales.utils.audioManager.tone('retry');
+      const hint = window.TenseTales.gameplay.learningFeedback.storyHint(currentStory, result.attempts);
+      showFeedback('hint', hint.title, hint.body);
     }
   }
 
@@ -168,15 +231,46 @@
     els.gameplayActions.hidden = true;
     els.completionBlock.hidden = false;
 
-    const sentences = window.TenseTales.grammar.sentenceBuilder
-      .buildStorySentences(currentStory, currentTense)
-      .map((s) => s.sentence);
-    els.recap.textContent = sentences.join('\n');
-    window.TenseTales.gameplay.progressStore.unlock(currentTense, 'storyOrder', currentStory.level);
+    const sentences = window.TenseTales.grammar.sentenceBuilder.buildStorySentences(currentStory, currentTense);
+    els.recap.textContent = '';
+    sentences.forEach((parts) => appendMarkedSentence(els.recap, Object.assign({ tense: currentTense }, parts)));
+    renderComparison(els.tenseCompare, currentStory.wordChallenge);
+    const attempts = scene.getState().attempts;
+    if (window.TenseTales.gameplay.appFlow.shouldSaveProgress()) {
+      window.TenseTales.gameplay.progressStore.unlock(currentTense, 'storyOrder', currentStory.level);
+      window.TenseTales.gameplay.masteryStore.record(currentTense, 'storyOrder', currentStory.level, attempts);
+    }
+    window.TenseTales.gameplay.appFlow.finishActivity(attempts);
     els.nextLevel.hidden = currentStory.level === 5;
+    readStoryAloud();
+    requestAnimationFrame(() => { els.completionHeading.tabIndex = -1; els.completionHeading.focus(); });
+  }
+
+  function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
+
+  async function readStoryAloud() {
+    const run = ++narrationRun;
+    window.TenseTales.utils.audioManager.stopNarration();
+    const sentences = window.TenseTales.grammar.sentenceBuilder.buildStorySentences(currentStory, currentTense);
+    els.readStory.disabled = true;
+    els.readStory.textContent = 'Reading…';
+    for (let i = 0; i < sentences.length && run === narrationRun; i += 1) {
+      scene.focusCompletionStep(i);
+      scene.playCompletionAction(i);
+      const spoken = await window.TenseTales.utils.audioManager.speak(sentences[i].sentence);
+      if (!spoken) await wait(720);
+      else await wait(120);
+    }
+    if (run === narrationRun) {
+      scene.clearCompletionFocus();
+      els.readStory.disabled = false;
+      els.readStory.textContent = 'Read Story';
+    }
   }
 
   function handlePlayAgain() {
+    narrationRun += 1;
+    window.TenseTales.utils.audioManager.stopNarration();
     stageMode = 'gameplay';
     const { width, height } = sizeMount();
     grid.scale.resize(width, height);
@@ -185,6 +279,8 @@
   }
 
   function closePage() {
+    narrationRun += 1;
+    window.TenseTales.utils.audioManager.stopNarration();
     els.shell.hidden = true;
     if (resizeObserver) {
       resizeObserver.disconnect();
@@ -195,7 +291,7 @@
       grid = null;
       scene = null;
     }
-    window.TenseTales.gameplay.appFlow.showLevelMap();
+    window.TenseTales.gameplay.appFlow.exitGameplay();
   }
 
   function bindOnce() {
@@ -205,6 +301,7 @@
     els.check.addEventListener('click', handleCheck);
     els.continueBtn.addEventListener('click', handleContinue);
     els.playAgain.addEventListener('click', handlePlayAgain);
+    els.readStory.addEventListener('click', readStoryAloud);
     els.nextLevel.addEventListener('click', () => {
       closeGrid();
       window.TenseTales.gameplay.appFlow.openNext();
@@ -213,6 +310,8 @@
   }
 
   function closeGrid() {
+    narrationRun += 1;
+    window.TenseTales.utils.audioManager.stopNarration();
     if (resizeObserver) { resizeObserver.disconnect(); resizeObserver = null; }
     if (grid) { grid.destroy(true); grid = null; scene = null; }
     els.shell.hidden = true;
@@ -247,9 +346,12 @@
     document.getElementById('word-order-shell').hidden = true;
     window.TenseTales.gameplay.appFlow.state.screen = 'storyOrder';
     els.shell.hidden = false;
+    window.TenseTales.gameplay.appFlow.placeSoundControls(els.shell);
 
     createGame(storyId);
     watchResize();
+    const assistance = window.TenseTales.gameplay.appFlow.assistance();
+    if (assistance === 'guided') window.TenseTales.utils.audioManager.speak('The pictures start mixed up. Move them into the correct story order.');
   }
 
   window.TenseTales.gameplay.openStoryOrderPage = openStoryOrderPage;

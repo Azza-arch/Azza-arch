@@ -5,10 +5,12 @@
   let tokens = [];
   let orderedIds = [];
   let draggedId = null;
+  let attempts = 0;
+  let challengePanel = null;
   const els = {};
 
   function cache() {
-    ['word-order-shell', 'wo-back', 'wo-level-label', 'wo-tense-chip', 'wo-context', 'wo-story-title', 'wo-picture', 'wo-gameplay', 'wo-answer', 'wo-empty', 'wo-bank', 'wo-feedback', 'wo-check', 'wo-complete', 'wo-final-sentence', 'wo-next', 'wo-replay', 'wo-levels'].forEach((id) => { els[id] = document.getElementById(id); });
+    ['word-order-shell', 'wo-back', 'wo-level-label', 'wo-tense-chip', 'wo-context', 'wo-story-title', 'wo-picture', 'wo-complete-picture', 'wo-gameplay', 'wo-answer', 'wo-empty', 'wo-bank', 'wo-feedback', 'wo-feedback-title', 'wo-feedback-body', 'wo-check', 'wo-complete', 'wo-final-sentence', 'wo-tense-compare', 'wo-listen', 'wo-next', 'wo-replay', 'wo-levels'].forEach((id) => { els[id] = document.getElementById(id); });
   }
 
   function renderPicture(panel) {
@@ -39,14 +41,21 @@
     button.textContent = token.word;
     button.draggable = true;
     button.dataset.tokenId = token.id;
+    button.setAttribute('aria-label', `${token.word}${placed ? `, position ${orderedIds.indexOf(token.id) + 1}. Use Left or Right arrow to reorder.` : ', in word bank'}`);
     button.addEventListener('click', () => toggleToken(token.id));
     button.addEventListener('dragstart', () => { draggedId = token.id; button.classList.add('is-dragging'); });
     button.addEventListener('dragend', () => { draggedId = null; button.classList.remove('is-dragging'); });
+    button.addEventListener('keydown', (event) => {
+      if (!placed || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) return;
+      event.preventDefault(); const from = orderedIds.indexOf(token.id); const to = Math.max(0, Math.min(orderedIds.length - 1, from + (event.key === 'ArrowLeft' ? -1 : 1)));
+      if (from === to) return; orderedIds.splice(from, 1); orderedIds.splice(to, 0, token.id); renderTokens(); const next = document.querySelector(`[data-token-id="${token.id}"]`); if (next) next.focus();
+    });
     return button;
   }
 
   function toggleToken(id) {
-    els['wo-feedback'].textContent = '';
+    clearFeedback();
+    window.TenseTales.utils.audioManager.tone('move');
     const index = orderedIds.indexOf(id);
     if (index === -1) orderedIds.push(id); else orderedIds.splice(index, 1);
     renderTokens();
@@ -69,30 +78,89 @@
   }
 
   function reset() {
+    window.TenseTales.utils.audioManager.stopNarration();
     const sentence = sentenceForChallenge();
     expected = window.TenseTales.gameplay.wordOrder.tokenize(sentence);
     const shuffled = window.TenseTales.gameplay.wordOrder.shuffled(expected);
     tokens = shuffled.map((word, index) => ({ id: `word-${index}`, word }));
     orderedIds = [];
-    els['wo-feedback'].textContent = '';
+    attempts = 0;
+    clearFeedback();
     els['wo-complete'].hidden = true;
     els['wo-gameplay'].hidden = false;
     renderTokens();
   }
 
+  function clearFeedback() {
+    els['wo-feedback'].hidden = true;
+    els['wo-feedback'].className = 'learning-feedback';
+    els['wo-feedback-title'].textContent = '';
+    els['wo-feedback-body'].textContent = '';
+  }
+
+  function showFeedback(kind, title, body) {
+    els['wo-feedback'].hidden = false;
+    els['wo-feedback'].className = `learning-feedback is-${kind}`;
+    els['wo-feedback-title'].textContent = title;
+    els['wo-feedback-body'].textContent = body;
+  }
+
+  function appendMarkedSentence(container, parts) {
+    const sentence = parts.sentence;
+    const subjectStart = sentence.indexOf(parts.subject);
+    const verbStart = sentence.indexOf(parts.verb, subjectStart + parts.subject.length);
+    const line = document.createElement('p');
+    line.className = 'marked-sentence';
+    const subject = document.createElement('mark'); subject.className = 'grammar-subject'; subject.textContent = parts.subject;
+    const verb = document.createElement('mark'); verb.className = 'grammar-verb'; verb.textContent = parts.verb;
+    line.append(subject, document.createTextNode(sentence.slice(subjectStart + parts.subject.length, verbStart)), verb, document.createTextNode(sentence.slice(verbStart + parts.verb.length)));
+    container.appendChild(line);
+  }
+
+  function renderLearningSummary() {
+    const feedback = window.TenseTales.gameplay.learningFeedback;
+    const comparison = feedback.comparison(story.wordChallenge, tense);
+    els['wo-final-sentence'].textContent = '';
+    appendMarkedSentence(els['wo-final-sentence'], comparison.selected);
+    els['wo-tense-compare'].textContent = '';
+    [comparison.selected, comparison.other].forEach((parts) => {
+      const column = document.createElement('div');
+      const label = document.createElement('span'); label.className = 'tense-compare-label'; label.textContent = parts.timeLabel;
+      column.appendChild(label); appendMarkedSentence(column, parts); els['wo-tense-compare'].appendChild(column);
+    });
+  }
+
   function check() {
     const words = orderedIds.map((id) => tokens.find((token) => token.id === id).word);
-    if (words.length !== expected.length) { els['wo-feedback'].textContent = 'Use every word before checking.'; return; }
+    if (words.length !== expected.length) {
+      showFeedback('hint', 'The sentence is not complete yet.', `Move all ${expected.length} words into the sentence, then check again.`);
+      return;
+    }
     if (!window.TenseTales.gameplay.wordOrder.isCorrect(words, expected)) {
-      els['wo-feedback'].textContent = 'Not quite. Read the picture and try a different order.';
+      attempts += 1;
+      window.TenseTales.utils.audioManager.tone('retry');
+      const hint = window.TenseTales.gameplay.learningFeedback.wordHint(story.wordChallenge, tense, words, window.TenseTales.gameplay.wordOrder.tokenize, attempts);
+      showFeedback('hint', hint.title, hint.body);
       els['wo-answer'].classList.remove('is-wrong'); void els['wo-answer'].offsetWidth; els['wo-answer'].classList.add('is-wrong');
       return;
     }
-    window.TenseTales.gameplay.progressStore.unlock(tense, 'wordOrder', story.level);
-    els['wo-final-sentence'].textContent = sentenceForChallenge();
+    window.TenseTales.utils.audioManager.tone('correct');
+    if (window.TenseTales.gameplay.appFlow.shouldSaveProgress()) {
+      window.TenseTales.gameplay.progressStore.unlock(tense, 'wordOrder', story.level);
+      window.TenseTales.gameplay.masteryStore.record(tense, 'wordOrder', story.level, attempts);
+    }
+    window.TenseTales.gameplay.appFlow.finishActivity(attempts);
+    renderLearningSummary();
     els['wo-next'].hidden = story.level === 5;
     els['wo-gameplay'].hidden = true;
     els['wo-complete'].hidden = false;
+    requestAnimationFrame(() => { const heading = els['wo-complete'].querySelector('h1'); heading.tabIndex = -1; heading.focus(); });
+    playCompletedSentence();
+  }
+
+  function playCompletedSentence() {
+    window.TenseTales.utils.sceneMotion.playDom(els['wo-complete-picture'], challengePanel);
+    return window.TenseTales.utils.audioManager.speak(sentenceForChallenge());
   }
 
   function open(storyId, selectedTense) {
@@ -104,10 +172,16 @@
     els['word-order-shell'].hidden = false;
     els['wo-level-label'].textContent = `Level ${story.level} of 5`;
     els['wo-tense-chip'].textContent = tense === 'pastSimple' ? 'Past' : 'Present';
+    window.TenseTales.gameplay.appFlow.placeSoundControls(els['word-order-shell']);
     els['wo-context'].textContent = tense === 'pastSimple' ? 'YESTERDAY' : 'EVERY DAY';
     els['wo-story-title'].textContent = story.title;
-    renderPicture(story.panels.find((panel) => panel.id === story.wordChallenge.panelId));
+    challengePanel = story.panels.find((panel) => panel.id === story.wordChallenge.panelId);
+    renderPicture(challengePanel);
+    els['wo-complete-picture'].textContent = '';
+    els['wo-complete-picture'].setAttribute('aria-label', `Picture from ${story.title}`);
+    window.TenseTales.utils.sceneComposition.renderDom(els['wo-complete-picture'], challengePanel.scene, window.TenseTales.data.assetCatalog);
     reset();
+    if (window.TenseTales.gameplay.appFlow.assistance() === 'guided') window.TenseTales.utils.audioManager.speak('Tap or drag the words into the correct order.');
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -115,10 +189,11 @@
     bindDropZone(els['wo-answer'], true);
     bindDropZone(els['wo-bank'], false);
     els['wo-check'].addEventListener('click', check);
-    els['wo-back'].addEventListener('click', () => window.TenseTales.gameplay.appFlow.showLevelMap());
+    els['wo-listen'].addEventListener('click', playCompletedSentence);
+    els['wo-back'].addEventListener('click', () => { window.TenseTales.utils.audioManager.stopNarration(); window.TenseTales.gameplay.appFlow.exitGameplay(); });
     els['wo-next'].addEventListener('click', () => window.TenseTales.gameplay.appFlow.openNext());
     els['wo-replay'].addEventListener('click', reset);
-    els['wo-levels'].addEventListener('click', () => window.TenseTales.gameplay.appFlow.showLevelMap());
+    els['wo-levels'].addEventListener('click', () => window.TenseTales.gameplay.appFlow.exitGameplay());
   });
 
   window.TenseTales.gameplay.openWordOrderPage = open;

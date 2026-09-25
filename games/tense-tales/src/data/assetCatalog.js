@@ -24,6 +24,7 @@ const AssetCatalog = {
     type: '2d',
     perspective: 'front-facing',
     category: 'character',
+    aspectRatio: 0.75,
     referenceFrameWidth: 20,
     visibleBounds: { x: 0.08, y: 0.03, width: 0.84, height: 0.94 },
     poses: {
@@ -53,6 +54,7 @@ const AssetCatalog = {
     type: '2d',
     perspective: 'front-facing',
     category: 'character',
+    aspectRatio: 0.75,
     referenceFrameWidth: 20,
     visibleBounds: { x: 0.08, y: 0.03, width: 0.84, height: 0.94 },
     poses: {
@@ -122,7 +124,7 @@ const AssetCatalog = {
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'mediumHandheld', critical: true, visibleBounds: { x: 0.05, y: 0.08, width: 0.9, height: 0.84 },
+    sizeClass: 'mediumHandheld', critical: true, aspectRatio: 1.35, visibleBounds: { x: 0.05, y: 0.08, width: 0.9, height: 0.84 },
   },
   objectBookClosed: {
     id: 'objectBookClosed',
@@ -130,7 +132,7 @@ const AssetCatalog = {
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'mediumHandheld', critical: true, visibleBounds: { x: 0.08, y: 0.06, width: 0.84, height: 0.88 },
+    sizeClass: 'mediumHandheld', critical: true, aspectRatio: 0.78, visibleBounds: { x: 0.08, y: 0.06, width: 0.84, height: 0.88 },
   },
   objectFolder: {
     id: 'objectFolder',
@@ -138,7 +140,7 @@ const AssetCatalog = {
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'mediumHandheld', critical: true, visibleBounds: { x: 0.06, y: 0.06, width: 0.88, height: 0.88 },
+    sizeClass: 'mediumHandheld', critical: true, aspectRatio: 1.15, visibleBounds: { x: 0.06, y: 0.06, width: 0.88, height: 0.88 },
   },
   objectBackpack: {
     id: 'objectBackpack',
@@ -146,7 +148,7 @@ const AssetCatalog = {
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'worn', critical: true, visibleBounds: { x: 0.08, y: 0.04, width: 0.84, height: 0.92 },
+    sizeClass: 'worn', critical: true, aspectRatio: 0.78, visibleBounds: { x: 0.08, y: 0.04, width: 0.84, height: 0.92 },
     usage: 'Green backpack/bag.',
   },
   objectBriefcase: {
@@ -162,7 +164,7 @@ const AssetCatalog = {
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'smallHandheld', critical: true, visibleBounds: { x: 0.12, y: 0.04, width: 0.76, height: 0.92 },
+    sizeClass: 'smallHandheld', critical: true, aspectRatio: 0.58, visibleBounds: { x: 0.12, y: 0.04, width: 0.76, height: 0.92 },
   },
   objectTablet: {
     id: 'objectTablet',
@@ -173,11 +175,15 @@ const AssetCatalog = {
   },
   objectLaptop: {
     id: 'objectLaptop',
-    path: 'assets/vendor/kenney-generic-items/Colored/genericItem_color_044.png',
+    path: 'assets/vendor/kenney-generic-items/Colored/genericItem_color_060.png',
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'mediumHandheld', critical: true, visibleBounds: { x: 0.04, y: 0.12, width: 0.92, height: 0.78 },
+    sizeClass: 'mediumHandheld', critical: true,
+    sourceDimensions: { width: 141, height: 68 },
+    aspectRatio: 141 / 68,
+    visibleBounds: { x: 0.04, y: 0.12, width: 0.92, height: 0.78 },
+    usage: 'Kenney screen device used as the closest approved laptop silhouette; no exact laptop asset exists in the approved inventory.',
   },
   objectWallet: {
     id: 'objectWallet',
@@ -200,7 +206,7 @@ const AssetCatalog = {
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'smallHandheld', critical: true, visibleBounds: { x: 0.06, y: 0.06, width: 0.88, height: 0.88 },
+    sizeClass: 'smallHandheld', critical: true, aspectRatio: 1.2, visibleBounds: { x: 0.06, y: 0.06, width: 0.88, height: 0.88 },
   },
   objectPencil: {
     id: 'objectPencil',
@@ -208,7 +214,10 @@ const AssetCatalog = {
     pack: 'Generic Items',
     type: '2d',
     category: 'object',
-    sizeClass: 'smallHandheld', critical: true, visibleBounds: { x: 0.02, y: 0.18, width: 0.96, height: 0.64 },
+    sizeClass: 'smallHandheld', critical: true,
+    sourceDimensions: { width: 42, height: 74 },
+    aspectRatio: 42 / 74,
+    visibleBounds: { x: 0.02, y: 0.18, width: 0.96, height: 0.64 },
   },
 
   // ===== OUTDOOR / NATURE / SKY =====

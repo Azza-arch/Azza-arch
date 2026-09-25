@@ -4,12 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 <title>Tense Tales</title>
+<link rel="icon" href="data:," />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
+  <div class="sound-controls" aria-label="Sound controls">
+    <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="false">Sound on</button>
+    <input id="sound-volume" class="sound-volume" type="range" min="0" max="100" step="5" aria-label="Sound volume" />
+  </div>
   <main id="home-shell" class="home-page">
     <section class="home-hero" aria-labelledby="home-title">
       <div class="home-copy">
@@ -17,7 +22,11 @@
         <h1 id="home-title">Tense <span>Tales</span></h1>
         <p class="home-subtitle">Learn grammar through stories.</p>
         <p class="home-support">See the story. Put it in order. Discover how verbs change with time.</p>
-        <button id="home-play" class="so-primary-btn home-play-btn" type="button">Play</button>
+        <div class="home-actions">
+          <button id="home-play" class="so-primary-btn home-play-btn" type="button">Start Playing</button>
+          <button id="home-explore" class="so-secondary-btn" type="button">Explore Activities</button>
+          <button id="home-teacher" class="so-text-btn" type="button">Teacher Quick Launch</button>
+        </div>
       </div>
 
       <div class="home-world" aria-label="A boy beginning a story beside a tree">
@@ -72,6 +81,7 @@
         <div class="choice-grid choice-grid-two">
           <button class="choice-card" data-mode="storyOrder" type="button"><span class="mode-number">4</span><strong>Order the Story</strong><small>Put four pictures in the right order</small></button>
           <button class="choice-card" data-mode="wordOrder" type="button"><span class="mode-number mode-number-words">Aa</span><strong>Build the Sentence</strong><small>Put each word in the right place</small></button>
+          <button id="practice-entry" class="choice-card choice-practice" type="button"><span class="mode-number mode-number-practice">P</span><strong>Practice Mode</strong><small>Review verbs and recognise when an action happens</small></button>
         </div>
       </div>
       <div id="level-screen" class="choice-screen" hidden>
@@ -79,6 +89,51 @@
         <h1>Choose a level</h1>
         <p>Finish a level to unlock the next story.</p>
         <div id="level-grid" class="level-grid"></div>
+      </div>
+      <div id="teacher-screen" class="choice-screen teacher-screen" hidden>
+        <p class="screen-context">TEACHER QUICK LAUNCH</p><h1>Start an activity</h1>
+        <p>Choose everything on one screen. No account is needed.</p>
+        <form id="teacher-form" class="teacher-form">
+          <label>Tense<select id="teacher-tense"><option value="presentSimple">Present Simple</option><option value="pastSimple">Past Simple</option></select></label>
+          <label>Game<select id="teacher-mode"><option value="storyOrder">Order the Story</option><option value="wordOrder">Build the Sentence</option></select></label>
+          <label>Story<select id="teacher-level"><option value="1">1 · Climbing the Tree</option><option value="2">2 · Reading Under the Tree</option><option value="3">3 · The New Phone</option><option value="4">4 · Getting Ready</option><option value="5">5 · Doing Homework</option></select></label>
+          <label>Assistance<select id="teacher-assistance"><option value="guided">Guided</option><option value="standard">Standard</option><option value="challenge">Challenge</option></select></label>
+          <label class="teacher-save"><input id="teacher-save" type="checkbox"> Save progress on this device</label>
+          <button class="so-primary-btn" type="submit">Launch Activity</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <main id="practice-shell" class="practice-page" hidden>
+    <section class="practice-stage">
+      <header class="flow-header">
+        <button id="practice-back" class="so-back-btn" type="button"><span aria-hidden="true">&larr;</span><span>Back</span></button>
+        <span class="flow-brand">Practice Mode</span>
+        <span id="practice-tense" class="flow-tense-chip">Present Simple</span>
+      </header>
+      <div id="practice-picker" class="choice-screen">
+        <h1>What will you practise?</h1>
+        <p id="practice-recommendation" class="practice-recommendation"></p>
+        <button class="help-link" data-help="practice" type="button">Help / Bantuan</button>
+        <div class="choice-grid choice-grid-two">
+          <button id="practice-verb" class="choice-card" type="button"><span class="mode-number mode-number-words">Aa</span><strong>Choose the Verb</strong><small>Pick the verb form that completes the sentence</small></button>
+          <button id="practice-time" class="choice-card" type="button"><span class="mode-number mode-number-practice">T</span><strong>Now or Before</strong><small>Decide whether each sentence happens every day or yesterday</small></button>
+        </div>
+      </div>
+      <div id="practice-session" class="practice-session" hidden>
+        <div class="practice-meta"><span id="practice-round">Round 1 of 5</span><strong id="practice-story"></strong></div>
+        <div id="practice-picture" class="wo-picture practice-picture" role="img"></div>
+        <h1 id="practice-prompt" class="practice-prompt"></h1>
+        <div id="practice-options" class="practice-options"></div>
+        <div id="practice-feedback" class="learning-feedback" aria-live="polite" hidden><strong id="practice-feedback-title"></strong><span id="practice-feedback-body"></span></div>
+        <button id="practice-next" class="so-primary-btn" type="button" hidden>Next Question</button>
+      </div>
+      <div id="practice-complete" class="practice-complete" hidden>
+        <span class="completion-star" aria-hidden="true">✓</span>
+        <h1>Practice complete</h1>
+        <p>Your next session will prioritise the verbs that need more practice.</p>
+        <div class="so-completion-actions"><button id="practice-again" class="so-primary-btn" type="button">Practice Again</button><button id="practice-games" class="so-secondary-btn" type="button">Choose a Game</button></div>
       </div>
     </section>
   </main>
@@ -94,18 +149,24 @@
         <div class="wo-heading"><span id="wo-context" class="so-context-badge">EVERY DAY</span><h1>Build the sentence</h1><p id="wo-story-title"></p></div>
         <div id="wo-picture" class="wo-picture" role="img"></div>
         <div class="wo-builder">
-          <p class="wo-instruction">Tap or drag the words into the correct order.</p>
+          <p class="wo-instruction">Tap or drag the words into the correct order. <button class="help-link" data-help="wordOrder" type="button">Help / Bantuan</button></p>
           <div id="wo-answer" class="wo-answer" aria-label="Your sentence"><span id="wo-empty">Your sentence goes here</span><span class="wo-period" aria-hidden="true">.</span></div>
           <div id="wo-bank" class="wo-bank" aria-label="Word bank"></div>
-          <p id="wo-feedback" class="wo-feedback" aria-live="polite"></p>
+          <div id="wo-feedback" class="learning-feedback" aria-live="polite" hidden>
+            <strong id="wo-feedback-title"></strong>
+            <span id="wo-feedback-body"></span>
+          </div>
           <button id="wo-check" class="so-primary-btn" type="button">Check Sentence</button>
         </div>
       </div>
       <div id="wo-complete" class="wo-complete" hidden>
         <span class="completion-star" aria-hidden="true">✓</span>
         <h1>Sentence complete!</h1>
-        <p id="wo-final-sentence" class="wo-final-sentence"></p>
+        <div id="wo-complete-picture" class="wo-picture wo-complete-picture" role="img"></div>
+        <div id="wo-final-sentence" class="wo-final-sentence"></div>
+        <div id="wo-tense-compare" class="tense-compare" aria-label="Compare present and past tense"></div>
         <div class="so-completion-actions">
+          <button id="wo-listen" class="so-secondary-btn" type="button">Hear Sentence</button>
           <button id="wo-next" class="so-primary-btn" type="button">Next Level</button>
           <button id="wo-replay" class="so-secondary-btn" type="button">Replay</button>
           <button id="wo-levels" class="so-secondary-btn" type="button">Level Map</button>
@@ -142,8 +203,10 @@
         <span class="so-context-badge">YESTERDAY</span>
         <h1 id="so-question" class="so-question">What happened?</h1>
         <p id="so-story-name" class="so-story-name">Climbing the Tree</p>
-        <p id="so-feedback-title" class="so-feedback-title"></p>
-        <p id="so-feedback-body" class="so-feedback-body"></p>
+        <div id="so-feedback" class="learning-feedback" aria-live="polite" hidden>
+          <strong id="so-feedback-title"></strong>
+          <span id="so-feedback-body"></span>
+        </div>
       </div>
       <h2 id="so-completion-heading" class="so-completion-heading" hidden>Story complete!</h2>
 
@@ -151,7 +214,8 @@
         <div id="so-canvas-mount"></div>
       </div>
 
-      <p id="so-instruction" class="so-instruction">The pictures start mixed up. Move them into the correct story order.</p>
+      <p id="so-instruction" class="so-instruction">The pictures start mixed up. Move them into the correct story order. <button class="help-link" data-help="storyOrder" type="button">Help / Bantuan</button></p>
+      <details class="so-keyboard-panel"><summary>Keyboard controls</summary><p>Select two slots to swap their pictures.</p><div id="so-keyboard-slots" class="so-keyboard-slots"></div><p id="so-slot-status" class="sr-only" aria-live="polite"></p></details>
       <div id="so-gameplay-actions" class="so-actions">
         <button id="so-check" class="so-primary-btn" type="button">Check Story</button>
         <button id="so-continue" class="so-primary-btn" type="button" hidden>Continue</button>
@@ -159,9 +223,11 @@
 
       <div id="so-completion-block" class="so-completion-block" hidden>
         <div class="so-recap-panel">
-          <p id="so-recap" class="so-recap"></p>
+          <div id="so-recap" class="so-recap"></div>
+          <div id="so-tense-compare" class="tense-compare" aria-label="Compare present and past tense"></div>
         </div>
         <div class="so-completion-actions">
+          <button id="so-read-story" class="so-secondary-btn" type="button">Read Story</button>
           <button id="so-next-level" class="so-primary-btn" type="button">Next Level</button>
           <button id="so-play-again" class="so-secondary-btn" type="button">Replay</button>
           <button id="so-back-menu" class="so-secondary-btn" type="button">Level Map</button>
@@ -169,6 +235,8 @@
       </div>
     </div>
   </div>
+
+  <aside id="learning-help" class="learning-help" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden><div><button id="help-close" class="help-close" type="button" aria-label="Close help">×</button><h2 id="help-title"></h2><p data-help-en></p><p class="help-bm" data-help-bm></p></div></aside>
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@4/dist/phaser.min.js"></script>
   <script src="src/data/asset-manifest.js"></script>
@@ -195,10 +263,19 @@
   <script src="src/gameplay/storyValidation.js"></script>
   <script src="src/gameplay/storyOrderController.js"></script>
   <script src="src/gameplay/progressStore.js"></script>
+  <script src="src/gameplay/masteryStore.js"></script>
   <script src="src/gameplay/wordOrder.js"></script>
+  <script src="src/gameplay/learningFeedback.js"></script>
+  <script src="src/gameplay/practiceStore.js"></script>
+  <script src="src/gameplay/practiceEngine.js"></script>
+  <script src="src/gameplay/learnerProfile.js"></script>
+  <script src="src/gameplay/sessionPolicy.js"></script>
 
   <script src="src/utils/reduced-motion.js"></script>
+  <script src="src/utils/audioManager.js"></script>
+  <script src="src/utils/sceneMotion.js"></script>
   <script src="src/utils/homeMotion.js"></script>
+  <script src="src/utils/helpSupport.js"></script>
   <script src="src/utils/characterAnchors.js"></script>
   <script src="src/utils/sceneValidation.js"></script>
   <script src="src/utils/sceneComposition.js"></script>
@@ -216,6 +293,7 @@
   <script src="src/scenes/StoryOrderGridScene.js"></script>
   <script src="src/pages/storyOrderPage.js"></script>
   <script src="src/pages/wordOrderPage.js"></script>
+  <script src="src/pages/practicePage.js"></script>
   <script src="src/pages/appFlow.js"></script>
   <script src="src/pages/sceneAuditPage.js"></script>
   <script src="src/config.js"></script>

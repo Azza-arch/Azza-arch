@@ -1,4 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const audio = window.TenseTales.utils.audioManager;
+  const soundToggle = document.getElementById('sound-toggle');
+  const soundVolume = document.getElementById('sound-volume');
+  const renderSoundState = () => {
+    const settings = audio.load();
+    soundToggle.textContent = settings.muted ? 'Sound off' : 'Sound on';
+    soundToggle.setAttribute('aria-pressed', String(settings.muted));
+    soundVolume.value = String(Math.round(settings.volume * 100));
+    soundVolume.disabled = settings.muted;
+  };
+  soundToggle.addEventListener('click', () => { audio.toggleMuted(); renderSoundState(); if (!audio.load().muted) audio.tone('tap'); });
+  soundVolume.addEventListener('input', () => {
+    const settings = audio.load();
+    settings.volume = Number(soundVolume.value) / 100;
+    audio.save(settings);
+  });
+  soundVolume.addEventListener('change', () => audio.tone('tap'));
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('button') && event.target !== soundToggle) audio.tone('tap');
+  });
+  renderSoundState();
   const params = new URLSearchParams(window.location.search);
   const debugGameplayRoute = params.get('debug') === '1';
   const storyOrderRoute = params.get('story-order');
@@ -7,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const legacyRoute = params.get('legacy');
   const sceneAuditRoute = params.get('scene-audit');
   window.TenseTales.gameplay.appFlow.bind();
+  window.TenseTales.utils.helpSupport.bind();
   if (sceneAuditRoute === '1') {
     window.TenseTales.gameplay.openSceneAudit();
   } else if (debugGameplayRoute && wordOrderRoute) {
@@ -25,5 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('home-shell').hidden = true;
     document.getElementById('game-root').hidden = false;
     window.game = new Phaser.Game(GameConfig);
+  } else {
+    window.TenseTales.gameplay.appFlow.showHome();
   }
 });

@@ -20,7 +20,7 @@ weight and colour saturation, checked side by side before adoption).
 - **Source:** https://kenney.nl/assets/generic-items
 - **License:** CC0 1.0 Universal
 - **Folder used:** `assets/vendor/kenney-generic-items/Colored/` (163 files)
-- **Notes:** Full inventory manually reviewed (contact-sheet method, all 163 items). Confirmed present: books, folder, backpack, briefcase, phone, tablet, laptop, wallet, money, keys, pencil, generic bowl/mug. Confirmed **absent**: ball/sports equipment, umbrella, and any breakfast-specific food (no cereal, toast, or egg sprite — only a generic bowl and mug).
+- **Notes:** Full inventory manually reviewed (contact-sheet method, all 163 items). Confirmed present: books, folder, backpack, briefcase, phone, tablet/screen device, wallet, money, keys, pencil, generic bowl/mug. Confirmed **absent**: a true hinged laptop, ball/sports equipment, umbrella, and any breakfast-specific food (no cereal, toast, or egg sprite — only a generic bowl and mug). The classroom uses `genericItem_color_060.png` as the closest approved digital-work device; the previous `genericItem_color_044.png` mapping was a floppy disk and was removed from this role.
 
 ### Background Elements
 - **Source:** https://kenney.nl/assets/background-elements
@@ -75,5 +75,5 @@ Per the "do not force missing categories" rule, no story in this project should 
 ## Level 4–5 selection audit
 
 - **Getting Ready:** uses the existing CC0 Toon Characters, Generic Items backpack/keys, and Background Elements front-facing house. All belong to the approved flat/front-facing family.
-- **Doing Homework:** uses the existing CC0 female Toon Character plus the real laptop, open book, pencil, and folder assets from Generic Items. It replaces the rejected garden sequence, which incorrectly used a mug as a watering can and grass/tree assets as a flower.
+- **Doing Homework:** uses the existing CC0 female Toon Character plus the approved screen device, open book, pencil, and folder assets from Generic Items. The device is the closest available laptop silhouette in the approved inventory. It replaces the rejected garden sequence, which incorrectly used a mug as a watering can and grass/tree assets as a flower.
 - **Environment presets:** Level 1 uses `forest`, Level 2 `park`, Level 3 `neighborhood`, Level 4 `homeExterior`, and Level 5 `studyRoom`. Each story keeps a stable environment across all four panels and Word Order reuses its referenced panel.

@@ -261,4 +261,36 @@ class KenneySceneCard extends Phaser.GameObjects.Container {
       ease: 'Sine.easeOut',
     });
   }
+
+  playSemanticAction(panel, reduced) {
+    if (!panel) return;
+    const plan = window.TenseTales.utils.sceneMotion.motionFor(panel);
+    let indexes = [];
+    this.layerDefs.forEach((layer, index) => {
+      if (plan.target === 'prop' && /Prop$/.test(layer.role)) indexes.push(index);
+      if (plan.target === 'actor' && layer.role === 'actor') indexes.push(index);
+    });
+    if (!indexes.length) this.layerDefs.forEach((layer, index) => { if (layer.role === 'actor') indexes.push(index); });
+    indexes.forEach((index) => {
+      const target = this.sprites[index];
+      if (!target) return;
+      if (reduced) {
+        this.scene.tweens.add({ targets: target, alpha: 0.68, duration: 150, yoyo: true });
+        return;
+      }
+      const originX = target.x;
+      const originY = target.y;
+      const originAngle = target.angle;
+      this.scene.tweens.add({
+        targets: target,
+        x: originX + plan.x,
+        y: originY + plan.y,
+        angle: originAngle + plan.rotate,
+        duration: 310,
+        yoyo: true,
+        ease: 'Sine.easeInOut',
+        onComplete: () => target.setPosition(originX, originY).setAngle(originAngle),
+      });
+    });
+  }
 }

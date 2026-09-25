@@ -11,6 +11,8 @@
       if (!layer.id || ids[layer.id]) out.push(finding('error', 'DUPLICATE_LAYER_ID', context, layer, 'Layer IDs must be present and unique.'));
       ids[layer.id] = layer;
       if (layer.role !== 'surface' && !catalog[layer.assetId]) out.push(finding('error', 'UNKNOWN_ASSET', context, layer, 'Unknown asset: ' + layer.assetId));
+      var asset=layer.assetId&&catalog[layer.assetId];
+      if(asset&&asset.sourceDimensions&&asset.aspectRatio){var actual=asset.sourceDimensions.width/asset.sourceDimensions.height;if(Math.abs(actual-asset.aspectRatio)>.01)out.push(finding('error','ASSET_ASPECT_RATIO_MISMATCH',context,layer,'Catalog aspect ratio does not match source dimensions.'));}
       if (!(layer.scale > 0) || !isFinite(layer.scale)) out.push(finding('error', 'INVALID_SCALE', context, layer, 'Scale must be finite and positive.'));
       if (!isFinite(layer.z)) out.push(finding('error', 'INVALID_Z', context, layer, 'Layer z-order must be finite.'));
       if (!layer.attach && (!isFinite(layer.x) || !isFinite(layer.y))) out.push(finding('error', 'INVALID_COORDINATE', context, layer, 'World-positioned layers need finite x/y coordinates.'));

@@ -263,6 +263,23 @@ class StoryOrderGridScene extends Phaser.Scene {
     });
   }
 
+  focusCompletionStep(index) {
+    this.miniCards.forEach((card, i) => {
+      card.setAlpha(i === index ? 1 : 0.48);
+      card.setScale(i === index && !this.reduced ? 1.06 : 1);
+    });
+  }
+
+  playCompletionAction(index) {
+    const panels = this.story.panels.slice().sort((a, b) => a.order - b.order);
+    const card = this.miniCards[index];
+    if (card && panels[index]) card.playSemanticAction(panels[index], this.reduced);
+  }
+
+  clearCompletionFocus() {
+    this.miniCards.forEach((card) => card.setAlpha(1).setScale(1));
+  }
+
   destroyCompletionCards() {
     this.miniCards.forEach((mini) => mini.destroy());
     this.miniCards = [];
