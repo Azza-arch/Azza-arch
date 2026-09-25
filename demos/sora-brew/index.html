@@ -36,15 +36,15 @@
 
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-stage container mx-auto relative">
-        <img
-          class="hero-scene"
-          src="images/cafe-interior.webp"
-          alt="Warm cafe interior with window-side tables, a coffee counter and soft pendant lighting"
-          width="1448"
-          height="1086"
-          fetchpriority="high"
-          decoding="async">
+      <img
+        class="hero-scene"
+        src="images/cafe-interior.webp"
+        alt="Warm cafe interior with window-side tables, a coffee counter and soft pendant lighting"
+        width="1448"
+        height="1086"
+        fetchpriority="high"
+        decoding="async">
+      <div class="hero-stage relative">
         <h1 class="hero-title" id="hero-title">
           <span>Good Coffee,</span>
           <span>Brighter Days</span>
@@ -65,7 +65,7 @@
     </section>
 
     <section class="section menu-section" id="menu" aria-labelledby="menu-title" data-replay>
-      <svg class="section-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V28C1220 50 1070 18 850 26S470 50 260 30 90 20 0 38Z" /></svg>
+      <svg class="section-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 38C90 20 170 20 260 30S470 50 850 26 1220 50 1440 28V56H0Z" /></svg>
       <div class="container mx-auto">
         <div class="section-heading">
           <h2 id="menu-title">The Menu</h2>
@@ -126,7 +126,7 @@
           <p class="story-concept-note">A fictional neighbourhood cafe concept imagined for Kuala Terengganu; this story is illustrative.</p>
           <figure class="story-photo">
             <img src="images/croissant-coffee.webp" alt="A croissant and cappuccino set out for a relaxed cafe break" width="1448" height="1086" loading="lazy" decoding="async">
-            <figcaption>A small table, a warm cup, and time to pause — imagined for this concept.</figcaption>
+            <figcaption>A small table, a warm cup, and time to pause &mdash; imagined for this concept.</figcaption>
           </figure>
           <div class="story-chapters">
             <article class="story-chapter">
@@ -154,30 +154,19 @@
           <p>Visit the imagined Sora Brew corner in Kuala Terengganu.</p>
           <figure class="outlet-photo">
             <img src="images/cafe-exterior.webp" alt="Concept illustration of a navy-blue cafe exterior with a bright, welcoming entrance" width="1448" height="1086" loading="lazy" decoding="async">
-            <figcaption>Fictional outlet exterior — concept image</figcaption>
+            <figcaption>Fictional outlet exterior &mdash; concept image</figcaption>
           </figure>
         </div>
         <div class="outlet-details">
           <p class="outlet-demo-note">Fictional outlet details for client preview only.</p>
-          <div class="outlet-placeholder" aria-label="Fictional cafe outlet details for the demo">
+          <div class="outlet-placeholder" role="group" aria-label="Fictional cafe outlet details for the demo">
             <dl>
               <div><dt>Address</dt><dd>Lot 08, Jalan Pesisir<br>Kuala Terengganu, Terengganu</dd></div>
-              <div><dt>Opening hours</dt><dd>Tue–Sun · 8:00 am–8:00 pm<br>Monday · Closed</dd></div>
+              <div><dt>Opening hours</dt><dd>Tue&ndash;Sun &middot; 8:00 am&ndash;8:00 pm<br>Monday &middot; Closed</dd></div>
               <div><dt>Contact</dt><dd>+60 9-000 0000<br>hello@sorabrew.example</dd></div>
             </dl>
             <p>Illustrative details only; this is not a real cafe address or contact.</p>
           </div>
-          <div class="concept-map" role="img" aria-label="Illustrative, not-to-scale map showing a fictional Sora Brew marker in Kuala Terengganu">
-            <svg viewBox="0 0 600 220" aria-hidden="true" focusable="false">
-              <path class="map-road map-road-main" d="M-20 174 C90 145 115 91 224 109 S390 188 620 52" />
-              <path class="map-road map-road-side" d="M110 -20 C157 43 229 55 272 89 S324 168 368 240" />
-              <path class="map-road map-road-side" d="M420 -20 C394 42 426 78 474 101 S545 122 630 132" />
-            </svg>
-            <span class="map-caption">Kuala Terengganu · concept map · not to scale</span>
-            <span class="map-pin" aria-hidden="true"><span></span></span>
-            <span class="map-place">Sora Brew <small>fictional demo pin</small></span>
-          </div>
-          <span class="map-label">Map and directions are illustrative only; no real route is provided.</span>
         </div>
       </div>
     </section>
