@@ -76,7 +76,7 @@
   }
 
   function sizeMount() {
-    const width = Math.max(280, Math.round(els.canvasMount.clientWidth || els.shell.clientWidth));
+    const width = Math.max(1, Math.round(els.canvasMount.clientWidth || els.shell.clientWidth));
     const height = stageMode === 'completion'
       ? computeCompletionStageHeight(width)
       : computeGameplayStageHeight(width);
@@ -325,6 +325,7 @@
       grid.scale.resize(width, height);
     });
     resizeObserver.observe(els.canvasMount);
+    resizeObserver.observe(els.shell);
   }
 
   function openStoryOrderPage(storyId, tense) {

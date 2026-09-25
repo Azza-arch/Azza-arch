@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Tense Tales</title>
 <link rel="icon" href="data:," />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,8 +12,13 @@
 </head>
 <body>
   <div class="sound-controls" aria-label="Sound controls">
-    <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="false">Sound on</button>
+    <button id="sound-toggle" class="sound-toggle" type="button" aria-label="Sound settings" aria-expanded="false" aria-controls="sound-popover" aria-pressed="false">Sound on</button>
+    <div id="sound-popover" class="sound-popover" hidden>
+      <button id="sound-mute" class="sound-mute" type="button" aria-pressed="false">Mute sound</button>
+      <label class="sound-volume-label" for="sound-volume">Volume</label>
     <input id="sound-volume" class="sound-volume" type="range" min="0" max="100" step="5" aria-label="Sound volume" />
+      <button id="sound-close" class="sound-close" type="button">Close</button>
+    </div>
   </div>
   <main id="home-shell" class="home-page">
     <section class="home-hero" aria-labelledby="home-title">

@@ -1,15 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
   const audio = window.TenseTales.utils.audioManager;
   const soundToggle = document.getElementById('sound-toggle');
+  const soundPopover = document.getElementById('sound-popover');
+  const soundMute = document.getElementById('sound-mute');
+  const soundClose = document.getElementById('sound-close');
   const soundVolume = document.getElementById('sound-volume');
+  const isMobile = window.matchMedia('(max-width: 767px)');
+  function setPopover(open, returnFocus) {
+    soundPopover.hidden = !open;
+    soundToggle.setAttribute('aria-expanded', String(open));
+    if (open) soundMute.focus();
+    if (!open && returnFocus) soundToggle.focus();
+  }
   const renderSoundState = () => {
     const settings = audio.load();
     soundToggle.textContent = settings.muted ? 'Sound off' : 'Sound on';
     soundToggle.setAttribute('aria-pressed', String(settings.muted));
+    soundMute.textContent = settings.muted ? 'Unmute sound' : 'Mute sound';
+    soundMute.setAttribute('aria-pressed', String(settings.muted));
     soundVolume.value = String(Math.round(settings.volume * 100));
     soundVolume.disabled = settings.muted;
   };
-  soundToggle.addEventListener('click', () => { audio.toggleMuted(); renderSoundState(); if (!audio.load().muted) audio.tone('tap'); });
+  soundToggle.addEventListener('click', () => {
+    if (isMobile.matches) setPopover(soundPopover.hidden);
+    else { audio.toggleMuted(); renderSoundState(); if (!audio.load().muted) audio.tone('tap'); }
+  });
+  soundMute.addEventListener('click', () => { audio.toggleMuted(); renderSoundState(); if (!audio.load().muted) audio.tone('tap'); });
+  soundClose.addEventListener('click', () => setPopover(false, true));
+  document.addEventListener('pointerdown', (event) => {
+    if (!soundPopover.hidden && !event.target.closest('.sound-controls')) setPopover(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !soundPopover.hidden) { event.preventDefault(); setPopover(false, true); }
+  });
+  isMobile.addEventListener('change', () => setPopover(false));
   soundVolume.addEventListener('input', () => {
     const settings = audio.load();
     settings.volume = Number(soundVolume.value) / 100;
