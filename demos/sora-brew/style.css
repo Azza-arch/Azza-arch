@@ -184,7 +184,10 @@ html.motion-ready .site-footer.is-in-view .footer-note { animation-delay: .08s; 
   .header-row { min-height: 68px; grid-template-columns: 1fr auto; gap: 12px; }
   .desktop-nav { display: none; }
   .menu-toggle { width: 44px; height: 44px; display: grid; place-content: center; gap: 5px; border: 1px solid var(--blue); border-radius: var(--radius-control); background: transparent; color: var(--blue); cursor: pointer; }
-  .menu-toggle span { width: 18px; height: 2px; background: currentColor; }
+  .menu-toggle span { width: 18px; height: 2px; background: currentColor; transition: transform .18s ease, opacity .18s ease; }
+  .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-7px) rotate(-45deg); }
   .mobile-nav { display: grid; grid-template-rows: 0fr; padding-inline: 20px; overflow: hidden; border-radius: 0 0 var(--radius-panel) var(--radius-panel); background: var(--cream); transition: grid-template-rows .22s ease; }
   .mobile-nav a { min-height: 44px; display: flex; align-items: center; border-top: 1px solid var(--line); font-weight: 700; }
   .mobile-nav[aria-hidden="true"] { visibility: hidden; }
