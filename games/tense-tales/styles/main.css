@@ -1137,8 +1137,12 @@ body { min-width: 320px; overflow-x: clip; }
   .wo-bank { gap: 8px; padding: 12px 2px; }
   .word-tile { min-height: 44px; flex: 0 1 auto; padding-inline: clamp(7px, 2.5vw, 12px); font-size: clamp(13px, 3.7vw, 15px); overflow-wrap: anywhere; }
   .wo-complete { padding: 28px 4px; }
+  .wo-complete .completion-star { width: 54px; height: 54px; margin-bottom: 8px; font-size: 28px; }
+  .wo-complete-picture { aspect-ratio: 16 / 7; margin: 8px auto 12px; }
+  .wo-final-sentence { margin: 12px auto 16px; }
   .wo-complete .so-completion-actions, .practice-complete .so-completion-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .wo-complete .so-completion-actions > *, .practice-complete .so-completion-actions > * { width: 100%; min-width: 0; }
+  .wo-complete .so-completion-actions #wo-next { order: -1; }
   .practice-complete { padding: clamp(26px, 9vh, 72px) 4px; }
   .practice-meta { gap: 8px; font-size: 12px; }
   .practice-meta > * { overflow-wrap: anywhere; }
