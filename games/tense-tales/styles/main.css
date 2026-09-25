@@ -4,7 +4,6 @@ html, body {
   width: 100%;
   min-height: 100%;
   background: #0e0f1a;
-  overscroll-behavior: none;
 }
 
 body {
