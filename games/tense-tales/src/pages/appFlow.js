@@ -40,11 +40,13 @@
     STORY_IDS.forEach((storyId, index) => {
       const story = window.TenseTales.data.stories[storyId];
       const level = index + 1;
-      const locked = level > unlocked;
+      // Every authored story is directly selectable. Progress is still saved
+      // for completion/mastery labels, but it no longer blocks exploration.
+      const locked = false;
       const learning = mastery[state.tense][state.mode][level];
-      const status = locked ? 'Locked' : learning
+      const status = learning
         ? (learning.mastered ? 'Mastered' : 'Practising')
-        : (level < unlocked ? 'Complete' : 'Ready');
+        : (level < unlocked ? 'Complete' : (level === unlocked ? 'Ready' : 'Available'));
       const button = document.createElement('button');
       button.type = 'button';
       button.className = `level-button${locked ? ' is-locked' : ''}${level < unlocked ? ' is-complete' : ''}${learning && learning.mastered ? ' is-mastered' : ''}${learning && !learning.mastered ? ' is-practising' : ''}`;

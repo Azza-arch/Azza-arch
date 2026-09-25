@@ -65,7 +65,7 @@ class StoryOrderGridScene extends Phaser.Scene {
     const h = this.scale.height;
 
     const gap = Phaser.Math.Clamp(w * 0.035, 14, 28);
-    let cardWidth = Phaser.Math.Clamp((w - gap * 3) / 2, 140, 340);
+    let cardWidth = Phaser.Math.Clamp((w - gap * 3) / 2, 1, 340);
     let cardHeight = cardWidth * 0.72;
 
     const neededHeight = cardHeight * 2 + gap * 3;

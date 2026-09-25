@@ -59,7 +59,7 @@
   // before the scene runs, and avoids a layout jump on first paint).
   function computeGameplayStageHeight(width) {
     const gap = Phaser.Math.Clamp(width * 0.035, 14, 28);
-    const cardWidth = Phaser.Math.Clamp((width - gap * 3) / 2, 140, 340);
+    const cardWidth = Phaser.Math.Clamp((width - gap * 3) / 2, 1, 340);
     const cardHeight = cardWidth * 0.72;
     return Math.round(cardHeight * 2 + gap * 3);
   }
@@ -313,7 +313,12 @@
     narrationRun += 1;
     window.TenseTales.utils.audioManager.stopNarration();
     if (resizeObserver) { resizeObserver.disconnect(); resizeObserver = null; }
-    if (grid) { grid.destroy(true); grid = null; scene = null; }
+    if (grid) {
+      const oldGrid = grid;
+      grid = null;
+      scene = null;
+      oldGrid.destroy(true);
+    }
     els.shell.hidden = true;
   }
 
