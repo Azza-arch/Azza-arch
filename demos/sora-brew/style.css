@@ -189,6 +189,7 @@ html.motion-ready .site-footer.is-in-view .footer-note { animation-delay: .08s; 
   .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
   .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-7px) rotate(-45deg); }
   .mobile-nav { display: grid; grid-template-rows: 0fr; padding-inline: 20px; overflow: hidden; border-radius: 0 0 var(--radius-panel) var(--radius-panel); background: var(--cream); transition: grid-template-rows .22s ease; }
+  .mobile-nav-inner { min-height: 0; overflow: hidden; }
   .mobile-nav a { min-height: 44px; display: flex; align-items: center; border-top: 1px solid var(--line); font-weight: 700; }
   .mobile-nav[aria-hidden="true"] { visibility: hidden; }
   .site-header.menu-open .mobile-nav { grid-template-rows: 1fr; box-shadow: 0 12px 24px rgba(12,43,97,.1); }
