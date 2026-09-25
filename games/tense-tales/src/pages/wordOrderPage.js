@@ -88,7 +88,18 @@
     clearFeedback();
     els['wo-complete'].hidden = true;
     els['wo-gameplay'].hidden = false;
+    els['wo-next'].hidden = story.level === 5;
     renderTokens();
+  }
+
+  function openNextLevel() {
+    window.TenseTales.utils.audioManager.stopNarration();
+    // Switch the persistent page back to gameplay before changing its story.
+    // This prevents the previous level's completion DOM from surviving a
+    // level transition if page setup is delayed by picture rendering.
+    els['wo-complete'].hidden = true;
+    els['wo-gameplay'].hidden = false;
+    window.TenseTales.gameplay.appFlow.openNext();
   }
 
   function clearFeedback() {
@@ -167,6 +178,8 @@
     cache();
     story = window.TenseTales.data.stories[storyId];
     tense = selectedTense;
+    els['wo-complete'].hidden = true;
+    els['wo-gameplay'].hidden = false;
     window.TenseTales.gameplay.appFlow.state.screen = 'wordOrder';
     document.querySelectorAll('body > main, #game-root, #story-order-shell').forEach((el) => { el.hidden = true; });
     els['word-order-shell'].hidden = false;
@@ -191,7 +204,7 @@
     els['wo-check'].addEventListener('click', check);
     els['wo-listen'].addEventListener('click', playCompletedSentence);
     els['wo-back'].addEventListener('click', () => { window.TenseTales.utils.audioManager.stopNarration(); window.TenseTales.gameplay.appFlow.exitGameplay(); });
-    els['wo-next'].addEventListener('click', () => window.TenseTales.gameplay.appFlow.openNext());
+    els['wo-next'].addEventListener('click', openNextLevel);
     els['wo-replay'].addEventListener('click', reset);
     els['wo-levels'].addEventListener('click', () => window.TenseTales.gameplay.appFlow.exitGameplay());
   });
