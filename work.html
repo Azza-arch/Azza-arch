@@ -83,7 +83,7 @@
     .point strong{display:block;color:#64748b;font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}.dark .point strong{color:var(--lime)}
     .point p{color:#475569;line-height:1.7}.dark .point p{color:rgba(255,255,255,.8)}
     .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.tags span{border:1px solid #dbe3ef;background:#fff;color:#0f172a;padding:8px 13px;border-radius:5px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.dark .tags span{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#fff}.tags .solid{background:var(--lime);border-color:var(--lime);color:#101827}
-    .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.game-card{position:relative;min-height:420px;overflow:hidden;background:#111827;color:#fff}.game-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.game-card:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(4,6,15,.94),rgba(4,6,15,.58) 48%,rgba(4,6,15,.12))}
+    .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.game-card{position:relative;min-height:420px;overflow:hidden;background:#111827;color:#fff}.game-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.game-card:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(4,6,15,.94),rgba(4,6,15,.58) 48%,rgba(4,6,15,.12))}.game-card.tense-tales-card{grid-column:1/-1;min-height:500px}.game-card.tense-tales-card img{object-position:center 32%}
     .game-copy{position:absolute;left:24px;right:24px;bottom:24px;z-index:2}.game-copy p{color:rgba(255,255,255,.82);line-height:1.7;margin-top:10px}
     .award{position:absolute;top:16px;left:16px;z-index:3;background:var(--lime);color:#101827;padding:8px 13px;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:900}
     .also-lead{margin-top:36px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.6)}
@@ -248,10 +248,19 @@
             <div class="tags"><span class="solid">Unity</span><span>Education</span><span>Leaderboards</span></div>
           </div>
           <p>
-            Beyond web platforms, I build Unity-based educational games. These projects show a wider range of interaction thinking: missions, puzzles, group play, 1v1 modes and leaderboard loops.
+            Beyond web platforms, I build educational games for browsers and Unity. These projects show a wider range of interaction thinking: story sequencing, grammar puzzles, missions, group play, 1v1 modes and leaderboard loops.
           </p>
         </div>
         <div class="game-grid">
+          <a href="games/tense-tales/" class="game-card tense-tales-card">
+            <img src="games/tense-tales/home-motion-desktop.png" alt="Tense Tales animated homepage with a child walking towards a tree" width="1440" height="1000" loading="lazy" decoding="async">
+            <div class="award">Playable in browser</div>
+            <div class="game-copy">
+              <h3 class="text-3xl font-bold">Tense Tales</h3>
+              <p>A story-based English grammar game with Present and Past activities. Players arrange picture sequences or build sentences across five illustrated levels.</p>
+              <div class="tags"><span class="solid">Play now</span><span>JavaScript</span><span>Phaser</span><span>Grammar learning</span></div>
+            </div>
+          </a>
           <a href="https://www.youtube.com/watch?v=Y7_bN_8fVEE" target="_blank" rel="noopener" class="game-card">
             <img src="https://img.youtube.com/vi/Y7_bN_8fVEE/maxresdefault.jpg" alt="Misi Sejarah 3D gameplay preview" width="1280" height="720" loading="lazy" decoding="async">
             <div class="award">EduGC 2025 Professional Category Winner</div>

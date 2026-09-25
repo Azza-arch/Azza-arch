@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Tense Tales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <main id="home-shell" class="home-page">
+    <section class="home-hero" aria-labelledby="home-title">
+      <div class="home-copy">
+        <p class="home-label">A STORY GAME ABOUT TIME</p>
+        <h1 id="home-title">Tense <span>Tales</span></h1>
+        <p class="home-subtitle">Learn grammar through stories.</p>
+        <p class="home-support">See the story. Put it in order. Discover how verbs change with time.</p>
+        <button id="home-play" class="so-primary-btn home-play-btn" type="button">Play</button>
+      </div>
+
+      <div class="home-world" aria-label="A boy beginning a story beside a tree">
+        <img class="home-cloud home-cloud-one" src="assets/vendor/kenney-background-elements/PNG/cloud3.png" alt="" />
+        <img class="home-cloud home-cloud-two" src="assets/vendor/kenney-background-elements/PNG/cloud6.png" alt="" />
+        <img class="home-sun" src="assets/vendor/kenney-background-elements/PNG/sun.png" alt="" />
+        <img class="home-hills" src="assets/vendor/kenney-background-elements/PNG/hills2.png" alt="" />
+        <img class="home-distant-tree home-distant-tree-one" src="assets/vendor/kenney-background-elements-remastered/PNG/treeSmall_green2.png" alt="" />
+        <img class="home-distant-tree home-distant-tree-two" src="assets/vendor/kenney-background-elements-remastered/PNG/treeSmall_green2.png" alt="" />
+        <img class="home-distant-tree home-distant-tree-three" src="assets/vendor/kenney-background-elements-remastered/PNG/treeSmall_green2.png" alt="" />
+        <img class="home-distant-tree home-distant-tree-four" src="assets/vendor/kenney-background-elements-remastered/PNG/treeSmall_green2.png" alt="" />
+        <img class="home-tree" src="assets/vendor/kenney-background-elements-remastered/PNG/tree.png" alt="" />
+        <span class="home-character" role="img" aria-label="A boy walking towards a tree">
+          <img class="home-character-frame home-character-frame-a" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_walk0.png" alt="" />
+          <img class="home-character-frame home-character-frame-b" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_walk1.png" alt="" />
+        </span>
+        <img class="home-bush home-bush-one" src="assets/vendor/kenney-background-elements-remastered/PNG/bush1.png" alt="" />
+        <img class="home-bush home-bush-two" src="assets/vendor/kenney-background-elements-remastered/PNG/bush2.png" alt="" />
+        <span class="home-ground" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <section class="home-how" aria-labelledby="home-how-title">
+      <h2 id="home-how-title">How it works</h2>
+      <ol>
+        <li><strong>Look</strong><span>Read the pictures</span></li>
+        <li><strong>Order</strong><span>Build the story</span></li>
+        <li><strong>Learn</strong><span>See the verbs change</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <main id="menu-shell" class="menu-page" hidden>
+    <section class="menu-stage">
+      <header class="flow-header">
+        <button id="flow-back" class="so-back-btn" type="button"><span aria-hidden="true">&larr;</span><span>Back</span></button>
+        <span class="flow-brand">Tense Tales</span>
+        <span class="flow-spacer" aria-hidden="true"></span>
+      </header>
+      <div id="tense-screen" class="choice-screen" hidden>
+        <h1>Choose a time</h1>
+        <p>When does your story happen?</p>
+        <div class="choice-grid choice-grid-two">
+          <button class="choice-card choice-present" data-tense="presentSimple" type="button"><span class="choice-chip">EVERY DAY</span><strong>Present</strong><small>Things that happen now or often</small></button>
+          <button class="choice-card choice-past" data-tense="pastSimple" type="button"><span class="choice-chip">YESTERDAY</span><strong>Past</strong><small>Things that already happened</small></button>
+        </div>
+      </div>
+      <div id="game-screen" class="choice-screen" hidden>
+        <p id="game-tense-label" class="screen-context"></p>
+        <h1>Choose a game</h1>
+        <p>How would you like to practise?</p>
+        <div class="choice-grid choice-grid-two">
+          <button class="choice-card" data-mode="storyOrder" type="button"><span class="mode-number">4</span><strong>Order the Story</strong><small>Put four pictures in the right order</small></button>
+          <button class="choice-card" data-mode="wordOrder" type="button"><span class="mode-number mode-number-words">Aa</span><strong>Build the Sentence</strong><small>Put each word in the right place</small></button>
+        </div>
+      </div>
+      <div id="level-screen" class="choice-screen" hidden>
+        <p id="level-context" class="screen-context"></p>
+        <h1>Choose a level</h1>
+        <p>Finish a level to unlock the next story.</p>
+        <div id="level-grid" class="level-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <main id="word-order-shell" class="wo-page" hidden>
+    <section class="wo-stage">
+      <header class="flow-header">
+        <button id="wo-back" class="so-back-btn" type="button"><span aria-hidden="true">&larr;</span><span>Levels</span></button>
+        <span id="wo-level-label" class="flow-brand">Level 1 of 5</span>
+        <span id="wo-tense-chip" class="flow-tense-chip">Present</span>
+      </header>
+      <div id="wo-gameplay">
+        <div class="wo-heading"><span id="wo-context" class="so-context-badge">EVERY DAY</span><h1>Build the sentence</h1><p id="wo-story-title"></p></div>
+        <div id="wo-picture" class="wo-picture" role="img"></div>
+        <div class="wo-builder">
+          <p class="wo-instruction">Tap or drag the words into the correct order.</p>
+          <div id="wo-answer" class="wo-answer" aria-label="Your sentence"><span id="wo-empty">Your sentence goes here</span><span class="wo-period" aria-hidden="true">.</span></div>
+          <div id="wo-bank" class="wo-bank" aria-label="Word bank"></div>
+          <p id="wo-feedback" class="wo-feedback" aria-live="polite"></p>
+          <button id="wo-check" class="so-primary-btn" type="button">Check Sentence</button>
+        </div>
+      </div>
+      <div id="wo-complete" class="wo-complete" hidden>
+        <span class="completion-star" aria-hidden="true">✓</span>
+        <h1>Sentence complete!</h1>
+        <p id="wo-final-sentence" class="wo-final-sentence"></p>
+        <div class="so-completion-actions">
+          <button id="wo-next" class="so-primary-btn" type="button">Next Level</button>
+          <button id="wo-replay" class="so-secondary-btn" type="button">Replay</button>
+          <button id="wo-levels" class="so-secondary-btn" type="button">Level Map</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <main id="scene-audit-shell" class="audit-page" hidden>
+    <header class="audit-header"><div><h1>Scene composition audit</h1><p>20 canonical Story Order frames at desktop and mobile card sizes</p></div><a href="./">Exit audit</a></header>
+    <fieldset class="audit-controls"><legend>Debug overlays</legend><label><input type="checkbox" data-overlay="anchors"> Anchor points</label><label><input type="checkbox" data-overlay="zones"> Attachment zones</label><label><input type="checkbox" data-overlay="face"> Face exclusion zone</label><label><input type="checkbox" data-overlay="bounds"> Bounding boxes</label></fieldset>
+    <div id="scene-audit-grid" class="audit-grid"></div>
+  </main>
+
+  <div id="game-root" hidden></div>
+
+  <div id="story-order-shell" class="so-page" hidden>
+    <div class="so-stage">
+      <header class="so-header">
+        <button id="so-back" class="so-back-btn" type="button">
+          <span class="so-back-icon" aria-hidden="true">&larr;</span>
+          <span>Back</span>
+        </button>
+        <div id="so-title" class="so-title">Story 01</div>
+        <div id="so-progress" class="so-progress" role="img" aria-label="Progress">
+          <span class="so-dot" data-dot="0"></span>
+          <span class="so-dot" data-dot="1"></span>
+          <span class="so-dot" data-dot="2"></span>
+          <span class="so-dot" data-dot="3"></span>
+        </div>
+      </header>
+
+      <div id="so-context-block" class="so-context-block">
+        <span class="so-context-badge">YESTERDAY</span>
+        <h1 id="so-question" class="so-question">What happened?</h1>
+        <p id="so-story-name" class="so-story-name">Climbing the Tree</p>
+        <p id="so-feedback-title" class="so-feedback-title"></p>
+        <p id="so-feedback-body" class="so-feedback-body"></p>
+      </div>
+      <h2 id="so-completion-heading" class="so-completion-heading" hidden>Story complete!</h2>
+
+      <div class="so-stage-wrap">
+        <div id="so-canvas-mount"></div>
+      </div>
+
+      <p id="so-instruction" class="so-instruction">The pictures start mixed up. Move them into the correct story order.</p>
+      <div id="so-gameplay-actions" class="so-actions">
+        <button id="so-check" class="so-primary-btn" type="button">Check Story</button>
+        <button id="so-continue" class="so-primary-btn" type="button" hidden>Continue</button>
+      </div>
+
+      <div id="so-completion-block" class="so-completion-block" hidden>
+        <div class="so-recap-panel">
+          <p id="so-recap" class="so-recap"></p>
+        </div>
+        <div class="so-completion-actions">
+          <button id="so-next-level" class="so-primary-btn" type="button">Next Level</button>
+          <button id="so-play-again" class="so-secondary-btn" type="button">Replay</button>
+          <button id="so-back-menu" class="so-secondary-btn" type="button">Level Map</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@4/dist/phaser.min.js"></script>
+  <script src="src/data/asset-manifest.js"></script>
+  <script src="src/data/tenses.js"></script>
+  <script src="src/data/legacy-subjects.js"></script>
+  <script src="src/data/verbs.js"></script>
+  <script src="src/data/time-cues.js"></script>
+  <script src="src/data/sentence-templates.js"></script>
+  <script src="src/data/legacy-stories.js"></script>
+  <script src="src/grammar/legacy-grammar-engine.js"></script>
+  <script src="src/grammar/legacy-sentence-chunks.js"></script>
+
+  <!-- NEW system (Phase 2+) — namespaced under window.TenseTales so it
+       cannot collide with the legacy globals above. See MIGRATION.md. -->
+  <script src="src/tenseTalesNamespace.js"></script>
+  <script src="src/grammar/grammarConstants.js"></script>
+  <script src="src/grammar/verbCatalog.js"></script>
+  <script src="src/data/subjects.js"></script>
+  <script src="src/data/stories.js"></script>
+  <script src="src/data/assetCatalog.js"></script>
+  <script src="src/grammar/grammarEngine.js"></script>
+  <script src="src/grammar/sentenceBuilder.js"></script>
+  <script src="src/gameplay/storyShuffle.js"></script>
+  <script src="src/gameplay/storyValidation.js"></script>
+  <script src="src/gameplay/storyOrderController.js"></script>
+  <script src="src/gameplay/progressStore.js"></script>
+  <script src="src/gameplay/wordOrder.js"></script>
+
+  <script src="src/utils/reduced-motion.js"></script>
+  <script src="src/utils/homeMotion.js"></script>
+  <script src="src/utils/characterAnchors.js"></script>
+  <script src="src/utils/sceneValidation.js"></script>
+  <script src="src/utils/sceneComposition.js"></script>
+  <script src="src/utils/placeholder-icons.js"></script>
+  <script src="src/components/Button.js"></script>
+  <script src="src/components/StoryCard.js"></script>
+  <script src="src/components/WordChip.js"></script>
+  <script src="src/components/SentenceBuilder.js"></script>
+  <script src="src/components/TimeSwitch.js"></script>
+  <script src="src/components/KenneySceneCard.js"></script>
+  <script src="src/scenes/BootScene.js"></script>
+  <script src="src/scenes/MenuScene.js"></script>
+  <script src="src/scenes/GameScene.js"></script>
+  <script src="src/scenes/SentenceScene.js"></script>
+  <script src="src/scenes/StoryOrderGridScene.js"></script>
+  <script src="src/pages/storyOrderPage.js"></script>
+  <script src="src/pages/wordOrderPage.js"></script>
+  <script src="src/pages/appFlow.js"></script>
+  <script src="src/pages/sceneAuditPage.js"></script>
+  <script src="src/config.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>

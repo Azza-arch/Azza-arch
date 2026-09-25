@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tense Tales — Story Visual Prototypes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  /* Approved Phase 1.6 tokens — no new colour system introduced. */
+  :root {
+    --color-bg: #F8F7F0;
+    --color-surface: #FFFFFF;
+    --color-text: #23343B;
+    --color-text-muted: #5B6B72;
+    --color-primary: #3B82C4;
+    --color-coral: #F28773;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--color-bg); color: var(--color-text); font-family: 'Nunito', sans-serif; }
+  body { padding-bottom: 100px; }
+
+  header.page-head { max-width: 1100px; margin: 0 auto; padding: 40px 20px 8px; }
+  .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 0.06em;
+    text-transform: uppercase; color: #7A2F22; background: #FDEAE5;
+    padding: 4px 12px; border-radius: 999px; margin-bottom: 12px;
+  }
+  h1 { font-size: 30px; font-weight: 900; margin: 0 0 8px; }
+  .lede { font-size: 15.5px; color: var(--color-text-muted); max-width: 780px; line-height: 1.55; }
+
+  .story-section { max-width: 1100px; margin: 0 auto; padding: 32px 20px; border-top: 2px dashed rgba(35,52,59,0.10); }
+  .story-title { font-size: 22px; font-weight: 800; margin: 0 0 4px; }
+  .story-subtitle { font-size: 14px; color: var(--color-text-muted); margin: 0 0 18px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 660px; }
+
+  .scene-card {
+    position: relative; width: 100%; aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg); overflow: hidden; background: var(--color-surface);
+    box-shadow: 0 6px 0 rgba(35,52,59,0.08), 0 10px 18px rgba(35,52,59,0.08);
+  }
+
+  .seq-badge {
+    position: absolute; top: 8px; left: 8px; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--color-primary); color: #fff; font-weight: 900; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; z-index: 10;
+    box-shadow: 0 2px 0 #2E6699;
+  }
+
+  .layer { position: absolute; }
+  .img-fill { width: 100%; height: 100%; object-fit: cover; }
+  .sprite { position: absolute; display: block; }
+
+  .prop-tag {
+    position: absolute; bottom: 6px; right: 8px;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.02em;
+    padding: 2px 7px; border-radius: 999px; z-index: 10;
+  }
+  .prop-attached { background: #E7F6E1; color: #2F5720; }
+  .prop-nearby { background: #FFF3D6; color: #7A5A0B; }
+  .prop-environment { background: #E4EEF7; color: #1F4A6E; }
+
+  .ambiguous-flag {
+    display: inline-block; margin-top: 8px; font-size: 12.5px; font-weight: 800;
+    color: #7A2F22; background: #FDEAE5; padding: 3px 10px; border-radius: 999px;
+  }
+  .ok-flag {
+    display: inline-block; margin-top: 8px; font-size: 12.5px; font-weight: 800;
+    color: #2F5720; background: #E7F6E1; padding: 3px 10px; border-radius: 999px;
+  }
+
+  footer.report { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; border-top: 2px dashed rgba(35,52,59,0.10); }
+  footer.report h2 { font-size: 20px; font-weight: 800; }
+  footer.report ul { font-size: 14.5px; line-height: 1.6; color: var(--color-text); }
+  .confirm-list li { color: #2F5720; font-weight: 700; }
+
+  .viewport-marker {
+    position: fixed; bottom: 14px; right: 14px; background: var(--color-text); color: #fff;
+    font-size: 12px; font-weight: 800; padding: 6px 12px; border-radius: 999px;
+    z-index: 100; font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 420px) { .card-grid { max-width: 100%; gap: 10px; } }
+</style>
+</head>
+<body>
+
+<div class="viewport-marker" id="vpMarker">—</div>
+
+<header class="page-head">
+  <span class="eyebrow">Phase 1.8 revision — prop perspective fix</span>
+  <h1>Story Visual Prototypes</h1>
+  <p class="lede">
+    Revised set. The backpack-worn stories ("Leaves the House" and the walking/turning
+    beats of "The Lost Backpack") are held — the backpack sprite has no matching
+    front/side/back views, so attaching it to a walking character faked a perspective
+    the asset doesn't have. This page keeps only object interactions that a real pose
+    actually supports. Every prop below is labelled <span class="prop-tag prop-attached" style="position:static;">ATTACHED</span>
+    <span class="prop-tag prop-nearby" style="position:static;">NEARBY</span> or
+    <span class="prop-tag prop-environment" style="position:static;">ENVIRONMENT</span> per the classification rule.
+  </p>
+</header>
+
+<!-- ============ A — CLIMBING THE TREE (unchanged, no prop issue) ============ -->
+<section class="story-section">
+  <h2 class="story-title">A — Climbing the Tree</h2>
+  <p class="story-subtitle">Character poses + tree asset only — no object props involved, so no attachment question applies. Tree stays fixed; vertical position tells the climb.</p>
+  <div class="card-grid">
+
+    <div class="scene-card">
+      <span class="seq-badge">01</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:18%; bottom:18%; width:20%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_side.png" alt="" />
+    </div>
+
+    <div class="scene-card">
+      <span class="seq-badge">02</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:59%; bottom:34%; width:16%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_climb0.png" alt="" />
+    </div>
+
+    <div class="scene-card">
+      <span class="seq-badge">03</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:60%; bottom:52%; width:15%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_hang.png" alt="" />
+    </div>
+
+    <div class="scene-card">
+      <span class="seq-badge">04</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:57%; bottom:18%; width:19%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_jump.png" alt="" />
+    </div>
+
+  </div>
+  <span class="ok-flag">No prop attachment issue — climb0/hang/jump are dedicated poses; no object sprite involved.</span>
+</section>
+
+<!-- ============ B — READING UNDER THE TREE ============ -->
+<section class="story-section">
+  <h2 class="story-title">B — Reading Under the Tree</h2>
+  <p class="story-subtitle">Same tree, same spot. The book is small enough that the "hold" pose's two-handed cupped grip plausibly supports it (unlike the backpack, it has no implied straps/wearing direction).</p>
+  <div class="card-grid">
+
+    <!-- Panel 1: walks toward tree -->
+    <div class="scene-card">
+      <span class="seq-badge">01</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:18%; bottom:18%; width:20%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_side.png" alt="" />
+      <span class="prop-tag prop-environment">ENVIRONMENT</span>
+    </div>
+
+    <!-- Panel 2: holds closed book -->
+    <div class="scene-card">
+      <span class="seq-badge">02</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:38%; bottom:18%; width:20%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_hold.png" alt="" />
+      <img class="layer sprite" style="left:44%; bottom:26%; width:8%;" src="assets/vendor/kenney-generic-items/Colored/genericItem_color_034.png" alt="" />
+      <span class="prop-tag prop-attached">ATTACHED</span>
+    </div>
+
+    <!-- Panel 3: reads open book -->
+    <div class="scene-card">
+      <span class="seq-badge">03</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:38%; bottom:18%; width:20%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_hold.png" alt="" />
+      <img class="layer sprite" style="left:43%; bottom:25%; width:10%;" src="assets/vendor/kenney-generic-items/Colored/genericItem_color_033.png" alt="" />
+      <span class="prop-tag prop-attached">ATTACHED</span>
+    </div>
+
+    <!-- Panel 4: closes book -->
+    <div class="scene-card">
+      <span class="seq-badge">04</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:8%; top:8%; width:20%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:20%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/tree08.png" alt="" />
+      <img class="layer sprite" style="left:38%; bottom:18%; width:20%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_hold.png" alt="" />
+      <img class="layer sprite" style="left:44%; bottom:26%; width:8%;" src="assets/vendor/kenney-generic-items/Colored/genericItem_color_034.png" alt="" />
+      <span class="prop-tag prop-attached">ATTACHED</span>
+    </div>
+
+  </div>
+  <span class="ambiguous-flag">Flag: the "hold" pose's hands are sized/shaped for a mid-size held object, not specifically a book. It reads as "holding something" clearly, but the book identity is only legible because of the book's own distinct cover art, not because the pose was built around a book. Acceptable, but noted as a softer attachment than Prototype A's dedicated poses.</span>
+</section>
+
+<!-- ============ C — THE NEW PHONE ============ -->
+<section class="story-section">
+  <h2 class="story-title">C — The New Phone</h2>
+  <p class="story-subtitle">Two characters, open field. Phone is ATTACHED only in panel 01 where the "hold" pose supports it; NEARBY in 02/03 where the pose's hands aren't fully closed; ENVIRONMENT in 04 so both characters can cheer with free hands.</p>
+  <div class="card-grid">
+
+    <!-- Panel 1: holds phone -->
+    <div class="scene-card">
+      <span class="seq-badge">01</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:10%; top:8%; width:18%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:40%; bottom:18%; width:22%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_hold.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:33%; width:7%;" src="assets/vendor/kenney-generic-items/Colored/genericItem_color_062.png" alt="" />
+      <span class="prop-tag prop-attached">ATTACHED</span>
+    </div>
+
+    <!-- Panel 2: looks at phone -->
+    <div class="scene-card">
+      <span class="seq-badge">02</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:10%; top:8%; width:18%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:40%; bottom:18%; width:22%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_think.png" alt="" />
+      <img class="layer sprite" style="left:38%; bottom:30%; width:7%;" src="assets/vendor/kenney-generic-items/Colored/genericItem_color_062.png" alt="" />
+      <span class="prop-tag prop-nearby">NEARBY</span>
+    </div>
+
+    <!-- Panel 3: shows phone to friend -->
+    <div class="scene-card">
+      <span class="seq-badge">03</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:6%; top:8%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:46%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:24%; bottom:18%; width:20%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_show.png" alt="" />
+      <img class="layer sprite" style="left:44%; bottom:30%; width:7%;" src="assets/vendor/kenney-generic-items/Colored/genericItem_color_062.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:18%; width:20%; transform: scaleX(-1);" src="assets/vendor/kenney-toon-characters/Female adventurer/Poses/character_femaleAdventurer_idle.png" alt="" />
+      <span class="prop-tag prop-nearby">NEARBY</span>
+    </div>
+
+    <!-- Panel 4: both cheer -->
+    <div class="scene-card">
+      <span class="seq-badge">04</span>
+      <img class="layer img-fill" src="assets/vendor/kenney-background-elements/PNG/sky.png" alt="" />
+      <img class="layer sprite" style="left:6%; top:8%; width:16%;" src="assets/vendor/kenney-background-elements/PNG/cloud1.png" alt="" />
+      <img class="layer sprite" style="left:4%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:88%; bottom:2%; width:7%;" src="assets/vendor/kenney-background-elements/PNG/grass4.png" alt="" />
+      <img class="layer sprite" style="left:45%; bottom:4%; width:6%;" src="assets/vendor/kenney-generic-items/Colored/genericItem_color_062.png" alt="" />
+      <img class="layer sprite" style="left:24%; bottom:18%; width:20%;" src="assets/vendor/kenney-toon-characters/Male adventurer/Poses/character_maleAdventurer_cheer0.png" alt="" />
+      <img class="layer sprite" style="left:58%; bottom:18%; width:20%; transform: scaleX(-1);" src="assets/vendor/kenney-toon-characters/Female adventurer/Poses/character_femaleAdventurer_cheer0.png" alt="" />
+      <span class="prop-tag prop-environment">ENVIRONMENT</span>
+    </div>
+
+  </div>
+  <span class="ambiguous-flag">Flag: panels 02–03 place the phone beside a hand that is not fully closed (think = hand near chin; show = arm extended, open palm). It reads as "the phone belongs to this moment" but not as firmly gripped as panel 01's "hold" pose. Classified NEARBY rather than ATTACHED for exactly this reason — not hidden as a false ATTACHED.</span>
+</section>
+
+<footer class="report">
+  <h2>Held / rejected from this revision</h2>
+  <ul>
+    <li><strong>Leaves the House</strong> — every beat needed the backpack to look worn while walking (back pose, side pose), but the backpack sprite has no back-view or strap attachment — it floated. Held until either a multi-view backpack asset is found or a 3D Kenney backpack is rendered into matching 2D views.</li>
+    <li><strong>The Lost Backpack (walking beats)</strong> — same issue for its "walks away" and "returns" beats. Per your rule it may return later as ground-only (backpack fixed on the ground, character approaches/leaves empty-handed, never worn) — not rebuilt here since it wasn't in the revised three.</li>
+  </ul>
+
+  <h2>Props still flagged as imperfect</h2>
+  <ul>
+    <li><strong>B, panels 02–04:</strong> book positioned at the "hold" pose's hand location — a generic hold, not a book-specific pose. Reads correctly but is a softer attachment than A's dedicated climb/hang poses.</li>
+    <li><strong>C, panels 02–03:</strong> phone classified NEARBY, not ATTACHED — "think" and "show" poses don't have a closed grip, so the phone sits beside the hand rather than in it.</li>
+  </ul>
+
+  <h2>Confirmations</h2>
+  <ul class="confirm-list">
+    <li>No generated art — every visual element is a PNG already inventoried in assetCatalog.js.</li>
+    <li>No emoji anywhere on this page.</li>
+    <li>No custom-drawn SVG scenery.</li>
+    <li>No external (non-Kenney) assets.</li>
+    <li>No object rendered on a character in a pose/perspective that pose doesn't support — backpack-worn stories removed rather than faked.</li>
+    <li>No gameplay features added — no drag/drop, no shuffle, no Check button, no sentence builder, no tense switch, no scoring, no sound, no animation, no progression.</li>
+  </ul>
+</footer>
+
+<script>
+  function updateMarker() { document.getElementById('vpMarker').textContent = window.innerWidth + ' px'; }
+  window.addEventListener('resize', updateMarker);
+  updateMarker();
+</script>
+
+</body>
+</html>
