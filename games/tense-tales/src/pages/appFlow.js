@@ -6,7 +6,24 @@
 
   function hideAll() { shells.forEach((id) => { const el = document.getElementById(id); if (el) el.hidden = true; }); }
   function focusScreen(id) { requestAnimationFrame(() => { const root = document.getElementById(id); const heading = root && root.querySelector('h1'); if (heading) { heading.tabIndex = -1; heading.focus(); } }); }
-  function placeSoundControls(root) { const controls = document.querySelector('.sound-controls'); const header = root.querySelector('.flow-header, .so-header'); const target = header ? header.lastElementChild : (root.querySelector('.home-copy') || root); target.appendChild(controls); }
+  function placeSoundControls(root) {
+    const controls = document.querySelector('.sound-controls');
+    if (!controls) return;
+    const header = root.querySelector('.flow-header, .so-header');
+    if (!header) { (root.querySelector('.home-copy') || root).appendChild(controls); return; }
+
+    // Keep controls beside dynamic context text, never inside it: screens
+    // update tense chips with textContent when the next level opens.
+    let slot = header.querySelector('.flow-header-end');
+    if (!slot) {
+      slot = document.createElement('div');
+      slot.className = 'flow-header-end';
+      const last = header.lastElementChild;
+      if (last) { header.insertBefore(slot, last); slot.appendChild(last); }
+      else header.appendChild(slot);
+    }
+    slot.appendChild(controls);
+  }
   function showShell(id) { hideAll(); const root = document.getElementById(id); root.hidden = false; placeSoundControls(root); focusScreen(id); }
 
   function showHome() { state.screen = 'home'; state.teacherSession.active = false; showShell('home-shell'); }

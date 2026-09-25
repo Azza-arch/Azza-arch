@@ -790,6 +790,7 @@ body::selection {
 }
 
 .flow-spacer { min-width: 90px; }
+.flow-header-end { min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
 
 .choice-screen {
   width: min(100%, 900px);
@@ -1113,6 +1114,7 @@ body { min-width: 320px; overflow-x: clip; }
   .flow-brand { justify-self: center; text-align: center; font-size: clamp(13px, 4vw, 16px); }
   .flow-tense-chip { max-width: 100%; justify-self: end; padding: 7px 8px; font-size: 10px; text-align: center; }
   .flow-header > :last-child { justify-self: end; }
+  .flow-header-end > .flow-tense-chip, .flow-header-end > .flow-spacer { display: none; }
   .choice-screen h1 { font-size: clamp(32px, 8vw, 44px); overflow-wrap: anywhere; }
   .choice-screen > p:not(.screen-context) { margin-bottom: 22px; }
   .choice-grid-two { grid-template-columns: minmax(0, 1fr); }
