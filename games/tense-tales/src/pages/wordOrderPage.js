@@ -7,6 +7,7 @@
   let draggedId = null;
   let attempts = 0;
   let challengePanel = null;
+  let transitionInProgress = false;
   const els = {};
 
   function cache() {
@@ -85,21 +86,36 @@
     tokens = shuffled.map((word, index) => ({ id: `word-${index}`, word }));
     orderedIds = [];
     attempts = 0;
+    transitionInProgress = false;
     clearFeedback();
     els['wo-complete'].hidden = true;
     els['wo-gameplay'].hidden = false;
     els['wo-next'].hidden = story.level === 5;
+    els['wo-next'].disabled = false;
+    els['wo-final-sentence'].textContent = '';
+    els['wo-tense-compare'].textContent = '';
+    els['wo-complete-picture'].classList.remove('is-story-focus');
     renderTokens();
   }
 
   function openNextLevel() {
+    if (transitionInProgress || story.level >= 5 || els['wo-complete'].hidden) return;
+    transitionInProgress = true;
+    els['wo-next'].disabled = true;
     window.TenseTales.utils.audioManager.stopNarration();
-    // Switch the persistent page back to gameplay before changing its story.
-    // This prevents the previous level's completion DOM from surviving a
-    // level transition if page setup is delayed by picture rendering.
     els['wo-complete'].hidden = true;
     els['wo-gameplay'].hidden = false;
-    window.TenseTales.gameplay.appFlow.openNext();
+    try {
+      // The active story is the source of truth; global navigation state can
+      // lag behind when a page was opened from a direct route or recommendation.
+      window.TenseTales.gameplay.appFlow.openLevel(story.level + 1);
+    } catch (error) {
+      transitionInProgress = false;
+      els['wo-next'].disabled = false;
+      els['wo-complete'].hidden = false;
+      els['wo-gameplay'].hidden = true;
+      throw error;
+    }
   }
 
   function clearFeedback() {
@@ -142,6 +158,7 @@
   }
 
   function check() {
+    if (transitionInProgress) return;
     const words = orderedIds.map((id) => tokens.find((token) => token.id === id).word);
     if (words.length !== expected.length) {
       showFeedback('hint', 'The sentence is not complete yet.', `Move all ${expected.length} words into the sentence, then check again.`);
@@ -178,9 +195,13 @@
     cache();
     story = window.TenseTales.data.stories[storyId];
     tense = selectedTense;
+    const flowState = window.TenseTales.gameplay.appFlow.state;
+    flowState.screen = 'wordOrder';
+    flowState.mode = 'wordOrder';
+    flowState.level = story.level;
+    flowState.tense = tense;
     els['wo-complete'].hidden = true;
     els['wo-gameplay'].hidden = false;
-    window.TenseTales.gameplay.appFlow.state.screen = 'wordOrder';
     document.querySelectorAll('body > main, #game-root, #story-order-shell').forEach((el) => { el.hidden = true; });
     els['word-order-shell'].hidden = false;
     els['wo-level-label'].textContent = `Level ${story.level} of 5`;
