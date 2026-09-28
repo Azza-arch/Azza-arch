@@ -2,8 +2,9 @@
 
 > Freelance web developer based in Malaysia. Builds focused landing pages,
 > sales pages and lightweight business websites for businesses, organisations
-> and personal brands. Not currently taking on large custom systems or
-> backend-heavy platforms.
+> and personal brands. Custom web systems (bookings, dashboards, accounts)
+> are also possible, but are quoted individually and are not part of the
+> website packages.
 
 ## Services
 
@@ -11,13 +12,23 @@
 - Sales Page: a conversion-focused page that explains one offer and pushes visitors toward one action.
 - Business Website: a lightweight multi-section or small multi-page website for a stronger online presence.
 
-## Pricing (starting prices, MYR)
+## Pricing (one-time development fees, MYR)
 
-- Starter: RM399+ — one-page responsive website, up to 5 main sections, WhatsApp/email call-to-action, mobile optimisation, basic SEO setup, 1 revision round.
-- Sales / Business: RM799+ — custom page structure, conversion-focused sections, contact or enquiry form, analytics setup, 2 revision rounds.
-- Custom Front-End: quote on request — custom visual direction, multiple marketing pages, interactive UI where useful; scope agreed before work begins.
+- Starter: RM499. One page, up to five sections, design adapted to your brand, responsive layout, WhatsApp contact, basic page SEO, 1 revision round.
+- Business: RM899. Up to three pages, more tailored layout, services or gallery sections, light help organising supplied copy, page-level basic SEO, 2 revision rounds.
+- Custom website: from RM1,500. More individual design, up to five standard pages as the starting scope; extra features quoted separately.
+- Custom web systems: quoted individually. A database, booking engine, payments, dashboard, user accounts or ongoing support are not included in the website packages.
 
-Final pricing depends on content, design complexity and scope.
+Domain and hosting are paid to third-party providers and are separate from the development fee. Domains are registered in the customer's name where practical. A simple static site may fit a free hosting tier, but free hosting is not guaranteed long term.
+
+After launch: 30 days of fixes for bugs within the agreed scope. Optional care plan for static sites: RM300 per year, with a quarterly check and up to four small content updates a year, each taking up to 30 minutes (unused updates do not carry over). The care plan is not mandatory. New features, extra pages, major changes, substantial content writing and third-party charges are quoted separately.
+
+Payment: 50% development deposit and 50% when the agreed site is accepted, before launch. Quotations are valid for 14 days.
+
+## Portfolio notes
+
+- Sora Brew (https://haziqbuilds.com/demos/sora-brew/) is a self-initiated concept with a fictional cafe. It is not a client project.
+- Tense Tales (https://haziqbuilds.com/games/tense-tales/) is a browser-playable grammar game.
 
 ## Experience
 
@@ -27,7 +38,8 @@ Final pricing depends on content, design complexity and scope.
 
 ## Contact
 
-- Email (primary): syhaziqdev@gmail.com
+- Email (best for project details): syhaziqdev@gmail.com
+- WhatsApp: https://wa.me/60129536858
 - LinkedIn: https://www.linkedin.com/in/syhaziqdev/
 
 ## Links

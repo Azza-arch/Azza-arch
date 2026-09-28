@@ -41,6 +41,10 @@ The site is deployed to Cloudflare Pages from GitHub for `haziqbuilds.com`. Cont
 
 Use the `haziqbuilds` identity (the wordmark is `haziq` + lime `builds`); `SYHAZIQDEV` is a legacy handle only. Voice should be clear, practical, direct and fully English on the public site. The brand may show personality, but the primary positioning is developer + founder, not artist-first.
 
+## Pricing (owner decision, Sept 2026)
+
+Starter RM499, Business RM899, Custom website from RM1,500, custom web systems quoted individually. Domain and hosting are third-party costs. Optional static-site care plan about RM300/year. RM399 is not advertised.
+
 ## Evidence on Hand
 
 - Live domain: `https://haziqbuilds.com/`
@@ -55,7 +59,7 @@ Use the `haziqbuilds` identity (the wordmark is `haziq` + lime `builds`); `SYHAZ
 ## Product Principles
 
 - Ship the useful version first, then improve.
-- Keep freelance scope focused on websites, sales pages, landing pages and lightweight business sites.
+- Keep the primary pitch focused on clear websites for Malaysian small businesses. Custom web systems are accepted only on an individual scoped quotation, never implied as part of the website packages.
 - Be honest about ownership and credits.
 - Let product thinking shape the copy, not just the visuals.
 - Prefer fast, readable, direct pages over complicated systems.

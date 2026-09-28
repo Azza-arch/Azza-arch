@@ -6,7 +6,9 @@
 (function () {
   'use strict';
 
-  if (window.AOS) AOS.init({ duration: 650, once: true, offset: 40 });
+  var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // With AOS disabled the data-aos attributes are removed, so content is simply visible.
+  if (window.AOS) AOS.init({ duration: 650, once: true, offset: 40, disable: function () { return prefersReducedMotion; } });
   if (window.feather) feather.replace();
 
   var navbar = document.getElementById('navbar');
@@ -121,6 +123,21 @@
     });
   }
 
+  // Package buttons preselect the matching project type in the quote form.
+  var PACKAGE_TYPES = {
+    'Starter': 'Starter (one page)',
+    'Business': 'Business (up to three pages)',
+    'Custom website': 'Custom website',
+    'Custom web system': 'Custom web system (quotation)'
+  };
+  document.querySelectorAll('[data-package]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var select = document.getElementById('type');
+      var wanted = PACKAGE_TYPES[link.getAttribute('data-package')];
+      if (select && wanted) select.value = wanted;
+    });
+  });
+
   // CONTACT EMAIL + QUOTE FORM
   var CONTACT_EMAIL = 'syhaziqdev@gmail.com';
 
@@ -131,10 +148,10 @@
     emailText.textContent = CONTACT_EMAIL;
   }
 
-  function buildMailtoHref(data) {
-    var subject = 'Website enquiry - ' + (data.business || data.name);
-    var body =
-      'Hi Syed,\n\n' +
+  var WHATSAPP_NUMBER = '60129536858';
+
+  function buildMessage(data) {
+    return 'Hi Haziq,\n\n' +
       'I found your portfolio and I am interested in discussing a website project.\n\n' +
       'Name: ' + data.name + '\n' +
       'Business / Organisation: ' + (data.business || '-') + '\n' +
@@ -142,6 +159,11 @@
       'Approximate budget: ' + data.budget + '\n\n' +
       'Project details:\n' + data.details + '\n\n' +
       'Thank you.';
+  }
+
+  function buildMailtoHref(data) {
+    var subject = 'Website enquiry - ' + (data.business || data.name);
+    var body = buildMessage(data);
 
     return 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   }
@@ -190,6 +212,41 @@
 
       formError.classList.add('hidden');
       formError.textContent = '';
+
+      // mailto: does nothing when no mail app is configured, so always show a
+      // fallback (copy text / WhatsApp). The message is built in the browser
+      // only and is never sent or stored by this page.
+      var message = buildMessage(payload);
+      var fallback = document.getElementById('formFallback');
+      var waLink = document.getElementById('waEnquiry');
+      var copyBtn = document.getElementById('copyEnquiry');
+      var copyStatus = document.getElementById('copyStatus');
+      if (waLink) waLink.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+      if (copyStatus) copyStatus.textContent = '';
+      if (copyBtn) {
+        copyBtn.onclick = function () {
+          var done = function (ok) {
+            if (copyStatus) copyStatus.textContent = ok ? 'Copied. Paste it into any email or chat.' : 'Could not copy automatically. Please select and copy your details manually.';
+          };
+          var legacyCopy = function () {
+            var ta = document.createElement('textarea');
+            ta.value = message;
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            var ok = false;
+            try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+            document.body.removeChild(ta);
+            done(ok);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(message).then(function () { done(true); }, legacyCopy);
+          } else { legacyCopy(); }
+        };
+      }
+      if (fallback) fallback.classList.remove('hidden');
+
       window.location.href = buildMailtoHref(payload);
     });
   }

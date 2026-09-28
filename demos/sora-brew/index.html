@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5efe5">
   <meta name="description" content="Sora Brew cafe website concept demo.">
+  <meta name="robots" content="noindex, follow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'">
   <title>Sora Brew - Cafe Website Concept</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,11 +17,18 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="concept-bar">
+    <p><strong>Concept demo</strong> <span class="concept-bar-long">by haziqbuilds. Fictional cafe, not a real business.</span></p>
+    <nav aria-label="Portfolio links">
+      <a href="../../work.html#website-concepts">Back to portfolio</a>
+      <a href="../../index.html#contact">Ask for a similar site</a>
+    </nav>
+  </div>
   <header class="site-header">
     <div class="container mx-auto header-row">
       <a class="brand" href="#top" aria-label="Sora Brew home">Sora Brew<span class="brand-dot">.</span></a>
       <nav class="desktop-nav" aria-label="Primary">
-        <a href="#top" aria-current="page">Home</a>
+        <a href="#top">Home</a>
         <a href="#menu">Menu</a>
         <a href="#story">Our Story</a>
         <a href="#outlet">Outlet</a>
@@ -73,35 +81,35 @@
           <h2 id="menu-title">The Menu</h2>
           <p>Made for coffee breaks, slow mornings and little treats.</p>
         </div>
-        <p class="menu-demo-note">Illustrative menu for this website concept. Items and sample prices are in MYR; Sora Brew has not supplied a verified menu.</p>
+        <p class="menu-demo-note">Illustrative menu for this website concept. Items, descriptions and sample prices (in ringgit) are made up; Sora Brew has not supplied a verified menu.</p>
         <div class="menu-board grid md:grid-cols-2 gap-4 p-6">
           <div class="menu-lists">
             <section class="menu-category" aria-labelledby="coffee-title">
               <h3 id="coffee-title">Coffee Classics</h3>
               <ul class="menu-items">
-                <li><span>Espresso</span><span>MYR 8.00</span></li>
-                <li><span>Long Black</span><span>MYR 10.00</span></li>
-                <li><span>Flat White</span><span>MYR 13.00</span></li>
-                <li><span>Cafe Latte</span><span>MYR 13.00</span></li>
-                <li><span>Mocha</span><span>MYR 15.00</span></li>
+                <li><span class="mi-name">Espresso<small class="mi-desc">Double shot, short and bold</small></span><span class="mi-price">RM8.00</span></li>
+                <li><span class="mi-name">Long Black<small class="mi-desc">Two shots over hot water</small></span><span class="mi-price">RM10.00</span></li>
+                <li><span class="mi-name">Flat White<small class="mi-desc">Silky milk, strong coffee flavour</small></span><span class="mi-price">RM13.00</span></li>
+                <li><span class="mi-name">Cafe Latte<small class="mi-desc">Steamed milk with light foam</small></span><span class="mi-price">RM13.00</span></li>
+                <li><span class="mi-name">Mocha<small class="mi-desc">Espresso, chocolate and milk</small></span><span class="mi-price">RM15.00</span></li>
               </ul>
             </section>
             <section class="menu-category" aria-labelledby="iced-title">
               <h3 id="iced-title">Iced Coffee</h3>
               <ul class="menu-items">
-                <li><span>Iced Americano</span><span>MYR 11.00</span></li>
-                <li><span>Iced Latte</span><span>MYR 14.00</span></li>
-                <li><span>Iced Spanish Latte</span><span>MYR 16.00</span></li>
-                <li><span>Cold Brew</span><span>MYR 15.00</span></li>
+                <li><span class="mi-name">Iced Americano<small class="mi-desc">Espresso over ice and water</small></span><span class="mi-price">RM11.00</span></li>
+                <li><span class="mi-name">Iced Latte<small class="mi-desc">Espresso, cold milk and ice</small></span><span class="mi-price">RM14.00</span></li>
+                <li><span class="mi-name">Iced Spanish Latte<small class="mi-desc">Sweetened with condensed milk</small></span><span class="mi-price">RM16.00</span></li>
+                <li><span class="mi-name">Cold Brew<small class="mi-desc">Steeped slowly, served cold</small></span><span class="mi-price">RM15.00</span></li>
               </ul>
             </section>
             <section class="menu-category" aria-labelledby="pastry-title">
               <h3 id="pastry-title">Pastries &amp; Desserts</h3>
               <ul class="menu-items">
-                <li><span>Butter Croissant</span><span>MYR 9.00</span></li>
-                <li><span>Pain au Chocolat</span><span>MYR 12.00</span></li>
-                <li><span>Banana Bread</span><span>MYR 10.00</span></li>
-                <li><span>Basque Cheesecake</span><span>MYR 16.00</span></li>
+                <li><span class="mi-name">Butter Croissant<small class="mi-desc">Flaky layers, salted butter</small></span><span class="mi-price">RM9.00</span></li>
+                <li><span class="mi-name">Pain au Chocolat<small class="mi-desc">Croissant pastry, dark chocolate</small></span><span class="mi-price">RM12.00</span></li>
+                <li><span class="mi-name">Banana Bread<small class="mi-desc">Moist and lightly spiced</small></span><span class="mi-price">RM10.00</span></li>
+                <li><span class="mi-name">Basque Cheesecake<small class="mi-desc">Creamy centre, caramelised top</small></span><span class="mi-price">RM16.00</span></li>
               </ul>
             </section>
           </div>
@@ -184,7 +192,10 @@
       <nav class="footer-nav" aria-label="Footer">
         <a href="#top">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Outlet</a>
       </nav>
-      <a class="portfolio-link" href="../../work.html#website-concepts">Back to haziqbuilds Work</a>
+      <div class="footer-cta">
+        <a class="portfolio-link" href="../../work.html#website-concepts">Back to haziqbuilds Work</a>
+        <a class="portfolio-link" href="../../#contact">Want a site like this? Get in touch</a>
+      </div>
     </div>
     <div class="container mx-auto footer-note"><span>Concept preview. Cafe details shown are fictional.</span><span>Copyright 2026 Sora Brew concept</span></div>
   </footer>

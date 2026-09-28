@@ -49,7 +49,7 @@
   <link href="assets/vendor/aos.css" rel="stylesheet">
   <script src="assets/vendor/aos.js" defer></script>
   <script src="assets/vendor/feather.min.js" defer></script>
-  <script src="assets/app.js?v=nav-cta" defer></script>
+  <script src="assets/app.js?v=enquiry-fallback2" defer></script>
 
   <style>
     :root{
@@ -68,6 +68,9 @@
     body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#0f172a;overflow-x:hidden}
     h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
     a{text-decoration:none}
+    a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #101827;outline-offset:3px;box-shadow:0 0 0 5px var(--lime)}
+    footer a{display:inline-block;padding:8px 0}
+    @media(prefers-reduced-motion:reduce){.btn-primary,.btn-dark,.btn-whatsapp,.btn-outline,.work-card,.work-card .shot img{transition:none}.btn-primary:hover,.btn-dark:hover,.btn-whatsapp:hover,.work-card:hover{transform:none}.work-card:hover .shot img{transform:none}html.scroll-smooth{scroll-behavior:auto}}
     section[id]{scroll-margin-top:88px}
     .wrap{max-width:1180px;margin:auto;padding-left:24px;padding-right:24px}
     .eyebrow{text-transform:uppercase;letter-spacing:.24em;font-size:.75rem;font-weight:800}
@@ -214,6 +217,22 @@
     .care-list li{display:flex;gap:9px;align-items:flex-start;color:#475569;font-size:.92rem;line-height:1.55}
     .care-list i{width:16px;height:16px;flex:0 0 16px;margin-top:3px;color:#0f172a}
     .care-note{margin-top:24px;border-top:1px solid #dbe3ef;padding-top:18px;color:#475569;line-height:1.7;font-size:.95rem}
+    .system-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px;border:1px solid #dbe3ef;background:#f8fafc;padding:26px 30px}
+    .system-strip h3{font-size:1.25rem;font-weight:700;line-height:1.2}
+    .system-strip p{margin-top:8px;max-width:46rem;color:#475569;line-height:1.7;font-size:.95rem}
+    .handover{border-top:1px solid #dbe3ef;padding-top:24px;max-width:52rem}
+    .handover h3{font-size:1.25rem;font-weight:700}
+    .handover p{margin-top:8px;color:#475569;line-height:1.7;font-size:.95rem}
+    .care-list b{color:#0f172a}
+    .concept-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .concept-mini{display:flex;gap:16px;align-items:center;background:#0c1226;border:1px solid rgba(255,255,255,.09);padding:14px;transition:border-color .2s ease}
+    .concept-mini:hover{border-color:rgba(199,255,65,.35)}
+    .concept-mini-shot{flex:0 0 72px;width:72px;height:72px;overflow:hidden;background:#070b1a}
+    .concept-mini-shot img{width:100%;height:100%;object-fit:cover;display:block}
+    .concept-mini-body h4{color:#fff;font-weight:700;font-size:1rem}
+    .concept-mini-body p{color:rgba(255,255,255,.75);font-size:.83rem;line-height:1.5;margin-top:4px}
+    .concept-mini-link{display:inline-block;margin-top:6px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--lime)}
+    @media(max-width:640px){.concept-mini-grid{grid-template-columns:1fr}}
     .experience-grid{display:grid;grid-template-columns:.65fr 1.35fr;gap:46px}
     .timeline-item{position:relative;padding:0 0 42px 34px;border-left:1px solid rgba(255,255,255,.12)}
     .timeline-item:before{content:"";position:absolute;left:-6px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 5px rgba(199,255,65,.08)}
@@ -235,6 +254,11 @@
     #contact .contact-input:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
     .contact-email{color:var(--lime);font-weight:800;text-decoration:underline;text-underline-offset:3px;word-break:break-all}
     .contact-email:hover{color:#fff}
+    .form-fallback{margin-top:16px;border:1px solid rgba(199,255,65,.35);background:rgba(199,255,65,.07);color:rgba(255,255,255,.9);padding:14px 16px;font-size:.875rem;line-height:1.6}
+    .form-fallback-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .form-fallback-actions .btn-outline,.form-fallback-actions .btn-whatsapp{padding:12px 18px;font-size:.9rem;cursor:pointer}
+    .form-fallback-note{margin-top:8px;color:var(--lime);font-weight:700;min-height:1.2em}
+    .form-fallback.hidden{display:none}
     .form-error{border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#fecaca;padding:12px 14px;font-size:.875rem;line-height:1.5}
     @media(max-width:900px){
       .hero-grid,.portfolio-grid,.experience-grid,.contact-box{grid-template-columns:1fr}
@@ -288,6 +312,7 @@
 
       <div class="nav-links flex gap-7 text-sm font-semibold">
         <a href="#services" class="text-white/75 hover:text-white">Services</a>
+        <a href="#pricing" class="text-white/75 hover:text-white">Pricing</a>
         <a href="work.html" class="text-white/75 hover:text-white">Work</a>
         <a href="about.html" class="text-white/75 hover:text-white">About</a>
         <a href="#experience" class="text-white/75 hover:text-white">Experience</a>
@@ -307,6 +332,7 @@
     <div id="mobileMenu" class="mobile-menu">
       <div class="mobile-menu-inner">
         <a href="#services" class="mobile-menu-link">Services</a>
+        <a href="#pricing" class="mobile-menu-link">Pricing</a>
         <a href="work.html" class="mobile-menu-link">Work</a>
         <a href="about.html" class="mobile-menu-link">About</a>
         <a href="#experience" class="mobile-menu-link">Experience</a>
@@ -325,7 +351,7 @@
           Websites that look <span style="color:var(--lime)">serious.</span>
         </h1>
         <p class="mt-7 text-lg md:text-xl leading-8 text-white/75 max-w-2xl">
-          I build focused landing pages, sales pages and lightweight business websites for businesses in Terengganu, Kuala Terengganu and across Malaysia.
+          I build landing pages, sales pages and small business websites for Malaysian SMEs, so customers can quickly see what you offer and message you. Based in Kuala Terengganu, working with clients across Malaysia.
         </p>
 
         <div class="flex flex-wrap gap-3 mt-9">
@@ -355,11 +381,11 @@
   <!-- TRUST -->
   <section class="border-b border-slate-200 bg-white">
     <div class="wrap py-7 flex flex-wrap gap-x-10 gap-y-4 justify-between text-sm font-bold text-slate-500">
-      <span>Malaysia-based developer</span>
-      <span>Web + UI/UX focused</span>
-      <span>Real production experience</span>
-      <span>Direct communication</span>
-      <span>Reasonable project scope</span>
+      <span>Based in Kuala Terengganu</span>
+      <span>EduGC 2025 winner (Misi Sejarah 3D)</span>
+      <span>Live platforms: KadMe, Tafaqquh, FoTLI</span>
+      <span>Talk by email or WhatsApp</span>
+      <span>Scope agreed before work starts</span>
     </div>
   </section>
 
@@ -369,7 +395,7 @@
       <div class="max-w-3xl" data-aos="fade-up">
         <h2 class="section-title">Focused web work.<br>No unnecessary complexity.</h2>
         <p class="mt-6 text-slate-500 leading-8 text-lg">
-          I’m not trying to be your ERP vendor. My freelance work is intentionally focused on websites that help people understand your business, trust it and take action.
+          My freelance work is centred on websites that help people understand your business, trust it and take action. Bigger custom systems are possible, but they are scoped and quoted separately from the website packages.
         </p>
       </div>
 
@@ -402,119 +428,120 @@
   </section>
 
   <!-- PRICING -->
-  <section class="py-28 bg-white">
+  <section id="pricing" class="py-28 bg-white" aria-labelledby="pricing-title">
     <div class="wrap">
       <div class="text-center max-w-2xl mx-auto" data-aos="fade-up">
-        <h2 class="section-title">Start with what you need.</h2>
-        <p class="mt-5 text-slate-500 leading-7">Final pricing depends on the number of pages, content, design complexity and required functionality. These ranges are guidance so expectations stay clear from the beginning.</p>
+        <h2 id="pricing-title" class="section-title">Clear packages. Scope agreed first.</h2>
+        <p class="mt-5 text-slate-500 leading-7">Each price is a one-time fee for the design and build work in that package, in Malaysian ringgit. Domain and hosting are separate and explained below. Every enquiry gets a written quotation before anything starts.</p>
       </div>
 
       <div class="price-grid mt-14">
         <div class="price-card" data-aos="fade-up">
           <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Starter</div>
-          <div class="mt-4 text-4xl font-extrabold">RM399–RM599</div>
-          <p class="mt-3 text-slate-500 leading-7">A simple, clean one-page website for small businesses, personal brands or anyone who needs a professional online presence without unnecessary complexity.</p>
+          <div class="mt-4 text-4xl font-extrabold">RM499</div>
+          <p class="mt-3 text-slate-500 leading-7">A clear one-page website for a small business that needs a professional place to send customers.</p>
           <div class="mt-7">
-            <div class="check"><i data-feather="check"></i><span>One-page responsive website</span></div>
-            <div class="check"><i data-feather="check"></i><span>Up to 5–6 main sections</span></div>
-            <div class="check"><i data-feather="check"></i><span>WhatsApp / email call-to-action</span></div>
-            <div class="check"><i data-feather="check"></i><span>Mobile optimisation</span></div>
-            <div class="check"><i data-feather="check"></i><span>Basic SEO setup</span></div>
-            <div class="check"><i data-feather="check"></i><span>Deployment / launch</span></div>
+            <div class="check"><i data-feather="check"></i><span>One page, up to five sections</span></div>
+            <div class="check"><i data-feather="check"></i><span>Design adapted to your brand and content</span></div>
+            <div class="check"><i data-feather="check"></i><span>Responsive on phone, tablet and desktop</span></div>
+            <div class="check"><i data-feather="check"></i><span>WhatsApp contact button</span></div>
+            <div class="check"><i data-feather="check"></i><span>Basic page SEO (title, description, headings, share preview)</span></div>
             <div class="check"><i data-feather="check"></i><span>1 revision round</span></div>
           </div>
-          <a href="#contact" class="btn-dark w-full mt-8">Request Starter Quote</a>
+          <a href="#contact" class="btn-dark w-full mt-8" data-package="Starter">Ask about Starter</a>
         </div>
 
         <div class="price-card featured shadow-soft" data-aos="fade-up" data-aos-delay="80">
-          <div class="popular">Best fit</div>
+          <div class="popular">Recommended</div>
           <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Business</div>
-          <div class="mt-4 text-4xl font-extrabold">RM699–RM999</div>
-          <p class="mt-3 text-slate-500 leading-7">For businesses that need stronger structure, more content and a more persuasive website.</p>
+          <div class="mt-4 text-4xl font-extrabold">RM899</div>
+          <p class="mt-3 text-slate-500 leading-7">For a business that needs to explain several services and look organised across more than one page.</p>
           <div class="mt-7">
-            <div class="check"><i data-feather="check"></i><span>Longer business / sales-focused page</span></div>
-            <div class="check"><i data-feather="check"></i><span>Small multi-page site when scope fits</span></div>
-            <div class="check"><i data-feather="check"></i><span>Stronger content hierarchy</span></div>
-            <div class="check"><i data-feather="check"></i><span>Testimonials / FAQ / offer sections</span></div>
-            <div class="check"><i data-feather="check"></i><span>Contact or enquiry form</span></div>
-            <div class="check"><i data-feather="check"></i><span>Analytics setup</span></div>
-            <div class="check"><i data-feather="check"></i><span>Basic SEO setup</span></div>
+            <div class="check"><i data-feather="check"></i><span>Up to three pages</span></div>
+            <div class="check"><i data-feather="check"></i><span>More tailored layout</span></div>
+            <div class="check"><i data-feather="check"></i><span>Services or gallery sections, as suits your business</span></div>
+            <div class="check"><i data-feather="check"></i><span>Light help organising the copy you supply</span></div>
+            <div class="check"><i data-feather="check"></i><span>Basic SEO set up on each page</span></div>
             <div class="check"><i data-feather="check"></i><span>2 revision rounds</span></div>
           </div>
-          <a href="#contact" class="btn-primary w-full mt-8">Request Business Quote</a>
+          <a href="#contact" class="btn-primary w-full mt-8" data-package="Business">Ask about Business</a>
         </div>
 
         <div class="price-card" data-aos="fade-up" data-aos-delay="160">
-          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Business Plus</div>
-          <div class="mt-4 text-4xl font-extrabold">RM1,000<span class="text-base text-slate-500">+</span></div>
-          <p class="mt-3 text-slate-500 leading-7">For businesses that need more pages, richer visual work or requirements beyond a standard small business website.</p>
+          <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Custom website</div>
+          <div class="mt-4 text-4xl font-extrabold"><span class="text-base text-slate-500">from </span>RM1,500</div>
+          <p class="mt-3 text-slate-500 leading-7">For a brand that wants a more individual look than a tailored layout, and more pages.</p>
           <div class="mt-7">
-            <div class="check"><i data-feather="check"></i><span>Multiple marketing pages</span></div>
-            <div class="check"><i data-feather="check"></i><span>Custom visual direction</span></div>
-            <div class="check"><i data-feather="check"></i><span>More complex content structure</span></div>
-            <div class="check"><i data-feather="check"></i><span>Richer sections and front-end UI where useful</span></div>
-            <div class="check"><i data-feather="check"></i><span>Enquiry forms as required</span></div>
-            <div class="check"><i data-feather="check"></i><span>Responsive implementation</span></div>
-            <div class="check"><i data-feather="check"></i><span>Scope agreed before work begins</span></div>
+            <div class="check"><i data-feather="check"></i><span>More individual design direction</span></div>
+            <div class="check"><i data-feather="check"></i><span>Up to five standard pages as the starting scope</span></div>
+            <div class="check"><i data-feather="check"></i><span>Extra features quoted separately</span></div>
+            <div class="check"><i data-feather="check"></i><span>Scope and revision rounds written into the quotation</span></div>
           </div>
-          <a href="#contact" class="btn-dark w-full mt-8">Discuss Your Project</a>
+          <a href="#contact" class="btn-dark w-full mt-8" data-package="Custom website">Discuss a custom site</a>
         </div>
+      </div>
+
+      <div class="system-strip mt-6" data-aos="fade-up">
+        <div>
+          <h3>Need a booking system, dashboard or user accounts?</h3>
+          <p>Custom web systems are quoted individually after a short scoping conversation. A database, booking engine, payments, dashboard, user accounts or ongoing support are <b>not</b> included in the website packages above.</p>
+        </div>
+        <a href="#contact" class="btn-dark" data-package="Custom web system">Request a system quotation</a>
       </div>
     </div>
   </section>
 
-  <!-- WEBSITE CARE -->
-  <section class="py-24 bg-slate-50" aria-labelledby="website-care-title">
+  <!-- WHAT YOUR PRICE COVERS -->
+  <section id="what-price-covers" class="py-24 bg-slate-50" aria-labelledby="covers-title">
     <div class="wrap">
       <div class="max-w-3xl" data-aos="fade-up">
-        <h2 id="website-care-title" class="section-title">After your website goes live.</h2>
+        <h2 id="covers-title" class="section-title">What your price covers.</h2>
         <p class="mt-5 text-slate-500 leading-7">
-          The build is usually a one-time project fee. Domain, hosting and care costs depend on the setup you choose, and I will make the renewal parts clear before launch.
+          A website has a build cost and a few yearly costs that go to other companies. I list both in the quotation so nothing is a surprise after launch.
         </p>
       </div>
 
       <div class="care-grid mt-12">
         <article class="care-card" data-aos="fade-up">
-          <span class="care-label lime">Website Build</span>
-          <h3>One-time project work</h3>
-          <p>The main website project covers the planned design, development and launch work agreed before we start.</p>
+          <span class="care-label lime">Paid to me, once</span>
+          <h3>The development fee</h3>
+          <p>Covers the work in your package and quotation.</p>
           <ul class="care-list">
-            <li><i data-feather="check"></i><span>Design and page structure</span></li>
-            <li><i data-feather="check"></i><span>Responsive implementation</span></li>
-            <li><i data-feather="check"></i><span>Basic SEO setup</span></li>
-            <li><i data-feather="check"></i><span>Deployment and launch support</span></li>
+            <li><i data-feather="check"></i><span>Planning and page structure</span></li>
+            <li><i data-feather="check"></i><span>Design and responsive build</span></li>
+            <li><i data-feather="check"></i><span>The revision rounds in your package</span></li>
+            <li><i data-feather="check"></i><span>Testing and launch</span></li>
+            <li><i data-feather="check"></i><span>30 days of fixes for bugs within the agreed scope after launch</span></li>
           </ul>
         </article>
 
         <article class="care-card" data-aos="fade-up" data-aos-delay="70">
-          <span class="care-label">Website Care</span>
-          <h3>Optional yearly support</h3>
-          <p>If you prefer not to manage the technical side yourself, I can help keep the existing website online and healthy through an agreed Website Care plan.</p>
+          <span class="care-label">Paid to others, yearly</span>
+          <h3>Domain and hosting</h3>
+          <p>These depend on the provider and on how your site is built. I confirm the actual price before you buy anything.</p>
           <ul class="care-list">
-            <li><i data-feather="check"></i><span>Domain renewal management if agreed</span></li>
-            <li><i data-feather="check"></i><span>Hosting, SSL checks and backups where applicable</span></li>
-            <li><i data-feather="check"></i><span>Uptime and technical monitoring</span></li>
-            <li><i data-feather="check"></i><span>Basic technical upkeep and minor fixes</span></li>
-            <li><i data-feather="check"></i><span>Limited small content updates if agreed</span></li>
+            <li><i data-feather="check"></i><span><b>Domain:</b> bought from a registrar and renewed every year at their price. Registered in your name where practical.</span></li>
+            <li><i data-feather="check"></i><span><b>Hosting:</b> a simple static site may fit a provider's free tier, but free tiers can change, so I never promise free hosting forever.</span></li>
+            <li><i data-feather="check"></i><span>Dynamic systems and WordPress may need paid hosting.</span></li>
           </ul>
         </article>
 
         <article class="care-card" data-aos="fade-up" data-aos-delay="140">
-          <span class="care-label">Extra Work</span>
-          <h3>Quoted separately</h3>
-          <p>New scope is handled as separate work so the original project stays clear and there are no surprise assumptions later.</p>
+          <span class="care-label">Optional, or quoted separately</span>
+          <h3>Care plan and extra work</h3>
+          <p>Optional care plan for static sites: RM300 per year. It includes a quarterly check and up to four small content updates a year, each taking up to 30 minutes. Unused updates do not carry over.</p>
           <ul class="care-list">
-            <li><i data-feather="check"></i><span>Major redesigns</span></li>
-            <li><i data-feather="check"></i><span>New pages or sections</span></li>
-            <li><i data-feather="check"></i><span>New features, booking systems or dashboards</span></li>
-            <li><i data-feather="check"></i><span>Integrations, major animations or large content changes</span></li>
+            <li><i data-feather="check"></i><span>New requests and content changes after the 30 days are quoted separately</span></li>
+            <li><i data-feather="check"></i><span>New pages, major redesigns, complex forms, booking, e-commerce, integrations and substantial copywriting are extra work</span></li>
+            <li><i data-feather="check"></i><span>WordPress and dynamic systems are maintained under a separately scoped agreement</span></li>
           </ul>
         </article>
       </div>
 
-      <p class="care-note" data-aos="fade-up">
-        Website Care is optional. You can manage your own domain and hosting, or ask HaziqBuilds to assist with setup, deployment and ongoing technical care under a yearly arrangement quoted for your setup.
-      </p>
+      <div class="handover mt-6" data-aos="fade-up">
+        <h3>What you own at handover</h3>
+        <p>You get access to your hosting account and the site files, the domain registered in your name where practical, and a short written note listing what renews, when, and who pays. I do not keep a customer's domain under my personal ownership.</p>
+      </div>
     </div>
   </section>
 
@@ -578,6 +605,29 @@
               <p>Online innovation competition platform for UMT: entry submission, judging, and event site. Sole developer, built under Oxford EduVision.</p>
               <div class="tech-tags"><span>Laravel</span></div>
               <span class="visit-link">Visit live site →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Website concepts: closest thing to SME site samples -->
+      <div class="mt-14 pt-10" style="border-top:1px solid rgba(255,255,255,.09)" data-aos="fade-up">
+        <b class="text-white" style="display:block;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px">Website concepts · not client projects</b>
+        <div class="concept-mini-grid">
+          <a href="demos/anjung-nyiur/" class="concept-mini">
+            <div class="concept-mini-shot"><img src="demos/anjung-nyiur/images/thumb-card.webp" alt="Anjung Nyiur homestay concept: a traditional timber house on stilts" width="480" height="480" loading="lazy" decoding="async"></div>
+            <div class="concept-mini-body">
+              <h4>Anjung Nyiur</h4>
+              <p>A mobile-friendly homestay concept with clear room details and an easy date enquiry.</p>
+              <span class="concept-mini-link">View the concept →</span>
+            </div>
+          </a>
+          <a href="demos/sora-brew/" class="concept-mini">
+            <div class="concept-mini-shot"><img src="demos/sora-brew/images/thumb-card.webp" alt="Sora Brew cafe website concept preview: latte art in a ceramic cup" width="480" height="480" loading="lazy" decoding="async"></div>
+            <div class="concept-mini-body">
+              <h4>Sora Brew</h4>
+              <p>A cafe website concept with a menu, story and outlet page. The cafe is fictional.</p>
+              <span class="concept-mini-link">View the concept →</span>
             </div>
           </a>
         </div>
@@ -662,7 +712,7 @@
           <div class="text-white/80 text-sm">Done professionally for you</div>
           <div class="flex justify-between items-end gap-5 mt-1">
             <div class="text-white text-2xl font-bold">Freelance Website</div>
-            <div class="text-3xl font-extrabold" style="color:var(--purple)">RM399–RM599</div>
+            <div class="text-3xl font-extrabold" style="color:var(--purple)">from RM499</div>
           </div>
         </div>
       </div>
@@ -725,9 +775,17 @@
       </div>
 
       <div class="faq">
+        <details>
+          <summary>How does a project usually work?</summary>
+          <p class="mt-4 text-slate-500 leading-7">You send the basics by email or WhatsApp. I reply with questions and a written quotation based on scope. Once you accept, I build the site, you review it and ask for changes within the agreed revision rounds, then I help you launch. Timing depends on scope and on how quickly your content is ready, so I confirm it in the quotation.</p>
+        </details>
+        <details>
+          <summary>What do I need to prepare?</summary>
+          <p class="mt-4 text-slate-500 leading-7">What the business does, who your customers are, the one action you want visitors to take (for example WhatsApp you), plus your logo, photos and price or service details if you have them. Not sure yet? Send what you have and we can work out the rest.</p>
+        </details>
         <details open>
-          <summary>What type of projects do you accept?</summary>
-          <p class="mt-4 text-slate-500 leading-7">Landing pages, sales pages, portfolios and lightweight business websites. I currently avoid large backend-heavy systems and complex multi-role platforms.</p>
+          <summary>What kind of projects do you take on?</summary>
+          <p class="mt-4 text-slate-500 leading-7">Landing pages, sales pages, portfolios and small business websites are the core of what I do. I am also open to custom web systems such as bookings or dashboards, but those are quoted individually after a scoping conversation and are not part of the website packages.</p>
         </details>
         <details>
           <summary>What if I only need something very simple?</summary>
@@ -735,31 +793,35 @@
         </details>
         <details>
           <summary>How do I contact you?</summary>
-          <p class="mt-4 text-slate-500 leading-7">Email is the main channel for freelance enquiries so project scope, references and decisions stay organised.</p>
+          <p class="mt-4 text-slate-500 leading-7">Email is best for project details, so scope and decisions stay written down. For a quick question, WhatsApp is fine. Boleh berbincang dalam Bahasa Melayu atau English.</p>
         </details>
         <details>
-          <summary>Are there any yearly costs?</summary>
-          <p class="mt-4 text-slate-500 leading-7">Usually, yes. Domains, hosting and optional ongoing technical care may involve yearly renewal costs depending on the setup you choose. Domain registration and renewal are billed separately or included in the agreed Website Care setup.</p>
+          <summary>Are there yearly costs?</summary>
+          <p class="mt-4 text-slate-500 leading-7">Usually yes, but they go to other companies, not to me. A domain is renewed every year at the registrar's price, and hosting depends on how your site is built. A simple static site may fit a free hosting tier, but free tiers can change, so I do not promise free hosting forever. I confirm the actual third-party cost before you buy.</p>
         </details>
         <details>
-          <summary>Is Website Care mandatory?</summary>
-          <p class="mt-4 text-slate-500 leading-7">No. You can manage your own domain and hosting, or ask HaziqBuilds to manage the technical side under a yearly Website Care arrangement.</p>
+          <summary>Is the care plan mandatory?</summary>
+          <p class="mt-4 text-slate-500 leading-7">No. You can look after your own domain, hosting and content updates. The optional care plan for static sites is RM300 per year: a quarterly check and up to four small content updates a year, each taking up to 30 minutes. Unused updates do not carry over. WordPress and dynamic systems need a separately scoped agreement.</p>
         </details>
         <details>
           <summary>Who owns my domain?</summary>
-          <p class="mt-4 text-slate-500 leading-7">The client or business should own the domain. HaziqBuilds can help purchase it, configure DNS, connect hosting and manage renewal when agreed, but the domain should stay with the business it represents.</p>
+          <p class="mt-4 text-slate-500 leading-7">You do. I register or transfer the domain in your name where practical, and hand over the hosting access, the site files and a short note on what renews and when. I do not keep a customer's domain under my personal ownership.</p>
         </details>
         <details>
-          <summary>Are website changes included?</summary>
-          <p class="mt-4 text-slate-500 leading-7">Routine technical upkeep or limited minor edits may be included depending on the care arrangement. Minor edits can mean a phone number, business hours, small text correction, one image change or a simple price/content update. New pages, redesigns and features are separate work.</p>
+          <summary>How do payment and quotations work?</summary>
+          <p class="mt-4 text-slate-500 leading-7">You get a written quotation valid for 14 days. Payment is 50% as a development deposit to start, and 50% when you accept the agreed site, before it goes live. Domain and hosting are separate from the development fee unless your quotation says otherwise.</p>
+        </details>
+        <details>
+          <summary>Are changes after launch included?</summary>
+          <p class="mt-4 text-slate-500 leading-7">For 30 days after launch I fix bugs within the agreed original scope. A bug is something in the agreed work that does not behave as agreed, such as a broken link or a layout fault on a supported device. A new request is a change to what was agreed, such as a new page, feature, redesign, or new text. New requests are quoted separately, or use a care-plan update if you have one.</p>
         </details>
         <details>
           <summary>What happens if I do not renew?</summary>
-          <p class="mt-4 text-slate-500 leading-7">If a required domain or hosting service expires, the website can stop loading. Email or other services connected to the domain may also be affected until the renewal is fixed.</p>
+          <p class="mt-4 text-slate-500 leading-7">If a required domain or hosting service expires, the website can stop loading. Email or other services connected to the domain may also be affected until the renewal is fixed. The handover note lists each renewal so it is easy to track.</p>
         </details>
         <details>
           <summary>Can I use my own hosting?</summary>
-          <p class="mt-4 text-slate-500 leading-7">Yes. I can deploy to suitable client-provided hosting, help arrange hosting if needed, or use suitable static hosting when it fits the project.</p>
+          <p class="mt-4 text-slate-500 leading-7">Yes. I can deploy to suitable hosting you already have, help you arrange hosting, or use suitable static hosting when it fits the project.</p>
         </details>
       </div>
     </div>
@@ -772,7 +834,7 @@
       <div>
         <h2 class="section-title text-white">Need a website?<br>Tell me what you’re building.</h2>
         <p class="text-white/80 leading-8 mt-5 max-w-xl">
-          Email is my primary contact for freelance work. Give me the basics and I’ll have enough context to understand the project properly. Prefer to chat? Message me on WhatsApp.
+          Send the basics by email, or message me on WhatsApp for a quick question. I reply with questions and a written quotation before any work starts.
         </p>
 
         <a href="https://wa.me/60129536858?text=Hi%20Haziq%2C%20saya%20nak%20tanya%20pasal%20website%20untuk%20business%20saya." target="_blank" rel="noopener" class="btn-whatsapp mt-6">
@@ -782,7 +844,7 @@
 
         <div class="mt-8 text-white/80 text-sm leading-7">
           <b class="text-white">Best fit:</b> landing pages, sales pages, business websites, portfolios.<br>
-          <b class="text-white">Not currently taking:</b> large custom systems or backend-heavy platforms.
+          <b class="text-white">Custom systems:</b> bookings, dashboards or accounts are quoted individually after a short scoping conversation.
         </div>
       </div>
 
@@ -790,18 +852,18 @@
         <div id="formError" class="form-error mb-4 hidden" role="alert"></div>
 
         <label class="block text-white/80 text-sm mb-2" for="name">Your name <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
-        <input id="name" class="contact-input mb-4" required aria-required="true" placeholder="Your name">
+        <input id="name" name="name" autocomplete="name" class="contact-input mb-4" required aria-required="true" placeholder="Your name">
 
         <label class="block text-white/80 text-sm mb-2" for="business">Business / organisation</label>
-        <input id="business" class="contact-input mb-4" placeholder="Business name">
+        <input id="business" name="business" autocomplete="organization" class="contact-input mb-4" placeholder="Business name">
 
         <label class="block text-white/80 text-sm mb-2" for="type">What do you need? <span aria-hidden="true" style="color:var(--lime)">*</span><span class="sr-only"> (required)</span></label>
         <select id="type" class="contact-input mb-4" required aria-required="true">
           <option value="" disabled selected>Select project type…</option>
-          <option>Landing page</option>
-          <option>Sales page</option>
-          <option>Business website</option>
-          <option>Portfolio website</option>
+          <option>Starter (one page)</option>
+          <option>Business (up to three pages)</option>
+          <option>Custom website</option>
+          <option>Custom web system (quotation)</option>
           <option>Website redesign</option>
           <option>Not sure yet</option>
         </select>
@@ -810,10 +872,9 @@
         <select id="budget" class="contact-input mb-4" required aria-required="true">
           <option value="" disabled selected>Select budget…</option>
           <option>Below RM500</option>
-          <option>RM500–RM799</option>
-          <option>RM800–RM1,200</option>
-          <option>RM1,200–RM2,000</option>
-          <option>RM2,000+</option>
+          <option>RM500–RM900</option>
+          <option>RM900–RM1,500</option>
+          <option>RM1,500+</option>
           <option>Not sure yet</option>
         </select>
 
@@ -823,6 +884,15 @@
         <button class="btn-primary w-full mt-5" type="submit">
           Prepare Email <i data-feather="mail" class="w-4 h-4"></i>
         </button>
+
+        <div id="formFallback" class="form-fallback hidden" role="status" aria-live="polite">
+          <p><b>Your email app should now open with the message filled in.</b> Nothing has been sent until you press send there. If nothing opened, use one of these instead:</p>
+          <div class="form-fallback-actions">
+            <button type="button" id="copyEnquiry" class="btn-outline">Copy message</button>
+            <a id="waEnquiry" class="btn-whatsapp" href="https://wa.me/60129536858" target="_blank" rel="noopener">Send on WhatsApp</a>
+          </div>
+          <p id="copyStatus" class="form-fallback-note" aria-live="polite"></p>
+        </div>
 
         <p class="text-white/80 text-sm leading-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.1)">
           Prefer email directly? <a id="contactEmailLink" class="contact-email" href="mailto:">
@@ -918,11 +988,11 @@
         "serviceType": ["Landing page design", "Sales page design", "Business website design", "Custom front-end development"],
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
-          "name": "Web development packages",
+          "name": "Website packages",
           "itemListElement": [
-            { "@type": "Offer", "name": "Starter", "priceCurrency": "MYR", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "399", "maxPrice": "599", "priceCurrency": "MYR", "valueAddedTaxIncluded": false }, "description": "A simple one-page website with up to 5-6 sections, mobile optimisation, basic SEO setup, deployment and one revision round." },
-            { "@type": "Offer", "name": "Business", "priceCurrency": "MYR", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "699", "maxPrice": "999", "priceCurrency": "MYR", "valueAddedTaxIncluded": false }, "description": "A stronger business or sales-focused website with clearer content hierarchy, enquiry flow, analytics setup, basic SEO setup and two revision rounds." },
-            { "@type": "Offer", "name": "Business Plus", "price": "1000", "priceCurrency": "MYR", "description": "For businesses that need more pages, richer visual work or requirements beyond a standard small business website. Custom quote based on scope." }
+            { "@type": "Offer", "name": "Starter", "price": "499", "priceCurrency": "MYR", "description": "One-page website with up to five sections, adapted design, responsive layout, WhatsApp contact, basic page SEO and one revision round. Domain and hosting are separate." },
+            { "@type": "Offer", "name": "Business", "price": "899", "priceCurrency": "MYR", "description": "Up to three pages with a more tailored layout, services or gallery sections, light help organising supplied copy, page-level basic SEO and two revision rounds. Domain and hosting are separate." },
+            { "@type": "Offer", "name": "Custom website", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "1500", "priceCurrency": "MYR" }, "description": "More individual design direction with up to five standard pages as the starting scope. Extra features are quoted separately. Custom web systems are quoted individually." }
           ]
         }
       }

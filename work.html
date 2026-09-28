@@ -9,11 +9,11 @@
   <meta name="description" content="Selected work from a web developer based in Terengganu: KadMeHQ, Tafaqquh, FoTLI and Unity learning games for education and SME product thinking.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#070b1a">
-  <link rel="canonical" href="https://haziqbuilds.com/work.html">
+  <link rel="canonical" href="https://haziqbuilds.com/work">
   <meta property="og:title" content="Selected Work - Web Developer Terengganu | haziqbuilds">
   <meta property="og:description" content="Selected work from a web developer based in Terengganu: KadMeHQ, Tafaqquh, FoTLI and Unity learning games.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://haziqbuilds.com/work.html">
+  <meta property="og:url" content="https://haziqbuilds.com/work">
   <meta property="og:locale" content="en_MY">
   <meta property="og:image" content="https://haziqbuilds.com/assets/images/hero-cutout.png">
   <meta property="og:image:type" content="image/png">
@@ -32,7 +32,7 @@
   <link href="assets/vendor/aos.css" rel="stylesheet">
   <script src="assets/vendor/aos.js" defer></script>
   <script src="assets/vendor/feather.min.js" defer></script>
-  <script src="assets/app.js?v=nav-cta" defer></script>
+  <script src="assets/app.js?v=enquiry-fallback2" defer></script>
 
   <style>
     :root{--ink:#070b1a;--navy:#081844;--blue:#274bc4;--lime:#c7ff41;--purple:#c4b5fd;--white:#f8fafc;--line:rgba(255,255,255,.08)}
@@ -69,6 +69,8 @@
     .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:end}
     .display{font-size:clamp(3rem,7vw,6rem);line-height:.94;font-weight:700;letter-spacing:-.035em;overflow-wrap:break-word}
     .hero-copy p{color:rgba(255,255,255,.78);font-size:1.0625rem;line-height:1.7;margin-top:24px;max-width:68ch}
+    .work-legend{margin-top:22px;max-width:40rem;font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.8)}
+    .work-legend span{color:var(--lime);font-weight:800}
     .index-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     .index-list a{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;padding:16px;font-weight:800;display:flex;justify-content:space-between;gap:14px;align-items:center}
     .section-title{font-size:clamp(2.35rem,5vw,4.5rem);line-height:1;font-weight:700;letter-spacing:-.025em}
@@ -91,6 +93,8 @@
     .also-list a{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;padding:9px 14px;border-radius:5px;font-size:.82rem;font-weight:700}
     .also-list a:hover,.also-list a:focus-visible{border-color:var(--lime);color:var(--lime)}
     .concept-card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);background:#081844;color:#fff;min-height:330px;overflow:hidden}
+    .concept-shot{margin:0;min-height:330px;background:#0c1226}
+    .concept-shot img{width:100%;height:100%;object-fit:cover;display:block}
     .concept-art{display:flex;flex-direction:column;justify-content:space-between;padding:clamp(24px,5vw,56px);background:#f2eee3;color:#152a4d;min-width:0}
     .concept-art strong{font:700 clamp(2rem,5vw,4rem)/.95 'Space Grotesk',sans-serif;max-width:7ch;letter-spacing:-.035em}
     .concept-art span{font-size:.85rem;font-weight:700;letter-spacing:.04em}
@@ -103,7 +107,7 @@
     footer{background:#050814;border-top:1px solid rgba(255,255,255,.06)}
     a:focus-visible,button:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
     ::selection{background:var(--lime);color:#101827}
-    @media(max-width:980px){.hero-grid,.case-head,.case-layout,.game-grid{grid-template-columns:1fr}.index-list{margin-top:28px}}
+    @media(max-width:980px){.hero-grid,.case-head,.case-layout,.game-grid{grid-template-columns:1fr}.index-list{margin-top:28px}.concept-card{grid-template-columns:1fr}.concept-shot{min-height:220px}}
     @media(max-width:720px){.nav-links{display:none}.nav-toggle{display:flex}.nav .wrap > .flex .btn-primary{display:none}.display{font-size:clamp(2.45rem,12vw,3.7rem);letter-spacing:-.02em}.index-list,.case-points,.concept-card{grid-template-columns:1fr}.page-hero{padding-top:112px}.work-section{padding:78px 0}.game-card{min-height:360px}}
     @media(max-width:560px){.hero-copy .btn-primary,.hero-copy .btn-outline,.cta .btn-dark{width:100%}}
     @media(min-width:721px){.mobile-menu{grid-template-rows:0fr!important}}
@@ -128,6 +132,7 @@
       </a>
       <div class="nav-links flex gap-7 text-sm font-semibold">
         <a href="index.html#services" class="text-white/75 hover:text-white">Services</a>
+        <a href="index.html#pricing" class="text-white/75 hover:text-white">Pricing</a>
         <a href="work.html" class="text-white font-bold">Work</a>
         <a href="about.html" class="text-white/75 hover:text-white">About</a>
         <a href="index.html#experience" class="text-white/75 hover:text-white">Experience</a>
@@ -143,6 +148,7 @@
     <div id="mobileMenu" class="mobile-menu">
       <div class="mobile-menu-inner">
         <a href="index.html#services" class="mobile-menu-link">Services</a>
+        <a href="index.html#pricing" class="mobile-menu-link">Pricing</a>
         <a href="work.html" class="mobile-menu-link">Work</a>
         <a href="about.html" class="mobile-menu-link">About</a>
         <a href="index.html#experience" class="mobile-menu-link">Experience</a>
@@ -160,6 +166,7 @@
           <p>
             A closer look at the projects behind the homepage: my own product, Oxford EduVision platform work, and Unity learning games from a developer based in Terengganu. These are case notes, not inflated case studies. Results will be added only when there is real evidence.
           </p>
+          <p class="work-legend"><b>How to read this page:</b> <span>Personal product</span> is something I own. <span>Oxford EduVision</span> is work I did as a developer for my employer. <span>Concept</span> is a self-initiated demo with fictional details, not a client project.</p>
           <div class="flex flex-wrap gap-3 mt-8">
             <a href="#kadme" class="btn-primary">Start with KadMeHQ</a>
             <a href="about.html" class="btn-outline">About the builder</a>
@@ -256,7 +263,20 @@
           <h2 class="section-title">Website concepts</h2>
           <p>Self-initiated designs exploring focused websites for small businesses. These concepts are independent demos, not client projects.</p>
         </div>
+
         <article class="concept-card">
+          <figure class="concept-shot">
+            <img src="demos/anjung-nyiur/images/timber-house.webp" alt="Anjung Nyiur homestay concept: a traditional timber house on stilts, style reference photo" width="1000" height="1250" loading="lazy" decoding="async">
+          </figure>
+          <div class="concept-copy">
+            <span class="concept-label">Self-initiated demo</span>
+            <h3 class="text-3xl font-bold">Anjung Nyiur</h3>
+            <p>A fictional Terengganu homestay concept: house overview, room plans, amenities, house rules and a date enquiry that prepares a message without claiming any dates are free. Built to show a mobile-friendly stay page.</p>
+            <a class="concept-link" href="demos/anjung-nyiur/">View the demo</a>
+          </div>
+        </article>
+
+        <article class="concept-card mt-8">
           <div class="concept-art" aria-hidden="true">
             <span>CAFE WEBSITE CONCEPT</span>
             <strong>Good Coffee, Brighter Days</strong>
@@ -265,7 +285,7 @@
           <div class="concept-copy">
             <span class="concept-label">Self-initiated demo</span>
             <h3 class="text-3xl font-bold">Sora Brew</h3>
-            <p>A cafe website concept focused on menu, story, and outlet information.</p>
+            <p>A cafe website concept focused on menu, story and outlet information. The cafe, menu, prices and address are all fictional. Open it on your phone to see how a small business site can work.</p>
             <a class="concept-link" href="demos/sora-brew/">View the demo</a>
           </div>
         </article>
@@ -362,8 +382,8 @@
       },
       {
         "@type": "CollectionPage",
-        "@id": "https://haziqbuilds.com/work.html#page",
-        "url": "https://haziqbuilds.com/work.html",
+        "@id": "https://haziqbuilds.com/work#page",
+        "url": "https://haziqbuilds.com/work",
         "name": "Selected Work - Web Developer Terengganu",
         "inLanguage": "en",
         "about": { "@id": "https://haziqbuilds.com/#person" },

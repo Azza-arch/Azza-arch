@@ -100,4 +100,21 @@
   } else {
     reducedMotion.addListener?.(handleMotionPreferenceChange);
   }
+  // Mark the section in view as the current navigation item.
+  (() => {
+    const navLinks = [...document.querySelectorAll('.desktop-nav a, .mobile-nav a')];
+    const sections = ['top', 'menu', 'story', 'outlet'].map((id) => document.getElementById(id)).filter(Boolean);
+    if (!navLinks.length || !sections.length || !('IntersectionObserver' in window)) return;
+    const setCurrent = (id) => {
+      navLinks.forEach((link) => {
+        if (link.getAttribute('href') === '#' + id) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    };
+    const currentObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setCurrent(visible.target.id);
+    }, { rootMargin: '-30% 0px -50% 0px', threshold: [0, 0.25, 0.5, 1] });
+    sections.forEach((section) => currentObserver.observe(section));
+  })();
 })();
