@@ -18,11 +18,8 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="concept-bar">
-    <p><strong>Concept demo</strong> <span class="concept-bar-long">by haziqbuilds. Fictional cafe, not a real business.</span></p>
-    <nav aria-label="Portfolio links">
-      <a href="../../work.html#website-concepts">Back to portfolio</a>
-      <a href="../../index.html#contact">Ask for a similar site</a>
-    </nav>
+    <p>Concept demo by haziqbuilds. Fictional cafe, not a real business.</p>
+    <a class="concept-bar-back" href="../../work.html#website-concepts"><span aria-hidden="true">←</span> Back to portfolio</a>
   </div>
   <header class="site-header">
     <div class="container mx-auto header-row">
@@ -33,6 +30,7 @@
         <a href="#story">Our Story</a>
         <a href="#outlet">Outlet</a>
       </nav>
+      <a class="header-cta" href="../../index.html#contact">Ask about a similar site</a>
       <button class="menu-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation">
         <span></span><span></span><span></span>
       </button>
@@ -40,6 +38,7 @@
     <nav class="mobile-nav" id="mobileMenu" aria-label="Mobile primary" inert>
       <div class="mobile-nav-inner">
         <a href="#top">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Outlet</a>
+        <a class="mobile-nav-cta" href="../../index.html#contact">Ask about a similar site</a>
       </div>
     </nav>
   </header>
@@ -59,14 +58,6 @@
           <span>Good Coffee,</span>
           <span>Brighter Days</span>
         </h1>
-        <img
-          class="hero-cup"
-          src="images/hero-latte.webp"
-          alt="A ceramic cup of coffee topped with heart-shaped latte art"
-          width="1000"
-          height="1000"
-          loading="eager"
-          decoding="async">
       </div>
       <div class="hero-actions container mx-auto flex flex-col items-center justify-center gap-4">
         <a class="button button-primary" href="#menu">View Our Menu</a>
@@ -118,49 +109,35 @@
               <img src="images/croissant-coffee.webp" alt="Golden croissant served with a cappuccino on a wooden cafe table" width="1448" height="1086" loading="lazy" decoding="async">
               <figcaption>Pastry &amp; coffee pairing <span>Concept photography</span></figcaption>
             </figure>
-            <div class="menu-drink-row" aria-label="Coffee drink examples">
-              <img src="images/iced-coffee.webp" alt="Creamy iced coffee in a clear glass" width="1000" height="1000" loading="lazy" decoding="async">
-              <img src="images/cappuccino.webp" alt="Cappuccino with latte art in a ceramic cup" width="1000" height="1000" loading="lazy" decoding="async">
-              <img src="images/espresso.webp" alt="Freshly prepared coffee served in a white cup" width="1000" height="1000" loading="lazy" decoding="async">
-            </div>
           </aside>
         </div>
       </div>
     </section>
 
     <section class="section story-section" id="story" aria-labelledby="story-title" data-replay>
-      <svg class="section-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V34C1260 18 1090 42 900 32S520 14 330 33 110 48 0 27Z" /></svg>
       <div class="container mx-auto story-layout">
         <h2 id="story-title">More Than Coffee,<br>a Brighter Everyday</h2>
         <div class="story-copy">
           <p class="story-concept-note">A fictional neighbourhood cafe concept imagined for Kuala Terengganu; this story is illustrative.</p>
+          <p class="story-intro">Sora Brew imagines a gentler rhythm for the day: a familiar cup, a favourite seat by the window, and a few minutes that belong only to you.</p>
           <figure class="story-photo">
-            <img src="images/croissant-coffee.webp" alt="A croissant and cappuccino set out for a relaxed cafe break" width="1448" height="1086" loading="lazy" decoding="async">
-            <figcaption>A small table, a warm cup, and time to pause &mdash; imagined for this concept.</figcaption>
+            <img src="images/cappuccino.webp" alt="Cappuccino with latte art in a ceramic cup, set on a cafe table" width="1000" height="1000" loading="lazy" decoding="async">
+            <figcaption>Concept photography.</figcaption>
           </figure>
-          <div class="story-chapters">
-            <article class="story-chapter">
-              <h3>A pause in the day</h3>
-              <p>Some days move before we have had a moment to catch up. Sora Brew imagines a gentler rhythm: a familiar cup in your hands, a favourite seat by the window, and a few minutes that belong only to you. Coffee becomes more than a quick stop between plans. It is a small invitation to slow down, take a breath, and meet the rest of the day with a little more brightness.</p>
-            </article>
-            <article class="story-chapter">
-              <h3>Made for the little rituals</h3>
-              <p>There is comfort in the things we return to. The first sip of a smooth latte, the cool lift of iced coffee on a warm afternoon, something flaky shared across the table: each can turn an ordinary break into a moment worth keeping. This concept brings those simple pleasures together with a thoughtful menu, welcoming details, and the belief that good things do not need to be complicated to feel special.</p>
-            </article>
-            <article class="story-chapter">
-              <h3>Room for every kind of day</h3>
-              <p>Picture a place that meets you where you are: somewhere to gather with a friend, open a book, finish a thought, or simply watch the afternoon pass. Sora Brew is imagined around that easy kind of welcome, where a quick takeaway and a longer stay both feel at home. However your day unfolds, we hope there is a little comfort in the cup, a little warmth in the room, and a reason to come back to yourself.</p>
-            </article>
-          </div>
+          <ul class="story-principles">
+            <li><h3>Unhurried by design</h3><p>No rush between orders, whether you stay five minutes or the whole afternoon.</p></li>
+            <li><h3>A short, thoughtful menu</h3><p>A handful of drinks and pastries done well, not a long list to scroll through.</p></li>
+            <li><h3>Room for every kind of day</h3><p>A quick takeaway and a longer stay both feel equally at home here.</p></li>
+          </ul>
         </div>
       </div>
     </section>
 
     <section class="section outlet-section" id="outlet" aria-labelledby="outlet-title" data-replay>
-      <svg class="section-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V26C1240 42 1050 16 830 28S440 48 250 29 90 15 0 36Z" /></svg>
       <div class="container mx-auto outlet-layout">
         <div class="outlet-intro">
           <h2 id="outlet-title">Find an Outlet</h2>
+          <p class="outlet-illustrative">Illustrative outlet details for this concept.</p>
           <p>Visit the imagined Sora Brew corner in Kuala Terengganu.</p>
           <figure class="outlet-photo">
             <img src="images/cafe-exterior.webp" alt="Concept illustration of a navy-blue cafe exterior with a bright, welcoming entrance" width="1448" height="1086" loading="lazy" decoding="async">
@@ -168,14 +145,13 @@
           </figure>
         </div>
         <div class="outlet-details">
-          <p class="outlet-demo-note">Fictional outlet details for client preview only.</p>
           <div class="outlet-placeholder" role="group" aria-label="Fictional cafe outlet details for the demo">
             <dl>
               <div><dt>Address</dt><dd>Lot 08, Jalan Pesisir<br>Kuala Terengganu, Terengganu</dd></div>
               <div><dt>Opening hours</dt><dd>Tue&ndash;Sun &middot; 8:00 am&ndash;8:00 pm<br>Monday &middot; Closed</dd></div>
-              <div><dt>Contact</dt><dd>+60 9-000 0000<br>hello@sorabrew.example</dd></div>
+              <div><dt>Contact</dt><dd>hello@sorabrew.example</dd></div>
             </dl>
-            <p>Illustrative details only; this is not a real cafe address or contact.</p>
+            <p>Sample details only, not a real address or a working contact.</p>
           </div>
         </div>
       </div>
@@ -183,18 +159,23 @@
   </main>
 
   <footer class="site-footer" data-replay>
-    <svg class="section-wave footer-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V31C1210 48 1050 19 850 28S480 46 280 28 100 16 0 37Z" /></svg>
     <div class="container mx-auto footer-main">
-      <div>
+      <div class="footer-about">
         <a class="brand footer-brand" href="#top">Sora Brew<span class="brand-dot">.</span></a>
         <p>Cafe website concept demo<br>Self-initiated by haziqbuilds</p>
       </div>
-      <nav class="footer-nav" aria-label="Footer">
-        <a href="#top">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Outlet</a>
-      </nav>
-      <div class="footer-cta">
-        <a class="portfolio-link" href="../../work.html#website-concepts">Back to haziqbuilds Work</a>
-        <a class="portfolio-link" href="../../#contact">Want a site like this? Get in touch</a>
+      <div class="footer-group">
+        <p class="footer-group-label">Visit the cafe</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="#top">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Outlet</a>
+        </nav>
+      </div>
+      <div class="footer-group">
+        <p class="footer-group-label">About this project</p>
+        <div class="footer-cta">
+          <a class="portfolio-link" href="../../work.html#website-concepts">Back to haziqbuilds Work</a>
+          <a class="portfolio-link" href="../../index.html#contact">Want a site like this? Get in touch</a>
+        </div>
       </div>
     </div>
     <div class="container mx-auto footer-note"><span>Concept preview. Cafe details shown are fictional.</span><span>Copyright 2026 Sora Brew concept</span></div>
