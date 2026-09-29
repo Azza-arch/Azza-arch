@@ -23,6 +23,15 @@
         ],
         "createdAt": "2026-08-28T02:03:15.496Z",
         "reason": "user brief: strict security/SEO/perf/a11y pass with explicit NON-NEGOTIABLE 'do not redesign / do not change branding'; lime accent glow is pre-existing established brand styling, out of scope"
+      },
+      {
+        "rule": "overused-font",
+        "value": "fraunces",
+        "files": [
+          "demos/anjung-nyiur/index.html"
+        ],
+        "createdAt": "2026-09-29T10:42:16.742Z",
+        "reason": "deliberate choice: Fraunces' italic/soft-wonky character was picked specifically to give Anjung Nyiur a distinct identity from Sora Brew's Playfair Display pairing, documented in Azza-arch-private/anjung-nyiur-notes.md"
       }
     ]
   }
