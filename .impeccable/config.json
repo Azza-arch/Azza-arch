@@ -32,6 +32,24 @@
         ],
         "createdAt": "2026-09-29T10:42:16.742Z",
         "reason": "deliberate choice: Fraunces' italic/soft-wonky character was picked specifically to give Anjung Nyiur a distinct identity from Sora Brew's Playfair Display pairing, documented in Azza-arch-private/anjung-nyiur-notes.md"
+      },
+      {
+        "rule": "overused-font",
+        "value": "lato",
+        "files": [
+          "demos/sora-brew/index.html"
+        ],
+        "createdAt": "2026-09-29T11:25:45.640Z",
+        "reason": "pre-existing Sora Brew identity (Playfair Display + Lato pairing), set before this session and documented in Azza-arch-private/sora-brew-design-notes.md; not a newly introduced default"
+      },
+      {
+        "rule": "overused-font",
+        "value": "lato",
+        "files": [
+          "demos/sora-brew/style.css"
+        ],
+        "createdAt": "2026-09-29T11:25:46.436Z",
+        "reason": "pre-existing Sora Brew identity (Playfair Display + Lato pairing), set before this session and documented in Azza-arch-private/sora-brew-design-notes.md; not a newly introduced default"
       }
     ]
   }
