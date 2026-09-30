@@ -684,6 +684,12 @@ body::selection {
   text-transform: uppercase;
 }
 .tense-compare .marked-sentence { font-size: 16px; line-height: 1.5; }
+.tense-compare-reason {
+  margin: 6px 0 0;
+  color: var(--so-text-soft, var(--so-text));
+  font-size: 13px;
+  line-height: 1.4;
+}
 
 /* Breakpoints per spec: >=1200 large desktop, 768-1199 tablet/small
    desktop, 480-767 large mobile, <480 small mobile. Sizes are driven by

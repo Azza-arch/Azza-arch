@@ -42,6 +42,7 @@ class StoryOrderGridScene extends Phaser.Scene {
     this.miniCards = [];
 
     this.computeLayout();
+    this.buildSlotLabels();
     this.buildCards();
 
     this.input.dragDistanceThreshold = 8;
@@ -99,12 +100,57 @@ class StoryOrderGridScene extends Phaser.Scene {
 
   handleResize() {
     this.computeLayout();
+    this.positionSlotLabels();
     Object.values(this.cards).forEach((card) => card.resizeTo(this.cardWidth, this.cardHeight));
     if (this.completionMode) {
       this.layoutCompletionCards();
     } else {
       this.renderFromState(true);
     }
+  }
+
+  // The sequence number belongs to the SLOT (a fixed grid position), not to
+  // whichever card currently occupies it — otherwise the badge travels with
+  // the picture during a swap and can read as "this is the answer" instead
+  // of "this is slot 2". These four labels are created once and never
+  // reassigned to a panel; only their screen position/scale changes on
+  // resize. They're drawn above the cards (setDepth) so they stay visible
+  // regardless of which card is currently in that slot.
+  buildSlotLabels() {
+    this.slotLabels = this.slotPositions.map((pos, i) => {
+      const radius = this.badgeRadiusForLabel();
+      const circle = this.add.circle(0, 0, radius, 0x3b82c4).setStrokeStyle(2, 0xdff4f5).setDepth(50);
+      const text = this.add.text(0, 0, String(i + 1), {
+        fontFamily: "'Baloo 2', Arial, sans-serif",
+        fontSize: '15px',
+        fontStyle: 'bold',
+        color: '#ffffff',
+      }).setOrigin(0.5).setDepth(51);
+      return { circle, text };
+    });
+    this.positionSlotLabels();
+  }
+
+  badgeRadiusForLabel() {
+    return Phaser.Math.Clamp(this.cardWidth * 0.06, 12, 17);
+  }
+
+  positionSlotLabels() {
+    if (!this.slotLabels) return;
+    this.slotLabels.forEach((label, i) => {
+      const pos = this.slotPositions[i];
+      const radius = this.badgeRadiusForLabel();
+      const inset = radius + 4;
+      const x = pos.x - this.cardWidth / 2 + inset;
+      const y = pos.y - this.cardHeight / 2 + inset;
+      label.circle.setPosition(x, y).setRadius(radius);
+      label.text.setPosition(x, y).setFontSize(Math.round(radius * 1.3));
+    });
+  }
+
+  setSlotLabelsVisible(visible) {
+    if (!this.slotLabels) return;
+    this.slotLabels.forEach((label) => { label.circle.setVisible(visible); label.text.setVisible(visible); });
   }
 
   layersForPanel(panelId) {
@@ -115,7 +161,7 @@ class StoryOrderGridScene extends Phaser.Scene {
   buildCards() {
     this.story.panels.forEach((panel) => {
       const card = new KenneySceneCard(this, {
-        panelId: panel.id, width: this.cardWidth, height: this.cardHeight, layers: this.layersForPanel(panel.id),
+        panelId: panel.id, width: this.cardWidth, height: this.cardHeight, layers: this.layersForPanel(panel.id), showBadge: false,
       });
       this.cards[panel.id] = card;
       card.on('pointerup', () => {
@@ -210,7 +256,6 @@ class StoryOrderGridScene extends Phaser.Scene {
     state.orderedPanelIds.forEach((panelId, slotIndex) => {
       const card = this.cards[panelId];
       const pos = this.slotPositions[slotIndex];
-      card.setSlotNumber(slotIndex + 1);
       card.setSelected(state.selectedSlot === slotIndex);
       if (this.reduced || instant) {
         card.setPosition(pos.x, pos.y);
@@ -225,6 +270,7 @@ class StoryOrderGridScene extends Phaser.Scene {
   // HTML by the page controller via the grammar engine.
   showCompletion() {
     this.completionMode = true;
+    this.setSlotLabelsVisible(false);
     Object.values(this.cards).forEach((card) => card.setVisible(false).disableInteractive());
     this.buildCompletionCards();
   }
@@ -293,6 +339,8 @@ class StoryOrderGridScene extends Phaser.Scene {
     this.locked = false;
     this.controller.playAgain();
     this.computeLayout();
+    this.positionSlotLabels();
+    this.setSlotLabelsVisible(true);
     this.buildCards();
     this.renderFromState(true);
   }

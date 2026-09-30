@@ -12,12 +12,12 @@ test('comparison generates exact present and past forms', () => {
   assert.strictEqual(result.selected.verb, 'writes');
 });
 test('word hint identifies a missing subject first', () => {
-  const result = feedback.wordHint(stories['climbing-the-tree'].wordChallenge, 'pastSimple', ['walked', 'The', 'boy'], wordOrder.tokenize, 1);
-  assert.match(result.body, /“The boy” first/);
+  const result = feedback.wordHint(stories['climbing-the-tree'].wordChallenge, 'pastSimple', ['picked', 'Amir', 'up'], wordOrder.tokenize, 1);
+  assert.match(result.body, /“Amir” first/);
 });
 test('word hint identifies the tense verb after a correct subject', () => {
-  const result = feedback.wordHint(stories['climbing-the-tree'].wordChallenge, 'pastSimple', ['The', 'boy', 'tree', 'walked'], wordOrder.tokenize, 1);
-  assert.match(result.body, /“walked”/);
+  const result = feedback.wordHint(stories['climbing-the-tree'].wordChallenge, 'pastSimple', ['Amir', 'up', 'picked', 'the'], wordOrder.tokenize, 1);
+  assert.match(result.body, /“picked up”/);
   assert.match(result.body, /Past Simple/);
 });
 test('story hints become more specific across attempts', () => {

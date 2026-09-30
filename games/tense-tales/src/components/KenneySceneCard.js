@@ -26,8 +26,15 @@ const KenneySceneCardPalette = {
 };
 
 class KenneySceneCard extends Phaser.GameObjects.Container {
-  constructor(scene, { panelId, width, height, layers }) {
+  // showBadge: the numbered badge is only meaningful when a card's number
+  // IS its identity (the completion recap row, always in solved order). On
+  // the interactive swap grid the number belongs to the slot, not the
+  // picture — StoryOrderGridScene renders that separately; pass
+  // showBadge:false there. Defaults to true so callers that don't pass it
+  // (the completion row) keep the original behaviour.
+  constructor(scene, { panelId, width, height, layers, showBadge }) {
     super(scene, 0, 0);
+    this.showBadge = showBadge !== false;
 
     this.panelId = panelId;
     this.cardWidth = width;
@@ -52,19 +59,24 @@ class KenneySceneCard extends Phaser.GameObjects.Container {
     this.drawBorder('default');
 
     this.badgeRadius = this.badgeRadiusFor(width);
-    this.badge = scene.add.circle(0, 0, this.badgeRadius, KenneySceneCardPalette.badgeFill)
-      .setStrokeStyle(2, KenneySceneCardPalette.badgeStroke);
-    this.badgeText = scene.add.text(0, 0, '', {
-      fontFamily: "'Baloo 2', Arial, sans-serif",
-      fontSize: '15px',
-      fontStyle: 'bold',
-      color: '#ffffff',
-    }).setOrigin(0.5);
+    if (this.showBadge) {
+      this.badge = scene.add.circle(0, 0, this.badgeRadius, KenneySceneCardPalette.badgeFill)
+        .setStrokeStyle(2, KenneySceneCardPalette.badgeStroke);
+      this.badgeText = scene.add.text(0, 0, '', {
+        fontFamily: "'Baloo 2', Arial, sans-serif",
+        fontSize: '15px',
+        fontStyle: 'bold',
+        color: '#ffffff',
+      }).setOrigin(0.5);
+    }
     this.selectionMarker = scene.add.graphics().setVisible(false);
     this.positionBadge();
 
     this.addAt(this.shadow, 0);
-    this.add([this.border, this.badge, this.badgeText, this.selectionMarker]);
+    const chrome = [this.border];
+    if (this.badge) chrome.push(this.badge, this.badgeText);
+    chrome.push(this.selectionMarker);
+    this.add(chrome);
 
     this.setSize(width, height);
     this.setInteractive({ useHandCursor: true });
@@ -81,11 +93,13 @@ class KenneySceneCard extends Phaser.GameObjects.Container {
   }
 
   positionBadge() {
-    const inset = this.badgeRadius + 4;
-    this.badge.setPosition(this.anchorX + inset, this.anchorY + inset);
-    this.badge.setRadius(this.badgeRadius);
-    this.badgeText.setPosition(this.anchorX + inset, this.anchorY + inset);
-    this.badgeText.setFontSize(Math.round(this.badgeRadius * 1.3));
+    if (this.badge) {
+      const inset = this.badgeRadius + 4;
+      this.badge.setPosition(this.anchorX + inset, this.anchorY + inset);
+      this.badge.setRadius(this.badgeRadius);
+      this.badgeText.setPosition(this.anchorX + inset, this.anchorY + inset);
+      this.badgeText.setFontSize(Math.round(this.badgeRadius * 1.3));
+    }
     this.drawSelectionMarker();
   }
 
@@ -198,7 +212,7 @@ class KenneySceneCard extends Phaser.GameObjects.Container {
   }
 
   setSlotNumber(n) {
-    this.badgeText.setText(String(n));
+    if (this.badgeText) this.badgeText.setText(String(n));
   }
 
   setSelected(selected) {

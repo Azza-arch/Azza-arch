@@ -167,13 +167,13 @@ test('controller: playAgain clears attempts, completion, selection, and reshuffl
 });
 
 // ---- Grammar integration ----
-test('grammar integration: completed Climbing the Tree generates correct Past Simple sentences', () => {
+test('grammar integration: completed The Fallen Books generates correct Past Simple sentences', () => {
   const sentences = SentenceBuilder.buildStorySentences(story, Tenses.PAST_SIMPLE).map((s) => s.sentence);
   assert.deepStrictEqual(sentences, [
-    'The boy walked toward the tree.',
-    'He started climbing the tree.',
-    'He climbed higher.',
-    'He reached the top.',
+    'Aina carried the books.',
+    'She dropped the books.',
+    'Amir picked up the books.',
+    'He gave the books to Aina.',
   ]);
 });
 

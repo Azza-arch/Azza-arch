@@ -33,6 +33,7 @@
     go: { id: 'go', base: 'go', thirdPerson: 'goes', past: 'went', future: 'will go', irregular: true },
     come: { id: 'come', base: 'come', thirdPerson: 'comes', past: 'came', future: 'will come', irregular: true },
     carry: { id: 'carry', base: 'carry', thirdPerson: 'carries', past: 'carried', future: 'will carry', irregular: false },
+    drop: { id: 'drop', base: 'drop', thirdPerson: 'drops', past: 'dropped', future: 'will drop', irregular: false },
     play: { id: 'play', base: 'play', thirdPerson: 'plays', past: 'played', future: 'will play', irregular: false },
     think: { id: 'think', base: 'think', thirdPerson: 'thinks', past: 'thought', future: 'will think', irregular: true },
     talk: { id: 'talk', base: 'talk', thirdPerson: 'talks', past: 'talked', future: 'will talk', irregular: false },

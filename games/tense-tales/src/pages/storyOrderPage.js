@@ -185,6 +185,10 @@
       label.textContent = parts.timeLabel;
       column.appendChild(label);
       appendMarkedSentence(column, parts);
+      const reason = document.createElement('p');
+      reason.className = 'tense-compare-reason';
+      reason.textContent = parts.reason;
+      column.appendChild(reason);
       container.appendChild(column);
     });
   }

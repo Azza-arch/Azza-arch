@@ -84,14 +84,14 @@ test('Each level uses its own approved environment preset', () => {
   });
 });
 
-test('Climbing the Tree Past Simple recap matches the approved visual actions', () => {
+test('The Fallen Books Past Simple recap matches the approved visual actions', () => {
   const story = Stories['climbing-the-tree'];
   const sentences = SentenceBuilder.buildStorySentences(story, Tenses.PAST_SIMPLE).map((entry) => entry.sentence);
   assert.deepStrictEqual(sentences, [
-    'The boy walked toward the tree.',
-    'He started climbing the tree.',
-    'He climbed higher.',
-    'He reached the top.',
+    'Aina carried the books.',
+    'She dropped the books.',
+    'Amir picked up the books.',
+    'He gave the books to Aina.',
   ]);
 });
 
@@ -103,7 +103,7 @@ test('Reading Under the Tree, panel 3, Present Simple -> "He reads the book."', 
 
 test('The five standalone word challenges generate exact Present and Past sentences', () => {
   const expected = {
-    'climbing-the-tree': ['The boy walks toward the tree.', 'The boy walked toward the tree.'],
+    'climbing-the-tree': ['Amir picks up the books.', 'Amir picked up the books.'],
     'reading-under-the-tree': ['The boy reads the book.', 'The boy read the book.'],
     'the-new-phone': ['The boy shows the phone to Aina.', 'The boy showed the phone to Aina.'],
     'getting-ready': ['The boy leaves the house.', 'The boy left the house.'],

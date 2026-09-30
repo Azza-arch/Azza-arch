@@ -153,7 +153,8 @@
     [comparison.selected, comparison.other].forEach((parts) => {
       const column = document.createElement('div');
       const label = document.createElement('span'); label.className = 'tense-compare-label'; label.textContent = parts.timeLabel;
-      column.appendChild(label); appendMarkedSentence(column, parts); els['wo-tense-compare'].appendChild(column);
+      const reason = document.createElement('p'); reason.className = 'tense-compare-reason'; reason.textContent = parts.reason;
+      column.appendChild(label); appendMarkedSentence(column, parts); column.appendChild(reason); els['wo-tense-compare'].appendChild(column);
     });
   }
 

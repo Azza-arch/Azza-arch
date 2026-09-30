@@ -18,6 +18,15 @@
     return tense === 'pastSimple' ? 'Yesterday' : 'Every day';
   }
 
+  // A short, plain-language reason the verb form changes — not just that it
+  // does. Shown under each sentence in the tense-comparison panel so a
+  // player sees WHY "writes" becomes "wrote", not only that it does.
+  function reason(tense) {
+    return tense === 'pastSimple'
+      ? 'Use this because it already happened.'
+      : 'Use this because it happens regularly, not just right now.';
+  }
+
   function sentenceParts(panel, tense) {
     var resolved = sentenceBuilder.resolvePanelSentence(panel, tense);
     return {
@@ -27,6 +36,7 @@
       tense: tense,
       tenseName: tenseName(tense),
       timeLabel: timeLabel(tense),
+      reason: reason(tense),
     };
   }
 
