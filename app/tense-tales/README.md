@@ -18,7 +18,7 @@ npx serve .
 or, from the repo root with PHP already available (Laragon):
 
 ```
-php -S localhost:8000 -t games/tense-tales
+php -S localhost:8000 -t app/tense-tales
 ```
 
 Then visit `http://localhost:8000`.
@@ -80,7 +80,7 @@ as confirmed until someone checks them in a real browser or device.
 Intended to be deployed as a static subpath at:
 
 ```
-https://haziqbuilds.com/games/tense-tales
+https://haziqbuilds.com/app/tense-tales
 ```
 
 No backend, database, or login is required for this phase.

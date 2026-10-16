@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects — https://developers.cloudflare.com/pages/configuration/redirects/
+# Tense Tales moved from /games/tense-tales/ to /app/tense-tales/.
+/games/tense-tales/*  /app/tense-tales/:splat  301

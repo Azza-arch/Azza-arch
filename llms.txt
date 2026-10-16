@@ -28,7 +28,7 @@ Payment: 50% development deposit and 50% when the agreed site is accepted, befor
 ## Portfolio notes
 
 - Sora Brew (https://haziqbuilds.com/demos/sora-brew/) is a self-initiated concept with a fictional cafe. It is not a client project.
-- Tense Tales (https://haziqbuilds.com/games/tense-tales/) is a browser-playable grammar game.
+- Tense Tales (https://haziqbuilds.com/app/tense-tales/) is a browser-playable grammar game.
 
 ## Experience
 
