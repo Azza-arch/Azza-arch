@@ -46,9 +46,13 @@
     var pointerX = 0, pointerY = 0, scrollShift = 0;
 
     // Explicit clamps so head/crop safety holds even if this gets tuned later.
+    // Written as --px/--py custom properties (not style.transform directly) so the
+    // mobile centering transform (translateX(-50%), set in CSS) never gets clobbered
+    // on narrow viewports with a fine pointer - e.g. a laptop window resized narrow.
     function render() {
       var clampedY = Math.max(-MAX_POINTER_Y, Math.min(MAX_POINTER_Y, pointerY)) + scrollShift;
-      portrait.style.transform = 'translate3d(' + pointerX + 'px, ' + clampedY + 'px, 0)';
+      portrait.style.setProperty('--px', pointerX + 'px');
+      portrait.style.setProperty('--py', clampedY + 'px');
     }
 
     hero.addEventListener('mousemove', function (e) {
@@ -119,7 +123,7 @@
     });
 
     window.addEventListener('resize', function () {
-      if (window.innerWidth > 720 && isMenuOpen()) closeMobileMenu();
+      if (window.innerWidth > 900 && isMenuOpen()) closeMobileMenu();
     });
   }
 
