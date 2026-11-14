@@ -24,13 +24,13 @@ export const CHAPTER1_PRACTICE = [
     id: 'p2',
     relatedLesson: 3,
     prompt: 'Diberi f(x) = 3x &minus; 2. Berapakah f(4)?',
-    options: ['10', '9', '14', '1'],
-    answer: 1,
+    options: ['10', '9', '14', '6'],
+    answer: 0,
     feedback: [
-      'Semak semula: 3(4) = 12, kemudian 12 &minus; 2 = 10, bukan 9 &mdash; cuba kira semula langkah demi langkah.',
       'Betul. f(4) = 3(4) &minus; 2 = 12 &minus; 2 = 10.',
+      'Semak semula: 3(4) = 12, kemudian 12 &minus; 2 = 10, bukan 9 &mdash; cuba kira semula langkah demi langkah.',
       'Ini akan betul jika tanda ialah tambah (3x + 2), tetapi peraturan di sini ialah tolak.',
-      'Ini terhasil jika 2 ditolak sebelum didarab dengan 3. Darab dahulu, kemudian tolak.',
+      'Ini terhasil jika 2 ditolak daripada 4 sebelum didarab: 3(4 &minus; 2) = 6. Darab dahulu, kemudian tolak.',
     ],
   },
   {
