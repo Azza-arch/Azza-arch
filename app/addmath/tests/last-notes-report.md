@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 9 daripada 18.
+Bab dengan fail nota: 10 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 50**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 54**
 
 ## t4-1 Fungsi (status: review)
 
@@ -156,6 +156,18 @@ Bab dengan fail nota: 9 daripada 18.
 | 9.3.3 | 9.3 | ✓ | ✓ | 2 |
 | 9.4.1 | 9.4 | ✓ | ✓ | 5 |
 
+## t4-10 Nombor Indeks (status: review)
+
+2 subtopik · 10 contoh · 2 visual · 16 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 10.1.1 | 10.1 | ✓ | ✓ | 2 |
+| 10.1.2 | 10.1 | ✓ | ✓ | 3 |
+| 10.1.3 | 10.1 | ✓ | ✓ | 4 |
+| 10.2.1 | 10.2 | ✓ | ✓ | 4 |
+| 10.2.2 | 10.2 | ✓ | ✓ | 4 |
+
 ## Ralat
 - tiada
 
@@ -213,5 +225,9 @@ Bab dengan fail nota: 9 daripada 18.
 - t4-9.3-06 (penaakulan) — Dua segi tiga mempunyai sisi \(a = 6\) dan \(b = 5\). Yang pertama mempunyai \(C = 40^\circ\), yang kedua \(C 
 - t4-9.4-03 (objektif) — Piramid tegak \(VABCD\) mempunyai tapak segi empat sama dengan pusat \(O\), dan \(V\) tegak di atas \(O\). Sud
 - t4-9.4-05 (penaakulan) — Dalam soalan piramid di atas, terangkan mengapa \(\angle AVB\) dicari dengan petua kosinus dan bukan dengan \(
+- t4-10.1-02 (objektif) — Indeks harga suatu barang pada tahun asas ialah…
+- t4-10.1-03 (objektif) — Indeks kemalangan jalan raya di sebuah daerah pada 2024 berasaskan 2021 ialah 85. Yang manakah tafsiran yang b
+- t4-10.1-08 (penaakulan) — Harga barang \(X\) naik dari RM2 ke RM3, dan harga barang \(Y\) naik dari RM100 ke RM101. Kedua-duanya naik RM
+- t4-10.2-08 (penaakulan) — Terangkan mengapa pemberat 6, 4, 2 dan pemberat 3, 2, 1 memberi indeks gubahan yang sama.
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

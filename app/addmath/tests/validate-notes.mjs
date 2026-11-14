@@ -67,6 +67,12 @@ function expected(check, id) {
       if (vals.length > 1 && !check.pick) err(id, `${vals.length} triangles fit (${vals.map((v) => v.toFixed(4))}); add pick or rephrase`);
       return check.pick === 'max' ? Math.max(...vals) : check.pick === 'min' ? Math.min(...vals) : vals[0]; }
     case 'geo3': return geo3(check.pts, check.want, check.of);
+    case 'index': { // from raw quantities: Q1/Q0 × 100, or chained through intermediate times
+      if (check.qs) { const q = check.qs; return (q[q.length - 1] / q[0]) * 100; }
+      if (check.want === 'q1') return (check.I * check.q0) / 100; if (check.want === 'q0') return (check.q1 * 100) / check.I; return (check.q1 / check.q0) * 100; }
+    case 'composite': { // weighted mean of indices; equal weights when w is omitted
+      const w = check.w || check.I.map(() => 1); const sw = w.reduce((s, x) => s + x, 0); if (!(sw > 0)) { err(id, 'weights sum to zero'); return NaN; }
+      return check.I.reduce((s, I, k) => s + I * w[k], 0) / sw; }
     case 'vec': { // combination Σ kᵢ·vᵢ, component by component
       if (check.want === 'ratio') { const [u, v] = [check.u, check.v]; const r = u[0] / v[0]; if (Math.abs(u[1] - r * v[1]) > 1e-9) err(id, 'vectors are not parallel'); return r; }
       const s = check.ops.reduce((acc, [k, [x, y]]) => [acc[0] + k * x, acc[1] + k * y], [0, 0]); const mag = Math.hypot(s[0], s[1]);

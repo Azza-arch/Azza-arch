@@ -29,7 +29,7 @@ export const S9_1 = {
       <p><strong>Mengapa benar?</strong> Lukis tinggi \(h\) dari \(C\) ke sisi \(AB\). Dalam dua segi tiga bersudut tegak yang terbentuk:</p>
       \[h = b\sin A \quad\text{dan}\quad h = a\sin B \;\Rightarrow\; b\sin A = a\sin B \;\Rightarrow\; \frac{a}{\sin A} = \frac{b}{\sin B}\]
       <p>Tinggi dari \(A\) memberi \(\dfrac{b}{\sin B} = \dfrac{c}{\sin C}\) dengan cara yang sama. (Jika \(B\) cakah, \(h = a\sin(180^\circ - B) = a\sin B\), jadi hasilnya tetap sama.) Inilah <strong>petua sinus</strong>.</p>` },
-    { kind: 'visual', title: 'Teroka: tiga nisbah yang sentiasa sama', html: R`<p>\(A\) dan \(B\) tetap. Gerakkan \(C\) dengan gelangsar.</p>`,
+    { kind: 'visual', title: 'Tiga nisbah yang sentiasa sama', html: R`<p>\(A\) dan \(B\) tetap. Gerakkan \(C\) dengan gelangsar.</p>`,
       spec: { type: 'plot', noAxes: true, equalAspect: true, x: [-1.5, 9], y: [-1, 7], params: [{ name: 'cx', label: R`kedudukan mengufuk \(C\)`, min: -1, max: 8, step: 0.5, value: 2 }, { name: 'cy', label: R`tinggi \(C\)`, min: 1, max: 6, step: 0.5, value: 4 }],
         polygons: [{ at: (p) => [[0, 0], [7, 0], [p.cx, p.cy]] }],
         points: [{ at: () => [0, 0], label: 'A' }, { at: () => [7, 0], label: 'B' }, { at: (p) => [p.cx, p.cy], label: 'C' }],
@@ -132,7 +132,7 @@ export const S9_3 = {
       <p>Mulakan dengan \(\text{Luas} = \tfrac12 \times \text{tapak} \times \text{tinggi}\). Ambil \(a = BC\) sebagai tapak. Tinggi dari \(A\) ke garis \(BC\) ialah \(h = b\sin C\) (sinus dalam segi tiga tegak yang terbentuk; jika \(C\) cakah, \(h = b\sin(180^\circ - C) = b\sin C\)). Jadi</p>
       \[\text{Luas} = \tfrac12 ab\sin C = \tfrac12 ac\sin B = \tfrac12 bc\sin A\]
       <p>Kuncinya: <strong>dua sisi dan sudut di antara keduanya</strong>.</p>` },
-    { kind: 'visual', title: 'Teroka: sudut kandung dan luas', html: R`<p>\(a = CB = 6\) dan \(b = CA = 5\) tetap. Ubah sudut \(C\). Garis putus-putus ialah tinggi \(h = b\sin C\).</p>`,
+    { kind: 'visual', title: 'Sudut kandung dan luas', html: R`<p>\(a = CB = 6\) dan \(b = CA = 5\) tetap. Ubah sudut \(C\). Garis putus-putus ialah tinggi \(h = b\sin C\).</p>`,
       spec: { type: 'plot', noAxes: true, equalAspect: true, x: [-5.5, 7.5], y: [-1, 6], params: [{ name: 'C', label: R`\(C\) (darjah)`, min: 10, max: 170, step: 5, value: 50 }],
         polygons: [
           { at: (p) => [[Math.min(0, 5 * Math.cos(p.C * DEG)), 0], [0, 0]], closed: false, color: '#C9CED8' },
