@@ -4,7 +4,7 @@
 import katex from '../../vendor/katex/katex.mjs';
 
 // \uv{a}: Malaysian handwritten vector notation (letter with ~ underneath).
-export const MACROS = { '\\uv': '\\underset{\\sim}{#1}', '\\kos': '\\operatorname{kos}', '\\had': '\\operatorname*{had}' };
+export const MACROS = { '\\uv': '\\underset{\\sim}{#1}', '\\kos': '\\operatorname{kos}', '\\had': '\\operatorname*{had}', '\\sek': '\\operatorname{sek}', '\\kosek': '\\operatorname{kosek}', '\\kot': '\\operatorname{kot}' };
 const opts = (displayMode) => ({ displayMode, throwOnError: false, output: 'htmlAndMathml', strict: 'ignore', macros: { ...MACROS } });
 
 export function tex(str, display = false) {

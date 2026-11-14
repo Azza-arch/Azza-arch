@@ -13,10 +13,10 @@ export function evaluate(expr, vars = {}) {
     const c = peek();
     if (c === '(') { i++; const v = sum(); if (src[i++] !== ')') fail('missing )'); return v; }
     if (c === '|') { i++; const v = sum(); if (src[i++] !== '|') fail('missing |'); return Math.abs(v); }
-    const fn = /^(abs|sqrt|ln|log|exp|sin|cos|tan)\(/.exec(src.slice(i));
+    const fn = /^(abs|sqrt|ln|log|exp|kosek|cosec|kos|cos|sin|tan|sek|sec|kot|cot)\(/.exec(src.slice(i));
     if (fn) { i += fn[1].length; const v = primary(); const k = fn[1];
       if (k === 'sqrt' && v < 0) fail('sqrt of negative'); if ((k === 'ln' || k === 'log') && v <= 0) return NaN;
-      return k === 'abs' ? Math.abs(v) : k === 'sqrt' ? Math.sqrt(v) : k === 'ln' ? Math.log(v) : k === 'log' ? Math.log10(v) : k === 'sin' ? Math.sin(v) : k === 'cos' ? Math.cos(v) : k === 'tan' ? Math.tan(v) : Math.exp(v); } // trig in radians
+      return k === 'abs' ? Math.abs(v) : k === 'sqrt' ? Math.sqrt(v) : k === 'ln' ? Math.log(v) : k === 'log' ? Math.log10(v) : k === 'sin' ? Math.sin(v) : (k === 'cos' || k === 'kos') ? Math.cos(v) : k === 'tan' ? Math.tan(v) : (k === 'sec' || k === 'sek') ? 1 / Math.cos(v) : (k === 'cosec' || k === 'kosek') ? 1 / Math.sin(v) : (k === 'cot' || k === 'kot') ? 1 / Math.tan(v) : Math.exp(v); } // trig in radians
     if (src.startsWith('pi', i) && !('p' in vars)) { i += 2; return Math.PI; }
     if (src.startsWith('e', i) && !/[a-z]/.test(src[i + 1] || '') && !('e' in vars)) { i++; return Math.E; }
     if (c === '-') { i++; return -power(); }

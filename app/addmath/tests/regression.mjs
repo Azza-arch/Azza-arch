@@ -39,5 +39,12 @@ t('integral: "x^3/3+2x+c" accepted', checkSingle(integ, 'x^3/3+2x+c').state === 
 t('integral: "x^3/3+2x+5" accepted (constant differs)', checkSingle(integ, 'x^3/3+2x+5').state === 'right');
 t('integral: missing c accepted with a reminder', /\+ c/.test(checkSingle(integ, 'x^3/3+2x').html));
 t('integral: "x^3+2x" rejected', checkSingle(integ, 'x^3+2x+c').state === 'wrong');
+
+// T5 Bab 6: Malaysian function names must parse (kosek before kos).
+const { equivalent: eqv } = await import('../src/notes/expr.js');
+t('kos(x)^2+sin(x)^2 ≡ 1', eqv('kos(x)^2+sin(x)^2', '1'));
+t('kosek(x) ≡ 1/sin(x)', eqv('kosek(x)', '1/sin(x)'));
+t('sek(x)^2-tan(x)^2 ≡ 1', eqv('sek(x)^2-tan(x)^2', '1'));
+t('kot(x) ≡ kos(x)/sin(x)', eqv('kot(x)', 'kos(x)/sin(x)'));
 console.log(fail ? `${fail} regression(s) FAILED` : 'all regressions pass');
 process.exit(fail ? 1 : 0);

@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 15 daripada 18.
+Bab dengan fail nota: 16 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 84**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 93**
 
 ## t4-1 Fungsi (status: review)
 
@@ -258,6 +258,25 @@ Bab dengan fail nota: 15 daripada 18.
 | 5.3.4 | 5.3 | ✓ | ✓ | 4 |
 | 5.3.5 | 5.3 | ✓ | ✓ | 2 |
 
+## t5-6 Fungsi Trigonometri (status: review)
+
+6 subtopik · 21 contoh · 6 visual · 35 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 6.1.1 | 6.1 | ✓ | ✓ | 5 |
+| 6.2.1 | 6.2 | ✓ | ✓ | 4 |
+| 6.2.2 | 6.2 | ✓ | ✓ | 3 |
+| 6.3.1 | 6.3 | ✓ | ✓ | 5 |
+| 6.3.2 | 6.3 | ✓ | ✓ | 2 |
+| 6.4.1 | 6.4 | ✓ | ✓ | 2 |
+| 6.4.2 | 6.4 | ✓ | ✓ | 3 |
+| 6.5.1 | 6.5 | ✓ | ✓ | 2 |
+| 6.5.2 | 6.5 | ✓ | ✓ | 2 |
+| 6.5.3 | 6.5 | ✓ | ✓ | 2 |
+| 6.6.1 | 6.6 | ✓ | ✓ | 4 |
+| 6.6.2 | 6.6 | ✓ | ✓ | 2 |
+
 ## Ralat
 - tiada
 
@@ -349,5 +368,14 @@ Bab dengan fail nota: 15 daripada 18.
 - t5-5.3-01 (objektif) — Pernyataan manakah salah tentang graf taburan normal \(N(\mu, \sigma^2)\)?
 - t5-5.3-03 (objektif) — Ali mendapat 72 dalam Matematik (min 60, sisihan piawai 8) dan 80 dalam Sains (min 74, sisihan piawai 3). Dala
 - t5-5.3-10 (penaakulan) — Terangkan mengapa kita menukar \(X \sim N(\mu, \sigma^2)\) kepada \(Z\) sebelum menggunakan jadual, dan apa ya
+- t5-6.1-01 (objektif) — Lengan terminal bagi sudut \(520^\circ\) berada di…
+- t5-6.1-04 (objektif) — Sudut manakah tidak berkongsi lengan terminal dengan \(60^\circ\)?
+- t5-6.1-05 (penaakulan) — Terangkan mengapa \(-90^\circ\) dan \(270^\circ\) memberi kedudukan lengan terminal yang sama walaupun arah pu
+- t5-6.3-03 (objektif) — Graf manakah mempunyai amplitud 2, kala \(180^\circ\) dan nilai minimum \(-1\)?
+- t5-6.3-07 (penaakulan) — Terangkan kesan pemalar \(c\) dalam \(y = 2\sin x + c\), dan mengapa graf \(y = 2\sin x + 3\) tidak pernah mem
+- t5-6.4-04 (objektif) — Identiti \(1 + \kot^2 A = \kosek^2 A\) diperoleh dengan membahagi \(\sin^2 A + \kos^2 A = 1\) dengan…
+- t5-6.4-05 (penaakulan) — Buktikan \(\dfrac{\sin x}{1 - \kos x} = \dfrac{1 + \kos x}{\sin x}\), dan terangkan langkah utama.
+- t5-6.5-06 (penaakulan) — Tunjukkan bahawa \((\sin x + \kos x)^2 = 1 + \sin 2x\).
+- t5-6.6-04 (objektif) — Seorang murid menyelesaikan \(2\sin^2 x = \sin x\) dengan membahagi kedua-dua belah dengan \(\sin x\), dan men
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

@@ -1,9 +1,9 @@
 // Expression evaluator used in the browser to check pupils' typed answers
 // (e.g. "2x+2", "(x-1)/2", "|x-3|", "sqrt(x)"). Supports + - * / ^,
 // parentheses, implicit multiplication, |...| absolute value, and the
-// functions sqrt, abs, log (base 10), ln, sin, cos, tan (radians).
+// functions sqrt, abs, log (base 10), ln, sin, cos/kos, tan, sec/sek, cosec/kosek, cot/kot (radians).
 // The content validator uses its own separate solver (tests/solvers.mjs).
-const FUNCS = { sqrt: Math.sqrt, abs: Math.abs, log: Math.log10, ln: Math.log, exp: Math.exp, sin: Math.sin, cos: Math.cos, tan: Math.tan };
+const FUNCS = { sqrt: Math.sqrt, abs: Math.abs, log: Math.log10, ln: Math.log, exp: Math.exp, sin: Math.sin, cos: Math.cos, tan: Math.tan, kos: Math.cos, sec: (v) => 1 / Math.cos(v), sek: (v) => 1 / Math.cos(v), cosec: (v) => 1 / Math.sin(v), kosek: (v) => 1 / Math.sin(v), cot: (v) => 1 / Math.tan(v), kot: (v) => 1 / Math.tan(v) };
 
 export function compile(input) {
   const src = String(input).toLowerCase().replace(/\s+/g, '').replace(/−/g, '-').replace(/×/g, '*').replace(/÷/g, '/').replace(/π/g, 'pi');
@@ -18,7 +18,7 @@ export function compile(input) {
     if (c === '+') { i++; return power(); }
     const num = /^\d+(\.\d+)?|^\.\d+/.exec(src.slice(i));
     if (num) { i += num[0].length; const n = Number(num[0]); return () => n; }
-    const fn = /^(sqrt|abs|log|ln|exp|sin|cos|tan)/.exec(src.slice(i));
+    const fn = /^(sqrt|abs|log|ln|exp|kosek|cosec|kos|cos|sin|tan|sek|sec|kot|cot)/.exec(src.slice(i)); // longest names first
     if (fn) { i += fn[0].length; const arg = primary(); const f = FUNCS[fn[0]]; return (s) => f(arg(s)); }
     if (src.startsWith('pi', i)) { i += 2; return () => Math.PI; }
     if (src[i] === 'e' && !/[a-z]/.test(src[i + 1] || '')) { i++; return () => Math.E; }

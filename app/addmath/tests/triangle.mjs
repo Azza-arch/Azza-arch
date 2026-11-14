@@ -156,3 +156,19 @@ const phi = (z) => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
 export const normCdf = (z) => (z >= 0 ? 0.5 + simpson(phi, 0, z, 4000) : 0.5 - simpson(phi, 0, -z, 4000));
 export function normal({ mu = 0, sigma = 1, want, a, b }) { const Z = (x) => (x - mu) / sigma; return { lt: normCdf(Z(a)), gt: 1 - normCdf(Z(a)), between: normCdf(Z(b)) - normCdf(Z(a)) }[want]; }
 export function normalInv({ mu = 0, sigma = 1, prob, tail = 'lower' }) { const target = tail === 'upper' ? 1 - prob : prob; let lo = -10, hi = 10; for (let i = 0; i < 100; i++) { const m = (lo + hi) / 2; if (normCdf(m) < target) lo = m; else hi = m; } return mu + sigma * ((lo + hi) / 2); }
+
+// Trigonometry (T5 Bab 6). f is evaluated with x in RADIANS; from/to and returned roots
+// are in degrees when deg is true. Roots: sign changes, tangencies (local minima of |f|
+// that reach 0, e.g. sin x = 1) and endpoints, all by scanning.
+export function trigRoots(f, from, to, deg = true, N = 72000) {
+  const g = (t) => f(deg ? (t * Math.PI) / 180 : t), xs = [], h = (to - from) / N, push = (r) => { if (!xs.some((v) => Math.abs(v - r) < 1e-6 * Math.max(1, Math.abs(r)))) xs.push(r); };
+  const vals = []; for (let k = 0; k <= N; k++) vals.push(g(from + k * h));
+  for (let k = 0; k <= N; k++) if (Math.abs(vals[k]) < 1e-10) push(from + k * h); // exact zeros on grid points (incl. endpoints)
+  for (let k = 0; k < N; k++) { const a = from + k * h, b = a + h; if (vals[k] * vals[k + 1] < 0) { let lo = a, hi = b; for (let i = 0; i < 80; i++) { const m = (lo + hi) / 2; if (g(lo) * g(m) <= 0) hi = m; else lo = m; } const r = (lo + hi) / 2; if (Math.abs(g(r)) < 1e-6) push(r); } } // |g| small rejects asymptotes (tan)
+  for (let k = 1; k < N; k++) if (Math.abs(vals[k]) <= Math.abs(vals[k - 1]) && Math.abs(vals[k]) <= Math.abs(vals[k + 1]) && vals[k - 1] * vals[k + 1] > 0) { // tangency
+    let lo = from + (k - 1) * h, hi = from + (k + 1) * h; for (let i = 0; i < 100; i++) { const m1 = lo + (hi - lo) / 3, m2 = hi - (hi - lo) / 3; if (Math.abs(g(m1)) < Math.abs(g(m2))) hi = m2; else lo = m1; } const r = (lo + hi) / 2; if (Math.abs(g(r)) < 1e-9) push(r); }
+  return xs.sort((a, b) => a - b);
+}
+export function trigGraph(f, want, from, to, deg = true, N = 72000) { const g = (t) => f(deg ? (t * Math.PI) / 180 : t); let mx = -Infinity, mn = Infinity; for (let k = 0; k <= N; k++) { const v = g(from + ((to - from) * k) / N); if (Number.isFinite(v)) { mx = Math.max(mx, v); mn = Math.min(mn, v); } }
+  if (want === 'max') return mx; if (want === 'min') return mn; if (want === 'amp') return (mx - mn) / 2;
+  if (want === 'period') { const S = [7, 23, 41, 66, 97, 133]; for (let T = (to - from) / 3600; T <= to - from; T += (to - from) / 3600) if (S.every((s) => { const a = g(s), b = g(s + T); return !Number.isFinite(a) || !Number.isFinite(b) || Math.abs(a - b) < 1e-6; })) { let lo = T - (to - from) / 3600, hi = T; return Math.round(hi * 1000) / 1000; } return NaN; } return NaN; }
