@@ -1,0 +1,63 @@
+// Bab 8 question bank (status 'review', original). See tests/validate-notes.mjs.
+const R = String.raw;
+const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
+const q = (o) => ({ chapter: 't4-8', status: 'review', provenance: P, review: RV, ...o });
+
+export const QUESTIONS = [
+  // ---------------------------------------------------------------- 8.1
+  q({ id: 't4-8.1-01', subtopic: '8.1', sp: ['8.1.1'], difficulty: 'mudah', type: 'mcq', prompt: R`Yang manakah kuantiti vektor?`, check: { kind: 'manual' },
+    options: [{ text: 'Jisim 60 kg', correct: false, misconception: 'jisim-berat', feedback: R`Jisim tiada arah, jadi skalar.` }, { text: 'Sesaran 2 km ke barat daya', correct: true, feedback: R`Betul. Ada magnitud (2 km) dan arah (barat daya).` }, { text: 'Jarak 2 km', correct: false, misconception: 'jarak-sesaran', feedback: R`Jarak tiada arah, jadi skalar.` }, { text: 'Suhu 30°C', correct: false, misconception: 'skalar', feedback: R`Suhu tiada arah.` }],
+    solution: [R`Vektor memerlukan magnitud dan arah. Hanya sesaran 2 km ke barat daya memenuhi kedua-duanya.`] }),
+  q({ id: 't4-8.1-02', subtopic: '8.1', sp: ['8.1.1'], difficulty: 'sederhana', type: 'mcq', prompt: R`Pernyataan "Kereta itu dipandu laju" ialah…`, check: { kind: 'manual' },
+    options: [{ text: 'skalar', correct: false, misconception: 'maklumat-tidak-lengkap', feedback: R`Skalar memerlukan nilai (magnitud). Tiada nilai diberi.` }, { text: 'vektor', correct: false, misconception: 'maklumat-tidak-lengkap', feedback: R`Tiada magnitud dan tiada arah.` }, { text: 'bukan vektor dan bukan skalar', correct: true, feedback: R`Betul. Tiada nilai laju diberi.` }, { text: 'vektor sifar', correct: false, misconception: 'vektor-sifar', feedback: R`Vektor sifar mempunyai magnitud 0; di sini magnitud tidak diketahui.` }],
+    solution: [R`Pernyataan itu tidak memberi nilai magnitud atau arah, jadi bukan vektor dan bukan skalar.`] }),
+  q({ id: 't4-8.1-03', subtopic: '8.1', sp: ['8.1.3'], difficulty: 'mudah', type: 'numeric', prompt: R`\(|\uv{a}| = 4\). Cari \(|-3\uv{a}|\).`, answer: 12, check: { kind: 'vec', ops: [[-3, [4, 0]]], want: 'mag' },
+    wrong: [{ value: -12, feedback: R`Magnitud tidak negatif: \(|-3| \times 4\).` }], solution: [R`\(|-3\uv{a}| = |-3| \times |\uv{a}| = 12\)`] }),
+  q({ id: 't4-8.1-08', subtopic: '8.1', sp: ['8.1.3'], difficulty: 'sederhana', type: 'numeric', prompt: R`\(\overrightarrow{OP} = 10\) unit ke timur. \(\overrightarrow{OQ} = -\tfrac{2}{5}\overrightarrow{OP}\). Cari \(|\overrightarrow{OQ}|\).`, answer: 4, unit: 'unit', check: { kind: 'vec', ops: [[-0.4, [10, 0]]], want: 'mag' },
+    wrong: [{ value: -4, feedback: R`Tanda negatif menukar arah (ke barat), bukan magnitud.` }], solution: [R`\(|\overrightarrow{OQ}| = \tfrac{2}{5} \times 10 = 4\) unit, arah ke barat.`] }),
+  q({ id: 't4-8.1-04', subtopic: '8.1', sp: ['8.1.4'], difficulty: 'sederhana', type: 'numeric', prompt: R`\(\overrightarrow{PQ} = 6\uv{p} - 9\uv{q}\) dan \(\overrightarrow{RS} = 2\uv{p} - 3\uv{q}\). Jika \(\overrightarrow{PQ} = \lambda\overrightarrow{RS}\), cari \(\lambda\).`, answer: 3, check: { kind: 'vec', want: 'ratio', u: [6, -9], v: [2, -3] },
+    solution: [R`\(6 = 2\lambda\) dan \(-9 = -3\lambda\), jadi \(\lambda = 3\) (konsisten).`] }),
+  q({ id: 't4-8.1-05', subtopic: '8.1', sp: ['8.1.4'], difficulty: 'mencabar', type: 'numeric', prompt: R`\(\uv{a}\) dan \(\uv{b}\) tidak selari dan bukan sifar. Vektor \((k - 1)\uv{a} + 4\uv{b}\) selari dengan \(3\uv{a} + 6\uv{b}\). Cari \(k\).`, answer: 3, check: { kind: 'substitute', expr: '(x-1)/3', variable: 'x', equals: 4 / 6 },
+    wrong: [{ value: 2, feedback: R`Nisbah mesti sama: \(\tfrac{k - 1}{3} = \tfrac{4}{6}\).` }], solution: [R`Selari: \((k - 1)\uv{a} + 4\uv{b} = \lambda(3\uv{a} + 6\uv{b})\)`, R`\(4 = 6\lambda \Rightarrow \lambda = \tfrac23\); \(k - 1 = 3\lambda = 2\)`, R`\(k = 3\)`] }),
+  q({ id: 't4-8.1-06', subtopic: '8.1', sp: ['8.1.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Anak panah \(\overrightarrow{AB}\) bergerak 5 unit ke kiri dan 12 unit ke atas. Cari \(|\overrightarrow{BA}|\).`, answer: 13, check: { kind: 'vec', ops: [[-1, [-5, 12]]], want: 'mag' },
+    wrong: [{ value: -13, feedback: R`\(\overrightarrow{BA} = -\overrightarrow{AB}\) berlawanan arah, tetapi magnitudnya sama dan positif.` }], solution: [R`\(|\overrightarrow{BA}| = |\overrightarrow{AB}| = \sqrt{25 + 144} = 13\)`] }),
+  q({ id: 't4-8.1-07', subtopic: '8.1', sp: ['8.1.2', '8.1.1'], difficulty: 'mencabar', type: 'reasoning', prompt: R`Ali berjalan 3 km ke timur, kemudian 3 km ke barat. Bandingkan jarak yang dilalui dengan sesarannya, dan terangkan mengapa berbeza.`, check: { kind: 'manual' },
+    solution: [R`Jarak (skalar) \(= 3 + 3 = 6\) km.`, R`Sesaran (vektor) \(= 3\) km timur \(+ 3\) km barat \(=\) vektor sifar, kerana dia kembali ke titik mula.`, R`Jarak mengira semua laluan; sesaran hanya kedudukan akhir relatif kepada titik mula, dengan arah.`] }),
+  // ---------------------------------------------------------------- 8.2
+  q({ id: 't4-8.2-01', subtopic: '8.2', sp: ['8.2.1'], difficulty: 'mudah', type: 'numeric', prompt: R`Seseorang berjalan 7 m ke timur, kemudian 3 m ke barat. Cari magnitud sesaran paduan.`, answer: 4, unit: 'm', check: { kind: 'vec', ops: [[1, [7, 0]], [1, [-3, 0]]], want: 'mag' },
+    wrong: [{ value: 10, feedback: R`10 m ialah jarak, bukan sesaran.` }], solution: [R`\(7 - 3 = 4\) m ke timur`] }),
+  q({ id: 't4-8.2-02', subtopic: '8.2', sp: ['8.2.1'], difficulty: 'sederhana', type: 'mcq', prompt: R`Dalam segi tiga \(OAB\), \(\overrightarrow{OA} = \uv{a}\) dan \(\overrightarrow{OB} = \uv{b}\). Apakah \(\overrightarrow{AB}\)?`, check: { kind: 'manual' },
+    options: [{ text: R`\(\uv{b} - \uv{a}\)`, correct: true, feedback: R`Betul. \(\overrightarrow{AO} + \overrightarrow{OB} = -\uv{a} + \uv{b}\).` }, { text: R`\(\uv{a} - \uv{b}\)`, correct: false, misconception: 'arah', feedback: R`Itu \(\overrightarrow{BA}\).` }, { text: R`\(\uv{a} + \uv{b}\)`, correct: false, misconception: 'hukum-segi-tiga', feedback: R`Dari A, kita perlu kembali ke O dahulu (\(-\uv{a}\)).` }, { text: R`\(-\uv{a} - \uv{b}\)`, correct: false, misconception: 'tanda', feedback: R`Dari O ke B ialah \(+\uv{b}\).` }],
+    solution: [R`\(\overrightarrow{AB} = \overrightarrow{AO} + \overrightarrow{OB} = -\uv{a} + \uv{b}\)`] }),
+  q({ id: 't4-8.2-03', subtopic: '8.2', sp: ['8.2.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Sebuah dron bergerak 3 km ke timur kemudian 4 km ke utara. Cari magnitud sesaran paduan.`, answer: 5, unit: 'km', check: { kind: 'vec', ops: [[1, [3, 0]], [1, [0, 4]]], want: 'mag' },
+    wrong: [{ value: 7, feedback: R`Vektor serenjang: guna Pythagoras, \(\sqrt{9 + 16}\).` }], solution: [R`\(\sqrt{3^2 + 4^2} = 5\) km`] }),
+  q({ id: 't4-8.2-04', subtopic: '8.2', sp: ['8.2.2'], difficulty: 'mencabar', type: 'numeric', prompt: R`Bot dihala menyeberang sungai pada 5 m/s, dan arus mengalir serenjang pada 2 m/s. Cari laju paduan, betul kepada tiga tempat perpuluhan.`, answer: 5.385, tolerance: 0.0006, unit: 'm/s', check: { kind: 'vec', ops: [[1, [0, 5]], [1, [2, 0]]], want: 'mag' },
+    solution: [R`\(\sqrt{5^2 + 2^2} = \sqrt{29} = 5.385\) m/s`] }),
+  q({ id: 't4-8.2-05', subtopic: '8.2', sp: ['8.2.1'], difficulty: 'mencabar', type: 'mcq', prompt: R`Permudahkan \(\overrightarrow{PQ} + \overrightarrow{QR} + \overrightarrow{RS}\).`, check: { kind: 'manual' },
+    options: [{ text: R`\(\overrightarrow{PS}\)`, correct: true, feedback: R`Betul (hukum poligon).` }, { text: R`\(\overrightarrow{SP}\)`, correct: false, misconception: 'arah', feedback: R`Arahnya dari P ke S.` }, { text: R`\(\overrightarrow{PR}\)`, correct: false, misconception: 'rantaian', feedback: R`\(\overrightarrow{RS}\) belum ditambah.` }, { text: R`\(\uv{0}\)`, correct: false, misconception: 'tertutup', feedback: R`Hanya poligon tertutup (kembali ke P) memberi vektor sifar.` }],
+    solution: [R`Rantaian kepala ke ekor dari P melalui Q, R ke S: \(\overrightarrow{PS}\).`] }),
+  q({ id: 't4-8.2-06', subtopic: '8.2', sp: ['8.2.1'], difficulty: 'sederhana', type: 'reasoning', prompt: R`Gunakan hukum segi empat selari untuk menerangkan mengapa \(\uv{a} - \uv{b}\) ialah salah satu pepenjuru segi empat selari yang dibina daripada \(\uv{a}\) dan \(\uv{b}\).`, check: { kind: 'manual' },
+    solution: [R`Letak \(\uv{a}\) dan \(\uv{b}\) dengan ekor di O; pepenjuru dari O ialah \(\uv{a} + \uv{b}\).`, R`Pepenjuru yang satu lagi menghubungkan kepala \(\uv{b}\) ke kepala \(\uv{a}\): \(-\uv{b} + \uv{a} = \uv{a} - \uv{b}\).`] }),
+  // ---------------------------------------------------------------- 8.3
+  q({ id: 't4-8.3-01', subtopic: '8.3', sp: ['8.3.1'], difficulty: 'mudah', type: 'numeric', prompt: R`Cari \(|3\uv{i} - 4\uv{j}|\).`, answer: 5, check: { kind: 'vec', ops: [[1, [3, -4]]], want: 'mag' },
+    wrong: [{ value: -1, feedback: R`Magnitud bukan \(3 + (-4)\); guna \(\sqrt{x^2 + y^2}\).` }], solution: [R`\(\sqrt{9 + 16} = 5\)`] }),
+  q({ id: 't4-8.3-02', subtopic: '8.3', sp: ['8.3.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Cari komponen-\(\uv{i}\) bagi vektor unit dalam arah \(5\uv{i} + 12\uv{j}\). (Boleh taip pecahan, contohnya 5/13.)`, answer: 5 / 13, check: { kind: 'vec', ops: [[1, [5, 12]]], want: 'unit-x' },
+    wrong: [{ value: 5, feedback: R`Bahagi dengan magnitud \(\sqrt{25 + 144} = 13\).` }], solution: [R`\(|\uv{r}| = 13\)`, R`\(\hat{\uv{r}} = \tfrac{5}{13}\uv{i} + \tfrac{12}{13}\uv{j}\)`] }),
+  q({ id: 't4-8.3-03', subtopic: '8.3', sp: ['8.3.3'], difficulty: 'sederhana', type: 'structured', prompt: R`\(\uv{a} = 2\uv{i} + 3\uv{j}\), \(\uv{b} = -\uv{i} + 4\uv{j}\).`,
+    parts: [
+      { prompt: R`Komponen-\(\uv{j}\) bagi \(2\uv{a} - 3\uv{b}\).`, type: 'numeric', answer: -6, check: { kind: 'vec', ops: [[2, [2, 3]], [-3, [-1, 4]]], want: 'y' }, wrong: [{ value: 18, feedback: R`\(2(3) - 3(4) = 6 - 12\).` }], solution: [R`\(2(3) - 3(4) = -6\)`] },
+      { prompt: R`\(|2\uv{a} - 3\uv{b}|\) betul kepada tiga tempat perpuluhan.`, type: 'numeric', answer: 9.22, tolerance: 0.0006, check: { kind: 'vec', ops: [[2, [2, 3]], [-3, [-1, 4]]], want: 'mag' }, solution: [R`\(7\uv{i} - 6\uv{j}\)`, R`\(\sqrt{49 + 36} = \sqrt{85} = 9.220\)`] },
+    ] }),
+  q({ id: 't4-8.3-04', subtopic: '8.3', sp: ['8.3.3'], difficulty: 'mencabar', type: 'numeric', prompt: R`\(2\uv{i} + 3\uv{j}\) selari dengan \(6\uv{i} + k\uv{j}\). Cari \(k\).`, answer: 9, check: { kind: 'substitute', expr: 'x/3', variable: 'x', equals: 3 },
+    wrong: [{ value: 4, feedback: R`Bukan tambah 3 tetapi darab 3: \(6\uv{i} + k\uv{j} = 3(2\uv{i} + 3\uv{j})\).` }], solution: [R`\(\tfrac{6}{2} = \tfrac{k}{3} \Rightarrow k = 9\)`] }),
+  q({ id: 't4-8.3-05', subtopic: '8.3', sp: ['8.3.4'], difficulty: 'mencabar', type: 'numeric', prompt: R`Pesawat terbang dengan halaju \(300\uv{i} + 400\uv{j}\) km/j, dan angin \(-50\uv{i}\) km/j. Cari laju paduan, betul kepada dua tempat perpuluhan.`, answer: 471.7, tolerance: 0.006, unit: 'km/j', check: { kind: 'vec', ops: [[1, [300, 400]], [1, [-50, 0]]], want: 'mag' },
+    wrong: [{ value: 500, feedback: R`500 ialah laju tanpa angin.` }], solution: [R`\(250\uv{i} + 400\uv{j}\)`, R`\(\sqrt{250^2 + 400^2} = 471.70\) km/j`] }),
+  q({ id: 't4-8.3-06', subtopic: '8.3', sp: ['8.3.1', '8.3.4'], difficulty: 'mencabar', type: 'structured', prompt: R`\(A(1, 2)\) dan \(B(7, 5)\).`,
+    parts: [
+      { prompt: R`Komponen-\(\uv{i}\) bagi \(\overrightarrow{AB}\).`, type: 'numeric', answer: 6, check: { kind: 'vec', ops: [[1, [7, 5]], [-1, [1, 2]]], want: 'x' }, wrong: [{ value: -6, feedback: R`\(\overrightarrow{AB} = \overrightarrow{OB} - \overrightarrow{OA}\) (kepala tolak ekor).` }], solution: [R`\(\overrightarrow{AB} = (7 - 1)\uv{i} + (5 - 2)\uv{j} = 6\uv{i} + 3\uv{j}\)`] },
+      { prompt: R`\(|\overrightarrow{AB}|\) betul kepada tiga tempat perpuluhan.`, type: 'numeric', answer: 6.708, tolerance: 0.0006, check: { kind: 'vec', ops: [[1, [7, 5]], [-1, [1, 2]]], want: 'mag' }, solution: [R`\(\sqrt{36 + 9} = \sqrt{45} = 6.708\)`] },
+    ] }),
+  q({ id: 't4-8.3-07', subtopic: '8.3', sp: ['8.3.2'], difficulty: 'sederhana', type: 'reasoning', prompt: R`Terangkan mengapa \(\dfrac{\uv{r}}{|\uv{r}|}\) sentiasa mempunyai magnitud 1, dan mengapa vektor sifar tiada vektor unit.`, check: { kind: 'manual' },
+    solution: [R`Membahagi dengan skalar positif \(|\uv{r}|\) mengekalkan arah dan membahagi magnitud dengan \(|\uv{r}|\): \(\tfrac{|\uv{r}|}{|\uv{r}|} = 1\).`, R`Vektor sifar mempunyai magnitud 0, jadi kita perlu membahagi dengan 0. Lagipun ia tiada arah.`] }),
+];

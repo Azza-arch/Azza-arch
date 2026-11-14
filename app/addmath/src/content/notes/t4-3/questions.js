@@ -1,0 +1,80 @@
+// Bab 3 question bank (status 'review', original). See tests/validate-notes.mjs.
+const R = String.raw;
+const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
+const q = (o) => ({ chapter: 't4-3', status: 'review', provenance: P, review: RV, ...o });
+
+export const QUESTIONS = [
+  // ---------------------------------------------------------------- 3.1
+  q({ id: 't4-3.1-01', subtopic: '3.1', sp: ['3.1.1'], difficulty: 'mudah', type: 'mcq', prompt: R`Antara berikut, yang manakah <strong>bukan</strong> persamaan linear dalam tiga pemboleh ubah?`,
+    check: { kind: 'manual' },
+    options: [
+      { text: R`\(2x - y + 4z = 7\)`, correct: false, misconception: 'linear', feedback: R`Ini linear: setiap pemboleh ubah berkuasa satu dan tidak didarab sesama sendiri.` },
+      { text: R`\(x + y = 3z\)`, correct: false, misconception: 'linear', feedback: R`Ini linear: boleh ditulis \(x + y - 3z = 0\).` },
+      { text: R`\(xy + z = 5\)`, correct: true, feedback: R`Betul. Sebutan \(xy\) ialah hasil darab dua pemboleh ubah, jadi persamaan ini tak linear.` },
+      { text: R`\(\tfrac{1}{2}x + 3y - z = 0\)`, correct: false, misconception: 'linear', feedback: R`Pekali pecahan tidak menjadikan persamaan tak linear.` },
+    ],
+    solution: [R`Persamaan linear: setiap sebutan ialah pemalar atau pemalar × satu pemboleh ubah berkuasa satu.`, R`\(xy\) melanggar syarat ini, jadi \(xy + z = 5\) tak linear.`] }),
+  q({ id: 't4-3.1-02', subtopic: '3.1', sp: ['3.1.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Selesaikan sistem \(x + y + z = 9\), \(x - y + z = 3\), \(x + y - z = 1\). Cari nilai \(x\).`,
+    answer: 2, check: { kind: 'linear3', eqs: [[1, 1, 1, 9], [1, -1, 1, 3], [1, 1, -1, 1]], want: 'x' },
+    wrong: [{ value: 3, feedback: R`3 ialah nilai \(y\). Persamaan 1 − persamaan 2 memberi \(2y = 6\). Kemudian cari \(z\) dan akhirnya \(x\).` }, { value: 4, feedback: R`4 ialah nilai \(z\) (daripada persamaan 1 − persamaan 3).` }],
+    solution: [R`(1) − (2): \(2y = 6 \Rightarrow y = 3\)`, R`(1) − (3): \(2z = 8 \Rightarrow z = 4\)`, R`\(x = 9 - 3 - 4 = 2\). Semak (2): \(2 - 3 + 4 = 3\) ✓`] }),
+  q({ id: 't4-3.1-03', subtopic: '3.1', sp: ['3.1.2'], difficulty: 'sederhana', type: 'structured', prompt: R`Selesaikan \(2x + y - z = 3\), \(x - y + 2z = 5\), \(3x + 2y + z = 10\).`,
+    parts: [
+      { prompt: R`Nilai \(y\).`, type: 'numeric', answer: 1, check: { kind: 'linear3', eqs: [[2, 1, -1, 3], [1, -1, 2, 5], [3, 2, 1, 10]], want: 'y' }, solution: [R`(1) + (3): \(5x + 3y = 13\) (4)`, R`2×(1) + (2): \(5x + y = 11\) (5)`, R`(4) − (5): \(2y = 2 \Rightarrow y = 1\)`] },
+      { prompt: R`Nilai \(z\).`, type: 'numeric', answer: 2, check: { kind: 'linear3', eqs: [[2, 1, -1, 3], [1, -1, 2, 5], [3, 2, 1, 10]], want: 'z' }, solution: [R`Daripada (5): \(5x = 10 \Rightarrow x = 2\)`, R`(1): \(4 + 1 - z = 3 \Rightarrow z = 2\). Semak (3): \(6 + 2 + 2 = 10\) ✓`] },
+    ] }),
+  q({ id: 't4-3.1-04', subtopic: '3.1', sp: ['3.1.2'], difficulty: 'mencabar', type: 'mcq', prompt: R`Sistem manakah <strong>tiada</strong> penyelesaian?`,
+    check: { kind: 'manual' },
+    options: [
+      { text: R`\(x + y + z = 3,\ x - y = 1,\ z = 1\)`, correct: false, misconception: 'tiada-penyelesaian', feedback: R`Sistem ini ada penyelesaian unik: \(z = 1\), \(x + y = 2\), \(x - y = 1\).` },
+      { text: R`\(x + 2y - z = 4,\ 2x + 4y - 2z = 7,\ x - y = 0\)`, correct: true, feedback: R`Betul. Persamaan kedua bermaksud \(x + 2y - z = 3.5\), bercanggah dengan persamaan pertama (\(= 4\)). Penghapusan memberi \(0 = -1\).` },
+      { text: R`\(x = 1,\ y = 2,\ z = 3\)`, correct: false, misconception: 'tiada-penyelesaian', feedback: R`Ini terus memberi penyelesaian \((1, 2, 3)\).` },
+      { text: R`\(x + y = 5,\ y + z = 7,\ x + z = 6\)`, correct: false, misconception: 'tiada-penyelesaian', feedback: R`Tambah ketiga-tiga: \(2(x + y + z) = 18\), memberi penyelesaian unik \((2, 3, 4)\).` },
+    ],
+    solution: [R`Dalam pilihan B: persamaan kedua − 2 × persamaan pertama: \(0 = 7 - 8 = -1\), pernyataan palsu.`, R`Maka sistem B tiada penyelesaian; sistem lain mempunyai penyelesaian unik.`] }),
+  q({ id: 't4-3.1-05', subtopic: '3.1', sp: ['3.1.3'], difficulty: 'mencabar', type: 'numeric', prompt: R`Sepuluh orang membeli tiket muzium: tiket dewasa RM12, kanak-kanak RM6 dan warga emas RM8. Jumlah bayaran ialah RM90, dan bilangan dewasa 1 lebih daripada bilangan kanak-kanak. Berapakah bilangan warga emas?`,
+    answer: 3, check: { kind: 'linear3', eqs: [[1, 1, 1, 10], [12, 6, 8, 90], [1, -1, 0, 1]], want: 'z' },
+    wrong: [{ value: 4, feedback: R`4 ialah bilangan dewasa. Soalan bertanya bilangan warga emas.` }],
+    solution: [R`Biar dewasa \(x\), kanak-kanak \(y\), warga emas \(z\): \(x + y + z = 10\), \(12x + 6y + 8z = 90\), \(x - y = 1\).`, R`\(y = x - 1\), \(z = 11 - 2x\). Gantikan: \(12x + 6x - 6 + 88 - 16x = 90 \Rightarrow 2x = 8 \Rightarrow x = 4\)`, R`\(y = 3\), \(z = 3\). Semak: \(48 + 18 + 24 = 90\) ✓`] }),
+  q({ id: 't4-3.1-06', subtopic: '3.1', sp: ['3.1.3'], difficulty: 'sederhana', type: 'numeric', prompt: R`Hasil tambah tiga nombor ialah 22. Nombor pertama dua kali nombor kedua, dan nombor ketiga 2 lebih daripada nombor pertama. Cari nombor ketiga.`,
+    answer: 10, check: { kind: 'linear3', eqs: [[1, 1, 1, 22], [1, -2, 0, 0], [-1, 0, 1, 2]], want: 'z' },
+    solution: [R`\(x + y + z = 22\), \(x = 2y\), \(z = x + 2\)`, R`\(2y + y + 2y + 2 = 22 \Rightarrow y = 4\), \(x = 8\), \(z = 10\)`] }),
+  q({ id: 't4-3.1-07', subtopic: '3.1', sp: ['3.1.1'], difficulty: 'mencabar', type: 'reasoning', prompt: R`Terangkan mengapa dua persamaan linear sahaja tidak mencukupi untuk menentukan nilai unik bagi tiga pemboleh ubah. Gunakan idea satah dalam penerangan anda.`,
+    check: { kind: 'manual' },
+    solution: [R`Setiap persamaan linear tiga pemboleh ubah mewakili satu satah.`, R`Dua satah yang tidak selari bertemu di sepanjang satu <em>garis</em>, dan garis itu mengandungi tak terhingga banyak titik.`, R`Jadi dua persamaan memberi banyak penyelesaian. Satah ketiga diperlukan untuk "memotong" garis itu di satu titik unik.`] }),
+  // ---------------------------------------------------------------- 3.2
+  q({ id: 't4-3.2-01', subtopic: '3.2', sp: ['3.2.1'], difficulty: 'mudah', type: 'numeric', prompt: R`Selesaikan \(y = x - 1\) dan \(y = x^2 - 3\). Beri nilai \(x\) yang lebih besar.`,
+    answer: 2, check: { kind: 'sim2', linear: 'x-y-1', yOfX: 'x-1', g: 'x^2-3-y', want: 'x', pick: 'max' },
+    wrong: [{ value: -1, feedback: R`\(-1\) ialah nilai \(x\) yang lebih kecil.` }],
+    solution: [R`\(x^2 - 3 = x - 1 \Rightarrow x^2 - x - 2 = 0\)`, R`\((x - 2)(x + 1) = 0 \Rightarrow x = 2\) atau \(x = -1\)`, R`Yang lebih besar: \(x = 2\) (dengan \(y = 1\)).`] }),
+  q({ id: 't4-3.2-02', subtopic: '3.2', sp: ['3.2.1'], difficulty: 'sederhana', type: 'structured', prompt: R`Selesaikan \(x + y = 5\) dan \(x^2 + y^2 = 13\).`,
+    parts: [
+      { prompt: R`Nilai \(x\) yang lebih kecil.`, type: 'numeric', answer: 2, check: { kind: 'sim2', linear: 'x+y-5', yOfX: '5-x', g: 'x^2+y^2-13', want: 'x', pick: 'min' }, solution: [R`\(x^2 + (5 - x)^2 = 13 \Rightarrow 2x^2 - 10x + 12 = 0 \Rightarrow x^2 - 5x + 6 = 0\)`, R`\(x = 2\) atau \(x = 3\). Yang lebih kecil: 2.`] },
+      { prompt: R`Nilai \(y\) yang sepadan dengan jawapan (a).`, type: 'numeric', answer: 3, check: { kind: 'sim2', linear: 'x+y-5', yOfX: '5-x', g: 'x^2+y^2-13', want: 'y', pick: 'min' }, wrong: [{ value: 2, feedback: R`Gunakan persamaan linear: \(y = 5 - 2 = 3\).` }], solution: [R`\(y = 5 - 2 = 3\). Semak: \(4 + 9 = 13\) ✓`] },
+    ] }),
+  q({ id: 't4-3.2-03', subtopic: '3.2', sp: ['3.2.1'], difficulty: 'sederhana', type: 'numeric', prompt: R`Selesaikan \(2x + y = 5\) dan \(x^2 - xy = 6\). Beri nilai positif \(x\) betul kepada tiga tempat perpuluhan.`,
+    answer: 2.475, tolerance: 0.0006, check: { kind: 'sim2', linear: '2x+y-5', yOfX: '5-2x', g: 'x^2-x*y-6', want: 'x', pick: 'max' },
+    wrong: [{ value: 3, feedback: R`Semak gantian: \(x^2 - x(5 - 2x) = 3x^2 - 5x\), jadi \(3x^2 - 5x - 6 = 0\).` }],
+    solution: [R`\(y = 5 - 2x\): \(x^2 - x(5 - 2x) = 6 \Rightarrow 3x^2 - 5x - 6 = 0\)`, R`\(x = \dfrac{5 \pm \sqrt{25 + 72}}{6} = \dfrac{5 \pm \sqrt{97}}{6}\)`, R`Nilai positif: \(x = 2.475\) (dan \(y = 0.050\)).`] }),
+  q({ id: 't4-3.2-04', subtopic: '3.2', sp: ['3.2.2'], difficulty: 'mencabar', type: 'numeric', prompt: R`Perimeter sebuah segi empat tepat ialah 34 cm dan luasnya 60 cm². Cari panjangnya (sisi yang lebih panjang).`,
+    answer: 12, unit: 'cm', check: { kind: 'sim2', linear: 'x+y-17', yOfX: '17-x', g: 'x*y-60', want: 'x', pick: 'max' },
+    wrong: [{ value: 5, feedback: R`5 cm ialah lebar (sisi yang lebih pendek).` }],
+    solution: [R`\(2x + 2y = 34 \Rightarrow y = 17 - x\); \(xy = 60\)`, R`\(x(17 - x) = 60 \Rightarrow x^2 - 17x + 60 = 0 \Rightarrow (x - 5)(x - 12) = 0\)`, R`Panjang 12 cm, lebar 5 cm.`] }),
+  q({ id: 't4-3.2-05', subtopic: '3.2', sp: ['3.2.2'], difficulty: 'mencabar', type: 'numeric', prompt: R`Garis \(x + y = 3\) memotong lengkung \(xy = 2\) di dua titik. Cari koordinat-\(y\) bagi titik yang koordinat-\(x\)nya lebih besar.`,
+    answer: 1, check: { kind: 'sim2', linear: 'x+y-3', yOfX: '3-x', g: 'x*y-2', want: 'y', pick: 'max' },
+    wrong: [{ value: 2, feedback: R`2 ialah koordinat-\(x\) titik itu. Soalan meminta koordinat-\(y\): \(y = 3 - 2 = 1\).` }],
+    solution: [R`\(x(3 - x) = 2 \Rightarrow x^2 - 3x + 2 = 0 \Rightarrow x = 1\) atau \(x = 2\)`, R`Titik dengan \(x\) lebih besar: \(x = 2\), \(y = 3 - 2 = 1\), iaitu \((2, 1)\).`] }),
+  q({ id: 't4-3.2-06', subtopic: '3.2', sp: ['3.2.2'], difficulty: 'mencabar', type: 'reasoning', prompt: R`Mengapakah garis lurus dan bulatan boleh bersilang di 0, 1 atau 2 titik sahaja? Kaitkan jawapan anda dengan persamaan kuadratik yang terhasil selepas penggantian.`,
+    check: { kind: 'manual' },
+    solution: [R`Menggantikan persamaan garis ke dalam persamaan bulatan menghasilkan satu persamaan kuadratik dalam \(x\).`, R`Persamaan kuadratik mempunyai paling banyak dua punca nyata, jadi paling banyak dua titik persilangan.`, R`Pembezalayan \(> 0\): 2 titik; \(= 0\): 1 titik (garis tangen); \(< 0\): tiada titik.`] }),
+  q({ id: 't4-3.2-07', subtopic: '3.2', sp: ['3.2.1'], difficulty: 'mudah', type: 'mcq', prompt: R`Untuk menyelesaikan \(y = 2x\) dan \(x^2 + y^2 = 20\), langkah pertama yang paling sesuai ialah…`,
+    check: { kind: 'manual' },
+    options: [
+      { text: R`Gantikan \(y = 2x\) ke dalam \(x^2 + y^2 = 20\).`, correct: true, feedback: R`Betul. Ini memberi \(5x^2 = 20\), satu persamaan dalam \(x\) sahaja.` },
+      { text: R`Ambil punca kuasa dua bagi \(x^2 + y^2 = 20\) untuk mendapat \(x + y = \sqrt{20}\).`, correct: false, misconception: 'punca-hasil-tambah', feedback: R`\(\sqrt{x^2 + y^2} \ne x + y\).` },
+      { text: R`Tambah kedua-dua persamaan.`, correct: false, misconception: 'penghapusan', feedback: R`Menambah tidak menghapuskan mana-mana pemboleh ubah di sini.` },
+      { text: R`Tetapkan \(x = 0\).`, correct: false, misconception: 'teka', feedback: R`\(x = 0\) memberi \(y = 0\), dan \(0 \ne 20\). Jangan meneka; gantikan.` },
+    ],
+    solution: [R`Gantikan: \(x^2 + 4x^2 = 20 \Rightarrow x^2 = 4 \Rightarrow x = \pm 2\).`, R`\((2, 4)\) dan \((-2, -4)\).`] }),
+];
