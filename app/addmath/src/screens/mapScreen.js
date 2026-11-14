@@ -1,6 +1,8 @@
 import { navigate } from '../utils/router.js';
 import { chaptersForForm } from '../data/chapters.js';
 import { getProgress, saveLastLocation } from '../utils/storage.js';
+import { chapterById } from '../content/curriculum.js';
+import { PREPARING_LABEL } from '../content/status.js';
 
 export function renderMapScreen(root, form) {
   const chapters = chaptersForForm(form);
@@ -23,7 +25,8 @@ export function renderMapScreen(root, form) {
               <button type="button" class="map-node ${i % 2 === 1 ? 'map-node-offset' : ''}" data-chapter="${ch.id}">
                 <span class="map-node-number">${ch.number}</span>
                 <span class="map-node-title">${ch.title}</span>
-                ${ch.ready ? '' : '<span class="map-node-status">Belum tersedia</span>'}
+                ${chapterById(ch.id)?.package === 'elektif' ? '<span class="map-node-tag">Elektif</span>' : ''}
+                ${ch.ready ? '' : `<span class="map-node-status">${PREPARING_LABEL}</span>`}
               </button>`
               )
               .join('')}
