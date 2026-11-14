@@ -37,6 +37,7 @@ function mountPlot(host, spec) {
   const val = (v) => (typeof v === 'function' ? v(p) : v);
 
   function axes(g) {
+    if (spec.noAxes) return; // pure geometry figures (triangles): no grid or axes
     const step = spec.grid || 1, gx = spec.gridX || step, gy = spec.gridY || step;
     for (let x = Math.ceil(x0 / gx) * gx; x <= x1 + 1e-9; x += gx) el('line', { x1: sx(x), y1: sy(y0), x2: sx(x), y2: sy(y1), class: 'plot-grid' }, g);
     for (let y = Math.ceil(y0 / gy) * gy; y <= y1 + 1e-9; y += gy) el('line', { x1: sx(x0), y1: sy(y), x2: sx(x1), y2: sy(y), class: 'plot-grid' }, g);
@@ -101,6 +102,7 @@ function mountPlot(host, spec) {
       el('circle', { cx: sx(x), cy: sy(y), r: 4.5, class: pt.open ? 'plot-open' : 'plot-point' }, plot);
       if (pt.label) { const t = el('text', { x: sx(x) + 7, y: sy(y) - 7, class: 'plot-point-label' }, plot); t.textContent = typeof pt.label === 'function' ? pt.label(p) : pt.label; }
     });
+    (spec.labels || []).forEach((lb) => { const r = lb.at(p); if (!r || !r.every(Number.isFinite)) return; const t = el('text', { x: sx(r[0]), y: sy(r[1]) + 4, class: 'plot-point-label', 'text-anchor': 'middle', ...(lb.color ? { fill: lb.color } : {}) }, plot); t.textContent = typeof lb.text === 'function' ? lb.text(p) : lb.text; });
     readout.innerHTML = spec.readout ? renderMath(spec.readout(p, { fmt })) : '';
   }
   const uid = Math.random().toString(36).slice(2, 8);

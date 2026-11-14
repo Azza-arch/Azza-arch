@@ -9,6 +9,7 @@ import { CURRICULUM, chapterById } from '../src/content/curriculum.js';
 import { STATUSES } from '../src/content/status.js';
 import { NOTE_MODULES, NOTE_STATUS } from '../src/content/notes/index.js';
 import { evaluate, f1, roots, sameFunction, extremaOnInterval, isFunctionMapping, parseSet } from './solvers.mjs';
+import { triSolve, geo3 } from './triangle.mjs';
 
 const errors = [], warnings = [], manual = [], chapterRows = [];
 const err = (id, m) => errors.push(`${id}: ${m}`), warn = (id, m) => warnings.push(`${id}: ${m}`);
@@ -20,7 +21,7 @@ const LEVELS = ['mudah', 'sederhana', 'mencabar'];
 function texCheck(id, s) {
   if (typeof s !== 'string') return;
   for (const m of s.matchAll(/\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)/g)) {
-    try { katex.renderToString(m[1] ?? m[2], { throwOnError: true, strict: 'ignore', displayMode: !!m[1], macros: { '\\uv': '\\underset{\\sim}{#1}' } }); }
+    try { katex.renderToString(m[1] ?? m[2], { throwOnError: true, strict: 'ignore', displayMode: !!m[1], macros: { '\\uv': '\\underset{\\sim}{#1}', '\\kos': '\\operatorname{kos}' } }); }
     catch (e) { err(id, `KaTeX: ${e.message.split('\n')[0]} in "${(m[1] ?? m[2]).slice(0, 60)}"`); }
   }
   const open = (s.match(/\\\(/g) || []).length, close = (s.match(/\\\)/g) || []).length;
@@ -58,6 +59,14 @@ function expected(check, id) {
     case 'fixed-point': { const f = f1(check.f); const r = roots((x) => f(x) - x, 0); if (r.length !== 1) err(id, `f(x) = x has ${r.length} solutions`); return r[0]; }
     case 'substitute': return null; // handled with the answer below
     case 'value': return evaluate(check.expr);
+    case 'tri': { // built from coordinates, not from the sine/cosine rules (tests/triangle.mjs)
+      const sols = triSolve(check.given);
+      if (check.want === 'count') return sols.length;
+      if (!sols.length) { err(id, 'no triangle fits the given data'); return NaN; }
+      const vals = sols.map((s) => s[check.want]);
+      if (vals.length > 1 && !check.pick) err(id, `${vals.length} triangles fit (${vals.map((v) => v.toFixed(4))}); add pick or rephrase`);
+      return check.pick === 'max' ? Math.max(...vals) : check.pick === 'min' ? Math.min(...vals) : vals[0]; }
+    case 'geo3': return geo3(check.pts, check.want, check.of);
     case 'vec': { // combination Σ kᵢ·vᵢ, component by component
       if (check.want === 'ratio') { const [u, v] = [check.u, check.v]; const r = u[0] / v[0]; if (Math.abs(u[1] - r * v[1]) > 1e-9) err(id, 'vectors are not parallel'); return r; }
       const s = check.ops.reduce((acc, [k, [x, y]]) => [acc[0] + k * x, acc[1] + k * y], [0, 0]); const mag = Math.hypot(s[0], s[1]);
@@ -141,6 +150,7 @@ function checkMcq(q, id) {
     const S = [[0.37, 1.91], [-2.3, 0.6], [4.1, -1.7], [1.3, 3.9], [-0.8, -2.6], [2.9, 2.2]];
     q.options.forEach((o) => { const f = (x, y) => evaluate(o.data.expr, { x, y }); const ratios = S.map(([x, y]) => f(x, y) / g(x, y)); const prop = ratios.every((r) => Number.isFinite(r) && Math.abs(r) > 1e-12 && Math.abs(r - ratios[0]) < 1e-7 * Math.max(1, Math.abs(ratios[0]))); if (prop !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: matches locus = ${prop}`); }); }
   else if (c.kind === 'collinear') q.options.forEach((o) => { const col = heronArea(o.data.pts) < 1e-9; if (col !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: collinear = ${col}`); });
+  else if (c.kind === 'tri-count') q.options.forEach((o) => { const n = triSolve(o.data.given).length; if ((n === c.count) !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: ${n} triangle(s)`); });
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }

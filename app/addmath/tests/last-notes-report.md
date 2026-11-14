@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 8 daripada 18.
+Bab dengan fail nota: 9 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 42**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 50**
 
 ## t4-1 Fungsi (status: review)
 
@@ -137,6 +137,25 @@ Bab dengan fail nota: 8 daripada 18.
 | 8.3.3 | 8.3 | ✓ | ✓ | 2 |
 | 8.3.4 | 8.3 | ✓ | ✓ | 2 |
 
+## t4-9 Penyelesaian Segi Tiga (status: review)
+
+4 subtopik · 16 contoh · 5 visual · 28 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 9.1.1 | 9.1 | ✓ | ✓ | 2 |
+| 9.1.2 | 9.1 | ✓ | ✓ | 2 |
+| 9.1.3 | 9.1 | ✓ | ✓ | 3 |
+| 9.1.4 | 9.1 | ✓ | ✓ | 3 |
+| 9.1.5 | 9.1 | ✓ | ✓ | 2 |
+| 9.2.1 | 9.2 | ✓ | ✓ | 2 |
+| 9.2.2 | 9.2 | ✓ | ✓ | 4 |
+| 9.2.3 | 9.2 | ✓ | ✓ | 2 |
+| 9.3.1 | 9.3 | ✓ | ✓ | 2 |
+| 9.3.2 | 9.3 | ✓ | ✓ | 2 |
+| 9.3.3 | 9.3 | ✓ | ✓ | 2 |
+| 9.4.1 | 9.4 | ✓ | ✓ | 5 |
+
 ## Ralat
 - tiada
 
@@ -186,5 +205,13 @@ Bab dengan fail nota: 8 daripada 18.
 - t4-8.2-05 (objektif) — Permudahkan \(\overrightarrow{PQ} + \overrightarrow{QR} + \overrightarrow{RS}\).
 - t4-8.2-06 (penaakulan) — Gunakan hukum segi empat selari untuk menerangkan mengapa \(\uv{a} - \uv{b}\) ialah salah satu pepenjuru segi 
 - t4-8.3-07 (penaakulan) — Terangkan mengapa \(\dfrac{\uv{r}}{|\uv{r}|}\) sentiasa mempunyai magnitud 1, dan mengapa vektor sifar tiada v
+- t4-9.1-01 (objektif) — Dalam \(\triangle ABC\), yang manakah set data membolehkan petua sinus digunakan terus untuk mencari \(b\)?
+- t4-9.1-07 (penaakulan) — Diberi \(A\) tirus, sisi \(c\) dan sisi \(a\) dengan \(a \ge c\). Terangkan mengapa hanya satu segi tiga boleh
+- t4-9.2-02 (objektif) — Dalam \(\triangle PQR\), sisi \(p\), \(q\), \(r\) bertentangan dengan \(P\), \(Q\), \(R\). Yang manakah betul?
+- t4-9.2-04 (objektif) — Segi tiga bersisi 4 cm, 5 cm dan 7 cm. Sudut terbesarnya ialah…
+- t4-9.2-07 (penaakulan) — Gunakan petua kosinus untuk menerangkan mengapa, dalam segi tiga dengan \(A\) cakah, \(a^2 > b^2 + c^2\).
+- t4-9.3-06 (penaakulan) — Dua segi tiga mempunyai sisi \(a = 6\) dan \(b = 5\). Yang pertama mempunyai \(C = 40^\circ\), yang kedua \(C 
+- t4-9.4-03 (objektif) — Piramid tegak \(VABCD\) mempunyai tapak segi empat sama dengan pusat \(O\), dan \(V\) tegak di atas \(O\). Sud
+- t4-9.4-05 (penaakulan) — Dalam soalan piramid di atas, terangkan mengapa \(\angle AVB\) dicari dengan petua kosinus dan bukan dengan \(
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.
