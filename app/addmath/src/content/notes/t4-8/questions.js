@@ -51,7 +51,7 @@ export const QUESTIONS = [
     ] }),
   q({ id: 't4-8.3-04', subtopic: '8.3', sp: ['8.3.3'], difficulty: 'mencabar', type: 'numeric', prompt: R`\(2\uv{i} + 3\uv{j}\) selari dengan \(6\uv{i} + k\uv{j}\). Cari \(k\).`, answer: 9, check: { kind: 'substitute', expr: 'x/3', variable: 'x', equals: 3 },
     wrong: [{ value: 4, feedback: R`Bukan tambah 3 tetapi darab 3: \(6\uv{i} + k\uv{j} = 3(2\uv{i} + 3\uv{j})\).` }], solution: [R`\(\tfrac{6}{2} = \tfrac{k}{3} \Rightarrow k = 9\)`] }),
-  q({ id: 't4-8.3-05', subtopic: '8.3', sp: ['8.3.4'], difficulty: 'mencabar', type: 'numeric', prompt: R`Pesawat terbang dengan halaju \(300\uv{i} + 400\uv{j}\) km/j, dan angin \(-50\uv{i}\) km/j. Cari laju paduan, betul kepada dua tempat perpuluhan.`, answer: 471.7, tolerance: 0.0006, unit: 'km/j', check: { kind: 'vec', ops: [[1, [300, 400]], [1, [-50, 0]]], want: 'mag' },
+  q({ id: 't4-8.3-05', subtopic: '8.3', sp: ['8.3.4'], difficulty: 'mencabar', type: 'numeric', prompt: R`Pesawat terbang dengan halaju \(300\uv{i} + 400\uv{j}\) km/j, dan angin \(-50\uv{i}\) km/j. Cari laju paduan, betul kepada dua tempat perpuluhan.`, answer: 471.7, tolerance: 0.006, unit: 'km/j', check: { kind: 'vec', ops: [[1, [300, 400]], [1, [-50, 0]]], want: 'mag' },
     wrong: [{ value: 500, feedback: R`500 ialah laju tanpa angin.` }], solution: [R`\(250\uv{i} + 400\uv{j}\)`, R`\(\sqrt{250^2 + 400^2} = 471.70\) km/j`] }),
   q({ id: 't4-8.3-06', subtopic: '8.3', sp: ['8.3.1', '8.3.4'], difficulty: 'mencabar', type: 'structured', prompt: R`\(A(1, 2)\) dan \(B(7, 5)\).`,
     parts: [

@@ -6,15 +6,17 @@ import { tryEval, equivalent } from './expr.js';
 const LEVEL = { mudah: 'Mudah', sederhana: 'Sederhana', mencabar: 'Mencabar' };
 const TYPE = { mcq: 'Objektif', numeric: 'Jawapan ringkas', expression: 'Jawapan ringkas', structured: 'Berstruktur', reasoning: 'Penaakulan' };
 
-function checkSingle(spec, raw) {
+export function checkSingle(spec, raw) {
   const text = String(raw).trim();
   if (!text) return { state: 'empty', html: 'Tulis jawapan dahulu.' };
   if (spec.type === 'numeric') {
     const v = tryEval(text);
     if (v === null) return { state: 'invalid', html: 'Jawapan perlu nombor (contoh: 7, -2.5 atau 3/4).' };
-    const ok = Math.abs(v - spec.answer) <= (spec.tolerance ?? 1e-9) * Math.max(1, Math.abs(spec.answer));
+    // tolerance is ABSOLUTE (e.g. 0.006 for an answer to 2 decimal places); exact answers use a tiny relative tolerance
+    const tol = (ref) => spec.tolerance ?? 1e-9 * Math.max(1, Math.abs(ref));
+    const ok = Math.abs(v - spec.answer) <= tol(spec.answer);
     if (ok) return { state: 'right', html: spec.right || 'Betul.' };
-    const w = (spec.wrong || []).find((x) => Math.abs(v - x.value) <= 1e-9 * Math.max(1, Math.abs(x.value)));
+    const w = (spec.wrong || []).find((x) => Math.abs(v - x.value) <= tol(x.value));
     return { state: 'wrong', html: w ? w.feedback : (spec.hint || 'Belum tepat. Semak langkah anda, atau lihat penyelesaian penuh.') };
   }
   if (spec.type === 'expression') {

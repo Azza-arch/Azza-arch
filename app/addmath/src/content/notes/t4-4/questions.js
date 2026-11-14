@@ -141,7 +141,7 @@ export const QUESTIONS = [
     solution: [R`\(x = \ln 12 = 2.485\)`] }),
   q({ id: 't4-4.4-04', subtopic: '4.4', sp: ['4.4.1'], difficulty: 'mencabar', type: 'numeric', prompt: R`RM3000 dilaburkan pada faedah kompaun 5% setahun, \(A = 3000(1.05)^t\). Cari \(t\) apabila \(A = 4500\), betul kepada dua tempat perpuluhan.`, answer: 8.31, tolerance: 0.0006, unit: 'tahun', check: { kind: 'solve', rule: '3000*1.05^x', target: 4500, from: 0, to: 60 },
     solution: [R`\(1.05^t = 1.5\)`, R`\(t = \dfrac{\ln 1.5}{\ln 1.05} = 8.31\) tahun`] }),
-  q({ id: 't4-4.4-05', subtopic: '4.4', sp: ['4.4.1'], difficulty: 'mencabar', type: 'numeric', prompt: R`Jisim bahan ialah \(m = 80e^{-0.05t}\) gram. Cari \(t\) apabila \(m = 20\), betul kepada dua tempat perpuluhan.`, answer: 27.73, tolerance: 0.0006, unit: 'hari', check: { kind: 'solve', rule: '80*exp(-0.05x)', target: 20, from: 0, to: 100 },
+  q({ id: 't4-4.4-05', subtopic: '4.4', sp: ['4.4.1'], difficulty: 'mencabar', type: 'numeric', prompt: R`Jisim bahan ialah \(m = 80e^{-0.05t}\) gram. Cari \(t\) apabila \(m = 20\), betul kepada dua tempat perpuluhan.`, answer: 27.73, tolerance: 0.006, unit: 'hari', check: { kind: 'solve', rule: '80*exp(-0.05x)', target: 20, from: 0, to: 100 },
     wrong: [{ value: -27.73, feedback: R`Masa tidak negatif. \(\ln 0.25 < 0\), dan dibahagi dengan \(-0.05\) memberi nilai positif.` }], solution: [R`\(e^{-0.05t} = 0.25\)`, R`\(t = \dfrac{\ln 0.25}{-0.05} = 27.73\)`] }),
   q({ id: 't4-4.4-06', subtopic: '4.4', sp: ['4.4.1'], difficulty: 'mencabar', type: 'structured', prompt: R`Selesaikan \(e^{2x} - 5e^x + 6 = 0\). Beri jawapan betul kepada tiga tempat perpuluhan.`,
     parts: [

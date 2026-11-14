@@ -9,7 +9,7 @@ import { CURRICULUM, chapterById } from '../src/content/curriculum.js';
 import { STATUSES } from '../src/content/status.js';
 import { NOTE_MODULES, NOTE_STATUS } from '../src/content/notes/index.js';
 import { evaluate, f1, roots, sameFunction, extremaOnInterval, isFunctionMapping, parseSet } from './solvers.mjs';
-import { triSolve, geo3 } from './triangle.mjs';
+import { triSolve, geo3, circMeasure, circSolve } from './triangle.mjs';
 
 const errors = [], warnings = [], manual = [], chapterRows = [];
 const err = (id, m) => errors.push(`${id}: ${m}`), warn = (id, m) => warnings.push(`${id}: ${m}`);
@@ -67,6 +67,7 @@ function expected(check, id) {
       if (vals.length > 1 && !check.pick) err(id, `${vals.length} triangles fit (${vals.map((v) => v.toFixed(4))}); add pick or rephrase`);
       return check.pick === 'max' ? Math.max(...vals) : check.pick === 'min' ? Math.min(...vals) : vals[0]; }
     case 'geo3': return geo3(check.pts, check.want, check.of);
+    case 'circ': return check.solveFor ? circSolve({ ...check, lo: check.lo ?? 1e-6, hi: check.hi ?? (check.solveFor === 'j' ? 1000 : 2 * Math.PI) }) : circMeasure(check, check.want);
     case 'index': { // from raw quantities: Q1/Q0 × 100, or chained through intermediate times
       if (check.qs) { const q = check.qs; return (q[q.length - 1] / q[0]) * 100; }
       if (check.want === 'q1') return (check.I * check.q0) / 100; if (check.want === 'q0') return (check.q1 * 100) / check.I; return (check.q1 / check.q0) * 100; }
@@ -114,9 +115,9 @@ function expected(check, id) {
 }
 function checkNumeric(spec, id) {
   if (!Number.isFinite(spec.answer)) { err(id, 'numeric answer missing'); return; }
-  if (spec.check.kind === 'substitute') { const v = evaluate(spec.check.expr, { [spec.check.variable]: spec.answer }); if (Math.abs(v - spec.check.equals) > (spec.tolerance ?? 1e-7) * Math.max(1, Math.abs(spec.check.equals))) err(id, `substituting ${spec.answer} gives ${v}, not ${spec.check.equals}`); }
-  else { const want = expected(spec.check, id); const tol = spec.tolerance ?? 1e-7; if (want === undefined) err(id, `unknown check ${spec.check.kind}`); else if (Math.abs(spec.answer - want) > tol * Math.max(1, Math.abs(want))) err(id, `independent solve gives ${want}, stored answer ${spec.answer}`); if (spec.tolerance && spec.tolerance > 0.01) warn(id, `tolerance ${spec.tolerance} is loose`); }
-  for (const w of spec.wrong || []) { if (near(w.value, spec.answer)) err(id, `wrong-answer feedback for ${w.value} equals the correct answer`); if (!w.feedback) err(id, `wrong value ${w.value} has no feedback`); }
+  if (spec.check.kind === 'substitute') { const v = evaluate(spec.check.expr, { [spec.check.variable]: spec.answer }); if (Math.abs(v - spec.check.equals) > (spec.tolerance ? spec.tolerance * 10 : 1e-7 * Math.max(1, Math.abs(spec.check.equals)))) err(id, `substituting ${spec.answer} gives ${v}, not ${spec.check.equals}`); }
+  else { const want = expected(spec.check, id); const tol = spec.tolerance ?? 1e-7 * Math.max(1, Math.abs(want)); /* tolerance is absolute, as in src/notes/practice.js */ if (want === undefined) err(id, `unknown check ${spec.check.kind}`); else if (!(Math.abs(spec.answer - want) <= tol)) err(id, `independent solve gives ${want}, stored answer ${spec.answer} (tolerance ${tol})`); if (spec.tolerance && spec.tolerance > 0.01) warn(id, `tolerance ${spec.tolerance} is loose`); }
+  for (const w of spec.wrong || []) { if (near(w.value, spec.answer) || (spec.tolerance && Math.abs(w.value - spec.answer) <= spec.tolerance)) err(id, `wrong-answer feedback for ${w.value} would be accepted as correct`); if (!w.feedback) err(id, `wrong value ${w.value} has no feedback`); }
 }
 function checkExpression(spec, id) {
   const c = spec.check, A = f1(spec.answer);

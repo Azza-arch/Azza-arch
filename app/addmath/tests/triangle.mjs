@@ -79,3 +79,23 @@ export function geo3(pts, want, of) {
   if (want === 'area') return len(cr) / 2;
   return NaN;
 }
+
+// Circular measure (T5 Bab 1), measured on a fine polygon — never via s = jθ or ½j²θ.
+// θ in radians (or deg: true). want: arc | chord | sector | segment | sector-perimeter | segment-perimeter.
+export function circMeasure({ j, theta, deg, R2 }, want) {
+  const th = deg ? (theta * Math.PI) / 180 : theta, N = 20000;
+  const pts = []; for (let k = 0; k <= N; k++) { const a = (th * k) / N; pts.push([j * Math.cos(a), j * Math.sin(a)]); }
+  let arc = 0; for (let k = 1; k <= N; k++) arc += Math.hypot(pts[k][0] - pts[k - 1][0], pts[k][1] - pts[k - 1][1]);
+  const shoe = (P) => { let s = 0; for (let k = 0; k < P.length; k++) { const [x1, y1] = P[k], [x2, y2] = P[(k + 1) % P.length]; s += x1 * y2 - x2 * y1; } return Math.abs(s) / 2; };
+  const chord = Math.hypot(pts[N][0] - pts[0][0], pts[N][1] - pts[0][1]);
+  const sector = shoe([[0, 0], ...pts]), segment = shoe(pts);
+  if (want === 'annulus') return sector - circMeasure({ j: R2, theta, deg }, 'sector');
+  return { arc, chord, sector, segment, 'sector-perimeter': arc + 2 * j, 'segment-perimeter': arc + chord }[want];
+}
+// Solve for j or θ so that a measured quantity hits a target (bisection on the measurement).
+export function circSolve({ j, theta, deg, solveFor, target, want, lo, hi }) {
+  const f = (v) => circMeasure(solveFor === 'j' ? { j: v, theta, deg } : { j, theta: v, deg }, want) - target;
+  let a = lo, b = hi; if (f(a) * f(b) > 0) return NaN;
+  for (let k = 0; k < 60; k++) { const m = (a + b) / 2; if (f(a) * f(m) <= 0) b = m; else a = m; }
+  return (a + b) / 2;
+}

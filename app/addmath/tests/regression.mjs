@@ -1,6 +1,6 @@
 // Regression tests for mathematics bugs found in audits. Never delete a case.
 //   node app/addmath/tests/regression.mjs
-globalThis.document = {};
+globalThis.document = { compatMode: 'CSS1Compat' };
 const { BAB1_QUESTIONS } = await import('../src/content/questions/bab1.js');
 const { CHAPTER1_PRACTICE } = await import('../src/data/practiceChapter1.js');
 const { CHAPTER1_LESSONS } = await import('../src/data/lessonsChapter1.js');
@@ -23,5 +23,14 @@ for (const v of ['0.1', '0.2', '0.3', '1.1', '-0.7', '2.675']) {
 }
 t('fmt(0.1 + 0.2) = "0.3"', fmt(0.1 + 0.2) === '0.3', fmt(0.1 + 0.2));
 t('fmt((1.2 − 1) / 2) = "0.1"', fmt((1.2 - 1) / 2) === '0.1');
+
+// Bab 10 audit: numeric tolerance was RELATIVE, so "4894.06 (2 d.p.)" with tolerance 0.006 accepted 4865–4923.
+const { checkSingle } = await import('../src/notes/practice.js');
+const big = { type: 'numeric', answer: 4894.06, tolerance: 0.006 };
+t('tolerance is absolute: 4894.06 accepted', checkSingle(big, '4894.06').state === 'right');
+t('tolerance is absolute: 4894.1 rejected', checkSingle(big, '4894.1').state === 'wrong');
+t('tolerance is absolute: 4870 rejected', checkSingle(big, '4870').state === 'wrong');
+t('exact answers still accept 3/4 for 0.75', checkSingle({ type: 'numeric', answer: 0.75 }, '3/4').state === 'right');
+t('rounded wrong value still matches its feedback', checkSingle({ type: 'numeric', answer: 6.571, tolerance: 0.0006, wrong: [{ value: 15.711, feedback: 'X' }] }, '15.711').html === 'X');
 console.log(fail ? `${fail} regression(s) FAILED` : 'all regressions pass');
 process.exit(fail ? 1 : 0);
