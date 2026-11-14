@@ -1066,3 +1066,6 @@ input:focus-visible {
 @media (prefers-reduced-motion: no-preference) { .note-toc { scroll-behavior: smooth; } }
 .note-toc a { max-width: 15em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .plot-axisline { stroke: #7B4FC9; stroke-width: 1.6; stroke-dasharray: 3 4; }
+
+.plot-polygon { fill: #3467D422; stroke-width: 2.2; stroke-linejoin: round; }
+.plot-segment { fill: none; stroke-width: 2.6; }

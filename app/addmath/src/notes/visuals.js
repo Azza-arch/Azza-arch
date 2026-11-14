@@ -18,7 +18,12 @@ const COLORS = ['#3467D4', '#D9534F', '#2E9E6B', '#B7791F', '#7B4FC9'];
 //   shade:{ f, g?, from:(p)=>a, to:(p)=>b }, readout:(p, api)=>html }
 function mountPlot(host, spec) {
   const W = 360, H = 300, pad = 28;
-  const [x0, x1] = spec.x, [y0, y1] = spec.y;
+  let [x0, x1] = spec.x, [y0, y1] = spec.y;
+  if (spec.equalAspect) { // same scale on both axes so circles look like circles
+    const yLen0 = Math.max(String(Math.round(y0)).length, String(Math.round(y1)).length), pl = Math.max(pad, 10 + yLen0 * 6.5);
+    const pw = W - pl - pad, ph = H - 2 * pad, ux = (x1 - x0) / pw, uy = (y1 - y0) / ph;
+    if (ux > uy) { const c = (y0 + y1) / 2, half = (ux * ph) / 2; y0 = c - half; y1 = c + half; } else { const c = (x0 + x1) / 2, half = (uy * pw) / 2; x0 = c - half; x1 = c + half; }
+  }
   // left margin grows with the longest y-axis label so big numbers are not cut off
   const yLabLen = Math.max(String(Math.round(y0)).length, String(Math.round(y1)).length);
   const padL = Math.max(pad, 10 + yLabLen * 6.5);
@@ -77,11 +82,16 @@ function mountPlot(host, spec) {
     (spec.relations || []).forEach((r, i) => {
       const color = r.color || COLORS[(i + 1) % COLORS.length]; const N = 400; const branches = {};
       for (let k = 0; k <= N; k++) { const x = x0 + ((x1 - x0) * k) / N; (r.ys(x, p) || []).forEach((y, j) => { (branches[j] ||= []).push([x, y]); }); }
-      for (const pts of Object.values(branches)) el('path', { d: pts.map(([x, y], k) => `${k ? 'L' : 'M'}${sx(x)},${sy(y)}`).join(''), stroke: color, class: 'plot-curve' }, plot);
+      const br = Object.values(branches);
+      if (br.length === 2 && br[0].length === br[1].length && br[0].length > 1) { // closed curve (e.g. circle): upper branch then lower branch reversed
+        const loop = [...br[0], ...[...br[1]].reverse()];
+        el('path', { d: loop.map(([x, y], k) => `${k ? 'L' : 'M'}${sx(x)},${sy(y)}`).join('') + 'Z', stroke: color, class: 'plot-curve' }, plot);
+      } else for (const pts of br) el('path', { d: pts.map(([x, y], k) => `${k ? 'L' : 'M'}${sx(x)},${sy(y)}`).join(''), stroke: color, class: 'plot-curve' }, plot);
     });
     for (const v of spec.vlinesAt || []) { const x = v.at(p); if (Number.isFinite(x)) { el('line', { x1: sx(x), y1: sy(y0), x2: sx(x), y2: sy(y1), class: 'plot-axisline' }, plot); if (v.label) { const t = el('text', { x: sx(x) + 4, y: pad + 12, class: 'plot-point-label' }, plot); t.textContent = v.label; } } }
     if (spec.vline) el('line', { x1: sx(p[spec.vline]), y1: sy(y0), x2: sx(p[spec.vline]), y2: sy(y1), class: 'plot-testline' }, plot);
     if (spec.hline) el('line', { x1: sx(x0), y1: sy(p[spec.hline]), x2: sx(x1), y2: sy(p[spec.hline]), class: 'plot-testline' }, plot);
+    (spec.polygons || []).forEach((pg) => { const pts = pg.at(p); if (!pts || pts.length < 2) return; el('path', { d: pts.map(([x, y], k) => `${k ? 'L' : 'M'}${sx(x)},${sy(y)}`).join('') + (pg.closed === false ? '' : 'Z'), class: pg.closed === false ? 'plot-segment' : 'plot-polygon', stroke: pg.color || '#3467D4' }, plot); });
     (spec.points || []).forEach((pt) => {
       const r = pt.at(p); if (!r || !r.every(Number.isFinite)) return; const [x, y] = r;
       el('circle', { cx: sx(x), cy: sy(y), r: 4.5, class: pt.open ? 'plot-open' : 'plot-point' }, plot);

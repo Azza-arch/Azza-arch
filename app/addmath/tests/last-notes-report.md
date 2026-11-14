@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 6 daripada 18.
+Bab dengan fail nota: 7 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 29**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 35**
 
 ## t4-1 Fungsi (status: review)
 
@@ -101,6 +101,25 @@ Bab dengan fail nota: 6 daripada 18.
 | 6.2.1 | 6.2 | ✓ | ✓ | 8 |
 | 6.3.1 | 6.3 | ✓ | ✓ | 6 |
 
+## t4-7 Geometri Koordinat (status: review)
+
+4 subtopik · 20 contoh · 4 visual · 31 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 7.1.1 | 7.1 | ✓ | ✓ | 2 |
+| 7.1.2 | 7.1 | ✓ | ✓ | 4 |
+| 7.1.3 | 7.1 | ✓ | ✓ | 2 |
+| 7.2.1 | 7.2 | ✓ | ✓ | 4 |
+| 7.2.2 | 7.2 | ✓ | ✓ | 3 |
+| 7.3.1 | 7.3 | ✓ | ✓ | 2 |
+| 7.3.2 | 7.3 | ✓ | ✓ | 2 |
+| 7.3.3 | 7.3 | ✓ | ✓ | 2 |
+| 7.3.4 | 7.3 | ✓ | ✓ | 2 |
+| 7.3.5 | 7.3 | ✓ | ✓ | 2 |
+| 7.4.1 | 7.4 | ✓ | ✓ | 4 |
+| 7.4.2 | 7.4 | ✓ | ✓ | 2 |
+
 ## Ralat
 - tiada
 
@@ -137,5 +156,11 @@ Bab dengan fail nota: 6 daripada 18.
 - t4-6.2-07 (objektif) — Untuk menjadikan \(y = ab^x\) linear, apakah yang perlu diplot?
 - t4-6.2-08 (penaakulan) — Terangkan mengapa mengambil logaritma menjadikan graf \(y = ax^n\) suatu garis lurus.
 - t4-6.3-05 (penaakulan) — Mengapakah unjuran jauh di luar julat data (contohnya bilangan bakteria selepas 100 jam) mungkin tidak boleh d
+- t4-7.1-07 (penaakulan) — Titik \(P\) membahagi \(AB\) dengan nisbah \(m : 1\). Terangkan apa yang berlaku kepada kedudukan \(P\) apabil
+- t4-7.2-06 (objektif) — Suatu garis membuat sudut 45° dengan arah positif paksi-\(x\). Apakah kecerunannya?
+- t4-7.2-07 (penaakulan) — Terangkan, dengan memutar segi tiga "naik dan ke kanan", mengapa hasil darab kecerunan dua garis serenjang ial
+- t4-7.3-07 (penaakulan) — Mengapakah rumus luas segi tiga menggunakan nilai mutlak, dan apakah maksud tanda nilai sebelum nilai mutlak d
+- t4-7.3-08 (penaakulan) — Tunjukkan bagaimana rumus luas segi tiga boleh diperoleh dengan membahagikan rajah kepada trapezium di bawah s
+- t4-7.4-06 (penaakulan) — Mengapakah lokus titik yang sama jarak dari dua titik \(A\) dan \(B\) ialah garis lurus, tetapi lokus \(PA = 2
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

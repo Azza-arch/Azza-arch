@@ -34,7 +34,7 @@ export const S1_1 = {
     { kind: 'visual', title: 'Gerakkan garis mencancang', html: R`<p>Graf biru ialah \(y = \tfrac{1}{2}x^2 - 2\). Graf merah ialah bulatan \(x^2 + y^2 = 9\). Gerakkan garis jingga dan kira titik persilangan bagi setiap graf.</p>`,
       spec: { type: 'plot', x: [-5, 5], y: [-4, 5], params: [{ name: 'k', label: R`\(k\) (garis \(x = k\))`, min: -4.5, max: 4.5, step: 0.5, value: 1 }],
         curves: [{ f: (x) => x * x / 2 - 2, label: 'parabola' }],
-        relations: [{ ys: (x) => (Math.abs(x) <= 3 ? [Math.sqrt(9 - x * x), -Math.sqrt(9 - x * x)] : []), color: '#D9534F' }],
+        equalAspect: true, relations: [{ ys: (x) => (Math.abs(x) <= 3 ? [Math.sqrt(9 - x * x), -Math.sqrt(9 - x * x)] : []), color: '#D9534F' }],
         vline: 'k',
         readout: (p, { fmt }) => { const c = Math.abs(p.k) < 3 ? 2 : Math.abs(p.k) === 3 ? 1 : 0; return R`Garis \(x = ${fmt(p.k)}\) memotong parabola <strong>1 kali</strong> dan bulatan <strong>${c} kali</strong>. ${c === 2 ? 'Bulatan gagal ujian ini, jadi bulatan bukan graf fungsi.' : 'Cuba nilai k di antara −3 dan 3 untuk bulatan.'}`; } },
       alt: R`Parabola y = ½x² − 2 dipotong tepat sekali oleh setiap garis mencancang, jadi ia graf fungsi. Bulatan x² + y² = 9 dipotong dua kali oleh garis x = k bagi −3 < k < 3, contohnya x = 1 memotong di (1, √8) dan (1, −√8). Maka bulatan bukan graf fungsi.` },

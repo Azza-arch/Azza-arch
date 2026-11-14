@@ -43,6 +43,8 @@ const LAWS = {
 };
 function leastSquares(pts) { const n = pts.length, sx = pts.reduce((s, p) => s + p[0], 0), sy = pts.reduce((s, p) => s + p[1], 0), sxx = pts.reduce((s, p) => s + p[0] * p[0], 0), sxy = pts.reduce((s, p) => s + p[0] * p[1], 0); const m = (n * sxy - sx * sy) / (n * sxx - sx * sx); return { m, c: (sy - m * sx) / n }; }
 
+// Polygon area by a fan of triangles, each by Heron's formula (independent of the shoelace formula taught).
+function heronArea(pts) { const d = (U, V) => Math.hypot(U[0] - V[0], U[1] - V[1]); let s = 0; for (let k = 1; k < pts.length - 1; k++) { const a = d(pts[0], pts[k]), b = d(pts[k], pts[k + 1]), c = d(pts[k + 1], pts[0]), h = (a + b + c) / 2; s += Math.sqrt(Math.max(0, h * (h - a) * (h - b) * (h - c))); } return s; }
 // ---- independent answer checks
 function expected(check, id) {
   switch (check.kind) {
@@ -56,6 +58,9 @@ function expected(check, id) {
     case 'fixed-point': { const f = f1(check.f); const r = roots((x) => f(x) - x, 0); if (r.length !== 1) err(id, `f(x) = x has ${r.length} solutions`); return r[0]; }
     case 'substitute': return null; // handled with the answer below
     case 'value': return evaluate(check.expr);
+    case 'divide': { const [A, B] = [check.A, check.B], k = check.m / (check.m + check.n); const P = [A[0] + k * (B[0] - A[0]), A[1] + k * (B[1] - A[1])]; return check.want === 'x' ? P[0] : check.want === 'y' ? P[1] : Math.hypot(P[0] - A[0], P[1] - A[1]); }
+    case 'dist-ratio': { const d = (U, V) => Math.hypot(U[0] - V[0], U[1] - V[1]); const [A, B, P] = [check.A, check.B, check.P]; if (Math.abs(d(A, P) + d(P, B) - d(A, B)) > 1e-9) err(id, 'P is not on segment AB'); return d(A, P) / d(P, B); }
+    case 'area': return heronArea(check.pts);
     case 'line-two-points': { const [[x1, y1], [x2, y2]] = [check.p1, check.p2]; const m = (y2 - y1) / (x2 - x1), c = y1 - m * x1; return { m, c, 'y-at': m * check.at + c, 'x-at': (check.at - c) / m }[check.want]; }
     case 'law-from-line': { const L = LAWS[check.law]; const { m, c } = leastSquares([check.p1, check.p2]); const k = L.consts(m, c); return check.want === 'y-at' ? L.f(k, check.at) : k[check.want]; }
     case 'law-fit': { const L = LAWS[check.law]; const pts = check.data.map(([x, y]) => [L.X(x), L.Y(y, x)]); const { m, c } = leastSquares(pts); const k = L.consts(m, c);
@@ -104,6 +109,7 @@ function checkExpression(spec, id) {
     case 'iterate': { const f = f1(c.f); ref = (x) => { let v = x; for (let k = 0; k < c.n; k++) v = f(v); return v; }; break; }
     case 'inverse-expr': { const f = f1(c.f); if (!sameFunction((x) => f(A(x)), (x) => x) || !sameFunction((x) => A(f(x)), (x) => x)) err(id, 'answer is not the inverse: f(answer(x)) and answer(f(x)) must both equal x'); ref = A; break; }
     case 'equiv-expr': ref = f1(c.expr); break;
+    case 'line-through': ref = (x) => c.slope * (x - c.point[0]) + c.point[1]; break;
     case 'from-roots': ref = (x) => (c.lead ?? 1) * (x - c.roots[0]) * (x - c.roots[1]); break;
     default: err(id, `unknown expression check ${c.kind}`); return;
   }
@@ -127,6 +133,10 @@ function checkMcq(q, id) {
   else if (c.kind === 'value-equal') { const want = evaluate(c.target); q.options.forEach((o) => { const v = evaluate(o.data.value); const same = Math.abs(v - want) <= 1e-9 * Math.max(1, Math.abs(want)); if (same !== !!o.correct) err(id, `option "${strip(o.text)}" (= ${v}) key disagrees with target ${c.target} = ${want}`); }); }
   else if (c.kind === 'seq-type') q.options.forEach((o) => { const tm = o.data.terms; const ap = tm.every((v, k) => k < 2 || Math.abs((tm[k] - tm[k - 1]) - (tm[1] - tm[0])) < 1e-12); const gp = tm.every((v) => v !== 0) && tm.every((v, k) => k < 2 || Math.abs(tm[k] / tm[k - 1] - tm[1] / tm[0]) < 1e-12); const is = c.type === 'ap' ? ap : gp; if (is !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: is ${c.type} = ${is}`); });
   else if (c.kind === 'table-linear') q.options.forEach((o) => { const { xs, ys } = o.data; const dx = xs[1] - xs[0], dy = ys[1] - ys[0]; const lin = xs.every((x, k) => k < 1 || (Math.abs(xs[k] - xs[k - 1] - dx) < 1e-12 && Math.abs(ys[k] - ys[k - 1] - dy) < 1e-12)); if (lin !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: linear = ${lin}`); });
+  else if (c.kind === 'locus') { const g = c.type === 'distance' ? (x, y) => (x - c.C[0]) ** 2 + (y - c.C[1]) ** 2 - c.r ** 2 : (x, y) => (x - c.A[0]) ** 2 + (y - c.A[1]) ** 2 - c.k ** 2 * ((x - c.B[0]) ** 2 + (y - c.B[1]) ** 2);
+    const S = [[0.37, 1.91], [-2.3, 0.6], [4.1, -1.7], [1.3, 3.9], [-0.8, -2.6], [2.9, 2.2]];
+    q.options.forEach((o) => { const f = (x, y) => evaluate(o.data.expr, { x, y }); const ratios = S.map(([x, y]) => f(x, y) / g(x, y)); const prop = ratios.every((r) => Number.isFinite(r) && Math.abs(r) > 1e-12 && Math.abs(r - ratios[0]) < 1e-7 * Math.max(1, Math.abs(ratios[0]))); if (prop !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: matches locus = ${prop}`); }); }
+  else if (c.kind === 'collinear') q.options.forEach((o) => { const col = heronArea(o.data.pts) < 1e-9; if (col !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: collinear = ${col}`); });
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }
