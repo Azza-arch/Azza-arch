@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 2 daripada 18.
+Bab dengan fail nota: 3 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 8**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 13**
 
 ## t4-1 Fungsi (status: review)
 
@@ -40,6 +40,18 @@ Bab dengan fail nota: 2 daripada 18.
 | 2.3.5 | 2.3 | ✓ | ✓ | 2 |
 | 2.3.6 | 2.3 | ✓ | ✓ | 2 |
 
+## t4-3 Sistem Persamaan (status: review)
+
+2 subtopik · 10 contoh · 2 visual · 14 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 3.1.1 | 3.1 | ✓ | ✓ | 2 |
+| 3.1.2 | 3.1 | ✓ | ✓ | 3 |
+| 3.1.3 | 3.1 | ✓ | ✓ | 2 |
+| 3.2.1 | 3.2 | ✓ | ✓ | 4 |
+| 3.2.2 | 3.2 | ✓ | ✓ | 3 |
+
 ## Ralat
 - tiada
 
@@ -55,5 +67,10 @@ Bab dengan fail nota: 2 daripada 18.
 - t4-2.2-09 (penaakulan) — Tinggi sebiji bola ialah \(h(t) = -5t^2 + 12t + 1\) meter. Tanpa menyelesaikan persamaan, tunjukkan bahawa bol
 - t4-2.3-06 (objektif) — Pernyataan manakah benar tentang graf \(y = -x^2 + 4x - 7\)?
 - t4-2.3-10 (penaakulan) — Bandingkan graf \(y = 2x^2\), \(y = \tfrac{1}{2}x^2\) dan \(y = -x^2\). Terangkan kesan nilai \(a\) terhadap b
+- t4-3.1-01 (objektif) — Antara berikut, yang manakah bukan persamaan linear dalam tiga pemboleh ubah?
+- t4-3.1-04 (objektif) — Sistem manakah tiada penyelesaian?
+- t4-3.1-07 (penaakulan) — Terangkan mengapa dua persamaan linear sahaja tidak mencukupi untuk menentukan nilai unik bagi tiga pemboleh u
+- t4-3.2-06 (penaakulan) — Mengapakah garis lurus dan bulatan boleh bersilang di 0, 1 atau 2 titik sahaja? Kaitkan jawapan anda dengan pe
+- t4-3.2-07 (objektif) — Untuk menyelesaikan \(y = 2x\) dan \(x^2 + y^2 = 20\), langkah pertama yang paling sesuai ialah…
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

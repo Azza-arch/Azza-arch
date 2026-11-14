@@ -45,6 +45,16 @@ function expected(check, id) {
     case 'fixed-point': { const f = f1(check.f); const r = roots((x) => f(x) - x, 0); if (r.length !== 1) err(id, `f(x) = x has ${r.length} solutions`); return r[0]; }
     case 'substitute': return null; // handled with the answer below
     case 'value': return evaluate(check.expr);
+    case 'linear3': { // Cramer's rule on [[a,b,c,d],…] meaning ax + by + cz = d
+      const M = check.eqs, det = (m) => m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+      const A = M.map((r) => r.slice(0, 3)), D = det(A); if (Math.abs(D) < 1e-12) { err(id, 'system has no unique solution'); return NaN; }
+      const col = { x: 0, y: 1, z: 2 }[check.want]; const Ak = A.map((r, i) => r.map((v, j) => (j === col ? M[i][3] : v))); return det(Ak) / D; }
+    case 'sim2': { // one linear + one non-linear equation in x, y
+      const lin = (x, y) => evaluate(check.linear, { x, y }), yx = (x) => evaluate(check.yOfX, { x });
+      for (const x of [-2.3, 0.7, 3.1]) if (Math.abs(lin(x, yx(x))) > 1e-9) err(id, `yOfX ${check.yOfX} does not satisfy ${check.linear} = 0`);
+      const r = roots((x) => evaluate(check.g, { x, y: yx(x) }), 0); if (!r.length) { err(id, 'no real solution'); return NaN; }
+      const xs = check.pick === 'max' ? Math.max(...r) : check.pick === 'min' ? Math.min(...r) : (r.length > 1 ? (err(id, `${r.length} solutions, add pick`), r[0]) : r[0]);
+      return check.want === 'y' ? yx(xs) : xs; }
     case 'vertex-x': { const f = f1(check.rule); let best = null; for (let k = -200000; k <= 200000; k++) { const x = k / 1000; const v = f(x); if (best === null || (check.type === 'max' ? v > best.v : v < best.v)) best = { x, v }; } return best.x; }
     default: return undefined;
   }
