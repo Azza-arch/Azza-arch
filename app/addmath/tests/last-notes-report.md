@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 3 daripada 18.
+Bab dengan fail nota: 4 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 13**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 20**
 
 ## t4-1 Fungsi (status: review)
 
@@ -52,6 +52,26 @@ Bab dengan fail nota: 3 daripada 18.
 | 3.2.1 | 3.2 | ✓ | ✓ | 4 |
 | 3.2.2 | 3.2 | ✓ | ✓ | 3 |
 
+## t4-4 Indeks, Surd dan Logaritma (status: review)
+
+4 subtopik · 21 contoh · 4 visual · 37 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 4.1.1 | 4.1 | ✓ | ✓ | 4 |
+| 4.1.2 | 4.1 | ✓ | ✓ | 4 |
+| 4.2.1 | 4.2 | ✓ | ✓ | 2 |
+| 4.2.2 | 4.2 | ✓ | ✓ | 2 |
+| 4.2.3 | 4.2 | ✓ | ✓ | 2 |
+| 4.2.4 | 4.2 | ✓ | ✓ | 2 |
+| 4.2.5 | 4.2 | ✓ | ✓ | 2 |
+| 4.3.1 | 4.3 | ✓ | ✓ | 3 |
+| 4.3.2 | 4.3 | ✓ | ✓ | 2 |
+| 4.3.3 | 4.3 | ✓ | ✓ | 2 |
+| 4.3.4 | 4.3 | ✓ | ✓ | 2 |
+| 4.3.5 | 4.3 | ✓ | ✓ | 3 |
+| 4.4.1 | 4.4 | ✓ | ✓ | 7 |
+
 ## Ralat
 - tiada
 
@@ -72,5 +92,12 @@ Bab dengan fail nota: 3 daripada 18.
 - t4-3.1-07 (penaakulan) — Terangkan mengapa dua persamaan linear sahaja tidak mencukupi untuk menentukan nilai unik bagi tiga pemboleh u
 - t4-3.2-06 (penaakulan) — Mengapakah garis lurus dan bulatan boleh bersilang di 0, 1 atau 2 titik sahaja? Kaitkan jawapan anda dengan pe
 - t4-3.2-07 (objektif) — Untuk menyelesaikan \(y = 2x\) dan \(x^2 + y^2 = 20\), langkah pertama yang paling sesuai ialah…
+- t4-4.1-08 (penaakulan) — Gunakan hukum pembahagian untuk menerangkan mengapa \(a^0 = 1\) bagi \(a \ne 0\).
+- t4-4.2-01 (objektif) — Yang manakah ialah surd?
+- t4-4.2-10 (penaakulan) — Siti menulis \(\sqrt{a + b} = \sqrt{a} + \sqrt{b}\). Beri satu contoh berangka untuk menunjukkan ia salah, dan
+- t4-4.3-10 (penaakulan) — Terangkan mengapa \(\log_2(-8)\) tidak tertakrif.
+- t4-4.3-11 (penaakulan) — Buktikan bahawa \(\log_a \dfrac{x}{y} = \log_a x - \log_a y\).
+- t4-4.3-12 (penaakulan) — Buktikan bahawa \(\log_a x^k = k\log_a x\).
+- t4-4.4-07 (penaakulan) — Kenapakah kita mengambil logaritma kedua-dua belah untuk menyelesaikan \(3^x = 20\), tetapi tidak perlu untuk 
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

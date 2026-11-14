@@ -13,8 +13,11 @@ export function evaluate(expr, vars = {}) {
     const c = peek();
     if (c === '(') { i++; const v = sum(); if (src[i++] !== ')') fail('missing )'); return v; }
     if (c === '|') { i++; const v = sum(); if (src[i++] !== '|') fail('missing |'); return Math.abs(v); }
-    const fn = /^(abs|sqrt)\(/.exec(src.slice(i));
-    if (fn) { i += fn[1].length; const v = primary(); if (fn[1] === 'sqrt' && v < 0) fail('sqrt of negative'); return fn[1] === 'abs' ? Math.abs(v) : Math.sqrt(v); }
+    const fn = /^(abs|sqrt|ln|log|exp)\(/.exec(src.slice(i));
+    if (fn) { i += fn[1].length; const v = primary(); const k = fn[1];
+      if (k === 'sqrt' && v < 0) fail('sqrt of negative'); if ((k === 'ln' || k === 'log') && v <= 0) return NaN;
+      return k === 'abs' ? Math.abs(v) : k === 'sqrt' ? Math.sqrt(v) : k === 'ln' ? Math.log(v) : k === 'log' ? Math.log10(v) : Math.exp(v); }
+    if (src.startsWith('e', i) && !/[a-z]/.test(src[i + 1] || '') && !('e' in vars)) { i++; return Math.E; }
     if (c === '-') { i++; return -power(); }
     if (c === '+') { i++; return power(); }
     const num = /^\d+(\.\d+)?/.exec(src.slice(i));

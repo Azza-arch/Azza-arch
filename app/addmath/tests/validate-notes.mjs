@@ -36,7 +36,7 @@ function walkStrings(id, obj) {
 function expected(check, id) {
   switch (check.kind) {
     case 'evaluate': return evaluate(check.rule, { x: check.x });
-    case 'solve': { const r = roots(f1(check.rule), check.target); if (!r.length) { err(id, 'no real root'); return NaN; } if (r.length > 1 && !check.pick) { err(id, `${r.length} roots (${r}) but question expects one; add pick or rephrase`); } return check.pick === 'max' ? Math.max(...r) : check.pick === 'min' ? Math.min(...r) : r[0]; }
+    case 'solve': { const r = roots(f1(check.rule), check.target, check.from ?? -60, check.to ?? 60); if (!r.length) { err(id, 'no real root'); return NaN; } if (r.length > 1 && !check.pick) { err(id, `${r.length} roots (${r}) but question expects one; add pick or rephrase`); } return check.pick === 'max' ? Math.max(...r) : check.pick === 'min' ? Math.min(...r) : r[0]; }
     case 'undefined': { const r = []; for (let k = -2000; k <= 2000; k++) { const x = k / 20; try { const v = evaluate(check.expr, { x }); if (!Number.isFinite(v)) r.push(x); } catch { r.push(x); } } if (r.length !== 1) err(id, `expected exactly one undefined point, found ${r}`); return r[0]; }
     case 'range-interval': { const e = extremaOnInterval(f1(check.rule), check.from, check.to); return check.part === 'min' ? e.min : e.max; }
     case 'compose-value': { const f = f1(check.f), g = f1(check.g); return check.order === 'fg' ? f(g(check.x)) : g(f(check.x)); }
@@ -95,6 +95,7 @@ function checkMcq(q, id) {
     q.options.forEach((o) => { const s = o.data; const inSet = (x) => s.kind === 'between' ? (s.closed ? x >= s.a && x <= s.b : x > s.a && x < s.b) : s.kind === 'outside' ? (s.closed ? x <= s.a || x >= s.b : x < s.a || x > s.b) : s.kind === 'all' ? true : s.kind === 'lt' ? (s.closed ? x <= s.a : x < s.a) : s.kind === 'gt' ? (s.closed ? x >= s.a : x > s.a) : false;
       let match = true; for (let k = -4000; k <= 4000; k++) { const x = k / 200 + 0.0013; if (holds(x) !== inSet(x)) { match = false; break; } } for (const x of [s.a, s.b].filter(Number.isFinite)) if (holds(x) !== inSet(x)) match = false;
       if (match !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees with the solution set of ${c.rule} ${c.op} 0`); }); }
+  else if (c.kind === 'value-equal') { const want = evaluate(c.target); q.options.forEach((o) => { const v = evaluate(o.data.value); const same = Math.abs(v - want) <= 1e-9 * Math.max(1, Math.abs(want)); if (same !== !!o.correct) err(id, `option "${strip(o.text)}" (= ${v}) key disagrees with target ${c.target} = ${want}`); }); }
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }

@@ -19,7 +19,10 @@ const COLORS = ['#3467D4', '#D9534F', '#2E9E6B', '#B7791F', '#7B4FC9'];
 function mountPlot(host, spec) {
   const W = 360, H = 300, pad = 28;
   const [x0, x1] = spec.x, [y0, y1] = spec.y;
-  const sx = (x) => pad + ((x - x0) / (x1 - x0)) * (W - 2 * pad);
+  // left margin grows with the longest y-axis label so big numbers are not cut off
+  const yLabLen = Math.max(String(Math.round(y0)).length, String(Math.round(y1)).length);
+  const padL = Math.max(pad, 10 + yLabLen * 6.5);
+  const sx = (x) => padL + ((x - x0) / (x1 - x0)) * (W - padL - pad);
   const sy = (y) => H - pad - ((y - y0) / (y1 - y0)) * (H - 2 * pad);
   const p = Object.fromEntries((spec.params || []).map((q) => [q.name, q.value]));
   const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'plot-svg', role: 'img', 'aria-label': spec.ariaLabel || 'Graf interaktif' });
@@ -29,15 +32,15 @@ function mountPlot(host, spec) {
   const val = (v) => (typeof v === 'function' ? v(p) : v);
 
   function axes(g) {
-    const step = spec.grid || 1;
-    for (let x = Math.ceil(x0 / step) * step; x <= x1 + 1e-9; x += step) el('line', { x1: sx(x), y1: sy(y0), x2: sx(x), y2: sy(y1), class: 'plot-grid' }, g);
-    for (let y = Math.ceil(y0 / step) * step; y <= y1 + 1e-9; y += step) el('line', { x1: sx(x0), y1: sy(y), x2: sx(x1), y2: sy(y), class: 'plot-grid' }, g);
+    const step = spec.grid || 1, gx = spec.gridX || step, gy = spec.gridY || step;
+    for (let x = Math.ceil(x0 / gx) * gx; x <= x1 + 1e-9; x += gx) el('line', { x1: sx(x), y1: sy(y0), x2: sx(x), y2: sy(y1), class: 'plot-grid' }, g);
+    for (let y = Math.ceil(y0 / gy) * gy; y <= y1 + 1e-9; y += gy) el('line', { x1: sx(x0), y1: sy(y), x2: sx(x1), y2: sy(y), class: 'plot-grid' }, g);
     if (y0 <= 0 && y1 >= 0) el('line', { x1: sx(x0), y1: sy(0), x2: sx(x1), y2: sy(0), class: 'plot-axis' }, g);
     if (x0 <= 0 && x1 >= 0) el('line', { x1: sx(0), y1: sy(y0), x2: sx(0), y2: sy(y1), class: 'plot-axis' }, g);
-    const lab = spec.labelStep || (step * 2);
-    for (let x = Math.ceil(x0 / lab) * lab; x <= x1 + 1e-9; x += lab) if (Math.abs(x) > 1e-9) { const t = el('text', { x: sx(x), y: sy(Math.max(y0, Math.min(0, y1))) + 13, class: 'plot-tick' }, g); t.textContent = fmt(x); }
-    for (let y = Math.ceil(y0 / lab) * lab; y <= y1 + 1e-9; y += lab) if (Math.abs(y) > 1e-9) { const t = el('text', { x: sx(Math.max(x0, Math.min(0, x1))) - 5, y: sy(y) + 4, class: 'plot-tick plot-tick-y' }, g); t.textContent = fmt(y); }
-    const tx = el('text', { x: W - pad + 4, y: sy(Math.max(y0, Math.min(0, y1))) - 6, class: 'plot-axis-label' }, g); tx.textContent = spec.xLabel || 'x';
+    const lab = spec.labelStep || (step * 2), lx = spec.labelStepX || (spec.gridX ? gx * 2 : lab), ly = spec.labelStepY || (spec.gridY ? gy * 2 : lab);
+    for (let x = Math.ceil(x0 / lx) * lx; x <= x1 + 1e-9; x += lx) if (Math.abs(x) > 1e-9) { const t = el('text', { x: sx(x), y: sy(Math.max(y0, Math.min(0, y1))) + 13, class: 'plot-tick' }, g); t.textContent = fmt(x); }
+    for (let y = Math.ceil(y0 / ly) * ly; y <= y1 + 1e-9; y += ly) if (Math.abs(y) > 1e-9) { const t = el('text', { x: sx(Math.max(x0, Math.min(0, x1))) - 5, y: sy(y) + 4, class: 'plot-tick plot-tick-y' }, g); t.textContent = fmt(y); }
+    const tx = el('text', { x: W - pad, y: sy(Math.max(y0, Math.min(0, y1))) - 6, class: 'plot-axis-label', 'text-anchor': 'end' }, g); tx.textContent = spec.xLabel || 'x';
     const ty = el('text', { x: sx(Math.max(x0, Math.min(0, x1))) + 6, y: pad - 10, class: 'plot-axis-label' }, g); ty.textContent = spec.yLabel || 'y';
   }
   function pathFor(f, domain, exclude) {
@@ -48,14 +51,14 @@ function mountPlot(host, spec) {
       if ((exclude || []).some((e) => Math.abs(x - e) < (b - a) / N * 0.6)) { pen = false; prev = null; continue; }
       let y; try { y = f(x, p); } catch { y = NaN; }
       if (!Number.isFinite(y) || y < y0 - (y1 - y0) * 3 || y > y1 + (y1 - y0) * 3 || (prev !== null && Math.abs(y - prev) > (y1 - y0) * 1.5)) { pen = false; prev = Number.isFinite(y) ? y : null; continue; }
-      const yc = Math.max(y0 - 1, Math.min(y1 + 1, y));
+      const m = (y1 - y0) * 0.2; const yc = Math.max(y0 - m, Math.min(y1 + m, y));
       d += `${pen ? 'L' : 'M'}${sx(x).toFixed(1)},${sy(yc).toFixed(1)}`; pen = true; prev = y;
     }
     return d;
   }
   function draw() {
     svg.replaceChildren();
-    const clip = el('clipPath', { id: `clip-${uid}` }, el('defs', {}, svg)); el('rect', { x: pad, y: pad, width: W - 2 * pad, height: H - 2 * pad }, clip);
+    const clip = el('clipPath', { id: `clip-${uid}` }, el('defs', {}, svg)); el('rect', { x: padL, y: pad, width: W - padL - pad, height: H - 2 * pad }, clip);
     const g = el('g', {}, svg); axes(g);
     const plot = el('g', { 'clip-path': `url(#clip-${uid})` }, svg);
     if (spec.shade) {
