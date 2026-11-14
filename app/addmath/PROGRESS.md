@@ -39,7 +39,7 @@ V3 text lives in `src/content/notes/v3/<ch>.js` (lead, idea, when, steps, exampl
 |---|---|---|---|---|
 | 1 | T4-1, T4-2 | ✓ | ✓ | review |
 | 2 | T4-3 … T4-6 | ✓ | ✓ | review |
-| 3 | T4-7 … T4-10 | – | – | belum |
+| 3 | T4-7 … T4-10 | ✓ | ✓ | review |
 | 4 | T5-1 … T5-4 | – | – | belum |
 | 5 | T5-5 … T5-8 | – | – | belum (T5-7, T5-8 kandungan belum dibina) |
 

@@ -49,6 +49,10 @@ export const V3_MODULES = {
   't4-4': () => import('./v3/t4-4.js'),
   't4-5': () => import('./v3/t4-5.js'),
   't4-6': () => import('./v3/t4-6.js'),
+  't4-7': () => import('./v3/t4-7.js'),
+  't4-8': () => import('./v3/t4-8.js'),
+  't4-9': () => import('./v3/t4-9.js'),
+  't4-10': () => import('./v3/t4-10.js'),
 };
 export async function attachV3(id, chapter) {
   const load = V3_MODULES[id];
