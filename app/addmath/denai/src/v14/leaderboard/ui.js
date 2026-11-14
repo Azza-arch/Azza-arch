@@ -17,10 +17,14 @@ export function checkName(raw){
   if(BLOCK.test(name.replace(/[^a-z]/gi,'')))return {ok:false,msg:'Sila pilih nama lain.'};
   return {ok:true,name};
 }
-const friendly=e=>({
+const NAME_ERRORS=new Set(['NameNotAvailable','InvalidParams','ProfaneDisplayName']);
+const friendly=(e,ctx='board')=>(ctx==='board'&&NAME_ERRORS.has(e?.code))?'Papan pendahulu tidak dapat dihubungi sekarang. Cuba lagi kemudian.':({
   offline:'Tiada sambungan internet. Papan pendahulu memerlukan talian.',
   PlayerCreationDisabled:'Papan pendahulu sedang disediakan. Cuba lagi kemudian.',
   APINotEnabledForGameClientAccess:'Papan pendahulu sedang disediakan. Cuba lagi kemudian.',
+  LeaderboardNotFound:'Papan pendahulu sedang disediakan. Cuba lagi kemudian.',
+  StatisticNotFound:'Papan pendahulu sedang disediakan. Cuba lagi kemudian.',
+  ProductDisabledForTitle:'Papan pendahulu sedang disediakan. Cuba lagi kemudian.',
   NameNotAvailable:'Nama itu sudah digunakan pemain lain. Cuba nama lain.',
   InvalidParams:'Nama tidak diterima. Cuba nama lain.',
   ProfaneDisplayName:'Sila pilih nama lain.',
@@ -32,7 +36,7 @@ function row(r,i,me=false){
 }
 function status(text){const body=$('lb-rows');body.replaceChildren();const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=3;td.className='lb-status';td.textContent=text;tr.append(td);body.append(tr);}
 function renderTabs(){
-  const weekly=!live()||!!CFG.playfab.statistics.weekly;
+  const weekly=!live()||!!CFG.playfab.leaderboards.weekly;
   document.querySelector('.lb-tabs').hidden=!weekly;
   if(!weekly)tab='allTime';
   document.querySelectorAll('[data-lb-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.lbTab===tab)));
@@ -49,13 +53,14 @@ function renderSubmit(){
 async function loadLive(){
   status('Memuatkan papan pendahulu…');
   try{
-    const stat=CFG.playfab.statistics[tab];
+    const stat=CFG.playfab.leaderboards[tab];
     const [rows,me]=await Promise.all([PF.topTimes(stat),PF.myRank(stat)]);
     const body=$('lb-rows');body.replaceChildren();
     if(!rows.length)status('Belum ada rekod. Jadilah yang pertama!');
     const myId=PF.playerId();
-    rows.forEach((r,i)=>body.append(row(r,i,r.playerId===myId)));
-    if(me&&!rows.some(r=>r.playerId===myId))body.append(row(me,0,true));
+    if(!$('lb-name').value&&PF.currentName())$('lb-name').value=PF.currentName(); // known only after login
+    rows.forEach((r,i)=>body.append(row(r,i,r.entityId===myId)));
+    if(me&&!rows.some(r=>r.entityId===myId))body.append(row(me,0,true));
   }catch(e){status(friendly(e));}
 }
 export function renderLeaderboard(){
@@ -79,7 +84,7 @@ async function send(ev){
     if(PF.currentName()!==c.name)await PF.setDisplayName(c.name);
     await PF.submitTime(pb.timeMs);
     msg.textContent='';renderSubmit();await loadLive();
-  }catch(e){msg.textContent=friendly(e);}
+  }catch(e){msg.textContent=friendly(e,'send');}
   finally{busy=false;$('lb-send').disabled=false;}
 }
 export function installLeaderboard(){
