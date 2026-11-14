@@ -649,3 +649,14 @@ body:has(#complete[open]) #zone-toast,body:has(#complete[open]) .zone-toast,body
   body #mechanism .mx-target{margin:2px 0 0!important;font-size:13px}
   body #mechanism .mx-question{margin:4px 0!important;font-size:14px!important;line-height:1.3!important}
 }
+/* 19. Live leaderboard */
+.lb-notice{background:#fff8e6!important;border-style:solid!important;border-color:var(--parchment-shade)!important;font-weight:600!important;font-size:12px!important}
+.lb-status{text-align:center!important;font-family:var(--ui-font)!important;color:var(--ink-soft);padding:16px 10px!important}
+.lb-table tr.lb-me td{background:#fde9a8;color:var(--ink)}
+.lb-submit{margin-top:var(--s2)}
+.lb-submit label{display:block;font:800 var(--fs-sm)/1.3 var(--ui-font);margin-bottom:4px}
+.lb-submit-row{display:flex;gap:var(--s2)}
+.lb-submit-row input{flex:1;min-width:0;min-height:44px;padding:0 10px;font:700 var(--fs-md) var(--ui-font);color:var(--ink);background:#fff;border:2px solid var(--parchment-shade);border-radius:6px}
+.lb-submit-row button{min-height:44px;white-space:nowrap}
+.lb-submit-msg{min-height:1.2em;margin:4px 0 0!important;font-weight:700;color:var(--bad,#b34c43)!important}
+.lb-submit-msg:empty{display:none}

@@ -1533,3 +1533,8 @@ try {
   console.error(error);
   fail('Permainan tidak dapat dimulakan. Muat semula halaman atau kembali ke Add Math.');
 }
+// Text fields (leaderboard name): Phaser captures game keys page-wide
+// (Space, A, D, W, S, E…), which would stop them being typed. Release the
+// capture while a field has focus.
+document.addEventListener('focusin',e=>{if(e.target.matches?.('input[type="text"],textarea'))activeScene?.input.keyboard.disableGlobalCapture();});
+document.addEventListener('focusout',e=>{if(e.target.matches?.('input[type="text"],textarea'))activeScene?.input.keyboard.enableGlobalCapture();});
