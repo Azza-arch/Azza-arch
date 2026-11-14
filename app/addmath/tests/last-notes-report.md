@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 10 daripada 18.
+Bab dengan fail nota: 11 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 54**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 58**
 
 ## t4-1 Fungsi (status: review)
 
@@ -168,6 +168,21 @@ Bab dengan fail nota: 10 daripada 18.
 | 10.2.1 | 10.2 | ✓ | ✓ | 4 |
 | 10.2.2 | 10.2 | ✓ | ✓ | 4 |
 
+## t5-1 Sukatan Membulat (status: review)
+
+4 subtopik · 14 contoh · 4 visual · 24 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 1.1.1 | 1.1 | ✓ | ✓ | 5 |
+| 1.2.1 | 1.2 | ✓ | ✓ | 3 |
+| 1.2.2 | 1.2 | ✓ | ✓ | 3 |
+| 1.2.3 | 1.2 | ✓ | ✓ | 2 |
+| 1.3.1 | 1.3 | ✓ | ✓ | 4 |
+| 1.3.2 | 1.3 | ✓ | ✓ | 3 |
+| 1.3.3 | 1.3 | ✓ | ✓ | 2 |
+| 1.4.1 | 1.4 | ✓ | ✓ | 5 |
+
 ## Ralat
 - tiada
 
@@ -229,5 +244,9 @@ Bab dengan fail nota: 10 daripada 18.
 - t4-10.1-03 (objektif) — Indeks kemalangan jalan raya di sebuah daerah pada 2024 berasaskan 2021 ialah 85. Yang manakah tafsiran yang b
 - t4-10.1-08 (penaakulan) — Harga barang \(X\) naik dari RM2 ke RM3, dan harga barang \(Y\) naik dari RM100 ke RM101. Kedua-duanya naik RM
 - t4-10.2-08 (penaakulan) — Terangkan mengapa pemberat 6, 4, 2 dan pemberat 3, 2, 1 memberi indeks gubahan yang sama.
+- t5-1.1-05 (penaakulan) — Terangkan mengapa saiz 1 radian adalah sama bagi semua bulatan, sama ada kecil atau besar.
+- t5-1.2-07 (objektif) — Perimeter tembereng \(AB\) dalam sektor \(OAB\) terdiri daripada…
+- t5-1.3-07 (penaakulan) — Jika jejari sektor digandakan dan sudutnya kekal, apakah yang berlaku kepada (a) panjang lengkok, (b) luas? Te
+- t5-1.4-05 (objektif) — Sebuah kipas tangan berbentuk antara dua lengkok sepusat berjejari \(R\) dan \(r\) dengan sudut \(\theta\). Lu
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.
