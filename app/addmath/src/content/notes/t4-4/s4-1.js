@@ -3,7 +3,7 @@
 const R = String.raw;
 
 export const S4_1 = {
-  id: '4.1', sk: '4.1', title: 'Hukum Indeks', sp: ['4.1.1', '4.1.2'], status: 'review', minutes: 40,
+  id: '4.1', sk: '4.1', title: 'Hukum Indeks', sp: ['4.1.1', '4.1.2'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Bakteria yang berganda', html: R`
       <p>Satu koloni bermula dengan 200 bakteria, dan bilangannya berganda setiap jam. Selepas 1 jam: \(200 \times 2\). Selepas 2 jam: \(200 \times 2 \times 2\). Selepas \(t\) jam:</p>

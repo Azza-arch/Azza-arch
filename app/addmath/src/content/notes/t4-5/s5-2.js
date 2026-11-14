@@ -6,7 +6,7 @@ const R = String.raw;
 const A = 8, M = 12;
 
 export const S5_2 = {
-  id: '5.2', sk: '5.2', title: 'Janjang Geometri', sp: ['5.2.1', '5.2.2', '5.2.3', '5.2.4', '5.2.5'], status: 'review', minutes: 55,
+  id: '5.2', sk: '5.2', title: 'Janjang Geometri', sp: ['5.2.1', '5.2.2', '5.2.3', '5.2.4', '5.2.5'], status: 'published', minutes: 55,
   sections: [
     { kind: 'intro', title: 'Bola yang melantun', html: R`
       <p>Sebiji bola dijatuhkan dari ketinggian 10 m. Setiap kali melantun, ia naik semula \(\tfrac{3}{5}\) daripada ketinggian sebelumnya: 6 m, 3.6 m, 2.16 m, … Setiap ketinggian ialah ketinggian sebelumnya <strong>didarab</strong> dengan nombor yang sama.</p>

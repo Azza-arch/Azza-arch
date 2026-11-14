@@ -20,7 +20,7 @@ const AMB_B = [AMB.c * Math.cos(AMB.A * DEG), AMB.c * Math.sin(AMB.A * DEG)];
 const ambC = (a) => { const h = AMB_B[1]; if (a < h - 1e-9) return []; const s = Math.sqrt(Math.max(0, a * a - h * h)); return [...new Set([AMB_B[0] - s, AMB_B[0] + s].map((t) => +t.toFixed(9)))].filter((t) => t > 1e-9).map((t) => [t, 0]); };
 
 export const S9_1 = {
-  id: '9.1', sk: '9.1', title: 'Petua Sinus', sp: ['9.1.1', '9.1.2', '9.1.3', '9.1.4', '9.1.5'], status: 'review', minutes: 55,
+  id: '9.1', sk: '9.1', title: 'Petua Sinus', sp: ['9.1.1', '9.1.2', '9.1.3', '9.1.4', '9.1.5'], status: 'published', minutes: 55,
   sections: [
     { kind: 'intro', title: 'Mengukur tanpa sampai ke sana', html: R`<p>Seorang juruukur mahu tahu jarak sebuah rumah api di seberang teluk. Dia tidak boleh menyeberang, tetapi dia boleh berjalan 500 m di sepanjang pantai dan mengukur dua sudut. Dengan <strong>petua sinus</strong>, satu sisi dan dua sudut sudah cukup untuk mencari sisi-sisi lain, walaupun segi tiga itu <em>tidak bersudut tegak</em>.</p>` },
     { kind: 'prereq', title: 'Imbas kembali', html: R`<ul><li>Segi tiga bersudut tegak: \(\sin\theta = \dfrac{\text{sisi bertentangan}}{\text{hipotenus}}\).</li><li>Hasil tambah sudut dalam segi tiga ialah \(180^\circ\).</li><li>Tatatanda: sisi \(a\) bertentangan dengan sudut \(A\), sisi \(b\) bertentangan dengan \(B\), sisi \(c\) bertentangan dengan \(C\).</li><li>\(\sin\theta = \sin(180^\circ - \theta)\): contohnya \(\sin 30^\circ = \sin 150^\circ = 0.5\).</li></ul>` },
@@ -86,7 +86,7 @@ export const S9_1 = {
 
 // ---------------------------------------------------------------- 9.2
 export const S9_2 = {
-  id: '9.2', sk: '9.2', title: 'Petua Kosinus', sp: ['9.2.1', '9.2.2', '9.2.3'], status: 'review', minutes: 45,
+  id: '9.2', sk: '9.2', title: 'Petua Kosinus', sp: ['9.2.1', '9.2.2', '9.2.3'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Apabila petua sinus tersekat', html: R`<p>Dua kapal meninggalkan pelabuhan. Kita tahu jarak setiap kapal dan sudut antara laluannya, tetapi tiada sudut yang bertentangan dengan sisi yang diketahui. Petua sinus tidak boleh digunakan. <strong>Petua kosinus</strong> ialah "Pythagoras yang diperluas" untuk sebarang segi tiga.</p>` },
     { kind: 'concept', title: 'Mentahkikkan petua kosinus', sp: ['9.2.1'], html: R`
@@ -125,7 +125,7 @@ export const S9_2 = {
 
 // ---------------------------------------------------------------- 9.3
 export const S9_3 = {
-  id: '9.3', sk: '9.3', title: 'Luas Segi Tiga', sp: ['9.3.1', '9.3.2', '9.3.3'], status: 'review', minutes: 40,
+  id: '9.3', sk: '9.3', title: 'Luas Segi Tiga', sp: ['9.3.1', '9.3.2', '9.3.3'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Luas tanah tanpa tinggi', html: R`<p>Sebidang tanah berbentuk segi tiga diukur dengan pita ukur: tiga sisinya sahaja. Tiada sesiapa mengukur "tinggi" tanah itu. Bab ini memberi dua rumus luas yang tidak memerlukan tinggi.</p>` },
     { kind: 'concept', title: 'Rumus ½ab sin C', sp: ['9.3.1'], html: R`
@@ -170,7 +170,7 @@ const box = (h) => { const L = 8, W = 6; return { A: [0, 0, 0], B: [L, 0, 0], C:
 const EDGES = ['AB', 'BC', 'CD', 'DA', 'EF', 'FG', 'GH', 'HE', 'AE', 'BF', 'CG', 'DH'];
 
 export const S9_4 = {
-  id: '9.4', sk: '9.4', title: 'Aplikasi Petua Sinus, Petua Kosinus dan Luas Segi Tiga', sp: ['9.4.1'], status: 'review', minutes: 45,
+  id: '9.4', sk: '9.4', title: 'Aplikasi Petua Sinus, Petua Kosinus dan Luas Segi Tiga', sp: ['9.4.1'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Segi tiga di dalam bentuk 3D', html: R`<p>Jurutera yang mereka khemah, bumbung atau tiang telekomunikasi bekerja dalam tiga dimensi, tetapi pengiraannya tetap dilakukan dalam <strong>segi tiga</strong>. Kemahirannya ialah mencari segi tiga yang betul di dalam bentuk itu.</p>` },
     { kind: 'concept', title: 'Strategi', sp: ['9.4.1'], html: R`

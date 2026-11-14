@@ -12,7 +12,7 @@ const FIT = ls(DATA);
 const lg = Math.log10;
 
 export const S6_1 = {
-  id: '6.1', sk: '6.1', title: 'Hubungan Linear dan Tak Linear', sp: ['6.1.1', '6.1.2', '6.1.3', '6.1.4'], status: 'review', minutes: 50,
+  id: '6.1', sk: '6.1', title: 'Hubungan Linear dan Tak Linear', sp: ['6.1.1', '6.1.2', '6.1.3', '6.1.4'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Data eksperimen tidak pernah sempurna', html: R`
       <p>Dalam eksperimen sains, anda menggantung beban pada spring dan mengukur panjangnya. Titik-titik data hampir segaris, tetapi tidak tepat, kerana setiap ukuran ada sedikit ralat.</p>
@@ -63,7 +63,7 @@ export const S6_1 = {
 };
 
 export const S6_2 = {
-  id: '6.2', sk: '6.2', title: 'Hukum Linear dan Hubungan Tak Linear', sp: ['6.2.1'], status: 'review', minutes: 50,
+  id: '6.2', sk: '6.2', title: 'Hukum Linear dan Hubungan Tak Linear', sp: ['6.2.1'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Meluruskan lengkung', html: R`
       <p>Lebih mudah mengenal pasti garis lurus daripada lengkung, dan pemalar garis lurus (\(m\), \(c\)) mudah dibaca. Jadi jika data mengikut hukum tak linear seperti \(y = 3 \cdot 2^x\), kita tukar pemboleh ubah supaya graf baharu menjadi garis lurus.</p>` },
@@ -106,7 +106,7 @@ export const S6_2 = {
 };
 
 export const S6_3 = {
-  id: '6.3', sk: '6.3', title: 'Aplikasi Hukum Linear', sp: ['6.3.1'], status: 'review', minutes: 40,
+  id: '6.3', sk: '6.3', title: 'Aplikasi Hukum Linear', sp: ['6.3.1'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Mencari hukum tersembunyi dalam data', html: R`<p>Ahli sains sering mempunyai jadual data tanpa rumus. Jika kita meneka bentuk hukum (contohnya \(T = kL^n\) bagi bandul), hukum linear membolehkan kita mengesahkan tekaan itu dan mencari pemalarnya daripada graf.</p>` },
     { kind: 'concept', title: 'Langkah penyelesaian masalah', sp: ['6.3.1'], html: R`

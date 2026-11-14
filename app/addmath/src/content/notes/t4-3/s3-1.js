@@ -6,7 +6,7 @@ const R = String.raw;
 const L1 = (k) => (x) => 6 - k - x, L2 = (k) => (x) => 2 * x - 3 + k, L3 = (k) => (x) => (2 + k - x) / 2;
 
 export const S3_1 = {
-  id: '3.1', sk: '3.1', title: 'Sistem Persamaan Linear dalam Tiga Pemboleh Ubah', sp: ['3.1.1', '3.1.2', '3.1.3'], status: 'review', minutes: 50,
+  id: '3.1', sk: '3.1', title: 'Sistem Persamaan Linear dalam Tiga Pemboleh Ubah', sp: ['3.1.1', '3.1.2', '3.1.3'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Tiga barang, tiga resit', html: R`
       <p>Di koperasi sekolah, harga sebatang pen, sebuah buku latihan dan sebiji pemadam tidak dipaparkan. Anda cuma ada tiga resit lama:</p>

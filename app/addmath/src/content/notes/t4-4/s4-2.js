@@ -8,7 +8,7 @@
 const R = String.raw;
 
 export const S4_2 = {
-  id: '4.2', sk: '4.2', title: 'Hukum Surd', sp: ['4.2.1', '4.2.2', '4.2.3', '4.2.4', '4.2.5'], status: 'review', minutes: 55,
+  id: '4.2', sk: '4.2', title: 'Hukum Surd', sp: ['4.2.1', '4.2.2', '4.2.3', '4.2.4', '4.2.5'], status: 'published', minutes: 55,
   sections: [
     { kind: 'intro', title: 'Pepenjuru yang tidak pernah "habis"', html: R`
       <p>Sebuah petak lantai berbentuk segi empat sama dengan sisi 1 m. Menurut teorem Pythagoras, pepenjurunya \(\sqrt{1^2 + 1^2} = \sqrt{2}\) m. Kalkulator memberi \(1.41421356\ldots\), dan digit-digitnya tidak pernah berulang atau berhenti.</p>

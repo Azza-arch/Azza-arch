@@ -12,7 +12,7 @@ const A = [2, 1];
 const mag = (v) => Math.hypot(v[0], v[1]);
 
 export const S8_1 = {
-  id: '8.1', sk: '8.1', title: 'Vektor', sp: ['8.1.1', '8.1.2', '8.1.3', '8.1.4'], status: 'review', minutes: 45,
+  id: '8.1', sk: '8.1', title: 'Vektor', sp: ['8.1.1', '8.1.2', '8.1.3', '8.1.4'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: '"5 km" sahaja tidak cukup', html: R`<p>Seorang pendaki tersesat dan menghubungi pasukan penyelamat: "Saya 5 km dari kem." Pasukan itu tetap tidak tahu di mana dia berada. "5 km ke arah utara" barulah berguna. Kuantiti yang memerlukan <strong>magnitud dan arah</strong> dipanggil <strong>vektor</strong>.</p>` },
     { kind: 'concept', title: 'Vektor dan skalar', sp: ['8.1.1'], html: R`
@@ -53,7 +53,7 @@ export const S8_1 = {
 };
 
 export const S8_2 = {
-  id: '8.2', sk: '8.2', title: 'Penambahan dan Penolakan Vektor', sp: ['8.2.1', '8.2.2'], status: 'review', minutes: 40,
+  id: '8.2', sk: '8.2', title: 'Penambahan dan Penolakan Vektor', sp: ['8.2.1', '8.2.2'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Bot menyeberang sungai', html: R`<p>Sebuah bot dihala lurus menyeberang sungai pada 4 m/s, tetapi arus menolaknya ke hilir pada 3 m/s. Bot tidak bergerak lurus ke seberang. Pergerakan sebenar ialah gabungan dua vektor, iaitu <strong>vektor paduan</strong>.</p>` },
     { kind: 'concept', title: 'Hukum-hukum penambahan', sp: ['8.2.1'], html: R`
@@ -84,7 +84,7 @@ export const S8_2 = {
 };
 
 export const S8_3 = {
-  id: '8.3', sk: '8.3', title: 'Vektor dalam Satah Cartes', sp: ['8.3.1', '8.3.2', '8.3.3', '8.3.4'], status: 'review', minutes: 45,
+  id: '8.3', sk: '8.3', title: 'Vektor dalam Satah Cartes', sp: ['8.3.1', '8.3.2', '8.3.3', '8.3.4'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Arah dengan nombor', html: R`<p>Daripada melukis anak panah setiap kali, kita boleh menerangkan vektor dengan dua nombor: berapa jauh ke kanan dan berapa jauh ke atas. Ini membolehkan vektor ditambah dan didarab dengan aritmetik biasa.</p>` },
     { kind: 'concept', title: 'Bentuk xi + yj dan bentuk lajur', sp: ['8.3.1'], html: R`

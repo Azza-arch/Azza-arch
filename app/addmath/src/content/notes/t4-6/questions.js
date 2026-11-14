@@ -1,8 +1,8 @@
 // Bab 6 question bank (status 'review', original). See tests/validate-notes.mjs.
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't4-6', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-14', note: 'Arahan pemilik: terbitkan terus kepada umum' } };
+const q = (o) => ({ chapter: 't4-6', status: 'published', provenance: P, review: RV, ...o });
 const TB = (xs, ys) => ({ xs, ys });
 const BACT = [[0, 50], [1, 80], [2, 128], [3, 204.8], [4, 327.68]];
 const PEND = [0.25, 0.5, 1, 1.5, 2].map((L) => [L, 2.006 * Math.sqrt(L)]);

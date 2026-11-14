@@ -4,7 +4,7 @@
 const R = String.raw;
 
 export const S3_2 = {
-  id: '3.2', sk: '3.2', title: 'Persamaan Serentak: Satu Linear dan Satu Tak Linear', sp: ['3.2.1', '3.2.2'], status: 'review', minutes: 45,
+  id: '3.2', sk: '3.2', title: 'Persamaan Serentak: Satu Linear dan Satu Tak Linear', sp: ['3.2.1', '3.2.2'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Pagar dan luas', html: R`
       <p>Sebuah taman segi empat tepat dipagari dengan 26 m pagar, dan luasnya 40 m². Jika panjangnya \(x\) dan lebarnya \(y\):</p>

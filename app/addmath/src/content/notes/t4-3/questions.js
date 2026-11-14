@@ -1,8 +1,8 @@
 // Bab 3 question bank (status 'review', original). See tests/validate-notes.mjs.
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't4-3', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-14', note: 'Arahan pemilik: terbitkan terus kepada umum' } };
+const q = (o) => ({ chapter: 't4-3', status: 'published', provenance: P, review: RV, ...o });
 
 export const QUESTIONS = [
   // ---------------------------------------------------------------- 3.1

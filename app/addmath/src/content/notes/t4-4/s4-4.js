@@ -3,7 +3,7 @@
 const R = String.raw;
 
 export const S4_4 = {
-  id: '4.4', sk: '4.4', title: 'Aplikasi Indeks, Surd dan Logaritma', sp: ['4.4.1'], status: 'review', minutes: 45,
+  id: '4.4', sk: '4.4', title: 'Aplikasi Indeks, Surd dan Logaritma', sp: ['4.4.1'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Bilakah simpanan berganda?', html: R`
       <p>Anda menyimpan RM5000 dalam akaun dengan faedah kompaun 4% setahun. Selepas \(t\) tahun, wangnya ialah \(A = 5000(1.04)^t\). Bilakah wang itu menjadi RM10 000?</p>

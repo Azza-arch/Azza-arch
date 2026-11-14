@@ -7,7 +7,7 @@
 const R = String.raw;
 
 export const S2_1 = {
-  id: '2.1', sk: '2.1', title: 'Persamaan dan Ketaksamaan Kuadratik', sp: ['2.1.1', '2.1.2', '2.1.3'], status: 'review', minutes: 55,
+  id: '2.1', sk: '2.1', title: 'Persamaan dan Ketaksamaan Kuadratik', sp: ['2.1.1', '2.1.2', '2.1.3'], status: 'published', minutes: 55,
   sections: [
     { kind: 'intro', title: 'Berapakah lebar taman itu?', html: R`
       <p>Sebuah taman segi empat tepat mempunyai panjang 2 m lebih daripada lebarnya, dan luasnya 35 m². Jika lebarnya \(x\) m, maka panjangnya \((x + 2)\) m, dan</p>

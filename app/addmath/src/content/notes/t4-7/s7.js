@@ -12,7 +12,7 @@ const A = [-2, 1], B = [6, 5];
 const shoe = (pts) => { let s = 0; for (let i = 0; i < pts.length; i++) { const [x1, y1] = pts[i], [x2, y2] = pts[(i + 1) % pts.length]; s += x1 * y2 - x2 * y1; } return s / 2; };
 
 export const S7_1 = {
-  id: '7.1', sk: '7.1', title: 'Pembahagi Tembereng Garis', sp: ['7.1.1', '7.1.2', '7.1.3'], status: 'review', minutes: 40,
+  id: '7.1', sk: '7.1', title: 'Pembahagi Tembereng Garis', sp: ['7.1.1', '7.1.2', '7.1.3'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Di manakah injap patut dipasang?', html: R`<p>Paip lurus menghubungkan tangki A ke tangki B. Jurutera mahu memasang injap pada jarak dua pertiga dari A. Jika kedudukan A dan B diketahui sebagai koordinat, di manakah koordinat injap itu? Inilah masalah <strong>pembahagi tembereng garis</strong>.</p>` },
     { kind: 'concept', title: 'Nisbah dan kedudukan titik', sp: ['7.1.1'], html: R`
@@ -45,7 +45,7 @@ export const S7_1 = {
 };
 
 export const S7_2 = {
-  id: '7.2', sk: '7.2', title: 'Garis Lurus Selari dan Garis Lurus Serenjang', sp: ['7.2.1', '7.2.2'], status: 'review', minutes: 40,
+  id: '7.2', sk: '7.2', title: 'Garis Lurus Selari dan Garis Lurus Serenjang', sp: ['7.2.1', '7.2.2'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Jalan terpendek ke jalan raya', html: R`<p>Dari sebuah rumah, laluan <em>terpendek</em> ke jalan raya yang lurus ialah laluan yang tegak lurus (serenjang) dengan jalan itu. Untuk menulis persamaan laluan itu, kita perlu tahu kaitan kecerunan dua garis yang serenjang.</p>` },
     { kind: 'concept', title: 'Kecerunan, sudut, garis selari dan serenjang', sp: ['7.2.1'], html: R`
@@ -75,7 +75,7 @@ export const S7_2 = {
 };
 
 export const S7_3 = {
-  id: '7.3', sk: '7.3', title: 'Luas Poligon', sp: ['7.3.1', '7.3.2', '7.3.3', '7.3.4', '7.3.5'], status: 'review', minutes: 50,
+  id: '7.3', sk: '7.3', title: 'Luas Poligon', sp: ['7.3.1', '7.3.2', '7.3.3', '7.3.4', '7.3.5'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Luas tanah daripada koordinat', html: R`<p>Juruukur tanah merekod bucu-bucu sebidang tanah sebagai koordinat. Dengan rumus luas poligon, luas tanah boleh dikira terus tanpa memecahkannya kepada bentuk mudah satu per satu.</p>` },
     { kind: 'concept', title: 'Menerbitkan rumus luas segi tiga', sp: ['7.3.1'], html: R`
@@ -119,7 +119,7 @@ export const S7_3 = {
 
 const apol = (k) => { const h = (-4 * k * k) / (1 - k * k), r2 = h * h + (16 * k * k) / (1 - k * k); return { h, r: Math.sqrt(r2) }; };
 export const S7_4 = {
-  id: '7.4', sk: '7.4', title: 'Persamaan Lokus', sp: ['7.4.1', '7.4.2'], status: 'review', minutes: 45,
+  id: '7.4', sk: '7.4', title: 'Persamaan Lokus', sp: ['7.4.1', '7.4.2'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Kambing yang ditambat', html: R`<p>Seekor kambing ditambat pada pancang dengan tali 5 m. Apabila tali tegang, kambing berada tepat 5 m dari pancang. Kedudukan kambing membentuk satu bulatan. Laluan semua titik yang memenuhi sesuatu syarat dipanggil <strong>lokus</strong>.</p>` },
     { kind: 'concept', title: 'Lokus jarak malar dan nisbah jarak malar', sp: ['7.4.1'], html: R`
