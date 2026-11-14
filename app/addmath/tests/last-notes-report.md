@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 4 daripada 18.
+Bab dengan fail nota: 5 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 20**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 22**
 
 ## t4-1 Fungsi (status: review)
 
@@ -72,6 +72,22 @@ Bab dengan fail nota: 4 daripada 18.
 | 4.3.5 | 4.3 | ✓ | ✓ | 3 |
 | 4.4.1 | 4.4 | ✓ | ✓ | 7 |
 
+## t4-5 Janjang (status: review)
+
+2 subtopik · 12 contoh · 2 visual · 21 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 5.1.1 | 5.1 | ✓ | ✓ | 2 |
+| 5.1.2 | 5.1 | ✓ | ✓ | 3 |
+| 5.1.3 | 5.1 | ✓ | ✓ | 3 |
+| 5.1.4 | 5.1 | ✓ | ✓ | 2 |
+| 5.2.1 | 5.2 | ✓ | ✓ | 2 |
+| 5.2.2 | 5.2 | ✓ | ✓ | 3 |
+| 5.2.3 | 5.2 | ✓ | ✓ | 2 |
+| 5.2.4 | 5.2 | ✓ | ✓ | 3 |
+| 5.2.5 | 5.2 | ✓ | ✓ | 2 |
+
 ## Ralat
 - tiada
 
@@ -99,5 +115,7 @@ Bab dengan fail nota: 4 daripada 18.
 - t4-4.3-11 (penaakulan) — Buktikan bahawa \(\log_a \dfrac{x}{y} = \log_a x - \log_a y\).
 - t4-4.3-12 (penaakulan) — Buktikan bahawa \(\log_a x^k = k\log_a x\).
 - t4-4.4-07 (penaakulan) — Kenapakah kita mengambil logaritma kedua-dua belah untuk menyelesaikan \(3^x = 20\), tetapi tidak perlu untuk 
+- t4-5.1-09 (penaakulan) — Terangkan, dengan menulis \(S_n\) ke hadapan dan ke belakang, mengapa \(1 + 2 + 3 + \cdots + 100 = 5050\).
+- t4-5.2-10 (penaakulan) — Terangkan mengapa JG 1, 2, 4, 8, … tidak mempunyai hasil tambah hingga ketakterhinggaan, sedangkan 1, ½, ¼, … 
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

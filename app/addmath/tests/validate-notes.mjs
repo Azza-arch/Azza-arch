@@ -45,6 +45,18 @@ function expected(check, id) {
     case 'fixed-point': { const f = f1(check.f); const r = roots((x) => f(x) - x, 0); if (r.length !== 1) err(id, `f(x) = x has ${r.length} solutions`); return r[0]; }
     case 'substitute': return null; // handled with the answer below
     case 'value': return evaluate(check.expr);
+    case 'seq': { // AP/GP by direct iteration (not by the formulas being taught)
+      const step = (v) => (check.type === 'ap' ? v + check.d : v * check.r);
+      const termN = (n) => { let v = check.a; for (let k = 1; k < n; k++) v = step(v); return v; };
+      const sumN = (n) => { let v = check.a, s = 0; for (let k = 0; k < n; k++) { s += v; v = step(v); } return s; };
+      if (check.what === 'term') return termN(check.n);
+      if (check.what === 'sum') return sumN(check.n);
+      if (check.what === 'inf') { if (check.type !== 'gp' || Math.abs(check.r) >= 1) { err(id, 'sum to infinity needs a GP with |r| < 1'); return NaN; } return sumN(5000); }
+      if (check.what === 'n-for-term') { for (let n = 1; n <= 100000; n++) if (Math.abs(termN(n) - check.value) < 1e-9) return n; err(id, `${check.value} is not a term`); return NaN; }
+      if (check.what === 'first-n-sum-exceeds') { for (let n = 1; n <= 100000; n++) if (sumN(n) > check.value) return n; return NaN; }
+      return undefined; }
+    case 'bounce': { let h = check.h0, total = check.h0; for (let k = 0; k < 5000; k++) { h *= check.ratio; total += 2 * h; } return total; }
+    case 'first-n-power-below': { for (let n = 0; n <= 10000; n++) if (check.a * check.r ** n < check.limit) return n; return NaN; }
     case 'linear3': { // Cramer's rule on [[a,b,c,d],…] meaning ax + by + cz = d
       const M = check.eqs, det = (m) => m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
       const A = M.map((r) => r.slice(0, 3)), D = det(A); if (Math.abs(D) < 1e-12) { err(id, 'system has no unique solution'); return NaN; }
@@ -96,6 +108,7 @@ function checkMcq(q, id) {
       let match = true; for (let k = -4000; k <= 4000; k++) { const x = k / 200 + 0.0013; if (holds(x) !== inSet(x)) { match = false; break; } } for (const x of [s.a, s.b].filter(Number.isFinite)) if (holds(x) !== inSet(x)) match = false;
       if (match !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees with the solution set of ${c.rule} ${c.op} 0`); }); }
   else if (c.kind === 'value-equal') { const want = evaluate(c.target); q.options.forEach((o) => { const v = evaluate(o.data.value); const same = Math.abs(v - want) <= 1e-9 * Math.max(1, Math.abs(want)); if (same !== !!o.correct) err(id, `option "${strip(o.text)}" (= ${v}) key disagrees with target ${c.target} = ${want}`); }); }
+  else if (c.kind === 'seq-type') q.options.forEach((o) => { const tm = o.data.terms; const ap = tm.every((v, k) => k < 2 || Math.abs((tm[k] - tm[k - 1]) - (tm[1] - tm[0])) < 1e-12); const gp = tm.every((v) => v !== 0) && tm.every((v, k) => k < 2 || Math.abs(tm[k] / tm[k - 1] - tm[1] / tm[0]) < 1e-12); const is = c.type === 'ap' ? ap : gp; if (is !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: is ${c.type} = ${is}`); });
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }
