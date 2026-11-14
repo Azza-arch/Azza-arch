@@ -10,5 +10,5 @@ export const CHAPTER = {
   intro: R`<p>Fungsi ialah "peraturan" yang memberi tepat satu output bagi setiap input. Dalam bab ini, anda akan belajar membaca dan menulis fungsi, mencari domain dan julat, menggabungkan dua fungsi (gubahan), dan membalikkan fungsi (songsang).</p>`,
   subtopics: [S1_1, S1_2, S1_3],
   questions: QUESTIONS,
-  denai: { href: 'denai/', label: 'DENAI: Jejak Taman Fungsi' },
+  denai: { href: '/denai/', label: 'DENAI: Jejak Taman Fungsi' },
 };

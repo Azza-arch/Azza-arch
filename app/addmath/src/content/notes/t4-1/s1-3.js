@@ -84,6 +84,6 @@ export const S1_3 = {
       R`Cari \(f^{-1}\): \(y = f(x)\), jadikan \(x\) perkara rumus, tukar nama pemboleh ubah. Semak dengan \(ff^{-1}(x) = x\).`,
       R`Graf \(f^{-1}\) ialah pantulan graf \(f\) pada \(y = x\); domain dan julat bertukar tempat.`,
     ] },
-    { kind: 'next', html: R`<p>Fungsi digunakan sepanjang Matematik Tambahan: <strong>Bab 2 Fungsi Kuadratik</strong> mengkaji graf parabola, dan <strong>Bab 4</strong> menggunakan sepasang fungsi songsang yang penting, iaitu eksponen dan logaritma.</p><p>Mahu cuba konsep fungsi dalam permainan? DENAI Level 1-1 menggunakan "mesin fungsi" untuk membina jambatan. Ia pilihan sahaja dan tidak diperlukan untuk nota ini.</p>`, links: [{ href: 'denai/', label: 'Main DENAI: Jejak Taman Fungsi' }, { href: '#/bab/t4-1', label: 'Kembali ke Bab 1' }] },
+    { kind: 'next', html: R`<p>Fungsi digunakan sepanjang Matematik Tambahan: <strong>Bab 2 Fungsi Kuadratik</strong> mengkaji graf parabola, dan <strong>Bab 4</strong> menggunakan sepasang fungsi songsang yang penting, iaitu eksponen dan logaritma.</p><p>Mahu cuba konsep fungsi dalam permainan? DENAI Level 1-1 menggunakan "mesin fungsi" untuk membina jambatan. Ia pilihan sahaja dan tidak diperlukan untuk nota ini.</p>`, links: [{ href: '/denai/', label: 'Main DENAI: Jejak Taman Fungsi' }, { href: '#/bab/t4-1', label: 'Kembali ke Bab 1' }] },
   ],
 };

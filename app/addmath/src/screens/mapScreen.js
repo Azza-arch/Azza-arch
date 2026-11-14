@@ -36,7 +36,7 @@ export function renderMapScreen(root, form) {
         </div>
         <button type="button" class="map-arrow" id="map-next" aria-label="Lihat bab seterusnya">&rsaquo;</button>
       </div>
-      ${form === 4 ? `<a class="game-link game-link-map" href="denai/">
+      ${form === 4 ? `<a class="game-link game-link-map" href="/denai/">
         <span class="game-link-kicker">Permainan · Bab 1 Fungsi</span>
         <span class="game-link-title">DENAI: Jejak Taman Fungsi</span>
         <span class="game-link-cta">Main &rarr;</span>

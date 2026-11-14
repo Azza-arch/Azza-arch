@@ -1,3 +1,8 @@
 # Cloudflare Pages redirects — https://developers.cloudflare.com/pages/configuration/redirects/
 # Tense Tales moved from /games/tense-tales/ to /app/tense-tales/.
 /games/tense-tales/*  /app/tense-tales/:splat  301
+# DENAI: the old game address now opens the DENAI landing page (/denai/).
+# The game itself is served at /app/addmath/denai/main (assets stay in place).
+/app/addmath/denai             /denai/  301
+/app/addmath/denai/            /denai/  301
+/app/addmath/denai/index.html  /denai/  301
