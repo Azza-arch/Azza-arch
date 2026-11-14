@@ -660,3 +660,6 @@ body:has(#complete[open]) #zone-toast,body:has(#complete[open]) .zone-toast,body
 .lb-submit-row button{min-height:44px;white-space:nowrap}
 .lb-submit-msg{min-height:1.2em;margin:4px 0 0!important;font-weight:700;color:var(--bad,#b34c43)!important}
 .lb-submit-msg:empty{display:none}
+/* Leaderboard icon sits left of the settings gear on the menu. */
+body .lb-btn{right:calc(max(18px,env(safe-area-inset-right)) + 58px);font-size:22px;line-height:1}
+#welcome [hidden],.pause-actions [hidden],.settings-menu [hidden]{display:none!important}
