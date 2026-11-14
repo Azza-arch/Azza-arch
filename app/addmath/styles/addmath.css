@@ -863,3 +863,53 @@ input:focus-visible {
     font-size: 24px;
   }
 }
+
+/* ---------- DENAI game link (Bab 1 Fungsi) ---------- */
+
+.game-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 16px;
+  margin-top: 18px;
+  width: min(360px, 100%);
+  padding: 14px 18px;
+  text-align: left;
+  text-decoration: none;
+  color: var(--navy);
+  background: var(--green);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.game-link-kicker {
+  grid-column: 1;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.game-link-title {
+  grid-column: 1;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.game-link-cta {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-weight: 800;
+  color: var(--blue);
+}
+
+.game-link-map {
+  margin: 20px auto 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .game-link { transition: transform 0.12s ease; }
+  .game-link:active { transform: translateY(3px); }
+}

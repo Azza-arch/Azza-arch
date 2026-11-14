@@ -1,0 +1,8 @@
+Native-size crops (no redraw, no recolour) from large-tiles-thick-outline.png
+(Kenney "UI Pack - Pixel Adventure", CC0 1.0). 32x32 frames, 13 columns.
+  panel-cream.png  frame 0     panel-wood.png  frame 1    panel-slate.png frame 3
+  slot-red.png     frame 33    slot-green.png  frame 34   slot-blue.png   frame 35
+  round-cream.png  frame 52
+  ribbon.png       frames 56+57+58 placed side by side (banner with folded tails)
+  ribbon-flat.png  frames 43+44+45 placed side by side
+Used by src/v14/ui-system.css as CSS border-image / background sources.
