@@ -1,5 +1,9 @@
 import { mappingRows, chipSet } from '../utils/diagramKit.js';
 
+// Show numbers the way a pupil writes them: no floating-point artefacts
+// (0.1 + 0.2 style). 12 significant digits is far beyond any classroom value.
+const fmt = (n) => String(Number(Number(n).toPrecision(12)));
+
 // Bab 1 - Fungsi (Tingkatan 4). Running example used throughout: f(x) = 2x + 1.
 // Each lesson focuses on exactly one idea (see objective) and stays on one
 // screen: diagram/equation on the left, explanation on the right.
@@ -109,9 +113,9 @@ export const CHAPTER1_LESSONS = [
       }
       const result = 2 * x + 1;
       return `
-        <p class="compute-step">f(${x}) = 2(${x}) + 1</p>
-        <p class="compute-step">f(${x}) = ${2 * x} + 1</p>
-        <p class="compute-step compute-final">f(${x}) = ${result}</p>
+        <p class="compute-step">f(${fmt(x)}) = 2(${fmt(x)}) + 1</p>
+        <p class="compute-step">f(${fmt(x)}) = ${fmt(2 * x)} + 1</p>
+        <p class="compute-step compute-final">f(${fmt(x)}) = ${fmt(result)}</p>
       `;
     },
   },
@@ -227,9 +231,9 @@ export const CHAPTER1_LESSONS = [
       const gx = x + 1;
       const fgx = 2 * gx;
       return `
-        <p class="compute-step">g(${x}) = ${x} + 1 = ${gx}</p>
-        <p class="compute-step">f(g(${x})) = f(${gx}) = 2(${gx}) = ${2 * gx}</p>
-        <p class="compute-step compute-final">fg(${x}) = ${fgx}</p>
+        <p class="compute-step">g(${fmt(x)}) = ${fmt(x)} + 1 = ${fmt(gx)}</p>
+        <p class="compute-step">f(g(${fmt(x)})) = f(${fmt(gx)}) = 2(${fmt(gx)}) = ${fmt(2 * gx)}</p>
+        <p class="compute-step compute-final">fg(${fmt(x)}) = ${fmt(fgx)}</p>
       `;
     },
   },
@@ -261,18 +265,18 @@ export const CHAPTER1_LESSONS = [
         const gx = x + 1;
         const fgx = 2 * gx;
         return `
-          <p class="compute-step">g(${x}) = ${x} + 1 = ${gx}</p>
-          <p class="compute-step">f(g(${x})) = 2(${gx}) = ${fgx}</p>
-          <p class="compute-step compute-final">fg(${x}) = ${fgx}</p>
+          <p class="compute-step">g(${fmt(x)}) = ${fmt(x)} + 1 = ${fmt(gx)}</p>
+          <p class="compute-step">f(g(${fmt(x)})) = 2(${fmt(gx)}) = ${fmt(fgx)}</p>
+          <p class="compute-step compute-final">fg(${fmt(x)}) = ${fmt(fgx)}</p>
         `;
       },
       gf(x) {
         const fx = 2 * x;
         const gfx = fx + 1;
         return `
-          <p class="compute-step">f(${x}) = 2(${x}) = ${fx}</p>
-          <p class="compute-step">g(f(${x})) = ${fx} + 1 = ${gfx}</p>
-          <p class="compute-step compute-final">gf(${x}) = ${gfx}</p>
+          <p class="compute-step">f(${fmt(x)}) = 2(${fmt(x)}) = ${fmt(fx)}</p>
+          <p class="compute-step">g(f(${fmt(x)})) = ${fmt(fx)} + 1 = ${fmt(gfx)}</p>
+          <p class="compute-step compute-final">gf(${fmt(x)}) = ${fmt(gfx)}</p>
         `;
       },
     },
@@ -314,9 +318,9 @@ export const CHAPTER1_LESSONS = [
       const fv = 2 * v + 1;
       const backToV = (fv - 1) / 2;
       return `
-        <p class="compute-step">f(${v}) = 2(${v}) + 1 = ${fv}</p>
-        <p class="compute-step">f&#8315;&#185;(${fv}) = (${fv} &minus; 1) &divide; 2 = ${backToV}</p>
-        <p class="compute-step compute-final">Kembali kepada v = ${backToV}</p>
+        <p class="compute-step">f(${fmt(v)}) = 2(${fmt(v)}) + 1 = ${fmt(fv)}</p>
+        <p class="compute-step">f&#8315;&#185;(${fmt(fv)}) = (${fmt(fv)} &minus; 1) &divide; 2 = ${fmt(backToV)}</p>
+        <p class="compute-step compute-final">Kembali kepada v = ${fmt(backToV)}</p>
       `;
     },
   },
