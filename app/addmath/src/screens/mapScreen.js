@@ -3,9 +3,11 @@ import { chaptersForForm } from '../data/chapters.js';
 import { getProgress, saveLastLocation } from '../utils/storage.js';
 import { chapterById } from '../content/curriculum.js';
 import { PREPARING_LABEL } from '../content/status.js';
+import { NOTE_STATUS } from '../content/notes/index.js';
+import { visibleStatus } from '../notes/preview.js';
 
 export function renderMapScreen(root, form) {
-  const chapters = chaptersForForm(form);
+  const chapters = chaptersForForm(form).map((c) => ({ ...c, notes: visibleStatus(NOTE_STATUS[c.id]), review: NOTE_STATUS[c.id] === 'review' && visibleStatus('review') }));
   const progress = getProgress();
   saveLastLocation({ form });
 
@@ -26,7 +28,7 @@ export function renderMapScreen(root, form) {
                 <span class="map-node-number">${ch.number}</span>
                 <span class="map-node-title">${ch.title}</span>
                 ${chapterById(ch.id)?.package === 'elektif' ? '<span class="map-node-tag">Elektif</span>' : ''}
-                ${ch.ready ? '' : `<span class="map-node-status">${PREPARING_LABEL}</span>`}
+                ${ch.review ? '<span class="map-node-status is-review">Pratonton semakan</span>' : (ch.ready || ch.notes ? '' : `<span class="map-node-status">${PREPARING_LABEL}</span>`)}
               </button>`
               )
               .join('')}
@@ -49,11 +51,7 @@ export function renderMapScreen(root, form) {
     node.addEventListener('click', () => {
       const chapterId = node.getAttribute('data-chapter');
       const chapter = chapters.find((c) => c.id === chapterId);
-      if (chapter.ready) {
-        navigate(`lesson/${chapterId}/1`);
-      } else {
-        navigate(`soon/${chapterId}`);
-      }
+      navigate(chapter.ready || chapter.notes ? `bab/${chapterId}` : `soon/${chapterId}`);
     });
   });
 

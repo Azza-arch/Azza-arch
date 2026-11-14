@@ -5,6 +5,8 @@ import { renderMapScreen } from './screens/mapScreen.js';
 import { renderComingSoonScreen } from './screens/comingSoonScreen.js';
 import { renderLessonScreen } from './screens/lessonScreen.js';
 import { renderPracticeScreen } from './screens/practiceScreen.js';
+import { renderChapterScreen } from './screens/chapterScreen.js';
+import { renderNoteScreen } from './screens/noteScreen.js';
 
 const root = document.getElementById('app');
 
@@ -23,6 +25,12 @@ function render(route) {
       break;
     case 'lesson':
       renderLessonScreen(root, params[0], params[1]);
+      break;
+    case 'bab':
+      renderChapterScreen(root, params[0]);
+      break;
+    case 'nota':
+      renderNoteScreen(root, params[0], params[1]);
       break;
     case 'practice':
       renderPracticeScreen(root, params[0]);
