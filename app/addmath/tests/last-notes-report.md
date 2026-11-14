@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 13 daripada 18.
+Bab dengan fail nota: 14 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 72**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 76**
 
 ## t4-1 Fungsi (status: review)
 
@@ -224,6 +224,19 @@ Bab dengan fail nota: 13 daripada 18.
 | 3.3.5 | 3.3 | ✓ | ✓ | 2 |
 | 3.4.2 | 3.4 | ✓ | ✓ | 5 |
 
+## t5-4 Pilih Atur dan Gabungan (status: review)
+
+2 subtopik · 11 contoh · 2 visual · 19 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 4.1.1 | 4.1 | ✓ | ✓ | 2 |
+| 4.1.2 | 4.1 | ✓ | ✓ | 6 |
+| 4.1.3 | 4.1 | ✓ | ✓ | 4 |
+| 4.2.1 | 4.2 | ✓ | ✓ | 3 |
+| 4.2.2 | 4.2 | ✓ | ✓ | 3 |
+| 4.2.3 | 4.2 | ✓ | ✓ | 3 |
+
 ## Ralat
 - tiada
 
@@ -303,5 +316,9 @@ Bab dengan fail nota: 13 daripada 18.
 - t5-3.3-10 (objektif) — Lengkung \(y = f(x)\) berada di bawah paksi-\(x\) bagi \(1 \le x \le 4\), dan \(\displaystyle\int_1^4 f(x)\,dx
 - t5-3.4-04 (objektif) — Graf kadar aliran \(r(t)\) (liter/minit) dilukis. Jumlah air yang mengalir dari \(t = 0\) hingga \(t = 5\) diw
 - t5-3.4-05 (penaakulan) — Terangkan, dengan merujuk kepada jalur nipis, mengapa luas di bawah graf kadar aliran memberi jumlah air.
+- t5-4.1-10 (objektif) — Antara yang berikut, yang manakah pilih atur?
+- t5-4.1-11 (penaakulan) — Terangkan mengapa bilangan susunan huruf AAB ialah \(\dfrac{3!}{2!} = 3\), dengan menyenaraikan susunan dan me
+- t5-4.2-02 (objektif) — Hubungan antara \({}^nP_r\) dan \({}^nC_r\) ialah…
+- t5-4.2-08 (penaakulan) — Terangkan mengapa \({}^{10}C_3 = {}^{10}C_7\) tanpa mengira nilainya.
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

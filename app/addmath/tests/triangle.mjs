@@ -129,3 +129,18 @@ export function areaBetween(f, g, a, b) { // ∫|f − g|, split where f − g c
   cuts.push(b); let s = 0; for (let k = 1; k < cuts.length; k++) s += Math.abs(simpson(d, cuts[k - 1], cuts[k])); return s;
 }
 export function riemann(f, a, b, n, rule = 'left') { const h = (b - a) / n; let s = 0; for (let k = 0; k < n; k++) { const x = a + k * h + (rule === 'right' ? h : rule === 'mid' ? h / 2 : 0); s += f(x) * h; } return s; }
+
+// Counting (T5 Bab 4) — brute-force enumeration, never nPr / nCr / n! formulas.
+// items: array (repeats allowed = identical objects); mode 'perm' (ordered, r of them) | 'comb' (unordered) |
+// 'product' (one from each of sets); circular: arrangements equal up to rotation; where: predicate on the tuple.
+export function countBrute({ items, r, mode = 'perm', circular = false, sets, where }) {
+  const seen = new Set(); let n = 0;
+  const take = (tuple) => { if (where && !where(tuple)) return; let key = tuple.map(String).join('\u0001');
+    if (circular) { let best = null; for (let s = 0; s < tuple.length; s++) { const k = [...tuple.slice(s), ...tuple.slice(0, s)].map(String).join('\u0001'); if (best === null || k < best) best = k; } key = best; }
+    if (mode === 'comb') key = [...tuple].map(String).sort().join('\u0001');
+    if (!seen.has(key)) { seen.add(key); n++; } };
+  if (mode === 'product') { const rec = (k, acc) => { if (k === sets.length) return take(acc); for (const v of sets[k]) rec(k + 1, [...acc, v]); }; rec(0, []); return n; }
+  const len = r ?? items.length, used = new Array(items.length).fill(false);
+  if (mode === 'comb') { const rec = (start, acc) => { if (acc.length === len) return take(acc.map((i) => items[i])); for (let i = start; i < items.length; i++) rec(i + 1, [...acc, i]); }; rec(0, []); return n; }
+  const rec = (acc) => { if (acc.length === len) return take(acc.map((i) => items[i])); for (let i = 0; i < items.length; i++) if (!used[i]) { used[i] = true; rec([...acc, i]); used[i] = false; } }; rec([]); return n;
+}
