@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 5 daripada 18.
+Bab dengan fail nota: 6 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 22**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 29**
 
 ## t4-1 Fungsi (status: review)
 
@@ -88,6 +88,19 @@ Bab dengan fail nota: 5 daripada 18.
 | 5.2.4 | 5.2 | ✓ | ✓ | 3 |
 | 5.2.5 | 5.2 | ✓ | ✓ | 2 |
 
+## t4-6 Hukum Linear (status: review)
+
+3 subtopik · 10 contoh · 3 visual · 23 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 6.1.1 | 6.1 | ✓ | ✓ | 2 |
+| 6.1.2 | 6.1 | ✓ | ✓ | 2 |
+| 6.1.3 | 6.1 | ✓ | ✓ | 2 |
+| 6.1.4 | 6.1 | ✓ | ✓ | 3 |
+| 6.2.1 | 6.2 | ✓ | ✓ | 8 |
+| 6.3.1 | 6.3 | ✓ | ✓ | 6 |
+
 ## Ralat
 - tiada
 
@@ -117,5 +130,12 @@ Bab dengan fail nota: 5 daripada 18.
 - t4-4.4-07 (penaakulan) — Kenapakah kita mengambil logaritma kedua-dua belah untuk menyelesaikan \(3^x = 20\), tetapi tidak perlu untuk 
 - t4-5.1-09 (penaakulan) — Terangkan, dengan menulis \(S_n\) ke hadapan dan ke belakang, mengapa \(1 + 2 + 3 + \cdots + 100 = 5050\).
 - t4-5.2-10 (penaakulan) — Terangkan mengapa JG 1, 2, 4, 8, … tidak mempunyai hasil tambah hingga ketakterhinggaan, sedangkan 1, ½, ¼, … 
+- t4-6.1-06 (objektif) — Bagi \(L = 0.05m + 12\) (spring), apakah maksud 0.05?
+- t4-6.1-07 (penaakulan) — Farid berkata garis penyuaian terbaik mesti melalui titik data pertama dan terakhir. Terangkan mengapa pendapa
+- t4-6.1-08 (objektif) — Antara berikut, yang manakah ciri garis penyuaian terbaik yang dilukis dengan kaedah pemerinyuan?
+- t4-6.1-09 (objektif) — Dengan memerhati graf (bukan jadual), bagaimanakah anda tahu hubungan dua pemboleh ubah adalah linear?
+- t4-6.2-07 (objektif) — Untuk menjadikan \(y = ab^x\) linear, apakah yang perlu diplot?
+- t4-6.2-08 (penaakulan) — Terangkan mengapa mengambil logaritma menjadikan graf \(y = ax^n\) suatu garis lurus.
+- t4-6.3-05 (penaakulan) — Mengapakah unjuran jauh di luar julat data (contohnya bilangan bakteria selepas 100 jam) mungkin tidak boleh d
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

@@ -32,6 +32,17 @@ function walkStrings(id, obj) {
   if (obj && typeof obj === 'object') for (const [k, v] of Object.entries(obj)) if (typeof v !== 'function') walkStrings(id, v);
 }
 
+
+// ---- linear-law helpers (least squares on transformed data)
+const LAWS = {
+  'ab^x': { X: (x) => x, Y: (y) => Math.log10(y), consts: (m, c) => ({ a: 10 ** c, b: 10 ** m }), f: (k, x) => k.a * k.b ** x },
+  'ax^n': { X: (x) => Math.log10(x), Y: (y) => Math.log10(y), consts: (m, c) => ({ a: 10 ** c, n: m }), f: (k, x) => k.a * x ** k.n },
+  'ax^2+bx': { X: (x) => x, Y: (y, x) => y / x, consts: (m, c) => ({ a: m, b: c }), f: (k, x) => k.a * x * x + k.b * x },
+  'a/x+b': { X: (x) => 1 / x, Y: (y) => y, consts: (m, c) => ({ a: m, b: c }), f: (k, x) => k.a / x + k.b },
+  'linear': { X: (x) => x, Y: (y) => y, consts: (m, c) => ({ m, c }), f: (k, x) => k.m * x + k.c },
+};
+function leastSquares(pts) { const n = pts.length, sx = pts.reduce((s, p) => s + p[0], 0), sy = pts.reduce((s, p) => s + p[1], 0), sxx = pts.reduce((s, p) => s + p[0] * p[0], 0), sxy = pts.reduce((s, p) => s + p[0] * p[1], 0); const m = (n * sxy - sx * sy) / (n * sxx - sx * sx); return { m, c: (sy - m * sx) / n }; }
+
 // ---- independent answer checks
 function expected(check, id) {
   switch (check.kind) {
@@ -45,6 +56,12 @@ function expected(check, id) {
     case 'fixed-point': { const f = f1(check.f); const r = roots((x) => f(x) - x, 0); if (r.length !== 1) err(id, `f(x) = x has ${r.length} solutions`); return r[0]; }
     case 'substitute': return null; // handled with the answer below
     case 'value': return evaluate(check.expr);
+    case 'line-two-points': { const [[x1, y1], [x2, y2]] = [check.p1, check.p2]; const m = (y2 - y1) / (x2 - x1), c = y1 - m * x1; return { m, c, 'y-at': m * check.at + c, 'x-at': (check.at - c) / m }[check.want]; }
+    case 'law-from-line': { const L = LAWS[check.law]; const { m, c } = leastSquares([check.p1, check.p2]); const k = L.consts(m, c); return check.want === 'y-at' ? L.f(k, check.at) : k[check.want]; }
+    case 'law-fit': { const L = LAWS[check.law]; const pts = check.data.map(([x, y]) => [L.X(x), L.Y(y, x)]); const { m, c } = leastSquares(pts); const k = L.consts(m, c);
+      // the fitted law must reproduce the data (exact-data questions only)
+      if (!check.noisy) check.data.forEach(([x, y]) => { if (Math.abs(L.f(k, x) - y) > 1e-6 * Math.max(1, Math.abs(y))) err(id, `data point (${x}, ${y}) does not follow ${check.law}`); });
+      return check.want === 'y-at' ? L.f(k, check.at) : check.want === 'm' ? m : check.want === 'c' ? c : k[check.want]; }
     case 'seq': { // AP/GP by direct iteration (not by the formulas being taught)
       const step = (v) => (check.type === 'ap' ? v + check.d : v * check.r);
       const termN = (n) => { let v = check.a; for (let k = 1; k < n; k++) v = step(v); return v; };
@@ -73,7 +90,7 @@ function expected(check, id) {
 }
 function checkNumeric(spec, id) {
   if (!Number.isFinite(spec.answer)) { err(id, 'numeric answer missing'); return; }
-  if (spec.check.kind === 'substitute') { const v = evaluate(spec.check.expr, { [spec.check.variable]: spec.answer }); if (!near(v, spec.check.equals)) err(id, `substituting ${spec.answer} gives ${v}, not ${spec.check.equals}`); }
+  if (spec.check.kind === 'substitute') { const v = evaluate(spec.check.expr, { [spec.check.variable]: spec.answer }); if (Math.abs(v - spec.check.equals) > (spec.tolerance ?? 1e-7) * Math.max(1, Math.abs(spec.check.equals))) err(id, `substituting ${spec.answer} gives ${v}, not ${spec.check.equals}`); }
   else { const want = expected(spec.check, id); const tol = spec.tolerance ?? 1e-7; if (want === undefined) err(id, `unknown check ${spec.check.kind}`); else if (Math.abs(spec.answer - want) > tol * Math.max(1, Math.abs(want))) err(id, `independent solve gives ${want}, stored answer ${spec.answer}`); if (spec.tolerance && spec.tolerance > 0.01) warn(id, `tolerance ${spec.tolerance} is loose`); }
   for (const w of spec.wrong || []) { if (near(w.value, spec.answer)) err(id, `wrong-answer feedback for ${w.value} equals the correct answer`); if (!w.feedback) err(id, `wrong value ${w.value} has no feedback`); }
 }
@@ -109,6 +126,7 @@ function checkMcq(q, id) {
       if (match !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees with the solution set of ${c.rule} ${c.op} 0`); }); }
   else if (c.kind === 'value-equal') { const want = evaluate(c.target); q.options.forEach((o) => { const v = evaluate(o.data.value); const same = Math.abs(v - want) <= 1e-9 * Math.max(1, Math.abs(want)); if (same !== !!o.correct) err(id, `option "${strip(o.text)}" (= ${v}) key disagrees with target ${c.target} = ${want}`); }); }
   else if (c.kind === 'seq-type') q.options.forEach((o) => { const tm = o.data.terms; const ap = tm.every((v, k) => k < 2 || Math.abs((tm[k] - tm[k - 1]) - (tm[1] - tm[0])) < 1e-12); const gp = tm.every((v) => v !== 0) && tm.every((v, k) => k < 2 || Math.abs(tm[k] / tm[k - 1] - tm[1] / tm[0]) < 1e-12); const is = c.type === 'ap' ? ap : gp; if (is !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: is ${c.type} = ${is}`); });
+  else if (c.kind === 'table-linear') q.options.forEach((o) => { const { xs, ys } = o.data; const dx = xs[1] - xs[0], dy = ys[1] - ys[0]; const lin = xs.every((x, k) => k < 1 || (Math.abs(xs[k] - xs[k - 1] - dx) < 1e-12 && Math.abs(ys[k] - ys[k - 1] - dy) < 1e-12)); if (lin !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: linear = ${lin}`); });
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }
