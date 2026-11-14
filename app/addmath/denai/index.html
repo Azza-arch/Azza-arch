@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="DENAI Level 1-1: Jejak Taman Fungsi. Permainan platform Add Math — bantu Chill Boy membina jambatan dengan fungsi.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://1fd1d5.playfabapi.com; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>DENAI: Jejak Taman Fungsi | haziqbuilds</title>
   <link rel="canonical" href="https://haziqbuilds.com/app/addmath/denai/">
   <link rel="icon" href="data:,">
@@ -106,9 +106,13 @@
     <div class="banner-wrap"><h2 id="lb-title" class="ribbon">Papan pendahulu</h2></div>
     <p id="lb-notice" class="lb-notice" role="note"></p>
     <div class="lb-tabs" role="tablist" aria-label="Tempoh"><button type="button" role="tab" data-lb-tab="allTime">Keseluruhan</button><button type="button" role="tab" data-lb-tab="weekly">Minggu ini</button></div>
-    <div class="lb-table-wrap"><table class="lb-table"><thead><tr><th scope="col">#</th><th scope="col">Pemain</th><th scope="col">Masa</th><th scope="col"><span class="lb-ico lb-coin" aria-hidden="true"></span><span class="sr">Syiling</span></th><th scope="col"><span class="lb-ico lb-gem" aria-hidden="true"></span><span class="sr">Rahsia</span></th></tr></thead><tbody id="lb-rows"></tbody></table></div>
+    <div class="lb-table-wrap"><table class="lb-table"><thead><tr><th scope="col">#</th><th scope="col">Pemain</th><th scope="col">Masa</th></tr></thead><tbody id="lb-rows"></tbody></table></div>
     <p id="lb-pb" class="lb-pb"></p>
-    <p id="lb-provider" class="small"></p>
+    <form id="lb-submit" class="lb-submit" novalidate hidden>
+      <label for="lb-name">Nama paparan</label>
+      <div class="lb-submit-row"><input id="lb-name" name="name" type="text" minlength="3" maxlength="16" autocomplete="nickname" spellcheck="false" placeholder="cth. ChillGamer"><button type="submit" id="lb-send" class="primary">Hantar</button></div>
+      <p id="lb-submit-msg" class="lb-submit-msg" role="status" aria-live="polite"></p>
+    </form>
   </dialog>
   <dialog id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-body">
     <div class="banner-wrap"><h2 id="confirm-title" class="ribbon"></h2></div>
@@ -132,6 +136,7 @@
       <h3 id="save-info-title">Simpanan</h3>
       <p>Kemajuan disimpan secara automatik dalam pelayar ini setiap kali anda tiba di checkpoint. Tiada akaun atau e-mel diperlukan.</p>
       <p class="small">Simpanan ini hanya wujud pada peranti dan pelayar ini, dan <b>tidak</b> disandarkan ke awan. Ia boleh hilang jika data pelayar dipadam, mod peribadi/inkognito digunakan, atau anda bertukar peranti. Akaun pilihan untuk menyimpan merentas peranti belum tersedia.</p>
+      <p class="small">Papan pendahulu: hanya jika anda membukanya, ID rawak peranti ini dihantar ke PlayFab (Microsoft) untuk memaparkan rekod. Nama paparan dan masa hanya dihantar apabila anda tekan Hantar.</p>
     </section>
     <nav class="menu-secondary settings-menu" aria-label="Menu lanjutan">
       <button type="button" id="level-select-btn">Peta Dunia</button>
