@@ -1,83 +1,89 @@
-// One subtopic = one naturally scrolling page, sections A–J:
-// intro, prerequisite review, concepts, visuals (+ text alternative),
-// formulas, worked examples, common mistakes, practice with full solutions,
-// summary, links onward. Content comes from src/content/notes/<chapter>.js.
+// FAHAMI mode (V3): one compact subtopic page.
+// Order: idea utama (+ bila guna) → rumus → satu visual → cara menyelesaikan →
+// satu contoh lengkap → satu kesilapan penting → bahagian pilihan yang boleh
+// dibuka (penerangan mendalam, contoh tambahan, visual lain, kesilapan lain).
+// Practice lives in the separate Latihan mode; nothing here forces "Next".
 import { navigate } from '../utils/router.js';
 import { chapterById } from '../content/curriculum.js';
 import { loadChapterNotes } from '../content/notes/index.js';
-import { renderMath, ensureKatexCss, tex } from '../notes/math.js';
+import { renderMath, ensureKatexCss } from '../notes/math.js';
 import { mountVisual } from '../notes/visuals.js';
-import { renderQuestions } from '../notes/practice.js';
 import { visibleStatus, previewBanner } from '../notes/preview.js';
+import { esc, v3Of, sectionsOf, itemsOf, modeTabs, formulaList, exampleHtml, mistakeHtml, more } from '../notes/v3.js';
 
-const LEVEL = { mudah: 'Mudah', sederhana: 'Sederhana', mencabar: 'Mencabar' };
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const spChips = (sp) => (sp || []).map((c) => `<span class="sp-chip">SP ${c}</span>`).join('');
-
-function sectionHtml(s, i) {
-  const id = `s${i}`;
-  const head = (label, title) => `<h2 class="note-h2"><span class="note-kicker">${label}</span>${renderMath(title)}</h2>`;
-  switch (s.kind) {
-    case 'intro': return `<section class="note-sec note-intro" id="${id}">${head('Mari mula', s.title || 'Kenapa kita belajar ini?')}${renderMath(s.html)}</section>`;
-    case 'prereq': return `<section class="note-sec note-prereq" id="${id}">${head('Ulang kaji ringkas', s.title)}${renderMath(s.html)}</section>`;
-    case 'concept': return `<section class="note-sec" id="${id}">${head('Konsep', s.title)}${s.sp ? `<p class="sp-row">${spChips(s.sp)}</p>` : ''}${renderMath(s.html)}</section>`;
-    case 'visual': return `<section class="note-sec note-visual" id="${id}">${head('Teroka', s.title)}${s.html ? renderMath(s.html) : ''}<figure class="visual-fig"><div class="visual-host" data-visual="${i}"></div><figcaption><details><summary>Penerangan teks bagi visual ini</summary>${renderMath(s.alt)}</details></figcaption></figure></section>`;
-    case 'formula': return `<section class="note-sec note-formula" id="${id}">${head('Rumus dan tatatanda', s.title || 'Rumus penting')}<dl class="formula-list">${s.items.map((f) => `<div class="formula-item"><dt>${tex(f.tex, true)}</dt><dd>${renderMath(f.html)}</dd></div>`).join('')}</dl></section>`;
-    case 'examples': return `<section class="note-sec" id="${id}">${head('Contoh penyelesaian', s.title || 'Contoh')}${s.items.map((e, k) => `
-      <article class="example">
-        <header class="example-head"><span class="example-num">Contoh ${k + 1}</span><span class="q-tag q-${e.level}">${LEVEL[e.level]}</span>${spChips(e.sp)}</header>
-        <div class="example-q">${renderMath(e.question)}</div>
-        <dl class="example-frame">
-          <div><dt>Diberi</dt><dd>${renderMath(e.given)}</dd></div>
-          <div><dt>Cari</dt><dd>${renderMath(e.find)}</dd></div>
-          <div><dt>Kaedah</dt><dd>${renderMath(e.method)}</dd></div>
-        </dl>
-        <ol class="example-steps">${e.steps.map((st) => `<li><div class="step-do">${renderMath(st.do)}</div>${st.why ? `<div class="step-why"><span>Kenapa?</span> ${renderMath(st.why)}</div>` : ''}</li>`).join('')}</ol>
-        <p class="example-check"><strong>Semak jawapan:</strong> ${renderMath(e.check)}</p>
-        <p class="example-conclusion"><strong>Kesimpulan:</strong> ${renderMath(e.conclusion)}</p>
-      </article>`).join('')}</section>`;
-    case 'mistakes': return `<section class="note-sec note-mistakes" id="${id}">${head('Kesilapan lazim', s.title || 'Elakkan kesilapan ini')}${s.items.map((m) => `
-      <div class="mistake"><p class="mistake-wrong"><span aria-hidden="true">✗</span> ${renderMath(m.wrong)}</p><p class="mistake-why"><strong>Kenapa salah:</strong> ${renderMath(m.why)}</p><p class="mistake-fix"><span aria-hidden="true">✓</span> <strong>Cara betul:</strong> ${renderMath(m.fix)}</p></div>`).join('')}</section>`;
-    case 'summary': return `<section class="note-sec note-summary" id="${id}">${head('Ringkasan', s.title || 'Perkara penting')}<ul>${s.points.map((x) => `<li>${renderMath(x)}</li>`).join('')}</ul></section>`;
-    case 'next': return `<section class="note-sec note-next" id="${id}">${head('Seterusnya', s.title || 'Kaitan dengan topik lain')}${renderMath(s.html)}${(s.links || []).length ? `<p class="next-links">${s.links.map((l) => `<a class="btn-ghost" href="${esc(l.href)}">${esc(l.label)}</a>`).join('')}</p>` : ''}</section>`;
-    default: return '';
-  }
-}
-const TOC = { intro: 'Mula', prereq: 'Ulang kaji', concept: null, visual: 'Teroka', formula: 'Rumus', examples: 'Contoh', mistakes: 'Kesilapan', summary: 'Ringkasan', next: 'Seterusnya' };
+const visualFig = (s, key) => `${s.html ? `<div class="v3-visual-note">${renderMath(s.html)}</div>` : ''}<figure class="visual-fig"><div class="visual-host" data-visual="${key}"></div><figcaption><details><summary>Penerangan teks bagi visual ini</summary>${renderMath(s.alt)}</details></figcaption></figure>`;
 
 export async function renderNoteScreen(root, chapterId, subId) {
   ensureKatexCss();
-  root.innerHTML = '<div class="note-screen"><p class="note-loading">Memuatkan nota…</p></div>';
+  root.innerHTML = '<div class="v3-screen"><p class="note-loading">Memuatkan nota…</p></div>';
   const ch = await loadChapterNotes(chapterId);
   const meta = chapterById(chapterId);
-  const sub = ch?.subtopics.find((s) => s.id === subId);
-  if (!ch || !sub || !visibleStatus(sub.status)) { navigate(meta ? `bab/${chapterId}` : 'start'); return; }
-  const idx = ch.subtopics.indexOf(sub), nextSub = ch.subtopics.slice(idx + 1).find((s) => visibleStatus(s.status));
-  const questions = (ch.questions || []).filter((q) => q.subtopic === sub.id && visibleStatus(q.status));
-  const tocItems = sub.sections.map((s, i) => [i, TOC[s.kind] ?? s.title]).filter(([, l]) => l);
+  const subs = (ch?.subtopics || []).filter((s) => visibleStatus(s.status));
+  const sub = subs.find((s) => s.id === subId);
+  if (!ch || !sub) { navigate(meta ? `bab/${chapterId}` : 'start'); return; }
+  const v = v3Of(sub);
+  const idx = subs.indexOf(sub), prev = subs[idx - 1], next = subs[idx + 1];
+  const visuals = sectionsOf(sub, 'visual'), examples = itemsOf(sub, 'examples'), mistakes = itemsOf(sub, 'mistakes');
+  const formulas = itemsOf(sub, 'formula');
+  const mainVis = visuals[v.visual], mainEx = examples[v.example], mainMis = mistakes[v.mistake];
+  const otherVis = visuals.filter((_, k) => k !== v.visual), otherEx = examples.filter((_, k) => k !== v.example), otherMis = mistakes.filter((_, k) => k !== v.mistake);
+  const deeper = [...sectionsOf(sub, 'prereq'), ...sectionsOf(sub, 'intro'), ...sectionsOf(sub, 'concept')]
+    .map((s) => `<section class="v3-deep"><h3>${renderMath(s.title || '')}</h3>${renderMath(s.html)}</section>`).join('');
+  const summary = sectionsOf(sub, 'summary')[0];
+  const nqs = (ch.questions || []).filter((q) => q.subtopic === sub.id && visibleStatus(q.status)).length;
+
   root.innerHTML = `
-    <div class="note-screen">
+    <div class="v3-screen v3-with-side">
       ${previewBanner(sub.status)}
-      <nav class="note-crumbs"><button type="button" class="btn-back" id="note-back">&larr; Bab ${meta.number}: ${esc(meta.title)}</button></nav>
-      <header class="note-header">
-        <p class="note-eyebrow">Tingkatan ${meta.form} · Bab ${meta.number} · ${esc(sub.id)}</p>
-        <h1 class="note-title">${renderMath(sub.title)}</h1>
-        <p class="sp-row">${spChips(sub.sp)}</p>
-        ${sub.minutes ? `<p class="note-time">Anggaran masa: ${sub.minutes} minit</p>` : ''}
-      </header>
-      <nav class="note-toc" aria-label="Isi kandungan subtopik">${tocItems.map(([i, l]) => `<a href="#s${i}" data-anchor="s${i}">${esc(l)}</a>`).join('')}<a href="#latihan" data-anchor="latihan">Latihan</a></nav>
-      ${sub.sections.map(sectionHtml).join('')}
-      <section class="note-sec note-practice" id="latihan">
-        <h2 class="note-h2"><span class="note-kicker">Latihan</span>Cuba sendiri</h2>
-        <p>Soalan disusun daripada mudah ke mencabar. Setiap soalan ada penyelesaian penuh.</p>
-        <div class="q-list"></div>
-      </section>
-      <nav class="note-pager">${nextSub ? `<button type="button" class="btn-primary" id="note-next">Subtopik seterusnya: ${renderMath(nextSub.title)} &rarr;</button>` : `<button type="button" class="btn-primary" id="note-next">Kembali ke Bab ${meta.number} &rarr;</button>`}</nav>
+      <aside class="v3-side" aria-label="Subtopik">
+        <p class="v3-side-head">Bab ${meta.number}: ${esc(meta.title)}</p>
+        <ol>${subs.map((s) => `<li><a href="#/nota/${chapterId}/${s.id}"${s === sub ? ' aria-current="page"' : ''}><span>${s.id}</span> ${esc(s.title)}</a></li>`).join('')}</ol>
+      </aside>
+      <main class="v3-main">
+        <nav class="v3-top">
+          <a class="v3-back" href="#/bab/${chapterId}">&larr; Bab ${meta.number}</a>
+          <label class="v3-picker"><span class="sr-only">Pilih subtopik</span><select id="v3-sub">${subs.map((s) => `<option value="${s.id}"${s === sub ? ' selected' : ''}>${s.id} ${esc(s.title)}</option>`).join('')}</select></label>
+        </nav>
+        ${modeTabs(chapterId, 'fahami', sub.id)}
+        <header class="v3-head">
+          <p class="note-eyebrow">Tingkatan ${meta.form} · Bab ${meta.number} · ${esc(sub.id)}</p>
+          <h1 class="v3-title">${esc(sub.title)}</h1>
+        </header>
+
+        <section class="v3-block v3-idea" id="idea">
+          <h2>Idea utama</h2>
+          ${v.idea ? renderMath(v.idea) : summary ? `<ul>${summary.points.map((x) => `<li>${renderMath(x)}</li>`).join('')}</ul>` : ''}
+          ${v.when ? `<p class="v3-when"><strong>Bila guna:</strong> ${renderMath(v.when)}</p>` : ''}
+        </section>
+
+        ${formulas.length ? `<section class="v3-block" id="rumus"><h2>Rumus dan syarat</h2>${formulaList(formulas)}</section>` : ''}
+
+        ${mainVis ? `<section class="v3-block v3-visual" id="visual"><h2>${esc(mainVis.title || 'Lihat')}</h2>${visualFig(mainVis, 'main')}</section>` : ''}
+
+        ${v.steps.length ? `<section class="v3-block" id="cara"><h2>Cara menyelesaikan</h2><ol class="v3-howto">${v.steps.map((s) => `<li>${renderMath(s)}</li>`).join('')}</ol></section>` : ''}
+
+        ${mainEx ? `<section class="v3-block" id="contoh"><h2>Contoh</h2>${exampleHtml(mainEx)}</section>` : ''}
+
+        ${mainMis ? `<section class="v3-block" id="kesilapan"><h2>Elakkan kesilapan ini</h2>${mistakeHtml(mainMis)}</section>` : ''}
+
+        <section class="v3-block v3-optional" id="lanjut">
+          ${more('Fahami dengan lebih mendalam', deeper)}
+          ${more(`Lihat contoh tambahan (${otherEx.length})`, otherEx.map((e, k) => exampleHtml(e, `Contoh tambahan ${k + 1}`)).join(''))}
+          ${more(`Visual lain (${otherVis.length})`, otherVis.map((s, k) => `<h3>${esc(s.title || '')}</h3>${visualFig(s, `o${k}`)}`).join(''))}
+          ${more(`Kesilapan lain (${otherMis.length})`, otherMis.map(mistakeHtml).join(''))}
+          ${summary ? more('Ringkasan', `<ul>${summary.points.map((x) => `<li>${renderMath(x)}</li>`).join('')}</ul>`) : ''}
+        </section>
+
+        <nav class="v3-end">
+          <a class="btn-primary" href="#/latihan/${chapterId}/${sub.id}">Cuba latihan ${esc(sub.id)} (${nqs} soalan)</a>
+          <p class="v3-end-links">${prev ? `<a href="#/nota/${chapterId}/${prev.id}">&larr; ${prev.id} ${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="#/nota/${chapterId}/${next.id}">${next.id} ${esc(next.title)} &rarr;</a>` : `<a href="#/ulangkaji/${chapterId}">Ulang kaji Bab ${meta.number} &rarr;</a>`}</p>
+        </nav>
+      </main>
     </div>`;
-  sub.sections.forEach((s, i) => { if (s.kind === 'visual') mountVisual(root.querySelector(`[data-visual="${i}"]`), s.spec); });
-  renderQuestions(root.querySelector('.q-list'), questions);
-  root.querySelector('#note-back').addEventListener('click', () => navigate(`bab/${chapterId}`));
-  root.querySelector('#note-next').addEventListener('click', () => navigate(nextSub ? `nota/${chapterId}/${nextSub.id}` : `bab/${chapterId}`));
-  // in-page anchors must not trigger the hash router
-  root.querySelectorAll('[data-anchor]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); document.getElementById(a.dataset.anchor)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }));
+
+  if (mainVis) mountVisual(root.querySelector('[data-visual="main"]'), mainVis.spec);
+  // optional visuals mount only when their section is first opened (lighter page)
+  const opt = [...root.querySelectorAll('.v3-more')].find((d) => d.querySelector('[data-visual^="o"]'));
+  opt?.addEventListener('toggle', () => { if (!opt.open) return; otherVis.forEach((s, k) => { const host = root.querySelector(`[data-visual="o${k}"]`); if (host && !host.dataset.mounted) { host.dataset.mounted = '1'; mountVisual(host, s.spec); } }); });
+  root.querySelector('#v3-sub').addEventListener('change', (e) => navigate(`nota/${chapterId}/${e.target.value}`));
 }

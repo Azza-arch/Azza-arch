@@ -2,8 +2,9 @@
 // right or wrong; every question has a full worked solution.
 import { renderMath } from './math.js';
 import { tryEval, equivalent } from './expr.js';
+import { answerHtml } from './v3.js';
 
-const LEVEL = { mudah: 'Mudah', sederhana: 'Sederhana', mencabar: 'Mencabar' };
+const LEVEL = { mudah: 'Asas', sederhana: 'Sederhana', mencabar: 'Cabaran' };
 const TYPE = { mcq: 'Objektif', numeric: 'Jawapan ringkas', expression: 'Jawapan ringkas', structured: 'Berstruktur', reasoning: 'Penaakulan' };
 
 export function checkSingle(spec, raw) {
@@ -40,7 +41,9 @@ function inputFor(spec, id) {
   return `<div class="q-input-row"><input id="${id}" class="q-input" type="text" inputmode="${spec.type === 'numeric' ? 'decimal' : 'text'}" autocomplete="off" spellcheck="false" placeholder="${ph}" aria-label="Jawapan">${spec.unit ? `<span class="q-unit">${renderMath(spec.unit)}</span>` : ''}<button type="button" class="btn-primary q-check">Semak</button></div><div class="q-feedback" aria-live="polite"></div>`;
 }
 
-export function renderQuestions(host, questions) {
+// opts (Latihan mode): number, reveal (show answer + full solution after a check),
+// conceptHref/conceptLabel (link back to the note), onResult(ok).
+export function renderQuestions(host, questions, opts = {}) {
   host.innerHTML = questions.map((q, n) => {
     const id = `q-${q.id}`;
     let body = '';
@@ -49,22 +52,32 @@ export function renderQuestions(host, questions) {
     else if (q.type === 'reasoning') body = `<p class="q-self">Tulis jawapan anda di atas kertas, kemudian bandingkan dengan penyelesaian penuh.</p>`;
     else body = inputFor(q, id);
     return `<article class="q-card" data-q="${n}" id="${id}-card">
-      <p class="q-meta"><span class="q-num">Soalan ${n + 1}</span><span class="q-tag q-${q.difficulty}">${LEVEL[q.difficulty]}</span><span class="q-tag">${TYPE[q.type]}</span></p>
+      <p class="q-meta"><span class="q-num">Soalan ${opts.number ?? n + 1}</span><span class="q-tag q-${q.difficulty}">${LEVEL[q.difficulty]}</span><span class="q-tag">${TYPE[q.type]}</span></p>
       <div class="q-prompt">${renderMath(q.prompt)}</div>
       ${body}
+      ${opts.reveal ? '<div class="q-reveal" hidden></div>' : ''}
       <details class="q-solution"><summary>Lihat penyelesaian penuh</summary>${q.type === 'structured' ? q.parts.map((p, k) => `<p class="q-sol-part"><strong>(${String.fromCharCode(97 + k)})</strong></p><ol>${p.solution.map((s) => `<li>${renderMath(s)}</li>`).join('')}</ol>`).join('') : `<ol>${q.solution.map((s) => `<li>${renderMath(s)}</li>`).join('')}</ol>`}</details>
     </article>`;
   }).join('');
 
   host.querySelectorAll('.q-card').forEach((card) => {
     const q = questions[Number(card.dataset.q)];
+    const reveal = (ok) => { // Latihan: after any check, show the answer, the full solution and a way back
+      opts.onResult?.(ok);
+      if (!opts.reveal) return;
+      const box = card.querySelector('.q-reveal'); const parts = q.type === 'structured' ? q.parts : [q];
+      const ans = parts.map((p, k) => { const a = answerHtml(p); return a ? `<li>${q.type === 'structured' ? `<strong>(${String.fromCharCode(97 + k)})</strong> ` : ''}${a}</li>` : ''; }).join('');
+      box.innerHTML = `${ans ? `<p><strong>Jawapan betul:</strong></p><ul class="q-answers">${ans}</ul>` : ''}${opts.conceptHref ? `<p><a href="${opts.conceptHref}">${opts.conceptLabel || 'Ulang konsep'} &rarr;</a></p>` : ''}`;
+      box.hidden = false; card.querySelector('.q-solution').open = true;
+    };
+    if (q.type === 'reasoning' && opts.reveal) { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn-ghost q-done'; b.textContent = 'Saya sudah cuba: tunjukkan jawapan'; b.addEventListener('click', () => reveal(true)); card.querySelector('.q-self')?.after(b); }
     if (q.type === 'mcq') {
       const fb = card.querySelector('.q-feedback');
       card.querySelectorAll('.q-option').forEach((b) => b.addEventListener('click', () => {
         const o = q.options[Number(b.dataset.k)];
         card.querySelectorAll('.q-option').forEach((x) => x.classList.remove('is-right', 'is-wrong'));
         b.classList.add(o.correct ? 'is-right' : 'is-wrong');
-        fb.className = `q-feedback is-${o.correct ? 'right' : 'wrong'}`; fb.innerHTML = renderMath(o.feedback);
+        fb.className = `q-feedback is-${o.correct ? 'right' : 'wrong'}`; fb.innerHTML = renderMath(o.feedback); reveal(!!o.correct);
       }));
       return;
     }
@@ -73,7 +86,7 @@ export function renderQuestions(host, questions) {
       const spec = q.type === 'structured' ? q.parts[Number(holder.dataset.part)] : q;
       const btn = holder.querySelector('.q-check'); if (!btn) return;
       const input = holder.querySelector('.q-input'), fb = holder.querySelector('.q-feedback');
-      const run = () => { const r = checkSingle(spec, input.value); fb.className = `q-feedback is-${r.state}`; fb.innerHTML = renderMath(r.html); };
+      const run = () => { const r = checkSingle(spec, input.value); fb.className = `q-feedback is-${r.state}`; fb.innerHTML = renderMath(r.html); if (r.state === 'right' || r.state === 'wrong') reveal(r.state === 'right'); };
       btn.addEventListener('click', run); input.addEventListener('keydown', (e) => { if (e.key === 'Enter') run(); });
     });
   });

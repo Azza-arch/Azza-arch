@@ -28,8 +28,21 @@ Last updated: 2026-11-14. Read this first in any new session.
 | T5-4 | Pilih Atur dan Gabungan | ✓ | ✓ (6/6 SP) | ✓ | review | 2 subtopik, 11 contoh, 2 visual (gambar rajah pokok, jadual nPr/nCr), 19 soalan; 4 item perlu semakan manusia. DSKP disahkan halaman demi halaman (hlm. 112–113). |
 | T5-5 | Taburan Kebarangkalian | ✓ | ✓ (14/14 SP) | ✓ | review | 3 subtopik, 17 contoh, 3 visual, 27 soalan; 6 item perlu semakan manusia. DSKP disahkan halaman demi halaman (hlm. 116–119). Jawapan normal guna nilai jadual 4 t.p. (toleransi 0.0006). |
 | T5-6 | Fungsi Trigonometri | ✓ | ✓ (12/12 SP) | ✓ | review | 6 subtopik, 20 contoh, 6 visual, 34 soalan; 7 item perlu semakan manusia. DSKP disahkan halaman demi halaman (hlm. 122–125). Input jawapan kini menerima kos, sek, kosek, kot. |
-| T5-7 | Kinematik Gerakan Linear (elektif) | – | – | – | coming_soon | seterusnya |
+| T5-7 | Pengaturcaraan Linear (elektif) | – | – | – | coming_soon | belum dibina |
+| T5-8 | Kinematik Gerakan Linear (elektif) | – | – | – | coming_soon | belum dibina |
 | T5-8 | | – | – | – | coming_soon | |
+
+## V3 (student-first) redesign — branch `claude/addmath-v3`
+Three modes per chapter: **Fahami** (`#/nota/<ch>/<sk>`: idea utama + bila guna → rumus → satu visual → cara menyelesaikan → satu contoh → satu kesilapan → bahagian pilihan yang boleh dibuka), **Ulang Kaji** (`#/ulangkaji/<ch>`: rumus, bila guna, langkah, kesilapan; carian + lompat), **Latihan** (`#/latihan/<ch>[/<sk>]`: tapis tahap Asas/Sederhana/Cabaran dan subtopik, pilih soalan terus, jawapan + penyelesaian + pautan konsep selepas semak).
+V3 text lives in `src/content/notes/v3/<ch>.js` (lead, idea, when, steps, example/visual/mistake indices) and is merged by `loadChapterNotes`; verified notes, questions and answers are untouched. Validator: every subtopic of a chapter with a V3 file must have all fields and valid indices; chapters without V3 get a warning and a fallback page.
+
+| Batch | Bab | V3 ditulis | Ujian auto | Status |
+|---|---|---|---|---|
+| 1 | T4-1, T4-2 | ✓ | ✓ | review |
+| 2 | T4-3 … T4-6 | – | – | belum |
+| 3 | T4-7 … T4-10 | – | – | belum |
+| 4 | T5-1 … T5-4 | – | – | belum |
+| 5 | T5-5 … T5-8 | – | – | belum (T5-7, T5-8 kandungan belum dibina) |
 
 ## How the notes system works
 - Chapter file: `src/content/notes/<id>.js` exporting `CHAPTER` (subtopics + questions). Register it in `src/content/notes/index.js` (`NOTE_MODULES` and `NOTE_STATUS`).

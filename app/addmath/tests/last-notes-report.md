@@ -2,7 +2,7 @@
 
 Bab dengan fail nota: 16 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 93**
+**Ralat: 0 · Amaran: 14 · Perlu semakan manusia: 93**
 
 ## t4-1 Fungsi (status: review)
 
@@ -281,7 +281,20 @@ Bab dengan fail nota: 16 daripada 18.
 - tiada
 
 ## Amaran
-- tiada
+- t4-3: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t4-4: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t4-5: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t4-6: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t4-7: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t4-8: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t4-9: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t4-10: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t5-1: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t5-2: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t5-3: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t5-4: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t5-5: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- t5-6: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
 
 ## Perlu semakan manusia
 - t4-1.1-08 (objektif) — Garis \(x = 1\) dilukis pada graf bulatan \(x^2 + y^2 = 4\). Apakah yang dapat disimpulkan?

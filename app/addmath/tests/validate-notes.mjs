@@ -7,7 +7,7 @@ import { writeFileSync } from 'node:fs';
 import katex from '../vendor/katex/katex.mjs';
 import { CURRICULUM, chapterById } from '../src/content/curriculum.js';
 import { STATUSES } from '../src/content/status.js';
-import { NOTE_MODULES, NOTE_STATUS } from '../src/content/notes/index.js';
+import { NOTE_MODULES, NOTE_STATUS, attachV3, V3_MODULES } from '../src/content/notes/index.js';
 import { evaluate, f1, roots, sameFunction, extremaOnInterval, isFunctionMapping, parseSet } from './solvers.mjs';
 import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum, simpson, areaBetween, riemann, countBrute, binom, binomStat, binomFind, normal, normalInv, trigRoots, trigGraph } from './triangle.mjs';
 
@@ -214,7 +214,20 @@ for (const [chapterId, load] of Object.entries(NOTE_MODULES)) {
   if (!meta) { err(chapterId, 'not in curriculum'); continue; }
   if (CHAPTER.id !== chapterId) err(chapterId, `file declares id ${CHAPTER.id}`);
   if (NOTE_STATUS[chapterId] !== CHAPTER.status) err(chapterId, `NOTE_STATUS (${NOTE_STATUS[chapterId]}) differs from chapter status (${CHAPTER.status})`);
+  await attachV3(chapterId, CHAPTER); // V3 layer is compiled and checked like the rest
   walkStrings(chapterId, CHAPTER);
+  if (!V3_MODULES[chapterId]) warn(chapterId, 'V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran');
+  for (const sub of CHAPTER.subtopics) {
+    const v = sub.v3, where = `${chapterId} ${sub.id} v3`;
+    if (!v) { if (V3_MODULES[chapterId]) err(where, 'missing'); continue; }
+    for (const f of ['lead', 'idea', 'when']) if (!v[f] || strip(v[f]).length < 20) err(where, `${f} missing or too short`);
+    if (!Array.isArray(v.steps) || v.steps.length < 2) err(where, 'needs at least 2 solution steps');
+    const n = (kind) => sub.sections.filter((s) => s.kind === kind).flatMap((s) => s.items || [s]).length;
+    if (!(v.example >= 0 && v.example < n('examples'))) err(where, `example index ${v.example} out of range`);
+    if (!(v.mistake >= 0 && v.mistake < n('mistakes'))) err(where, `mistake index ${v.mistake} out of range`);
+    if (!(v.visual >= 0 && v.visual < sub.sections.filter((s) => s.kind === 'visual').length)) err(where, `visual index ${v.visual} out of range`);
+    if (strip(v.idea).split(/\s+/).length > 90) warn(where, 'idea is long (> 90 words); keep the main idea short');
+  }
   const qs = CHAPTER.questions || [];
   const ids = qs.map((q) => q.id); if (new Set(ids).size !== ids.length) err(chapterId, 'duplicate question ids');
   qs.forEach((q) => checkQuestion(q, chapterId));

@@ -1071,3 +1071,107 @@ input:focus-visible {
 .plot-segment { fill: none; stroke-width: 2.6; }
 .plot-arrow { stroke-width: 2.8; }
 .plot-arrow.is-dashed { stroke-dasharray: 6 4; stroke-width: 2; }
+
+/* ===================== V3: student-first notes (Fahami / Ulang Kaji / Latihan) ===================== */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.v3-screen { width: min(760px, 100%); margin: 0 auto; padding: 12px 16px 56px; box-sizing: border-box; color: var(--navy); }
+.v3-screen.v3-with-side { width: min(1080px, 100%); display: block; }
+.v3-side { display: none; }
+@media (min-width: 1000px) {
+  .v3-screen.v3-with-side { display: grid; grid-template-columns: 240px minmax(0, 720px); gap: 32px; align-items: start; }
+  .v3-with-side > .preview-banner { grid-column: 1 / -1; }
+  .v3-side { display: block; position: sticky; top: 12px; font-size: 14px; line-height: 1.4; }
+  .v3-side ol { list-style: none; margin: 0; padding: 0; }
+  .v3-side a { display: grid; grid-template-columns: 34px 1fr; padding: 7px 8px; border-radius: 10px; color: var(--navy); text-decoration: none; }
+  .v3-side a:hover { background: var(--green); }
+  .v3-side a[aria-current] { background: var(--navy); color: #fff; }
+  .v3-side-head { font-weight: 700; margin: 4px 8px 10px; }
+  .v3-picker { display: none; }
+}
+.v3-main { min-width: 0; }
+.v3-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.v3-back { color: var(--navy); font-weight: 600; text-decoration: none; font-size: 15px; display: inline-block; margin-bottom: 6px; }
+.v3-picker select, .v3-filters select { max-width: 60vw; font: inherit; font-size: 14px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--navy); }
+.v3-head { margin: 4px 0 10px; }
+.v3-title { font-size: clamp(24px, 5vw, 32px); line-height: 1.2; margin: 2px 0 0; }
+.mode-tabs { display: flex; gap: 4px; padding: 4px; margin: 4px 0 14px; background: var(--green); border-radius: 12px; }
+.mode-tab { flex: 1; text-align: center; padding: 8px 6px; border-radius: 9px; font-weight: 700; font-size: 15px; color: var(--navy); text-decoration: none; }
+.mode-tab.is-active { background: var(--surface); box-shadow: 0 1px 0 var(--line); }
+.v3-block { padding: 16px 0 6px; border-top: 1px solid var(--line); font-size: 17px; line-height: 1.65; scroll-margin-top: 12px; }
+.v3-block:first-of-type { border-top: 0; }
+.v3-block h2 { font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: var(--blue); margin: 0 0 8px; }
+.v3-block p { margin: 0 0 10px; max-width: 68ch; }
+.v3-idea { font-size: 18px; }
+.v3-when { background: var(--green); border-radius: 10px; padding: 8px 12px; }
+.v3-formulas { margin: 0; display: grid; gap: 8px; }
+.v3-formula { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; overflow-x: auto; }
+.v3-formula dt { margin: 0 0 4px; }
+.v3-formula dd { margin: 0; font-size: 15px; line-height: 1.5; }
+.v3-howto { margin: 0; padding-left: 22px; }
+.v3-howto li { margin-bottom: 4px; }
+.v3-example { border-left: 4px solid var(--blue); padding: 4px 0 4px 14px; margin: 6px 0 12px; }
+.v3-example-head { display: flex; gap: 8px; align-items: center; font-weight: 700; margin: 0 0 4px; }
+.v3-example-q { font-weight: 600; margin-bottom: 6px; }
+.v3-example-plan { font-size: 15px; color: #4b5872; }
+.v3-steps { margin: 0 0 8px; padding-left: 22px; }
+.v3-steps li { margin-bottom: 6px; }
+.v3-step-why { font-size: 14.5px; color: #4b5872; border-left: 2px solid var(--line); padding-left: 8px; margin-top: 2px; }
+.v3-example-check, .v3-example-end { font-size: 15.5px; margin: 0 0 4px; }
+.v3-mistake p { margin: 0 0 4px; }
+.v3-wrong { color: #A33A2E; } .v3-fix { color: #2B6E4A; }
+.v3-mistake + .v3-mistake { border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 8px; }
+.v3-optional { display: grid; gap: 8px; }
+.v3-more { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.v3-more > summary { cursor: pointer; padding: 10px 14px; font-weight: 700; font-size: 15.5px; }
+.v3-more-body { padding: 0 14px 10px; font-size: 16px; }
+.v3-more-body h3, .v3-deep h3 { font-size: 16px; margin: 12px 0 6px; }
+.v3-end { margin-top: 18px; display: grid; gap: 10px; }
+.v3-end .btn-primary { text-align: center; text-decoration: none; white-space: normal; }
+.v3-end-links { display: flex; justify-content: space-between; gap: 10px; font-size: 14.5px; margin: 0; }
+.v3-end-links a { color: var(--blue); text-decoration: none; }
+.v3-visual-note { font-size: 15.5px; }
+/* chapter overview */
+.v3-sublist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.v3-subrow { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.v3-subrow-main { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; padding: 12px 14px 6px; color: var(--navy); text-decoration: none; }
+.v3-subnum { font-weight: 800; color: var(--blue); grid-row: span 2; }
+.v3-subtitle { font-weight: 700; }
+.v3-sublead { font-size: 14.5px; color: #4b5872; line-height: 1.45; }
+.v3-subrow-actions { display: flex; gap: 16px; padding: 0 14px 10px 48px; font-size: 14.5px; font-weight: 700; }
+.v3-subrow-actions a { color: var(--blue); text-decoration: none; }
+.v3-chapter-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.v3-chapter-links a { text-decoration: none; }
+/* revision */
+.v3-rev-tools { position: sticky; top: 0; z-index: 2; background: var(--cream); padding: 6px 0 8px; display: grid; gap: 6px; }
+.v3-search input { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.v3-chips { display: flex; gap: 6px; overflow-x: auto; }
+.v3-chips a { flex: none; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--navy); font-size: 14px; font-weight: 700; text-decoration: none; }
+.v3-rev { padding: 14px 0 6px; border-top: 1px solid var(--line); scroll-margin-top: 96px; font-size: 16px; line-height: 1.55; }
+.v3-rev h2 { font-size: 18px; margin: 0 0 8px; } .v3-rev h2 span { color: var(--blue); }
+.v3-rev-line { margin: 8px 0 2px; }
+.v3-rev-steps, .v3-rev-mistakes { margin: 0; padding-left: 22px; }
+.v3-rev-mistakes { list-style: none; padding-left: 0; }
+.v3-rev-mistakes li { margin-bottom: 4px; }
+.v3-x { color: #A33A2E; } .v3-ok { color: #2B6E4A; } .v3-arrow { color: #8a93a6; }
+.v3-rev-links { display: flex; gap: 16px; font-size: 14.5px; font-weight: 700; } .v3-rev-links a { color: var(--blue); text-decoration: none; }
+.v3-empty { color: #4b5872; }
+/* practice */
+.v3-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; font-size: 14.5px; font-weight: 600; }
+.v3-levels { display: flex; gap: 4px; }
+.v3-levels button { font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--navy); }
+.v3-levels button[aria-pressed="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
+.v3-qpicker { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.v3-qpicker button { min-width: 38px; height: 38px; font: inherit; font-weight: 700; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--navy); }
+.v3-qpicker button.is-current { outline: 3px solid var(--blue); outline-offset: 1px; }
+.v3-qpicker button.is-right { background: #DDF0E2; border-color: #7DBB92; }
+.v3-qpicker button.is-tried { background: #FBEBD2; border-color: #E0B46E; }
+.q-reveal { margin: 10px 0 0; padding: 10px 12px; border-radius: 12px; background: var(--green); font-size: 15.5px; }
+.q-reveal a { color: var(--blue); font-weight: 700; text-decoration: none; }
+.q-answers { margin: 4px 0 6px; padding-left: 20px; }
+.q-done { margin-top: 6px; }
+.v3-screen .visual-fig { margin: 4px 0 0; }
+.v3-screen .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+.v3-revision .v3-formula { padding: 4px 10px; border-radius: 10px; }
+.v3-revision .v3-formula .katex-display { margin: 0.15em 0; font-size: 0.92em; }
+.v3-revision .v3-formula dd { font-size: 14px; }
+.v3-revision .v3-formulas { gap: 6px; }

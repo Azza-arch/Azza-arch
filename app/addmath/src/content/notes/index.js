@@ -39,9 +39,24 @@ export const NOTE_STATUS = {
   't5-6': 'review',
 };
 
+// V3 "student-first" layer: per-subtopic main idea, overview line, when-to-use,
+// solution steps and which example / visual / mistake to show first. Kept apart
+// from the verified content so V3 edits never touch questions or answers.
+export const V3_MODULES = {
+  't4-1': () => import('./v3/t4-1.js'),
+  't4-2': () => import('./v3/t4-2.js'),
+};
+export async function attachV3(id, chapter) {
+  const load = V3_MODULES[id];
+  if (!load || !chapter) return chapter;
+  const { V3 } = await load();
+  for (const s of chapter.subtopics) if (V3[s.id]) s.v3 = V3[s.id];
+  return chapter;
+}
+
 export async function loadChapterNotes(id) {
   const load = NOTE_MODULES[id];
   if (!load) return null;
   const mod = await load();
-  return mod.CHAPTER;
+  return attachV3(id, mod.CHAPTER);
 }

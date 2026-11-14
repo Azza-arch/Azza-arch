@@ -7,6 +7,8 @@ import { renderLessonScreen } from './screens/lessonScreen.js';
 import { renderPracticeScreen } from './screens/practiceScreen.js';
 import { renderChapterScreen } from './screens/chapterScreen.js';
 import { renderNoteScreen } from './screens/noteScreen.js';
+import { renderRevisionScreen } from './screens/revisionScreen.js';
+import { renderLatihanScreen } from './screens/latihanScreen.js';
 
 const root = document.getElementById('app');
 
@@ -31,6 +33,12 @@ function render(route) {
       break;
     case 'nota':
       renderNoteScreen(root, params[0], params[1]);
+      break;
+    case 'ulangkaji':
+      renderRevisionScreen(root, params[0]);
+      break;
+    case 'latihan':
+      renderLatihanScreen(root, params[0], params[1]);
       break;
     case 'practice':
       renderPracticeScreen(root, params[0]);
