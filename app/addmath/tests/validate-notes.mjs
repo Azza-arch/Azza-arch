@@ -206,6 +206,7 @@ for (const [chapterId, load] of Object.entries(NOTE_MODULES)) {
     const types = new Set(sq.map((q) => q.type)); if (types.size < 3) warn(`${chapterId} ${sub.id}`, `only ${types.size} question types`);
     const kinds = new Set(sub.sections.map((s) => s.kind));
     for (const k of ['intro', 'concept', 'visual', 'formula', 'examples', 'mistakes', 'summary', 'next']) if (!kinds.has(k)) err(`${chapterId} ${sub.id}`, `missing section "${k}"`);
+    [sub, ...sub.sections].forEach((s) => { if (s.title && /[\\\t\n\r]/.test(s.title)) err(`${chapterId} ${sub.id}`, `title "${s.title.replace(/\s/g, '␣')}" must be plain text (no TeX, no control characters): it is shown raw in the section chips`); });
     sub.sections.filter((s) => s.kind === 'visual').forEach((s, k) => { if (!s.alt || strip(s.alt).length < 40) err(`${chapterId} ${sub.id}`, `visual ${k + 1} lacks a text alternative`); });
     sub.sections.filter((s) => s.kind === 'examples').forEach((s) => s.items.forEach((e, k) => { for (const f of ['question', 'given', 'find', 'method', 'steps', 'check', 'conclusion']) if (!e[f] || (Array.isArray(e[f]) && !e[f].length)) err(`${chapterId} ${sub.id} contoh ${k + 1}`, `missing ${f}`); }));
   }

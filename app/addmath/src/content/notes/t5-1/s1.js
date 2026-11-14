@@ -53,7 +53,7 @@ export const S1_2 = {
   id: '1.2', sk: '1.2', title: 'Panjang Lengkok Suatu Bulatan', sp: ['1.2.1', '1.2.2', '1.2.3'], status: 'review', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Jarak hujung bandul', html: R`<p>Hujung sebuah bandul berayun di sepanjang <strong>lengkok</strong> bulatan, bukan garis lurus. Berapa jauh ia bergerak dalam satu ayunan? Kita perlukan panjang lengkok.</p>` },
-    { kind: 'concept', title: 'Menerbitkan \(s = j\theta\)', sp: ['1.2.1'], html: R`
+    { kind: 'concept', title: 'Menerbitkan s = jθ', sp: ['1.2.1'], html: R`
       <p>Panjang lengkok berkadar dengan sudut di pusat. Bandingkan dengan bulatan penuh (lengkok \(2\pi j\), sudut \(2\pi\)):</p>
       \[\frac{s}{2\pi j} = \frac{\theta}{2\pi} \quad\Longrightarrow\quad s = j\theta\]
       <p>dengan \(\theta\) dalam <strong>radian</strong>. Rumus ini boleh disusun semula untuk mencari jejari \(j = \dfrac{s}{\theta}\) atau sudut \(\theta = \dfrac{s}{j}\).</p>
@@ -96,7 +96,7 @@ export const S1_3 = {
   id: '1.3', sk: '1.3', title: 'Luas Sektor Suatu Bulatan', sp: ['1.3.1', '1.3.2', '1.3.3'], status: 'review', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Sepotong piza', html: R`<p>Piza berdiameter 30 cm dipotong kepada 8 potong sama besar. Berapakah luas sepotong? Setiap potong ialah <strong>sektor</strong> bulatan.</p>` },
-    { kind: 'concept', title: 'Menerbitkan \(L = \tfrac12 j^2\theta\)', sp: ['1.3.1'], html: R`
+    { kind: 'concept', title: 'Menerbitkan L = ½j²θ', sp: ['1.3.1'], html: R`
       <p>Luas sektor berkadar dengan sudut di pusat. Bandingkan dengan bulatan penuh (luas \(\pi j^2\), sudut \(2\pi\)):</p>
       \[\frac{L}{\pi j^2} = \frac{\theta}{2\pi} \quad\Longrightarrow\quad L = \tfrac12 j^2\theta\]
       <p>dengan \(\theta\) dalam radian. Susun semula: \(\theta = \dfrac{2L}{j^2}\) atau \(j = \sqrt{\dfrac{2L}{\theta}}\).</p>` },

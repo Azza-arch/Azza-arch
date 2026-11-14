@@ -128,7 +128,7 @@ export const S9_3 = {
   id: '9.3', sk: '9.3', title: 'Luas Segi Tiga', sp: ['9.3.1', '9.3.2', '9.3.3'], status: 'review', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Luas tanah tanpa tinggi', html: R`<p>Sebidang tanah berbentuk segi tiga diukur dengan pita ukur: tiga sisinya sahaja. Tiada sesiapa mengukur "tinggi" tanah itu. Bab ini memberi dua rumus luas yang tidak memerlukan tinggi.</p>` },
-    { kind: 'concept', title: 'Rumus \(\tfrac12 ab\sin C\)', sp: ['9.3.1'], html: R`
+    { kind: 'concept', title: 'Rumus ½ab sin C', sp: ['9.3.1'], html: R`
       <p>Mulakan dengan \(\text{Luas} = \tfrac12 \times \text{tapak} \times \text{tinggi}\). Ambil \(a = BC\) sebagai tapak. Tinggi dari \(A\) ke garis \(BC\) ialah \(h = b\sin C\) (sinus dalam segi tiga tegak yang terbentuk; jika \(C\) cakah, \(h = b\sin(180^\circ - C) = b\sin C\)). Jadi</p>
       \[\text{Luas} = \tfrac12 ab\sin C = \tfrac12 ac\sin B = \tfrac12 bc\sin A\]
       <p>Kuncinya: <strong>dua sisi dan sudut di antara keduanya</strong>.</p>` },
