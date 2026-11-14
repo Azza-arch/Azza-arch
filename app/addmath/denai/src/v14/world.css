@@ -1,0 +1,63 @@
+#mechanism { position:absolute;z-index:30;right:16px;top:68px;width:min(360px,46%);padding:16px;background:#fff7e5;color:#293a39;border:3px solid #574564;border-radius:8px;box-shadow:0 8px 24px #263c3d25; }
+#mechanism[hidden] {display:none}
+#mechanism h2 {font-size:1.25rem;margin:0 0 8px}
+#mechanism p {font-size:.9rem;line-height:1.45;margin:8px 0}
+#mechanism output {display:block;font-size:1.4rem;font-weight:700;color:#14666d;font-variant-numeric:tabular-nums}
+.mechanism-actions {display:flex;flex-wrap:wrap;gap:8px}
+.mechanism-actions button {min-width:44px;min-height:44px;padding:8px 12px}
+#dial-test {background:#14666d;color:white}
+#token-options,#pipe-options {margin:8px 0}
+#mechanism [aria-pressed="true"] {background:#e2eddf;border-color:#14666d;color:#183f39;box-shadow:inset 0 0 0 2px #14666d}
+#mechanism button:focus-visible {outline:3px solid #b25c19;outline-offset:3px}
+#mechanism button:disabled {opacity:.5;cursor:default}
+.touch-controls .crate-reset {position:absolute;right:0;bottom:62px;font-size:11px;min-height:44px}
+@media(max-width:600px) and (orientation:portrait) {#mechanism{position:fixed;top:auto;bottom:8px;right:8px;width:calc(100% - 16px);padding:10px;max-height:38dvh;overflow:auto}#mechanism h2{font-size:1.05rem}#mechanism p{font-size:.8rem;margin:4px 0}#mechanism output{font-size:1.1rem}.mechanism-actions{gap:5px}.mechanism-actions button{padding:6px 9px}}
+@media(max-height:500px) {#mechanism{top:40px;max-height:calc(100% - 50px);overflow:auto;padding:8px}#mechanism p{font-size:.8rem;margin:4px 0}}
+
+/* V11.1 title screen: a compact game title card; Chill Boy remains animated
+   in the live canvas behind it, with its existing reduced-motion behavior. */
+.welcome{width:min(390px,calc(100% - 32px));max-height:calc(100% - 32px);right:50%;top:50%;bottom:auto;transform:translate(50%,-50%);overflow:auto;padding:22px 24px;background:#fff5dc;border:3px solid #493b35;border-radius:5px;box-shadow:7px 7px 0 #493b3570;color:#302d2a}
+.welcome h2{font-family:ui-monospace,Consolas,monospace;font-size:clamp(27px,4vw,38px);line-height:1.02;margin:2px 0 8px;color:#263b3a;text-shadow:2px 2px #d9ad4d}
+.welcome p{color:#4d5148;line-height:1.45;margin-bottom:10px}
+.welcome .menu-kicker{font:700 10px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.14em;color:#8c5b26;margin:0 0 5px}
+.welcome .control-list{margin:12px 0 14px;gap:8px}
+.welcome .primary{min-height:50px;border:2px solid #263b3a;border-radius:3px;background:#327c69;box-shadow:0 3px 0 #214e46;color:#fff;font:700 16px ui-monospace,Consolas,monospace}
+.welcome .primary:hover{background:#286b5a}
+.welcome .secondary{border-radius:3px}
+.welcome .menu-section{display:flex;justify-content:center;gap:8px;margin-top:9px}
+.welcome .link-btn{min-height:36px;padding:6px 9px;border:0;background:transparent;color:#465450;font-size:12px;text-decoration:underline}
+.welcome .small{margin:9px 0 0;font-size:10px}
+.welcome .menu-v9{text-align:center}
+.menu-v9 a{color:#58615a}
+#status{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.menu-active .hud,.menu-active #zone-toast{visibility:hidden}
+#objective{max-width:min(520px,68vw);background:#243c3a;color:#fff;border:2px solid #f2cb74;border-radius:3px}
+#checkpoint-state{background:#f8efd9!important;color:#293b37!important;border-color:#738477!important;border-radius:3px!important}
+#zone-toast{font-family:ui-monospace,Consolas,monospace;border:2px solid #f2cb74;border-radius:3px;transition:opacity .22s,transform .22s}
+#game:focus-visible{outline:none}
+#mechanism{border-radius:3px;border:3px solid #493b35;box-shadow:4px 4px 0 #263c3d55}
+#mechanism output{color:#176c59}
+@media(max-width:800px){.welcome{right:50%;width:min(370px,calc(100% - 28px));padding:18px 20px}.welcome .control-list{display:none}}
+@media(max-width:540px) and (orientation:portrait){.welcome{left:14px;right:14px;top:6%;bottom:auto;width:auto;max-height:calc(100% - 28px);transform:none;padding:20px}.welcome h2{font-size:30px}.welcome .menu-section{gap:0}.welcome .link-btn{padding:5px 7px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.zone-toast{transition:none!important}.welcome,.welcome *{scroll-behavior:auto!important}}
+
+.game-frame.zone-announcing .hud{visibility:hidden}
+
+.menu-mascot{position:absolute;right:12px;top:8px;width:62px;height:62px;background-size:contain;background-repeat:no-repeat;background-position:center bottom;filter:drop-shadow(2px 3px 0 #263c3d33);animation:chill-menu-idle 1.2s steps(1,end) infinite}
+.welcome h2{padding-right:42px}
+@keyframes chill-menu-idle{
+0%{background-image:url('../../assets/chill-boy/idle-00.png')}
+8.33%{background-image:url('../../assets/chill-boy/idle-01.png')}
+16.66%{background-image:url('../../assets/chill-boy/idle-02.png')}
+24.99%{background-image:url('../../assets/chill-boy/idle-03.png')}
+33.32%{background-image:url('../../assets/chill-boy/idle-04.png')}
+41.65%{background-image:url('../../assets/chill-boy/idle-05.png')}
+49.98%{background-image:url('../../assets/chill-boy/idle-06.png')}
+58.31%{background-image:url('../../assets/chill-boy/idle-07.png')}
+66.64%{background-image:url('../../assets/chill-boy/idle-08.png')}
+74.97%{background-image:url('../../assets/chill-boy/idle-09.png')}
+83.3%{background-image:url('../../assets/chill-boy/idle-10.png')}
+91.63%{background-image:url('../../assets/chill-boy/idle-11.png')}
+100%{background-image:url('../../assets/chill-boy/idle-00.png')}
+}
+@media(prefers-reduced-motion:reduce){.menu-mascot{animation:none;background-image:url('../../assets/chill-boy/idle-00.png')}}

@@ -1,0 +1,651 @@
+/* ==========================================================================
+   DENAI UI SYSTEM (loads last; replaces pixel-theme.css)
+   One visual language for menu, HUD, prompts, puzzle, pause and victory.
+   Every colour is sampled from the game's own Kenney art; frames come from
+   Kenney "UI Pack – Pixel Adventure" (see assets/kenney-ui-pixel-adventure/
+   derived/PROVENANCE.txt). No new artwork, no gradients, no glass.
+   Layout skeleton (positions, safe areas) is still inherited from
+   world.css / presentation.css; this file owns the look and component sizes.
+   ========================================================================== */
+:root{
+  /* palette — sampled from tilemap_packed.png and the UI pack */
+  --ink:#3a2814;          /* text on parchment (UI-pack wood, darkened) */
+  --ink-soft:#6d4b27;     /* UI-pack wood dark */
+  --outline:#434a5f;      /* Kenney platformer outline slate */
+  --outline-warm:#6f3e43; /* coin / crate outline maroon */
+  --wood:#a3703a; --wood-light:#c58747; --wood-dark:#6d4b27;
+  --parchment:#fff1d2; --parchment-shade:#ecd6a6;
+  --gold:#f4b41b; --gold-light:#fee481; --gold-shade:#c98a0e;
+  --ribbon:#e2665b; --ribbon-dark:#8e3f38;
+  --leaf:#2eb082; --ok:#72b84e; --ok-dark:#528738; --ok-bg:#e6f4d9;
+  --bad:#cf5e53; --bad-dark:#8e3f38; --bad-bg:#fbe3dc;
+  --slate:#647685; --slate-light:#94afc6; --sky:#aee3f5;
+  /* type */
+  --ui-font:"Trebuchet MS","Segoe UI",Roboto,"Helvetica Neue",system-ui,sans-serif;
+  --num-font:ui-monospace,"Cascadia Mono",Consolas,"Roboto Mono",monospace;
+  --fs-xs:12px; --fs-sm:14px; --fs-md:16px; --fs-lg:20px; --fs-xl:28px;
+  /* spacing (4px grid) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px;
+  /* frames */
+  --frame-cream:url('../../assets/kenney-ui-pixel-adventure/derived/panel-cream.png');
+  --frame-wood:url('../../assets/kenney-ui-pixel-adventure/derived/panel-wood.png');
+  --frame-slate:url('../../assets/kenney-ui-pixel-adventure/derived/panel-slate.png');
+  --frame-ribbon:url('../../assets/kenney-ui-pixel-adventure/derived/ribbon-flat.png');
+  --slot-blue:url('../../assets/kenney-ui-pixel-adventure/derived/slot-blue.png');
+  --slot-green:url('../../assets/kenney-ui-pixel-adventure/derived/slot-green.png');
+  --slot-red:url('../../assets/kenney-ui-pixel-adventure/derived/slot-red.png');
+  --icon-coin:url('../../assets/kenney-pixel-platformer/Tiles/tile_0151.png');
+  --icon-gem:url('../../assets/kenney-pixel-platformer/Tiles/tile_0067.png');
+  --icon-sign:url('../../assets/kenney-pixel-platformer/Tiles/tile_0086.png');
+  --icon-flag:url('../../assets/kenney-pixel-platformer/Tiles/tile_0112.png');
+  --icon-flag-a:url('../../assets/kenney-pixel-platformer/Tiles/tile_0111.png');
+  --focus:#fff3a8;
+}
+body{font-family:var(--ui-font)}
+button,input{font-family:var(--ui-font)}
+
+/* ---------- 1. Surfaces ------------------------------------------------- */
+/* Parchment panel: dialogs + function machine. 32px frame, 8px slice, x3. */
+dialog, body #mechanism{
+  background:var(--parchment); color:var(--ink);
+  border:24px solid transparent; border-image:var(--frame-cream) 8 fill / 24px stretch;
+  border-radius:0; box-shadow:0 6px 0 #0000002e; image-rendering:pixelated;
+  padding:var(--s3) var(--s4);
+}
+dialog::backdrop{background:#16302acc}
+dialog h2{font:800 var(--fs-xl)/1.15 var(--ui-font);color:var(--ink);letter-spacing:0;margin:0 40px var(--s3) 0;text-shadow:none}
+dialog p,dialog .small,dialog li,dialog dd,dialog label,dialog summary{color:var(--ink)}
+dialog p{font-size:var(--fs-sm);line-height:1.55}
+dialog a{color:var(--ink-soft)}
+/* Wood chip: HUD, toasts, prompts. */
+.wood-chip,.masthead>*,.zone-toast,#zone-toast,#notice,.cp-toast,.world-prompt,#chill-bubble{
+  background:var(--wood); color:var(--parchment);
+  border:12px solid transparent; border-image:var(--frame-wood) 8 fill / 12px stretch;
+  border-radius:0; image-rendering:pixelated; box-shadow:0 3px 0 #00000030;
+  font:800 var(--fs-sm)/1.2 var(--ui-font); text-shadow:1px 1px 0 var(--wood-dark);
+}
+/* Ribbon banner: one per screen at most (puzzle, pause, victory, menu subtitle). */
+.ribbon,.mx-banner h2{
+  display:inline-block; min-width:220px; text-align:center;
+  border:solid transparent; border-width:0 45px; border-image:var(--frame-ribbon) 0 30 fill / 0 45px stretch;
+  image-rendering:pixelated; color:#fff; padding:0 var(--s2);
+  font:800 var(--fs-lg)/48px var(--ui-font); height:48px; letter-spacing:.04em; text-transform:uppercase;
+  text-shadow:2px 2px 0 var(--ribbon-dark); margin:0;
+}
+.banner-wrap,.mx-banner{text-align:center;margin:-46px 0 var(--s3)}
+.banner-wrap h2{margin:0}
+
+/* ---------- 2. Buttons -------------------------------------------------- */
+/* Solid pixel buttons in the asset palette: thick outline + top highlight +
+   bottom shade + 3px drop. No sprite recolouring filters. */
+button{
+  font:800 var(--fs-md)/1.1 var(--ui-font); letter-spacing:.02em;
+  min-height:44px; padding:10px 18px; border-radius:6px;
+  background:var(--parchment); color:var(--ink);
+  border:3px solid var(--wood-dark); border-image:none; filter:none!important;
+  box-shadow:inset 0 3px 0 #ffffffa0, inset 0 -4px 0 var(--parchment-shade), 0 3px 0 var(--wood-dark);
+  transition:transform .08s, box-shadow .08s; cursor:pointer;
+}
+button:hover{background:#fff8e6;color:var(--ink)}
+button:active{transform:translateY(3px);box-shadow:inset 0 3px 0 #ffffffa0, inset 0 -2px 0 var(--parchment-shade), 0 0 0 var(--wood-dark)}
+button.primary,#dial-test,#puzzle-go,.welcome .primary{
+  background:var(--gold); color:var(--ink); border-color:var(--outline-warm);
+  box-shadow:inset 0 3px 0 var(--gold-light), inset 0 -4px 0 var(--gold-shade), 0 3px 0 var(--outline-warm);
+}
+button.primary:hover,#dial-test:hover,#puzzle-go:hover,.welcome .primary:hover{background:#ffc53a;color:var(--ink)}
+button.secondary{background:var(--parchment);color:var(--ink);border-color:var(--wood-dark)}
+button.danger{background:var(--ribbon);color:#fff;border-color:var(--ribbon-dark);text-shadow:1px 1px 0 var(--ribbon-dark);
+  box-shadow:inset 0 3px 0 #f19a90, inset 0 -4px 0 #b34c43, 0 3px 0 var(--ribbon-dark)}
+button:disabled,button[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;box-shadow:0 0 0 6px var(--outline)}
+.close{background:transparent url('../../assets/kenney-ui-pixel-adventure/close-icon.png') center/28px no-repeat;
+  image-rendering:pixelated;border:0;box-shadow:none;color:transparent;min-width:44px;min-height:44px;width:44px;height:44px;padding:0;right:4px;top:4px}
+.close:active{transform:none;box-shadow:none}
+kbd{font:800 var(--fs-xs)/1 var(--num-font);background:var(--parchment);color:var(--ink);border:2px solid var(--wood-dark);
+  border-radius:4px;box-shadow:inset 0 -2px 0 var(--parchment-shade);padding:3px 6px;text-shadow:none}
+
+/* ---------- 3. Main menu ------------------------------------------------ */
+/* The live Section 01–02 world is the backdrop (camera parked by presentation.js). */
+body[data-mode="welcome"] #game canvas{visibility:visible}
+.menu-canvas{display:none!important}
+body .welcome{background:transparent;color:var(--ink)}
+.title-copy{position:absolute;top:50%;left:max(32px,7%);transform:translateY(-58%);width:auto;max-width:min(560px,88%);display:grid;justify-items:start;gap:var(--s4)}
+.welcome h1.logo{
+  font:900 clamp(64px,10vw,128px)/.9 var(--ui-font); letter-spacing:.04em; margin:0; color:var(--gold);
+  text-shadow:
+   4px 0 0 var(--outline-warm),-4px 0 0 var(--outline-warm),0 4px 0 var(--outline-warm),0 -4px 0 var(--outline-warm),
+   4px 4px 0 var(--outline-warm),-4px 4px 0 var(--outline-warm),4px -4px 0 var(--outline-warm),-4px -4px 0 var(--outline-warm),
+   0 10px 0 var(--outline-warm), 6px 12px 0 #00000030;
+}
+.welcome p.title-tagline{margin:0 0 var(--s2);font:inherit}
+.welcome p.title-tagline .ribbon{font-size:var(--fs-md);min-width:0}
+.title-actions{display:grid;gap:var(--s3);width:min(300px,80vw);max-width:none}
+.welcome .main-btn{min-height:64px;font:900 26px/1 var(--ui-font);letter-spacing:.08em;text-transform:uppercase;width:100%;border-width:4px;border-radius:8px}
+.welcome #start.secondary{min-height:48px;font-size:var(--fs-lg);background:var(--parchment);border-color:var(--wood-dark);
+  box-shadow:inset 0 3px 0 #fff, inset 0 -4px 0 var(--parchment-shade), 0 3px 0 var(--wood-dark)}
+.gear-btn{width:48px;height:48px;min-height:48px;padding:0;font-size:22px;border-radius:6px;background:var(--wood);color:var(--parchment);border-color:var(--wood-dark);
+  box-shadow:inset 0 3px 0 var(--wood-light), inset 0 -4px 0 var(--wood-dark), 0 3px 0 #3a2814}
+.gear-btn:hover{background:var(--wood-light);color:var(--parchment)}
+.menu-mascot{display:none}
+
+/* ---------- 4. Gameplay HUD -------------------------------------------- */
+.masthead{gap:var(--s2);align-items:flex-start}
+.masthead>*{min-height:0;padding:0 var(--s1);display:flex;align-items:center;gap:var(--s2)}
+.hud-chip{height:24px;font:800 var(--fs-sm)/24px var(--ui-font)}
+.hud-chip::before{content:"";width:22px;height:22px;flex:none;background:center/contain no-repeat;image-rendering:pixelated}
+.hud-coins::before{background-image:var(--icon-coin)}
+.hud-coins{font-family:var(--num-font);font-variant-numeric:tabular-nums}
+.hud-area::before{background-image:var(--icon-sign)}
+.hud-area:empty{display:none}
+.masthead #pause{margin-left:auto;width:48px;height:48px;min-height:0;padding:0;justify-content:center;border-radius:0;color:var(--parchment);
+  background:var(--wood);box-shadow:0 3px 0 #00000030}
+.masthead #pause:active{transform:translateY(2px)}
+.pause-glyph{display:block;width:14px;height:16px;border-left:5px solid var(--parchment);border-right:5px solid var(--parchment);filter:drop-shadow(1px 1px 0 var(--wood-dark))}
+.masthead #pause:disabled{opacity:.5}
+/* Zone name: brief, top-centre, with an optional one-line goal. */
+#zone-toast{top:max(16px,env(safe-area-inset-top));display:grid;gap:2px;padding:0 var(--s2);text-align:center;font-size:var(--fs-md);max-width:min(420px,calc(100% - 220px))}
+#zone-toast small{font:700 var(--fs-xs)/1.3 var(--ui-font);color:var(--gold-light)}
+.game-frame.zone-announcing .hud{visibility:visible}
+#notice{top:max(72px,calc(env(safe-area-inset-top) + 60px));font-size:var(--fs-sm);padding:0 var(--s2)}
+#mission-indicator{display:none!important}
+#tutorial{display:none!important}
+/* Checkpoint: small, short, top-left under the HUD. */
+.cp-toast{position:absolute;z-index:22;left:max(18px,env(safe-area-inset-left));top:calc(max(16px,env(safe-area-inset-top)) + 58px);
+  display:flex;align-items:center;gap:var(--s2);padding:0 var(--s1);font-size:var(--fs-sm);pointer-events:none;
+  opacity:0;transform:translateX(-12px);transition:opacity .2s,transform .2s}
+.cp-toast.show{opacity:1;transform:none}
+.cp-flag{width:22px;height:22px;background:var(--icon-flag) center/contain no-repeat;image-rendering:pixelated}
+
+/* ---------- 5. Contextual world prompt --------------------------------- */
+.world-prompt{position:absolute;left:0;top:0;z-index:19;display:flex;align-items:center;gap:var(--s2);
+  padding:0 var(--s1);font-size:var(--fs-sm);white-space:nowrap;pointer-events:none;will-change:transform}
+.world-prompt::after{content:"";position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);
+  border:8px solid transparent;border-top-color:var(--wood-dark)}
+.world-prompt kbd{font-size:var(--fs-sm);padding:4px 8px}
+
+/* ---------- 6. Function machine panel ---------------------------------- */
+body #mechanism{position:absolute;z-index:35;right:max(20px,env(safe-area-inset-right));left:auto;top:50%;bottom:auto;transform:translateY(-50%);
+  width:min(440px,46vw);max-width:calc(100vw - 32px);max-height:calc(100% - 96px);overflow:auto;overscroll-behavior:contain;
+  scrollbar-color:var(--wood) var(--parchment)}
+#mechanism:not([hidden]){padding:var(--s4) var(--s4) var(--s3)}
+#mechanism .mx-banner{margin:-6px 0 var(--s3)}
+#mechanism h2,#mechanism-title{color:#fff;font-size:var(--fs-lg)}
+#mechanism #mechanism-rule{font:600 var(--fs-sm)/1.5 var(--ui-font);color:var(--ink-soft);margin:0 0 var(--s3)}
+#mechanism p{color:var(--ink)}
+.mx-machine{background:var(--slate);border:12px solid transparent;border-image:var(--frame-slate) 8 fill / 12px stretch;image-rendering:pixelated;padding:var(--s2) var(--s1)}
+.mx-io{display:grid;grid-template-columns:1fr auto 1.25fr auto 1fr;align-items:end;gap:var(--s1)}
+.mx-cell{display:grid;justify-items:center;gap:4px}
+.mx-cell small{font:800 11px/1 var(--ui-font);color:#e5eef6;text-transform:uppercase;letter-spacing:.06em}
+.mx-slot,.mx-core{display:grid;place-items:center;width:100%;height:52px;font:800 26px/1 var(--num-font);font-variant-numeric:tabular-nums;color:var(--outline);
+  border:12px solid transparent;border-image:var(--slot-blue) 8 fill / 12px stretch;image-rendering:pixelated;box-sizing:border-box;padding:0}
+.mx-core{background:var(--gold);color:var(--ink);font-size:18px;border:3px solid var(--outline-warm);border-image:none;border-radius:6px;
+  box-shadow:inset 0 3px 0 var(--gold-light), inset 0 -4px 0 var(--gold-shade)}
+.mx-pipe{font:900 22px/52px var(--ui-font);color:var(--gold-light);text-shadow:1px 1px 0 var(--outline)}
+.mx-target{margin:var(--s2) 0 0!important;text-align:center;font:700 var(--fs-sm)/1.3 var(--ui-font);color:#fff!important}
+.mx-target b{color:var(--gold-light);font:800 var(--fs-lg) var(--num-font)}
+.mx-machine.is-wrong #mx-out{border-image-source:var(--slot-red);color:var(--bad-dark)}
+.mx-machine.is-right #mx-out,.mx-machine.is-right #mx-in{border-image-source:var(--slot-green);color:var(--ok-dark)}
+@media (prefers-reduced-motion:no-preference){.mx-machine.is-wrong #mx-out{animation:mx-shake .3s}.mx-machine.is-right #mx-out{animation:mx-pop .35s}}
+@keyframes mx-shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes mx-pop{50%{transform:scale(1.12)}}
+.mx-question{font:800 var(--fs-md)/1.4 var(--ui-font)!important;color:var(--ink)!important;margin:var(--s3) 0 var(--s2)!important}
+#mechanism #mechanism-value:empty{display:none}
+#mechanism #token-options{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s2);margin:0 0 var(--s3)}
+#mechanism #token-options[hidden]{display:none}
+#mechanism #token-options button{min-width:0;min-height:48px;padding:0;font:800 var(--fs-lg)/1 var(--num-font)}
+#mechanism [aria-pressed="true"]{background:var(--gold);border-color:var(--outline-warm);
+  box-shadow:inset 0 0 0 3px var(--gold-light), 0 3px 0 var(--outline-warm);filter:none}
+#mechanism-feedback{margin:0 0 var(--s3)!important;padding:var(--s2) var(--s3);min-height:0;border-radius:6px;border:2px solid var(--parchment-shade);
+  background:#fff8e6;font:700 var(--fs-sm)/1.45 var(--ui-font);color:var(--ink)!important}
+#mechanism-feedback:empty{display:none}
+#mechanism-feedback.is-wrong{background:var(--bad-bg);border-color:var(--bad)}
+#mechanism-feedback.is-wrong::before{content:"✗ ";color:var(--bad-dark);font-weight:900}
+#mechanism-feedback.is-right{background:var(--ok-bg);border-color:var(--ok)}
+#mechanism-feedback.is-right::before{content:"✓ ";color:var(--ok-dark);font-weight:900}
+#mechanism .mechanism-actions{display:flex;flex-wrap:wrap;gap:var(--s2)}
+#mechanism #dial-test{min-width:130px;flex:1 1 auto}
+#mechanism #dial-hint,#mechanism #dial-solution{background:transparent;border-color:transparent;box-shadow:none;color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;padding:10px 6px;font-size:var(--fs-sm)}
+#mechanism #dial-close{flex:0 0 auto}
+#worked-solution{margin-top:var(--s3)!important;padding:var(--s3)!important;border:2px dashed var(--wood-light)!important;border-radius:6px;background:#fff8e6;
+  font:700 var(--fs-sm)/1.6 var(--num-font)!important;color:var(--ink)!important;white-space:pre-wrap}
+.mx-continue{margin-top:var(--s3)}
+.mx-continue #puzzle-go{width:100%;min-height:52px;font-size:var(--fs-lg)}
+.mx-continue:has(#puzzle-go[hidden]){display:none}
+#mechanism [hidden]{display:none!important}
+body[data-mode="paused"] #mechanism{visibility:hidden}
+
+/* ---------- 7. Pause, settings and other dialogs ----------------------- */
+#paused{width:min(380px,calc(100% - 32px));padding-top:var(--s5)}
+.pause-actions{display:grid;grid-template-columns:1fr;gap:var(--s3);margin-top:var(--s2)}
+.pause-actions #resume{min-height:52px;font-size:var(--fs-lg)}
+.dialog-return{font-size:var(--fs-xs);color:var(--ink-soft)!important;margin-top:var(--s3);display:inline-flex}
+#settings,#help,#collection,#secret-note,#level-select{width:min(480px,calc(100% - 32px))}
+.audio-row label{color:var(--ink);font-size:var(--fs-sm)}
+.audio-row input[type=range],.audio-row input[type=checkbox]{accent-color:var(--wood)}
+.settings-menu{border-top:2px solid var(--parchment-shade)}
+.menu-secondary button,.menu-secondary .title-return{background:transparent;border:0;box-shadow:none;color:var(--ink-soft)!important;text-decoration:underline}
+#settings #save-status{background:#fff8e6;color:var(--ink);border:2px solid var(--parchment-shade);border-radius:6px;padding:var(--s2) var(--s3)}
+.hint-list li,.level-card{background:#fff8e6;color:var(--ink);border:2px solid var(--parchment-shade);border-radius:6px}
+.help-controls dt{color:var(--ink-soft)}.help-controls dd{color:var(--ink)}
+
+/* ---------- 8. Victory -------------------------------------------------- */
+#complete{background:#163a30d9!important;border:0;border-image:none;padding:var(--s4)}
+#complete .victory-content{background:var(--parchment);border:24px solid transparent;border-image:var(--frame-cream) 8 fill / 24px stretch;
+  image-rendering:pixelated;max-width:520px;padding:var(--s5) var(--s4) var(--s4);box-shadow:0 8px 0 #00000040}
+.victory-flag{width:54px;height:54px;margin:0 auto var(--s2);background:var(--icon-flag) center/contain no-repeat;image-rendering:pixelated}
+@media (prefers-reduced-motion:no-preference){.victory-flag{animation:flag-wave .6s steps(1) infinite}}
+@keyframes flag-wave{50%{background-image:var(--icon-flag-a)}}
+#complete .banner-wrap{margin:0 0 var(--s3)}
+#complete .ribbon{font-size:var(--fs-xl);height:56px;line-height:56px}
+#complete p,.victory-content p.victory-message,#destination-reaction,#completion-puzzles{color:var(--ink)!important;font-size:var(--fs-md)}
+#destination-reaction:empty{display:none}
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2);border:0;padding:0;margin:var(--s4) 0}
+.results p{display:grid;justify-items:center;gap:4px;margin:0;padding:var(--s2) var(--s1);background:#fff8e6;border:2px solid var(--parchment-shade);border-radius:6px;
+  color:var(--ink)!important;font:800 var(--fs-md)/1.2 var(--num-font)!important;white-space:normal}
+.results p::before{content:"";width:28px;height:28px;background:center/contain no-repeat;image-rendering:pixelated}
+#completion-time::before{background-image:var(--icon-flag-a)}
+#completion-coins::before{background-image:var(--icon-coin)}
+#completion-secrets::before{background-image:var(--icon-gem)}
+#completion-puzzles{font-size:var(--fs-sm)!important;color:var(--ink-soft)!important}
+#complete .dialog-actions{justify-content:center;gap:var(--s3);margin-top:var(--s4)}
+#complete .dialog-actions button{min-width:160px}
+#complete .victory-content h2{color:#fff;text-shadow:2px 2px 0 var(--ribbon-dark)}
+
+/* ---------- 9. Chill Boy speech ---------------------------------------- */
+#chill-bubble{max-width:min(280px,calc(100vw - 24px));padding:0 var(--s1);font-size:var(--fs-sm)}
+#chill-bubble #dialogue-line{color:var(--parchment)!important;font-weight:700}
+#dialogue-dismiss{min-height:32px;padding:4px 10px;font-size:var(--fs-xs)}
+
+/* ---------- 10. Touch controls ----------------------------------------- */
+.touch-controls{gap:var(--s3)}
+.touch-controls .touch-group{gap:var(--s3)}
+.touch-controls button{width:64px;height:64px;min-width:64px;min-height:64px;padding:0;border-radius:50%;
+  font:900 26px/1 var(--ui-font);background:#fff1d2e6;color:var(--ink);border:3px solid var(--wood-dark);
+  box-shadow:inset 0 -5px 0 var(--parchment-shade), 0 3px 0 var(--wood-dark)}
+.touch-controls .jump{width:84px;height:84px;background:var(--gold);border-color:var(--outline-warm);font-size:var(--fs-md);
+  box-shadow:inset 0 3px 0 var(--gold-light), inset 0 -5px 0 var(--gold-shade), 0 3px 0 var(--outline-warm)}
+.touch-controls .interact{background:var(--leaf);color:#fff;border-color:#1d6e52;font-size:var(--fs-sm);text-shadow:1px 1px 0 #1d6e52;
+  box-shadow:inset 0 -5px 0 #23885f, 0 3px 0 #1d6e52}
+.touch-controls .crate-reset{width:auto;height:40px;min-height:40px;border-radius:6px;padding:0 var(--s3);font-size:var(--fs-xs);bottom:96px}
+
+/* ---------- 11. Responsive --------------------------------------------- */
+@media (max-width:820px), (max-height:540px){
+  .hud-chip{height:22px;font-size:13px;line-height:22px}
+  .masthead #pause{width:44px;height:44px}
+  #zone-toast{font-size:var(--fs-sm);max-width:min(300px,calc(100% - 200px))}
+  .ribbon,.mx-banner h2{font-size:var(--fs-md);height:40px;line-height:40px;border-width:0 38px;border-image-width:0 38px;min-width:160px}
+}
+/* Phone landscape: compact machine panel on the right, controls stay visible underneath. */
+@media (max-height:540px) and (orientation:landscape){
+  body #mechanism{top:56px;transform:none;max-height:calc(100% - 64px);width:min(400px,52vw);border-width:16px;border-image-width:16px}
+  .mx-slot,.mx-core{height:42px;font-size:20px}.mx-pipe{line-height:42px}
+  #mechanism #token-options button{min-height:44px}
+  #mechanism #mechanism-rule{display:none}
+  .touch-controls button{width:56px;height:56px;min-width:56px;min-height:56px}
+  .touch-controls .jump{width:72px;height:72px}
+  .title-copy{transform:translateY(-55%);gap:var(--s2)}
+  .welcome h1.logo{font-size:64px}
+  .welcome .main-btn{min-height:52px;font-size:22px}
+}
+/* Phone portrait: the machine becomes a bottom sheet; the world stays visible above. */
+@media (max-width:600px) and (orientation:portrait){
+  body #mechanism{position:fixed;left:8px;right:8px;top:auto;bottom:8px;transform:none;width:auto;max-height:64dvh;border-width:16px;border-image-width:16px}
+  #mechanism .mx-banner{margin:-4px 0 var(--s2)}
+  .title-copy{left:50%;top:22%;transform:translateX(-50%);justify-items:center;text-align:center}
+  .welcome h1.logo{font-size:84px}
+  .masthead{flex-wrap:wrap}
+  .hud-area{display:none}
+  #zone-toast{top:calc(max(16px,env(safe-area-inset-top)) + 54px);max-width:calc(100% - 32px)}
+  .cp-toast{top:calc(max(16px,env(safe-area-inset-top)) + 52px)}
+}
+@media (prefers-reduced-motion:reduce){.cp-toast,button{transition:none}}
+
+body.zone-announcing .hud-area{visibility:hidden}
+
+/* ---------- 12. Specificity fixes over inherited V13 rules -------------- */
+/* presentation.css still carries the V13 plaque title (brown box behind the
+   logo, cream box behind the tagline, top:11%). Neutralise it here. */
+body .welcome .title-copy{top:50%;left:max(32px,7%);width:auto;max-width:min(560px,88%)}
+body .welcome h1.logo{display:block;background:none;border:0;box-shadow:none;padding:0;margin:0}
+body .welcome p.title-tagline{display:block;background:none;border:0;box-shadow:none;padding:0;margin:0}
+body .welcome p.title-tagline .ribbon{font-size:var(--fs-md);color:#fff}
+/* Banner text must win over older `#mechanism h2` / `dialog h2` sizes. */
+body .ribbon, body #mechanism .mx-banner h2{font:800 var(--fs-lg)/48px var(--ui-font);height:48px;margin:0;padding:0 var(--s2);letter-spacing:.04em;color:#fff;text-shadow:2px 2px 0 var(--ribbon-dark)}
+body #complete .ribbon{font-size:var(--fs-xl);height:56px;line-height:56px}
+body.zone-announcing .hud-area{display:none}
+@media (max-width:820px), (max-height:540px){
+  body .ribbon, body #mechanism .mx-banner h2{font-size:var(--fs-md);height:40px;line-height:40px}
+}
+@media (max-width:600px) and (orientation:portrait){
+  body .welcome .title-copy{left:50%;top:22%;transform:translateX(-50%);justify-items:center}
+}
+@media (max-height:540px) and (orientation:landscape){
+  body .welcome .title-copy{transform:translateY(-55%)}
+}
+
+/* ---------- 13. Mobile + banner placement fixes ------------------------- */
+.banner-wrap{margin:0 0 var(--s3)}
+@media (max-height:560px) and (orientation:landscape){
+  /* presentation.css turns the panel into a 2-column grid here; keep one column. */
+  body #mechanism{display:block;top:8px;bottom:auto;transform:none;max-height:calc(100% - 16px);width:min(420px,50vw);padding:var(--s2) var(--s3)}
+  #mechanism .mx-banner{margin:0 0 var(--s2)}
+  .mx-question{font-size:var(--fs-sm)!important;margin:var(--s2) 0!important}
+  #mechanism-feedback{padding:6px 10px;font-size:13px}
+  #zone-toast{top:calc(max(10px,env(safe-area-inset-top)) + 52px)}
+}
+@media (max-width:600px) and (orientation:portrait){
+  body #mechanism{max-height:74dvh;padding:var(--s2) var(--s3)}
+  #mechanism #mechanism-rule{display:none}
+  .mx-slot,.mx-core{height:46px;font-size:22px}.mx-pipe{line-height:46px}
+  .mx-question{font-size:15px!important;margin:var(--s2) 0!important}
+  #mechanism-feedback{padding:6px 10px}
+}
+#destination-reaction{font-style:italic;font-size:var(--fs-sm)!important;color:var(--ink-soft)!important}
+.mx-core{white-space:nowrap;font-size:17px}
+@media (max-height:560px) and (orientation:landscape){
+  .mx-cell small{display:none}
+  .mx-machine{padding:4px}
+  .mx-target{margin-top:4px!important}
+  #mechanism-feedback:not(.is-wrong):not(.is-right){display:none}
+}
+@media (max-width:600px) and (orientation:portrait){.mx-core{font-size:16px}}
+@media (max-height:560px) and (orientation:landscape){
+  body #mechanism{top:4px;max-height:calc(100% - 8px);border-width:12px;border-image-width:12px}
+  body #mechanism .mx-banner h2{height:34px;line-height:34px;font-size:var(--fs-sm)}
+  #mechanism .mx-banner{margin:0 0 6px}
+  .mx-slot,.mx-core{height:38px;font-size:18px}.mx-pipe{line-height:38px}
+  #mechanism #token-options{margin-bottom:8px}
+}
+
+/* ---------- 14. Camera pass + menu polish ------------------------------- */
+/* The canvas is rendered at its CSS size and zoomed by the camera in 1/3
+   steps; on HiDPI screens the browser upscales by an integer DPR, so keep
+   that upscale nearest-neighbour too. */
+#game canvas{image-rendering:pixelated;image-rendering:crisp-edges}
+@supports (image-rendering:pixelated){#game canvas{image-rendering:pixelated}}
+#confirm{width:min(420px,calc(100% - 32px))}
+#confirm p{font-size:var(--fs-md);margin:0 0 var(--s3)}
+.confirm-actions{justify-content:flex-end;gap:var(--s3)}
+/* Menu: logo, ribbon and buttons read as one grouped sign. */
+body .welcome .title-copy{gap:var(--s3)}
+body .welcome p.title-tagline{margin-top:calc(-1 * var(--s2))}
+/* Short screens: the zone banner becomes a single slim line under the HUD so
+   it never covers the player or a prompt. */
+@media (max-height:540px){
+  #zone-toast{top:calc(max(8px,env(safe-area-inset-top)) + 48px);font-size:13px;max-width:min(320px,calc(100% - 32px))}
+  #zone-toast small{display:none}
+}
+/* Animation pass: coin chip bump on pickup (decorative, motion-safe). */
+@media (prefers-reduced-motion:no-preference){.hud-coins.bump{animation:chip-bump .26s ease-out}}
+@keyframes chip-bump{40%{transform:scale(1.14)}}
+
+/* ---------- 15. Leaderboard (mock) + puzzle legibility ------------------ */
+#leaderboard{width:min(520px,calc(100% - 32px))}
+.lb-notice{background:var(--bad-bg);border:2px dashed var(--bad);border-radius:6px;padding:var(--s2) var(--s3);font:700 var(--fs-sm)/1.4 var(--ui-font)!important;color:var(--ink)!important}
+.lb-tabs{display:flex;gap:var(--s2);margin:var(--s3) 0}
+.lb-tabs button{flex:1;min-height:40px;font-size:var(--fs-sm)}
+.lb-tabs button[aria-selected="true"]{background:var(--gold);border-color:var(--outline-warm)}
+.lb-table-wrap{overflow-x:auto;border:2px solid var(--parchment-shade);border-radius:6px;background:#fff8e6}
+.lb-table{width:100%;border-collapse:collapse;font:700 var(--fs-sm)/1.3 var(--ui-font);color:var(--ink)}
+.lb-table th,.lb-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--parchment-shade)}
+.lb-table td:nth-child(n+3),.lb-table th:nth-child(n+3){text-align:right;font-family:var(--num-font);font-variant-numeric:tabular-nums}
+.lb-table tr:first-child td{color:var(--outline-warm)}
+.lb-ico{display:inline-block;width:18px;height:18px;vertical-align:middle;background:center/contain no-repeat;image-rendering:pixelated}
+.lb-coin{background-image:var(--icon-coin)}.lb-gem{background-image:var(--icon-gem)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.lb-pb{margin-top:var(--s3)!important;font-weight:800;color:var(--ink)!important}
+.completion-pb{font:800 var(--fs-md)/1.3 var(--ui-font)!important;color:var(--ink-soft)!important}
+.completion-pb.is-best{color:var(--outline-warm)!important}
+#complete .dialog-actions{flex-wrap:wrap}
+/* Puzzle text a step larger for legibility on desktop. */
+@media (min-width:821px) and (min-height:541px){
+  #mechanism-feedback{font-size:15px}
+  .mx-question{font-size:17px!important}
+  #mechanism #mechanism-rule{font-size:15px}
+}
+/* Phase 2C: on short screens the zone banner sits bottom-centre (between the
+   touch arrows and Lompat) so it never covers the player, who the camera
+   frames high above water and on the treehouse. */
+@media (max-height:540px){
+  #zone-toast{top:auto;bottom:calc(max(12px,env(safe-area-inset-bottom)) + 8px)}
+}
+
+/* ---------- 16. Mission variants -------------------------------------- */
+.mx-type{margin:-4px 0 var(--s2)!important;text-align:center;font:800 11px/1 var(--ui-font)!important;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)!important}
+.mx-type:empty{display:none}
+.mx-clues{list-style:none;display:flex;justify-content:center;gap:var(--s2);margin:var(--s2) 0 0;padding:0}
+.mx-clues li{background:#fff8e6;color:var(--outline);border:2px solid var(--slate-light);border-radius:6px;padding:4px 8px;font:800 14px/1 var(--num-font)}
+#mechanism #token-options.rule-choices{grid-template-columns:1fr}
+#mechanism #token-options.rule-choices button{font:800 var(--fs-md)/1 var(--num-font);min-height:44px}
+
+/* ---------- 17. Retention: victory, journal, world map, save info ------- */
+#complete .victory-content{max-width:760px;max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain}
+@media (prefers-reduced-motion:no-preference){
+  #complete[open] .victory-content{animation:card-in .32s cubic-bezier(.2,1.4,.4,1)}
+  #complete[open] .results p{animation:tile-in .3s both}#complete[open] .results p:nth-child(2){animation-delay:.08s}#complete[open] .results p:nth-child(3){animation-delay:.16s}
+}
+@keyframes card-in{from{transform:scale(.86);opacity:0}}
+@keyframes tile-in{from{transform:translateY(8px);opacity:0}}
+.victory-sub{margin:-4px 0 var(--s2)!important;font:800 var(--fs-md)/1.3 var(--ui-font)!important;color:var(--ink-soft)!important}
+.victory-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:var(--s4);text-align:left;margin-top:var(--s2)}
+.victory-grid>*{min-width:0}
+@media (max-width:640px){.victory-grid{grid-template-columns:1fr}}
+.victory-results .results{margin:0 0 var(--s3)}
+.completion-mission{font:700 var(--fs-sm)/1.45 var(--ui-font)!important;color:var(--ink)!important;margin:var(--s2) 0!important}
+.achv-list{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:var(--s2) 0 0;padding:0}
+.achv-list li{background:var(--gold-light);color:var(--ink);border:2px solid var(--gold-shade);border-radius:999px;padding:3px 10px;font:800 12px/1.3 var(--ui-font)}
+.achv-list li.is-new{background:var(--gold);box-shadow:0 0 0 3px #fff3}
+.achv-list li.is-new::after{content:" · baharu";font-weight:700}
+.victory-journal{background:#fff8e6;border:2px solid var(--parchment-shade);border-radius:6px;padding:var(--s3)}
+.victory-journal h3{margin:0 0 var(--s2);font:800 var(--fs-md) var(--ui-font);color:var(--ink)}
+.journal-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2)}
+.journal-list li{display:grid;gap:2px;font-size:var(--fs-sm);color:var(--ink);padding-left:28px;position:relative;line-height:1.35}
+.journal-list li::before{content:"";position:absolute;left:0;top:1px;width:22px;height:22px;background:var(--icon-gem) center/contain no-repeat;image-rendering:pixelated}
+.journal-list li.is-missing::before{filter:grayscale(1) opacity(.45)}
+.journal-list li.is-missing b{color:var(--ink-soft)}
+.journal-list .link-btn{justify-self:start;padding:2px 0;min-height:32px;font-size:var(--fs-sm)}
+.journal-coins{margin:var(--s3) 0 0!important;font:700 var(--fs-sm)/1.45 var(--ui-font)!important;color:var(--ink)!important}
+.victory-actions{margin-top:var(--s4)!important}
+.victory-actions .link-btn,.victory-links .link-btn{background:transparent;border:0;box-shadow:none;color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;min-height:40px;padding:6px 8px;font-size:var(--fs-sm)}
+.replay-help{max-width:56ch;margin:var(--s2) auto 0!important;color:var(--ink-soft)!important}
+.teaser{margin:var(--s4) auto 0;max-width:520px;background:var(--slate);color:#fff;border:12px solid transparent;border-image:var(--frame-slate) 8 fill / 12px stretch;image-rendering:pixelated;text-align:center;padding:var(--s2)}
+.teaser p{color:#fff!important;margin:0!important}
+.teaser-kicker{font:800 11px/1 var(--ui-font)!important;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light)!important}
+.teaser-title{font:900 var(--fs-lg)/1.3 var(--ui-font)!important;margin:4px 0!important}
+.teaser-quote{font:italic 600 var(--fs-sm)/1.45 var(--ui-font)!important;color:#e5eef6!important}
+.badge-soon{display:inline-block;margin-top:var(--s2);background:var(--parchment);color:var(--ink);border:2px solid var(--wood-dark);border-radius:999px;padding:3px 12px;font:800 11px/1.3 var(--ui-font);letter-spacing:.08em;text-transform:uppercase}
+.victory-links{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:var(--s2);margin-top:var(--s3)!important}
+.victory-links .dialog-return{margin:0}
+/* world map */
+.world-sub{text-align:center;margin:-6px 0 var(--s3)!important;font:800 var(--fs-sm) var(--ui-font)!important;color:var(--ink-soft)!important}
+.world-map{list-style:none;padding:0;margin:0;display:grid;gap:var(--s3)}
+.world-map .level-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--s3);flex-direction:row}
+.level-num{display:grid;place-items:center;width:52px;height:52px;background:var(--gold);color:var(--ink);border:3px solid var(--outline-warm);border-radius:50%;font:900 var(--fs-md) var(--num-font)}
+.level-card.is-done .level-num::after{content:"✓";position:absolute;transform:translate(18px,-18px);background:var(--ok);color:#fff;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:12px}
+.level-card.is-done .level-num{position:relative}
+.level-card.is-soon .level-num{background:var(--slate-light);border-color:var(--slate)}
+.level-card.is-locked{opacity:.55}.level-card.is-locked .level-num{background:#d8d2c2;border-color:#9a917c}
+@media (max-width:480px){.world-map .level-card{grid-template-columns:auto 1fr}.world-map .level-card>button,.world-map .level-card>.badge-soon{grid-column:1/-1;justify-self:stretch;text-align:center}}
+/* save info + HUD mode */
+.save-info{margin-top:var(--s4);padding-top:var(--s3);border-top:2px solid var(--parchment-shade)}
+.save-info h3{margin:0 0 var(--s2);font:800 var(--fs-md) var(--ui-font);color:var(--ink)}
+.save-info p{margin:0 0 var(--s2)!important}
+.hud-mode::before{background-image:var(--icon-gem)}
+/* victory fixes */
+#complete .teaser p{color:#fff!important}
+#complete .teaser .teaser-kicker{color:var(--gold-light)!important}
+#complete .teaser .teaser-quote{color:#e5eef6!important}
+#complete .results p{white-space:pre-line;font:900 var(--fs-lg)/1.15 var(--num-font)!important;text-transform:none}
+#complete .results p::first-line{font-size:var(--fs-lg)}
+#complete .results{margin-bottom:var(--s2)}
+.journal-list .link-btn,.victory-links .link-btn,.victory-actions .link-btn{background:transparent!important;border:0!important;box-shadow:none!important}
+#complete .victory-content{padding-top:var(--s3)}
+#complete .victory-flag{width:40px;height:40px;margin-bottom:0}
+#complete .banner-wrap{margin-bottom:var(--s1)}
+#complete #destination-reaction{margin:0 0 var(--s1)!important}
+.teaser{margin-top:var(--s3)}
+/* ribbon titles never wrap out of the banner; long ones shrink on narrow screens */
+body .ribbon{white-space:nowrap;max-width:100%;box-sizing:border-box}
+@media (max-width:560px){body #complete .ribbon{font-size:15px;height:40px;line-height:40px;border-width:0 30px;border-image-width:0 30px;letter-spacing:.02em}}
+/* short screens: keep the main victory actions visible (sticky at the card bottom) */
+@media (max-height:600px), (max-width:560px){
+  #complete .victory-actions{position:sticky;bottom:calc(-1 * var(--s4));z-index:2;background:var(--parchment);margin:var(--s3) calc(-1 * var(--s3)) 0!important;padding:var(--s2) var(--s3);box-shadow:0 -6px 8px -6px #3a281440}
+  #complete #destination-reaction,#complete .replay-help{display:none}
+  #complete .victory-flag{display:none}
+}
+@media (max-height:600px) and (orientation:landscape){
+  #complete .victory-content{max-width:min(820px,calc(100vw - 24px));padding:var(--s2) var(--s3) var(--s4)}
+  #complete .results p{font-size:16px!important}
+}
+/* machine choices side by side (3 columns) so the panel stays compact */
+#mechanism #token-options.rule-choices{grid-template-columns:repeat(3,1fr)}
+#mechanism #token-options.rule-choices button{font-size:15px;padding:0 4px;white-space:nowrap}
+@media (max-height:560px), (max-width:600px){
+  #mechanism .mx-type{display:none}
+  #mechanism .mx-clues{margin-top:4px}#mechanism .mx-clues li{padding:2px 6px;font-size:12px}
+}
+
+/* ---------- 18. Victory moment (single screen, no scroll) ---------------
+   The live Level 1 world stays visible: the camera frames Chill Boy on the
+   flag plinth in the free side of the screen, and one framed sign carries
+   the result. The goal sits near the world's east edge, so the sign takes
+   the west side on landscape screens and the bottom on portrait ones. */
+body #complete.victory{position:fixed;inset:0;margin:0;width:100vw;max-width:none;height:100dvh;max-height:none;
+  padding:max(12px,env(safe-area-inset-top)) 16px max(12px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+  background:transparent!important;border:0;border-image:none;box-shadow:none;overflow:hidden;
+  display:none;align-items:center;justify-content:flex-start;pointer-events:none}
+body #complete.victory[open]{display:flex}
+body #complete.victory::backdrop{background:transparent}
+.victory-panel{pointer-events:auto;position:relative;width:min(430px,46vw);max-height:100%;overflow:hidden;box-sizing:border-box;text-align:center;
+  background:var(--parchment);color:var(--ink);border:24px solid transparent;border-image:var(--frame-cream) 8 fill / 24px stretch;
+  image-rendering:pixelated;padding:6px 10px 4px;box-shadow:0 8px 0 #00000045;display:flex;flex-direction:column;align-items:center}
+@media (prefers-reduced-motion:no-preference){
+  #complete[open] .victory-panel{animation:victory-in .42s cubic-bezier(.2,1.35,.4,1) both}
+  #complete[open] .victory-kicker{animation:kicker-glow 1.6s steps(2) infinite}
+  #complete[open] .sil-q{animation:q-pulse 1.8s ease-in-out infinite}
+}
+@keyframes victory-in{from{transform:translateX(-40px) scale(.94);opacity:0}}
+@keyframes kicker-glow{50%{color:#fff3b0}}
+@keyframes q-pulse{50%{opacity:.95;transform:translateY(-2px)}}
+body #complete .victory-kicker{margin:0 0 6px!important;font:900 var(--fs-md)/1 var(--ui-font)!important;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold)!important;text-shadow:2px 2px 0 var(--outline-warm,#8a5a12)}
+body #complete .banner-wrap{margin:0 0 8px;width:100%}
+body #complete .ribbon{font-size:26px;height:56px;line-height:56px;min-width:0;max-width:100%;padding:0 6px}
+body #complete .victory-quote{margin:0 0 10px!important;font:italic 800 var(--fs-lg)/1.25 var(--ui-font)!important;color:var(--ink)!important}
+.victory-stats{display:grid;grid-template-columns:repeat(3,1fr);width:100%;margin:0 0 6px}
+body #complete .vstat{display:grid;justify-items:center;gap:2px;margin:0!important;padding:0;background:none;border:0;position:relative}
+.vstat+.vstat{border-left:2px dashed var(--parchment-shade)}
+.vicon{width:36px;height:36px;background:center/contain no-repeat;image-rendering:pixelated}
+.vicon-coin{background-image:var(--icon-coin)}.vicon-gem{background-image:var(--icon-gem)}.vicon-flag{background-image:var(--icon-flag)}
+body #complete .vstat b{font:900 30px/1 var(--num-font);color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
+body #complete .vstat small{font:800 var(--fs-xs)/1.2 var(--ui-font);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.vstat.is-bump b{animation:stat-bump .18s ease-out}
+@keyframes stat-bump{50%{transform:scale(1.22);color:var(--gold-shade)}}
+.vstat .vbadge{position:absolute;top:-6px;right:2px;background:var(--ribbon);color:#fff;font:900 10px/1 var(--ui-font);letter-spacing:.06em;padding:3px 5px;transform:rotate(6deg);box-shadow:0 2px 0 var(--ribbon-dark);text-transform:uppercase}
+body #complete .victory-hint{margin:6px 0 10px!important;font:700 var(--fs-sm)/1.4 var(--ui-font)!important;color:var(--ink-soft)!important;max-width:34ch}
+body #complete .victory-hint:empty{display:none}
+body #complete .victory-hint::before{content:"✦ ";color:var(--gold-shade)}
+/* Mystery teaser: a dark night strip — shapes, not answers. */
+body #complete .teaser{position:relative;isolation:isolate;width:100%;box-sizing:border-box;margin:0 0 10px;max-width:none;
+  background:none;border:12px solid transparent;border-image:none;padding:2px 4px 4px;text-align:center}
+body #complete .teaser::before{content:"";position:absolute;inset:-12px;z-index:-1;border:12px solid transparent;
+  border-image:var(--frame-slate) 8 fill / 12px stretch;image-rendering:pixelated;filter:brightness(.42) saturate(.7)}
+.teaser-art{display:flex;justify-content:center;align-items:flex-end;gap:2px;height:30px;margin-bottom:2px}
+.sil{display:block;width:27px;height:27px;background:center/contain no-repeat;image-rendering:pixelated;filter:brightness(0) invert(1);opacity:.26}
+.sil-machine{background-image:url('../../assets/kenney-pixel-platformer/Tiles/tile_0029.png')}
+.sil-plank{background-image:url('../../assets/kenney-pixel-platformer/Tiles/tile_0049.png');height:18px}
+.sil-q{filter:none;opacity:.6;font:900 24px/27px var(--num-font);color:var(--gold-light);text-shadow:0 0 8px #fee48188}
+body #complete .teaser p{margin:0!important}
+body #complete .teaser .teaser-kicker{font:800 11px/1.2 var(--ui-font)!important;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light)!important}
+body #complete .teaser .teaser-title{font:900 var(--fs-md)/1.3 var(--ui-font)!important;color:#fff!important;margin:2px 0!important}
+body #complete .teaser .teaser-quote{font:italic 600 13px/1.4 var(--ui-font)!important;color:#c9d6e2!important}
+body #complete .teaser .badge-soon{margin-top:6px;font-size:10px;padding:2px 10px}
+/* Button hierarchy: one big main action, one smaller, one text link. */
+body #complete .victory-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin:0!important;position:static;background:none;box-shadow:none;padding:0}
+body #complete .victory-actions .victory-main{grid-column:1/-1;min-height:54px;font-size:var(--fs-lg);letter-spacing:.06em;text-transform:uppercase}
+body #complete .victory-actions #replay{min-height:42px;font-size:var(--fs-sm);padding:6px 10px;text-transform:none}
+body #complete .victory-actions #menu-btn{min-height:42px;font-size:var(--fs-sm);justify-self:center}
+.fly-coin{position:fixed;left:0;top:0;width:27px;height:27px;margin:-13px 0 0 -13px;background:var(--icon-coin) center/contain no-repeat;image-rendering:pixelated;pointer-events:none;z-index:5}
+/* Short landscape (phones on their side): compact sign, still one screen. */
+@media (max-height:520px) and (min-aspect-ratio:1/1){
+  .victory-panel{width:min(400px,54vw);border-width:16px;border-image-width:16px;padding:2px 8px 2px}
+  body #complete .victory-kicker{font-size:11px!important;margin-bottom:3px!important}
+  body #complete .banner-wrap{margin-bottom:3px}
+  body #complete .ribbon{font-size:17px;height:36px;line-height:36px;border-width:0 30px;border-image-width:0 30px}
+  body #complete .victory-quote{font-size:var(--fs-sm)!important;margin-bottom:4px!important}
+  .vicon{width:22px;height:22px}
+  body #complete .vstat b{font-size:20px}
+  body #complete .vstat small{font-size:10px}
+  body #complete .victory-hint{font-size:12px!important;margin:2px 0 6px!important;line-height:1.3!important}
+  .teaser-art{display:none}
+  body #complete .teaser{border-width:8px;margin-bottom:6px;padding:0 2px 2px}
+  body #complete .teaser::before{inset:-8px;border-width:8px;border-image-width:8px}
+  body #complete .teaser .teaser-title{font-size:13px!important;margin:0!important}
+  body #complete .teaser .teaser-quote{font-size:11px!important;line-height:1.3!important}
+  body #complete .teaser .badge-soon{margin-top:3px;font-size:9px;padding:1px 8px}
+  body #complete .victory-actions{grid-template-columns:1.3fr 1fr auto;gap:6px}
+  body #complete .victory-actions .victory-main{grid-column:auto;min-height:44px;font-size:var(--fs-sm)}
+  body #complete .victory-actions #replay,body #complete .victory-actions #menu-btn{min-height:44px;font-size:12px;padding:4px 6px}
+}
+@media (max-height:400px) and (min-aspect-ratio:1/1){
+  body #complete .teaser .teaser-quote{display:none}
+  body #complete .victory-quote{display:none}
+}
+/* Portrait: Chill Boy above, the sign as a bottom sheet. */
+@media (max-aspect-ratio:1/1){
+  body #complete.victory{align-items:flex-end;justify-content:center;padding:12px 10px max(10px,env(safe-area-inset-bottom))}
+  .victory-panel{width:min(460px,100%);max-height:72dvh;border-width:18px;border-image-width:18px;padding:2px 6px}
+  @media (prefers-reduced-motion:no-preference){#complete[open] .victory-panel{animation-name:victory-up}}
+  body #complete .victory-kicker{font-size:12px!important;margin-bottom:4px!important}
+  body #complete .ribbon{font-size:18px;height:40px;line-height:40px;border-width:0 30px;border-image-width:0 30px}
+  body #complete .victory-quote{font-size:var(--fs-md)!important;margin-bottom:6px!important}
+  .vicon{width:26px;height:26px}
+  body #complete .vstat b{font-size:22px}
+  body #complete .victory-hint{font-size:13px!important;margin:4px 0 8px!important}
+  .teaser-art{height:22px}.sil{width:20px;height:20px}.sil-plank{height:14px}.sil-q{font-size:18px;line-height:20px}
+  body #complete .teaser .teaser-title{font-size:14px!important}
+  body #complete .teaser .teaser-quote{font-size:12px!important}
+  body #complete .victory-actions .victory-main{min-height:50px}
+}
+@keyframes victory-up{from{transform:translateY(40px);opacity:0}}
+@media (max-aspect-ratio:1/1) and (max-height:700px){
+  .teaser-art{display:none}
+  body #complete .victory-quote{margin-bottom:2px!important}
+}
+/* 18b. fit fixes from the first real screenshots */
+.victory-panel{width:min(470px,46vw)}
+body #complete .ribbon{font-size:22px;letter-spacing:.02em;border-width:0 32px;border-image-width:0 32px}
+@media (max-height:520px) and (min-aspect-ratio:1/1){
+  body #complete .victory-quote{display:none}
+  body #complete .ribbon{font-size:16px;height:32px;line-height:32px}
+  body #complete .victory-stats{margin-bottom:2px}
+  body #complete .victory-hint{margin:0 0 4px!important}
+}
+@media (max-aspect-ratio:1/1){
+  .victory-panel{width:min(460px,100%);max-height:100%;padding:0 6px}
+  body #complete .ribbon{font-size:17px;height:36px;line-height:36px}
+  body #complete .banner-wrap{margin-bottom:4px}
+  .vicon{width:22px;height:22px}
+  body #complete .vstat b{font-size:20px}
+  body #complete .vstat small{font-size:10px}
+  body #complete .victory-hint{font-size:12px!important;margin:2px 0 6px!important;line-height:1.3!important}
+  body #complete .teaser{margin-bottom:6px;border-width:8px}
+  body #complete .teaser::before{inset:-8px;border-width:8px;border-image-width:8px}
+  body #complete .teaser .teaser-quote{font-size:11px!important;line-height:1.3!important}
+  body #complete .teaser .badge-soon{margin-top:3px}
+  body #complete .victory-actions .victory-main{min-height:46px;font-size:var(--fs-md)}
+  body #complete .victory-actions #replay,body #complete .victory-actions #menu-btn{min-height:42px}
+}
+body:has(#complete[open]) #zone-toast,body:has(#complete[open]) .zone-toast,body:has(#complete[open]) .world-prompt{display:none!important}
+/* pattern variants carry a clue row: tighten it on landscape phones so Semak stays on screen */
+@media (max-height:400px){
+  #mechanism .mx-clues{margin-top:2px;gap:4px}
+  #mechanism .mx-clues li{padding:1px 5px;font-size:11px;border-width:1px}
+  #mechanism .mx-clues~*{margin-top:0}
+}
+@media (max-height:400px){
+  body #mechanism .mx-banner{margin-bottom:2px}
+  body #mechanism .mx-machine{padding-top:2px;padding-bottom:2px}
+  body #mechanism .mx-target{margin:2px 0 0!important;font-size:13px}
+  body #mechanism .mx-question{margin:4px 0!important;font-size:14px!important;line-height:1.3!important}
+}

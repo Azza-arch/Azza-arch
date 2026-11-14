@@ -1,0 +1,209 @@
+import {AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,CHECKPOINTS,GATES,SECRETS,WORLD,WATER,WATER_Y,GOAL} from './level.js';
+// ─────────────────────────────────────────────────────────────────────────
+// DENAI landscape system (Phase 2A).
+// Everything here is drawn from verified frames of the Kenney Pixel
+// Platformer atlas (tilemap_packed.png, 18px frames drawn at x3 = 54px) and
+// its parallax sheet (tilemap-backgrounds_packed.png, 24px frames). No art
+// is stretched, recoloured or invented.
+// Depth bands: parallax 0.4–0.8 · trees 3.2–3.6 · niche back wall 8 ·
+// terrain 9 · decks 10 · props/signs 11 · ladders 13 · player 20.
+// ─────────────────────────────────────────────────────────────────────────
+const T=54;
+// Tree crowns are autotiled masks: '#' = leaf cell. Each cell picks its
+// frame from its four neighbours, so a crown is ONE silhouette with one
+// outline (no stacked rectangles). Column under the trunk is the middle
+// column of the mask; the bottom cell above the trunk becomes frame 97
+// (canopy with the trunk fork entering it).
+const CROWNS={
+ T3:['.#.','###','###'],          // pointed dome
+ T4:['##.','###','.##'],          // leaning / irregular
+ T5:['.##..','#####','#####','.###.'], // broad rounded oak
+ T6:['.##..','#####'],
+ T7:['...##....','..#####..','.########','#########','..#####..'],
+ T8:['#','#','#','#'],
+};
+// Trunk frames bottom→top. 137 rooted base, 136 knot (stub left),
+// 116/138 stub right, 96 trunk with leaf tufts.
+const TRUNKS={T2:[137],T3:[137,136],T4:[137,116,136],T5:[137,138,96],T6:[137,136,136],T7:[137,116,136,96,138,116],T8:[137,136]};
+// Side branches [frame, column offset from trunk (1 = right neighbour, -1 = left), trunk row].
+const BRANCHES={T4:[[99,1,1],[98,-1,2]],T5:[[99,1,1]],T7:[[98,-1,2],[119,1,3],[119,2,3],[119,3,3],[99,4,3]]};
+function crownFrame(T_,B,Lf,R){
+ if(!Lf&&!R) return T_&&B?56:!T_&&B?36:T_&&!B?76:16;
+ if(!T_&&!B) return !Lf?77:!R?79:78;
+ return (!T_?17:!B?57:37)+(!Lf?0:!R?2:1);
+}
+export function buildTree(s,type,x,feet,fg=false){
+ const D=fg?19:0; // foreground trees draw in front of Chill Boy (depth 20)
+ if(type==='T1'){s.tile(126,x-27,feet-T,3.4+D);return;}
+ const trunk=TRUNKS[type];
+ trunk.forEach((f,i)=>s.tile(f,x-27,feet-(i+1)*T,3.3+D));
+ const top=feet-trunk.length*T;
+ (BRANCHES[type]||[]).forEach(([f,dx,row])=>s.tile(f,x-27+dx*T,feet-(row+1)*T,3.4+D));
+ if(type==='T2'){s.tile(16,x-27,top-T,3.5+D);(s.treeCrowns||=[]).push({type,x,x0:x-27,x1:x+27,y0:top-T,y1:top});return;}
+ const m=CROWNS[type],h=m.length,w=m[0].length,x0=x-w*T/2,has=(r,c)=>m[r]?.[c]==='#';
+ (s.treeCrowns||=[]).push({type,x,x0,x1:x0+w*T,y0:top-h*T,y1:top,fg});
+ const mid=(w-1)>>1;
+ for(let r=0;r<h;r++)for(let c=0;c<w;c++){
+  if(!has(r,c))continue;
+  let f=crownFrame(has(r-1,c),has(r+1,c),has(r,c-1),has(r,c+1));
+  if(r===h-1&&c===mid&&w>1)f=97;
+  s.tile(f,x0+c*T,top-(h-r)*T,3.5+D);
+ }
+}
+function parallax(s){
+ // Far: pale cloud band with tree silhouettes (frames 8–11, fill 16–19).
+ // Mid: green forest band (frames 14–15, fill 22–23). Collision unaffected.
+ // The far band sits in a container that drifts slowly (ambient motion from
+ // the existing art only); it wraps every 288 units = one 4-frame period.
+ const bands=[{sf:.25,y:990,top:[8,9,10,11],fill:[16,17,18,19],depth:.4,alpha:.9,drift:true},
+  {sf:.5,y:1140,top:[14,15],fill:[22,23],depth:.8,alpha:.85}];
+ for(const b of bands){
+  const span=WORLD.width*Math.max(b.sf,.6)+3000,box=s.add.container(0,0).setScrollFactor(b.sf,1).setDepth(b.depth);
+  for(let x=-1152,i=0;x<span;x+=72,i++){
+   box.add(s.add.image(x,b.y,'kpp_bg_atlas',b.top[i%b.top.length]).setOrigin(0).setScale(3));
+   for(let y=b.y+72;y<WORLD.floor+72;y+=72)box.add(s.add.image(x,y,'kpp_bg_atlas',b.fill[i%b.fill.length]).setOrigin(0).setScale(3));
+  }
+  // Opaque tiles + ONE translucent sky wash = the faded distance look without
+  // the 1px double-blend seams that per-tile alpha produced at tile edges.
+  s.add.rectangle(-2000,b.y,span+6000,WORLD.floor+200-b.y,0xaee3f5,1-b.alpha).setOrigin(0).setScrollFactor(b.sf,1).setDepth(b.depth+.01);
+  if(b.drift&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+   let off=0;s.events.on('update',(t,dt)=>{off=(off+dt*.006)%288;box.x=-off;});
+  }
+ }
+}
+export function buildWorld(s){
+ s.textures.get('kpp_terrain_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
+ s.textures.get('kpp_bg_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
+ s.worldObjects=[];s.cClues=new Set();s.probeSeen=new Set();s.eReadoutShown=false;s.eOutputShown=false;
+ s.riverInputSel=null;s.riverLastInputTrial=null;s.riverOrderSel=null;s.riverLastOrderTrial=null;
+ const tile=(frame,x,y,depth=4,w=54,h=54)=>{
+  const a=s.add.image(x,y,'kpp_terrain_atlas',frame).setOrigin(0).setScale(3).setCrop(0,0,w/3,h/3).setDepth(depth);
+  s.worldObjects.push({frame,x,y,width:w,height:h,collision:false});return a;
+ };s.tile=tile;
+ // A support pole (frame 89) whose visible pole sits at x (tile is centred on it).
+ const pole=(x,top,bottom,depth=4)=>{for(let y=top;y<bottom;y+=54)tile(89,x-27,y,depth,54,Math.min(54,bottom-y));};
+ const post=(x,top,bottom)=>{for(let y=top;y<bottom;y+=54)tile(89,x,y,4,54,Math.min(54,bottom-y));};
+ const beam=(x,y,width)=>{for(let a=0;a<width;a+=54)tile(a===0?48:a+54>=width?50:49,x+a,y,4,Math.min(54,width-a),18);};
+ parallax(s);
+ // ── Terrain ────────────────────────────────────────────────────────────
+ // filled(x,y): is there terrain (solid column or slab band) in the 54px
+ // row starting at y at column x? Used so edge outlines appear only where
+ // terrain actually ends — a slab next to a solid at the same height joins
+ // seamlessly, and a slab's underside reads as an overhang.
+ const filled=(x,y)=>AB_TERRAIN.some(t=>x>=t.x&&x<t.x+t.width&&y>=t.y)||SLABS.some(t=>x>=t.x&&x<t.x+t.width&&y>=t.y&&y<t.bottom);
+ const floor=WORLD.floor;
+ for(const t of AB_TERRAIN){
+  const b=s.add.rectangle(t.x+t.width/2,(t.y+floor)/2,t.width,floor-t.y,0,0);
+  s.physics.add.existing(b,true);s.solids.add(b);b.setData('oneWay',false).setData('id',t.id);s.routePlatforms.push(b);
+  for(let x=t.x;x<t.x+t.width;x+=54)for(let y=t.y;y<floor;y+=54){
+   const left=x===t.x&&!filled(x-1,y),right=x+54>=t.x+t.width&&!filled(x+54,y);
+   const stone=t.style==='stone'&&y===t.y;
+   const frame=stone?(left&&right?40:left?41:right?43:42):y===t.y?(left&&right?20:left?21:right?23:22):y+54>=floor?(left&&right?140:left?141:right?143:142):(left&&right?120:left?121:right?123:4+((x/54+y/54)&1));
+   tile(frame,x,y,9,Math.min(54,t.x+t.width-x),Math.min(54,floor-y));
+  }
+ }
+ // Finite-depth slabs: collider spans exactly y..bottom (no column to the
+ // floor), so the space underneath is real, walkable air.
+ for(const t of SLABS){
+  const b=s.add.rectangle(t.x+t.width/2,(t.y+t.bottom)/2,t.width,t.bottom-t.y,0,0);
+  s.physics.add.existing(b,true);s.solids.add(b);b.setData('oneWay',false).setData('id',t.id);s.routePlatforms.push(b);
+  for(let x=t.x;x<t.x+t.width;x+=54){
+   const left=!filled(x-1,t.y),right=!filled(x+54,t.y);
+   tile(left&&right?0:left?1:right?3:2,x,t.y,9,Math.min(54,t.x+t.width-x),t.bottom-t.y);
+  }
+ }
+ for(const d of DECKS){s.deck(d);s.platform(d);}
+ // Fence walls (visible fence art + matching solid collider; never invisible).
+ for(const w of WALLS){
+  const b=s.add.rectangle(w.x+w.width/2,(w.top+w.bottom)/2,w.width,w.bottom-w.top,0,0);
+  s.physics.add.existing(b,true);s.solids.add(b);b.setData('oneWay',false).setData('id',w.id);s.routePlatforms.push(b);
+  // A tall fence gets a full-height post so its stacked sections read as one railing.
+  if(w.bottom-w.top>54)pole(w.x+w.width/2,w.top,w.bottom,10.5);
+  for(const [f,x,y] of w.art)tile(f,x,y,11);
+ }
+ for(const l of LADDERS){
+  for(let y=l.top;y<l.bottom;y+=54)tile(71,l.x-27,y,13,54,Math.min(54,l.bottom-y));
+  const z=s.add.zone(l.x,(l.top+l.bottom)/2,56,l.bottom-l.top+72);s.physics.add.existing(z,true);z.setData('ladder',l);s.ladderZones.push(z);
+ }
+ // ── 01 · Taman Permulaan ────────────────────────────────────────────────
+ // Landmark: wide oak (T5) beside the garden step + small pine companion.
+ // The crate lane (x150–430) carries no decoration so the puzzle reads.
+ pole(459,1206,1296);pole(567,1206,1296);       // supports for the crate ledge
+ tile(106,0,1242,11);tile(105,54,1242,11);       // garden fence behind spawn
+ tile(128,640,1242,11);tile(124,757,1242,11);    // mushroom + tuft by the step
+ tile(125,1110,1188,11);                         // tuft on the root overhang
+ // ── 02 · Laluan Akar ────────────────────────────────────────────────────
+ // Secret A niche: dirt back wall (45% alpha) under the root overhang so the
+ // recess reads as a hollow in the bank, not open sky.
+ for(let y=1296;y<1404;y+=54)for(let x=1080;x<1188;x+=54)tile(4+((x/54+y/54)&1),x,y,8).setAlpha(.45);
+ tile(129,1188,1350,11);                         // tall mushroom marks the niche mouth
+ // Canopy walk supports, each pole lands on the terrain directly below.
+ pole(1250,1098,1404);pole(1450,1098,1404);pole(1520,1098,1350);pole(1710,1098,1296);
+ tile(124,1395,1350,11);tile(125,1735,1242,11);
+ const trees=[
+  ['T5',729,1296],['T1',891,1242],             // 01: one large + one small
+  ['T4',999,1242],['T3',1107,1242],           // 02: overlapping root pair (T3 rooted on the overhang)
+  ['T8',1998,1242],                            // 02: column tree at the exit
+  ['T1',3294,1296],['T6',3850,1188],          // 04: pine on cliff-1, umbrella tree shading the rest cliff
+  ['T7',4455,1296],                            // 05: POKOK TINJAU (giant, carries the lookout)
+  ['T2',4671,1350],['T8',5076,1296],
+  ['T3',1880,1242,'fg'],['T3',4900,1296,'fg'],['T4',3040,1242,'fg'], // FOREGROUND: Chill Boy walks behind these three           // 05: young clump in the root dip, column tree before the clearing
+  ['T5',5300,1242],['T3',5520,1242],['T1',5612,1242]]; // 06: three-tree grove (large / medium / small), crowns spaced so each reads
+ trees.forEach(([t,x,f,fg])=>buildTree(s,t,x,f,!!fg));
+ // ── 03 · Stesen Fungsi ──────────────────────────────────────────────────
+ // A roofed wooden station on the yard: two posts, a stepped plank roof with
+ // a peak block, the function machine under it and the lever at the bridge
+ // mouth. The right post doubles as the bridge's left rope anchor.
+ pole(2205,1080,1242);pole(2511,1080,1242);
+ beam(2160,1062,378);beam(2214,1044,270);tile(47,2322,990,4);
+ for(let i=0;i<3;i++){tile(29,2295+i*54,1134,11);tile(i===1?31:29,2295+i*54,1188,11);}
+ const screen={fontFamily:'ui-monospace,Consolas,"Roboto Mono",monospace',fontStyle:'bold',color:'#fee481',backgroundColor:'#434a5f',padding:{x:7,y:4}};
+ s.machineScreen=s.add.text(2376,1176,'f(x) = 2x + 1',{...screen,fontSize:'15px'}).setOrigin(.5,1).setDepth(12);
+ s.machineSub=s.add.text(2376,1218,'x = ?  →  7',{...screen,fontSize:'13px',color:'#fff1d2'}).setOrigin(.5,1).setDepth(12);
+ s.lever=s.add.image(2484,1242,'kpp_terrain_atlas',64).setOrigin(.5,1).setScale(3).setDepth(12);
+ tile(85,2124,1188,11);s.probeReadout=s.label('Input → f → output',2151,1170,14);
+ s.bInput=null;s.bLastTrial=null;
+ s.bSelector=s.add.image(-500,0,'kpp_terrain_atlas',85).setVisible(false); // obsolete V13 input board (panel owns input)
+ s.bSelectorLabel=s.add.text(-500,0,'').setVisible(false);
+ s.liftReadout=s.label('',2700,1150,13);s.liftState=s.label('',2700,1200,12);
+ // Bridge: 7 planks (the machine "outputs f(x) planks"; the gap needs 7).
+ // Hidden until built; collision is added only after the last plank lands.
+ {const g=GATES[0],n=g.planks,pw=g.width/n;s.liftPlanks=[];
+  for(let i=0;i<n;i++){const f=i===0?48:i===n-1?50:49;
+   s.liftPlanks.push(s.add.image(g.x+i*pw,g.y,'kpp_terrain_atlas',f).setOrigin(0).setScale(3).setCrop(0,0,pw/3,6).setDepth(10).setVisible(false));}
+  s.bridgeRails=[];for(let x=g.x;x<g.x+g.width;x+=54)s.bridgeRails.push(tile(x===g.x?90:x+54>=g.x+g.width?92:91,x,g.y-54,5,Math.min(54,g.x+g.width-x),54).setVisible(false));
+  pole(g.x+g.width+8,g.y-54,g.y);}               // right rope anchor on the far bank
+ tile(125,2900,1188,11);
+ // Water: wave row in every gap; two wave frames alternate gently.
+ s.waterTiles=[];
+ for(const w of WATER)for(let x=w.x;x<w.x+w.width;x+=54)s.waterTiles.push(tile(33,x,WATER_Y,9.5,Math.min(54,w.x+w.width-x),54).setAlpha(.92));
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){let ph=0;s.time.addEvent({delay:650,loop:true,callback:()=>{ph^=1;s.waterTiles.forEach((t,i)=>t.setFrame(((i+ph)&1)?53:33));}});}
+ // ── 04 · Tebing Berliku ─────────────────────────────────────────────────
+ // Piers stand on posts that go down into the water.
+ pole(3502,1260,WATER_Y+10);pole(3608,1260,WATER_Y+10);pole(3988,1260,WATER_Y+10);pole(4112,1260,WATER_Y+10);
+ tile(124,3340,1242,11);
+ // ── 05 · Pokok Tinjau ───────────────────────────────────────────────────
+ // The treehouse: low deck across the trunk (posts at both ends), a branch
+ // deck carried by the tree's own branch tiles, and the top deck on the
+ // trunk plus a post standing on the low deck. Railings mark the deck edge.
+ pole(4293,1152,1296);pole(4563,1152,1296);pole(4422,1044,1134);
+  tile(124,4800,1242,11);tile(129,5000,1242,11);tile(125,5130,1242,11);
+ // ── 06 · Destinasi Terakhir ─────────────────────────────────────────────
+ // Wide clearing; the goal flag waves on a stone plinth; a low fence and a
+ // sign close the world edge.
+ s.goalFlag=s.add.image(GOAL.x,GOAL.feet,'kpp_terrain_atlas',112).setOrigin(.5,1).setScale(4).setDepth(11);
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)s.time.addEvent({delay:420,loop:true,callback:()=>s.goalFlag.setFrame(s.goalFlag.frame.name===112?111:112)});
+ tile(128,5420,1188,11);tile(86,5832,1188,11);tile(106,5886,1188,11);
+ CHECKPOINTS.forEach((c,i)=>s.checkpointArts[i]=s.add.image(c.x,c.feet,'kpp_terrain_atlas',111).setOrigin(.5,1).setScale(3).setDepth(11));
+ s.spawnCollectibles();s.buildSecrets();s.buildCratePuzzle();
+}
+export function buildSecretMarkers(s){
+ s.secretMarkers={};
+ for(const d of SECRETS){
+  const marker=s.add.image(d.x,d.feet-80,'kpp_terrain_atlas',67).setScale(2).setDepth(14).setAlpha(s.discoveredSecrets.has(d.id)?1:.35);
+  s.secretMarkers[d.id]=marker;
+  if(!s.discoveredSecrets.has(d.id)&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+   s.tweens.add({targets:marker,y:marker.y-10,duration:950,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+  }
+ }
+}
