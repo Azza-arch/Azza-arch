@@ -99,3 +99,24 @@ export function circSolve({ j, theta, deg, solveFor, target, want, lo, hi }) {
   for (let k = 0; k < 60; k++) { const m = (a + b) / 2; if (f(a) * f(m) <= 0) b = m; else a = m; }
   return (a + b) / 2;
 }
+
+// Calculus (T5 Bab 2/3) — numerical, never by the differentiation rules being taught.
+export const nd1 = (f, x, h = 1e-3) => (f(x - 2 * h) - 8 * f(x - h) + 8 * f(x + h) - f(x + 2 * h)) / (12 * h); // 5-point stencil
+export const nd2 = (f, x, h = 1e-3) => (-f(x - 2 * h) + 16 * f(x - h) - 30 * f(x) + 16 * f(x + h) - f(x + 2 * h)) / (12 * h * h);
+export function limitAt(f, a = 0) { // two-sided; returns NaN if the sides disagree
+  const L = (h) => f(a + h), Rr = (h) => f(a - h);
+  const right = 2 * L(1e-5) - L(2e-5), left = 2 * Rr(1e-5) - Rr(2e-5); // Richardson for the O(h) one-sided error
+  return Math.abs(right - left) <= 1e-6 * Math.max(1, Math.abs(right)) ? (right + left) / 2 : NaN;
+}
+export function stationary(f, from, to, steps = 200000) { // x where f' changes sign (or touches 0)
+  const g = (x) => nd1(f, x); const out = [];
+  let xp = from, gp = g(from);
+  for (let k = 1; k <= steps; k++) { const x = from + ((to - from) * k) / steps, gx = g(x);
+    if (gp === 0) out.push(xp); else if (gp * gx < 0) { let a = xp, b = x; for (let i = 0; i < 80; i++) { const m = (a + b) / 2; if (g(a) * g(m) <= 0) b = m; else a = m; } out.push((a + b) / 2); }
+    xp = x; gp = gx; }
+  return out;
+}
+export function natureAt(f, x0, d = 1e-3) { const l = nd1(f, x0 - d), r = nd1(f, x0 + d); return l > 0 && r < 0 ? 'max' : l < 0 && r > 0 ? 'min' : 'inflection'; }
+export function extremum(f, from, to, type, steps = 200000) { let best = null; for (let k = 0; k <= steps; k++) { const x = from + ((to - from) * k) / steps, v = f(x); if (Number.isFinite(v) && (best === null || (type === 'max' ? v > best.v : v < best.v))) best = { x, v }; } // refine
+  let a = Math.max(from, best.x - (to - from) / steps), b = Math.min(to, best.x + (to - from) / steps); const phi = (Math.sqrt(5) - 1) / 2; const better = (u, w) => (type === 'max' ? f(u) > f(w) : f(u) < f(w));
+  for (let i = 0; i < 100; i++) { const c = b - phi * (b - a), e = a + phi * (b - a); if (better(c, e)) b = e; else a = c; } const x = (a + b) / 2; return f(x) === undefined ? best : (type === 'max' ? (f(x) >= best.v ? { x, v: f(x) } : best) : (f(x) <= best.v ? { x, v: f(x) } : best)); }

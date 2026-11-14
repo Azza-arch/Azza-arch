@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 11 daripada 18.
+Bab dengan fail nota: 12 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 58**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 65**
 
 ## t4-1 Fungsi (status: review)
 
@@ -183,6 +183,29 @@ Bab dengan fail nota: 11 daripada 18.
 | 1.3.3 | 1.3 | ✓ | ✓ | 2 |
 | 1.4.1 | 1.4 | ✓ | ✓ | 5 |
 
+## t5-2 Pembezaan (status: review)
+
+4 subtopik · 23 contoh · 4 visual · 38 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 2.1.1 | 2.1 | ✓ | ✓ | 3 |
+| 2.1.2 | 2.1 | ✓ | ✓ | 3 |
+| 2.2.1 | 2.2 | ✓ | ✓ | 2 |
+| 2.2.2 | 2.2 | ✓ | ✓ | 3 |
+| 2.2.3 | 2.2 | ✓ | ✓ | 3 |
+| 2.2.4 | 2.2 | ✓ | ✓ | 2 |
+| 2.3.1 | 2.3 | ✓ | ✓ | 5 |
+| 2.4.1 | 2.4 | ✓ | ✓ | 2 |
+| 2.4.2 | 2.4 | ✓ | ✓ | 2 |
+| 2.4.3 | 2.4 | ✓ | ✓ | 2 |
+| 2.4.4 | 2.4 | ✓ | ✓ | 3 |
+| 2.4.5 | 2.4 | ✓ | ✓ | 2 |
+| 2.4.6 | 2.4 | ✓ | ✓ | 2 |
+| 2.4.7 | 2.4 | ✓ | ✓ | 2 |
+| 2.4.8 | 2.4 | ✓ | ✓ | 2 |
+| 2.4.9 | 2.4 | ✓ | ✓ | 2 |
+
 ## Ralat
 - tiada
 
@@ -248,5 +271,12 @@ Bab dengan fail nota: 11 daripada 18.
 - t5-1.2-07 (objektif) — Perimeter tembereng \(AB\) dalam sektor \(OAB\) terdiri daripada…
 - t5-1.3-07 (penaakulan) — Jika jejari sektor digandakan dan sudutnya kekal, apakah yang berlaku kepada (a) panjang lengkok, (b) luas? Te
 - t5-1.4-05 (objektif) — Sebuah kipas tangan berbentuk antara dua lengkok sepusat berjejari \(R\) dan \(r\) dengan sudut \(\theta\). Lu
+- t5-2.1-05 (objektif) — Dalam prinsip pertama, \(\dfrac{dy}{dx}\) ditakrifkan sebagai…
+- t5-2.1-06 (penaakulan) — Terangkan, dengan merujuk kepada perentas dan tangen, mengapa \(\had_{\delta x \to 0} \dfrac{\delta y}{\delta 
+- t5-2.2-07 (objektif) — Graf \(y = f(x)\) menurun bagi \(x  2\). Pernyataan manakah benar tentang graf \(y = f'(x)\)?
+- t5-2.2-08 (penaakulan) — Seorang murid menulis \(\dfrac{d}{dx}(3x + 2)^4 = 4(3x + 2)^3\). Kembangkan \((3x + 2)^2\) untuk kes kuasa dua
+- t5-2.3-04 (objektif) — Pada suatu titik, \(\dfrac{dy}{dx} = 3\) dan \(\dfrac{d^2y}{dx^2} = -2\). Yang manakah benar?
+- t5-2.4-12 (penaakulan) — Dalam masalah kotak, \(\dfrac{dV}{dx} = 0\) memberi \(x = \tfrac{10}{3}\) dan \(x = 10\). Terangkan mengapa \(
+- t5-2.4-13 (objektif) — Bagi \(y = 5 - x^2\), pada titik \(x = 2\), graf…
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

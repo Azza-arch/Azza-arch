@@ -9,7 +9,7 @@ import { CURRICULUM, chapterById } from '../src/content/curriculum.js';
 import { STATUSES } from '../src/content/status.js';
 import { NOTE_MODULES, NOTE_STATUS } from '../src/content/notes/index.js';
 import { evaluate, f1, roots, sameFunction, extremaOnInterval, isFunctionMapping, parseSet } from './solvers.mjs';
-import { triSolve, geo3, circMeasure, circSolve } from './triangle.mjs';
+import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum } from './triangle.mjs';
 
 const errors = [], warnings = [], manual = [], chapterRows = [];
 const err = (id, m) => errors.push(`${id}: ${m}`), warn = (id, m) => warnings.push(`${id}: ${m}`);
@@ -21,7 +21,7 @@ const LEVELS = ['mudah', 'sederhana', 'mencabar'];
 function texCheck(id, s) {
   if (typeof s !== 'string') return;
   for (const m of s.matchAll(/\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)/g)) {
-    try { katex.renderToString(m[1] ?? m[2], { throwOnError: true, strict: 'ignore', displayMode: !!m[1], macros: { '\\uv': '\\underset{\\sim}{#1}', '\\kos': '\\operatorname{kos}' } }); }
+    try { katex.renderToString(m[1] ?? m[2], { throwOnError: true, strict: 'ignore', displayMode: !!m[1], macros: { '\\uv': '\\underset{\\sim}{#1}', '\\kos': '\\operatorname{kos}', '\\had': '\\operatorname*{had}' } }); }
     catch (e) { err(id, `KaTeX: ${e.message.split('\n')[0]} in "${(m[1] ?? m[2]).slice(0, 60)}"`); }
   }
   const open = (s.match(/\\\(/g) || []).length, close = (s.match(/\\\)/g) || []).length;
@@ -68,6 +68,15 @@ function expected(check, id) {
       return check.pick === 'max' ? Math.max(...vals) : check.pick === 'min' ? Math.min(...vals) : vals[0]; }
     case 'geo3': return geo3(check.pts, check.want, check.of);
     case 'circ': return check.solveFor ? circSolve({ ...check, lo: check.lo ?? 1e-6, hi: check.hi ?? (check.solveFor === 'j' ? 1000 : 2 * Math.PI) }) : circMeasure(check, check.want);
+    case 'limit': { const v = limitAt(f1(check.expr), check.at ?? 0); if (!Number.isFinite(v)) err(id, 'limit does not exist (sides disagree)'); return v; }
+    case 'deriv-at': return (check.order === 2 ? nd2 : nd1)(f1(check.f), check.x);
+    case 'stationary': { const r = stationary(f1(check.f), check.from, check.to); if (!r.length) { err(id, 'no stationary point'); return NaN; } if (r.length > 1 && !check.pick) err(id, `${r.length} stationary points (${r.map((v) => v.toFixed(5))}); add pick`); const x = check.pick === 'max' ? Math.max(...r) : check.pick === 'min' ? Math.min(...r) : r[0]; return check.want === 'y' ? f1(check.f)(x) : x; }
+    case 'extremum': { const e = extremum(f1(check.f), check.from, check.to, check.type); return check.want === 'x' ? e.x : e.v; }
+    case 'line-at': { const f = f1(check.f), m = nd1(f, check.at), mm = check.line === 'normal' ? -1 / m : m; return check.y !== undefined ? check.at + (check.y - f(check.at)) / mm : mm * (check.x0 - check.at) + f(check.at); } // tangent/normal value at x0, or x where it equals y
+    case 'inflection': { const f = f1(check.f), g = (x) => nd2(f, x); const out = []; const N = 20000; for (let k = 0; k < N; k++) { const a = check.from + ((check.to - check.from) * k) / N, b = check.from + ((check.to - check.from) * (k + 1)) / N; if (g(a) * g(b) < 0) { let lo = a, hi = b; for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2; if (g(lo) * g(m) <= 0) hi = m; else lo = m; } out.push((lo + hi) / 2); } } if (out.length !== 1) err(id, `${out.length} inflection points (${out})`); return out[0]; }
+    case 'rate': return nd1(f1(check.f), check.x) * check.dxdt; // dy/dt = (dy/dx)(dx/dt), dy/dx measured numerically
+    case 'rate-inverse': return check.dydt / nd1(f1(check.f), check.x); // dx/dt from dy/dt
+    case 'small-change': { const f = f1(check.f); const d = nd1(f, check.x) * check.dx; return check.want === 'approx' ? f(check.x) + d : check.want === 'percent' ? (d / f(check.x)) * 100 : d; }
     case 'index': { // from raw quantities: Q1/Q0 × 100, or chained through intermediate times
       if (check.qs) { const q = check.qs; return (q[q.length - 1] / q[0]) * 100; }
       if (check.want === 'q1') return (check.I * check.q0) / 100; if (check.want === 'q0') return (check.q1 * 100) / check.I; return (check.q1 / check.q0) * 100; }
@@ -129,6 +138,9 @@ function checkExpression(spec, id) {
     case 'iterate': { const f = f1(c.f); ref = (x) => { let v = x; for (let k = 0; k < c.n; k++) v = f(v); return v; }; break; }
     case 'inverse-expr': { const f = f1(c.f); if (!sameFunction((x) => f(A(x)), (x) => x) || !sameFunction((x) => A(f(x)), (x) => x)) err(id, 'answer is not the inverse: f(answer(x)) and answer(f(x)) must both equal x'); ref = A; break; }
     case 'equiv-expr': ref = f1(c.expr); break;
+    case 'deriv': { const f = f1(c.f); ref = (x) => (c.order === 2 ? nd2 : nd1)(f, x); break; }
+    case 'tangent-line': { const f = f1(c.f), m = nd1(f, c.at), y0 = f(c.at); ref = (x) => m * (x - c.at) + y0; break; }
+    case 'normal-line': { const f = f1(c.f), m = -1 / nd1(f, c.at), y0 = f(c.at); ref = (x) => m * (x - c.at) + y0; break; }
     case 'line-through': ref = (x) => c.slope * (x - c.point[0]) + c.point[1]; break;
     case 'from-roots': ref = (x) => (c.lead ?? 1) * (x - c.roots[0]) * (x - c.roots[1]); break;
     default: err(id, `unknown expression check ${c.kind}`); return;
@@ -158,6 +170,7 @@ function checkMcq(q, id) {
     q.options.forEach((o) => { const f = (x, y) => evaluate(o.data.expr, { x, y }); const ratios = S.map(([x, y]) => f(x, y) / g(x, y)); const prop = ratios.every((r) => Number.isFinite(r) && Math.abs(r) > 1e-12 && Math.abs(r - ratios[0]) < 1e-7 * Math.max(1, Math.abs(ratios[0]))); if (prop !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: matches locus = ${prop}`); }); }
   else if (c.kind === 'collinear') q.options.forEach((o) => { const col = heronArea(o.data.pts) < 1e-9; if (col !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: collinear = ${col}`); });
   else if (c.kind === 'tri-count') q.options.forEach((o) => { const n = triSolve(o.data.given).length; if ((n === c.count) !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: ${n} triangle(s)`); });
+  else if (c.kind === 'nature') q.options.forEach((o) => { const n = natureAt(f1(c.f), c.x); if ((o.data.nature === n) !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: point is ${n}`); });
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }
