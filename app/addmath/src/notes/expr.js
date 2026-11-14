@@ -57,13 +57,14 @@ export function tryEval(input, scope = {}) {
 
 // Two expressions in x are treated as equivalent if they agree at many
 // sample points inside `domain` (skipping points where either is undefined).
-export function equivalent(a, b, { variable = 'x', samples = [-3.7, -2.2, -1.3, -0.4, 0.6, 1.5, 2.9, 4.1, 5.3, 7.7], tol = 1e-6 } = {}) {
-  let fa, fb, compared = 0;
+export function equivalent(a, b, { variable = 'x', samples = [-3.7, -2.2, -1.3, -0.4, 0.6, 1.5, 2.9, 4.1, 5.3, 7.7], tol = 1e-6, upToConstant = false } = {}) {
+  let fa, fb, compared = 0, shift = null; // upToConstant: indefinite integrals may differ by a constant
   try { fa = compile(a); fb = compile(b); } catch { return false; }
   for (const x of samples) {
     let va, vb;
     try { va = fa({ [variable]: x }); vb = fb({ [variable]: x }); } catch { return false; }
     if (!Number.isFinite(va) || !Number.isFinite(vb)) { if (Number.isFinite(va) !== Number.isFinite(vb)) return false; continue; }
+    if (upToConstant) { if (shift === null) shift = va - vb; va -= shift; }
     if (Math.abs(va - vb) > tol * Math.max(1, Math.abs(vb))) return false;
     compared++;
   }

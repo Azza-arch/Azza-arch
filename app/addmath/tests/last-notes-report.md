@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 12 daripada 18.
+Bab dengan fail nota: 13 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 65**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 72**
 
 ## t4-1 Fungsi (status: review)
 
@@ -206,6 +206,24 @@ Bab dengan fail nota: 12 daripada 18.
 | 2.4.8 | 2.4 | ✓ | ✓ | 2 |
 | 2.4.9 | 2.4 | ✓ | ✓ | 2 |
 
+## t5-3 Pengamiran (status: review)
+
+4 subtopik · 18 contoh · 5 visual · 30 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 3.1.1 | 3.1 | ✓ | ✓ | 5 |
+| 3.2.1 | 3.2 | ✓ | ✓ | 2 |
+| 3.2.2 | 3.2 | ✓ | ✓ | 3 |
+| 3.2.3 | 3.2 | ✓ | ✓ | 2 |
+| 3.2.4 | 3.2 | ✓ | ✓ | 2 |
+| 3.3.1 | 3.3 | ✓ | ✓ | 3 |
+| 3.3.2 | 3.3 | ✓ | ✓ | 2 |
+| 3.3.3 | 3.3 | ✓ | ✓ | 4 |
+| 3.3.4 | 3.3 | ✓ | ✓ | 2 |
+| 3.3.5 | 3.3 | ✓ | ✓ | 2 |
+| 3.4.2 | 3.4 | ✓ | ✓ | 5 |
+
 ## Ralat
 - tiada
 
@@ -278,5 +296,12 @@ Bab dengan fail nota: 12 daripada 18.
 - t5-2.3-04 (objektif) — Pada suatu titik, \(\dfrac{dy}{dx} = 3\) dan \(\dfrac{d^2y}{dx^2} = -2\). Yang manakah benar?
 - t5-2.4-12 (penaakulan) — Dalam masalah kotak, \(\dfrac{dV}{dx} = 0\) memberi \(x = \tfrac{10}{3}\) dan \(x = 10\). Terangkan mengapa \(
 - t5-2.4-13 (objektif) — Bagi \(y = 5 - x^2\), pada titik \(x = 2\), graf…
+- t5-3.1-03 (objektif) — Mengapa \(\int 2x\,dx = x^2 + c\), dan bukan \(x^2\) sahaja?
+- t5-3.1-05 (penaakulan) — Graf \(y = F(x)\) dan \(y = F(x) + 5\) dilukis pada paksi yang sama. Terangkan mengapa kedua-duanya mewakili \
+- t5-3.2-07 (objektif) — Mengapa rumus \(\int x^n\,dx = \tfrac{x^{n + 1}}{n + 1} + c\) tidak boleh digunakan untuk \(\int x^{-1}\,dx\)?
+- t5-3.3-12 (penaakulan) — Terangkan mengapa isi padu janaan apabila rantau di bawah \(y = f(x)\) dikisarkan pada paksi-\(x\) ialah \(\di
+- t5-3.3-10 (objektif) — Lengkung \(y = f(x)\) berada di bawah paksi-\(x\) bagi \(1 \le x \le 4\), dan \(\displaystyle\int_1^4 f(x)\,dx
+- t5-3.4-04 (objektif) — Graf kadar aliran \(r(t)\) (liter/minit) dilukis. Jumlah air yang mengalir dari \(t = 0\) hingga \(t = 5\) diw
+- t5-3.4-05 (penaakulan) — Terangkan, dengan merujuk kepada jalur nipis, mengapa luas di bawah graf kadar aliran memberi jumlah air.
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

@@ -20,6 +20,13 @@ export function checkSingle(spec, raw) {
     return { state: 'wrong', html: w ? w.feedback : (spec.hint || 'Belum tepat. Semak langkah anda, atau lihat penyelesaian penuh.') };
   }
   if (spec.type === 'expression') {
+    if (spec.upToConstant) { // indefinite integral: accept "+ c" (or C); remind when it is missing
+      const m = /^(.*?)\s*\+\s*[cC]\s*$/.exec(text); const body = m ? m[1] : text; const opts = { ...(spec.equiv || {}), upToConstant: true };
+      if (tryEval(body, { x: 1.37 }) === null && tryEval(body, { x: 2.41 }) === null) return { state: 'invalid', html: 'Ungkapan tidak dapat dibaca. Contoh format: x^3/3+2x+c.' };
+      if (equivalent(body, spec.answer, opts)) return { state: 'right', html: m ? (spec.right || 'Betul.') : 'Betul, tetapi jangan lupa pemalar pengamiran <strong>+ c</strong>.' };
+      const w = (spec.wrong || []).find((x) => equivalent(body, x.expr, opts));
+      return { state: 'wrong', html: w ? w.feedback : (spec.hint || 'Belum tepat. Semak: bezakan jawapan anda, adakah ia memberi semula fungsi asal?') };
+    }
     if (tryEval(text, { x: 1.37 }) === null && tryEval(text, { x: 2.41 }) === null) return { state: 'invalid', html: 'Ungkapan tidak dapat dibaca. Contoh format: 2x+1, (x-1)/2, 3(x+4)^2.' };
     if (equivalent(text, spec.answer, spec.equiv)) return { state: 'right', html: spec.right || 'Betul.' };
     const w = (spec.wrong || []).find((x) => equivalent(text, x.expr, spec.equiv));

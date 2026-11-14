@@ -32,5 +32,12 @@ t('tolerance is absolute: 4894.1 rejected', checkSingle(big, '4894.1').state ===
 t('tolerance is absolute: 4870 rejected', checkSingle(big, '4870').state === 'wrong');
 t('exact answers still accept 3/4 for 0.75', checkSingle({ type: 'numeric', answer: 0.75 }, '3/4').state === 'right');
 t('rounded wrong value still matches its feedback', checkSingle({ type: 'numeric', answer: 6.571, tolerance: 0.0006, wrong: [{ value: 15.711, feedback: 'X' }] }, '15.711').html === 'X');
+
+// T5 Bab 3: indefinite integrals are accepted up to a constant, with or without "+ c".
+const integ = { type: 'expression', answer: 'x^3/3+2x', upToConstant: true };
+t('integral: "x^3/3+2x+c" accepted', checkSingle(integ, 'x^3/3+2x+c').state === 'right');
+t('integral: "x^3/3+2x+5" accepted (constant differs)', checkSingle(integ, 'x^3/3+2x+5').state === 'right');
+t('integral: missing c accepted with a reminder', /\+ c/.test(checkSingle(integ, 'x^3/3+2x').html));
+t('integral: "x^3+2x" rejected', checkSingle(integ, 'x^3+2x+c').state === 'wrong');
 console.log(fail ? `${fail} regression(s) FAILED` : 'all regressions pass');
 process.exit(fail ? 1 : 0);

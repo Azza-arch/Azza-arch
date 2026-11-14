@@ -120,3 +120,12 @@ export function natureAt(f, x0, d = 1e-3) { const l = nd1(f, x0 - d), r = nd1(f,
 export function extremum(f, from, to, type, steps = 200000) { let best = null; for (let k = 0; k <= steps; k++) { const x = from + ((to - from) * k) / steps, v = f(x); if (Number.isFinite(v) && (best === null || (type === 'max' ? v > best.v : v < best.v))) best = { x, v }; } // refine
   let a = Math.max(from, best.x - (to - from) / steps), b = Math.min(to, best.x + (to - from) / steps); const phi = (Math.sqrt(5) - 1) / 2; const better = (u, w) => (type === 'max' ? f(u) > f(w) : f(u) < f(w));
   for (let i = 0; i < 100; i++) { const c = b - phi * (b - a), e = a + phi * (b - a); if (better(c, e)) b = e; else a = c; } const x = (a + b) / 2; return f(x) === undefined ? best : (type === 'max' ? (f(x) >= best.v ? { x, v: f(x) } : best) : (f(x) <= best.v ? { x, v: f(x) } : best)); }
+
+// Integration (T5 Bab 3) — Simpson's rule on a fine grid, roots by scanning.
+export function simpson(f, a, b, n = 2000) { if (a === b) return 0; const h = (b - a) / n; let s = f(a) + f(b); for (let k = 1; k < n; k++) s += (k % 2 ? 4 : 2) * f(a + k * h); return (s * h) / 3; }
+export function areaBetween(f, g, a, b) { // ∫|f − g|, split where f − g changes sign
+  const d = (x) => f(x) - g(x), cuts = [a], N = 20000;
+  for (let k = 0; k < N; k++) { const u = a + ((b - a) * k) / N, v = a + ((b - a) * (k + 1)) / N; if (d(u) * d(v) < 0) { let lo = u, hi = v; for (let i = 0; i < 80; i++) { const m = (lo + hi) / 2; if (d(lo) * d(m) <= 0) hi = m; else lo = m; } cuts.push((lo + hi) / 2); } }
+  cuts.push(b); let s = 0; for (let k = 1; k < cuts.length; k++) s += Math.abs(simpson(d, cuts[k - 1], cuts[k])); return s;
+}
+export function riemann(f, a, b, n, rule = 'left') { const h = (b - a) / n; let s = 0; for (let k = 0; k < n; k++) { const x = a + k * h + (rule === 'right' ? h : rule === 'mid' ? h / 2 : 0); s += f(x) * h; } return s; }

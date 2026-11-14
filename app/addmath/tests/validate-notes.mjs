@@ -9,7 +9,7 @@ import { CURRICULUM, chapterById } from '../src/content/curriculum.js';
 import { STATUSES } from '../src/content/status.js';
 import { NOTE_MODULES, NOTE_STATUS } from '../src/content/notes/index.js';
 import { evaluate, f1, roots, sameFunction, extremaOnInterval, isFunctionMapping, parseSet } from './solvers.mjs';
-import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum } from './triangle.mjs';
+import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum, simpson, areaBetween, riemann } from './triangle.mjs';
 
 const errors = [], warnings = [], manual = [], chapterRows = [];
 const err = (id, m) => errors.push(`${id}: ${m}`), warn = (id, m) => warnings.push(`${id}: ${m}`);
@@ -74,6 +74,10 @@ function expected(check, id) {
     case 'extremum': { const e = extremum(f1(check.f), check.from, check.to, check.type); return check.want === 'x' ? e.x : e.v; }
     case 'line-at': { const f = f1(check.f), m = nd1(f, check.at), mm = check.line === 'normal' ? -1 / m : m; return check.y !== undefined ? check.at + (check.y - f(check.at)) / mm : mm * (check.x0 - check.at) + f(check.at); } // tangent/normal value at x0, or x where it equals y
     case 'inflection': { const f = f1(check.f), g = (x) => nd2(f, x); const out = []; const N = 20000; for (let k = 0; k < N; k++) { const a = check.from + ((check.to - check.from) * k) / N, b = check.from + ((check.to - check.from) * (k + 1)) / N; if (g(a) * g(b) < 0) { let lo = a, hi = b; for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2; if (g(lo) * g(m) <= 0) hi = m; else lo = m; } out.push((lo + hi) / 2); } } if (out.length !== 1) err(id, `${out.length} inflection points (${out})`); return out[0]; }
+    case 'integral': return simpson(f1(check.f), check.a, check.b); // signed
+    case 'area-curve': return areaBetween(f1(check.f), check.g ? f1(check.g) : () => 0, check.a, check.b);
+    case 'volume': { const f = f1(check.f); return Math.PI * simpson((x) => f(x) ** 2, check.a, check.b); } // axis y: f gives x in terms of the variable along the axis
+    case 'riemann': return riemann(f1(check.f), check.a, check.b, check.n, check.rule);
     case 'rate': return nd1(f1(check.f), check.x) * check.dxdt; // dy/dt = (dy/dx)(dx/dt), dy/dx measured numerically
     case 'rate-inverse': return check.dydt / nd1(f1(check.f), check.x); // dx/dt from dy/dt
     case 'small-change': { const f = f1(check.f); const d = nd1(f, check.x) * check.dx; return check.want === 'approx' ? f(check.x) + d : check.want === 'percent' ? (d / f(check.x)) * 100 : d; }
@@ -138,6 +142,8 @@ function checkExpression(spec, id) {
     case 'iterate': { const f = f1(c.f); ref = (x) => { let v = x; for (let k = 0; k < c.n; k++) v = f(v); return v; }; break; }
     case 'inverse-expr': { const f = f1(c.f); if (!sameFunction((x) => f(A(x)), (x) => x) || !sameFunction((x) => A(f(x)), (x) => x)) err(id, 'answer is not the inverse: f(answer(x)) and answer(f(x)) must both equal x'); ref = A; break; }
     case 'equiv-expr': ref = f1(c.expr); break;
+    case 'antideriv': { const g = f1(c.integrand); if (!sameFunction((x) => nd1(A, x), g)) err(id, 'd/dx(answer) does not give the integrand back'); for (const w of spec.wrong || []) if (sameFunction((x) => nd1(f1(w.expr), x), g)) err(id, `wrong expression ${w.expr} differentiates to the integrand (it is correct up to a constant)`); if (!spec.upToConstant) err(id, 'indefinite integral question needs upToConstant: true'); ref = A; break; }
+    case 'curve-through': { const g = f1(c.gradient); if (!sameFunction((x) => nd1(A, x), g)) err(id, 'd/dx(answer) is not the given gradient function'); if (Math.abs(A(c.point[0]) - c.point[1]) > 1e-9) err(id, `answer does not pass through (${c.point})`); ref = A; break; }
     case 'deriv': { const f = f1(c.f); ref = (x) => (c.order === 2 ? nd2 : nd1)(f, x); break; }
     case 'tangent-line': { const f = f1(c.f), m = nd1(f, c.at), y0 = f(c.at); ref = (x) => m * (x - c.at) + y0; break; }
     case 'normal-line': { const f = f1(c.f), m = -1 / nd1(f, c.at), y0 = f(c.at); ref = (x) => m * (x - c.at) + y0; break; }
