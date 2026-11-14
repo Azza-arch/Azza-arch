@@ -1,14 +1,19 @@
-// Minimal PlayFab Client REST calls (no SDK). Public Title ID only.
+// Minimal PlayFab REST calls (no SDK). Public Title ID only, no secret key.
+// Login + display name: Client API. Scores + rankings: Progression API
+// (Statistic / Leaderboard v2) with the player's entity token.
 import {LEADERBOARD_CONFIG as CFG} from './config.js';
-const BASE=`https://${CFG.playfab.titleId.toLowerCase()}.playfabapi.com/Client/`;
+const BASE=`https://${CFG.playfab.titleId.toLowerCase()}.playfabapi.com/`;
 const DEVICE_KEY='denai-lb-device';      // random anonymous id, not a password
 const SUBMITTED_KEY='denai-lb-submitted'; // best time (ms) already sent from this device
 let session=null,pending=null;
 const store={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);}catch{}}};
 export class LeaderboardError extends Error{constructor(code,msg){super(msg||code);this.code=code;}}
-async function call(api,body,auth=true){
+async function call(path,body,auth=null){
+  const headers={'Content-Type':'application/json'};
+  if(auth==='ticket')headers['X-Authorization']=session.ticket;
+  if(auth==='entity')headers['X-EntityToken']=session.entityToken;
   let res;
-  try{res=await fetch(BASE+api,{method:'POST',headers:{'Content-Type':'application/json',...(auth&&session?{'X-Authorization':session.ticket}:{})},body:JSON.stringify(body)});}
+  try{res=await fetch(BASE+path,{method:'POST',headers,body:JSON.stringify(body)});}
   catch{throw new LeaderboardError('offline');}
   let json=null;try{json=await res.json();}catch{}
   if(!res.ok||!json||json.code!==200)throw new LeaderboardError(json?.error||`http-${res.status}`,json?.errorMessage);
@@ -24,30 +29,32 @@ export function login(){
   return pending||=(async()=>{try{return await doLogin();}finally{pending=null;}})();
 }
 async function doLogin(){
-  const d=await call('LoginWithCustomID',{TitleId:CFG.playfab.titleId,CustomId:deviceId(),CreateAccount:true,InfoRequestParameters:{GetPlayerProfile:true,ProfileConstraints:{ShowDisplayName:true}}},false);
-  session={ticket:d.SessionTicket,playerId:d.PlayFabId,name:d.InfoResultPayload?.PlayerProfile?.DisplayName||''};
+  const d=await call('Client/LoginWithCustomID',{TitleId:CFG.playfab.titleId,CustomId:deviceId(),CreateAccount:true,InfoRequestParameters:{GetPlayerProfile:true,ProfileConstraints:{ShowDisplayName:true}}});
+  session={ticket:d.SessionTicket,entityToken:d.EntityToken?.EntityToken,entity:d.EntityToken?.Entity,name:d.InfoResultPayload?.PlayerProfile?.DisplayName||''};
+  if(!session.entityToken||!session.entity)throw new LeaderboardError('no-entity');
   return session;
 }
 export async function setDisplayName(name){
-  await login();await call('UpdateUserTitleDisplayName',{DisplayName:name});session.name=name;return name;
+  await login();await call('Client/UpdateUserTitleDisplayName',{DisplayName:name},'ticket');session.name=name;return name;
 }
-const toRow=e=>({rank:e.Position+1,name:e.DisplayName||'Pemain tanpa nama',timeMs:-e.StatValue,playerId:e.PlayFabId});
-export async function topTimes(stat,max=CFG.playfab.top){
+const toRow=e=>({rank:e.Rank,name:e.DisplayName||'Pemain tanpa nama',timeMs:Number(e.Scores?.[0]),entityId:e.Entity?.Id});
+const valid=r=>Number.isFinite(r.timeMs)&&r.timeMs>0;
+export async function topTimes(board,max=CFG.playfab.top){
   await login();
-  const d=await call('GetLeaderboard',{StatisticName:stat,StartPosition:0,MaxResultsCount:max});
-  return (d.Leaderboard||[]).filter(e=>e.StatValue<0).map(toRow);
+  const d=await call('Leaderboard/GetLeaderboard',{LeaderboardName:board,StartingPosition:1,PageSize:max},'entity');
+  return (d.Rankings||[]).map(toRow).filter(valid);
 }
-export async function myRank(stat){
+export async function myRank(board){
   await login();
-  const d=await call('GetLeaderboardAroundPlayer',{StatisticName:stat,MaxResultsCount:1});
-  const e=(d.Leaderboard||[])[0];return e&&e.StatValue<0?toRow(e):null;
+  const d=await call('Leaderboard/GetLeaderboardAroundEntity',{LeaderboardName:board,Entity:{Id:session.entity.Id,Type:session.entity.Type},MaxSurroundingEntries:1},'entity');
+  const e=(d.Rankings||[]).find(r=>r.Entity?.Id===session.entity.Id);return e&&valid(toRow(e))?toRow(e):null;
 }
 export async function submitTime(timeMs){
   await login();
-  const stats=[CFG.playfab.statistics.allTime,CFG.playfab.statistics.weekly].filter(Boolean).map(StatisticName=>({StatisticName,Value:-Math.round(timeMs)}));
-  await call('UpdatePlayerStatistics',{Statistics:stats});
+  const names=[CFG.playfab.leaderboards.allTime,CFG.playfab.leaderboards.weekly].filter(Boolean);
+  await call('Statistic/UpdateStatistics',{Statistics:names.map(Name=>({Name,Scores:[String(Math.round(timeMs))]}))},'entity');
   store.set(SUBMITTED_KEY,String(Math.round(timeMs)));
 }
 export function submittedTime(){const v=Number(store.get(SUBMITTED_KEY));return v>0?v:null;}
 export function currentName(){return session?.name||'';}
-export function playerId(){return session?.playerId||null;}
+export function playerId(){return session?.entity?.Id||null;}
