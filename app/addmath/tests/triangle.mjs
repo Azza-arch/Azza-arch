@@ -144,3 +144,15 @@ export function countBrute({ items, r, mode = 'perm', circular = false, sets, wh
   if (mode === 'comb') { const rec = (start, acc) => { if (acc.length === len) return take(acc.map((i) => items[i])); for (let i = start; i < items.length; i++) rec(i + 1, [...acc, i]); }; rec(0, []); return n; }
   const rec = (acc) => { if (acc.length === len) return take(acc.map((i) => items[i])); for (let i = 0; i < items.length; i++) if (!used[i]) { used[i] = true; rec([...acc, i]); used[i] = false; } }; rec([]); return n;
 }
+
+// Probability (T5 Bab 5) — binomial by enumerating all 2^n success/failure sequences
+// (no nCr formula); normal by integrating the density with Simpson's rule (no table).
+export function binomDist(n, p) { let P = [1]; for (let i = 0; i < n; i++) { const nx = new Array(P.length + 1).fill(0); P.forEach((v, k) => { nx[k] += v * (1 - p); nx[k + 1] += v * p; }); P = nx; } return P; } // trial by trial (each sequence's probability flows through), no nCr
+export function binomFind({ mean, variance }) { for (let n = 1; n <= 1000; n++) { const p = mean / n; if (p > 1) continue; if (Math.abs(binomStat({ n, p, want: 'var' }) - variance) < 1e-9) return n; } return NaN; }
+export function binom({ n, p, want = 'eq', r, r2 }) { const P = binomDist(n, p), s = (lo, hi) => P.slice(Math.max(0, lo), Math.min(n, hi) + 1).reduce((a, b) => a + b, 0);
+  return { eq: P[r], le: s(0, r), lt: s(0, r - 1), ge: s(r, n), gt: s(r + 1, n), between: s(r, r2) }[want]; }
+export function binomStat({ n, p, want }) { const P = binomDist(n, p); const m = P.reduce((a, pr, k) => a + k * pr, 0); const v = P.reduce((a, pr, k) => a + (k - m) ** 2 * pr, 0); return { mean: m, var: v, sd: Math.sqrt(v) }[want]; }
+const phi = (z) => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
+export const normCdf = (z) => (z >= 0 ? 0.5 + simpson(phi, 0, z, 4000) : 0.5 - simpson(phi, 0, -z, 4000));
+export function normal({ mu = 0, sigma = 1, want, a, b }) { const Z = (x) => (x - mu) / sigma; return { lt: normCdf(Z(a)), gt: 1 - normCdf(Z(a)), between: normCdf(Z(b)) - normCdf(Z(a)) }[want]; }
+export function normalInv({ mu = 0, sigma = 1, prob, tail = 'lower' }) { const target = tail === 'upper' ? 1 - prob : prob; let lo = -10, hi = 10; for (let i = 0; i < 100; i++) { const m = (lo + hi) / 2; if (normCdf(m) < target) lo = m; else hi = m; } return mu + sigma * ((lo + hi) / 2); }

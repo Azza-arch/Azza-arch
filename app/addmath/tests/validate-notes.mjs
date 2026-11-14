@@ -9,7 +9,7 @@ import { CURRICULUM, chapterById } from '../src/content/curriculum.js';
 import { STATUSES } from '../src/content/status.js';
 import { NOTE_MODULES, NOTE_STATUS } from '../src/content/notes/index.js';
 import { evaluate, f1, roots, sameFunction, extremaOnInterval, isFunctionMapping, parseSet } from './solvers.mjs';
-import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum, simpson, areaBetween, riemann, countBrute } from './triangle.mjs';
+import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum, simpson, areaBetween, riemann, countBrute, binom, binomStat, binomFind, normal, normalInv } from './triangle.mjs';
 
 const errors = [], warnings = [], manual = [], chapterRows = [];
 const err = (id, m) => errors.push(`${id}: ${m}`), warn = (id, m) => warnings.push(`${id}: ${m}`);
@@ -79,6 +79,13 @@ function expected(check, id) {
     case 'volume': { const f = f1(check.f); return Math.PI * simpson((x) => f(x) ** 2, check.a, check.b); } // axis y: f gives x in terms of the variable along the axis
     case 'riemann': return riemann(f1(check.f), check.a, check.b, check.n, check.rule);
     case 'count': return countBrute(check);
+    case 'prob-count': { const all = countBrute({ ...check, where: undefined }); return countBrute(check) / all; } // equally likely outcomes, enumerated
+    case 'binom': return binom(check);
+    case 'binom-stat': return binomStat(check);
+    case 'binom-find': return binomFind(check);
+    case 'normal': return normal(check);
+    case 'normal-inv': return normalInv(check);
+    case 'normal-param': { const z = normalInv({ prob: check.prob, tail: check.tail }); return check.want === 'sigma' ? (check.x - check.mu) / z : check.x - z * check.sigma; }
     case 'rate': return nd1(f1(check.f), check.x) * check.dxdt; // dy/dt = (dy/dx)(dx/dt), dy/dx measured numerically
     case 'rate-inverse': return check.dydt / nd1(f1(check.f), check.x); // dx/dt from dy/dt
     case 'small-change': { const f = f1(check.f); const d = nd1(f, check.x) * check.dx; return check.want === 'approx' ? f(check.x) + d : check.want === 'percent' ? (d / f(check.x)) * 100 : d; }

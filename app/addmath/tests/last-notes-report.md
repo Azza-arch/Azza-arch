@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 14 daripada 18.
+Bab dengan fail nota: 15 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 76**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 84**
 
 ## t4-1 Fungsi (status: review)
 
@@ -237,6 +237,27 @@ Bab dengan fail nota: 14 daripada 18.
 | 4.2.2 | 4.2 | ✓ | ✓ | 3 |
 | 4.2.3 | 4.2 | ✓ | ✓ | 3 |
 
+## t5-5 Taburan Kebarangkalian (status: review)
+
+3 subtopik · 17 contoh · 3 visual · 26 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 5.1.1 | 5.1 | ✓ | ✓ | 2 |
+| 5.1.2 | 5.1 | ✓ | ✓ | 2 |
+| 5.1.3 | 5.1 | ✓ | ✓ | 2 |
+| 5.1.4 | 5.1 | ✓ | ✓ | 2 |
+| 5.2.1 | 5.2 | ✓ | ✓ | 2 |
+| 5.2.2 | 5.2 | ✓ | ✓ | 3 |
+| 5.2.3 | 5.2 | ✓ | ✓ | 2 |
+| 5.2.4 | 5.2 | ✓ | ✓ | 3 |
+| 5.2.5 | 5.2 | ✓ | ✓ | 2 |
+| 5.3.1 | 5.3 | ✓ | ✓ | 2 |
+| 5.3.2 | 5.3 | ✓ | ✓ | 2 |
+| 5.3.3 | 5.3 | ✓ | ✓ | 2 |
+| 5.3.4 | 5.3 | ✓ | ✓ | 4 |
+| 5.3.5 | 5.3 | ✓ | ✓ | 2 |
+
 ## Ralat
 - tiada
 
@@ -320,5 +341,13 @@ Bab dengan fail nota: 14 daripada 18.
 - t5-4.1-11 (penaakulan) — Terangkan mengapa bilangan susunan huruf AAB ialah \(\dfrac{3!}{2!} = 3\), dengan menyenaraikan susunan dan me
 - t5-4.2-02 (objektif) — Hubungan antara \({}^nP_r\) dan \({}^nC_r\) ialah…
 - t5-4.2-08 (penaakulan) — Terangkan mengapa \({}^{10}C_3 = {}^{10}C_7\) tanpa mengira nilainya.
+- t5-5.1-01 (objektif) — Yang manakah pemboleh ubah rawak selanjar?
+- t5-5.1-02 (objektif) — Tiga syiling dilambung dan \(X\) ialah bilangan ekor. Set nilai \(X\) ialah…
+- t5-5.1-06 (penaakulan) — Mengapa \(P(X = 165)\) adalah sifar jika \(X\) ialah tinggi murid (cm), walaupun ramai murid "165 cm"? Terangk
+- t5-5.2-01 (objektif) — Situasi manakah bukan taburan binomial?
+- t5-5.2-09 (penaakulan) — Sebuah kilang mendapati 5% produknya rosak. Dalam kotak 40 produk, pengurus menjangkakan "2 rosak". Terangkan 
+- t5-5.3-01 (objektif) — Pernyataan manakah salah tentang graf taburan normal \(N(\mu, \sigma^2)\)?
+- t5-5.3-03 (objektif) — Ali mendapat 72 dalam Matematik (min 60, sisihan piawai 8) dan 80 dalam Sains (min 74, sisihan piawai 3). Dala
+- t5-5.3-10 (penaakulan) — Terangkan mengapa kita menukar \(X \sim N(\mu, \sigma^2)\) kepada \(Z\) sebelum menggunakan jadual, dan apa ya
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.
