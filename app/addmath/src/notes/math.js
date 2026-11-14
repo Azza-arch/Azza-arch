@@ -3,7 +3,9 @@
 // MathML for screen readers ('htmlAndMathml').
 import katex from '../../vendor/katex/katex.mjs';
 
-const opts = (displayMode) => ({ displayMode, throwOnError: false, output: 'htmlAndMathml', strict: 'ignore' });
+// \uv{a}: Malaysian handwritten vector notation (letter with ~ underneath).
+export const MACROS = { '\\uv': '\\underset{\\sim}{#1}' };
+const opts = (displayMode) => ({ displayMode, throwOnError: false, output: 'htmlAndMathml', strict: 'ignore', macros: { ...MACROS } });
 
 export function tex(str, display = false) {
   return katex.renderToString(String(str), opts(display));

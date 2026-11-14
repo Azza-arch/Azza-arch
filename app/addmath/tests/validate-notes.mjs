@@ -20,7 +20,7 @@ const LEVELS = ['mudah', 'sederhana', 'mencabar'];
 function texCheck(id, s) {
   if (typeof s !== 'string') return;
   for (const m of s.matchAll(/\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)/g)) {
-    try { katex.renderToString(m[1] ?? m[2], { throwOnError: true, strict: 'ignore', displayMode: !!m[1] }); }
+    try { katex.renderToString(m[1] ?? m[2], { throwOnError: true, strict: 'ignore', displayMode: !!m[1], macros: { '\\uv': '\\underset{\\sim}{#1}' } }); }
     catch (e) { err(id, `KaTeX: ${e.message.split('\n')[0]} in "${(m[1] ?? m[2]).slice(0, 60)}"`); }
   }
   const open = (s.match(/\\\(/g) || []).length, close = (s.match(/\\\)/g) || []).length;
@@ -58,6 +58,10 @@ function expected(check, id) {
     case 'fixed-point': { const f = f1(check.f); const r = roots((x) => f(x) - x, 0); if (r.length !== 1) err(id, `f(x) = x has ${r.length} solutions`); return r[0]; }
     case 'substitute': return null; // handled with the answer below
     case 'value': return evaluate(check.expr);
+    case 'vec': { // combination Σ kᵢ·vᵢ, component by component
+      if (check.want === 'ratio') { const [u, v] = [check.u, check.v]; const r = u[0] / v[0]; if (Math.abs(u[1] - r * v[1]) > 1e-9) err(id, 'vectors are not parallel'); return r; }
+      const s = check.ops.reduce((acc, [k, [x, y]]) => [acc[0] + k * x, acc[1] + k * y], [0, 0]); const mag = Math.hypot(s[0], s[1]);
+      return { x: s[0], y: s[1], mag, 'unit-x': s[0] / mag, 'unit-y': s[1] / mag }[check.want]; }
     case 'divide': { const [A, B] = [check.A, check.B], k = check.m / (check.m + check.n); const P = [A[0] + k * (B[0] - A[0]), A[1] + k * (B[1] - A[1])]; return check.want === 'x' ? P[0] : check.want === 'y' ? P[1] : Math.hypot(P[0] - A[0], P[1] - A[1]); }
     case 'dist-ratio': { const d = (U, V) => Math.hypot(U[0] - V[0], U[1] - V[1]); const [A, B, P] = [check.A, check.B, check.P]; if (Math.abs(d(A, P) + d(P, B) - d(A, B)) > 1e-9) err(id, 'P is not on segment AB'); return d(A, P) / d(P, B); }
     case 'area': return heronArea(check.pts);

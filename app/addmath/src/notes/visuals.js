@@ -92,6 +92,10 @@ function mountPlot(host, spec) {
     if (spec.vline) el('line', { x1: sx(p[spec.vline]), y1: sy(y0), x2: sx(p[spec.vline]), y2: sy(y1), class: 'plot-testline' }, plot);
     if (spec.hline) el('line', { x1: sx(x0), y1: sy(p[spec.hline]), x2: sx(x1), y2: sy(p[spec.hline]), class: 'plot-testline' }, plot);
     (spec.polygons || []).forEach((pg) => { const pts = pg.at(p); if (!pts || pts.length < 2) return; el('path', { d: pts.map(([x, y], k) => `${k ? 'L' : 'M'}${sx(x)},${sy(y)}`).join('') + (pg.closed === false ? '' : 'Z'), class: pg.closed === false ? 'plot-segment' : 'plot-polygon', stroke: pg.color || '#3467D4' }, plot); });
+    (spec.arrows || []).forEach((ar, i) => { const a = ar.from(p), b = ar.to(p); if (!a || !b || (a[0] === b[0] && a[1] === b[1])) return; const color = ar.color || COLORS[i % COLORS.length]; const id = `ah-${uid}-${i}`;
+      const mk = el('marker', { id, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto-start-reverse' }, el('defs', {}, svg)); el('path', { d: 'M0,0L10,5L0,10z', fill: color }, mk);
+      el('line', { x1: sx(a[0]), y1: sy(a[1]), x2: sx(b[0]), y2: sy(b[1]), stroke: color, class: `plot-arrow${ar.dashed ? ' is-dashed' : ''}`, 'marker-end': `url(#${id})` }, plot);
+      if (ar.label) { const t2 = el('text', { x: (sx(a[0]) + sx(b[0])) / 2 + 6, y: (sy(a[1]) + sy(b[1])) / 2 - 6, class: 'plot-point-label', fill: color }, plot); t2.textContent = typeof ar.label === 'function' ? ar.label(p) : ar.label; } });
     (spec.points || []).forEach((pt) => {
       const r = pt.at(p); if (!r || !r.every(Number.isFinite)) return; const [x, y] = r;
       el('circle', { cx: sx(x), cy: sy(y), r: 4.5, class: pt.open ? 'plot-open' : 'plot-point' }, plot);

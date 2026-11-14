@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 7 daripada 18.
+Bab dengan fail nota: 8 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 35**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 42**
 
 ## t4-1 Fungsi (status: review)
 
@@ -120,6 +120,23 @@ Bab dengan fail nota: 7 daripada 18.
 | 7.4.1 | 7.4 | ✓ | ✓ | 4 |
 | 7.4.2 | 7.4 | ✓ | ✓ | 2 |
 
+## t4-8 Vektor (status: review)
+
+3 subtopik · 14 contoh · 3 visual · 21 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 8.1.1 | 8.1 | ✓ | ✓ | 3 |
+| 8.1.2 | 8.1 | ✓ | ✓ | 2 |
+| 8.1.3 | 8.1 | ✓ | ✓ | 2 |
+| 8.1.4 | 8.1 | ✓ | ✓ | 2 |
+| 8.2.1 | 8.2 | ✓ | ✓ | 4 |
+| 8.2.2 | 8.2 | ✓ | ✓ | 2 |
+| 8.3.1 | 8.3 | ✓ | ✓ | 2 |
+| 8.3.2 | 8.3 | ✓ | ✓ | 2 |
+| 8.3.3 | 8.3 | ✓ | ✓ | 2 |
+| 8.3.4 | 8.3 | ✓ | ✓ | 2 |
+
 ## Ralat
 - tiada
 
@@ -162,5 +179,12 @@ Bab dengan fail nota: 7 daripada 18.
 - t4-7.3-07 (penaakulan) — Mengapakah rumus luas segi tiga menggunakan nilai mutlak, dan apakah maksud tanda nilai sebelum nilai mutlak d
 - t4-7.3-08 (penaakulan) — Tunjukkan bagaimana rumus luas segi tiga boleh diperoleh dengan membahagikan rajah kepada trapezium di bawah s
 - t4-7.4-06 (penaakulan) — Mengapakah lokus titik yang sama jarak dari dua titik \(A\) dan \(B\) ialah garis lurus, tetapi lokus \(PA = 2
+- t4-8.1-01 (objektif) — Yang manakah kuantiti vektor?
+- t4-8.1-02 (objektif) — Pernyataan "Kereta itu dipandu laju" ialah…
+- t4-8.1-07 (penaakulan) — Ali berjalan 3 km ke timur, kemudian 3 km ke barat. Bandingkan jarak yang dilalui dengan sesarannya, dan teran
+- t4-8.2-02 (objektif) — Dalam segi tiga \(OAB\), \(\overrightarrow{OA} = \uv{a}\) dan \(\overrightarrow{OB} = \uv{b}\). Apakah \(\over
+- t4-8.2-05 (objektif) — Permudahkan \(\overrightarrow{PQ} + \overrightarrow{QR} + \overrightarrow{RS}\).
+- t4-8.2-06 (penaakulan) — Gunakan hukum segi empat selari untuk menerangkan mengapa \(\uv{a} - \uv{b}\) ialah salah satu pepenjuru segi 
+- t4-8.3-07 (penaakulan) — Terangkan mengapa \(\dfrac{\uv{r}}{|\uv{r}|}\) sentiasa mempunyai magnitud 1, dan mengapa vektor sifar tiada v
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

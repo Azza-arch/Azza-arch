@@ -1069,3 +1069,5 @@ input:focus-visible {
 
 .plot-polygon { fill: #3467D422; stroke-width: 2.2; stroke-linejoin: round; }
 .plot-segment { fill: none; stroke-width: 2.6; }
+.plot-arrow { stroke-width: 2.8; }
+.plot-arrow.is-dashed { stroke-dasharray: 6 4; stroke-width: 2; }

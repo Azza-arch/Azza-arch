@@ -8,6 +8,7 @@ export const NOTE_MODULES = {
   't4-5': () => import('./t4-5.js'),
   't4-6': () => import('./t4-6.js'),
   't4-7': () => import('./t4-7.js'),
+  't4-8': () => import('./t4-8.js'),
 };
 // Highest status among a chapter's subtopics, for the catalogue map (kept in
 // sync with the chapter files; tests/validate-content.mjs enforces it).
@@ -19,6 +20,7 @@ export const NOTE_STATUS = {
   't4-5': 'review',
   't4-6': 'review',
   't4-7': 'review',
+  't4-8': 'review',
 };
 
 export async function loadChapterNotes(id) {
