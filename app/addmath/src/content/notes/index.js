@@ -45,6 +45,10 @@ export const NOTE_STATUS = {
 export const V3_MODULES = {
   't4-1': () => import('./v3/t4-1.js'),
   't4-2': () => import('./v3/t4-2.js'),
+  't4-3': () => import('./v3/t4-3.js'),
+  't4-4': () => import('./v3/t4-4.js'),
+  't4-5': () => import('./v3/t4-5.js'),
+  't4-6': () => import('./v3/t4-6.js'),
 };
 export async function attachV3(id, chapter) {
   const load = V3_MODULES[id];

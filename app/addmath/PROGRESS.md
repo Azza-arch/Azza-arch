@@ -30,7 +30,6 @@ Last updated: 2026-11-14. Read this first in any new session.
 | T5-6 | Fungsi Trigonometri | ✓ | ✓ (12/12 SP) | ✓ | review | 6 subtopik, 20 contoh, 6 visual, 34 soalan; 7 item perlu semakan manusia. DSKP disahkan halaman demi halaman (hlm. 122–125). Input jawapan kini menerima kos, sek, kosek, kot. |
 | T5-7 | Pengaturcaraan Linear (elektif) | – | – | – | coming_soon | belum dibina |
 | T5-8 | Kinematik Gerakan Linear (elektif) | – | – | – | coming_soon | belum dibina |
-| T5-8 | | – | – | – | coming_soon | |
 
 ## V3 (student-first) redesign — branch `claude/addmath-v3`
 Three modes per chapter: **Fahami** (`#/nota/<ch>/<sk>`: idea utama + bila guna → rumus → satu visual → cara menyelesaikan → satu contoh → satu kesilapan → bahagian pilihan yang boleh dibuka), **Ulang Kaji** (`#/ulangkaji/<ch>`: rumus, bila guna, langkah, kesilapan; carian + lompat), **Latihan** (`#/latihan/<ch>[/<sk>]`: tapis tahap Asas/Sederhana/Cabaran dan subtopik, pilih soalan terus, jawapan + penyelesaian + pautan konsep selepas semak).
@@ -39,7 +38,7 @@ V3 text lives in `src/content/notes/v3/<ch>.js` (lead, idea, when, steps, exampl
 | Batch | Bab | V3 ditulis | Ujian auto | Status |
 |---|---|---|---|---|
 | 1 | T4-1, T4-2 | ✓ | ✓ | review |
-| 2 | T4-3 … T4-6 | – | – | belum |
+| 2 | T4-3 … T4-6 | ✓ | ✓ | review |
 | 3 | T4-7 … T4-10 | – | – | belum |
 | 4 | T5-1 … T5-4 | – | – | belum |
 | 5 | T5-5 … T5-8 | – | – | belum (T5-7, T5-8 kandungan belum dibina) |
