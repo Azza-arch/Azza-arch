@@ -6,7 +6,7 @@
 const R = String.raw;
 
 export const S2_3 = {
-  id: '2.3', sk: '2.3', title: 'Fungsi Kuadratik', sp: ['2.3.1', '2.3.2', '2.3.3', '2.3.4', '2.3.5', '2.3.6'], status: 'review', minutes: 60,
+  id: '2.3', sk: '2.3', title: 'Fungsi Kuadratik', sp: ['2.3.1', '2.3.2', '2.3.3', '2.3.4', '2.3.5', '2.3.6'], status: 'published', minutes: 60,
   sections: [
     { kind: 'intro', title: 'Lengkung air pancut', html: R`
       <p>Air dari pancutan taman bergerak dalam lengkung yang naik, sampai ke titik tertinggi, kemudian turun. Lengkung ini ialah <strong>parabola</strong>, iaitu graf bagi fungsi kuadratik \(f(x) = ax^2 + bx + c\).</p>

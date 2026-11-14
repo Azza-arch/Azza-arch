@@ -4,7 +4,7 @@
 const R = String.raw;
 
 export const S2_2 = {
-  id: '2.2', sk: '2.2', title: 'Jenis-jenis Punca Persamaan Kuadratik', sp: ['2.2.1', '2.2.2'], status: 'review', minutes: 40,
+  id: '2.2', sk: '2.2', title: 'Jenis-jenis Punca Persamaan Kuadratik', sp: ['2.2.1', '2.2.2'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Bolehkah bola itu sampai setinggi 10 m?', html: R`
       <p>Sebiji bola dilambung ke atas. Tingginya selepas \(t\) saat ialah \(h(t) = -5t^2 + 12t + 1\) meter. Bolehkah bola itu mencapai 10 m?</p>

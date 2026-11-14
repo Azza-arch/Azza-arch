@@ -17,7 +17,9 @@ const chapters = process.argv.slice(2).length ? process.argv.slice(2) : [...idx.
     p.on('pageerror', (e) => errs.push(String(e))); p.on('console', (m) => { if (m.type() === 'error' && !/frame-ancestors/.test(m.text())) errs.push(m.text()); });
     for (const ch of chapters) {
       await p.goto(B + '?semak=0#/bab/' + ch); await p.waitForTimeout(400);
-      ok(`${name} ${ch}: hidden publicly`, await p.evaluate(() => document.querySelectorAll('.v3-subrow').length === 0));
+      const published = new RegExp(`'${ch}': 'published'`).test(idx);
+      const publicRows = await p.evaluate(() => document.querySelectorAll('.v3-subrow').length);
+      ok(`${name} ${ch}: ${published ? 'visible' : 'hidden'} publicly`, published ? publicRows > 0 : publicRows === 0, { published, publicRows });
       await p.goto(B + '?semak=1#/bab/' + ch); await p.waitForTimeout(500);
       const subs = await p.evaluate(() => [...document.querySelectorAll('.v3-subrow-main')].map((a) => a.getAttribute('href').split('/').pop()));
       ok(`${name} ${ch}: overview lists subtopics`, subs.length > 0, subs);

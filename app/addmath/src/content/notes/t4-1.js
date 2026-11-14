@@ -6,7 +6,7 @@ import { QUESTIONS } from './t4-1/questions.js';
 
 const R = String.raw;
 export const CHAPTER = {
-  id: 't4-1', status: 'review',
+  id: 't4-1', status: 'published',
   intro: R`<p>Fungsi ialah "peraturan" yang memberi tepat satu output bagi setiap input. Dalam bab ini, anda akan belajar membaca dan menulis fungsi, mencari domain dan julat, menggabungkan dua fungsi (gubahan), dan membalikkan fungsi (songsang).</p>`,
   subtopics: [S1_1, S1_2, S1_3],
   questions: QUESTIONS,

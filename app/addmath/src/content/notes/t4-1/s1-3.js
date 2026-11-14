@@ -6,7 +6,7 @@
 const R = String.raw;
 
 export const S1_3 = {
-  id: '1.3', sk: '1.3', title: 'Fungsi Songsang', sp: ['1.3.1', '1.3.2', '1.3.3'], status: 'review', minutes: 50,
+  id: '1.3', sk: '1.3', title: 'Fungsi Songsang', sp: ['1.3.1', '1.3.2', '1.3.3'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Kod rahsia dan cara membukanya', html: R`
       <p>Aina menghantar nombor rahsia kepada kawannya menggunakan peraturan "darab 3, kemudian tambah 2". Nombor 5 dihantar sebagai \(3(5) + 2 = 17\).</p>

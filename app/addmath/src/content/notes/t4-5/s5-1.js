@@ -6,7 +6,7 @@ const R = String.raw;
 const N = 10;
 
 export const S5_1 = {
-  id: '5.1', sk: '5.1', title: 'Janjang Aritmetik', sp: ['5.1.1', '5.1.2', '5.1.3', '5.1.4'], status: 'review', minutes: 50,
+  id: '5.1', sk: '5.1', title: 'Janjang Aritmetik', sp: ['5.1.1', '5.1.2', '5.1.3', '5.1.4'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Kerusi di dewan', html: R`
       <p>Barisan pertama sebuah dewan mempunyai 20 kerusi, dan setiap barisan berikutnya mempunyai 2 kerusi lebih: 20, 22, 24, 26, … Berapakah kerusi di barisan ke-25? Berapakah jumlah kerusi dalam 25 barisan?</p>

@@ -5,7 +5,7 @@
 const R = String.raw;
 
 export const S1_2 = {
-  id: '1.2', sk: '1.2', title: 'Fungsi Gubahan', sp: ['1.2.1', '1.2.2', '1.2.3', '1.2.4', '1.2.5'], status: 'review', minutes: 50,
+  id: '1.2', sk: '1.2', title: 'Fungsi Gubahan', sp: ['1.2.1', '1.2.2', '1.2.3', '1.2.4', '1.2.5'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Baucar dahulu, atau diskaun dahulu?', html: R`
       <p>Sebuah kedai memberi <strong>baucar RM20</strong> dan <strong>diskaun 20%</strong>. Bagi harga asal \(x\) ringgit, baucar memberi \(g(x) = x - 20\) dan diskaun memberi \(f(x) = 0.8x\).</p>

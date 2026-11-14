@@ -15,7 +15,7 @@ const PRICE = [8.0, 8.4, 9.0, 9.6, 10.0]; // illustrative RM per kg
 const bar = (x, h, w = 0.6) => [[x - w / 2, 0], [x + w / 2, 0], [x + w / 2, h], [x - w / 2, h]];
 
 export const S10_1 = {
-  id: '10.1', sk: '10.1', title: 'Nombor Indeks', sp: ['10.1.1', '10.1.2', '10.1.3'], status: 'review', minutes: 45,
+  id: '10.1', sk: '10.1', title: 'Nombor Indeks', sp: ['10.1.1', '10.1.2', '10.1.3'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Naik RM1 itu banyak atau sedikit?', html: R`<p>Harga sepinggan nasi lemak naik RM1, dan harga sebuah telefon juga naik RM1. Kenaikan yang sama, tetapi kesannya sangat berbeza. <strong>Nombor indeks</strong> membandingkan perubahan secara <em>relatif</em>, iaitu berbanding nilai asal, supaya perubahan mudah dibandingkan.</p><p class="note-small">Angka dalam nota ini ialah contoh ilustrasi untuk latihan. Untuk data sebenar, rujuk penerbitan rasmi seperti Indeks Harga Pengguna (IHP) oleh Jabatan Perangkaan Malaysia.</p>` },
     { kind: 'prereq', title: 'Imbas kembali', html: R`<ul><li>Peratus: \(\dfrac{\text{bahagian}}{\text{keseluruhan}} \times 100\).</li><li>Perubahan peratus \(= \dfrac{\text{baharu} - \text{asal}}{\text{asal}} \times 100\%\).</li></ul>` },
@@ -64,7 +64,7 @@ const ITEMS = [{ n: 'Makanan', I: 120 }, { n: 'Pengangkutan', I: 105 }, { n: 'El
 const comp = (w) => { const s = w.reduce((a, b) => a + b, 0); return s ? ITEMS.reduce((a, it, k) => a + it.I * w[k], 0) / s : NaN; };
 
 export const S10_2 = {
-  id: '10.2', sk: '10.2', title: 'Indeks Gubahan', sp: ['10.2.1', '10.2.2'], status: 'review', minutes: 45,
+  id: '10.2', sk: '10.2', title: 'Indeks Gubahan', sp: ['10.2.1', '10.2.2'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Satu nombor untuk banyak barang', html: R`<p>Sebuah keluarga membelanjakan wang untuk makanan, pengangkutan dan elektrik. Harga makanan naik 20%, pengangkutan 5% dan elektrik 40%. Berapakah kenaikan "kos hidup" keluarga itu? Jawapannya bergantung pada <strong>berapa banyak</strong> mereka berbelanja untuk setiap satu. Inilah idea <strong>pemberat</strong>.</p>` },
     { kind: 'concept', title: 'Indeks gubahan dan pemberat', sp: ['10.2.1'], html: R`

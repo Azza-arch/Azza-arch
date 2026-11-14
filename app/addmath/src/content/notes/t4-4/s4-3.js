@@ -7,7 +7,7 @@ const R = String.raw;
 const lg = (x, a) => Math.log(x) / Math.log(a);
 
 export const S4_3 = {
-  id: '4.3', sk: '4.3', title: 'Hukum Logaritma', sp: ['4.3.1', '4.3.2', '4.3.3', '4.3.4', '4.3.5'], status: 'review', minutes: 60,
+  id: '4.3', sk: '4.3', title: 'Hukum Logaritma', sp: ['4.3.1', '4.3.2', '4.3.3', '4.3.4', '4.3.5'], status: 'published', minutes: 60,
   sections: [
     { kind: 'intro', title: 'Soalan yang terbalik', html: R`
       <p>Dalam 4.1, kita tahu \(2^5 = 32\). Sekarang terbalikkan soalannya: <em>2 dikuasakan berapa untuk mendapat 32?</em> Jawapannya 5, dan kita tulis \(\log_2 32 = 5\).</p>

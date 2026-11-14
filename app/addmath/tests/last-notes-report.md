@@ -4,7 +4,7 @@ Bab dengan fail nota: 16 daripada 18.
 
 **Ralat: 0 · Amaran: 6 · Perlu semakan manusia: 93**
 
-## t4-1 Fungsi (status: review)
+## t4-1 Fungsi (status: published)
 
 3 subtopik · 16 contoh · 9 visual · 29 soalan
 
@@ -22,7 +22,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 1.3.2 | 1.3 | ✓ | ✓ | 4 |
 | 1.3.3 | 1.3 | ✓ | ✓ | 5 |
 
-## t4-2 Fungsi Kuadratik (status: review)
+## t4-2 Fungsi Kuadratik (status: published)
 
 3 subtopik · 19 contoh · 5 visual · 30 soalan
 
@@ -40,7 +40,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 2.3.5 | 2.3 | ✓ | ✓ | 2 |
 | 2.3.6 | 2.3 | ✓ | ✓ | 2 |
 
-## t4-3 Sistem Persamaan (status: review)
+## t4-3 Sistem Persamaan (status: published)
 
 2 subtopik · 10 contoh · 2 visual · 14 soalan
 
@@ -52,7 +52,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 3.2.1 | 3.2 | ✓ | ✓ | 4 |
 | 3.2.2 | 3.2 | ✓ | ✓ | 3 |
 
-## t4-4 Indeks, Surd dan Logaritma (status: review)
+## t4-4 Indeks, Surd dan Logaritma (status: published)
 
 4 subtopik · 21 contoh · 4 visual · 37 soalan
 
@@ -72,7 +72,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 4.3.5 | 4.3 | ✓ | ✓ | 3 |
 | 4.4.1 | 4.4 | ✓ | ✓ | 7 |
 
-## t4-5 Janjang (status: review)
+## t4-5 Janjang (status: published)
 
 2 subtopik · 12 contoh · 2 visual · 21 soalan
 
@@ -88,7 +88,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 5.2.4 | 5.2 | ✓ | ✓ | 3 |
 | 5.2.5 | 5.2 | ✓ | ✓ | 2 |
 
-## t4-6 Hukum Linear (status: review)
+## t4-6 Hukum Linear (status: published)
 
 3 subtopik · 10 contoh · 3 visual · 23 soalan
 
@@ -101,7 +101,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 6.2.1 | 6.2 | ✓ | ✓ | 8 |
 | 6.3.1 | 6.3 | ✓ | ✓ | 6 |
 
-## t4-7 Geometri Koordinat (status: review)
+## t4-7 Geometri Koordinat (status: published)
 
 4 subtopik · 20 contoh · 4 visual · 31 soalan
 
@@ -120,7 +120,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 7.4.1 | 7.4 | ✓ | ✓ | 4 |
 | 7.4.2 | 7.4 | ✓ | ✓ | 2 |
 
-## t4-8 Vektor (status: review)
+## t4-8 Vektor (status: published)
 
 3 subtopik · 14 contoh · 3 visual · 21 soalan
 
@@ -137,7 +137,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 8.3.3 | 8.3 | ✓ | ✓ | 2 |
 | 8.3.4 | 8.3 | ✓ | ✓ | 2 |
 
-## t4-9 Penyelesaian Segi Tiga (status: review)
+## t4-9 Penyelesaian Segi Tiga (status: published)
 
 4 subtopik · 16 contoh · 5 visual · 28 soalan
 
@@ -156,7 +156,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 9.3.3 | 9.3 | ✓ | ✓ | 2 |
 | 9.4.1 | 9.4 | ✓ | ✓ | 5 |
 
-## t4-10 Nombor Indeks (status: review)
+## t4-10 Nombor Indeks (status: published)
 
 2 subtopik · 10 contoh · 2 visual · 16 soalan
 

@@ -6,7 +6,7 @@
 const R = String.raw;
 
 export const S1_1 = {
-  id: '1.1', sk: '1.1', title: 'Fungsi', sp: ['1.1.1', '1.1.2', '1.1.3'], status: 'review', minutes: 45,
+  id: '1.1', sk: '1.1', title: 'Fungsi', sp: ['1.1.1', '1.1.2', '1.1.3'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Satu input, satu keputusan', html: R`
       <p>Bayangkan tempat letak kereta yang mengenakan <strong>RM3 bagi setiap jam</strong>. Jika anda letak kereta selama 2 jam, bayarannya RM6. Jika 5 jam, RM15. Untuk setiap tempoh masa, hanya ada <strong>satu</strong> jumlah bayaran. Tiada siapa akan menerima dua resit berbeza untuk tempoh yang sama.</p>
