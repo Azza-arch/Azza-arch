@@ -26,7 +26,7 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
    cam.stopFollow();cam.pan(cx,cy,reducedMotion?0:320,'Sine.easeInOut',true);
   },
   releaseMachineCamera(){
-   const cam=this.cameras.main;cam.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,this.followOffsetY??100);
+   const cam=this.cameras.main;cam.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,this.followOffsetY??100);this.cameras.main.setDeadzone(0,150);
   },
   openLiftQuickPanel(){
    if(this.mode!=='playing'||this.solvedGates.has('lift'))return;

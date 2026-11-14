@@ -91,6 +91,7 @@ export function installLeaderboard(){
   const open=()=>{renderLeaderboard();$('leaderboard').showModal();};
   $('lb-open-complete')?.addEventListener('click',open);
   $('lb-open-settings')?.addEventListener('click',open);
+  $('lb-btn')?.addEventListener('click',open);
   $('lb-close').addEventListener('click',()=>$('leaderboard').close());
   $('lb-submit').addEventListener('submit',send);
   document.querySelectorAll('[data-lb-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.lbTab;renderLeaderboard();}));

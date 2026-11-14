@@ -25,6 +25,9 @@ import {syncDialogue,refreshMission} from './dialogue-ui.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Camera stability: ordinary jumps (peak ≈ 92 world units) stay inside this
+// vertical deadzone, so the world no longer bobs with every jump.
+export const CAM_DEADZONE_Y = 150;
 // V8 Phase 2: named so the takeoff/landing squash-stretch tween (update())
 // can scale relative to it instead of a second hardcoded ".158".
 const BASE_SCALE = .158;
@@ -151,6 +154,7 @@ class Rooftop extends Phaser.Scene {
     this.player = this.add.rectangle(SPAWN.x, SPAWN.feet - MOTION.bodyHeight/2, MOTION.bodyWidth, MOTION.bodyHeight, 0xffffff, 0);
     this.physics.add.existing(this.player);
     this.player.body.setSize(MOTION.bodyWidth, MOTION.bodyHeight).setMaxVelocity(MOTION.speed, 850).setCollideWorldBounds(true);
+    this.events.on('postupdate',()=>{if(this.player&&!this.celebration&&this.mode!=='complete')this.syncVisual();});
     this.visual = this.add.sprite(SPAWN.x, SPAWN.feet, 'idle-00').setOrigin(346/659, 525/626).setScale(BASE_SCALE).setDepth(20);
     for (const [key,count,fps] of [['idle',12,8],['run',10,14],['jump',1,1],['fall',1,1]]) {
       if (!this.anims.exists(key)) this.anims.create({ key, frames:Array.from({length:count},(_,i)=>({key:`${key}-${String(i).padStart(2,'0')}`})), frameRate:fps, repeat:-1 });
@@ -189,7 +193,7 @@ class Rooftop extends Phaser.Scene {
     // vertical scroll room (vs V6.1's own measured 24px) AND ~210px of
     // headroom above the highest platform (roof-m2, y=660) for jump arcs.
     this.cameras.main.setBounds(0, 300, BATCH_END, 1566 - 300);
-    this.cameras.main.startFollow(this.player, true, reducedMotion ? 1 : .14, reducedMotion ? 1 : .16, -85, this.followOffsetY??100);
+    this.cameras.main.startFollow(this.player, true, reducedMotion ? 1 : .14, reducedMotion ? 1 : .16, -85, this.followOffsetY??100);this.cameras.main.setDeadzone(0,CAM_DEADZONE_Y);
     // No global debug scene exposed in the playable review build.
     // V9.4: soft sky blue (brief's explicit "lock the visual direction"
     // color list), replacing the flat neutral grey — now that the removed
@@ -718,7 +722,7 @@ class Rooftop extends Phaser.Scene {
     if(!this.run)this.newRun();
     $('game').inert=false;
     this.visual.setVisible(true);
-    this.cameras.main.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,this.followOffsetY??100);
+    this.cameras.main.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,this.followOffsetY??100);this.cameras.main.setDeadzone(0,CAM_DEADZONE_Y);
     this.mode='playing';this.input.keyboard.enabled=true;this.physics.world.resume();clearControls();
     document.body.classList.add('game-active');
     document.body.classList.remove('menu-active');
@@ -928,10 +932,15 @@ class Rooftop extends Phaser.Scene {
     // view. Eased, so it never snaps; camera only, physics untouched.
     // Near water (station chasm, Tebing Berliku) the frame always reaches the
     // water line, so the hazard under every gap is readable.
-    {const cam=this.cameras.main;if(cam._follow){let tgt=body.bottom<1230?-110:(this.followOffsetY??100);
-      if(WATER.some(w=>this.player.x>w.x-600&&this.player.x<w.x+w.width+260)){const vh=this.viewUnits?.h??645;tgt=Math.min(tgt,(body.bottom-30)+vh/2-(WATER_Y+40));}
-      {const vh=this.viewUnits?.h??645;tgt=Math.max(tgt,-(vh/2)+vh*.22+30);} // never push the player's head into the top 22% (HUD band)
-      this.camOffY=this.camOffY===undefined?tgt:this.camOffY+(tgt-this.camOffY)*Math.min(1,(reducedMotion?1000:delta)/300);
+    // Stability pass: the framing target is only re-evaluated while standing
+    // (or climbing), never mid-jump, and eases slowly — so a jump no longer
+    // drags the camera up and down.
+    {const cam=this.cameras.main;if(cam._follow){
+      if(grounded||this.climbing||this.camTgt===undefined){let tgt=body.bottom<1230?-110:(this.followOffsetY??100);
+        if(WATER.some(w=>this.player.x>w.x-600&&this.player.x<w.x+w.width+260)){const vh=this.viewUnits?.h??645;tgt=Math.min(tgt,(body.bottom-30)+vh/2-(WATER_Y+40));}
+        {const vh=this.viewUnits?.h??645;tgt=Math.max(tgt,-(vh/2)+vh*.22+30);} // never push the player's head into the top 22% (HUD band)
+        this.camTgt=tgt;}
+      this.camOffY=this.camOffY===undefined?this.camTgt:this.camOffY+(this.camTgt-this.camOffY)*Math.min(1,(reducedMotion?1000:delta)/600);
       cam.setFollowOffset(-85,this.camOffY);}}
     this.syncVisual();
     for(const coin of this.collectibles) {

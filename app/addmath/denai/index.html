@@ -39,6 +39,7 @@
         <div id="loading" class="loading" role="status">Memuatkan kejiranan… <span id="load-progress">0%</span></div>
         <section id="welcome" class="welcome" hidden aria-labelledby="welcome-title" tabindex="-1">
           
+          <button type="button" id="lb-btn" class="gear-btn lb-btn" aria-label="Papan pendahulu" title="Papan pendahulu">🏆</button>
           <button type="button" id="settings-btn" class="gear-btn" aria-label="Tetapan">⚙</button>
           <div class="title-copy"><h1 id="welcome-title" class="logo">DENAI</h1>
             <p class="title-tagline"><span class="ribbon">Bab 1 · Misi Fungsi</span></p>
@@ -94,7 +95,7 @@
          pattern already used for mission-notes below, not a new pattern. -->
     <div class="pause-actions"><button type="button" id="resume" class="primary">Sambung</button><button type="button" id="restart" class="secondary">Mula semula</button><button type="button" id="pause-settings-btn" class="secondary">Tetapan</button><button type="button" id="pause-menu" class="secondary">Menu utama</button></div>
     <details id="pause-more" hidden><summary>Lagi</summary>
-      <div class="pause-actions"><button type="button" id="restart-checkpoint" class="secondary">Kembali ke Checkpoint</button><button type="button" id="pause-help" class="secondary">Cara Main</button><button type="button" id="pause-collection-btn" class="secondary">Koleksi</button><button type="button" id="fullscreen" class="secondary">Skrin penuh</button></div>
+      <div class="pause-actions"><button type="button" id="restart-checkpoint" class="secondary">Kembali ke Checkpoint</button><button type="button" id="pause-help" class="secondary">Cara Main</button><button type="button" id="pause-collection-btn" class="secondary" hidden>Koleksi</button><button type="button" id="fullscreen" class="secondary">Skrin penuh</button></div>
     </details>
     <details id="mission-notes" hidden><summary>Misi &amp; catatan Chill Boy</summary><p id="mission-summary"></p><p id="mission-current"></p><ul id="mission-history" aria-label="Catatan perjalanan"></ul></details>
     <a class="dialog-return" href="../">Kembali ke Add Math</a></dialog>
@@ -141,8 +142,8 @@
     <nav class="menu-secondary settings-menu" aria-label="Menu lanjutan">
       <button type="button" id="level-select-btn">Peta Dunia</button>
       <button type="button" id="how-to-play">Cara Main</button>
-      <button type="button" id="lb-open-settings">Papan pendahulu</button>
-      <button type="button" id="collection-btn">Jurnal</button>
+      <button type="button" id="lb-open-settings" hidden>Papan pendahulu</button>
+      <button type="button" id="collection-btn" hidden>Jurnal</button>
       <button type="button" id="new-adventure" hidden>Pengembaraan Baharu</button>
       <a class="title-return" href="../">Kembali ke Add Math</a>
     </nav>
