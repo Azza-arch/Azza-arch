@@ -58,6 +58,7 @@ async function loadLive(){
     const body=$('lb-rows');body.replaceChildren();
     if(!rows.length)status('Belum ada rekod. Jadilah yang pertama!');
     const myId=PF.playerId();
+    if(!$('lb-name').value&&PF.currentName())$('lb-name').value=PF.currentName(); // known only after login
     rows.forEach((r,i)=>body.append(row(r,i,r.entityId===myId)));
     if(me&&!rows.some(r=>r.entityId===myId))body.append(row(me,0,true));
   }catch(e){status(friendly(e));}
