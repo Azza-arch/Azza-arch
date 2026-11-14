@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>DENAI: Game Add Math Fungsi Tingkatan 4 | haziqbuilds</title>
+  <meta name="description" content="DENAI ialah game platform pixel percuma yang mengajar Fungsi Matematik Tambahan Tingkatan 4. Terus main dalam pelayar, tanpa daftar.">
+  <link rel="canonical" href="https://haziqbuilds.com/denai/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="haziqbuilds">
+  <meta property="og:title" content="DENAI: belajar Fungsi Add Math sambil main">
+  <meta property="og:description" content="Bantu Chill Boy membina jambatan dengan mesin fungsi. Percuma, terus main, tanpa daftar.">
+  <meta property="og:url" content="https://haziqbuilds.com/denai/">
+  <meta property="og:image" content="https://haziqbuilds.com/denai/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#aee3f5">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="denai.css">
+  <script type="module" src="denai.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Game Matematik Tambahan · Tingkatan 4</p>
+      <h1 class="logo">DENAI</h1>
+      <p class="ribbon">Bab 1 · Misi Fungsi</p>
+      <p class="pitch">Bantu Chill Boy menyeberang taman dengan membina jambatan. Kuncinya: <strong>mesin fungsi</strong>. Cari input, baca corak, dan tentukan petua fungsi untuk mendapat bilangan papan yang tepat.</p>
+
+      <div class="cta" id="cta">
+        <a class="btn btn-play" id="play" href="/app/addmath/denai/main">MAIN SEKARANG</a>
+        <p class="cta-note" id="cta-note">Percuma · terus dalam pelayar · tanpa daftar atau e-mel</p>
+      </div>
+      <div class="returning" id="returning" hidden>
+        <p class="welcome">Selamat kembali! Pengembaraan anda masih tersimpan dalam peranti ini.</p>
+        <dl class="stats" id="stats"></dl>
+      </div>
+    </div>
+    <figure class="hero-shot">
+      <img src="img/menu.webp" width="1200" height="675" alt="Skrin utama DENAI: logo DENAI, reben Bab 1 Misi Fungsi dan butang Main di sebuah taman pixel">
+    </figure>
+  </header>
+
+  <main>
+    <section class="block" aria-labelledby="h-apa">
+      <h2 id="h-apa">Apa yang anda buat dalam DENAI</h2>
+      <div class="cards">
+        <article class="card">
+          <img src="img/main.webp" width="1200" height="675" loading="lazy" alt="Chill Boy melompat di Taman Permulaan sambil mengutip syiling">
+          <h3>1. Teroka taman</h3>
+          <p>Lari, lompat, panjat tangga dan tolak kotak. Kutip 15 syiling dan cari rahsia tersembunyi.</p>
+        </article>
+        <article class="card">
+          <img src="img/mesin.webp" width="1200" height="737" loading="lazy" alt="Panel Mesin Fungsi: f(x) = 2x + 1, cari input x yang memberi output 7 papan">
+          <h3>2. Selesaikan mesin fungsi</h3>
+          <p>Setiap jurang memerlukan bilangan papan yang tepat. Gunakan <i>f</i>(<i>x</i>) untuk mencari input, corak atau petua yang betul.</p>
+        </article>
+        <article class="card">
+          <img src="img/jambatan.webp" width="1200" height="737" loading="lazy" alt="Selepas jawapan betul f(3) = 7, jambatan 7 papan mula memanjang merentasi jurang">
+          <h3>3. Bina jambatan, kejar rekod</h3>
+          <p>Jawapan yang betul memanjangkan jambatan; jawapan salah memberi petunjuk. Soalan berubah setiap kali main semula, jadi cuba perbaiki masa anda.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block two" aria-labelledby="h-belajar">
+      <div>
+        <h2 id="h-belajar">Apa yang dipelajari</h2>
+        <ul class="ticks">
+          <li><strong>Objek dan imej:</strong> masukkan input ke dalam mesin <i>f</i>(<i>x</i>) dan ramalkan outputnya.</li>
+          <li><strong>Mencari objek:</strong> diberi output yang diperlukan, cari input yang betul.</li>
+          <li><strong>Corak dan petua fungsi:</strong> daripada beberapa pasangan input–output, kenal pasti petua fungsi.</li>
+        </ul>
+        <p class="small">Berdasarkan Bab 1 Fungsi, Matematik Tambahan KSSM Tingkatan 4. Mahu fahamkan konsep dahulu? <a href="/app/addmath/#/bab/t4-1">Baca nota Bab 1 Fungsi &rarr;</a></p>
+      </div>
+      <div>
+        <h2>Cara main</h2>
+        <table class="keys">
+          <tr><th>Gerak</th><td><kbd>←</kbd> <kbd>→</kbd> atau <kbd>A</kbd> <kbd>D</kbd></td></tr>
+          <tr><th>Lompat</th><td><kbd>Space</kbd></td></tr>
+          <tr><th>Tangga</th><td><kbd>↑</kbd> <kbd>↓</kbd></td></tr>
+          <tr><th>Guna mesin</th><td><kbd>E</kbd></td></tr>
+          <tr><th>Jeda</th><td><kbd>Esc</kbd></td></tr>
+        </table>
+        <p class="small">Di telefon, butang kawalan muncul di skrin. Pusingkan telefon ke landskap untuk pandangan terbaik.</p>
+      </div>
+    </section>
+
+    <section class="block parents" aria-labelledby="h-guru">
+      <h2 id="h-guru">Untuk guru dan ibu bapa</h2>
+      <ul class="facts">
+        <li><span>💸</span> <strong>Percuma</strong>, tiada iklan dan tiada pembelian dalam game.</li>
+        <li><span>🔒</span> <strong>Tiada akaun, e-mel atau kata laluan.</strong> Kemajuan disimpan dalam pelayar peranti itu sahaja.</li>
+        <li><span>🏆</span> Papan pendahulu adalah <strong>pilihan</strong>: hanya nama paparan dan masa terbaik dikongsi. Galakkan murid guna nama samaran, bukan nama penuh.</li>
+        <li><span>🖥️</span> Berjalan terus dalam pelayar di komputer, Chromebook, tablet dan telefon; tiada pemasangan.</li>
+      </ul>
+    </section>
+
+    <section class="block soon" aria-labelledby="h-soon">
+      <p class="soon-tag">Akan datang</p>
+      <h2 id="h-soon">Level 1-2: Jambatan Berkembar</h2>
+      <p>Pengembaraan seterusnya dalam dunia Fungsi sedang dibina.</p>
+    </section>
+
+    <section class="block final">
+      <a class="btn btn-play" id="play2" href="/app/addmath/denai/main">MAIN SEKARANG</a>
+      <p class="small"><a href="/app/addmath/">Nota Add Math Tingkatan 4 &amp; 5</a> · <a href="/">haziqbuilds</a></p>
+    </section>
+  </main>
+</body>
+</html>
