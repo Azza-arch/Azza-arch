@@ -44,13 +44,15 @@ function expected(check, id) {
     case 'inverse-value': { const r = roots(f1(check.f), check.y, -1000, 1000, 400000); if (r.length !== 1) err(id, `f(x) = ${check.y} has ${r.length} solutions`); return r[0]; }
     case 'fixed-point': { const f = f1(check.f); const r = roots((x) => f(x) - x, 0); if (r.length !== 1) err(id, `f(x) = x has ${r.length} solutions`); return r[0]; }
     case 'substitute': return null; // handled with the answer below
+    case 'value': return evaluate(check.expr);
+    case 'vertex-x': { const f = f1(check.rule); let best = null; for (let k = -200000; k <= 200000; k++) { const x = k / 1000; const v = f(x); if (best === null || (check.type === 'max' ? v > best.v : v < best.v)) best = { x, v }; } return best.x; }
     default: return undefined;
   }
 }
 function checkNumeric(spec, id) {
   if (!Number.isFinite(spec.answer)) { err(id, 'numeric answer missing'); return; }
   if (spec.check.kind === 'substitute') { const v = evaluate(spec.check.expr, { [spec.check.variable]: spec.answer }); if (!near(v, spec.check.equals)) err(id, `substituting ${spec.answer} gives ${v}, not ${spec.check.equals}`); }
-  else { const want = expected(spec.check, id); if (want === undefined) err(id, `unknown check ${spec.check.kind}`); else if (!near(spec.answer, want)) err(id, `independent solve gives ${want}, stored answer ${spec.answer}`); }
+  else { const want = expected(spec.check, id); const tol = spec.tolerance ?? 1e-7; if (want === undefined) err(id, `unknown check ${spec.check.kind}`); else if (Math.abs(spec.answer - want) > tol * Math.max(1, Math.abs(want))) err(id, `independent solve gives ${want}, stored answer ${spec.answer}`); if (spec.tolerance && spec.tolerance > 0.01) warn(id, `tolerance ${spec.tolerance} is loose`); }
   for (const w of spec.wrong || []) { if (near(w.value, spec.answer)) err(id, `wrong-answer feedback for ${w.value} equals the correct answer`); if (!w.feedback) err(id, `wrong value ${w.value} has no feedback`); }
 }
 function checkExpression(spec, id) {
@@ -62,6 +64,8 @@ function checkExpression(spec, id) {
     case 'find-outer': { const g = f1(c.g), fg = f1(c.fg); if (!sameFunction((x) => A(g(x)), fg)) err(id, `answer(g(x)) is not fg(x)`); ref = A; break; }
     case 'iterate': { const f = f1(c.f); ref = (x) => { let v = x; for (let k = 0; k < c.n; k++) v = f(v); return v; }; break; }
     case 'inverse-expr': { const f = f1(c.f); if (!sameFunction((x) => f(A(x)), (x) => x) || !sameFunction((x) => A(f(x)), (x) => x)) err(id, 'answer is not the inverse: f(answer(x)) and answer(f(x)) must both equal x'); ref = A; break; }
+    case 'equiv-expr': ref = f1(c.expr); break;
+    case 'from-roots': ref = (x) => (c.lead ?? 1) * (x - c.roots[0]) * (x - c.roots[1]); break;
     default: err(id, `unknown expression check ${c.kind}`); return;
   }
   if (!sameFunction(A, ref)) err(id, `answer ${spec.answer} does not match the independent result`);
@@ -76,6 +80,11 @@ function checkMcq(q, id) {
   if (c.kind === 'mapping-function') q.options.forEach((o) => { if (isFunctionMapping(o.data) !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees with mapping data`); });
   else if (c.kind === 'range-discrete') { const want = [...new Set(c.domain.map((x) => evaluate(c.rule, { x })))].sort((a, b) => a - b); q.options.forEach((o) => { const s = parseSet(strip(o.text).replace(/\\\(|\\\)|\\\{|\\\}|\\dots/g, (m) => (m === '\\{' ? '{' : m === '\\}' ? '}' : m === '\\dots' ? '' : ''))); const isIt = s && JSON.stringify(s) === JSON.stringify(want); if (isIt !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees with range {${want}}`); }); }
   else if (c.kind === 'one-to-one') q.options.forEach((o) => { const f = f1(o.data.rule); const seen = new Map(); let inj = true; for (let k = -600; k <= 600; k++) { const x = (k / 100) * (c.interval[1] / 6); const v = +f(x).toFixed(9); if (seen.has(v) && Math.abs(seen.get(v) - x) > 1e-9) { inj = false; break; } seen.set(v, x); } if (inj !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: one-to-one = ${inj}`); });
+  else if (c.kind === 'root-type') { const [a, b, cc] = c.coeffs; const D = b * b - 4 * a * cc; const want = D > 1e-12 ? 'two' : Math.abs(D) <= 1e-12 ? 'equal' : 'none'; q.options.forEach((o) => { if ((o.data.type === want) !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: discriminant ${D} → ${want}`); }); }
+  else if (c.kind === 'quad-ineq') { const f = f1(c.rule); const holds = (x) => { const v = f(x); return c.op === '<' ? v < 0 : c.op === '<=' ? v <= 1e-12 : c.op === '>' ? v > 0 : v >= -1e-12; };
+    q.options.forEach((o) => { const s = o.data; const inSet = (x) => s.kind === 'between' ? (s.closed ? x >= s.a && x <= s.b : x > s.a && x < s.b) : s.kind === 'outside' ? (s.closed ? x <= s.a || x >= s.b : x < s.a || x > s.b) : s.kind === 'all' ? true : s.kind === 'lt' ? (s.closed ? x <= s.a : x < s.a) : s.kind === 'gt' ? (s.closed ? x >= s.a : x > s.a) : false;
+      let match = true; for (let k = -4000; k <= 4000; k++) { const x = k / 200 + 0.0013; if (holds(x) !== inSet(x)) { match = false; break; } } for (const x of [s.a, s.b].filter(Number.isFinite)) if (holds(x) !== inSet(x)) match = false;
+      if (match !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees with the solution set of ${c.rule} ${c.op} 0`); }); }
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }

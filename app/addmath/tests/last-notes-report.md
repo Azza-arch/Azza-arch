@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 1 daripada 18.
+Bab dengan fail nota: 2 daripada 18.
 
-**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 4**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 8**
 
 ## t4-1 Fungsi (status: review)
 
@@ -22,6 +22,24 @@ Bab dengan fail nota: 1 daripada 18.
 | 1.3.2 | 1.3 | ✓ | ✓ | 4 |
 | 1.3.3 | 1.3 | ✓ | ✓ | 5 |
 
+## t4-2 Fungsi Kuadratik (status: review)
+
+3 subtopik · 19 contoh · 5 visual · 30 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 2.1.1 | 2.1 | ✓ | ✓ | 5 |
+| 2.1.2 | 2.1 | ✓ | ✓ | 2 |
+| 2.1.3 | 2.1 | ✓ | ✓ | 2 |
+| 2.2.1 | 2.2 | ✓ | ✓ | 3 |
+| 2.2.2 | 2.2 | ✓ | ✓ | 6 |
+| 2.3.1 | 2.3 | ✓ | ✓ | 2 |
+| 2.3.2 | 2.3 | ✓ | ✓ | 2 |
+| 2.3.3 | 2.3 | ✓ | ✓ | 2 |
+| 2.3.4 | 2.3 | ✓ | ✓ | 3 |
+| 2.3.5 | 2.3 | ✓ | ✓ | 2 |
+| 2.3.6 | 2.3 | ✓ | ✓ | 2 |
+
 ## Ralat
 - tiada
 
@@ -33,5 +51,9 @@ Bab dengan fail nota: 1 daripada 18.
 - t4-1.1-10 (penaakulan) — Hana berkata: "Persamaan \(|x + 1| = -3\) mempunyai penyelesaian \(x = -4\) atau \(x = 2\)." Adakah Hana betul
 - t4-1.2-09(c) (penaakulan) — Tunjukkan bahawa \(fg(x) - gf(x)\) sentiasa sama bagi semua harga \(x\), dan terangkan susunan yang lebih jima
 - t4-1.3-10 (penaakulan) — Titik \((2, 7)\) berada pada graf fungsi satu kepada satu \(f\). Nyatakan satu titik pada graf \(f^{-1}\) dan 
+- t4-2.1-09 (penaakulan) — Amir menyelesaikan \(x^2 = 3x\) dengan membahagi kedua-dua belah dengan \(x\), lalu mendapat \(x = 3\). Apakah
+- t4-2.2-09 (penaakulan) — Tinggi sebiji bola ialah \(h(t) = -5t^2 + 12t + 1\) meter. Tanpa menyelesaikan persamaan, tunjukkan bahawa bol
+- t4-2.3-06 (objektif) — Pernyataan manakah benar tentang graf \(y = -x^2 + 4x - 7\)?
+- t4-2.3-10 (penaakulan) — Bandingkan graf \(y = 2x^2\), \(y = \tfrac{1}{2}x^2\) dan \(y = -x^2\). Terangkan kesan nilai \(a\) terhadap b
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

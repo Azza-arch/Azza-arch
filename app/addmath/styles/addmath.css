@@ -1065,3 +1065,4 @@ input:focus-visible {
 .map-node-status.is-review { background: #FFF3C4; opacity: 1; }
 @media (prefers-reduced-motion: no-preference) { .note-toc { scroll-behavior: smooth; } }
 .note-toc a { max-width: 15em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plot-axisline { stroke: #7B4FC9; stroke-width: 1.6; stroke-dasharray: 3 4; }

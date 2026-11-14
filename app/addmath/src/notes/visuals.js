@@ -76,6 +76,7 @@ function mountPlot(host, spec) {
       for (let k = 0; k <= N; k++) { const x = x0 + ((x1 - x0) * k) / N; (r.ys(x, p) || []).forEach((y, j) => { (branches[j] ||= []).push([x, y]); }); }
       for (const pts of Object.values(branches)) el('path', { d: pts.map(([x, y], k) => `${k ? 'L' : 'M'}${sx(x)},${sy(y)}`).join(''), stroke: color, class: 'plot-curve' }, plot);
     });
+    for (const v of spec.vlinesAt || []) { const x = v.at(p); if (Number.isFinite(x)) { el('line', { x1: sx(x), y1: sy(y0), x2: sx(x), y2: sy(y1), class: 'plot-axisline' }, plot); if (v.label) { const t = el('text', { x: sx(x) + 4, y: pad + 12, class: 'plot-point-label' }, plot); t.textContent = v.label; } } }
     if (spec.vline) el('line', { x1: sx(p[spec.vline]), y1: sy(y0), x2: sx(p[spec.vline]), y2: sy(y1), class: 'plot-testline' }, plot);
     if (spec.hline) el('line', { x1: sx(x0), y1: sy(p[spec.hline]), x2: sx(x1), y2: sy(p[spec.hline]), class: 'plot-testline' }, plot);
     (spec.points || []).forEach((pt) => {
