@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "errors": [],
+  "completion": {
+    "completions": 1,
+    "completedRuns": [
+      "e98d2acd-6a25-4e30-903c-5c70d2516862"
+    ],
+    "coins": [
+      "l2-coin-1",
+      "l2-coin-2",
+      "l2-coin-3",
+      "l2-coin-4",
+      "l2-coin-5",
+      "l2-coin-6",
+      "l2-coin-7",
+      "l2-coin-8",
+      "l2-coin-9",
+      "l2-coin-10",
+      "l2-coin-11",
+      "l2-coin-13",
+      "l2-coin-14"
+    ],
+    "secrets": [
+      "twin-observation",
+      "canopy-observation"
+    ],
+    "bestMs": 40651.50000000016,
+    "run": {
+      "id": "e98d2acd-6a25-4e30-903c-5c70d2516862",
+      "checkpointId": "exit",
+      "coins": [
+        "l2-coin-1",
+        "l2-coin-2",
+        "l2-coin-3",
+        "l2-coin-4",
+        "l2-coin-5",
+        "l2-coin-6",
+        "l2-coin-7",
+        "l2-coin-8",
+        "l2-coin-9",
+        "l2-coin-10",
+        "l2-coin-11",
+        "l2-coin-13",
+        "l2-coin-14"
+      ],
+      "secrets": [
+        "twin-observation",
+        "canopy-observation"
+      ],
+      "puzzles": {
+        "twins": {
+          "input": 2,
+          "order": "gf",
+          "revision": 3,
+          "receivers": {
+            "fg": true,
+            "gf": true
+          },
+          "last": {
+            "input": 2,
+            "order": "gf",
+            "inner": "f",
+            "outer": "g",
+            "middle": 5,
+            "output": 25,
+            "notation": "g(f(2))",
+            "trace": "2 \u2192 f \u2192 5 \u2192 g \u2192 25"
+          }
+        },
+        "final": {
+          "input": 3,
+          "order": "gf",
+          "revision": 5,
+          "receivers": {
+            "fg": true,
+            "gf": true
+          },
+          "last": {
+            "input": 3,
+            "order": "gf",
+            "inner": "f",
+            "outer": "g",
+            "middle": 7,
+            "output": 49,
+            "notation": "g(f(3))",
+            "trace": "3 \u2192 f \u2192 7 \u2192 g \u2192 49"
+          }
+        }
+      },
+      "elapsedMs": 40651.50000000016,
+      "completed": true
+    }
+  },
+  "checks": "real keyboard traversal, both ladders/secrets, machine animation, pause, checkpoint reload, completion, replay, L1 return, legacy isolation, touch controls, portrait/landscape, reduced motion"
+}

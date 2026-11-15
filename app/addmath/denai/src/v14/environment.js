@@ -50,13 +50,13 @@ export function buildTree(s,type,x,feet,fg=false){
   s.tile(f,x0+c*T,top-(h-r)*T,3.5+D);
  }
 }
-function parallax(s){
+function parallax(s,WORLD,verticalShift=0){
  // Far: pale cloud band with tree silhouettes (frames 8–11, fill 16–19).
  // Mid: green forest band (frames 14–15, fill 22–23). Collision unaffected.
  // The far band sits in a container that drifts slowly (ambient motion from
  // the existing art only); it wraps every 288 units = one 4-frame period.
- const bands=[{sf:.25,y:990,top:[8,9,10,11],fill:[16,17,18,19],depth:.4,alpha:.9,drift:true},
-  {sf:.5,y:1140,top:[14,15],fill:[22,23],depth:.8,alpha:.85}];
+ const bands=[{sf:.25,y:990+verticalShift,top:[8,9,10,11],fill:[16,17,18,19],depth:.4,alpha:.9,drift:true},
+  {sf:.5,y:1140+verticalShift,top:[14,15],fill:[22,23],depth:.8,alpha:.85}];
  for(const b of bands){
   const span=WORLD.width*Math.max(b.sf,.6)+3000,box=s.add.container(0,0).setScrollFactor(b.sf,1).setDepth(b.depth);
   for(let x=-1152,i=0;x<span;x+=72,i++){
@@ -71,7 +71,7 @@ function parallax(s){
   }
  }
 }
-export function buildWorld(s){
+export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=[],WORLD,parallaxShift=0}){
  s.textures.get('kpp_terrain_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.textures.get('kpp_bg_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.worldObjects=[];s.cClues=new Set();s.probeSeen=new Set();s.eReadoutShown=false;s.eOutputShown=false;
@@ -84,7 +84,7 @@ export function buildWorld(s){
  const pole=(x,top,bottom,depth=4)=>{for(let y=top;y<bottom;y+=54)tile(89,x-27,y,depth,54,Math.min(54,bottom-y));};
  const post=(x,top,bottom)=>{for(let y=top;y<bottom;y+=54)tile(89,x,y,4,54,Math.min(54,bottom-y));};
  const beam=(x,y,width)=>{for(let a=0;a<width;a+=54)tile(a===0?48:a+54>=width?50:49,x+a,y,4,Math.min(54,width-a),18);};
- parallax(s);
+ parallax(s,WORLD,parallaxShift);
  // ── Terrain ────────────────────────────────────────────────────────────
  // filled(x,y): is there terrain (solid column or slab band) in the 54px
  // row starting at y at column x? Used so edge outlines appear only where
@@ -112,7 +112,8 @@ export function buildWorld(s){
    tile(left&&right?0:left?1:right?3:2,x,t.y,9,Math.min(54,t.x+t.width-x),t.bottom-t.y);
   }
  }
- for(const d of DECKS){s.deck(d);s.platform(d);}
+ s.deckArtById={};
+ for(const d of DECKS){s.deckArtById[d.id]=s.deck(d);s.platform(d);}
  // Fence walls (visible fence art + matching solid collider; never invisible).
  for(const w of WALLS){
   const b=s.add.rectangle(w.x+w.width/2,(w.top+w.bottom)/2,w.width,w.bottom-w.top,0,0);
@@ -125,6 +126,10 @@ export function buildWorld(s){
   for(let y=l.top;y<l.bottom;y+=54)tile(71,l.x-27,y,13,54,Math.min(54,l.bottom-y));
   const z=s.add.zone(l.x,(l.top+l.bottom)/2,56,l.bottom-l.top+72);s.physics.add.existing(z,true);z.setData('ladder',l);s.ladderZones.push(z);
  }
+ return {tile,pole,post,beam};
+}
+export function buildWorld(s){
+ const {tile,pole,post,beam}=buildLandscape(s,{AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,WORLD});
  // ── 01 · Taman Permulaan ────────────────────────────────────────────────
  // Landmark: wide oak (T5) beside the garden step + small pine companion.
  // The crate lane (x150–430) carries no decoration so the puzzle reads.
@@ -146,7 +151,7 @@ export function buildWorld(s){
   ['T8',1998,1242],                            // 02: column tree at the exit
   ['T1',3294,1296],['T6',3850,1188],          // 04: pine on cliff-1, umbrella tree shading the rest cliff
   ['T7',4455,1296],                            // 05: POKOK TINJAU (giant, carries the lookout)
-  ['T2',4671,1350],['T8',5076,1296],
+  ['T8',4806,1242],['T2',5076,1296],
   ['T3',1880,1242,'fg'],['T3',4900,1296,'fg'],['T4',3040,1242,'fg'], // FOREGROUND: Chill Boy walks behind these three           // 05: young clump in the root dip, column tree before the clearing
   ['T5',5300,1242],['T3',5520,1242],['T1',5612,1242]]; // 06: three-tree grove (large / medium / small), crowns spaced so each reads
  trees.forEach(([t,x,f,fg])=>buildTree(s,t,x,f,!!fg));

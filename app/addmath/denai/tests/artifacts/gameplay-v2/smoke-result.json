@@ -1,0 +1,196 @@
+{
+  "passed": true,
+  "errors": [],
+  "completion": {
+    "completions": 1,
+    "completedRuns": [
+      "abad5b44-7747-4275-a740-a5a4602595c1"
+    ],
+    "coins": [
+      "l2-coin-1",
+      "l2-coin-2",
+      "l2-coin-3",
+      "l2-coin-4",
+      "l2-coin-5",
+      "l2-coin-6",
+      "l2-coin-7",
+      "l2-coin-8",
+      "l2-coin-9",
+      "l2-coin-10",
+      "l2-coin-11",
+      "l2-coin-13",
+      "l2-coin-14"
+    ],
+    "secrets": [
+      "twin-observation",
+      "canopy-observation"
+    ],
+    "bestMs": 43523.378266666674,
+    "run": {
+      "id": "abad5b44-7747-4275-a740-a5a4602595c1",
+      "checkpointId": "exit",
+      "coins": [
+        "l2-coin-1",
+        "l2-coin-2",
+        "l2-coin-3",
+        "l2-coin-4",
+        "l2-coin-5",
+        "l2-coin-6",
+        "l2-coin-7",
+        "l2-coin-8",
+        "l2-coin-9",
+        "l2-coin-10",
+        "l2-coin-11",
+        "l2-coin-13",
+        "l2-coin-14"
+      ],
+      "secrets": [
+        "twin-observation",
+        "canopy-observation"
+      ],
+      "puzzles": {
+        "twins": {
+          "input": 2,
+          "order": "gf",
+          "revision": 5,
+          "receivers": {
+            "fg": true,
+            "gf": true
+          },
+          "last": {
+            "input": 2,
+            "order": "gf",
+            "inner": "f",
+            "outer": "g",
+            "middle": 5,
+            "output": 25,
+            "notation": "g(f(2))",
+            "trace": "2 \u2192 f \u2192 5 \u2192 g \u2192 25"
+          },
+          "route": "gf",
+          "history": {
+            "2:fg": {
+              "input": 2,
+              "order": "fg",
+              "inner": "g",
+              "outer": "f",
+              "middle": 4,
+              "output": 9,
+              "notation": "f(g(2))",
+              "trace": "2 \u2192 g \u2192 4 \u2192 f \u2192 9"
+            },
+            "2:gf": {
+              "input": 2,
+              "order": "gf",
+              "inner": "f",
+              "outer": "g",
+              "middle": 5,
+              "output": 25,
+              "notation": "g(f(2))",
+              "trace": "2 \u2192 f \u2192 5 \u2192 g \u2192 25"
+            }
+          },
+          "drives": {
+            "fg": {
+              "input": 2,
+              "order": "fg",
+              "inner": "g",
+              "outer": "f",
+              "middle": 4,
+              "output": 9,
+              "notation": "f(g(2))",
+              "trace": "2 \u2192 g \u2192 4 \u2192 f \u2192 9"
+            },
+            "gf": {
+              "input": 2,
+              "order": "gf",
+              "inner": "f",
+              "outer": "g",
+              "middle": 5,
+              "output": 25,
+              "notation": "g(f(2))",
+              "trace": "2 \u2192 f \u2192 5 \u2192 g \u2192 25"
+            }
+          }
+        },
+        "final": {
+          "input": 3,
+          "order": "gf",
+          "revision": 8,
+          "receivers": {
+            "fg": true,
+            "gf": true
+          },
+          "last": {
+            "input": 3,
+            "order": "gf",
+            "inner": "f",
+            "outer": "g",
+            "middle": 7,
+            "output": 49,
+            "notation": "g(f(3))",
+            "trace": "3 \u2192 f \u2192 7 \u2192 g \u2192 49"
+          },
+          "route": "gf",
+          "history": {
+            "2:fg": {
+              "input": 2,
+              "order": "fg",
+              "inner": "g",
+              "outer": "f",
+              "middle": 4,
+              "output": 9,
+              "notation": "f(g(2))",
+              "trace": "2 \u2192 g \u2192 4 \u2192 f \u2192 9"
+            },
+            "3:fg": {
+              "input": 3,
+              "order": "fg",
+              "inner": "g",
+              "outer": "f",
+              "middle": 9,
+              "output": 19,
+              "notation": "f(g(3))",
+              "trace": "3 \u2192 g \u2192 9 \u2192 f \u2192 19"
+            },
+            "3:gf": {
+              "input": 3,
+              "order": "gf",
+              "inner": "f",
+              "outer": "g",
+              "middle": 7,
+              "output": 49,
+              "notation": "g(f(3))",
+              "trace": "3 \u2192 f \u2192 7 \u2192 g \u2192 49"
+            }
+          },
+          "drives": {
+            "fg": {
+              "input": 3,
+              "order": "fg",
+              "inner": "g",
+              "outer": "f",
+              "middle": 9,
+              "output": 19,
+              "notation": "f(g(3))",
+              "trace": "3 \u2192 g \u2192 9 \u2192 f \u2192 19"
+            },
+            "gf": {
+              "input": 3,
+              "order": "gf",
+              "inner": "f",
+              "outer": "g",
+              "middle": 7,
+              "output": 49,
+              "notation": "g(f(3))",
+              "trace": "3 \u2192 f \u2192 7 \u2192 g \u2192 49"
+            }
+          }
+        }
+      },
+      "elapsedMs": 43523.378266666674,
+      "completed": true
+    }
+  },
+  "checks": "real keyboard traversal, both ladders/secrets, machine animation, pause, checkpoint reload, completion, replay, L1 return, legacy isolation, touch controls, portrait/landscape, reduced motion"
+}

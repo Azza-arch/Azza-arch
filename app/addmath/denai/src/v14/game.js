@@ -1,3 +1,10 @@
+import {createTwinScene} from './levels/twin-scene.js';
+import {createInverseScene} from './levels/inverse-scene.js';
+import {createInverseStore} from './core/inverse-campaign.js';
+import {createCampaignStore} from './core/campaign-store.js';
+import {canPlay} from './levels/registry.js';
+import {createPlayer} from './core/player.js';
+import {updatePlayer} from './core/player-motion.js';
 import {syncBControl,B_STOPS} from './b-control.js';
 import {createLiftPanelMethods} from './lift-panel.js';
 import {installLeaderboard} from './leaderboard/ui.js';
@@ -54,12 +61,14 @@ const DECK_STYLE = {};
 const touchDevice = matchMedia('(pointer: coarse)').matches;
 const controls = { left:false, right:false, up:false, down:false, jump:false, interact:false, restart:false, resetCrate:false };
 let activeScene;
+let previewOpened=false;
+const localPreview=['localhost','127.0.0.1','azza-arch.test'].includes(location.hostname);
 let fatal = false;
 function announce(text) { $('status').textContent = text; $('objective').textContent = text; }
 function clearControls() {
   Object.keys(controls).forEach(key => controls[key] = false);
   activeScene?.input.keyboard.resetKeys();
-  if (activeScene?.player) activeScene.player.body.setVelocity(0, 0);
+  activeScene?.player?.body?.setVelocity(0, 0);
 }
 function fail(message) {
   fatal = true;
@@ -71,7 +80,7 @@ function fail(message) {
 
 const ZONE_GOALS=[ '', '', 'Cari mesin fungsi untuk membuka jambatan.', '', '', 'Bendera penamat menanti di hujung.' ];
 class Rooftop extends Phaser.Scene {
-  constructor() { super('Lorong'); }
+  constructor(key='Lorong') { super(key); }
   init() {
     this.dialogue=new DialogueQueue();this.dialogueGates=new Set();this.dialogueBound=false;
     this.mode = 'welcome'; this.climbing = null; this.climbLockUntil = 0; this.groundedAt = -1000;
@@ -95,6 +104,7 @@ class Rooftop extends Phaser.Scene {
     // Multi-gate / multi-checkpoint state (replaces the old single
     // solved/checkpointReached booleans now that there are three of each).
     this.solvedGates = new Set(); this.checkpointIndex = -1;
+    this.trialDeck=null;this.plankMeasure=null;this.plankSurplus=[];this.previewOutput=null;this.trialReturnHint=false;
     this.waterworksState=WATERWORKS_STATE.LOCKED;this.waterOrder=null;
     this.gateBodies = {}; this.machines = {}; this.checkpointArts = [];
     this.activePuzzle = null; this.hintLevels = {}; this.attempts = {}; this.liftAutoArmed=true;
@@ -124,6 +134,7 @@ class Rooftop extends Phaser.Scene {
   create() {
     if (fatal) return;
     activeScene = this;
+    $('world-prompt').removeAttribute('style');
     // V8 Phase 7: loaded here, unconditionally, BEFORE buildEnvironment()
     // draws the secret markers below — so an already-discovered secret
     // never re-renders its idle "come find me" motion on a fresh scene
@@ -150,37 +161,7 @@ class Rooftop extends Phaser.Scene {
     // V14: no waterworks content in this slice (see level.js's header
     // comment) — renderWaterworksState() would touch art (waterStage1/2
     // etc.) that this build's trimmed environment.js never creates.
-    // A separate rectangular body means animation transparency never changes collisions.
-    this.player = this.add.rectangle(SPAWN.x, SPAWN.feet - MOTION.bodyHeight/2, MOTION.bodyWidth, MOTION.bodyHeight, 0xffffff, 0);
-    this.physics.add.existing(this.player);
-    this.player.body.setSize(MOTION.bodyWidth, MOTION.bodyHeight).setMaxVelocity(MOTION.speed, 850).setCollideWorldBounds(true);
-    this.events.on('postupdate',()=>{if(this.player&&!this.celebration&&this.mode!=='complete')this.syncVisual();});
-    this.visual = this.add.sprite(SPAWN.x, SPAWN.feet, 'idle-00').setOrigin(346/659, 525/626).setScale(BASE_SCALE).setDepth(20);
-    for (const [key,count,fps] of [['idle',12,8],['run',10,14],['jump',1,1],['fall',1,1]]) {
-      if (!this.anims.exists(key)) this.anims.create({ key, frames:Array.from({length:count},(_,i)=>({key:`${key}-${String(i).padStart(2,'0')}`})), frameRate:fps, repeat:-1 });
-    }
-    if(reducedMotion) this.visual.setTexture('idle-00');
-    else this.visual.play('idle');
-    this.physics.add.collider(this.player, this.solids, undefined, (_player, platform) => {
-      if (this.climbing && platform.getData('oneWay')) return false;
-      // Decks are one-way. Solid street geometry is never bypassed.
-      if (platform.getData('oneWay')) return this.player.body.velocity.y >= 0 && this.player.body.prev.y + MOTION.bodyHeight <= platform.body.top + 8;
-      return true;
-    });
-    // V9 Phase 1: a real solid collider between the player and the crate —
-    // without this the two dynamic bodies simply pass through each other
-    // (no amount of touching.left/right logic in update() means anything
-    // without the collider that actually sets those flags). This is what
-    // makes pushing reliable regardless of approach speed: Arcade resolves
-    // the overlap every physics step, so the crate can never be walked
-    // through, only pushed.
-    if (this.crate) this.physics.add.collider(this.player, this.crate);
-    this.keys = this.input.keyboard.addKeys({left:'LEFT',right:'RIGHT',up:'UP',down:'DOWN',a:'A',d:'D',w:'W',s:'S',jump:'SPACE',interact:'E',restart:'R',resetCrate:'C'});
-    // Latch even a very short tap between render frames; held keys do not auto-jump.
-    for(const action of ['jump','interact','restart','resetCrate']) this.keys[action].on('down',()=>{
-      if(this.mode==='playing') controls[action]=true;
-    });
-    this.input.keyboard.removeCapture(['W','A','S','D','E','R','C','ESC']);
+    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
     // V7 camera (audits/level-v7/): the world is now genuinely tall
     // (WORLD.height=1300, tiers from y=660 to y=1100, vs V6's effectively
     // flat ~350px range), so the V6.1 bounds.top=480 value is meaningless
@@ -249,6 +230,14 @@ class Rooftop extends Phaser.Scene {
     $('import-v9').hidden=!!existingSave || !SaveManager.legacyAvailable();
     announce('Ikut laluan dari taman ke sungai. Laluan atas ialah bonus pilihan.');
     this.events.once('shutdown', () => { this.input.keyboard.enabled = true; });
+    refreshTwinEntry();refreshInverseEntry();
+    if(this.game.registry.get('showLevelSelect')){this.game.registry.remove('showLevelSelect');$('level-select').showModal();}
+    if(localPreview&&!previewOpened&&new URLSearchParams(location.search).get('level')==='w1-l2'){
+      previewOpened=true;this.time.delayedCall(50,()=>launchTwins());
+    }
+    if(localPreview&&!previewOpened&&new URLSearchParams(location.search).get('level')==='w1-l3'){
+      previewOpened=true;this.time.delayedCall(50,()=>launchInverse());
+    }
     if (this.game.registry.get('replay')) {
       this.game.registry.set('replay', false); this.startRun();
     }
@@ -830,119 +819,9 @@ class Rooftop extends Phaser.Scene {
     // past; a contextual "E · Guna mesin" prompt invites the player instead.
     this.elapsed+=delta;
     updateMovingPlatform(this,delta);
-    const body=this.player.body;
-    const key=this.keys;
-    const left=key.left.isDown||key.a.isDown||controls.left;
-    const right=key.right.isDown||key.d.isDown||controls.right;
-    const up=key.up.isDown||key.w.isDown||controls.up;
-    const down=key.down.isDown||key.s.isDown||controls.down;
-    const jump=Phaser.Input.Keyboard.JustDown(key.jump)||controls.jump;
-    const interact=Phaser.Input.Keyboard.JustDown(key.interact)||controls.interact;
-    controls.jump=false;controls.interact=false;
-    if(Phaser.Input.Keyboard.JustDown(key.restart)||controls.restart) {controls.restart=false;this.respawn();return;}
-    if(Phaser.Input.Keyboard.JustDown(key.resetCrate)||controls.resetCrate) {controls.resetCrate=false;this.resetCrate(false);}
-    if(jump) this.jumpAt=time;
-    if(body.blocked.down||body.touching.down) this.groundedAt=time;
-    const nearby=this.ladderZones.find(zone=>this.physics.overlap(this.player,zone)&&Math.abs(this.player.x-zone.x)<34)?.getData('ladder');
-    if(!this.climbing&&nearby&&time>this.climbLockUntil&&(up||down)) {
-      if((up&&body.bottom>nearby.top+2)||(down&&body.bottom<nearby.bottom-2)) {
-        this.climbing=nearby;body.setAllowGravity(false);body.setVelocity(0,0);
-        body.reset(nearby.x,this.player.y);
-      }
-    }
-    if(this.climbing) {
-      const ladder=this.climbing;
-      body.setVelocity(0,(down?1:0)-(up?1:0)); body.velocity.y*=MOTION.climb;
-      if(jump) {
-        this.climbing=null;this.climbLockUntil=time+250;body.setAllowGravity(true);
-        body.setVelocity((right?1:left?-1:0)*MOTION.speed,-MOTION.jump);this.jumpAt=-1000;
-        this.dustBurst(this.player.x,body.bottom,4);SFX.jump(audio);
-      } else if(body.bottom<=ladder.top && up) {
-        body.reset(ladder.x,ladder.top-MOTION.bodyHeight/2-1);
-        this.climbing=null;body.setAllowGravity(true);body.setVelocity(0,0);this.climbLockUntil=time+180;
-      } else if(body.bottom>=ladder.bottom && down) {
-        body.reset(ladder.x,ladder.bottom-MOTION.bodyHeight/2-1);
-        this.climbing=null;body.setAllowGravity(true);body.setVelocity(0,0);this.climbLockUntil=time+180;
-      }
-    } else {
-      const direction=(right?1:0)-(left?1:0);
-      const target=direction*MOTION.speed;
-      const change=(direction?MOTION.acceleration:MOTION.braking)*Math.min(delta,40)/1000;
-      body.setVelocityX(body.velocity.x+Phaser.Math.Clamp(target-body.velocity.x,-change,change));
-      if(time-this.jumpAt<MOTION.buffer&&time-this.groundedAt<MOTION.coyote) {
-        body.setVelocityY(-MOTION.jump);this.jumpAt=-1000;this.groundedAt=-1000;
-        // V8 Phase 3: dust exactly at the moment the impulse is applied,
-        // not merely when the 'jump' animation flag turns on — this line
-        // only ever runs once per real jump, since jumpAt is immediately
-        // reset to -1000 right after, so it can't re-trigger next frame.
-        this.dustBurst(this.player.x,body.bottom,5);SFX.jump(audio);
-      }
-    }
-    // V8 Phase 2 fix: the original `vy>60?'fall':...'run':'idle'` left a
-    // dead zone (-35 <= vy <= 60) where the character is airborne but
-    // shows neither jump nor fall — confirmed live (Playwright, frame-by-
-    // frame velocity logging) to produce a one-to-three-frame flash of the
-    // STANDING idle pose at the apex of every jump, and a "running in
-    // midair" flash for a couple of frames after walking off any ledge
-    // (the earliest part of an ordinary fall, before gravity has built vy
-    // past 60). Fix: once airborne (not grounded, not climbing), the only
-    // choice is jump (still rising, vy<-35, unchanged threshold/feel) or
-    // fall (everything else airborne) — run/idle are grounded-only states.
-    const grounded=body.blocked.down||body.touching.down;
-    let anim=this.climbing?'idle':body.velocity.y<-35?'jump':!grounded?'fall':Math.abs(body.velocity.x)>20?'run':'idle';
-    if(reducedMotion) this.visual.setTexture(`${anim}-00`);
-    else this.visual.play(anim,true);
-    this.visual.setOrigin(346/659,(anim==='jump'?463:anim==='fall'?461:525)/626);
-    // Source frames (idle/run/jump/fall) are drawn facing left by default;
-    // flip only when moving right so the sprite always faces its travel
-    // direction instead of walking backward. Idle keeps whatever facing it
-    // last had (velocity.x===0 skips the flip call entirely below).
-    if(body.velocity.x!==0) this.visual.setFlipX(body.velocity.x>0);
-    // V8 Phase 2: subtle sprite-only squash/stretch on takeoff and landing
-    // — scales only this.visual (the animated sprite), never the physics
-    // body/collider, so timing and collision are untouched. Skipped
-    // entirely under prefers-reduced-motion, consistent with every other
-    // motion effect in this file (camera lerp, bridge reveal).
-    if(!reducedMotion) {
-      if(anim==='jump'&&this.lastAnim!=='jump') {
-        this.tweens.killTweensOf(this.visual);
-        this.visual.setScale(BASE_SCALE*.88,BASE_SCALE*1.14);
-        this.tweens.add({targets:this.visual,scaleX:BASE_SCALE,scaleY:BASE_SCALE,duration:160,ease:'Sine.out'});
-      } else if(grounded&&!this.lastGrounded&&!this.climbing) {
-        this.tweens.killTweensOf(this.visual);
-        this.visual.setScale(BASE_SCALE*1.16,BASE_SCALE*.82);
-        this.tweens.add({targets:this.visual,scaleX:BASE_SCALE,scaleY:BASE_SCALE,duration:130,ease:'Sine.out'});
-        // V8 Phase 3: landing dust, reusing this EXACT same already-proven
-        // single-fire edge (grounded&&!lastGrounded&&!climbing) as the
-        // Phase 2 squash — no separate detection logic, no risk of firing
-        // on every grounded frame. Scaled modestly by impact speed
-        // (this.lastVy, captured below before being overwritten): a light
-        // step-off landing (~small vy) gives a faint 2-particle puff, a
-        // hard fall from height (vy approaching the 850 velocity cap)
-        // gives a fuller 8-particle burst.
-        const impact=Math.min(1,this.lastVy/700);
-        this.dustBurst(this.player.x,this.player.body.bottom,Math.round(2+impact*6));
-        SFX.land(audio,impact);
-      }
-    }
-    this.lastAnim=anim;this.lastGrounded=grounded;this.lastVy=body.velocity.y;
-    // Camera pass: adaptive vertical framing. On main-route ground the
-    // player sits low in the frame (less dirt, more route ahead); on high
-    // platforms the camera eases down so the landing area below stays in
-    // view. Eased, so it never snaps; camera only, physics untouched.
-    // Near water (station chasm, Tebing Berliku) the frame always reaches the
-    // water line, so the hazard under every gap is readable.
-    // Stability pass: the framing target is only re-evaluated while standing
-    // (or climbing), never mid-jump, and eases slowly — so a jump no longer
-    // drags the camera up and down.
-    {const cam=this.cameras.main;if(cam._follow){
-      if(grounded||this.climbing||this.camTgt===undefined){let tgt=body.bottom<1230?-110:(this.followOffsetY??100);
-        if(WATER.some(w=>this.player.x>w.x-600&&this.player.x<w.x+w.width+260)){const vh=this.viewUnits?.h??645;tgt=Math.min(tgt,(body.bottom-30)+vh/2-(WATER_Y+40));}
-        {const vh=this.viewUnits?.h??645;tgt=Math.max(tgt,-(vh/2)+vh*.22+30);} // never push the player's head into the top 22% (HUD band)
-        this.camTgt=tgt;}
-      this.camOffY=this.camOffY===undefined?this.camTgt:this.camOffY+(this.camTgt-this.camOffY)*Math.min(1,(reducedMotion?1000:delta)/600);
-      cam.setFollowOffset(-85,this.camOffY);}}
-    this.syncVisual();
+    const motion=updatePlayer(this,time,delta,{controls,audio,SFX,reducedMotion,BASE_SCALE,WATER,WATER_Y});
+    if(motion.respawned)return;
+    const {body,left,right,up,down,jump,interact,nearby,grounded}=motion;
     for(const coin of this.collectibles) {
       if(coin.active && this.physics.overlap(this.player,coin)) {
         // coin.active flips false the instant destroy() runs, so this
@@ -1054,7 +933,9 @@ class Rooftop extends Phaser.Scene {
     if(this.player.y>1510 || inOpenGate || false /* Phase 2A: removed dead V13 x>7506 respawn band */) {this.respawn();return;}
     // ±80 (was ±48): a running jump often lands just past a flag; the wider
     // zone makes sure the flag still saves when the player lands beside it.
-    const cpIndex=CHECKPOINTS.findIndex(cp=>Math.abs(this.player.x-cp.x)<80 && Math.abs(body.bottom-cp.feet)<5 && body.blocked.down && (!cp.requires || cp.requires.every(id=>this.solvedGates.has(id))));
+    // A trial deck may be jumped from, but cannot move a save beyond an unlocked gate.
+    const cpIndex=CHECKPOINTS.findIndex(cp=>!(this.trialDeck&&!this.solvedGates.has('lift')&&cp.x>GATES[0].x)&&Math.abs(this.player.x-cp.x)<80 && Math.abs(body.bottom-cp.feet)<5 && body.blocked.down && (!cp.requires || cp.requires.every(id=>this.solvedGates.has(id))));
+    if(this.trialDeck&&!this.solvedGates.has('lift')&&this.player.x>GATES[0].x+GATES[0].width&&!this.trialReturnHint){this.trialReturnHint=true;announce('Masih dalam ujian dek. Tekan R untuk kembali ke checkpoint dan lengkapkan 7 papan.');}
     if(cpIndex>=0 && cpIndex!==this.checkpointIndex) {
       this.checkpointIndex=cpIndex;
       this.checkpointArts[cpIndex].setFrame(112);
@@ -1134,7 +1015,7 @@ Object.assign(Rooftop.prototype,createMechanismMethods({$,clearControls,audio,SF
   Rooftop.prototype.testDial=function(){return this.activePuzzle?.kind==='lift'?(this.liftReady?this.liftOpenBridge():this.liftCheck()):base.testDial.call(this);};
   Rooftop.prototype.closePuzzle=function(){
     if(this.activePuzzle?.kind==='lift'&&this.liftReady)return this.liftOpenBridge(); // closing after a correct answer still opens the bridge
-    if(this.activePuzzle?.kind==='lift'){$('mechanism').classList.remove('is-machine');this.liftPlanks?.forEach(a=>a.setVisible(false));this.releaseMachineCamera();}
+    if(this.activePuzzle?.kind==='lift'){$('mechanism').classList.remove('is-machine');this.clearTrialDeck();this.liftPlanks?.forEach(a=>a.setVisible(false));this.releaseMachineCamera();}
     return base.closePuzzle.call(this);};
 }
 $('dial-less').onclick=()=>activeScene?.changeDial(-1);
@@ -1327,6 +1208,37 @@ function askConfirm({title,body,ok,danger=true}){
   return new Promise(r=>{confirmResolve=r;});
 }
 function closeConfirm(value){if(!$('confirm').open)return;$('confirm').close();const r=confirmResolve;confirmResolve=null;r?.(value);}
+function refreshTwinEntry(){
+  const state=createCampaignStore(localStorage).load(),l2=state.levels['w1-l2'];
+  const allowed=canPlay('w1-l2',state.levels['w1-l1'].completed?['w1-l1']:[],{localPreview});
+  $('level2-action').disabled=!allowed;
+  $('level2-action').textContent=l2.run?'Sambung':'Main';
+  $('level2-status').textContent=l2.completions?`Selesai · ${l2.coins.length}/15 syiling · ${l2.secrets.length}/2 rahsia`:state.levels['w1-l1'].completed?'Fungsi gubahan':localPreview?'Prototype lokal · Fungsi gubahan':'Selesaikan Level 1–1 dahulu';
+}
+function launchTwins(){
+  refreshTwinEntry();if($('level2-action').disabled)return;
+  audio.unlock();clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());
+  activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start('Jambatan');
+}
+function refreshInverseEntry(){
+  const l2=createCampaignStore(localStorage).load().levels['w1-l2'];
+  const l3=createInverseStore(localStorage).load();
+  const allowed=canPlay('w1-l3',l2.completions?['w1-l2']:[],{localPreview});
+  $('level3-action').disabled=!allowed;
+  $('level3-action').textContent=l3.run?'Sambung':'Main';
+  $('level3-card').classList.toggle('is-locked',!allowed);
+  $('level3-status').textContent=l3.completions?`Selesai · ${l3.coins.length}/20 syiling · ${l3.secrets.length}/3 rahsia`:l2.completions?'Songsangan fungsi · f(x)=2x+3':localPreview?'Prototype lokal · Songsangan fungsi':'Selesaikan Level 1–2 dahulu';
+}
+function launchInverse(){
+  refreshInverseEntry();if($('level3-action').disabled)return;
+  audio.unlock();clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());
+  activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start('GerbangSongsang');
+}
+$('level2-action').addEventListener('click',launchTwins);
+$('next-level2').addEventListener('click',launchTwins);
+document.getElementById('level3-action').addEventListener('click',launchInverse);
+const originalLevelSelect=Rooftop.prototype.renderLevelSelect;
+Rooftop.prototype.renderLevelSelect=function(){originalLevelSelect.call(this);refreshTwinEntry();refreshInverseEntry();};
 installLeaderboard();
 $('confirm-ok').addEventListener('click',()=>closeConfirm(true));
 $('confirm-cancel').addEventListener('click',()=>closeConfirm(false));
@@ -1534,7 +1446,7 @@ try {
     banner:false,audio:{noAudio:true},render:{antialias:true,roundPixels:true},
     scale:{mode:Phaser.Scale.FIT,autoCenter:Phaser.Scale.CENTER_BOTH},
     physics:{default:'arcade',arcade:{gravity:{y:WORLD.gravity},debug:false}},
-    callbacks:{preBoot:game=>game.registry.set('assets',assets)},scene:[Rooftop]});
+    callbacks:{preBoot:game=>game.registry.set('assets',assets)},scene:[Rooftop,createTwinScene(Rooftop,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive:scene=>{activeScene=scene;},clearControls}),createInverseScene(Rooftop,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive:scene=>{activeScene=scene;},clearControls})]});
   const observer=new ResizeObserver(()=>{fitFrame();const d=dimensions();game.scale.setGameSize(d.width,d.height);game.scale.refresh();activeScene?.applyResponsiveZoom();});
   observer.observe(stage);
   // V12 deliberately exposes no URL-parameter test hook.

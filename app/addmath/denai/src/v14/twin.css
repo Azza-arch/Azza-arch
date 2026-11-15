@@ -1,0 +1,24 @@
+#twin-panel{position:absolute;z-index:35;top:12px;left:50%;transform:translateX(-50%);width:min(410px,calc(100% - 24px));box-sizing:border-box;padding:8px 11px;background:#f9f2e2ed;color:#203e36;border:1px solid #786c48;border-radius:10px;box-shadow:0 3px 12px #203e3626;font:14px/1.25 system-ui,sans-serif}
+#twin-panel[hidden]{display:none}#twin-panel p{margin:0 0 4px}.twin-heading{font-weight:700}.twin-actions{display:flex;gap:6px}.twin-actions button{flex:1;min-height:40px;font-size:14px;padding:5px}.twin-trace{min-height:1.4em;margin-top:5px!important;font-size:13px}
+#twin-dialog{max-width:480px;width:calc(100% - 40px);box-sizing:border-box;background:#fff1d3;border:3px solid #786c48;border-radius:12px;box-shadow:0 8px 32px #10271f66}#twin-dialog::backdrop{background:#173a32a8}#twin-dialog-copy{white-space:pre-line;line-height:1.5}.twin-dialog-actions{display:flex;flex-wrap:wrap;gap:10px}.twin-dialog-actions button{min-height:44px}
+.twin-active [data-action="resetCrate"]{display:none!important}.twin-active #notice{max-width:min(620px,90%);font-size:15px}.twin-active #world-prompt{max-width:90%;white-space:normal;text-align:center}.twin-active #hud-collection{font-size:13px}
+@media(max-width:600px){#twin-panel{top:4px;padding:6px 9px;font-size:12px}.twin-rule{font-size:15px}.twin-trace{font-size:12px;min-height:2.5em}.twin-actions button{font-size:12px;min-height:36px}.twin-active #notice{font-size:12px}}
+@media(max-height:500px){#twin-panel{left:10px;transform:none;width:330px;font-size:12px;padding:5px 8px}.twin-rule{font-size:14px}.twin-trace{font-size:11px;min-height:0}.twin-actions button{min-height:30px}.twin-active #notice{font-size:12px;max-width:48%;left:auto;right:12px}}
+
+.twin-near-machine #notice{visibility:hidden}
+@media(max-width:600px) and (orientation:portrait){
+ #twin-panel{top:60px}
+ .twin-active .touch-controls{left:8px;right:8px;gap:8px;bottom:max(16px,env(safe-area-inset-bottom))}
+ .twin-active .touch-controls .touch-group{gap:4px}
+ .twin-active .touch-controls button{width:44px;height:44px;min-width:44px;min-height:44px;font-size:20px;flex-shrink:0}
+ .twin-active .touch-controls .interact{font-size:11px}
+ .twin-active .touch-controls .jump{width:52px;height:52px;min-width:52px;min-height:52px;font-size:11px}
+}
+@media(max-height:500px){.twin-near-machine #world-prompt{display:none!important}}
+#twin-panel{max-height:calc(100% - 140px);overflow:auto;scrollbar-color:#786c48 #f9f2e2}
+#twin-panel .twin-actions button{min-height:44px}
+.twin-route-help{font-size:12px;margin-top:7px!important}
+.twin-actions button[aria-pressed=true]{background:#315c49;color:#fff}
+.twin-actions button:focus-visible{outline:3px solid #a45116;outline-offset:2px}
+.twin-comparison{margin-top:8px;font-size:13px;font-variant-numeric:tabular-nums;line-height:1.5}
+.twin-comparison p{overflow-wrap:anywhere}

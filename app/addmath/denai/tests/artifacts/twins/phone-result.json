@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "widths": [
+    320,
+    390,
+    844
+  ],
+  "errors": [],
+  "checks": "every touch control inside viewport; tap jump and pause/resume; both machine orders; reduced motion"
+}
