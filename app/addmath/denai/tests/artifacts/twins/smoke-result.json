@@ -4,7 +4,7 @@
   "completion": {
     "completions": 1,
     "completedRuns": [
-      "f1a008a9-50be-4e51-ac5e-c9e281201cba"
+      "e98d2acd-6a25-4e30-903c-5c70d2516862"
     ],
     "coins": [
       "l2-coin-1",
@@ -25,9 +25,9 @@
       "twin-observation",
       "canopy-observation"
     ],
-    "bestMs": 41827.280000000144,
+    "bestMs": 40651.50000000016,
     "run": {
-      "id": "f1a008a9-50be-4e51-ac5e-c9e281201cba",
+      "id": "e98d2acd-6a25-4e30-903c-5c70d2516862",
       "checkpointId": "exit",
       "coins": [
         "l2-coin-1",
@@ -88,7 +88,7 @@
           }
         }
       },
-      "elapsedMs": 41827.280000000144,
+      "elapsedMs": 40651.50000000016,
       "completed": true
     }
   },

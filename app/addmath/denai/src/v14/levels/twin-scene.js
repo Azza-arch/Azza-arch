@@ -20,7 +20,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    this.physics.world.setBounds(0,0,WORLD.width,WORLD.height,true,true,true,false);
    this.solids=this.physics.add.staticGroup();
    const {tile,pole}=buildLandscape(this,DEFINITION);
-   [[ 'T5',486,1296],['T3',864,1242],['T4',1134,1296],['T6',2322,1296],['T7',3024,1296],['T4',4374,1242],['T2',4806,1188]].forEach(([type,x,y])=>buildTree(this,type,x,y));
+   [[ 'T5',324,1296],['T4',1188,1296],['T6',2322,1296],['T7',3024,1296],['T4',4374,1242],['T2',4752,1188]].forEach(([type,x,y])=>buildTree(this,type,x,y));
    for(const d of DEFINITION.DECKS){pole(d.x+27,d.y+18,DEFINITION.AB_TERRAIN.find(t=>d.x>=t.x&&d.x<t.x+t.width)?.y||1296);}
    for(const w of WATER)for(let x=w.x;x<w.x+w.width;x+=54){tile(33,x,WATER_Y,7);tile(53,x,WATER_Y+54,7);}
    [[162,1296],[810,1242],[2484-54,1296],[3456,1242],[4482,1242]].forEach(([x,y])=>tile(125,x,y-54,11));
@@ -61,14 +61,12 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    for(const x of [s.x-54,s.x+54]){this.tile(89,x-27,s.y-108,10);this.tile(89,x-27,s.y-54,10);}
    const names=[this.machineText('',s.x-54,s.y-170),this.machineText('',s.x+54,s.y-170)];
    this.machineText('→',s.x,s.y-125,24);
-   const actions=['input','order','send'];
-   const labels=actions.map((action,i)=>{
-    const x=s.x+(i-1)*108;this.tile(64,x-27,s.y-54,11);
-    return this.machineText(['Input','Urutan','Hantar'][i],x,s.y-60,15);
-   });
+   const leverX=s.x+108;
+   this.tile(64,leverX-27,s.y-54,11);
+   const labels=[this.machineText('Hantar',leverX,s.y-60,15)];
    const receivers=['fg','gf'].map((order,i)=>{
-    const x=s.bridge.x-48+i*70;
-    for(let y=s.y-108;y<(x>=s.bridge.x?WORLD.floor:s.y);y+=54)this.tile(89,x-27,y,10);
+    const x=s.bridge.x+(i?s.bridge.width:0);
+    for(let y=s.y-108;y<s.y;y+=54)this.tile(89,x-27,y,10);
     const lamp=this.add.circle(x,s.y-110,11,0x796d50).setDepth(15);
     const label=this.machineText(`${order==='fg'?'f(g(x))':'g(f(x))'} · ${TARGETS[s.id][order]}`,x,s.y-132,14);
     return {lamp,label};
@@ -79,7 +77,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   refreshStation(s){
    const state=this.run.puzzles[s.id],view=this.stationViews[s.id],r=compose(state.input,state.order);
    view.names[0].setText(r.inner==='f'?'f: 2x + 1':'g: x²');view.names[1].setText(r.outer==='f'?'f: 2x + 1':'g: x²');
-   view.labels[0].setText(`Input ${state.input}`);
+   view.labels[0].setText('Hantar');
    ['fg','gf'].forEach((o,i)=>view.receivers[i].lamp.setFillStyle(state.receivers[o]?0x438f55:0x796d50));
   }
   openBridge(s,animate=true){
@@ -153,7 +151,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    this.nearStation=STATIONS.find(s=>Math.abs(this.player.x-s.x)<255&&Math.abs(body.bottom-s.y)<65)||null;
    const secret=this.secretViews.find(({def})=>Math.abs(this.player.x-def.x)<55&&Math.abs(body.bottom-def.feet)<12);
    let prompt='';let action=null;
-   if(this.nearStation){const dx=this.player.x-this.nearStation.x;action=dx< -54?'input':dx>54?'send':'order';prompt=`E · ${action==='input'?'Tukar input':action==='order'?'Tukar urutan':'Hantar nombor'}`;}
+   if(this.nearStation){action='send';prompt='E · Hantar nombor';}
    if(secret){prompt='E · Baca catatan rahsia';if(interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();}this.message(secret.def.text);}}
    else if(interact&&action)this.act(action);
    const inExitZone=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
