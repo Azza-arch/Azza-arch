@@ -6,7 +6,7 @@ export const AB_TERRAIN=[
   ['machines',1080,756,1296],['landing',2160,324,1296],
   ['island',2592,216,1242],['secret-bank',2916,216,1296],
   ['rise',3132,324,1242],['final-yard',3456,432,1242],
-  ['exit',4212,324,1242],['flag',4536,270,1188],['end',4806,54,1242],
+  ['exit',4212,324,1242],['flag',4536,324,1188],
 ].map(([id,x,width,y])=>({id,x,width,y}));
 export const DECKS=[
   {id:'upper-west',x:1674,y:1134,width:162},

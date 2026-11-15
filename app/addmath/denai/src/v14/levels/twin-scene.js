@@ -2,7 +2,7 @@ import {buildLandscape,buildTree} from '../environment.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createCampaignStore,newRun} from '../core/campaign-store.js';
-import {command,compose,solved,TARGETS} from './composition.js';
+import {command,compose,solved,inFinishZone,TARGETS} from './composition.js';
 import {DEFINITION,WORLD,SPAWN,GOAL,STATIONS,CHECKPOINTS,COINS,SECRETS,WATER,WATER_Y} from './twin-world.js';
 const $=id=>document.getElementById(id);
 export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}) {
@@ -11,7 +11,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   init(data={}) {
    super.init();this.fresh=data.fresh===true;this.store=createCampaignStore(localStorage);
    this.run=this.fresh?newRun():(this.store.load().levels['w1-l2'].run||newRun());
-   this.elapsed=this.run.elapsedMs;this.mode='playing';this.bridges={};this.stationViews={};this.busy=false;this.nearStation=null;
+   this.elapsed=this.run.elapsedMs;this.mode='playing';this.bridges={};this.stationViews={};this.busy=false;this.nearStation=null;this.exitHinted=false;
   }
   // Shared textures are loaded by the initial L1 scene before scene switching.
   preload(){}
@@ -27,7 +27,9 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    tile(106,0,1242,11);tile(105,54,1242,11);
    this.checkpointArts=CHECKPOINTS.map(cp=>tile(cp.id===this.run.checkpointId?112:111,cp.x-27,cp.feet-54,12));
    tile(112,GOAL.x-27,GOAL.feet-54,12);
-   this.worldText('Gerbang Songsang →',GOAL.x-80,GOAL.feet-145,18);
+   this.add.rectangle(GOAL.x,GOAL.feet-18,216,10,0x796c48).setDepth(11);
+   this.add.rectangle(GOAL.x,GOAL.feet-31,162,5,0xe2c576).setDepth(11);
+   this.worldText('TAMAT',GOAL.x,GOAL.feet-190,18).setStyle({backgroundColor:'#315c49',color:'#fff2c5',fontStyle:'bold'});
    this.worldText('JEJAK MASUK',324,1100,21);
    this.worldText('LALUAN RAHSIA ↑',3000,930,18);
    for(const station of STATIONS)this.buildStation(station);
@@ -52,22 +54,23 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    });
   }
   worldText(text,x,y,size=17){return this.add.text(x,y,text,{fontFamily:'Arial, sans-serif',fontSize:`${size}px`,color:'#203e36',backgroundColor:'#f9f2d8',padding:{x:8,y:5},align:'center'}).setOrigin(.5,1).setDepth(15);}
+  machineText(text,x,y,size=15){return this.add.text(x,y,text,{fontFamily:'Arial, sans-serif',fontSize:`${size}px`,fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(15);}
   buildStation(s){
-   this.worldText(s.title.toUpperCase(),s.x,s.y-250,21);
+   this.machineText(s.title.toUpperCase(),s.x,s.y-250,21);
    const machines=[this.tile(29,s.x-81,s.y-162,11),this.tile(31,s.x+27,s.y-162,11)];
    for(const x of [s.x-54,s.x+54]){this.tile(89,x-27,s.y-108,10);this.tile(89,x-27,s.y-54,10);}
-   const names=[this.worldText('',s.x-54,s.y-170),this.worldText('',s.x+54,s.y-170)];
-   this.worldText('→',s.x,s.y-125,24);
+   const names=[this.machineText('',s.x-54,s.y-170),this.machineText('',s.x+54,s.y-170)];
+   this.machineText('→',s.x,s.y-125,24);
    const actions=['input','order','send'];
    const labels=actions.map((action,i)=>{
     const x=s.x+(i-1)*108;this.tile(64,x-27,s.y-54,11);
-    return this.worldText(['Input','Urutan','Hantar'][i],x,s.y-60,15);
+    return this.machineText(['Input','Urutan','Hantar'][i],x,s.y-60,15);
    });
    const receivers=['fg','gf'].map((order,i)=>{
     const x=s.bridge.x-48+i*70;
     for(let y=s.y-108;y<(x>=s.bridge.x?WORLD.floor:s.y);y+=54)this.tile(89,x-27,y,10);
     const lamp=this.add.circle(x,s.y-110,11,0x796d50).setDepth(15);
-    const label=this.worldText(`${order==='fg'?'f(g(x))':'g(f(x))'}\n${TARGETS[s.id][order]}`,x,s.y-132,15);
+    const label=this.machineText(`${order==='fg'?'f(g(x))':'g(f(x))'} · ${TARGETS[s.id][order]}`,x,s.y-132,14);
     return {lamp,label};
    });
    this.stationViews[s.id]={machines,names,labels,receivers};
@@ -153,8 +156,12 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    if(this.nearStation){const dx=this.player.x-this.nearStation.x;action=dx< -54?'input':dx>54?'send':'order';prompt=`E · ${action==='input'?'Tukar input':action==='order'?'Tukar urutan':'Hantar nombor'}`;}
    if(secret){prompt='E · Baca catatan rahsia';if(interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();}this.message(secret.def.text);}}
    else if(interact&&action)this.act(action);
-   const atExit=solved(this.run.puzzles.final)&&Math.abs(this.player.x-GOAL.x)<65&&grounded&&Math.abs(body.bottom-GOAL.feet)<8;
-   if(atExit){prompt='E · Tamatkan Jambatan Berkembar';if(interact)this.finish();}
+   const inExitZone=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
+   if(inExitZone&&solved(this.run.puzzles.final)){this.finish();return;}
+   if(inExitZone&&!solved(this.run.puzzles.final)){
+    prompt='Lengkapkan semua isyarat dahulu';
+    if(!this.exitHinted){this.exitHinted=true;this.message(prompt);}
+   }else this.exitHinted=false;
    const wp=$('world-prompt');wp.hidden=!prompt||this.mode!=='playing';
    if(prompt){$('world-prompt-key').textContent='E';$('world-prompt-text').textContent=prompt.slice(4);wp.style.transform='translate(-50%, 0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';}
    this.renderPanel();
@@ -165,12 +172,12 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   renderPanel(){
    const panel=$('twin-panel'),s=this.nearStation;panel.hidden=!s||this.mode!=='playing';document.body.classList.toggle('twin-near-machine',!panel.hidden);if(!s)return;
    const state=this.run.puzzles[s.id],r=compose(state.input,state.order);
-   panel.querySelector('.twin-heading').textContent=`${s.title} · sasaran ${s.targets} · ${Number(state.receivers.fg)+Number(state.receivers.gf)}/2 isyarat`;
-   panel.querySelector('.twin-order').textContent=`${r.outer}(${r.inner}(x)): ${r.inner} dahulu, kemudian ${r.outer}.`;
+   panel.querySelector('.twin-heading').textContent=`${s.title} · sasaran ${s.targets} · ${Number(state.receivers.fg)+Number(state.receivers.gf)}/2`;
+   panel.querySelector('.twin-order').textContent=`${r.outer}(${r.inner}(x)) · ${r.inner} dahulu`;
    panel.querySelector('[data-command="input"]').textContent=`Input: ${state.input} ↻`;
    panel.querySelectorAll('button').forEach(b=>b.disabled=this.busy);
    const last=this.pendingTrace||state.last;
-   panel.querySelector('.twin-trace').textContent=last?`${this.busy?'Memproses… ':''}${last.trace} · ${last.notation} = ${last.output}. ${this.busy?'':last.output===TARGETS[s.id][last.order]?'Isyarat sepadan.':'Belum sepadan dengan sasaran.'}`:'Hasil mesin pertama menjadi input mesin kedua. Cuba kedua-dua urutan.';
+   panel.querySelector('.twin-trace').textContent=last?`${this.busy?'Memproses… ':''}${last.notation} = ${last.output} · ${this.busy?'':last.output===TARGETS[s.id][last.order]?'Isyarat sepadan':'Belum sepadan'}`:'Hasil mesin pertama masuk ke mesin kedua. Cuba kedua-dua urutan.';
   }
   writeSave(){if(!this.run)return;this.run.elapsedMs=this.elapsed;if(!this.store.saveRun(this.run)&&$('status'))$('status').textContent='Simpanan tidak tersedia. Kemajuan sesi ini masih boleh dimainkan.';}
   resetCrate(){}

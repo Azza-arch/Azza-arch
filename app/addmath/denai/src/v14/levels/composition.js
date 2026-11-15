@@ -20,6 +20,7 @@ export function command(state,action,station) {
   return next;
 }
 export const solved=state=>!!state.receivers.fg&&!!state.receivers.gf;
+export function inFinishZone({x,feet,grounded},goal){return grounded&&Math.abs(x-goal.x)<84&&Math.abs(feet-goal.feet)<16;}
 export function restorePuzzle(raw,station) {
   const state=initialPuzzle();
   if(raw&&Number.isInteger(raw.input)&&raw.input>=0&&raw.input<=4)state.input=raw.input;

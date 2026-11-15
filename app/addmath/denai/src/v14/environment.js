@@ -150,7 +150,7 @@ export function buildWorld(s){
   ['T8',1998,1242],                            // 02: column tree at the exit
   ['T1',3294,1296],['T6',3850,1188],          // 04: pine on cliff-1, umbrella tree shading the rest cliff
   ['T7',4455,1296],                            // 05: POKOK TINJAU (giant, carries the lookout)
-  ['T2',4671,1350],['T8',5076,1296],
+  ['T8',4806,1242],['T2',5076,1296],
   ['T3',1880,1242,'fg'],['T3',4900,1296,'fg'],['T4',3040,1242,'fg'], // FOREGROUND: Chill Boy walks behind these three           // 05: young clump in the root dip, column tree before the clearing
   ['T5',5300,1242],['T3',5520,1242],['T1',5612,1242]]; // 06: three-tree grove (large / medium / small), crowns spaced so each reads
  trees.forEach(([t,x,f,fg])=>buildTree(s,t,x,f,!!fg));

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {compose,command,initialPuzzle,solved} from '../src/v14/levels/composition.js';
+import {compose,command,initialPuzzle,solved,inFinishZone} from '../src/v14/levels/composition.js';
 import {createCampaignStore,newRun,sanitizeRun,CAMPAIGN_KEY} from '../src/v14/core/campaign-store.js';
 import {canPlay} from '../src/v14/levels/registry.js';
 import {AB_TERRAIN,DECKS,LADDERS,STATIONS,COINS,CHECKPOINTS} from '../src/v14/levels/twin-world.js';
@@ -40,6 +40,9 @@ assert(!canPlay('w1-l2',[]));assert(canPlay('w1-l2',['w1-l1']));assert(canPlay('
 // the unchanged jump arc, gate gaps exceed the horizontal jump range.
 for(const s of [...AB_TERRAIN,...DECKS])for(const n of [s.x,s.y,s.width])assert.equal(n%54,0);
 const jumpRange=280*(2*520/1400),peak=520**2/(2*1400);
+assert(inFinishZone({x:4698,feet:1188,grounded:true},{x:4698,feet:1188}));
+assert(!inFinishZone({x:4698,feet:1188,grounded:false},{x:4698,feet:1188}));
+assert(!inFinishZone({x:4783,feet:1188,grounded:true},{x:4698,feet:1188}));
 for(let i=1;i<AB_TERRAIN.length;i++){
  const a=AB_TERRAIN[i-1],b=AB_TERRAIN[i],gap=b.x-a.x-a.width;
  if(STATIONS.some(s=>s.bridge.x===a.x+a.width)){assert(gap>jumpRange+28);continue;}

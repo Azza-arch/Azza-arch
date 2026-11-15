@@ -30,6 +30,7 @@ def drive(page,target,jumps=()):
  try:
   while time.monotonic()<deadline:
    at=position(page)
+   if at['mode']=='complete':break
    if abs(at['x']-target)<10 or (direction=='ArrowRight' and at['x']>=target) or (direction=='ArrowLeft' and at['x']<=target):break
    if pending and at['x']>=pending[0] and at['ground']:
     page.keyboard.press('Space');pending.pop(0)
@@ -64,6 +65,10 @@ with sync_playwright() as p:
   page.goto(BASE+'?level=w1-l2')
   wait(page,"!!window.testGame?.scene.getScene('Jambatan')?.player",30)
   page.wait_for_timeout(900)
+  # Start the traversal with clean L2 progress without changing L1 saves.
+  page.evaluate("localStorage.removeItem('denai-campaign-v1')")
+  page.evaluate(f"{S}.scene.restart({{fresh:true}})")
+  wait(page,f'{S}.mode===\"playing\"',10)
   if '--lifecycle' in sys.argv:
    page.keyboard.press('Escape');page.locator('#twin-menu').click()
    page.wait_for_timeout(700)
@@ -156,8 +161,7 @@ with sync_playwright() as p:
   page.locator('#twin-resume').click();wait(page,f'!{S}.busy')
   assert page.evaluate(f'!!{S}.bridges.final')
   page.screenshot(path=str(ART/'05-final-machines-desktop.png'))
-  drive(page,4698,[4500]);wait(page,f'{S}.player.body.blocked.down');page.keyboard.press('e')
-  wait(page,f"{S}.mode==='complete'")
+  drive(page,4698,[4500]);wait(page,f"{S}.mode==='complete'")
   page.screenshot(path=str(ART/'06-victory-desktop.png'))
   saved=page.evaluate("JSON.parse(localStorage.getItem('denai-campaign-v1'))")
   assert saved['levels']['w1-l2']['completions']==1
