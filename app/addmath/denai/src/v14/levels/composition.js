@@ -7,7 +7,7 @@ export function compose(input,order) {
   const middle=FUNCTIONS[inner](input),output=FUNCTIONS[outer](middle);
   return {input,order,inner,outer,middle,output,notation:`${outer}(${inner}(${input}))`,trace:`${input} → ${inner} → ${middle} → ${outer} → ${output}`};
 }
-export function initialPuzzle() {return {input:2,order:'fg',revision:0,receivers:{fg:false,gf:false},last:null};}
+export function initialPuzzle() {return {input:2,order:'fg',revision:0,receivers:{fg:false,gf:false},last:null,route:null,history:{},drives:{}};}
 export function command(state,action,station) {
   if(!TARGETS[station])throw new RangeError('Unknown station');
   const next={...state,receivers:{...state.receivers},revision:state.revision+1};
@@ -28,5 +28,13 @@ export function restorePuzzle(raw,station) {
   state.revision=Number.isSafeInteger(raw?.revision)&&raw.revision>=0?raw.revision:0;
   for(const order of ['fg','gf'])state.receivers[order]=raw?.receivers?.[order]===true;
   if(raw?.last){try{state.last=compose(raw.last.input,raw.last.order);}catch{}}
+  // Optional workshop fields migrate old saves without changing receiver latches.
+  if(['fg','gf'].includes(raw?.route))state.route=raw.route;
+  for(let x=0;x<=4;x++)for(const order of ['fg','gf']){
+    const key=`${x}:${order}`,trace=raw?.history?.[key];
+    if(trace?.input===x&&trace.order===order)state.history[key]=compose(x,order);
+  }
+  if(state.last&&!state.history[`${state.last.input}:${state.last.order}`])state.history[`${state.last.input}:${state.last.order}`]=state.last;
+  for(const route of ['fg','gf']){const trace=raw?.drives?.[route];if(trace){try{state.drives[route]=compose(trace.input,trace.order);}catch{}}}
   return state;
 }

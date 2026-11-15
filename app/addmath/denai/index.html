@@ -20,6 +20,7 @@
   <script defer src="vendor/phaser-3.90.0.min.js"></script>
   <script type="module" src="src/v14/game.js"></script>
 <link rel="stylesheet" href="src/v14/twin.css">
+<link rel="stylesheet" href="src/v14/inverse.css">
 </head>
 <body>
   <main class="shell">
@@ -181,9 +182,10 @@
         </div>
         <button type="button" id="level2-action" class="primary">Main</button>
       </li>
-      <li class="level-card is-locked">
+      <li class="level-card is-locked" id="level3-card">
         <span class="level-num">1-3</span>
-        <div class="level-card-info"><p class="level-card-title">Gerbang Songsang</p><p class="level-card-summary small">Belum tersedia.</p></div>
+        <div class="level-card-info"><p class="level-card-title">Gerbang Songsang</p><p class="level-card-status" id="level3-status">Songsangan fungsi.</p></div>
+        <button type="button" id="level3-action" class="primary">Main</button>
       </li>
     </ol>
   </dialog>

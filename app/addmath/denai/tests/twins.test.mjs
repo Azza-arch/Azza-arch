@@ -35,7 +35,7 @@ bytes.set(CAMPAIGN_KEY,'{broken');assert.equal(store.load().levels['w1-l2'].run,
 bytes.set(CAMPAIGN_KEY,'{"schemaVersion":2}');assert(!store.saveRun(newRun()));assert.equal(bytes.get(CAMPAIGN_KEY),'{"schemaVersion":2}');
 const legacyOnly=createCampaignStore({getItem:k=>k==='denai-records-v14'?original.get(k):null});assert(legacyOnly.load().levels['w1-l1'].completed);
 const denied=createCampaignStore({getItem:()=>null,setItem:()=>{throw Error('quota');}});assert(!denied.saveRun(newRun()));assert(denied.error);
-assert(!canPlay('w1-l2',[]));assert(canPlay('w1-l2',['w1-l1']));assert(canPlay('w1-l2',[],{localPreview:true}));assert(!canPlay('w1-l3',['w1-l1','w1-l2'],{localPreview:true}));
+assert(!canPlay('w1-l2',[]));assert(canPlay('w1-l2',['w1-l1']));assert(canPlay('w1-l2',[],{localPreview:true}));assert(canPlay('w1-l3',['w1-l1','w1-l2']));assert(!canPlay('w1-l3',['w1-l1']));
 // Geometry: all solid joins are on the real atlas grid, mandatory gaps fit
 // the unchanged jump arc, gate gaps exceed the horizontal jump range.
 for(const s of [...AB_TERRAIN,...DECKS])for(const n of [s.x,s.y,s.width])assert.equal(n%54,0);

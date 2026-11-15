@@ -6,7 +6,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 BASE='http://localhost/Azza-arch/app/addmath/denai/'
-ART=Path(__file__).parent/'artifacts'/'twins'
+ART=Path(__file__).parent/'artifacts'/'gameplay-v2'
 ART.mkdir(parents=True,exist_ok=True)
 HOOK="""Object.defineProperty(window,'Phaser',{configurable:true,set(value){
  const Original=value.Game;value.Game=class extends Original{constructor(config){super(config);window.testGame=this;}};
@@ -52,6 +52,8 @@ def climb(page,feet):
  page.wait_for_timeout(200)
 
 def send(page):
+ route=page.evaluate(f'{S}.run.puzzles[{S}.nearStation.id].order')
+ page.locator('[data-command="route-'+route+'"]').click()
  page.locator('[data-command="send"]').click()
  wait(page,f'!{S}.busy',5)
 
@@ -62,6 +64,32 @@ with sync_playwright() as p:
  errors=[]
  page.on('pageerror',lambda e:errors.append(str(e)))
  try:
+  if '--inverse-menu' in sys.argv:
+   page.goto(BASE+'?level=w1-l2')
+   wait(page,"!!window.testGame?.scene.getScene('Jambatan')?.player",30)
+   page.keyboard.press('Escape');page.locator('#twin-menu').click()
+   wait(page,"testGame.scene.getScene('Lorong').sys.isActive()")
+   assert page.locator('#level-select').is_visible()
+   assert not page.locator('#level3-action').is_disabled()
+   page.locator('#level3-action').click()
+   wait(page,"!!testGame.scene.getScene('GerbangSongsang')?.player",20)
+   scene="testGame.scene.getScene('GerbangSongsang')"
+   page.wait_for_timeout(500)
+   before=page.evaluate(f'{scene}.player.x')
+   page.keyboard.down('ArrowRight');page.wait_for_timeout(500);page.keyboard.up('ArrowRight')
+   after=page.evaluate(f'{scene}.player.x')
+   assert after>before+30,{'before':before,'after':after,'errors':errors}
+   assert not errors,errors
+   assert page.locator('#hud-area').inner_text().startswith('1–3')
+   page.screenshot(path=str(ART/'10-inverse-level-select-launch.png'))
+   page.evaluate(f'{scene}.player.body.reset(2862,1560)')
+   page.wait_for_timeout(350)
+   page.screenshot(path=str(ART/'11-inverse-kenney-pipeline.png'))
+   page.evaluate(f'{scene}.player.body.reset(3456,1614)')
+   page.wait_for_timeout(150)
+   page.screenshot(path=str(ART/'12-inverse-stream-crossing.png'))
+   print(json.dumps({'passed':True,'scene':'GerbangSongsang','xBefore':before,'xAfter':after,'errors':errors}),flush=True)
+   sys.exit(0)
   page.goto(BASE+'?level=w1-l2')
   wait(page,"!!window.testGame?.scene.getScene('Jambatan')?.player",30)
   page.wait_for_timeout(900)
@@ -89,8 +117,8 @@ with sync_playwright() as p:
      bounds=phone.locator(selector).bounding_box()
      assert bounds and bounds['x']>=0 and bounds['x']+bounds['width']<=width+1,(selector,bounds,width)
      assert bounds['y']>=0 and bounds['y']+bounds['height']<=height+1
-    phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
-    phone.locator('[data-command="order"]').tap();phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
+    phone.locator('[data-command="route-fg"]').tap();phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
+    phone.locator('[data-command="order"]').tap();phone.locator('[data-command="route-gf"]').tap();phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
     assert phone.evaluate(f'!!{S}.bridges.twins')
     name='07-machines-phone-portrait.png' if width==390 else '08-machines-phone-landscape.png' if width==844 else '09-machines-small-phone.png'
     phone.screenshot(path=str(ART/name))
@@ -152,6 +180,7 @@ with sync_playwright() as p:
   page.locator('[data-command="input"]').click() # 2 -> 3
   send(page)
   page.locator('[data-command="order"]').click()
+  page.locator('[data-command="route-gf"]').click()
   page.locator('[data-command="send"]').click()
   page.wait_for_timeout(200);page.keyboard.press('Escape')
   assert position(page)['mode']=='paused'
@@ -185,8 +214,8 @@ with sync_playwright() as p:
   phone.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2);phone.mouse.down();phone.wait_for_timeout(450);phone.mouse.up()
   assert position(phone)['x']>150
   drive(phone,1404,[610,940])
-  phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
-  phone.locator('[data-command="order"]').tap();phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
+  phone.locator('[data-command="route-fg"]').tap();phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
+  phone.locator('[data-command="order"]').tap();phone.locator('[data-command="route-gf"]').tap();phone.locator('[data-command="send"]').tap();wait(phone,f'!{S}.busy')
   assert phone.evaluate(f'!!{S}.bridges.twins')
   phone.screenshot(path=str(ART/'07-machines-phone-portrait.png'))
   phone.set_viewport_size({'width':844,'height':390});phone.wait_for_timeout(600)

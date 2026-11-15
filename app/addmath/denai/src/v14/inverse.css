@@ -1,0 +1,36 @@
+.inverse-active #inverse-panel{position:absolute;z-index:24;left:16px;top:64px;box-sizing:border-box;width:min(286px,calc(100% - 32px));padding:9px 11px;background:#f8f2dde8;border:2px solid #3b4a3d;box-shadow:0 6px 16px #25352d55;border-radius:3px;color:#26382f;font:600 12px/1.35 system-ui,sans-serif}
+.inverse-active .inverse-heading{font-size:15px;font-weight:800;margin:0 0 5px}
+.inverse-active .inverse-rule,.inverse-active .inverse-order,.inverse-active .inverse-trace{margin:5px 0;color:#455448}
+.inverse-active .inverse-actions{display:flex;gap:8px;align-items:center;margin-top:10px}
+.inverse-active .inverse-actions button{min-height:42px;padding:7px 12px;border:2px solid #52634e;border-radius:3px;background:#fff9e9;font-weight:800}
+.inverse-active .inverse-actions button[data-action=reverse]{flex:1;background:#405a46;color:white}
+#inverse-dialog{border:3px solid #354b3b;border-radius:5px;box-shadow:6px 6px 0 #26342c;background:#f8f2dd;color:#26382f;white-space:pre-line}
+#inverse-dialog h2{margin:0 20px 12px 0}
+#inverse-dialog p{margin:0;line-height:1.7}
+.inverse-dialog-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.inverse-dialog-actions button{min-height:44px}
+@media(max-width:600px){.inverse-active #inverse-panel{left:8px;top:58px;width:min(278px,calc(100% - 16px));padding:8px 10px;font-size:11px}.inverse-active .inverse-heading{font-size:14px}.inverse-active .inverse-actions{gap:5px}.inverse-active .inverse-actions button{padding:6px 9px}}
+@media(max-width:600px) and (orientation:portrait){.inverse-active .touch-controls{left:8px;right:8px;gap:8px;bottom:max(16px,env(safe-area-inset-bottom))}.inverse-active .touch-controls .touch-group{gap:4px}.inverse-active .touch-controls button{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;font-size:20px;flex-shrink:0}.inverse-active .touch-controls .interact{font-size:11px}.inverse-active .touch-controls .jump{width:52px;height:52px;min-width:52px;min-height:52px;font-size:11px}}
+@media(max-height:540px) and (orientation:landscape){.inverse-active #inverse-panel{top:44px;left:8px;max-width:280px;padding:7px 9px}.inverse-active .inverse-order{display:none}}
+
+/* Workshop controls use the existing timber palette and leave the world visible. */
+.inverse-active #inverse-panel{width:min(326px,calc(100% - 16px));max-height:calc(100% - 154px);overflow:auto;scrollbar-color:#52634e #f8f2dd;background:#f8f2dd}
+#inverse-panel [hidden]{display:none!important}
+#inverse-panel button,#inverse-panel select{min-height:44px;border:2px solid #52634e;border-radius:3px;background:#fff9e9;color:#26382f;padding:5px 9px;font:inherit;font-weight:700}
+#inverse-panel button:focus-visible,#inverse-panel select:focus-visible,#inverse-panel input:focus-visible{outline:3px solid #a45116;outline-offset:2px}
+#inverse-panel button:disabled{opacity:.55}
+#inverse-panel button:hover:not(:disabled){background:#e9e2c8}
+#inverse-panel button[data-action=apply]{width:100%;margin-top:6px;background:#405a46;color:#fff}
+#inverse-panel .inverse-actions{gap:5px;margin-top:5px}
+#inverse-panel .inverse-actions button{flex:1;min-width:0;padding:5px}
+.inverse-select,.inverse-drive{display:flex;align-items:center;gap:8px;font-weight:700}
+.inverse-select select{flex:1}
+.inverse-drive{flex-wrap:wrap;margin:6px 0}
+.inverse-drive input{width:150px;min-height:32px;accent-color:#405a46}
+.inverse-work{font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;margin:7px 0}
+.inverse-active .inverse-trace{font-size:11px;line-height:1.35}
+.inverse-near-machine #notice{visibility:hidden}
+/* Keep the character visible below the workshop on narrow portrait screens. */
+@media(max-width:600px) and (orientation:portrait){.inverse-active #inverse-panel{max-height:40%}}
+@media(max-height:540px) and (orientation:landscape){.inverse-near-machine #world-prompt{display:none!important}}
+@media(max-height:540px) and (orientation:landscape){.inverse-active #inverse-panel{max-height:calc(100% - 126px);width:300px}.inverse-active .inverse-order{display:block}}

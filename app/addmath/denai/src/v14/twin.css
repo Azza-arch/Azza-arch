@@ -15,3 +15,10 @@
  .twin-active .touch-controls .jump{width:52px;height:52px;min-width:52px;min-height:52px;font-size:11px}
 }
 @media(max-height:500px){.twin-near-machine #world-prompt{display:none!important}}
+#twin-panel{max-height:calc(100% - 140px);overflow:auto;scrollbar-color:#786c48 #f9f2e2}
+#twin-panel .twin-actions button{min-height:44px}
+.twin-route-help{font-size:12px;margin-top:7px!important}
+.twin-actions button[aria-pressed=true]{background:#315c49;color:#fff}
+.twin-actions button:focus-visible{outline:3px solid #a45116;outline-offset:2px}
+.twin-comparison{margin-top:8px;font-size:13px;font-variant-numeric:tabular-nums;line-height:1.5}
+.twin-comparison p{overflow-wrap:anywhere}

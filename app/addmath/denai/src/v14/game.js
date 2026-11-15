@@ -1,4 +1,6 @@
 import {createTwinScene} from './levels/twin-scene.js';
+import {createInverseScene} from './levels/inverse-scene.js';
+import {createInverseStore} from './core/inverse-campaign.js';
 import {createCampaignStore} from './core/campaign-store.js';
 import {canPlay} from './levels/registry.js';
 import {createPlayer} from './core/player.js';
@@ -102,6 +104,7 @@ class Rooftop extends Phaser.Scene {
     // Multi-gate / multi-checkpoint state (replaces the old single
     // solved/checkpointReached booleans now that there are three of each).
     this.solvedGates = new Set(); this.checkpointIndex = -1;
+    this.trialDeck=null;this.plankMeasure=null;this.plankSurplus=[];this.previewOutput=null;this.trialReturnHint=false;
     this.waterworksState=WATERWORKS_STATE.LOCKED;this.waterOrder=null;
     this.gateBodies = {}; this.machines = {}; this.checkpointArts = [];
     this.activePuzzle = null; this.hintLevels = {}; this.attempts = {}; this.liftAutoArmed=true;
@@ -227,10 +230,13 @@ class Rooftop extends Phaser.Scene {
     $('import-v9').hidden=!!existingSave || !SaveManager.legacyAvailable();
     announce('Ikut laluan dari taman ke sungai. Laluan atas ialah bonus pilihan.');
     this.events.once('shutdown', () => { this.input.keyboard.enabled = true; });
-    refreshTwinEntry();
+    refreshTwinEntry();refreshInverseEntry();
     if(this.game.registry.get('showLevelSelect')){this.game.registry.remove('showLevelSelect');$('level-select').showModal();}
     if(localPreview&&!previewOpened&&new URLSearchParams(location.search).get('level')==='w1-l2'){
       previewOpened=true;this.time.delayedCall(50,()=>launchTwins());
+    }
+    if(localPreview&&!previewOpened&&new URLSearchParams(location.search).get('level')==='w1-l3'){
+      previewOpened=true;this.time.delayedCall(50,()=>launchInverse());
     }
     if (this.game.registry.get('replay')) {
       this.game.registry.set('replay', false); this.startRun();
@@ -927,7 +933,9 @@ class Rooftop extends Phaser.Scene {
     if(this.player.y>1510 || inOpenGate || false /* Phase 2A: removed dead V13 x>7506 respawn band */) {this.respawn();return;}
     // ±80 (was ±48): a running jump often lands just past a flag; the wider
     // zone makes sure the flag still saves when the player lands beside it.
-    const cpIndex=CHECKPOINTS.findIndex(cp=>Math.abs(this.player.x-cp.x)<80 && Math.abs(body.bottom-cp.feet)<5 && body.blocked.down && (!cp.requires || cp.requires.every(id=>this.solvedGates.has(id))));
+    // A trial deck may be jumped from, but cannot move a save beyond an unlocked gate.
+    const cpIndex=CHECKPOINTS.findIndex(cp=>!(this.trialDeck&&!this.solvedGates.has('lift')&&cp.x>GATES[0].x)&&Math.abs(this.player.x-cp.x)<80 && Math.abs(body.bottom-cp.feet)<5 && body.blocked.down && (!cp.requires || cp.requires.every(id=>this.solvedGates.has(id))));
+    if(this.trialDeck&&!this.solvedGates.has('lift')&&this.player.x>GATES[0].x+GATES[0].width&&!this.trialReturnHint){this.trialReturnHint=true;announce('Masih dalam ujian dek. Tekan R untuk kembali ke checkpoint dan lengkapkan 7 papan.');}
     if(cpIndex>=0 && cpIndex!==this.checkpointIndex) {
       this.checkpointIndex=cpIndex;
       this.checkpointArts[cpIndex].setFrame(112);
@@ -1007,7 +1015,7 @@ Object.assign(Rooftop.prototype,createMechanismMethods({$,clearControls,audio,SF
   Rooftop.prototype.testDial=function(){return this.activePuzzle?.kind==='lift'?(this.liftReady?this.liftOpenBridge():this.liftCheck()):base.testDial.call(this);};
   Rooftop.prototype.closePuzzle=function(){
     if(this.activePuzzle?.kind==='lift'&&this.liftReady)return this.liftOpenBridge(); // closing after a correct answer still opens the bridge
-    if(this.activePuzzle?.kind==='lift'){$('mechanism').classList.remove('is-machine');this.liftPlanks?.forEach(a=>a.setVisible(false));this.releaseMachineCamera();}
+    if(this.activePuzzle?.kind==='lift'){$('mechanism').classList.remove('is-machine');this.clearTrialDeck();this.liftPlanks?.forEach(a=>a.setVisible(false));this.releaseMachineCamera();}
     return base.closePuzzle.call(this);};
 }
 $('dial-less').onclick=()=>activeScene?.changeDial(-1);
@@ -1212,10 +1220,25 @@ function launchTwins(){
   audio.unlock();clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());
   activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start('Jambatan');
 }
+function refreshInverseEntry(){
+  const l2=createCampaignStore(localStorage).load().levels['w1-l2'];
+  const l3=createInverseStore(localStorage).load();
+  const allowed=canPlay('w1-l3',l2.completions?['w1-l2']:[],{localPreview});
+  $('level3-action').disabled=!allowed;
+  $('level3-action').textContent=l3.run?'Sambung':'Main';
+  $('level3-card').classList.toggle('is-locked',!allowed);
+  $('level3-status').textContent=l3.completions?`Selesai · ${l3.coins.length}/20 syiling · ${l3.secrets.length}/3 rahsia`:l2.completions?'Songsangan fungsi · f(x)=2x+3':localPreview?'Prototype lokal · Songsangan fungsi':'Selesaikan Level 1–2 dahulu';
+}
+function launchInverse(){
+  refreshInverseEntry();if($('level3-action').disabled)return;
+  audio.unlock();clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());
+  activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start('GerbangSongsang');
+}
 $('level2-action').addEventListener('click',launchTwins);
 $('next-level2').addEventListener('click',launchTwins);
+document.getElementById('level3-action').addEventListener('click',launchInverse);
 const originalLevelSelect=Rooftop.prototype.renderLevelSelect;
-Rooftop.prototype.renderLevelSelect=function(){originalLevelSelect.call(this);refreshTwinEntry();};
+Rooftop.prototype.renderLevelSelect=function(){originalLevelSelect.call(this);refreshTwinEntry();refreshInverseEntry();};
 installLeaderboard();
 $('confirm-ok').addEventListener('click',()=>closeConfirm(true));
 $('confirm-cancel').addEventListener('click',()=>closeConfirm(false));
@@ -1423,7 +1446,7 @@ try {
     banner:false,audio:{noAudio:true},render:{antialias:true,roundPixels:true},
     scale:{mode:Phaser.Scale.FIT,autoCenter:Phaser.Scale.CENTER_BOTH},
     physics:{default:'arcade',arcade:{gravity:{y:WORLD.gravity},debug:false}},
-    callbacks:{preBoot:game=>game.registry.set('assets',assets)},scene:[Rooftop,createTwinScene(Rooftop,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive:scene=>{activeScene=scene;},clearControls})]});
+    callbacks:{preBoot:game=>game.registry.set('assets',assets)},scene:[Rooftop,createTwinScene(Rooftop,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive:scene=>{activeScene=scene;},clearControls}),createInverseScene(Rooftop,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive:scene=>{activeScene=scene;},clearControls})]});
   const observer=new ResizeObserver(()=>{fitFrame();const d=dimensions();game.scale.setGameSize(d.width,d.height);game.scale.refresh();activeScene?.applyResponsiveZoom();});
   observer.observe(stage);
   // V12 deliberately exposes no URL-parameter test hook.

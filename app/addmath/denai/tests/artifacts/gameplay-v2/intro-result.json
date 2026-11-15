@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "mission": "P2",
+  "trialWidth": 46.285714285714285,
+  "checks": [
+    "UI wrong/correct output",
+    "walkable untimed trial",
+    "save/reload clears trial and keeps mission",
+    "correct bridge collision"
+  ],
+  "errors": []
+}

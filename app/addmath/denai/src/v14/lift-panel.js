@@ -30,6 +30,7 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
   },
   openLiftQuickPanel(){
    if(this.mode!=='playing'||this.solvedGates.has('lift'))return;
+   this.clearTrialDeck();
    const v=this.mission,t=this.missionText;
    this.activePuzzle={id:'lift',kind:'lift'};this.liftTries=0;this.liftReady=false;
    this.mode='mechanism';this.physics.world.pause();clearControls();this.input.keyboard.enabled=false;
@@ -54,6 +55,7 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
    $('dial-test').hidden=false;$('dial-test').textContent='Semak';$('dial-test').disabled=true;
    for(const id of ['dial-less','dial-more','dial-preview','dial-hint','dial-solution','worked-solution','puzzle-go'])$(id).hidden=true;
    $('dial-hint').textContent='Petunjuk';$('dial-solution').textContent='Lihat langkah kerja';
+   $('dial-hint').hidden=false;
    $('dial-close').hidden=false;$('dial-close').textContent='Tutup';
    requestAnimationFrame(()=>{document.querySelector('[data-token="0"]')?.focus({preventScroll:true});this.focusMachineCamera();});
   },
@@ -61,6 +63,7 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
    const v=this.mission;const valid=v.type==='find-rule'?value>=0&&value<v.options.length:value>=0&&value<=4;
    if(this.mode!=='mechanism'||this.liftReady||!valid)return;
    this.selectedInput=this.bInput=value;
+   $('dial-preview').hidden=true;
    document.querySelectorAll('[data-token]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.token)===value)));
    if(v.type==='find-rule'){$('mx-rule').textContent=this.missionText.optionLabels[value];}else $('mx-in').textContent=String(value);
    $('mx-out').textContent='?';setMachineState(null);
@@ -79,11 +82,14 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
     $('mechanism-feedback').textContent=wrongFeedback(v,c);
     if(this.liftTries>=2)$('dial-hint').hidden=false;
     this.previewPlanks(out);
+    $('dial-preview').hidden=out<=0||out>=TARGET;
+    $('dial-preview').textContent=`Cuba dek ${out} papan`;
     announce(`Output ${out}. Bukan ${TARGET}. Cuba lagi.`);
     return;
    }
    if(this.run)this.run.attempts.lift.correct++;recordSolved(v);this.writeSave();
    setMachineState('right');SFX.correct(audio);this.liftReady=true;
+   this.clearTrialDeck();this.previewPlanks(TARGET);$('dial-preview').hidden=true;
    if(v.type==='pattern')$('mx-rule').textContent=this.missionText.solvedScreen.replace('f(x) = ','').replace('  ✓','');
    $('mechanism-feedback').textContent=`Tepat! ${this.missionText.summary} → 7 papan. Mesin sudah sedia.`;
    document.querySelectorAll('[data-token]').forEach(b=>b.disabled=true);
@@ -95,9 +101,15 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
   // Wrong answer, shown in the world: the machine pushes out the variant's
   // actual output in planks. Zero/negative → nothing comes out (it jams);
   // too few stop short; more than 7 are capped at the 7 sprites and jam.
-  // Then they retract. Visual only: no collision is ever created here.
+  // Output remains visible for comparison. A short deck can be explicitly
+  // deployed for a safe, untimed experiment; only seven locks progression.
   previewPlanks(out){
    const g=GATES[0],n=g.planks,pw=g.width/n,show=Math.max(0,Math.min(out,n));
+   this.previewOutput=out;
+   this.plankSurplus?.forEach(a=>a.destroy());this.plankSurplus=[];
+   if(!this.plankMeasure)this.plankMeasure=this.add.text(g.x+g.width/2,g.y-48,'',{fontFamily:'Arial',fontSize:'16px',color:'#fff1cf',stroke:'#394238',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
+   this.plankMeasure.setVisible(true).setText(out<=0?`${out}: mesin tersekat`:out<TARGET?`${out} papan · kurang ${TARGET-out}`:out>TARGET?`${out} papan · ${out-TARGET} tersimpan di tebing`:'7 papan · tepat sepanjang jurang');
+   for(let i=0;i<Math.max(0,out-n);i++)this.plankSurplus.push(this.add.image(g.x-54,g.y-12-i*12,'kpp_terrain_atlas',49).setOrigin(0).setScale(3).setCrop(0,0,18,4).setDepth(13));
    this.tweens.killTweensOf(this.liftPlanks);
    this.liftPlanks.forEach((a,i)=>{a.setVisible(false).setAlpha(.6);a.x=g.x+i*pw;});
    if(show===0){if(!reducedMotion)this.tweens.add({targets:this.lever,angle:-8,duration:60,yoyo:true,repeat:3});return;}
@@ -105,8 +117,22 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
     this.tweens.add({targets:a,x:g.x+i*pw,duration:reducedMotion?0:120,delay:reducedMotion?0:i*55,ease:'Sine.out'});});
    const after=(reducedMotion?0:show*55+160);
    if(out>n&&!reducedMotion)this.time.delayedCall(after,()=>this.tweens.add({targets:this.liftPlanks,x:'+=4',duration:50,yoyo:true,repeat:3}));
-   this.time.delayedCall(after+(reducedMotion?900:850),()=>{if(this.solvedGates.has('lift')||this.liftReady)return;
-    this.liftPlanks.forEach((a,i)=>this.tweens.add({targets:a,x:g.x,alpha:0,duration:reducedMotion?0:160,delay:reducedMotion?0:(show-1-i)*30,onComplete:()=>a.setVisible(false).setAlpha(.6)}));});
+  },
+  clearTrialDeck(){
+   if(this.trialDeck){this.routePlatforms=this.routePlatforms.filter(p=>p!==this.trialDeck);this.trialDeck.destroy();this.trialDeck=null;}
+   this.plankSurplus?.forEach(a=>a.destroy());this.plankSurplus=[];this.plankMeasure?.setVisible(false);
+  },
+  previewRoute(){
+   if(this.activePuzzle?.kind!=='lift'||this.mode!=='mechanism'||!(this.previewOutput>0&&this.previewOutput<TARGET))return;
+   const g=GATES[0],count=this.previewOutput;
+   this.clearTrialDeck();this.tweens.killTweensOf(this.liftPlanks);
+   this.liftPlanks.forEach((a,i)=>a.setPosition(g.x+i*g.width/g.planks,g.y).setVisible(i<count).setAlpha(1));
+   this.trialDeck=this.platform({id:'lift-trial',x:g.x,y:g.y,width:g.width*count/g.planks});
+   this.trialReturnHint=false;
+   $('mechanism').hidden=true;$('mechanism').classList.remove('is-machine');this.activePuzzle=null;
+   this.mode='playing';this.physics.world.resume();this.input.keyboard.enabled=true;clearControls();this.releaseMachineCamera();
+   this.plankMeasure?.setVisible(true);$('game').inert=false;$('game').focus({preventScroll:true});
+   announce(`Dek ${count} papan boleh dipijak; masih kurang ${TARGET-count}. Tiada had masa. Kembali ke tuas untuk ubah input; R kembali ke checkpoint.`);
   },
   liftHint(){$('mechanism-feedback').textContent=`Petunjuk: ${this.missionText.hint}`;},
   liftWorked(){const box=$('worked-solution');box.hidden=!box.hidden;
@@ -114,6 +140,7 @@ export function createLiftPanelMethods({$,clearControls,audio,SFX,reducedMotion,
    $('dial-solution').setAttribute('aria-expanded',String(!box.hidden));},
   liftOpenBridge(){
    if(!this.liftReady)return;this.liftReady=false;
+   this.clearTrialDeck();
    const box=$('mechanism');box.hidden=true;box.classList.remove('is-machine');$('worked-solution').hidden=true;
    this.activePuzzle=null;this.mode='mechanism-transition';this.input.keyboard.enabled=false;this.physics.world.pause();
    this.liftExperimentBusy=true;

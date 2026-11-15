@@ -2,7 +2,9 @@ import {buildLandscape,buildTree} from '../environment.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createCampaignStore,newRun} from '../core/campaign-store.js';
-import {command,compose,solved,inFinishZone,TARGETS} from './composition.js';
+import {compose,solved,inFinishZone,TARGETS} from './composition.js';
+import {workshopCommand,driveFraction} from './composition-workshop.js';
+import {LEVELS} from './registry.js';
 import {DEFINITION,WORLD,SPAWN,GOAL,STATIONS,CHECKPOINTS,COINS,SECRETS,WATER,WATER_Y} from './twin-world.js';
 const $=id=>document.getElementById(id);
 export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}) {
@@ -71,7 +73,9 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
     const label=this.machineText(`${order==='fg'?'f(g(x))':'g(f(x))'} · ${TARGETS[s.id][order]}`,x,s.y-132,14);
     return {lamp,label};
    });
-   this.stationViews[s.id]={machines,names,labels,receivers};
+   const preview=this.deck(s.bridge);preview.forEach(a=>a.setAlpha(.55));
+   const driveLabel=this.machineText('Dua pemacu · pilih tanda penerima',s.x,s.y-210,14);
+   this.stationViews[s.id]={machines,names,labels,receivers,preview,driveLabel};
    this.refreshStation(s);if(solved(this.run.puzzles[s.id]))this.openBridge(s,false);
   }
   refreshStation(s){
@@ -79,6 +83,14 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    view.names[0].setText(r.inner==='f'?'f: 2x + 1':'g: x²');view.names[1].setText(r.outer==='f'?'f: 2x + 1':'g: x²');
    view.labels[0].setText('Hantar');
    ['fg','gf'].forEach((o,i)=>view.receivers[i].lamp.setFillStyle(state.receivers[o]?0x438f55:0x796d50));
+   const last=state.route&&state.drives?.[state.route];
+   view.driveLabel.setText(last?`Output ${last.output} → tanda ${TARGETS[s.id][state.route]} · ${state.receivers[state.route]?'dikunci':last.output>TARGETS[s.id][state.route]?'lebihan, belum terkunci':'belum sejajar'}`:'Pilih tanda penerima sebelum menghantar');
+   view.preview.forEach((a,i)=>{
+    const route=i<view.preview.length/2?'fg':'gf',fraction=driveFraction(state,s.id,route);
+    a.setVisible(!solved(state));
+    const rest=s.bridge.x+i*54,side=route==='fg'?-1:1;
+    this.tweens.killTweensOf(a);this.tweens.add({targets:a,x:rest+side*(1-fraction)*s.bridge.width/2,y:s.bridge.y+(state.receivers[route]?0:18),duration:reducedMotion?1:350});
+   });
   }
   openBridge(s,animate=true){
    if(this.bridges[s.id])return;
@@ -94,13 +106,15 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   installUI(){
    this.uiAbort=new AbortController();const signal=this.uiAbort.signal;
    const panel=document.createElement('section');panel.id='twin-panel';panel.hidden=true;panel.setAttribute('aria-label','Kawalan mesin fungsi');
-   panel.innerHTML='<p class="twin-heading"></p><p class="twin-rule">f(x) = 2x + 1 · g(x) = x²</p><p class="twin-order"></p><div class="twin-actions"><button type="button" data-command="input"></button><button type="button" data-command="order">Tukar urutan</button><button type="button" data-command="send">Hantar</button></div><p class="twin-trace" role="status" aria-live="polite"></p>';
+   panel.innerHTML='<p class="twin-heading"></p><p class="twin-rule">f(x) = 2x + 1 · g(x) = x²</p><p class="twin-order"></p><div class="twin-actions"><button type="button" data-command="input"></button><button type="button" data-command="order">Tukar urutan</button></div><p class="twin-route-help">Ke tanda mana output ini akan menggerakkan dek?</p><div class="twin-actions"><button data-command="route-fg"></button><button data-command="route-gf"></button><button type="button" data-command="send">Hantar · E</button></div><div class="twin-comparison"><p data-trace="fg"></p><p data-trace="gf"></p></div><p class="twin-trace" role="status" aria-live="polite"></p>';
    document.querySelector('.game-frame').append(panel);
    panel.querySelectorAll('[data-command]').forEach(b=>b.addEventListener('click',()=>{audio.unlock();this.act(b.dataset.command);b.blur();$('game').focus({preventScroll:true});},{signal}));
+   document.addEventListener('keydown',e=>{if(!this.nearStation||this.mode!=='playing'||e.repeat||e.target.matches?.('input,select'))return;const action={KeyX:'input',KeyT:'order',Digit1:'route-fg',Digit2:'route-gf'}[e.code];if(action){e.preventDefault();this.act(action);}},{signal});
    const dialog=document.createElement('dialog');dialog.id='twin-dialog';dialog.setAttribute('aria-labelledby','twin-dialog-title');
-   dialog.innerHTML='<h2 id="twin-dialog-title"></h2><p id="twin-dialog-copy"></p><div class="twin-dialog-actions"><button type="button" id="twin-resume">Sambung</button><button type="button" id="twin-replay">Main semula Level 1–2</button><button type="button" id="twin-menu">Pilih level</button></div>';
+   dialog.innerHTML='<h2 id="twin-dialog-title"></h2><p id="twin-dialog-copy"></p><div class="twin-dialog-actions"><button type="button" id="twin-resume">Sambung</button><button type="button" id="twin-next" hidden>Teruskan ke Gerbang Songsang</button><button type="button" id="twin-replay">Main semula Level 1–2</button><button type="button" id="twin-menu">Pilih level</button></div>';
    document.querySelector('.shell').append(dialog);
    $('twin-resume').addEventListener('click',()=>this.resumeRun(),{signal});
+   $('twin-next').addEventListener('click',()=>{if(!this.run.completed||!LEVELS.find(l=>l.id==='w1-l3')?.ready)return;dialog.close();this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},{signal});
    $('twin-replay').addEventListener('click',()=>{dialog.close();this.scene.restart({fresh:true});},{signal});
    $('twin-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu();},{signal});
    dialog.addEventListener('cancel',event=>{event.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
@@ -109,7 +123,9 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   message(text){this.feedback=text;$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+6500;}
   act(action){
    const s=this.nearStation;if(!s||this.mode!=='playing'||this.busy)return;
-   const before=this.run.puzzles[s.id],next=command(before,action,s.id);
+   const before=this.run.puzzles[s.id];
+   if(action==='send'&&!before.route){this.message('Pilih tanda penerima dahulu: 1 atau 2.');return;}
+   const next=workshopCommand(before,action,s.id);
    if(action!=='send'){this.run.puzzles[s.id]=next;this.refreshStation(s);this.writeSave();return;}
    this.busy=true;this.pendingTrace=next.last;
    const result=next.last;
@@ -118,13 +134,14 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
     packet.destroy();this.busy=false;this.pendingTrace=null;this.run.puzzles[s.id]=next;
     this.refreshStation(s);if(solved(next))this.openBridge(s);
     this.writeSave();
-    this.message(`${result.notation} = ${result.output}. ${next.receivers[result.order]?'Penerima sepadan menyala.':'Belum sepadan dengan sasaran. Cuba input atau urutan lain.'}`);
+    const destination=TARGETS[s.id][before.route];
+    this.message(`${result.trace}. Ke tanda ${destination}: ${result.output===destination&&before.route===result.order?'pemacu dikunci.':`dek ${result.output<destination?'terlalu pendek':'melepasi tanda'}. Ubah input, urutan atau saluran.`}`);
    };
    // Commit after both machine steps; pausing freezes tweens and game time.
    this.tweens.add({targets:packet,x:s.x-54,duration:reducedMotion?1:350,onComplete:()=>{
     packet.setText(String(result.middle));
     this.tweens.add({targets:packet,x:s.x+54,duration:reducedMotion?1:550,onComplete:()=>{
-     packet.setText(String(result.output));this.tweens.add({targets:packet,x:s.bridge.x-48,duration:reducedMotion?1:450,onComplete:finish});
+     packet.setText(String(result.output));this.tweens.add({targets:packet,x:before.route==='fg'?s.bridge.x-48:s.bridge.x+s.bridge.width,duration:reducedMotion?1:450,onComplete:finish});
     }});
    }});
   }
@@ -174,8 +191,13 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    panel.querySelector('.twin-order').textContent=`${r.outer}(${r.inner}(x)) · ${r.inner} dahulu`;
    panel.querySelector('[data-command="input"]').textContent=`Input: ${state.input} ↻`;
    panel.querySelectorAll('button').forEach(b=>b.disabled=this.busy);
+   for(const [i,route] of ['fg','gf'].entries()){
+    const b=panel.querySelector(`[data-command="route-${route}"]`);b.textContent=`${i+1} · Ke ${TARGETS[s.id][route]}`;b.setAttribute('aria-pressed',String(state.route===route));
+    const trace=state.history?.[`${state.input}:${route}`];panel.querySelector(`[data-trace="${route}"]`).textContent=trace?trace.trace:`${route==='fg'?'g → f':'f → g'}: belum diuji pada x=${state.input}`;
+   }
+   panel.querySelector('[data-command="send"]').disabled=this.busy||!state.route;
    const last=this.pendingTrace||state.last;
-   panel.querySelector('.twin-trace').textContent=last?`${this.busy?'Memproses… ':''}${last.notation} = ${last.output} · ${this.busy?'':last.output===TARGETS[s.id][last.order]?'Isyarat sepadan':'Belum sepadan'}`:'Hasil mesin pertama masuk ke mesin kedua. Cuba kedua-dua urutan.';
+   panel.querySelector('.twin-trace').textContent=this.busy?`Memproses… ${last.trace}`:this.feedback||'X: input · T: urutan · 1/2: saluran. Bandingkan jejak kedua-dua urutan.';
   }
   writeSave(){if(!this.run)return;this.run.elapsedMs=this.elapsed;if(!this.store.saveRun(this.run)&&$('status'))$('status').textContent='Simpanan tidak tersedia. Kemajuan sesi ini masih boleh dimainkan.';}
   resetCrate(){}
@@ -191,14 +213,16 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    $('twin-dialog-title').textContent='Jambatan Berkembar · Jeda';
    const notes=SECRETS.filter(s=>this.run.secrets.includes(s.id)).map(s=>s.text).join('\n\n');
    $('twin-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/2 rahsia. Checkpoint disimpan.\n\n${notes}`;
-   $('twin-resume').hidden=false;$('twin-replay').hidden=true;$('twin-dialog').showModal();$('twin-resume').focus();
+   $('twin-resume').hidden=false;$('twin-next').hidden=true;$('twin-replay').hidden=true;$('twin-dialog').showModal();$('twin-resume').focus();
   }
   resumeRun(){if(this.mode!=='paused')return;$('twin-dialog').close();clearControls();this.mode='playing';this.physics.resume();this.tweens.resumeAll();this.time.paused=false;this.input.keyboard.enabled=true;$('game').focus({preventScroll:true});}
   finish(){
    if(!solved(this.run.puzzles.final))return;
    this.run.checkpointId='exit';this.run.completed=true;this.writeSave();this.mode='complete';clearControls();this.physics.pause();
    $('twin-panel').hidden=true;$('world-prompt').hidden=true;$('twin-dialog-title').textContent='Jambatan Berkembar selesai!';
-   $('twin-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/2 rahsia · ${Math.round(this.elapsed/1000)} saat.\n\nPada x = 3: f(g(3)) = 19, g(f(3)) = 49. Urutan fungsi penting.\n\nSeterusnya: Level 1–3 Gerbang Songsang — belum tersedia.`;
+   const nextReady=LEVELS.find(l=>l.id==='w1-l3')?.ready;
+   $('twin-next').hidden=!nextReady;
+   $('twin-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/2 rahsia · ${Math.round(this.elapsed/1000)} saat.\n\nPada x = 3: f(g(3)) = 19, g(f(3)) = 49. Urutan fungsi penting.\n\n${nextReady?'Seterusnya: Gerbang Songsang — pulihkan input untuk mengawal dek.':'Lebih banyak pengembaraan akan datang.'}`;
    $('twin-resume').hidden=true;$('twin-replay').hidden=false;$('twin-dialog').showModal();$('twin-replay').focus();
   }
   returnToMenu(){this.writeSave();this.time.paused=false;this.tweens.resumeAll();this.input.keyboard.enabled=true;this.game.registry.set('showLevelSelect',true);this.scene.start('Lorong');}
