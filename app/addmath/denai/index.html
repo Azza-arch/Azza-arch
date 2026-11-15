@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="src/v14/ui-system.css">
   <script defer src="vendor/phaser-3.90.0.min.js"></script>
   <script type="module" src="src/v14/game.js"></script>
+<link rel="stylesheet" href="src/v14/twin.css">
 </head>
 <body>
   <main class="shell">
@@ -172,17 +173,17 @@
         </div>
         <button type="button" id="level1-action" class="primary">Main</button>
       </li>
-      <li class="level-card is-soon">
+      <li class="level-card" id="level2-card">
         <span class="level-num">1-2</span>
         <div class="level-card-info">
           <p class="level-card-title">Jambatan Berkembar</p>
-          <p class="level-card-summary small">Dua mesin, dua laluan.</p>
+          <p class="level-card-summary small" id="level2-status">Fungsi gubahan.</p>
         </div>
-        <span class="badge-soon">Akan datang</span>
+        <button type="button" id="level2-action" class="primary">Main</button>
       </li>
       <li class="level-card is-locked">
         <span class="level-num">1-3</span>
-        <div class="level-card-info"><p class="level-card-title">???</p><p class="level-card-summary small">Belum tersedia.</p></div>
+        <div class="level-card-info"><p class="level-card-title">Gerbang Songsang</p><p class="level-card-summary small">Belum tersedia.</p></div>
       </li>
     </ol>
   </dialog>
@@ -202,7 +203,7 @@
         <p class="teaser-kicker">Pengembaraan seterusnya</p>
         <p class="teaser-title">Level 1-2: Jambatan Berkembar</p>
         <p class="teaser-quote">Dua mesin. Dua laluan. Apakah yang berlaku apabila peraturannya berbeza?</p>
-        <span class="badge-soon">Akan datang</span>
+        <button type="button" id="next-level2" class="primary">Teruskan ke Level 1–2</button>
       </aside>
       <div class="victory-actions">
         <button type="button" id="explore-again" class="primary victory-main">Teroka semula</button>

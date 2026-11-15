@@ -50,7 +50,7 @@ export function buildTree(s,type,x,feet,fg=false){
   s.tile(f,x0+c*T,top-(h-r)*T,3.5+D);
  }
 }
-function parallax(s){
+function parallax(s,WORLD){
  // Far: pale cloud band with tree silhouettes (frames 8–11, fill 16–19).
  // Mid: green forest band (frames 14–15, fill 22–23). Collision unaffected.
  // The far band sits in a container that drifts slowly (ambient motion from
@@ -71,7 +71,7 @@ function parallax(s){
   }
  }
 }
-export function buildWorld(s){
+export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=[],WORLD}){
  s.textures.get('kpp_terrain_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.textures.get('kpp_bg_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.worldObjects=[];s.cClues=new Set();s.probeSeen=new Set();s.eReadoutShown=false;s.eOutputShown=false;
@@ -84,7 +84,7 @@ export function buildWorld(s){
  const pole=(x,top,bottom,depth=4)=>{for(let y=top;y<bottom;y+=54)tile(89,x-27,y,depth,54,Math.min(54,bottom-y));};
  const post=(x,top,bottom)=>{for(let y=top;y<bottom;y+=54)tile(89,x,y,4,54,Math.min(54,bottom-y));};
  const beam=(x,y,width)=>{for(let a=0;a<width;a+=54)tile(a===0?48:a+54>=width?50:49,x+a,y,4,Math.min(54,width-a),18);};
- parallax(s);
+ parallax(s,WORLD);
  // ── Terrain ────────────────────────────────────────────────────────────
  // filled(x,y): is there terrain (solid column or slab band) in the 54px
  // row starting at y at column x? Used so edge outlines appear only where
@@ -125,6 +125,10 @@ export function buildWorld(s){
   for(let y=l.top;y<l.bottom;y+=54)tile(71,l.x-27,y,13,54,Math.min(54,l.bottom-y));
   const z=s.add.zone(l.x,(l.top+l.bottom)/2,56,l.bottom-l.top+72);s.physics.add.existing(z,true);z.setData('ladder',l);s.ladderZones.push(z);
  }
+ return {tile,pole,post,beam};
+}
+export function buildWorld(s){
+ const {tile,pole,post,beam}=buildLandscape(s,{AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,WORLD});
  // ── 01 · Taman Permulaan ────────────────────────────────────────────────
  // Landmark: wide oak (T5) beside the garden step + small pine companion.
  // The crate lane (x150–430) carries no decoration so the puzzle reads.

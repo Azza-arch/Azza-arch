@@ -1,0 +1,17 @@
+#twin-panel{position:absolute;z-index:35;top:12px;left:50%;transform:translateX(-50%);width:min(480px,calc(100% - 24px));box-sizing:border-box;padding:10px 14px;background:#f9f2e2;color:#203e36;border:2px solid #786c48;border-radius:6px;box-shadow:0 3px 0 #203e3626;font:15px/1.35 system-ui,sans-serif}
+#twin-panel[hidden]{display:none}#twin-panel p{margin:0 0 5px}.twin-heading{font-weight:700}.twin-rule{font-size:18px}.twin-actions{display:flex;gap:6px}.twin-actions button{flex:1;min-height:40px;font-size:14px;padding:5px}.twin-trace{min-height:2.5em;margin-top:7px!important;font-size:14px}
+#twin-dialog{max-width:520px;width:calc(100% - 40px);box-sizing:border-box}#twin-dialog-copy{white-space:pre-line;line-height:1.6}.twin-dialog-actions{display:flex;flex-wrap:wrap;gap:10px}.twin-dialog-actions button{min-height:44px}
+.twin-active [data-action="resetCrate"]{display:none!important}.twin-active #notice{max-width:min(620px,90%);font-size:15px}.twin-active #world-prompt{max-width:90%;white-space:normal;text-align:center}.twin-active #hud-collection{font-size:13px}
+@media(max-width:600px){#twin-panel{top:4px;padding:6px 9px;font-size:12px}.twin-rule{font-size:15px}.twin-trace{font-size:12px;min-height:2.5em}.twin-actions button{font-size:12px;min-height:36px}.twin-active #notice{font-size:12px}}
+@media(max-height:500px){#twin-panel{left:10px;transform:none;width:330px;font-size:12px;padding:5px 8px}.twin-rule{font-size:14px}.twin-trace{font-size:11px;min-height:0}.twin-actions button{min-height:30px}.twin-active #notice{font-size:12px;max-width:48%;left:auto;right:12px}}
+
+.twin-near-machine #notice{visibility:hidden}
+@media(max-width:600px) and (orientation:portrait){
+ #twin-panel{top:60px}
+ .twin-active .touch-controls{left:8px;right:8px;gap:8px;bottom:max(16px,env(safe-area-inset-bottom))}
+ .twin-active .touch-controls .touch-group{gap:4px}
+ .twin-active .touch-controls button{width:44px;height:44px;min-width:44px;min-height:44px;font-size:20px;flex-shrink:0}
+ .twin-active .touch-controls .interact{font-size:11px}
+ .twin-active .touch-controls .jump{width:52px;height:52px;min-width:52px;min-height:52px;font-size:11px}
+}
+@media(max-height:500px){.twin-near-machine #world-prompt{display:none!important}}
