@@ -12,6 +12,7 @@ import {createLiftPanelMethods} from './lift-panel.js';
 import {installLeaderboard} from './leaderboard/ui.js';
 import {startCoin,coinPickup,COIN_FACE} from './feel.js';
 import {track,trackGameStart,durationBucket} from './analytics.js';
+import {exitLevelMode} from './victory.js';
 import {armPlayerCount,renderMenuCommunity,onVictory,openShare,installEngage} from './leaderboard/engage.js';
 import {selectVariant,variantById,describe} from './missions.js';
 import {migrateLegacy,addCoin,addSecret,noteRunVariant,recentVariants,loadProfile,recordCompletion,ACHIEVEMENTS,LEVEL_KEY} from './progress.js';
@@ -1077,6 +1078,7 @@ function victoryHint(scene){
 }
 Object.assign(Rooftop.prototype,{
   showCompletion(){
+    exitLevelMode(); // the dialog may last have been used by 1-2/1-3
     this.mode='complete';this.physics.world.pause();clearControls();this.input.keyboard.enabled=false;
     const res=this.lastCompletion,coins=this.collectedCoinIds.size,secrets=this.discoveredSecrets.size;
     $('destination-reaction').textContent=`“${LINES.destination}”`;

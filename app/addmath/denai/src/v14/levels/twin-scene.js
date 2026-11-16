@@ -1,5 +1,6 @@
 import {buildLandscape,buildTree,signText} from '../environment.js';
 import {track,durationBucket} from '../analytics.js';
+import {showLevelVictory} from '../victory.js';
 import {startCoin,coinPickup,checkpointFx,planksDrop,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
@@ -120,12 +121,13 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    panel.querySelectorAll('[data-command]').forEach(b=>b.addEventListener('click',()=>{audio.unlock();this.act(b.dataset.command);b.blur();$('game').focus({preventScroll:true});},{signal}));
    document.addEventListener('keydown',e=>{if(!this.nearStation||this.mode!=='playing'||e.repeat||e.target.matches?.('input,select'))return;const action={KeyX:'input',KeyT:'order',Digit1:'route-fg',Digit2:'route-gf'}[e.code];if(action){e.preventDefault();this.act(action);}},{signal});
    const dialog=document.createElement('dialog');dialog.id='twin-dialog';dialog.setAttribute('aria-labelledby','twin-dialog-title');
-   dialog.innerHTML='<h2 id="twin-dialog-title"></h2><p id="twin-dialog-copy"></p><div class="twin-dialog-actions"><button type="button" id="twin-resume">Sambung</button><button type="button" id="twin-next" hidden>Teruskan ke Gerbang Songsang</button><button type="button" id="twin-replay">Main semula Level 1–2</button><button type="button" id="twin-menu">Pilih level</button></div>';
+   dialog.innerHTML='<h2 id="twin-dialog-title"></h2><p id="twin-dialog-copy"></p><div class="twin-dialog-actions"><button type="button" id="twin-resume">Sambung</button><button type="button" id="twin-next" hidden>Teruskan ke Gerbang Songsang</button><button type="button" id="twin-replay">Main semula Level 1–2</button><button type="button" id="twin-menu">Peta Dunia</button><button type="button" id="twin-main-menu">Menu utama</button></div>';
    document.querySelector('.shell').append(dialog);
    $('twin-resume').addEventListener('click',()=>this.resumeRun(),{signal});
    $('twin-next').addEventListener('click',()=>{if(this.run.completed)track('level_started',{level:'w1-l3',mode:'next'});if(!this.run.completed||!LEVELS.find(l=>l.id==='w1-l3')?.ready)return;dialog.close();this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},{signal});
    $('twin-replay').addEventListener('click',()=>{dialog.close();this.scene.restart({fresh:true});},{signal});
    $('twin-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu();},{signal});
+   $('twin-main-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu(false);},{signal});
    dialog.addEventListener('cancel',event=>{event.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
    window.addEventListener('pagehide',()=>this.writeSave(),{signal});
   }
@@ -227,14 +229,22 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   resumeRun(){if(this.mode!=='paused')return;$('twin-dialog').close();clearControls();this.mode='playing';this.physics.resume();this.tweens.resumeAll();this.time.paused=false;this.input.keyboard.enabled=true;$('game').focus({preventScroll:true});}
   finish(){
    if(!solved(this.run.puzzles.final))return;
+   const prevBest=this.store.load().levels['w1-l2'].bestMs;
    this.run.checkpointId='exit';this.run.completed=true;this.writeSave();this.mode='complete';clearControls();this.physics.pause();
    track('level_completed',{level:'w1-l2',duration_s:durationBucket(this.elapsed),coins:this.run.coins.length,secrets:this.run.secrets.length,ranked_eligible:false,first_completion:this.store.load().levels['w1-l2'].completions===1});
-   $('twin-panel').hidden=true;$('world-prompt').hidden=true;$('twin-dialog-title').textContent='Jambatan Berkembar selesai!';
-   const nextReady=LEVELS.find(l=>l.id==='w1-l3')?.ready;
-   $('twin-next').hidden=!nextReady;
-   $('twin-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/2 rahsia · ${Math.round(this.elapsed/1000)} saat.\n\nPada x = 3: f(g(3)) = 19, g(f(3)) = 49. Urutan fungsi penting.\n\n${nextReady?'Seterusnya: Gerbang Songsang — pulihkan input untuk mengawal dek.':'Lebih banyak pengembaraan akan datang.'}`;
-   $('twin-resume').hidden=true;$('twin-replay').hidden=false;$('twin-dialog').showModal();$('twin-replay').focus();
+   $('twin-panel').hidden=true;$('world-prompt').hidden=true;
+   const best=this.store.load().levels['w1-l2'].bestMs,nextReady=!!LEVELS.find(l=>l.id==='w1-l3')?.ready;
+   const missing=SECRETS.length-this.run.secrets.length,coinsLeft=COINS.length-this.run.coins.length;
+   SFX.victory?.(audio);
+   showLevelVictory({level:'1-2',quote:'Urutan fungsi penting: f(g(3)) = 19, g(f(3)) = 49.',
+    coins:[this.run.coins.length,COINS.length],secrets:[this.run.secrets.length,SECRETS.length],timeMs:this.elapsed,
+    newBest:Number.isFinite(best)&&(!Number.isFinite(prevBest)||best<prevBest),
+    hint:missing?`Masih ada ${missing} rahsia tersembunyi di jambatan ini…`:coinsLeft?`Semua rahsia ditemukan! ${coinsLeft} syiling masih menunggu.`:'Semua syiling dan rahsia ditemukan. Jejak yang sempurna!',
+    next:nextReady?{title:'Level 1-3: Gerbang Songsang',quote:'Pulihkan input asal untuk mengawal dek.',label:'Teruskan ke Level 1–3'}:null,
+    on:{next:()=>{track('level_started',{level:'w1-l3',mode:'next'});this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},
+     replay:()=>this.scene.restart({fresh:true}),map:()=>this.returnToMenu(true),menu:()=>this.returnToMenu(false)}});
   }
-  returnToMenu(){this.writeSave();this.time.paused=false;this.tweens.resumeAll();this.input.keyboard.enabled=true;this.game.registry.set('showLevelSelect',true);this.scene.start('Lorong');}
+  // toMap: open the World Map on return (default); false: main menu.
+  returnToMenu(toMap=true){this.writeSave();this.time.paused=false;this.tweens.resumeAll();this.input.keyboard.enabled=true;if(toMap)this.game.registry.set('showLevelSelect',true);this.scene.start('Lorong');}
  };
 }

@@ -18,3 +18,17 @@
 
 /assets/vendor/*
   Cache-Control: public, max-age=31536000, immutable
+
+# DENAI game + landing code: always revalidate (cheap 304 via ETag), so a
+# deploy never mixes new HTML with up-to-4-hour-old JavaScript modules.
+/app/addmath/denai/main*
+  Cache-Control: no-cache
+
+/app/addmath/denai/src/*
+  Cache-Control: no-cache
+
+/app/addmath/denai/style.css
+  Cache-Control: no-cache
+
+/denai/*
+  Cache-Control: no-cache

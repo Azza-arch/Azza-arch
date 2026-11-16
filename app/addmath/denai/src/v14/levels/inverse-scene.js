@@ -1,5 +1,6 @@
 import {buildLandscape,buildTree} from '../environment.js';
 import {track,durationBucket} from '../analytics.js';
+import {showLevelVictory} from '../victory.js';
 import {startCoin,coinPickup,checkpointFx,planksDrop,sealPop,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
@@ -178,11 +179,12 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    panel.addEventListener('keydown',e=>{if(e.target.matches('input,select'))e.stopPropagation();},{signal});
    panel.addEventListener('focusin',()=>clearControls(),{signal});
    const dialog=document.createElement('dialog');dialog.id='inverse-dialog';dialog.setAttribute('aria-labelledby','inverse-dialog-title');
-   dialog.innerHTML='<h2 id="inverse-dialog-title"></h2><p id="inverse-dialog-copy"></p><div class="inverse-dialog-actions"><button id="inverse-resume">Sambung</button><button id="inverse-replay">Main semula 1–3</button><button id="inverse-menu">Pilih level</button></div>';
+   dialog.innerHTML='<h2 id="inverse-dialog-title"></h2><p id="inverse-dialog-copy"></p><div class="inverse-dialog-actions"><button id="inverse-resume">Sambung</button><button id="inverse-replay">Main semula 1–3</button><button id="inverse-menu">Peta Dunia</button><button id="inverse-main-menu">Menu utama</button></div>';
    document.querySelector('.shell').append(dialog);
    $('inverse-resume').addEventListener('click',()=>this.resumeRun(),{signal});
    $('inverse-replay').addEventListener('click',()=>{dialog.close();this.scene.restart({fresh:true});},{signal});
    $('inverse-menu').addEventListener('click',()=>this.returnToMenu(),{signal});
+   $('inverse-main-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu(false);},{signal});
    dialog.addEventListener('cancel',e=>{e.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
   }
   updateGate(){
@@ -259,7 +261,20 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   respawn(){const cp=CHECKPOINTS.find(c=>c.id===this.run.checkpointId)||SPAWN;this.climbing=null;this.climbLockUntil=0;this.jumpAt=-1000;this.groundedAt=-1000;this.player.body.setAllowGravity(true);this.player.body.reset(cp.x,cp.feet-31);this.player.body.setVelocity(0,0);this.syncVisual();this.cameras.main.centerOn(cp.x,cp.feet-190);clearControls();}
   pauseRun(){if(this.mode!=='playing')return;this.mode='paused';clearControls();this.writeSave();this.physics.pause();this.tweens.pauseAll();this.time.paused=true;this.input.keyboard.enabled=false;$('inverse-panel').hidden=true;$('world-prompt').hidden=true;$('inverse-dialog-title').textContent='Gerbang Songsang · Jeda';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia. Checkpoint disimpan.`;$('inverse-resume').hidden=false;$('inverse-replay').hidden=true;$('inverse-dialog').showModal();}
   resumeRun(){if(this.mode!=='paused')return;$('inverse-dialog').close();clearControls();this.mode='playing';this.physics.resume();this.tweens.resumeAll();this.time.paused=false;this.input.keyboard.enabled=true;$('game').focus({preventScroll:true});}
-  finish(){if(this.mode==='complete'||!solved(this.run.puzzle))return;this.run.checkpointId='gate-court';this.run.completed=true;this.writeSave();track('level_completed',{level:'w1-l3',duration_s:durationBucket(this.elapsed),coins:this.run.coins.length,secrets:this.run.secrets.length,ranked_eligible:false,first_completion:this.store.load().completions===1});this.mode='complete';clearControls();this.physics.pause();$('inverse-panel').hidden=true;$('world-prompt').hidden=true;$('inverse-dialog-title').textContent='Gerbang Songsang dibuka!';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia · ${Math.round(this.elapsed/1000)} saat.\n\nf(x)=2x+3 pada domain {0,…,6} ialah satu-ke-satu. f⁻¹(13)=(13−3)/2=5. Songsangan memulangkan input asal; ia bukan 1/f.`;$('inverse-resume').hidden=true;$('inverse-replay').hidden=false;$('inverse-dialog').showModal();}
-  returnToMenu(){this.writeSave();this.time.paused=false;this.tweens.resumeAll();this.input.keyboard.enabled=true;this.game.registry.set('showLevelSelect',true);this.scene.start('Lorong');}
+  finish(){if(this.mode==='complete'||!solved(this.run.puzzle))return;
+   const prevBest=this.store.load().bestMs;
+   this.run.checkpointId='gate-court';this.run.completed=true;this.writeSave();
+   track('level_completed',{level:'w1-l3',duration_s:durationBucket(this.elapsed),coins:this.run.coins.length,secrets:this.run.secrets.length,ranked_eligible:false,first_completion:this.store.load().completions===1});
+   this.mode='complete';clearControls();this.physics.pause();$('inverse-panel').hidden=true;$('world-prompt').hidden=true;
+   const best=this.store.load().bestMs,missing=SECRETS.length-this.run.secrets.length,coinsLeft=COINS.length-this.run.coins.length;
+   SFX.victory?.(audio);
+   showLevelVictory({level:'1-3',quote:'Songsangan memulangkan input asal: f⁻¹(13) = (13 − 3) ÷ 2 = 5. Ia bukan 1/f.',
+    coins:[this.run.coins.length,COINS.length],secrets:[this.run.secrets.length,SECRETS.length],timeMs:this.elapsed,
+    newBest:Number.isFinite(best)&&(!Number.isFinite(prevBest)||best<prevBest),
+    hint:missing?`Masih ada ${missing} rahsia tersembunyi di gerbang ini…`:coinsLeft?`Semua rahsia ditemukan! ${coinsLeft} syiling masih menunggu.`:'Semua syiling dan rahsia ditemukan. Jejak yang sempurna!',
+    next:null,finale:{kicker:'Dunia 1 selesai!',title:'Dunia 2: Lembah Batu Kapur',quote:'Sedang dibina. Ulang level untuk kumpul syiling dan rahsia yang tertinggal.'},
+    on:{replay:()=>this.scene.restart({fresh:true}),map:()=>this.returnToMenu(true),menu:()=>this.returnToMenu(false)}});
+  }
+  returnToMenu(toMap=true){this.writeSave();this.time.paused=false;this.tweens.resumeAll();this.input.keyboard.enabled=true;if(toMap)this.game.registry.set('showLevelSelect',true);this.scene.start('Lorong');}
  }
 }

@@ -26,5 +26,5 @@ export async function showPlayerCount(el) {
     if (!Number.isSafeInteger(n) || n <= 0) return;
     el.textContent = `${n.toLocaleString('ms-MY')} pemain telah mencuba DENAI`;
     el.hidden = false;
-  } catch { /* offline / board not configured: stay hidden */ }
+  } catch (e) { console.warn('DENAI: kiraan pemain tidak dapat dibaca —', e?.code || e?.message || e); } // stay hidden
 }
