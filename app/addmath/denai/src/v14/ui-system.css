@@ -676,3 +676,11 @@ body[data-notice="true"] #zone-toast.area-banner{animation:none;opacity:0}
   #zone-toast.area-banner{top:max(8px,env(safe-area-inset-top));bottom:auto;font-size:13px;max-width:min(260px,calc(100% - 210px))}
   #zone-toast.area-banner small{display:none}
 }
+
+/* Shared victory panel, level mode (1-2, 1-3): same banner/stats/teaser as 1-1,
+   with level actions instead of the 1-1-only ones (teroka, leaderboard, share). */
+#complete:not(.is-level-mode) #lv-actions,#complete:not(.is-level-mode) #lv-next{display:none}
+#complete.is-level-mode .victory-actions:not(.lv-actions),#complete.is-level-mode #next-level2,#complete.is-level-mode #vrank{display:none}
+#complete .teaser[hidden],#complete #completion-pb[hidden]{display:none!important}
+#complete .lv-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
+#complete .lv-actions .victory-main{flex:1 1 100%}

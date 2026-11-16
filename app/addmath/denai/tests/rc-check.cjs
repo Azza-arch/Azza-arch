@@ -66,12 +66,13 @@ const closeDialogs = (p) => p.evaluate(() => document.querySelectorAll('dialog[o
     // Continue → 1-2
     await p.click('#next-level2'); await sleep(3000); await closeDialogs(p); res.A.l2Scenes = await active(p);
     await p.evaluate(() => { const s = window.__game.scene.getScene('Jambatan'); s.player.body.reset(1450, 1000); }); await sleep(1200); await p.screenshot({ path: `${out}/rc-desk-8-level-1-2.png` });
-    await win(p, 'Jambatan'); await sleep(1500); res.A.l2Victory = await p.evaluate(() => ({ dialog: document.getElementById('twin-dialog').open, title: document.getElementById('twin-dialog-title').textContent, nextVisible: !document.getElementById('twin-next').hidden }));
+    await win(p, 'Jambatan'); await sleep(1500); res.A.l2Victory = await p.evaluate(() => ({ dialog: document.getElementById('complete').open, levelMode: document.getElementById('complete').classList.contains('is-level-mode'), kicker: document.querySelector('#complete .victory-kicker').textContent, stats: ['completion-coins','completion-secrets','completion-time'].map((i) => document.getElementById(i).textContent), next: document.getElementById('lv-next')?.hidden === false ? document.getElementById('lv-next').textContent : null, actions: [...document.querySelectorAll('#lv-actions button')].map((b) => b.textContent), teaser: document.querySelector('#complete .teaser-title').textContent }));
     await p.screenshot({ path: `${out}/rc-desk-9-victory-1-2.png` });
-    await p.click('#twin-next'); await sleep(3000); await closeDialogs(p); res.A.l3Scenes = await active(p);
+    await p.click('#lv-next'); await sleep(3000); await closeDialogs(p); res.A.l3Scenes = await active(p);
     await p.evaluate(() => { const s = window.__game.scene.getScene('GerbangSongsang'); s.player.body.reset(1500, 1300); }); await sleep(1200); await p.screenshot({ path: `${out}/rc-desk-10-level-1-3.png` });
-    await win(p, 'GerbangSongsang'); await sleep(1500); res.A.l3Victory = await p.evaluate(() => ({ dialog: document.getElementById('inverse-dialog').open, title: document.getElementById('inverse-dialog-title').textContent }));
+    await win(p, 'GerbangSongsang'); await sleep(1500); res.A.l3Victory = await p.evaluate(() => ({ dialog: document.getElementById('complete').open, levelMode: document.getElementById('complete').classList.contains('is-level-mode'), kicker: document.querySelector('#complete .victory-kicker').textContent, stats: ['completion-coins','completion-secrets','completion-time'].map((i) => document.getElementById(i).textContent), next: document.getElementById('lv-next')?.hidden === false ? document.getElementById('lv-next').textContent : null, actions: [...document.querySelectorAll('#lv-actions button')].map((b) => b.textContent), teaser: document.querySelector('#complete .teaser-title').textContent }));
     await p.screenshot({ path: `${out}/rc-desk-11-victory-1-3.png` });
+    await p.click('#lv-menu'); await sleep(2500); res.A.menuFromL3 = { welcome: await p.isVisible('#welcome'), map: await p.isVisible('#world-map-page'), scenes: await active(p) };
     // Reload: everything persisted; MAIN opens the map; replay 1-1 keeps records
     await p.reload(); await ready(p); await sleep(800); res.A.reloadMenu = await p.textContent('#play-main');
     await p.click('#play-main'); await sleep(500); res.A.mainOpensMap = await p.isVisible('#world-map-page'); await p.click('.wm-node[data-world="w1"]').catch(() => {}); await sleep(300); res.A.levelsAllDone = await levels(p);
@@ -107,7 +108,7 @@ const closeDialogs = (p) => p.evaluate(() => document.querySelectorAll('dialog[o
     await p.locator('#next-level2').tap(); await sleep(3000); await closeDialogs(p);
     await p.evaluate(() => { const s = window.__game.scene.getScene('Jambatan'); s.player.body.reset(1450, 1000); }); await sleep(1200); await p.screenshot({ path: `${out}/rc-phone-6-level-1-2.png` });
     await win(p, 'Jambatan'); await sleep(1500); await p.screenshot({ path: `${out}/rc-phone-7-victory-1-2.png` });
-    await p.locator('#twin-next').tap(); await sleep(3000); await closeDialogs(p);
+    await p.locator('#lv-next').tap(); await sleep(3000); await closeDialogs(p);
     await p.evaluate(() => { const s = window.__game.scene.getScene('GerbangSongsang'); s.player.body.reset(1500, 1300); }); await sleep(1200); await p.screenshot({ path: `${out}/rc-phone-8-level-1-3.png` });
     await win(p, 'GerbangSongsang'); await sleep(1500); await p.screenshot({ path: `${out}/rc-phone-9-victory-1-3.png` });
     res.C = { scenes: await active(p), errs, classicWrites: calls.filter((c) => c.stats?.includes('denai_l1_time')).length }; await ctx.close(); }

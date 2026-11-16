@@ -33,7 +33,7 @@ export function armPlayerCount(){
   clearTimeout(countTimer);
   countTimer=setTimeout(()=>{
     if(!document.body.classList.contains('game-active')||document.hidden)return; // left early: next start re-arms
-    PF.markStarted(COMMUNITY.playersBoard).then(()=>{store.set(K.counted,'1');store.del(K.cache);}).catch(()=>{});
+    PF.markStarted(COMMUNITY.playersBoard).then(()=>{store.set(K.counted,'1');store.del(K.cache);}).catch(e=>console.warn('DENAI: kiraan pemain gagal —',e?.code||e?.message||e));
   },COMMUNITY.countAfterMs??15000);
 }
 

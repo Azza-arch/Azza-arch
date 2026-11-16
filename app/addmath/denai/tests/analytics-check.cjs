@@ -37,7 +37,7 @@ async function run(b, { force, gpc }) {
   await p.evaluate(WIN.Lorong); await p.waitForFunction(() => document.getElementById('complete').open); await sleep(800);
   await p.fill('#vrank-name', 'RahsiaNama'); await p.click('#vrank-send'); await sleep(1500);
   await p.click('#next-level2'); await sleep(3000); await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close()));
-  await p.evaluate(WIN.Jambatan); await sleep(1500); await p.click('#twin-next'); await sleep(3000); await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close()));
+  await p.evaluate(WIN.Jambatan); await sleep(1500); await p.click('#lv-next'); await sleep(3000); await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close()));
   await p.evaluate(WIN.GerbangSongsang); await sleep(1500);
   await p.evaluate(() => import('/app/addmath/denai/src/v14/analytics.js').then((m) => m.flush())); await sleep(800);
   await ctx.close();
