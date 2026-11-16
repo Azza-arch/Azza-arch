@@ -74,11 +74,13 @@ export const GROUND_RANGES=AB_TERRAIN.map(s=>[s.x,s.x+s.width]);
 // jump could otherwise clear them; the low deck's right fence is short on
 // purpose (anything over it lands on the branch deck, whose tall fence stops
 // overshoot). Inner edges stay open: top deck → low deck, branch → low deck.
+// Art: each wall is a full-height post (drawn by buildLandscape) with ONE
+// railing section at deck level; the old stacked fence tiles read as loose ladders.
 export const WALLS=[
- {id:'tinjau-low-left',x:4266,width:12,top:1026,bottom:1134,art:[[106,4266,1026],[106,4266,1080]]},
- {id:'tinjau-low-right',x:4578,width:12,top:1080,bottom:1134,art:[[105,4536,1080]]},
- {id:'tinjau-branch-right',x:4686,width:12,top:918,bottom:1080,art:[[16,4644,918],[106,4644,972],[106,4644,1026]]},
- {id:'tinjau-high-left',x:4410,width:12,top:918,bottom:1026,art:[[106,4410,918],[106,4410,972]]}];
+ {id:'tinjau-low-left',x:4266,width:12,top:1026,bottom:1134,art:[[106,4278,1080]]},
+ {id:'tinjau-low-right',x:4578,width:12,top:1080,bottom:1134,art:[[105,4524,1080],[69,4557,1080]]},
+ {id:'tinjau-branch-right',x:4686,width:12,top:918,bottom:1080,art:[[106,4632,1026]]},
+ {id:'tinjau-high-left',x:4410,width:12,top:918,bottom:1026,art:[[106,4416,972]]}];
 export const LADDERS=[{id:'root-ladder',x:1296,top:1080,bottom:1404},{id:'tree-ladder',x:4374,top:1134,bottom:1296}];
 // Water is drawn (not collided) in front of cliff bases too, so the Tebing
 // Berliku cliffs visibly rise out of one continuous stretch of water.

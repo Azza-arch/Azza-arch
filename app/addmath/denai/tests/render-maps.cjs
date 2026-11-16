@@ -1,6 +1,7 @@
 // Render the whole map of every built level (camera zoom 1, no follow, UI hidden).
 const { chromium } = require('playwright');
-const out = process.argv[2];
+const out = process.argv[2] || '.';
+const FULL = process.argv[3] === 'full'; // zoom 1 crops for close inspection
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const CAPTURE = () => {
   let P;
@@ -20,7 +21,9 @@ async function frame(page, sceneKey, file) {
     return { key: s.scene.key, x: b.x, y: b.y, w: b.width, h: b.height };
   }, sceneKey);
   // fit the full width into a 3200px wide shot; height covers the playable band
-  const W = 3200, zoom = W / info.w, top = info.y + (info.h > 900 ? info.h * 0.35 : 0), H = Math.round((info.y + info.h - top) * zoom);
+  const BAND = { Lorong: [760, 1600], Jambatan: [760, 1600], GerbangSongsang: [930, 2140] }[info.key];
+  const W = FULL ? info.w : 3200, zoom = W / info.w;
+  const top = BAND ? BAND[0] : info.y + (info.h > 900 ? info.h * 0.35 : 0), H = Math.round(((BAND ? BAND[1] : info.y + info.h) - top) * zoom);
   await page.setViewportSize({ width: W, height: Math.max(400, H) }); await sleep(800);
   await page.evaluate(({ key, zoom, top, w }) => {
     const g = window.__game, s = key ? g.scene.getScene(key) : g.scene.getScenes(true)[0];

@@ -22,16 +22,21 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    this.physics.world.setBounds(0,0,WORLD.width,WORLD.height,true,true,true,false);
    this.solids=this.physics.add.staticGroup();
    const {tile,pole}=buildLandscape(this,DEFINITION);
-   [[ 'T5',324,1296],['T4',1188,1296],['T6',2322,1296],['T7',3024,1296],['T4',4374,1242],['T2',4752,1188]].forEach(([type,x,y])=>buildTree(this,type,x,y));
+   // Groves, not one tree per area: entry pair + garden oak, a machine-yard
+   // shade tree, the deck tree, the canopy giant, a final-yard oak and an exit pair.
+   [['T3',486,1296],['T1',600,1296],['T5',860,1242],['T4',1188,1296],['T6',2322,1296],['T7',3024,1296],['T5',3760,1242],['T3',4300,1242],['T1',4420,1242]].forEach(([type,x,y])=>buildTree(this,type,x,y));
    for(const d of DEFINITION.DECKS){pole(d.x+27,d.y+18,DEFINITION.AB_TERRAIN.find(t=>d.x>=t.x&&d.x<t.x+t.width)?.y||1296);}
-   for(const w of WATER)for(let x=w.x;x<w.x+w.width;x+=54){tile(33,x,WATER_Y,7);tile(53,x,WATER_Y+54,7);}
+   // One surface row (33) over body tiles (73) down past the floor: no second wave row, no gap.
+   for(const w of WATER)for(let x=w.x;x<w.x+w.width;x+=54){tile(33,x,WATER_Y,7);tile(73,x,WATER_Y+54,7);}
    [[162,1296],[810,1242],[2484-54,1296],[3456,1242],[4482,1242]].forEach(([x,y])=>tile(125,x,y-54,11));
    tile(106,0,1242,11);tile(105,54,1242,11);
    this.checkpointArts=CHECKPOINTS.map(cp=>tile(cp.id===this.run.checkpointId?112:111,cp.x-27,cp.feet-54,12));
    tile(112,GOAL.x-27,GOAL.feet-54,12);
-   this.add.rectangle(GOAL.x,GOAL.feet-18,216,10,0x796c48).setDepth(11);
-   this.add.rectangle(GOAL.x,GOAL.feet-31,162,5,0xe2c576).setDepth(11);
-   this.worldText('TAMAT',GOAL.x,GOAL.feet-190,18).setStyle({backgroundColor:'#315c49',color:'#fff2c5',fontStyle:'bold'});
+   // Finish arch: two rope posts on the flag terrace and a plank lintel
+   // (replaces two floating colour bars that had no support).
+   pole(GOAL.x-108,GOAL.feet-162,GOAL.feet);pole(GOAL.x+108,GOAL.feet-162,GOAL.feet);
+   for(let x=GOAL.x-135;x<GOAL.x+135;x+=54)tile(x===GOAL.x-135?48:x+54>=GOAL.x+135?50:49,x,GOAL.feet-180,11,54,18);
+   this.worldText('TAMAT',GOAL.x,GOAL.feet-186,18).setStyle({backgroundColor:'#315c49',color:'#fff2c5',fontStyle:'bold'});
    this.worldText('JEJAK MASUK',324,1100,21);
    this.worldText('LALUAN RAHSIA ↑',3000,930,18);
    for(const station of STATIONS)this.buildStation(station);
