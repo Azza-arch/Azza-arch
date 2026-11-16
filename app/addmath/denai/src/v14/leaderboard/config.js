@@ -10,14 +10,22 @@ export const LEADERBOARD_CONFIG = {
   playfab: {
     titleId: '1FD1D5',
     enabled: true,
-    // PlayFab Leaderboards (Progression / v2). Create in Game Manager:
-    //   Statistic   'denai_l1_time'  entity: title_player_account, 1 column, aggregation Min
-    //   Leaderboard 'denai_l1_time'  linked to that statistic, sort Ascending (lowest time first)
-    // Scores are the run time in milliseconds.
+    // PlayFab Leaderboards (Progression / v2). Scores are run times in ms.
+    // Level 1-1 was redesigned (course 'v2'), so its times are NOT comparable
+    // with the old course. Each course has its own board:
+    //   'denai_l1_time'     classic course: historical records, READ-ONLY here
+    //   'denai_l1_time_v2'  current course: the only board this client writes
+    // Owner must create in Game Manager (same settings as the classic one):
+    //   Statistic   'denai_l1_time_v2'  entity: title_player_account, 1 column, aggregation Min
+    //   Leaderboard 'denai_l1_time_v2'  linked to that statistic, sort Ascending
+    // Until it exists PlayFab answers LeaderboardNotFound / StatisticNotFound,
+    // the dialog says the board is being prepared, and nothing is written to
+    // the classic board.
     leaderboards: {
-      allTime: 'denai_l1_time',
-      weekly: null,            // e.g. 'denai_l1_time_weekly' once a statistic + leaderboard with a weekly reset exist
+      allTime: 'denai_l1_time_v2',
+      weekly: null,            // e.g. 'denai_l1_time_v2_weekly' once a statistic + leaderboard with a weekly reset exist
     },
+    classic: 'denai_l1_time',  // archive of the old 1-1 course: never submitted to
     top: 10,
   },
   levelId: 'bab1-l1-jejak-taman-fungsi',

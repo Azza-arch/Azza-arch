@@ -27,7 +27,7 @@ async function hop(p, dir, toX) {
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
   await p.goto('http://localhost:8790/app/addmath/denai/main.html'); await p.waitForFunction(() => window.__game?.scene?.getScene('Lorong')?.player); await p.evaluate(() => localStorage.clear()); await p.reload();
   await p.waitForFunction(() => window.__game?.scene?.getScene('Lorong')?.player); await sleep(1500);
-  await p.click('#start'); await p.waitForFunction(() => window.__game.scene.getScene('Lorong').mode === 'playing'); await p.click('#game');
+  await p.click('#play-main'); await p.waitForFunction(() => window.__game.scene.getScene('Lorong').mode === 'playing'); await p.click('#game');
   const t0 = Date.now(), log = {};
   log.toMachine = await run(p, 1, 2470);
   await p.keyboard.press('KeyE'); await p.waitForFunction(() => window.__game.scene.getScene('Lorong').mode === 'mechanism');
@@ -48,6 +48,6 @@ async function hop(p, dir, toX) {
   await p.screenshot({ path: `${out}/p-finish.png` });
   log.save = await p.evaluate(() => { const r = JSON.parse(localStorage.getItem('denai-save-v14') || 'null'); return r && { completed: r.completed, cp: r.checkpointId, gates: r.solvedGateIds, coins: r.collectedCoinIds.length }; });
   await p.reload(); await p.waitForFunction(() => window.__game?.scene?.getScene('Lorong')?.player); await sleep(1500);
-  log.continueVisible = await p.isVisible('#continue-btn');
+  log.playMainLabel = await p.textContent('#play-main');
   log.errs = errs; console.log(JSON.stringify(log, null, 1)); await b.close();
 })();

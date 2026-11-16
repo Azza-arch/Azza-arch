@@ -27,7 +27,7 @@ async function start(p) {
   const b = await chromium.launch(); const res = {};
   const ctx = await b.newContext({ viewport: { width: 1280, height: 760 } }); await ctx.addInitScript(HOOK);
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error' && !/playfab|net::/i.test(m.text())) errs.push(m.text()); });
-  await start(p); await p.click('#start'); await p.waitForFunction(() => window.__game.scene.getScene('Lorong').mode === 'playing');
+  await start(p); await p.click('#play-main'); await p.waitForFunction(() => window.__game.scene.getScene('Lorong').mode === 'playing');
   res.startBanner = { plays: await plays(p), visibleMs: await visibleMs(p) };
   res.hudChip = await p.textContent('#hud-area');
   await sleep(300); await p.screenshot({ path: `${out}/b-desk-gameplay-no-banner.png` });
@@ -53,7 +53,7 @@ async function start(p) {
   res.errs = errs; await ctx.close();
   // phone landscape
   const pc = await b.newContext({ ...devices['iPhone 13 landscape'] }); await pc.addInitScript(HOOK);
-  const pp = await pc.newPage(); await start(pp); await pp.locator('#start').tap(); await pp.waitForFunction(() => window.__game.scene.getScene('Lorong').mode === 'playing');
+  const pp = await pc.newPage(); await start(pp); await pp.locator('#play-main').tap(); await pp.waitForFunction(() => window.__game.scene.getScene('Lorong').mode === 'playing');
   await sleep(2500); await tp(pp, 3100, 1242); await sleep(450); await pp.screenshot({ path: `${out}/b-phone-banner.png` });
   res.phoneBannerBox = await pp.evaluate(() => { const r = document.getElementById('zone-toast').getBoundingClientRect(); const pause = document.getElementById('pause').getBoundingClientRect(); const coin = document.getElementById('hud-collection').getBoundingClientRect(); return { banner: [Math.round(r.left), Math.round(r.top), Math.round(r.right), Math.round(r.bottom)], overlapsPause: r.right > pause.left && r.top < pause.bottom, overlapsCoins: r.left < coin.right && r.top < coin.bottom, vw: innerWidth }; });
   await sleep(2200); await pp.screenshot({ path: `${out}/b-phone-sawmill.png` });

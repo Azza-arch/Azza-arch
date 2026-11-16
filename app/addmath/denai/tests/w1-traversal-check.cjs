@@ -8,7 +8,7 @@ const CAPTURE = () => { let P; Object.defineProperty(window, 'Phaser', { configu
   await ctx.addInitScript(CAPTURE);
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
   await p.goto('http://localhost:8790/app/addmath/denai/main.html'); await p.waitForFunction(() => window.__game?.scene?.getScenes(true).length); await p.waitForTimeout(2000);
-  await p.click('#start'); await p.waitForTimeout(2500);
+  await p.click('#play-main'); await p.waitForTimeout(2500);
   const res = {};
   for (const key of ['Lorong', 'Jambatan', 'GerbangSongsang']) {
     if (key !== 'Lorong') await p.evaluate(async (key) => { const g = window.__game; g.scene.getScenes(true).forEach((x) => x.scene.stop()); g.scene.start(key); await new Promise((r) => setTimeout(r, 2500)); document.querySelectorAll('dialog[open]').forEach((d) => d.close()); }, key);

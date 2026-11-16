@@ -12,7 +12,7 @@ const SPOTS = { Lorong: [400, 1000, 1450, 2000, 3060, 3550, 4455, 4950, 5650], J
   await p.goto('http://localhost:8790/app/addmath/denai/main.html'); await p.waitForFunction(() => window.__game?.scene?.getScenes(true).length); await p.waitForTimeout(2500);
   const res = [];
   for (const key of Object.keys(SPOTS)) {
-    if (key === 'Lorong') { await p.click('#start'); await p.waitForTimeout(2500); await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close())); }
+    if (key === 'Lorong') { await p.click('#play-main'); await p.waitForTimeout(2500); await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close())); }
     else await p.evaluate(async (key) => {
       const g = window.__game; g.scene.getScenes(true).forEach((x) => x.scene.stop()); g.scene.start(key);
       await new Promise((r) => setTimeout(r, 2500));

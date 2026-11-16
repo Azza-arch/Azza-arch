@@ -985,6 +985,9 @@ class Rooftop extends Phaser.Scene {
     // permanently unreachable for gates this build never defines.
     const required=GATES.map(g=>g.id);
     const atExit = BUILD_STAGE>=4 && required.every(id=>this.solvedGates.has(id)) && Math.abs(this.player.x-GOAL.x)<62 && Math.abs(body.bottom-GOAL.feet)<6 && body.blocked.down;
+    // Victory is automatic (same as 1-2/1-3): every required machine solved
+    // and standing on the goal plinth. finish() itself is idempotent.
+    if(atExit&&this.mode==='playing'&&!this.levelCompleted){this.finish();if(this.levelCompleted)return;}
     if(terminal || secret || atExit) {
       const cue = terminal || secret || {x:GOAL.x,feet:GOAL.feet};
       this.machineGlow.setPosition(cue.x,cue.feet-70).setVisible(true);
@@ -1174,7 +1177,7 @@ Object.assign(Rooftop.prototype,{
     buildJournal($('secrets-list'),this);
     const miss=missingCoinsBySection(this.collectedCoinIds);
     $('collection-coins').textContent=`Syiling: ${this.collectedCoinIds.size}/${COLLECTIBLES.length} dalam pengembaraan ini · ${prof.coinIds.length}/${COLLECTIBLES.length} pernah ditemui.${miss.length?' Masih tertinggal: '+miss.join(', ')+'.':''}`;
-    const lv=prof.levels[LEVEL_KEY];$('collection-coins').textContent+=lv.best?` Rekod peribadi: ${formatTime(lv.best.timeMs)} (×${lv.completions} selesai).`:'';
+    const lv=prof.levels[LEVEL_KEY];$('collection-coins').textContent+=lv.best?` Rekod peribadi: ${formatTime(lv.best.timeMs)} (×${lv.completions} selesai).`:''+(lv.classicBest?` Rekod kursus lama: ${formatTime(lv.classicBest.timeMs)}.`:'');
     achievementChips($('collection-achievements'),prof.achievements);
   };
   // World 1 map: honest states only (1-1 real, 1-2 coming soon, 1-3 not yet).

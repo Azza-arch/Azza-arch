@@ -4,6 +4,8 @@
 // a new adventure clears the run save but never this profile.
 import {COLLECTIBLES,SECRETS} from './level.js';
 export const PROFILE_KEY='denai-profile-v1', LEVEL_KEY='w1-l1';
+// Current Level 1-1 course (bump when the 1-1 map changes so old times stay separate).
+export const L1_COURSE='v2';
 const LEGACY_RECORDS_KEY='denai-records-v14', LEGACY_RECORDS_LEVEL='bab1-l1-jejak-taman-fungsi';
 const coinIds=COLLECTIBLES.map(c=>c.id), secretIds=SECRETS.map(s=>s.id);
 const pick=(v,allowed)=>Array.isArray(v)?[...new Set(v.filter(x=>allowed.includes(x)))]:[];
@@ -15,7 +17,7 @@ export const ACHIEVEMENTS=[
  {id:'penjejak-rahsia',title:'Penjejak Rahsia',desc:`Temui ${secretIds.length}/${secretIds.length} rahsia.`},
  {id:'tiga-cara',title:'Tiga Cara Berfikir',desc:'Selesaikan mesin dengan tiga jenis misi berbeza.'},
 ];
-const levelDefault=()=>({completions:0,firstCompletedAt:null,best:null});
+const levelDefault=()=>({completions:0,firstCompletedAt:null,best:null,classicBest:null});
 export function defaultProfile(){
  return {schemaVersion:1,createdAt:new Date().toISOString(),levels:{[LEVEL_KEY]:levelDefault()},
   coinIds:[],secretIds:[],achievements:[],adventuresCompleted:0,
@@ -23,9 +25,15 @@ export function defaultProfile(){
 }
 export function sanitizeProfile(raw){
  const p=defaultProfile();if(!raw||raw.schemaVersion!==1)return p;
- const lv=raw.levels?.[LEVEL_KEY]||{},best=lv.best&&num(lv.best.timeMs,1)?{timeMs:lv.best.timeMs,coins:num(lv.best.coins)??0,secrets:num(lv.best.secrets)??0,at:String(lv.best.at||'')}:null;
+ const lv=raw.levels?.[LEVEL_KEY]||{},entry=e=>e&&num(e.timeMs,1)?{timeMs:e.timeMs,coins:num(e.coins)??0,secrets:num(e.secrets)??0,at:String(e.at||'')}:null;
+ // Level 1-1 course versions: the map changed in the World 1 redesign, so
+ // times from the old course are not comparable. A best without a course
+ // tag (or with a different one) is kept as classicBest, never as the
+ // current-course best that can be ranked.
+ const tagged=lv.best?.course===L1_COURSE?entry(lv.best):null,legacy=lv.best&&lv.best.course!==L1_COURSE?entry(lv.best):null;
+ const classicBest=[entry(lv.classicBest),legacy].filter(Boolean).sort((a,b)=>a.timeMs-b.timeMs)[0]||null;
  p.createdAt=typeof raw.createdAt==='string'?raw.createdAt:p.createdAt;
- p.levels[LEVEL_KEY]={completions:num(lv.completions)??0,firstCompletedAt:typeof lv.firstCompletedAt==='string'?lv.firstCompletedAt:null,best};
+ p.levels[LEVEL_KEY]={completions:num(lv.completions)??0,firstCompletedAt:typeof lv.firstCompletedAt==='string'?lv.firstCompletedAt:null,best:tagged&&{...tagged,course:L1_COURSE},classicBest};
  p.coinIds=pick(raw.coinIds,coinIds);p.secretIds=pick(raw.secretIds,secretIds);
  p.achievements=pick(raw.achievements,ACHIEVEMENTS.map(a=>a.id));
  p.adventuresCompleted=num(raw.adventuresCompleted)??0;
@@ -45,7 +53,7 @@ export function migrateLegacy(oldRunSave){
   if(!p.migrated.includes('records-v14')){
    try{const old=JSON.parse(storage?.getItem(LEGACY_RECORDS_KEY)||'null')?.[LEGACY_RECORDS_LEVEL];
     if(old){const lv=p.levels[LEVEL_KEY];lv.completions=Math.max(lv.completions,num(old.completions)??0);
-     if(old.best&&num(old.best.timeMs,1)&&(!lv.best||old.best.timeMs<lv.best.timeMs))lv.best={timeMs:old.best.timeMs,coins:old.best.coins??0,secrets:old.best.secrets??0,at:old.best.at||''};}}catch{}
+     if(old.best&&num(old.best.timeMs,1))lv.classicBest=(!lv.classicBest||old.best.timeMs<lv.classicBest.timeMs)?{timeMs:old.best.timeMs,coins:old.best.coins??0,secrets:old.best.secrets??0,at:old.best.at||''}:lv.classicBest;}}catch{}
    p.migrated.push('records-v14');
   }
   if(oldRunSave&&!p.migrated.includes('run-v1')){
@@ -66,7 +74,7 @@ const better=(a,b)=>!b||a.timeMs<b.timeMs||(a.timeMs===b.timeMs&&(a.coins>b.coin
 // Called once per completed run. Returns what changed so the victory card can say so.
 export function recordCompletion(run){
  return update(p=>{
-  const lv=p.levels[LEVEL_KEY],before=new Set(p.achievements),entry={timeMs:Math.round(run.timeMs),coins:run.coins,secrets:run.secrets,at:new Date().toISOString()};
+  const lv=p.levels[LEVEL_KEY],before=new Set(p.achievements),prevBest=lv.best,entry={timeMs:Math.round(run.timeMs),coins:run.coins,secrets:run.secrets,at:new Date().toISOString(),course:L1_COURSE};
   lv.completions++;lv.firstCompletedAt||=entry.at;p.adventuresCompleted++;
   let isNewBest=false;if(run.eligible&&better(entry,lv.best)){lv.best=entry;isNewBest=true;}
   const has=id=>p.achievements.includes(id),give=id=>{if(!has(id))p.achievements.push(id);};
@@ -75,6 +83,6 @@ export function recordCompletion(run){
   if(run.coins>=coinIds.length)give('pemburu-syiling');
   if(p.secretIds.length>=secretIds.length)give('penjejak-rahsia');
   if(p.mastered.types.length>=3)give('tiga-cara');
-  return {isNewBest,best:lv.best,completions:lv.completions,newAchievements:p.achievements.filter(a=>!before.has(a))};
+  return {isNewBest,best:lv.best,prevBest,completions:lv.completions,newAchievements:p.achievements.filter(a=>!before.has(a))};
  });
 }

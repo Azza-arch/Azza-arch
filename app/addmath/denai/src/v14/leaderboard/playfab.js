@@ -4,7 +4,8 @@
 import {LEADERBOARD_CONFIG as CFG} from './config.js';
 const BASE=`https://${CFG.playfab.titleId.toLowerCase()}.playfabapi.com/`;
 const DEVICE_KEY='denai-lb-device';      // random anonymous id, not a password
-const SUBMITTED_KEY='denai-lb-submitted'; // best time (ms) already sent from this device
+const SUBMITTED_KEY='denai-lb-submitted'; // + ':<board>': best time (ms) already sent from this device to that board
+const sentKey=board=>`${SUBMITTED_KEY}:${board}`;
 let session=null,pending=null;
 const store={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);}catch{}}};
 export class LeaderboardError extends Error{constructor(code,msg){super(msg||code);this.code=code;}}
@@ -49,12 +50,14 @@ export async function myRank(board){
   const d=await call('Leaderboard/GetLeaderboardAroundEntity',{LeaderboardName:board,Entity:{Id:session.entity.Id,Type:session.entity.Type},MaxSurroundingEntries:1},'entity');
   const e=(d.Rankings||[]).find(r=>r.Entity?.Id===session.entity.Id);return e&&valid(toRow(e))?toRow(e):null;
 }
+// Writes ONLY the current-course statistics (never the classic archive).
 export async function submitTime(timeMs){
   await login();
-  const names=[CFG.playfab.leaderboards.allTime,CFG.playfab.leaderboards.weekly].filter(Boolean);
+  const names=[CFG.playfab.leaderboards.allTime,CFG.playfab.leaderboards.weekly].filter(n=>n&&n!==CFG.playfab.classic);
   await call('Statistic/UpdateStatistics',{Statistics:names.map(Name=>({Name,Scores:[String(Math.round(timeMs))]}))},'entity');
-  store.set(SUBMITTED_KEY,String(Math.round(timeMs)));
+  store.set(sentKey(CFG.playfab.leaderboards.allTime),String(Math.round(timeMs)));
 }
-export function submittedTime(){const v=Number(store.get(SUBMITTED_KEY));return v>0?v:null;}
+// The legacy unscoped key belonged to the classic board; it never counts for v2.
+export function submittedTime(board=CFG.playfab.leaderboards.allTime){const v=Number(store.get(sentKey(board)));return v>0?v:null;}
 export function currentName(){return session?.name||'';}
 export function playerId(){return session?.entity?.Id||null;}

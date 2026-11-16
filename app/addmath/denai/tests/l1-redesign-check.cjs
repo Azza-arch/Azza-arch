@@ -35,7 +35,7 @@ async function E(p) { await p.keyboard.press('KeyE'); await sleep(250); }
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error' && !/playfab|net::/i.test(m.text())) errs.push(m.text()); });
   await p.goto('http://localhost:8790/app/addmath/denai/main.html'); await p.waitForFunction(() => window.__game?.scene?.getScenes(true).length); await sleep(2000);
   await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => window.__game?.scene?.getScenes(true).length); await sleep(2000);
-  await p.click('#start'); await sleep(2500);
+  await p.click('#play-main'); await sleep(2500);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close()));
   await p.click('#game'); await sleep(200);
   // A. main route from the spawn over the hill, through the root lane, up the steps, over the plank stack, to the machine
@@ -82,7 +82,7 @@ async function E(p) { await p.keyboard.press('KeyE'); await sleep(250); }
   // touch: phone, hold → and tap Guna at the sawmill
   const pc = await b.newContext({ ...require('playwright').devices['iPhone 13 landscape'] }); await pc.addInitScript(CAPTURE);
   const pp = await pc.newPage(); await pp.goto('http://localhost:8790/app/addmath/denai/main.html'); await pp.waitForFunction(() => window.__game?.scene?.getScenes(true).length); await sleep(2000);
-  await pp.locator('#start').tap(); await sleep(2500); await pp.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close()));
+  await pp.locator('#play-main').tap(); await sleep(2500); await pp.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close()));
   const x0 = await pp.evaluate(() => window.__game.scene.getScene('Lorong').player.x);
   const hold = pp.locator('[data-hold="right"]'); await hold.dispatchEvent('pointerdown', { pointerId: 1 }); await sleep(500); await hold.dispatchEvent('pointerup', { pointerId: 1 }); await sleep(200);
   res.touchMoved = Math.round(await pp.evaluate(() => window.__game.scene.getScene('Lorong').player.x) - x0);
