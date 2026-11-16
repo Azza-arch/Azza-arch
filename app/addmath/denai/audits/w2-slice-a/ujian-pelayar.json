@@ -1,0 +1,267 @@
+{
+ "peakPx": 92.27777777777783,
+ "reachPx": 210.00000000000045,
+ "kbStart": {
+  "a": 1,
+  "locked": false,
+  "solved": false,
+  "x": 223,
+  "bottom": 1373,
+  "grounded": true
+ },
+ "kbAfterQ2": {
+  "a": -0.5,
+  "eq": "y = −½(x − 3)² + 4",
+  "why": "Di cincin x = 1: (1−3)² = 4, jadi y = 4a + 4 = 4(−½) + 4 = 2"
+ },
+ "kbAfterQ3": -1,
+ "lockMinus1": {
+  "locked": true,
+  "analysis": {
+   "success": false,
+   "route": [],
+   "reached": [
+    "L",
+    "S1"
+   ],
+   "blocked": {
+    "from": "L",
+    "to": "S2",
+    "rise": 2.5,
+    "x": 2,
+    "top": 3
+   },
+   "peakTiles": 1.7088477366255153
+  },
+  "stones": [
+   {
+    "x": 1,
+    "y": 0,
+    "top": 1400,
+    "left": 351,
+    "width": 54,
+    "expectTop": 1400,
+    "expectLeft": 351
+   },
+   {
+    "x": 2,
+    "y": 3,
+    "top": 1238,
+    "left": 405,
+    "width": 54,
+    "expectTop": 1238,
+    "expectLeft": 405
+   },
+   {
+    "x": 4,
+    "y": 3,
+    "top": 1238,
+    "left": 513,
+    "width": 54,
+    "expectTop": 1238,
+    "expectLeft": 513
+   },
+   {
+    "x": 5,
+    "y": 0,
+    "top": 1400,
+    "left": 567,
+    "width": 54,
+    "expectTop": 1400,
+    "expectLeft": 567
+   }
+  ],
+  "tag": "Tidak sampai ke batu (2, 3):\nperlu naik 2½ jubin, lompatan maks ≈ 1.7"
+ },
+ "failHop1": {
+  "a": -1,
+  "locked": true,
+  "solved": false,
+  "x": 185,
+  "bottom": 1373,
+  "grounded": true,
+  "minBottom": 1281
+ },
+ "failHop2": {
+  "a": -1,
+  "locked": true,
+  "solved": false,
+  "x": 402,
+  "bottom": 1400,
+  "grounded": true,
+  "minBottom": 1281
+ },
+ "afterFall": {
+  "a": -1,
+  "locked": true,
+  "solved": false,
+  "x": 402,
+  "bottom": 1400,
+  "grounded": true
+ },
+ "lockHalf": {
+  "a": -0.5,
+  "locked": true,
+  "analysis": true,
+  "stones": [
+   {
+    "x": 1,
+    "y": 2,
+    "top": 1292,
+    "left": 351,
+    "width": 54,
+    "expectTop": 1292,
+    "expectLeft": 351
+   },
+   {
+    "x": 2,
+    "y": 3.5,
+    "top": 1211,
+    "left": 405,
+    "width": 54,
+    "expectTop": 1211,
+    "expectLeft": 405
+   },
+   {
+    "x": 4,
+    "y": 3.5,
+    "top": 1211,
+    "left": 513,
+    "width": 54,
+    "expectTop": 1211,
+    "expectLeft": 513
+   },
+   {
+    "x": 5,
+    "y": 2,
+    "top": 1292,
+    "left": 567,
+    "width": 54,
+    "expectTop": 1292,
+    "expectLeft": 567
+   }
+  ]
+ },
+ "collisionMatches": true,
+ "route": [
+  "ke (1,2): x=364 kaki=1292 grounded=true",
+  "ke (2,3.5): x=426 kaki=1211 grounded=true",
+  "ke puncak (3,4): x=476 kaki=1184 grounded=true",
+  "ke (4,3.5): x=544 kaki=1211 grounded=true",
+  "ke (5,2): x=605 kaki=1292 grounded=true",
+  "ke tebing kanan: x=684 kaki=1373 grounded=true"
+ ],
+ "expectTops": {
+  "s1": 1292,
+  "s2": 1211,
+  "col": 1184,
+  "bank": 1373
+ },
+ "solved": true,
+ "wrongTried": {
+  "2": {
+   "hop1": {
+    "a": 2,
+    "locked": true,
+    "solved": true,
+    "x": 185,
+    "bottom": 1373,
+    "grounded": true,
+    "minBottom": 1281
+   },
+   "hop2": {
+    "a": 2,
+    "locked": true,
+    "solved": true,
+    "x": 185,
+    "bottom": 1373,
+    "grounded": true,
+    "minBottom": 1281
+   },
+   "hop3": {
+    "a": 2,
+    "locked": true,
+    "solved": true,
+    "x": 185,
+    "bottom": 1373,
+    "grounded": true,
+    "minBottom": 1281
+   },
+   "crossed": false
+  },
+  "-2": {
+   "hop1": {
+    "a": -2,
+    "locked": true,
+    "solved": true,
+    "x": 445,
+    "bottom": 1292,
+    "grounded": true,
+    "minBottom": 1281
+   },
+   "hop2": {
+    "a": -2,
+    "locked": true,
+    "solved": true,
+    "x": 445,
+    "bottom": 1292,
+    "grounded": true,
+    "minBottom": 1200
+   },
+   "hop3": {
+    "a": -2,
+    "locked": true,
+    "solved": true,
+    "x": 445,
+    "bottom": 1292,
+    "grounded": true,
+    "minBottom": 1200
+   },
+   "crossed": false
+  },
+  "0.5": {
+   "hop1": {
+    "a": 0.5,
+    "locked": true,
+    "solved": true,
+    "x": 185,
+    "bottom": 1373,
+    "grounded": true,
+    "minBottom": 1281
+   },
+   "hop2": {
+    "a": 0.5,
+    "locked": true,
+    "solved": true,
+    "x": 185,
+    "bottom": 1373,
+    "grounded": true,
+    "minBottom": 1281
+   },
+   "hop3": {
+    "a": 0.5,
+    "locked": true,
+    "solved": true,
+    "x": 185,
+    "bottom": 1373,
+    "grounded": true,
+    "minBottom": 1281
+   },
+   "crossed": false
+  }
+ },
+ "errs": [],
+ "touchVisible": true,
+ "touchMoved": 132,
+ "touchState": {
+  "a": -0.5,
+  "locked": true,
+  "zoom": 0.6666666666666666,
+  "view": {
+   "w": 1125,
+   "h": 513
+  }
+ },
+ "touchJumped": true,
+ "phoneErrs": []
+}
