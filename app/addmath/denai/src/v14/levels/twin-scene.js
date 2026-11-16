@@ -39,7 +39,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    this.secretViews=SECRETS.map(def=>({def,art:tile(67,def.x-18,def.feet-54,14,36,36).setAlpha(this.run.secrets.includes(def.id)?.4:1)}));
    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
    const cam=this.cameras.main;
-   cam.setBounds(0,300,WORLD.width,WORLD.floor-300).setBackgroundColor('#aee3f5');
+   cam.setBounds(0,300,WORLD.width,WORLD.floor-300).setBackgroundColor(this.bgColor??'#aee3f5');
    cam.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,100).setDeadzone(0,150);
    this.applyResponsiveZoom();this.respawn();
    this.installUI();

@@ -50,28 +50,28 @@ export function buildTree(s,type,x,feet,fg=false){
   s.tile(f,x0+c*T,top-(h-r)*T,3.5+D);
  }
 }
-function parallax(s,WORLD,verticalShift=0){
- // Far: pale cloud band with tree silhouettes (frames 8–11, fill 16–19).
- // Mid: green forest band (frames 14–15, fill 22–23). Collision unaffected.
- // The far band sits in a container that drifts slowly (ambient motion from
- // the existing art only); it wraps every 288 units = one 4-frame period.
- const bands=[{sf:.25,y:990+verticalShift,top:[8,9,10,11],fill:[16,17,18,19],depth:.4,alpha:.9,drift:true},
-  {sf:.5,y:1140+verticalShift,top:[14,15],fill:[22,23],depth:.8,alpha:.85}];
- for(const b of bands){
-  const span=WORLD.width*Math.max(b.sf,.6)+3000,box=s.add.container(0,0).setScrollFactor(b.sf,1).setDepth(b.depth);
-  for(let x=-1152,i=0;x<span;x+=72,i++){
-   box.add(s.add.image(x,b.y,'kpp_bg_atlas',b.top[i%b.top.length]).setOrigin(0).setScale(3));
-   for(let y=b.y+72;y<WORLD.floor+72;y+=72)box.add(s.add.image(x,y,'kpp_bg_atlas',b.fill[i%b.fill.length]).setOrigin(0).setScale(3));
-  }
-  // Opaque tiles + ONE translucent sky wash = the faded distance look without
-  // the 1px double-blend seams that per-tile alpha produced at tile edges.
-  s.add.rectangle(-2000,b.y,span+6000,WORLD.floor+200-b.y,0xaee3f5,1-b.alpha).setOrigin(0).setScrollFactor(b.sf,1).setDepth(b.depth+.01);
-  if(b.drift&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
-   let off=0;s.events.on('update',(t,dt)=>{off=(off+dt*.006)%288;box.x=-off;});
-  }
+// Background themes: each is ONE Kenney background set (tilemap-backgrounds_packed,
+// 24 px frames) — its own flat sky row, its silhouette band and its fill.
+// Colours were checked per pixel: sky = band top, band bottom = fill, so the
+// three rows join with no seam. Exactly one theme is drawn per scene; no
+// cross-theme overlay, wash, gradient or haze.
+export const BG_THEMES=Object.freeze({
+ forest:{sky:[6,7],band:[14,15],fill:[22,23],color:0x7ff0a5},          // green forest set (World 1)
+ snow:{sky:[0,1,2,3],band:[8,9,10,11],fill:[16,17,18,19],color:0xdff6f5}, // blue-white set (reserved for a future snow world)
+});
+export function buildBackground(s,WORLD,verticalShift=0,theme='forest'){
+ const t=BG_THEMES[theme]??BG_THEMES.forest,y=1140+verticalShift,sf=.5;
+ s.bgLayer?.destroy();
+ const span=WORLD.width*.6+3000,box=s.add.container(0,0).setScrollFactor(sf,1).setDepth(.5);
+ for(let x=-1152,i=0;x<span;x+=72,i++){
+  for(let yy=y-72;yy>-144;yy-=72)box.add(s.add.image(x,yy,'kpp_bg_atlas',t.sky[i%t.sky.length]).setOrigin(0).setScale(3));
+  box.add(s.add.image(x,y,'kpp_bg_atlas',t.band[i%t.band.length]).setOrigin(0).setScale(3));
+  for(let yy=y+72;yy<WORLD.floor+144;yy+=72)box.add(s.add.image(x,yy,'kpp_bg_atlas',t.fill[i%t.fill.length]).setOrigin(0).setScale(3));
  }
+ s.bgLayer=box;s.bgTheme=theme;s.bgColor='#'+t.color.toString(16).padStart(6,'0');
+ return box;
 }
-export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=[],WORLD,parallaxShift=0}){
+export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=[],WORLD,parallaxShift=0,bgTheme='forest'}){
  s.textures.get('kpp_terrain_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.textures.get('kpp_bg_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.worldObjects=[];s.cClues=new Set();s.probeSeen=new Set();s.eReadoutShown=false;s.eOutputShown=false;
@@ -84,7 +84,7 @@ export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=
  const pole=(x,top,bottom,depth=4)=>{for(let y=top;y<bottom;y+=54)tile(89,x-27,y,depth,54,Math.min(54,bottom-y));};
  const post=(x,top,bottom)=>{for(let y=top;y<bottom;y+=54)tile(89,x,y,4,54,Math.min(54,bottom-y));};
  const beam=(x,y,width)=>{for(let a=0;a<width;a+=54)tile(a===0?48:a+54>=width?50:49,x+a,y,4,Math.min(54,width-a),18);};
- parallax(s,WORLD,parallaxShift);
+ buildBackground(s,WORLD,parallaxShift,bgTheme);
  // ── Terrain ────────────────────────────────────────────────────────────
  // filled(x,y): is there terrain (solid column or slab band) in the 54px
  // row starting at y at column x? Used so edge outlines appear only where
@@ -129,7 +129,7 @@ export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=
  return {tile,pole,post,beam};
 }
 export function buildWorld(s){
- const {tile,pole,post,beam}=buildLandscape(s,{AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,WORLD});
+ const {tile,pole,post,beam}=buildLandscape(s,{AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,WORLD,bgTheme:'forest'});
  // ── 01 · Taman Permulaan ────────────────────────────────────────────────
  // Landmark: wide oak (T5) beside the garden step + small pine companion.
  // The crate lane (x150–430) carries no decoration so the puzzle reads.

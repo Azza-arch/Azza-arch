@@ -41,7 +41,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    // floating blue gem markers that read like detached pipe fragments.
    this.secretViews=SECRETS.map(def=>({def}));
    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
-   this.cameras.main.setBounds(0,240,WORLD.width,WORLD.floor-240).setBackgroundColor('#aee3f5');
+   this.cameras.main.setBounds(0,240,WORLD.width,WORLD.floor-240).setBackgroundColor(this.bgColor??'#aee3f5');
    this.cameras.main.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,100).setDeadzone(0,150);
    this.applyResponsiveZoom();this.respawn();this.installUI();
    document.body.classList.remove('menu-active');document.body.classList.add('game-active','inverse-active');
