@@ -77,48 +77,77 @@ def ladder(x, top, bottom, metal=False):
         if metal: I(11 if y == top else 43 if y == bottom else 27, x, y)
         else: B(71, x, y)
 
-# World 1 · forest & river (x 0–13), surface row 11
-block(0, 5, 11, BASE_GRASS); water(5, 8, 12); block(8, 13, 11, BASE_GRASS)
-planks(4, 9, 11, posts=[(5, 13), (7, 13)])                                   # plank bridge over the river
-tree(2, 11, big=True); tree(11, 11); B(126, 9, 10); B(125, 1, 10)
-# World 2 · limestone valley (x 13–25): stone-topped pillars linked by ladders and a plank bridge
-block(13, 15, 8, BASE_STONE); block(15, 17, 10, BASE_STONE); block(17, 20, 5, BASE_STONE); block(20, 22, 9, BASE_STONE); block(22, 24, 8, BASE_STONE)
-water(24, 25, 12)
-ladder(12, 8, 10)                                                            # W1 → first pillar
-planks(15, 17, 8, posts=[(15, 10), (16, 10)])                                # bridge over the valley dip
-ladder(16, 5, 7)                                                             # up the tall pillar (node 2)
-ladder(20, 5, 8)                                                             # down its east face
-B(126, 18, 4); B(125, 23, 7)
-# World 3 · factory & tin mine (x 25–37): ground + elevated girder walkway
-block(26, 38, 11, IND)
-for y in range(3, 11): I(59 if y == 3 else 107 if y == 10 else 75, 28, y)    # chimney stands on the ground
-for y in range(5, 11): I(59 if y == 5 else 107 if y == 10 else 75, 35, y)
-for x in range(24, 37): I(4 if x == 24 else 6 if x == 36 else 5, x, 8)        # one continuous girder walkway
-for x in (26, 31, 34):
-    I(52, x, 9); I(68, x, 10)                                                # scaffold legs reach the ground
-I(9, 27, 10); I(10, 29, 10); I(62, 32, 10); I(42, 33, 10)
-ladder(37, 8, 10, metal=True)                                                # walkway → ground at the east end
-# World 4 · highland farm terraces (x 38–49), one-tile steps
-for (x, top) in [(38, 11), (41, 10), (44, 9), (47, 8)]:
-    block(x, x + 3, top, FARM)
-    for k, crop in enumerate((56, 58, 59)): F(crop, x + k, top - 1)
-F(22, 47, 6); F(23, 48, 6); F(20, 49, 6); F(36, 49, 7)
-# Coast (x 50–55) and fantasy snow peaks (x 56–63)
-block(50, 53, 12, BASE_STONE); water(53, 56, 12)
-ladder(50, 8, 11)                                                            # terrace → beach
-planks(53, 56, 12, posts=[(54, 14)])                                        # small pier
-block(56, 59, 9, BASE_SNOW); block(59, 61, 6, BASE_SNOW); block(61, 64, 8, BASE_SNOW)
-ladder(55, 9, 11)                                                            # pier → first snow ledge
-ladder(58, 6, 8)                                                             # up to the peak
-B(145, 57, 8); B(154, 60, 3); B(155, 61, 3)
+# ── helpers for the richer composition (V2.2) ──
+def ceiling(x0, x1, bottom):
+    """Rock overhang hanging from the top edge (rows 0..bottom), outlined on its exposed sides only."""
+    for x in range(x0, x1):
+        for y in range(0, bottom + 1):
+            l, r = x == x0, x == x1 - 1
+            k = 0 if l and r else 1 if l else 3 if r else 2
+            f = (140, 141, 142, 143)[k] if y == bottom else (120, 121, (4, 5), 123)[k]
+            target[0] = land; B(f[(x + y) % 2] if isinstance(f, tuple) else f, x, y); target[0] = props
+def waterfall(x, top, bottom, alt=False):
+    for y in range(top, bottom + 1): B((35 if alt else 34) if y == top else (75 if alt else 74) if y == bottom else (55 if alt else 54), x, y)
+def slime_pool(x0, x1, top):
+    for x in range(x0, x1):
+        I(29, x, top)
+        for y in range(top + 1, H): I(45, x, y)
+def autumn_tree(x, feet):
+    F(13, x - 1, feet - 5); F(14, x, feet - 5); F(15, x + 1, feet - 5)
+    F(60, x - 1, feet - 4); F(77, x, feet - 4); F(63, x + 1, feet - 4)
+    F(92, x, feet - 3); F(92, x, feet - 2); F(108, x, feet - 1)
+
+# World 1 · forest & river (x 0–12): overhang, stepped bank, river with plank bridge, rising far bank
+ceiling(0, 5, 2)
+block(0, 4, 10, BASE_GRASS); block(4, 6, 11, BASE_GRASS); water(6, 9, 12); block(9, 12, 10, BASE_GRASS)
+planks(5, 10, 11, posts=[(6, 13), (8, 13)])
+tree(2, 10, big=True); tree(10, 10); B(128, 4, 10); B(125, 0, 9); B(124, 11, 9); B(86, 3, 9)
+# World 2 · limestone valley (x 12–24): pillars, a karst spring falling into a pool, floating stones, clouds
+block(12, 15, 7, BASE_STONE); water(15, 17, 11); block(17, 20, 4, BASE_STONE); block(20, 22, 9, BASE_STONE); block(22, 25, 7, BASE_STONE)
+waterfall(15, 8, 10)                                                          # karst spring out of the pillar face into the pool
+ladder(16, 4, 6)                                                              # bridge → top of the tall pillar
+ladder(11, 7, 9)                                                              # forest bank → first pillar
+planks(15, 17, 7, posts=[])                                                   # plank bridge over the pool to the tall pillar
+ladder(20, 4, 8)                                                              # down the east face
+ladder(21, 7, 8)                                                              # up to the last pillar
+B(147, 13, 4); B(153, 21, 3); B(154, 22, 3); B(155, 23, 3); B(126, 18, 3); B(125, 23, 6); B(129, 13, 6)
+# World 3 · factory & tin mine (x 25–38): two blocks around a slime pool, pipe into the pool, crane, conveyor
+block(25, 28, 9, IND); slime_pool(28, 31, 11); block(31, 34, 9, IND); block(34, 38, 11, IND)
+for y in range(2, 9): I(59 if y == 2 else 107 if y == 8 else 75, 26, y)       # chimney standing on the left block
+for x, f in [(28, 108), (29, 109)]: I(f, x, 10)                               # pipe leaves the wall below the walkway…
+I(77, 30, 10)                                                                 # …and bends down into the slime pool
+for x in range(28, 31): I(4 if x == 28 else 6 if x == 30 else 5, x, 9)        # girder bridge over the pool (the route)
+I(9, 25, 8); I(10, 27, 8); I(42, 31, 8)                                       # barrels, warning sign
+for y in range(3, 9): I(53, 33, y)                                            # crane tower on the right block
+for x in range(29, 36): I(4 if x == 29 else 6 if x == 35 else 5, x, 2)        # crane jib
+I(8, 30, 3); I(24, 30, 4); I(39, 30, 5); I(38, 30, 6)                        # chain, hook, crate over the pool
+for x, f in [(35, 84), (36, 85), (37, 86)]: I(f, x, 10)                       # conveyor on the low yard
+ladder(34, 9, 10, metal=True)
+# World 4 · highland farm (x 38–50): climbing terraces, autumn tree, planters, greenhouse on top
+for (x, top) in [(38, 11), (41, 10), (44, 9), (47, 8)]: block(x, x + 3, top, FARM)
+for k, f in enumerate((38, 39, 40)): F(f, 38 + k, 10)
+autumn_tree(42, 10)
+for k, crop in enumerate((56, 58, 59)): F(crop, 44 + k, 8)
+for k, f in enumerate((64, 66, 67)): F(f, 47 + k, 5)
+for k, f in enumerate((80, 82, 83)): F(f, 47 + k, 6)
+for k, f in enumerate((96, 97, 99)): F(f, 47 + k, 7)
+# Coast (x 50–55): sandy steps, mushroom platform, a spring falling into the sea, pier
+block(50, 52, 11, BASE_STONE); block(52, 54, 12, BASE_STONE); water(54, 56, 13)
+ladder(50, 8, 10)
+B(12, 52, 9); B(13, 53, 9); B(15, 54, 9); B(32, 53, 10); B(72, 53, 11)       # mushroom platform on the lower step
+planks(54, 56, 13, posts=[(55, 15)])
+# Fantasy snow peaks (x 56–63): ledges, peak, clouds, snowman
+block(56, 58, 10, BASE_SNOW); block(58, 60, 7, BASE_SNOW); block(60, 64, 9, BASE_SNOW)
+ladder(55, 10, 12); ladder(57, 7, 9)
+B(145, 56, 9); B(153, 60, 3); B(154, 61, 3); B(155, 62, 3); B(156, 57, 4); B(106, 62, 8); B(111, 63, 8)
 
 draw_land(); img.alpha_composite(land); img.alpha_composite(props); target[0] = img
 # ── route marker: Kenney dot (frame 157) along walkable surfaces ──
-ROUTE = [(1, 11), (2, 11), (3, 11), (4, 11), (5, 11), (6, 11), (7, 11), (8, 11), (9, 11), (10, 11), (11, 11),
-         (13, 8), (14, 8), (15, 8), (16, 8), (17, 5), (18, 5), (19, 5), (21, 9), (22, 8), (23, 8),
-         (24, 8), (25, 8), (26, 8), (27, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8), (36, 8),
-         (38, 11), (39, 11), (40, 11), (41, 10), (42, 10), (43, 10), (44, 9), (45, 9), (46, 9), (47, 8), (48, 8), (49, 8),
-         (51, 12), (52, 12), (53, 12), (54, 12), (56, 9), (57, 9), (59, 6), (60, 6)]
+ROUTE = [(1, 10), (2, 10), (3, 10), (4, 11), (5, 11), (6, 11), (7, 11), (8, 11), (9, 11), (10, 10),
+         (12, 7), (13, 7), (14, 7), (15, 7), (16, 7), (17, 4), (18, 4), (19, 4), (21, 9), (22, 7), (23, 7), (24, 7),
+         (25, 9), (27, 9), (28, 9), (29, 9), (30, 9), (31, 9), (32, 9), (35, 11), (36, 11), (37, 11),
+         (38, 11), (39, 11), (40, 11), (41, 10), (43, 10), (44, 9), (45, 9), (46, 9), (47, 8), (49, 8),
+         (51, 11), (52, 12), (53, 12), (54, 13), (55, 13), (56, 10), (58, 7), (59, 7)]
 for (x, row) in ROUTE: B(157, x, row - 1)
 
 # regions not yet open: white mist overlay (tiles are not recoloured)
@@ -131,12 +160,12 @@ d = ImageDraw.Draw(img)
 try:
     font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 18); small = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 14)
 except OSError: font = small = ImageFont.load_default()
-nodes = [(3, 11, '1', 'Hutan & Sungai', 'Fungsi · Selesai 2/3 · Tersedia 3/3', (47, 157, 85), 'below'),
-         (18.5, 5, '2', 'Lembah Batu Kapur', 'F. Kuadratik · Prototaip (Stesen A)', (215, 162, 31), 'above'),
-         (31, 8, '3', 'Kilang & Lombong', 'Sistem Persamaan · Akan datang', (154, 163, 160), 'above'),
-         (48, 8, '4', 'Tanah Tinggi Ladang', 'Indeks, Surd & Log · Akan datang', (154, 163, 160), 'above'),
-         (52, 12, '?', 'Pantai & Bakau', 'Tema cadangan', (190, 198, 196), 'below'),
-         (60, 6, '?', 'Puncak Salji (fantasi)', 'Tema cadangan', (190, 198, 196), 'above')]
+nodes = [(2, 10, '1', 'Hutan & Sungai', 'Fungsi · Selesai 2/3 · Tersedia 3/3', (47, 157, 85), 'below'),
+         (18, 4, '2', 'Lembah Batu Kapur', 'F. Kuadratik · Prototaip (Stesen A)', (215, 162, 31), 'above'),
+         (32, 9, '3', 'Kilang & Lombong', 'Sistem Persamaan · Akan datang', (154, 163, 160), 'above'),
+         (48, 5, '4', 'Tanah Tinggi Ladang', 'Indeks, Surd & Log · Akan datang', (154, 163, 160), 'above'),
+         (51, 11, '?', 'Pantai & Bakau', 'Tema cadangan', (190, 198, 196), 'below'),
+         (58.5, 7, '?', 'Puncak Salji (fantasi)', 'Tema cadangan', (190, 198, 196), 'above')]
 for (x, row, num, name, sub, col, side) in nodes:
     px, py = (x + .5) * TS, (row - 1) * TS + TS * .35
     d.ellipse([px - 17, py - 17, px + 17, py + 17], fill=col + (255,), outline=(255, 255, 255, 255), width=4)
@@ -148,8 +177,8 @@ for (x, row, num, name, sub, col, side) in nodes:
     d.text((bx + tw / 2, by + 13), name, font=font, fill=(32, 62, 54, 255), anchor='mm'); d.text((bx + tw / 2, by + 32), sub, font=small, fill=(60, 80, 74, 255), anchor='mm')
 d.rectangle([0, H * TS, W * TS, H * TS + 150], fill=(255, 255, 255, 255))
 for k, line in enumerate([
-    'DENAI · Peta Dunia V2.1 — mockup daripada jubin Kenney sebenar (2×). Laluan dunia = titik Kenney di atas permukaan + jambatan papan + tangga + laluan galang industri.',
-    'World 1 hutan & sungai · World 2 tiang batu (jubin batu/pasir 40–43; latar karst belum ada) · World 3 kilang: tanah industri bertepi betul, laluan galang bersambung, kaki perancah dan cerobong berdiri di tanah.',
+    'DENAI · Peta Dunia V2.2 — mockup daripada jubin Kenney sebenar (2×). Susunan berlapis ala contoh Kenney: tebing tergantung, mata air ke kolam, kolam lendir, kren, rumah hijau, platform cendawan.',
+    'Laluan dunia = titik Kenney di atas permukaan + jambatan papan/galang + tangga; setiap objek ada sebab (paip keluar dari dinding, kren di atas tanah, air terjun dari mata air ke kolam).',
     'World 4 teres ladang · Pantai · Puncak salji (tanah salji 80–83, set latar salji, orang salji, awan). Kabus putih = belum dibuka (jubin tidak diwarnakan semula). Nod + kad = lapisan UI.',
     'Kad: "Selesai" (level tamat) berbeza daripada "Tersedia" (level boleh dimain). Telefon: senarai kad (world-select.svg).']):
     d.text((16, H * TS + 16 + k * 22), line, font=small, fill=(32, 62, 54, 255))
