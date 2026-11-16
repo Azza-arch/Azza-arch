@@ -5,7 +5,7 @@ import {startCoin,coinPickup,checkpointFx,planksDrop,sealPop,ATLAS,COIN_FACE} fr
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createInverseStore,newRun} from '../core/inverse-campaign.js';
-import {puzzleCommand,solved,inFinishZone,SEAL_OUTPUTS,RANGE,stage,target,work,OPERATIONS} from './inverse.js';
+import {puzzleCommand,solved,inFinishZone,SEAL_OUTPUTS,RANGE,DOMAIN,forward,stage,target,work,OPERATIONS} from './inverse.js';
 import {DEFINITION,WORLD,SPAWN,GOAL,BRIDGE,CHECKPOINTS,COINS,SECRETS,WATER,WATER_Y,WATERFALL} from './inverse-world.js';
 const $=id=>document.getElementById(id);
 export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}){
@@ -58,7 +58,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    document.body.classList.remove('menu-active');document.body.classList.add('game-active','inverse-active');
    for(const id of ['welcome','loading','mission-indicator','chill-bubble','world-prompt','tutorial'])$(id).hidden=true;
    $('pause').disabled=false;$('touch-controls').hidden=!matchMedia('(pointer: coarse)').matches;$('hud-mode').hidden=true;
-   this.updateGate();this.message('Undur operasi mesin, kemudian gunakan input asal untuk mengangkat jambatan. Mula dengan demonstrasi 13.');this.writeSave();
+   this.syncTarget();this.updateGate();this.message('Pergi ke mesin. Cari x supaya f(x) = 13, 7 dan 15 untuk menyalakan 3 meterai.');this.writeSave();
    this.events.once('shutdown',()=>{this.writeSave();clearControls();this.uiAbort?.abort();$('inverse-panel')?.remove();$('inverse-dialog')?.remove();document.body.classList.remove('inverse-active','inverse-near-machine');$('touch-controls').hidden=true;});
   }
   buildRuinDetails(tile,pole,beam){
@@ -167,7 +167,9 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   installUI(){
    this.uiAbort=new AbortController();const signal=this.uiAbort.signal;
    const panel=document.createElement('section');panel.id='inverse-panel';panel.hidden=true;panel.setAttribute('aria-label','Kawalan mesin songsang');
-   panel.innerHTML='<p class="inverse-heading"></p><p class="inverse-rule">f(x)=2x+3 · domain {0…6}<br>Imej {3,5,7,9,11,13,15}</p><label class="inverse-select">Output y <select id="inverse-output" aria-label="Output untuk diproses"></select></label><p class="inverse-order"></p><button data-action="demo">Lihat demonstrasi 13 → 5</button><div class="inverse-actions inverse-operations"><button data-action="subtract" title="J">−3</button><button data-action="divide" title="K">÷2</button><button data-action="add" title="U">+3</button><button data-action="multiply" title="I">×2</button></div><p class="inverse-work"></p><div class="inverse-actions"><button data-action="undo">Undur</button><button data-action="reset">Mula semula</button></div><label class="inverse-drive" hidden>Input pemacu x <input id="inverse-actuator" type="range" min="0" max="6" step="1" value="0"><output id="inverse-actuator-value">0</output></label><button data-action="apply">Salur nilai ke dek · E</button><p class="inverse-trace" role="status" aria-live="polite"></p>';
+   // Clarity pass: the goal is chosen for the player, one "next step" line,
+   // x is fed to the deck automatically (no separate slider).
+   panel.innerHTML='<p class="inverse-heading"></p><p class="inverse-goal"></p><p class="inverse-rule">Mesin f: x → <b>×2</b> → <b>+3</b> → y.<br>Untuk patah balik: buat songsang, dari belakang.</p><p class="inverse-work"></p><div class="inverse-actions inverse-operations"><button data-action="subtract" title="J">−3</button><button data-action="divide" title="K">÷2</button><button data-action="add" title="U">+3</button><button data-action="multiply" title="I">×2</button></div><p class="inverse-order" aria-live="polite"></p><div class="inverse-actions"><button data-action="undo">Undur</button><button data-action="reset">Mula semula</button><button data-action="demo">Tunjuk saya</button></div><button data-action="apply" class="inverse-apply">Salur x ke dek · E</button><p class="inverse-trace" role="status" aria-live="polite"></p><details class="inverse-info"><summary>Info</summary><p>f(x) = 2x + 3 · domain {0…6} · imej {3,5,7,9,11,13,15}</p><label class="inverse-select">Cuba output lain <select id="inverse-output" aria-label="Output untuk diproses"></select></label><label class="inverse-drive" hidden>Input pemacu x <input id="inverse-actuator" type="range" min="0" max="6" step="1" value="0"><output id="inverse-actuator-value">0</output></label></details>';
    document.querySelector('.game-frame').append(panel);
    for(let y=0;y<=18;y++)$('inverse-output').add(new Option(String(y),String(y)));
    $('inverse-output').addEventListener('change',e=>this.act('select',Number(e.target.value)),{signal});
@@ -206,9 +208,16 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   }
   act(action,value){
    if(!this.machineNear||this.mode!=='playing'||this.busy)return;
-   const before=this.run.puzzle,next=puzzleCommand(before,action,value);
+   let before=this.run.puzzle;
+   // x goes to the deck automatically: it is the value the player's steps produced.
+   if(action==='apply'&&['independent','complete'].includes(stage(before))&&DOMAIN.includes(work(before).value))before=puzzleCommand(before,'actuator',work(before).value);
+   // Doing −3 then ÷2 yourself counts as having seen the demonstration.
+   if(action==='apply'&&stage(before)==='demo'&&!before.demoSeen&&forward(work(before).value)===before.output)before={...before,demoSeen:true};
+   const next=puzzleCommand(before,action,value);
+   const lit=SEAL_OUTPUTS.find(y=>next.seals[y]&&!before.seals[y]),x=work(before).value;
+   const say=action==='apply'?(lit!==undefined?`f(${x}) = ${forward(x)} ✓ Meterai ${lit} menyala!${solved(next)?' Jambatan keluar dibina.':''}`:DOMAIN.includes(x)?(forward(x)===before.output?`f(${x}) = ${forward(x)} ✓ Betul!`:`f(${x}) = ${forward(x)}, bukan ${before.output}. Semak langkah anda (Undur).`):`${x} bukan input yang sah (0 hingga 6). Tekan Undur.`):action==='demo'?'Lihat: 13 − 3 = 10, kemudian 10 ÷ 2 = 5. Sekarang tekan Salur.':null;
    const animate=action==='demo'||action==='apply'||Object.hasOwn(OPERATIONS,action);
-   const commit=()=>{this.busy=false;this.pendingPuzzle=null;this.run.puzzle=next;this.updateGate();this.renderPanel();this.writeSave();if(next.last)this.message(next.last.trace);};
+   const commit=()=>{this.busy=false;this.pendingPuzzle=null;this.run.puzzle=next;this.syncTarget();this.updateGate();this.renderPanel();this.writeSave();if(say)this.message(say);this.lastSay=say;};
    if(!animate){commit();return;}
    this.busy=true;this.pendingPuzzle=next;
    const packet=this.machineText(String(work(before).value),2808,1370,18).setDepth(30);
@@ -216,21 +225,34 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    let step=0;const advance=()=>{packet.setText(String(values[step]));if(++step>=values.length){this.time.delayedCall(reducedMotion?1:280,()=>{packet.destroy();commit();});return;}this.tweens.add({targets:packet,x:2808+step*90,duration:reducedMotion?1:400,onComplete:advance});};advance();
    this.renderPanel();
   }
+  // Until all three seals are lit, the machine works on the current seal's number.
+  syncTarget(){
+   const p=this.run.puzzle;if(stage(p)==='complete'||p.output===target(p))return;
+   this.run.puzzle={...puzzleCommand(p,'select',target(p)),last:null};
+  }
+  nextStep(state){
+   const ops=state.steps,v=work(state).value,phase=stage(state),guided=phase==='demo'||phase==='guided';
+   if(phase==='complete')return 'Semua meterai menyala. Cuba output lain di Info, atau teruskan ke gerbang.';
+   if(ops.length===2&&ops[0]==='subtract'&&ops[1]==='divide')return `x = ${v}. Tekan Salur x ke dek.`;
+   if(ops.length&&!(ops[0]==='subtract'&&ops.length===1))return 'Itu bukan langkah songsang yang betul. Tekan Undur. (Songsang +3 ialah −3; songsang ×2 ialah ÷2.)';
+   if(ops.length===1)return guided?'Langkah 2: buang ×2 — tekan ÷2.':'Bagus. Apa langkah seterusnya?';
+   return guided?'Langkah 1: buang +3 dahulu — tekan −3.':'Buat songsang mesin, langkah demi langkah.';
+  }
   renderPanel(){
    const p=$('inverse-panel');p.hidden=!this.machineNear||this.mode!=='playing';document.body.classList.toggle('inverse-near-machine',!p.hidden);if(!this.machineNear)return;
-   const state=this.run.puzzle,phase=stage(state),independent=['independent','complete'].includes(phase);
-   p.querySelector('.inverse-heading').textContent=`${{demo:'A · Lihat dan cuba',guided:'B · Undur operasi',independent:'C · Pandu dek',complete:'Bengkel bebas'}[phase]} · tanda ${target(state)}`;
-   p.querySelector('.inverse-order').textContent=phase==='demo'?'Lihat 13 → 10 → 5, kemudian salurkan 5.':phase==='guided'?'Pilih output 7. Batalkan +3 dahulu, kemudian ×2. Gunakan tuas.':phase==='independent'?'Pulihkan input untuk output 15. Laras pemacu x sendiri, kemudian salurkan.':'Pengunci kekal. Cuba output lain tanpa menutup laluan.';
+   const state=this.run.puzzle,phase=stage(state),lit=SEAL_OUTPUTS.filter(y=>state.seals[y]).length;
+   p.querySelector('.inverse-heading').textContent=`Gerbang Songsang · meterai ${lit}/3`;
+   p.querySelector('.inverse-goal').innerHTML=phase==='complete'?'Semua meterai menyala ✓':`Cari x supaya <b>f(x) = ${state.output}</b>`;
+   p.querySelector('.inverse-order').textContent=this.busy?'':this.nextStep(this.pendingPuzzle||state);
    p.querySelector('[data-action="demo"]').hidden=phase!=='demo';
-   p.querySelector('.inverse-drive').hidden=!independent;
+   p.querySelector('.inverse-select').hidden=phase!=='complete';
    if(document.activeElement!==$('inverse-output'))$('inverse-output').value=String(state.output);
-   if(document.activeElement!==$('inverse-actuator'))$('inverse-actuator').value=String(state.actuator);
-   $('inverse-actuator-value').value=String(state.actuator);
    p.querySelector('.inverse-work').textContent=work(this.pendingPuzzle||state).trace;
-   const last=this.pendingPuzzle?.last||state.last;p.querySelector('.inverse-trace').textContent=this.busy?'Mesin bergerak…':last?.trace||'J: −3 · K: ÷2 · U: +3 · I: ×2 · Undur: Backspace';
+   p.querySelector('.inverse-trace').textContent=this.busy?'Mesin bergerak…':this.lastSay||'';
    p.querySelectorAll('button,select,input').forEach(b=>b.disabled=this.busy);
    p.querySelector('[data-action="undo"]').disabled=this.busy||!state.steps.length;
   }
+
   update(time,delta){
    if(!this.player||this.mode!=='playing')return;this.elapsed+=delta;
    const motion=updatePlayer(this,time,delta,{controls,audio,SFX,reducedMotion,BASE_SCALE,WATER,WATER_Y});if(motion.respawned)return;
