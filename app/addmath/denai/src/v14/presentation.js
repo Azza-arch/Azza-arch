@@ -57,7 +57,7 @@ export function syncPresentation(scene){
    // UI pass: the menu now shows the real Section 01–02 world behind the
    // title (oak, crate garden, root path) instead of a separate canvas.
    scene.visual?.setVisible(false);scene.cameras.main.stopFollow();requestAnimationFrame(()=>scene.frameMenu?.());
-   requestAnimationFrame(()=>{if(scene.mode==='welcome')($('continue-btn').hidden?$('start'):$('continue-btn')).focus({preventScroll:true});});
+   requestAnimationFrame(()=>{if(scene.mode==='welcome'&&!document.body.classList.contains('world-map-open'))$('play-main').focus({preventScroll:true});});
    $('world-prompt').hidden=true;
   }
   if(mode!=='playing')scene.prompt?.setVisible(false);

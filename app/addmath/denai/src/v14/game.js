@@ -3,6 +3,8 @@ import {createInverseScene} from './levels/inverse-scene.js';
 import {createInverseStore} from './core/inverse-campaign.js';
 import {createCampaignStore} from './core/campaign-store.js';
 import {canPlay} from './levels/registry.js';
+import {installWorldMap} from './menu/world-map.js';
+import {worldOneLevels,currentLevel} from './menu/progress.js';
 import {createPlayer} from './core/player.js';
 import {updatePlayer} from './core/player-motion.js';
 import {syncBControl,B_STOPS} from './b-control.js';
@@ -231,7 +233,7 @@ class Rooftop extends Phaser.Scene {
     announce('Ikut laluan dari taman ke sungai. Laluan atas ialah bonus pilihan.');
     this.events.once('shutdown', () => { this.input.keyboard.enabled = true; });
     refreshTwinEntry();refreshInverseEntry();
-    if(this.game.registry.get('showLevelSelect')){this.game.registry.remove('showLevelSelect');$('level-select').showModal();}
+    if(this.game.registry.get('showLevelSelect')){this.game.registry.remove('showLevelSelect');worldMap.open();} // returning from 1-2/1-3 → World Map page
     if(localPreview&&!previewOpened&&new URLSearchParams(location.search).get('level')==='w1-l2'){
       previewOpened=true;this.time.delayedCall(50,()=>launchTwins());
     }
@@ -1247,6 +1249,40 @@ function freshAdventure(){
   SaveManager.clear();['complete','paused','settings'].forEach(id=>$(id).open&&$(id).close());
   clearControls();activeScene.game.registry.set('replay',true);activeScene.scene.restart();
 }
+// ---- Main menu (MAIN/SAMBUNG · PETA DUNIA · TETAPAN) and World Map ----
+// Reuses the existing launchers and stores; see menu/progress.js.
+function startLevelScene(key,data){clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start(key,data);}
+function launchLevel(id,mode){
+  audio.unlock();SFX.ui(audio);
+  if(id==='w1-l1'){
+    const save=SaveManager.load();
+    // Replay (or a finished run) starts a fresh run: only the run save is
+    // reset; the profile's completions, best time, coins and achievements stay.
+    if(mode==='replay'||save?.completed){freshAdventure();return;}
+    if(save){activeScene.continueFromSave();return;}
+    activeScene.startRun();return;
+  }
+  if(id==='w1-l2'){if(mode==='replay')startLevelScene('Jambatan',{fresh:true});else launchTwins();return;}
+  if(id==='w1-l3'){if(mode==='replay')startLevelScene('GerbangSongsang',{fresh:true});else launchInverse();}
+}
+const worldMap=installWorldMap({launch:launchLevel,localPreview,onClose:(toMenu)=>{
+  if(toMenu&&activeScene&&activeScene.mode!=='welcome')activeScene.returnToMenu();
+  else requestAnimationFrame(()=>$('world-map-btn').focus({preventScroll:true}));
+}});
+function refreshPlayMain(){
+  const levels=worldOneLevels({localPreview}),cur=currentLevel(levels),started=levels.some(l=>l.completions||l.running);
+  $('play-main').textContent=started&&cur?'SAMBUNG':'MAIN';
+  $('play-main-sub').textContent=cur?`Level ${cur.num} · ${cur.title}`:'Dunia 1 selesai · pilih level di Peta Dunia';
+  return cur;
+}
+$('play-main').addEventListener('click',()=>{
+  const cur=refreshPlayMain();
+  if(!cur){worldMap.open();return;} // every World 1 level done: choose on the map
+  launchLevel(cur.id,cur.status==='in-progress'?'continue':'play');
+});
+$('world-map-btn').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);worldMap.open();});
+$('settings-main').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);openSettings();});
+{const base=Rooftop.prototype.refreshMenu;Rooftop.prototype.refreshMenu=function(){base.call(this);refreshPlayMain();};}
 function savedSummary(save){
   const cp=CHECKPOINTS.findIndex(c=>c.id===save.checkpointId)+1;
   return `${save.completed?'Level 1 sudah selesai':'Checkpoint '+(cp||'awal')} · ${save.collectedCoinIds.length} syiling · ${save.discoveredSecretIds.length} rahsia`;
@@ -1353,7 +1389,7 @@ $('settings-close').addEventListener('click',()=>closeOverlay('settings'));
 $('collection-close').addEventListener('click',()=>closeOverlay('collection'));
 $('settings').addEventListener('cancel',event=>{event.preventDefault();closeOverlay('settings');});
 $('collection').addEventListener('cancel',event=>{event.preventDefault();closeOverlay('collection');});
-$('level-select-btn').addEventListener('click',()=>{activeScene?.renderLevelSelect();$('level-select').showModal();});
+$('level-select-btn').addEventListener('click',()=>{closeOverlay('settings');worldMap.open();});
 $('level-select-close').addEventListener('click',()=>closeOverlay('level-select'));
 $('level-select').addEventListener('cancel',event=>{event.preventDefault();closeOverlay('level-select');});
 // Delegates to whichever of #start/#continue-btn is currently the real,
@@ -1367,9 +1403,8 @@ $('level1-action').addEventListener('click',()=>{
   ($('continue-btn').hidden ? $('start') : $('continue-btn')).click();
 });
 $('complete-level-select').addEventListener('click',()=>{
-  activeScene?.renderLevelSelect();
   $('complete').close();
-  $('level-select').showModal();
+  worldMap.open();
 });
 $('menu-btn').addEventListener('click',()=>activeScene?.returnToMenu());
 // One owner for Escape prevents the native dialog's cancel event and Phaser
@@ -1382,6 +1417,7 @@ document.addEventListener('keydown',event=>{
   if($('secret-note').open&&activeScene.noteReturnMode) { activeScene.closeSecretNote(); return; }
   if($('leaderboard').open) { $('leaderboard').close(); return; }
   if($('help').open) { closeOverlay('help'); return; }
+  if(worldMap.isOpen()) { const pg=$('world-map-page'); if(pg.classList.contains('show-panel')&&matchMedia('(max-width:820px),(max-height:540px)').matches)pg.classList.remove('show-panel'); else worldMap.close(true); return; }
   if($('level-select').open) { closeOverlay('level-select'); return; }
   if($('collection').open) { closeOverlay('collection'); return; }
   if($('settings').open) { closeOverlay('settings'); return; }
