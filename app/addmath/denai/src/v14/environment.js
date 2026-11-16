@@ -16,17 +16,33 @@ const T=54;
 // (canopy with the trunk fork entering it).
 const CROWNS={
  T3:['.#.','###','###'],          // pointed dome
- T4:['##.','###','.##'],          // leaning / irregular
+ T4:['.#.','###','###'],          // dome over a branching trunk (was a diagonal mask that read as two crowns)
  T5:['.##..','#####','#####','.###.'], // broad rounded oak
  T6:['.##..','#####'],
  T7:['...##....','..#####..','.########','#########','..#####..'],
  T8:['#','#','#','#'],
 };
-// Trunk frames bottom→top. 137 rooted base, 136 knot (stub left),
-// 116/138 stub right, 96 trunk with leaf tufts.
-const TRUNKS={T2:[137],T3:[137,136],T4:[137,116,136],T5:[137,138,96],T6:[137,136,136],T7:[137,116,136,96,138,116],T8:[137,136]};
+// Trunk frames bottom→top (checked pixel by pixel against tilemap_packed.png):
+// 137 rooted base · 136 plain knot · 116 branch stub LEFT · 138 branch stub
+// RIGHT · 117 stubs both sides. 96 (trunk with leaf tufts) is no longer used:
+// its tufts read as loose leaf squares beside the trunk.
+// A side branch may only sit in a row whose trunk frame has a stub on that
+// side (see BRANCH_STUB); treeJoinErrors() checks this for every tree type.
+const TRUNKS={T2:[137],T3:[137,136],T4:[137,138,116],T5:[137,138,136],T6:[137,136,136],T7:[137,136,116,138,136,136],T8:[137,136]};
+export const BRANCH_STUB={left:[116,117],right:[138,117]};
 // Side branches [frame, column offset from trunk (1 = right neighbour, -1 = left), trunk row].
 const BRANCHES={T4:[[99,1,1],[98,-1,2]],T5:[[99,1,1]],T7:[[98,-1,2],[119,1,3],[119,2,3],[119,3,3],[99,4,3]]};
+// Every branch must touch a trunk stub on its side, or be chained (119) from one.
+export function treeJoinErrors(){
+ const errs=[];
+ for(const [type,list] of Object.entries(BRANCHES))for(const [frame,dx,row] of list){
+  const trunk=TRUNKS[type]?.[row];
+  if(trunk===undefined){errs.push(`${type}: branch row ${row} has no trunk`);continue;}
+  if(Math.abs(dx)===1&&!BRANCH_STUB[dx<0?'left':'right'].includes(trunk))errs.push(`${type}: frame ${frame} at row ${row} side ${dx<0?'left':'right'} meets trunk ${trunk} without a stub`);
+  if(Math.abs(dx)>1&&!list.some(([,d,r])=>r===row&&Math.sign(d)===Math.sign(dx)&&Math.abs(d)===Math.abs(dx)-1))errs.push(`${type}: branch piece at ${dx} not chained`);
+ }
+ return errs;
+}
 function crownFrame(T_,B,Lf,R){
  if(!Lf&&!R) return T_&&B?56:!T_&&B?36:T_&&!B?76:16;
  if(!T_&&!B) return !Lf?77:!R?79:78;
@@ -50,28 +66,28 @@ export function buildTree(s,type,x,feet,fg=false){
   s.tile(f,x0+c*T,top-(h-r)*T,3.5+D);
  }
 }
-function parallax(s,WORLD,verticalShift=0){
- // Far: pale cloud band with tree silhouettes (frames 8–11, fill 16–19).
- // Mid: green forest band (frames 14–15, fill 22–23). Collision unaffected.
- // The far band sits in a container that drifts slowly (ambient motion from
- // the existing art only); it wraps every 288 units = one 4-frame period.
- const bands=[{sf:.25,y:990+verticalShift,top:[8,9,10,11],fill:[16,17,18,19],depth:.4,alpha:.9,drift:true},
-  {sf:.5,y:1140+verticalShift,top:[14,15],fill:[22,23],depth:.8,alpha:.85}];
- for(const b of bands){
-  const span=WORLD.width*Math.max(b.sf,.6)+3000,box=s.add.container(0,0).setScrollFactor(b.sf,1).setDepth(b.depth);
-  for(let x=-1152,i=0;x<span;x+=72,i++){
-   box.add(s.add.image(x,b.y,'kpp_bg_atlas',b.top[i%b.top.length]).setOrigin(0).setScale(3));
-   for(let y=b.y+72;y<WORLD.floor+72;y+=72)box.add(s.add.image(x,y,'kpp_bg_atlas',b.fill[i%b.fill.length]).setOrigin(0).setScale(3));
-  }
-  // Opaque tiles + ONE translucent sky wash = the faded distance look without
-  // the 1px double-blend seams that per-tile alpha produced at tile edges.
-  s.add.rectangle(-2000,b.y,span+6000,WORLD.floor+200-b.y,0xaee3f5,1-b.alpha).setOrigin(0).setScrollFactor(b.sf,1).setDepth(b.depth+.01);
-  if(b.drift&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
-   let off=0;s.events.on('update',(t,dt)=>{off=(off+dt*.006)%288;box.x=-off;});
-  }
+// Background themes: each is ONE Kenney background set (tilemap-backgrounds_packed,
+// 24 px frames) — its own flat sky row, its silhouette band and its fill.
+// Colours were checked per pixel: sky = band top, band bottom = fill, so the
+// three rows join with no seam. Exactly one theme is drawn per scene; no
+// cross-theme overlay, wash, gradient or haze.
+export const BG_THEMES=Object.freeze({
+ forest:{sky:[6,7],band:[14,15],fill:[22,23],color:0x7ff0a5},          // green forest set (World 1)
+ snow:{sky:[0,1,2,3],band:[8,9,10,11],fill:[16,17,18,19],color:0xdff6f5}, // blue-white set (reserved for a future snow world)
+});
+export function buildBackground(s,WORLD,verticalShift=0,theme='forest'){
+ const t=BG_THEMES[theme]??BG_THEMES.forest,y=1140+verticalShift,sf=.5;
+ s.bgLayer?.destroy();
+ const span=WORLD.width*.6+3000,box=s.add.container(0,0).setScrollFactor(sf,1).setDepth(.5);
+ for(let x=-1152,i=0;x<span;x+=72,i++){
+  for(let yy=y-72;yy>-144;yy-=72)box.add(s.add.image(x,yy,'kpp_bg_atlas',t.sky[i%t.sky.length]).setOrigin(0).setScale(3));
+  box.add(s.add.image(x,y,'kpp_bg_atlas',t.band[i%t.band.length]).setOrigin(0).setScale(3));
+  for(let yy=y+72;yy<WORLD.floor+144;yy+=72)box.add(s.add.image(x,yy,'kpp_bg_atlas',t.fill[i%t.fill.length]).setOrigin(0).setScale(3));
  }
+ s.bgLayer=box;s.bgTheme=theme;s.bgColor='#'+t.color.toString(16).padStart(6,'0');
+ return box;
 }
-export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=[],WORLD,parallaxShift=0}){
+export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=[],WORLD,parallaxShift=0,bgTheme='forest'}){
  s.textures.get('kpp_terrain_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.textures.get('kpp_bg_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
  s.worldObjects=[];s.cClues=new Set();s.probeSeen=new Set();s.eReadoutShown=false;s.eOutputShown=false;
@@ -84,7 +100,7 @@ export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=
  const pole=(x,top,bottom,depth=4)=>{for(let y=top;y<bottom;y+=54)tile(89,x-27,y,depth,54,Math.min(54,bottom-y));};
  const post=(x,top,bottom)=>{for(let y=top;y<bottom;y+=54)tile(89,x,y,4,54,Math.min(54,bottom-y));};
  const beam=(x,y,width)=>{for(let a=0;a<width;a+=54)tile(a===0?48:a+54>=width?50:49,x+a,y,4,Math.min(54,width-a),18);};
- parallax(s,WORLD,parallaxShift);
+ buildBackground(s,WORLD,parallaxShift,bgTheme);
  // ── Terrain ────────────────────────────────────────────────────────────
  // filled(x,y): is there terrain (solid column or slab band) in the 54px
  // row starting at y at column x? Used so edge outlines appear only where
@@ -147,12 +163,12 @@ export function buildWorld(s){
  tile(124,1395,1350,11);tile(125,1735,1242,11);
  const trees=[
   ['T5',729,1296],['T1',891,1242],             // 01: one large + one small
-  ['T4',999,1242],['T3',1107,1242],           // 02: overlapping root pair (T3 rooted on the overhang)
+  ['T4',963,1242],['T3',1134,1242],           // 02: root pair, crowns side by side (no overlapping outlines; T3 rooted on the overhang)
   ['T8',1998,1242],                            // 02: column tree at the exit
   ['T1',3294,1296],['T6',3850,1188],          // 04: pine on cliff-1, umbrella tree shading the rest cliff
   ['T7',4455,1296],                            // 05: POKOK TINJAU (giant, carries the lookout)
   ['T8',4806,1242],['T2',5076,1296],
-  ['T3',1880,1242,'fg'],['T3',4900,1296,'fg'],['T4',3040,1242,'fg'], // FOREGROUND: Chill Boy walks behind these three           // 05: young clump in the root dip, column tree before the clearing
+  ['T3',1880,1242,'fg'],['T3',4950,1296,'fg'],['T4',3040,1242,'fg'], // FOREGROUND: Chill Boy walks behind these three           // 05: young clump in the root dip, column tree before the clearing
   ['T5',5300,1242],['T3',5520,1242],['T1',5612,1242]]; // 06: three-tree grove (large / medium / small), crowns spaced so each reads
  trees.forEach(([t,x,f,fg])=>buildTree(s,t,x,f,!!fg));
  // ── 03 · Stesen Fungsi ──────────────────────────────────────────────────
@@ -196,6 +212,10 @@ export function buildWorld(s){
  // ── 06 · Destinasi Terakhir ─────────────────────────────────────────────
  // Wide clearing; the goal flag waves on a stone plinth; a low fence and a
  // sign close the world edge.
+ // Finish gate: two timber posts standing on the stone plinth, a plank
+ // lintel and a pennant on each post, framing the waving goal flag.
+ for(const x of [GOAL.x-54,GOAL.x+54]){pole(x,GOAL.feet-162,GOAL.feet,10.6);s.add.image(x,GOAL.feet-180,'kpp_terrain_atlas',111).setOrigin(.2,1).setScale(2).setDepth(10.7);}
+ for(let x=GOAL.x-81;x<GOAL.x+81;x+=54)tile(x===GOAL.x-81?48:x+54>=GOAL.x+81?50:49,x,GOAL.feet-180,10.8,54,18);
  s.goalFlag=s.add.image(GOAL.x,GOAL.feet,'kpp_terrain_atlas',112).setOrigin(.5,1).setScale(4).setDepth(11);
  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)s.time.addEvent({delay:420,loop:true,callback:()=>s.goalFlag.setFrame(s.goalFlag.frame.name===112?111:112)});
  tile(128,5420,1188,11);tile(86,5832,1188,11);tile(106,5886,1188,11);

@@ -24,11 +24,19 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    this.solids=this.physics.add.staticGroup();const {tile,pole,beam}=buildLandscape(this,DEFINITION);
    this.landTile=tile;this.landPole=pole;
    // Small, varied Kenney groves frame the route without hiding platforms.
-   [['T3',324,1728],['T3',594,1728],['T3',1512,1728],['T1',1674,1728],['T3',2268,1674],['T1',2376,1674],['T4',3996,1674],['T2',4320,1620],['T2',5400,1566]].forEach(([type,x,y])=>buildTree(this,type,x,y));
+   // Groves: a stream-side pair of different sizes, courtyard oak + pine,
+   // an upper-ruin tree, the waterfall-bank oak and a pair framing the gate.
+   [['T5',250,1728],['T1',560,1728],['T3',1440,1728],['T1',1560,1728],['T3',2268,1674],['T1',2390,1674],['T4',3960,1674],['T3',4250,1620],['T2',4700-27,1620],['T1',5480,1566],['T3',5560,1566]].forEach(([type,x,y])=>buildTree(this,type,x,y));
+   // Ruin galleries stand on broken stone piers (the level's identity: a
+   // stepped ruin, not scaffolding); other decks keep timber posts.
+   const pier=(x,top,bottom)=>{for(let y=top;y<bottom;y+=54)this.add.image(x-27,y,'l3-stone-center').setOrigin(0).setDisplaySize(54,Math.min(54,bottom-y)).setDepth(4).setTint(0xe6dfd2);};
+   const piers=new Set();
    for(const d of DEFINITION.DECKS){
     for(const x of [d.x+27,d.x+d.width-27]){
      const ground=DEFINITION.AB_TERRAIN.find(t=>x>=t.x&&x<t.x+t.width)?.y||WORLD.floor;
-     if(ground>d.y+18)pole(x,d.y+18,ground,4);
+     if(ground<=d.y+18)continue;
+     if(d.x>=702&&d.x<2538){if(!piers.has(x)){piers.add(x);pier(x,d.y+18,ground);}}
+     else pole(x,d.y+18,ground,4);
     }
    }
    this.checkpointArts=CHECKPOINTS.map(cp=>tile(cp.id===this.run.checkpointId?112:111,cp.x-27,cp.feet-54,12));
@@ -65,17 +73,17 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    // One continuous Kenney pipe rises from the spring, crosses the machine,
    // then turns down directly into the single waterfall.
    this.pipeTile=tile;
-   this.placePipePath([[2646,1566],[2646,1404],[3240,1404],[3240,1458]],11);
+   this.placePipePath([[2646,1512],[2646,1404],[3240,1404],[3240,1458]],11); // intake sits on the spring surface (1566), outlet mouth above the waterfall
    // A short timber service frame supports the pipe and carries the controls.
    for(let x=2700;x<3024;x+=54)tile(x===2700?48:x+54>=3024?50:49,x,1566,9.6,54,18);
    for(const x of [2673,2862,2997])pole(x,1458,1566,9.7);
    // A narrow creek passes under the entry footbridge; water is scenery only.
    this.waterSurfaceTiles=[];
    for(let x=378;x<486;x+=54){
+    // Creek pool: one surface row, then water body down past the floor
+    // (was waterfall columns with a floating crate block and open gaps below).
     this.waterSurfaceTiles.push(tile(33,x,1782,6));
-    tile(x===378?74:75,x,1836,6);
-    tile(x===378?74:75,x,1890,6);
-    tile(6,x,1944,6);
+    for(let y=1836;y<WORLD.floor+54;y+=54)tile(73,x,y,6);
    }
    // The cliff lip pours into the empty ravine; the lower river tiles form
    // the catch pool. This cascade is scenic and adds no gameplay collider.
@@ -83,7 +91,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(let y=WATERFALL.top;y<WATERFALL.bottom;y+=54)this.waterfallTiles.push(tile(73,WATERFALL.x,y,6));
    for(let x=3240;x<3456;x+=54){
     this.waterSurfaceTiles.push(tile(33,x,1674,6));
-    for(let y=1728;y<2034;y+=54)tile(73,x,y,6);
+    for(let y=1728;y<WORLD.floor+54;y+=54)tile(73,x,y,6); // pool reaches the floor (no open band under it)
    }
    this.machineScreen=this.add.text(2862,1398,'f(x) = 2x + 3',{fontFamily:'Arial,sans-serif',fontSize:'16px',fontStyle:'bold',color:'#fff1cf',stroke:'#394238',strokeThickness:3}).setOrigin(.5,1).setDepth(15);
    // A real gap is crossed only after all three inverse seals release this deck.
@@ -103,6 +111,10 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
     const key=x===left?'l3-stone-left':x+54>=right?'l3-stone-right':'l3-stone-center';stone(key,x,y);
    }
    tile(124,left-54,feet-54,11);tile(125,right,feet-54,11);
+   // Battlements and two banners make the exit gate the level's landmark.
+   for(let x=left;x<right;x+=108)stone(x===left?'l3-stone-left':x+54>=right?'l3-stone-right':'l3-stone-center',x,top-162);
+   stone('l3-stone-right',right-54,top-162);
+   for(const x of [left+27,right-27])this.add.image(x,top-162,'kpp_terrain_atlas',112).setOrigin(.5,1).setScale(3).setDepth(11);
    this.gateSeals=SEAL_OUTPUTS.map((out,i)=>{
     const x=left+126+i*90;const art=this.add.circle(x,top-84,17,0x746847).setStrokeStyle(4,0x394238).setDepth(15);
     const label=this.machineText(String(out),x,top-48,15);return {out,art,label};
@@ -117,21 +129,35 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    pole(left+18,y+36,y+72,11);pole(left+width-18,y+36,y+72,11);
    this.add.text(x,y+18,text,{fontFamily:'Arial,sans-serif',fontSize:'14px',fontStyle:'bold',color:'#fff0ce',stroke:'#593c2a',strokeThickness:3,align:'center'}).setOrigin(.5,.5).setDepth(12);
   }
+  // Kenney pipe set (checked against tilemap_packed.png): 115 vertical body,
+  // 133 horizontal body, 95/135 vertical end with flange (top/bottom),
+  // 132/134 horizontal end (left/right), and the four quarters of the round
+  // junction as elbows: 93 joins right+down, 94 left+down, 113 up+right,
+  // 114 up+left. No tile is rotated or overlapped.
   placePipePath(points,depth=11){
+   const dirs=points.map((p,i)=>i?[Math.sign(p[0]-points[i-1][0]),Math.sign(p[1]-points[i-1][1])]:null);
+   const opposite=d=>[-d[0],-d[1]];
+   const elbow=(a,b)=>{const has=(dx,dy)=>[a,b].some(d=>d[0]===dx&&d[1]===dy);
+    return has(1,0)&&has(0,1)?93:has(-1,0)&&has(0,1)?94:has(0,-1)&&has(1,0)?113:114;};
+   const cells=[];
    for(let i=1;i<points.length;i++){
-    const [x1,y1]=points[i-1],[x2,y2]=points[i];
-    if(y1===y2){for(let x=x1;x<x2;x+=54)this.pipeTile(x===x1?132:133,x,y1,depth);}
-    else if(x1===x2){const step=y2>y1?54:-54;for(let y=y1+step;y!==y2;y+=step)this.pipeTile(135,x1,y,depth);}
-    else throw new Error('Kenney pipe route must use horizontal or vertical runs');
-    const next=points[i+1];
-    if(next&&((x2-x1===0)!==(next[0]-x2===0))){
-     const bend=this.pipeTile(94,x2,y2,depth+.1);
-     if(x1===x2&&next[1]===y2)bend.setOrigin(.5).setPosition(x2+27,y2+27).setRotation(-Math.PI/2);
+    const [x1,y1]=points[i-1],[x2,y2]=points[i],[dx,dy]=dirs[i];
+    if(dx&&dy)throw new Error('Kenney pipe route must use horizontal or vertical runs');
+    for(let x=x1,y=y1;;x+=dx*54,y+=dy*54){
+     if(!(i>1&&x===x1&&y===y1))cells.push({x,y,horizontal:!!dx,first:i===1&&x===x1&&y===y1,last:i===points.length-1&&x===x2&&y===y2});
+     if(x===x2&&y===y2)break;
     }
+    if(i<points.length-1){const c=cells.at(-1);c.elbow=elbow(opposite(dirs[i]),dirs[i+1]);}
    }
-   const last=points.at(-1),prev=points.at(-2);
-   if(last[0]===prev[0])this.pipeTile(135,last[0],last[1],depth);
-   else this.pipeTile(134,last[0],last[1],depth);
+   this.pipeCells=cells;
+   for(const c of cells){
+    let frame=c.elbow??(c.horizontal?133:115);
+    if(!c.elbow&&(c.first||c.last)){
+     const d=c.first?dirs[1]:dirs.at(-1),end=c.first?opposite(d):d; // which way the open end faces
+     frame=c.horizontal?(end[0]<0?132:134):(end[1]<0?95:135);
+    }
+    this.pipeTile(frame,c.x,c.y,depth);
+   }
   }
   worldText(text,x,y,size=16){return this.add.text(x,y,text,{fontFamily:'Arial,sans-serif',fontSize:`${size}px`,color:'#203e36',backgroundColor:'#f9f2d8',padding:{x:8,y:5},align:'center'}).setOrigin(.5,1).setDepth(15);}
   machineText(text,x,y,size=15){return this.add.text(x,y,text,{fontFamily:'Arial,sans-serif',fontSize:`${size}px`,fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(16);}
