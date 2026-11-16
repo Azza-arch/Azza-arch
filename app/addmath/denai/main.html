@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="src/v14/g-control.css">
   <link rel="stylesheet" href="src/v14/ui-system.css">
   <link rel="stylesheet" href="src/orientation.css">
+  <link rel="stylesheet" href="src/v14/menu/world-map.css">
   <script defer src="vendor/phaser-3.90.0.min.js"></script>
   <script type="module" src="src/v14/game.js"></script>
   <script type="module" src="src/orientation.js"></script>
@@ -44,13 +45,25 @@
         <section id="welcome" class="welcome" hidden aria-labelledby="welcome-title" tabindex="-1">
           
           <button type="button" id="lb-btn" class="gear-btn lb-btn" aria-label="Papan pendahulu" title="Papan pendahulu">🏆</button>
-          <button type="button" id="settings-btn" class="gear-btn" aria-label="Tetapan">⚙</button>
+          <button type="button" id="settings-btn" class="gear-btn" aria-label="Tetapan" hidden>⚙</button>
           <div class="title-copy"><h1 id="welcome-title" class="logo">DENAI</h1>
             <p class="title-tagline"><span class="ribbon">Bab 1 · Misi Fungsi</span></p>
             <div class="title-actions">
-              <button type="button" id="continue-btn" class="primary main-btn" hidden>SAMBUNG</button>
-              <button type="button" id="start" class="primary main-btn">MAIN</button>
+              <button type="button" id="play-main" class="primary main-btn">MAIN</button>
+              <p id="play-main-sub" class="play-main-sub" aria-live="polite"></p>
+              <button type="button" id="world-map-btn" class="secondary main-btn menu-btn">PETA DUNIA</button>
+              <button type="button" id="settings-main" class="secondary main-btn menu-btn">TETAPAN</button>
+              <!-- Existing start/continue actions stay wired (used by MAIN/SAMBUNG for Level 1-1) but are not shown. -->
+              <div class="legacy-actions" hidden><button type="button" id="continue-btn" class="primary main-btn" hidden>SAMBUNG</button><button type="button" id="start" class="primary main-btn">MAIN</button></div>
             </div>
+          </div>
+        </section>
+        <section id="world-map-page" class="world-map-page" hidden aria-labelledby="wm-heading">
+          <header class="wm-head"><button type="button" id="wm-back" class="wm-back">← Menu</button><h2 id="wm-heading" class="ribbon">Peta Dunia</h2></header>
+          <div class="wm-body">
+            <div class="wm-map" id="wm-map"><div class="wm-canvas" id="wm-canvas"><img src="assets/world-map/world-map.png" alt="Peta dunia DENAI: hutan dan sungai, lembah batu kapur, kilang dan lombong, tanah tinggi ladang, pantai, puncak bersalji." width="2304" height="576" draggable="false"></div></div>
+            <div class="wm-worlds" id="wm-worlds" aria-label="Senarai dunia"></div>
+            <aside class="wm-panel" id="wm-panel" aria-live="polite"></aside>
           </div>
         </section>
         <section id="mechanism" role="dialog" aria-modal="true" tabindex="-1" hidden aria-labelledby="mechanism-title"><div class="mx-banner"><h2 id="mechanism-title"></h2></div><p id="mx-type" class="mx-type"></p><p id="mechanism-rule"></p>
