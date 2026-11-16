@@ -1,4 +1,6 @@
 import {buildLandscape,buildTree} from '../environment.js';
+import {track,durationBucket} from '../analytics.js';
+import {startCoin,coinPickup,checkpointFx,planksDrop,sealPop,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createInverseStore,newRun} from '../core/inverse-campaign.js';
@@ -24,11 +26,19 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    this.solids=this.physics.add.staticGroup();const {tile,pole,beam}=buildLandscape(this,DEFINITION);
    this.landTile=tile;this.landPole=pole;
    // Small, varied Kenney groves frame the route without hiding platforms.
-   [['T3',324,1728],['T3',594,1728],['T3',1512,1728],['T1',1674,1728],['T3',2268,1674],['T1',2376,1674],['T4',3996,1674],['T2',4320,1620],['T2',5400,1566]].forEach(([type,x,y])=>buildTree(this,type,x,y));
+   // Groves: a stream-side pair of different sizes, courtyard oak + pine,
+   // an upper-ruin tree, the waterfall-bank oak and a pair framing the gate.
+   [['T5',250,1728],['T1',560,1728],['T3',1440,1728],['T1',1560,1728],['T3',2268,1674],['T1',2390,1674],['T4',3960,1674],['T3',4250,1620],['T2',4700-27,1620],['T1',5480,1566],['T3',5560,1566]].forEach(([type,x,y])=>buildTree(this,type,x,y));
+   // Ruin galleries stand on broken stone piers (the level's identity: a
+   // stepped ruin, not scaffolding); other decks keep timber posts.
+   const pier=(x,top,bottom)=>{for(let y=top;y<bottom;y+=54)this.add.image(x-27,y,'l3-stone-center').setOrigin(0).setDisplaySize(54,Math.min(54,bottom-y)).setDepth(4).setTint(0xe6dfd2);};
+   const piers=new Set();
    for(const d of DEFINITION.DECKS){
     for(const x of [d.x+27,d.x+d.width-27]){
      const ground=DEFINITION.AB_TERRAIN.find(t=>x>=t.x&&x<t.x+t.width)?.y||WORLD.floor;
-     if(ground>d.y+18)pole(x,d.y+18,ground,4);
+     if(ground<=d.y+18)continue;
+     if(d.x>=702&&d.x<2538){if(!piers.has(x)){piers.add(x);pier(x,d.y+18,ground);}}
+     else pole(x,d.y+18,ground,4);
     }
    }
    this.checkpointArts=CHECKPOINTS.map(cp=>tile(cp.id===this.run.checkpointId?112:111,cp.x-27,cp.feet-54,12));
@@ -36,12 +46,12 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    this.creekBridgeArt=this.deckArtById?.['creek-crossing']||[];
    this.creekBridgeArt.forEach(a=>a.setData('restY',a.y));
    if(!reducedMotion){let phase=0;this.time.addEvent({delay:520,loop:true,callback:()=>{phase^=1;this.waterSurfaceTiles?.forEach((a,i)=>a.setFrame(((i+phase)&1)?53:33));}});}
-   this.coinViews=COINS.map(def=>({def,art:this.add.image(def.x,def.y,'kpp_coin').setScale(1.78).setDepth(14).setVisible(!this.run.coins.includes(def.id))}));
+   this.coinViews=COINS.map((def,i)=>({def,art:startCoin(this,this.add.sprite(def.x,def.y,ATLAS,COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion).setVisible(!this.run.coins.includes(def.id))}));
    // Keep notes discoverable through the close-range E prompt without
    // floating blue gem markers that read like detached pipe fragments.
    this.secretViews=SECRETS.map(def=>({def}));
    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
-   this.cameras.main.setBounds(0,240,WORLD.width,WORLD.floor-240).setBackgroundColor('#aee3f5');
+   this.cameras.main.setBounds(0,240,WORLD.width,WORLD.floor-240).setBackgroundColor(this.bgColor??'#aee3f5');
    this.cameras.main.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,100).setDeadzone(0,150);
    this.applyResponsiveZoom();this.respawn();this.installUI();
    document.body.classList.remove('menu-active');document.body.classList.add('game-active','inverse-active');
@@ -65,17 +75,17 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    // One continuous Kenney pipe rises from the spring, crosses the machine,
    // then turns down directly into the single waterfall.
    this.pipeTile=tile;
-   this.placePipePath([[2646,1566],[2646,1404],[3240,1404],[3240,1458]],11);
+   this.placePipePath([[2646,1512],[2646,1404],[3240,1404],[3240,1458]],11); // intake sits on the spring surface (1566), outlet mouth above the waterfall
    // A short timber service frame supports the pipe and carries the controls.
    for(let x=2700;x<3024;x+=54)tile(x===2700?48:x+54>=3024?50:49,x,1566,9.6,54,18);
    for(const x of [2673,2862,2997])pole(x,1458,1566,9.7);
    // A narrow creek passes under the entry footbridge; water is scenery only.
    this.waterSurfaceTiles=[];
    for(let x=378;x<486;x+=54){
+    // Creek pool: one surface row, then water body down past the floor
+    // (was waterfall columns with a floating crate block and open gaps below).
     this.waterSurfaceTiles.push(tile(33,x,1782,6));
-    tile(x===378?74:75,x,1836,6);
-    tile(x===378?74:75,x,1890,6);
-    tile(6,x,1944,6);
+    for(let y=1836;y<WORLD.floor+54;y+=54)tile(73,x,y,6);
    }
    // The cliff lip pours into the empty ravine; the lower river tiles form
    // the catch pool. This cascade is scenic and adds no gameplay collider.
@@ -83,7 +93,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(let y=WATERFALL.top;y<WATERFALL.bottom;y+=54)this.waterfallTiles.push(tile(73,WATERFALL.x,y,6));
    for(let x=3240;x<3456;x+=54){
     this.waterSurfaceTiles.push(tile(33,x,1674,6));
-    for(let y=1728;y<2034;y+=54)tile(73,x,y,6);
+    for(let y=1728;y<WORLD.floor+54;y+=54)tile(73,x,y,6); // pool reaches the floor (no open band under it)
    }
    this.machineScreen=this.add.text(2862,1398,'f(x) = 2x + 3',{fontFamily:'Arial,sans-serif',fontSize:'16px',fontStyle:'bold',color:'#fff1cf',stroke:'#394238',strokeThickness:3}).setOrigin(.5,1).setDepth(15);
    // A real gap is crossed only after all three inverse seals release this deck.
@@ -91,7 +101,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(let x=BRIDGE.x;x<BRIDGE.x+BRIDGE.width;x+=54){const frame=x===BRIDGE.x?48:x+54>=BRIDGE.x+BRIDGE.width?50:49;this.previewDeck.push(tile(frame,x,BRIDGE.y+54,10,54,18).setAlpha(.55));}
    this.driveReadout=this.machineText('Pratonton dek · belum boleh dipijak',BRIDGE.x,BRIDGE.y-72,14).setOrigin(0,1);
    this.driveHandle=tile(64,2781,1512,14);
-   this.bridgeArt=[];
+   this.bridgeArt=[];this.sealsSeen=null; // scene instances are reused on restart
    // Stone gateway: paired masonry piers, a deep lintel and three puzzle seals.
    const left=4860,right=5292,top=1188,feet=1566;
    const stone=(key,x,y)=>this.add.image(x,y,key).setOrigin(0).setDisplaySize(54,54).setDepth(11);
@@ -103,6 +113,10 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
     const key=x===left?'l3-stone-left':x+54>=right?'l3-stone-right':'l3-stone-center';stone(key,x,y);
    }
    tile(124,left-54,feet-54,11);tile(125,right,feet-54,11);
+   // Battlements and two banners make the exit gate the level's landmark.
+   for(let x=left;x<right;x+=108)stone(x===left?'l3-stone-left':x+54>=right?'l3-stone-right':'l3-stone-center',x,top-162);
+   stone('l3-stone-right',right-54,top-162);
+   for(const x of [left+27,right-27])this.add.image(x,top-162,'kpp_terrain_atlas',112).setOrigin(.5,1).setScale(3).setDepth(11);
    this.gateSeals=SEAL_OUTPUTS.map((out,i)=>{
     const x=left+126+i*90;const art=this.add.circle(x,top-84,17,0x746847).setStrokeStyle(4,0x394238).setDepth(15);
     const label=this.machineText(String(out),x,top-48,15);return {out,art,label};
@@ -117,21 +131,35 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    pole(left+18,y+36,y+72,11);pole(left+width-18,y+36,y+72,11);
    this.add.text(x,y+18,text,{fontFamily:'Arial,sans-serif',fontSize:'14px',fontStyle:'bold',color:'#fff0ce',stroke:'#593c2a',strokeThickness:3,align:'center'}).setOrigin(.5,.5).setDepth(12);
   }
+  // Kenney pipe set (checked against tilemap_packed.png): 115 vertical body,
+  // 133 horizontal body, 95/135 vertical end with flange (top/bottom),
+  // 132/134 horizontal end (left/right), and the four quarters of the round
+  // junction as elbows: 93 joins right+down, 94 left+down, 113 up+right,
+  // 114 up+left. No tile is rotated or overlapped.
   placePipePath(points,depth=11){
+   const dirs=points.map((p,i)=>i?[Math.sign(p[0]-points[i-1][0]),Math.sign(p[1]-points[i-1][1])]:null);
+   const opposite=d=>[-d[0],-d[1]];
+   const elbow=(a,b)=>{const has=(dx,dy)=>[a,b].some(d=>d[0]===dx&&d[1]===dy);
+    return has(1,0)&&has(0,1)?93:has(-1,0)&&has(0,1)?94:has(0,-1)&&has(1,0)?113:114;};
+   const cells=[];
    for(let i=1;i<points.length;i++){
-    const [x1,y1]=points[i-1],[x2,y2]=points[i];
-    if(y1===y2){for(let x=x1;x<x2;x+=54)this.pipeTile(x===x1?132:133,x,y1,depth);}
-    else if(x1===x2){const step=y2>y1?54:-54;for(let y=y1+step;y!==y2;y+=step)this.pipeTile(135,x1,y,depth);}
-    else throw new Error('Kenney pipe route must use horizontal or vertical runs');
-    const next=points[i+1];
-    if(next&&((x2-x1===0)!==(next[0]-x2===0))){
-     const bend=this.pipeTile(94,x2,y2,depth+.1);
-     if(x1===x2&&next[1]===y2)bend.setOrigin(.5).setPosition(x2+27,y2+27).setRotation(-Math.PI/2);
+    const [x1,y1]=points[i-1],[x2,y2]=points[i],[dx,dy]=dirs[i];
+    if(dx&&dy)throw new Error('Kenney pipe route must use horizontal or vertical runs');
+    for(let x=x1,y=y1;;x+=dx*54,y+=dy*54){
+     if(!(i>1&&x===x1&&y===y1))cells.push({x,y,horizontal:!!dx,first:i===1&&x===x1&&y===y1,last:i===points.length-1&&x===x2&&y===y2});
+     if(x===x2&&y===y2)break;
     }
+    if(i<points.length-1){const c=cells.at(-1);c.elbow=elbow(opposite(dirs[i]),dirs[i+1]);}
    }
-   const last=points.at(-1),prev=points.at(-2);
-   if(last[0]===prev[0])this.pipeTile(135,last[0],last[1],depth);
-   else this.pipeTile(134,last[0],last[1],depth);
+   this.pipeCells=cells;
+   for(const c of cells){
+    let frame=c.elbow??(c.horizontal?133:115);
+    if(!c.elbow&&(c.first||c.last)){
+     const d=c.first?dirs[1]:dirs.at(-1),end=c.first?opposite(d):d; // which way the open end faces
+     frame=c.horizontal?(end[0]<0?132:134):(end[1]<0?95:135);
+    }
+    this.pipeTile(frame,c.x,c.y,depth);
+   }
   }
   worldText(text,x,y,size=16){return this.add.text(x,y,text,{fontFamily:'Arial,sans-serif',fontSize:`${size}px`,color:'#203e36',backgroundColor:'#f9f2d8',padding:{x:8,y:5},align:'center'}).setOrigin(.5,1).setDepth(15);}
   machineText(text,x,y,size=15){return this.add.text(x,y,text,{fontFamily:'Arial,sans-serif',fontSize:`${size}px`,fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(16);}
@@ -168,9 +196,11 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
     art.setVisible(!open);this.tweens.add({targets:art,y,alpha:p.seals[seal]?1:.65,duration:reducedMotion?1:420});
    });
    if(p.applied){this.driveHandle?.setX(2781+p.applied.input*18);this.driveReadout?.setText(`Pemacu ${p.applied.input} → ${p.applied.output} · tanda ${p.applied.target}\n${open?'Dek dikunci · lintas': 'Pratonton · lengkapkan 3 pengunci'}`);}
-   this.gateSeals?.forEach(({out,art})=>art.setFillStyle(this.run.puzzle.seals[out]?0xe6c75f:0x746847));
+   // Game Feel V2: a seal that just lit pops once; restoring a save does not.
+   const seen=this.sealsSeen;this.sealsSeen=Object.fromEntries(SEAL_OUTPUTS.map(o=>[o,!!this.run.puzzle.seals[o]]));
+   this.gateSeals?.forEach(({out,art})=>{art.setFillStyle(this.run.puzzle.seals[out]?0xe6c75f:0x746847);if(seen&&!seen[out]&&this.sealsSeen[out])sealPop(this,art,{reduced:reducedMotion});});
    this.gateLabel?.setText(open?'PINTU KELUAR\nMeterai lengkap - jambatan terbuka':'PINTU KELUAR\nPerlu 3 meterai: 13, 7, 15');
-   if(open&&!this.bridgeArt.length){this.bridgeArt=this.deck(BRIDGE);this.platform(BRIDGE);this.bridgeArt.forEach(a=>a.setAlpha(reducedMotion?1:.95));}
+   if(open&&!this.bridgeArt.length){this.bridgeArt=this.deck(BRIDGE);this.platform(BRIDGE);if(seen)planksDrop(this,this.bridgeArt,{audio,SFX,reduced:reducedMotion});}
   }
   act(action,value){
    if(!this.machineNear||this.mode!=='playing'||this.busy)return;
@@ -208,9 +238,9 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
     this.creekBridgeArt.forEach((a,i)=>{this.tweens.killTweensOf(a);this.tweens.add({targets:a,y:a.getData('restY')+(i%2?2:-2),angle:(i%2?1:-1)*direction,duration:85,yoyo:true,repeat:1,ease:'Sine.inOut'});});
    }
    if(this.noticeUntil&&time>this.noticeUntil){$('notice').classList.remove('show');this.noticeUntil=0;}
-   for(const {def,art} of this.coinViews)if(art.visible&&Math.abs(this.player.x-def.x)<32&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);SFX.coin?.(audio);this.writeSave();}
+   for(const {def,art} of this.coinViews)if(art.visible&&Math.abs(this.player.x-def.x)<32&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);art.anims?.stop();SFX.coin?.(audio);this.writeSave();coinPickup(this,def.x,art.y,{reduced:reducedMotion});}
    for(const {def,art} of this.secretViews){if(Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14){if(interact){if(!this.run.secrets.includes(def.id)){this.run.secrets.push(def.id);art?.setAlpha(.4);this.writeSave();}this.message(def.text);}}}
-   CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||solved(this.run.puzzle))&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
+   CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||solved(this.run.puzzle))&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
    this.machineNear=Math.abs(this.player.x-2862)<260&&Math.abs(body.bottom-1620)<70;
    const secretNear=this.secretViews.some(({def})=>Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14);
    let prompt='';if(secretNear)prompt='E · Baca catatan';else if(this.machineNear)prompt='E · Salur nilai ke dek';
@@ -229,7 +259,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   respawn(){const cp=CHECKPOINTS.find(c=>c.id===this.run.checkpointId)||SPAWN;this.climbing=null;this.climbLockUntil=0;this.jumpAt=-1000;this.groundedAt=-1000;this.player.body.setAllowGravity(true);this.player.body.reset(cp.x,cp.feet-31);this.player.body.setVelocity(0,0);this.syncVisual();this.cameras.main.centerOn(cp.x,cp.feet-190);clearControls();}
   pauseRun(){if(this.mode!=='playing')return;this.mode='paused';clearControls();this.writeSave();this.physics.pause();this.tweens.pauseAll();this.time.paused=true;this.input.keyboard.enabled=false;$('inverse-panel').hidden=true;$('world-prompt').hidden=true;$('inverse-dialog-title').textContent='Gerbang Songsang · Jeda';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia. Checkpoint disimpan.`;$('inverse-resume').hidden=false;$('inverse-replay').hidden=true;$('inverse-dialog').showModal();}
   resumeRun(){if(this.mode!=='paused')return;$('inverse-dialog').close();clearControls();this.mode='playing';this.physics.resume();this.tweens.resumeAll();this.time.paused=false;this.input.keyboard.enabled=true;$('game').focus({preventScroll:true});}
-  finish(){if(this.mode==='complete'||!solved(this.run.puzzle))return;this.run.checkpointId='gate-court';this.run.completed=true;this.writeSave();this.mode='complete';clearControls();this.physics.pause();$('inverse-panel').hidden=true;$('world-prompt').hidden=true;$('inverse-dialog-title').textContent='Gerbang Songsang dibuka!';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia · ${Math.round(this.elapsed/1000)} saat.\n\nf(x)=2x+3 pada domain {0,…,6} ialah satu-ke-satu. f⁻¹(13)=(13−3)/2=5. Songsangan memulangkan input asal; ia bukan 1/f.`;$('inverse-resume').hidden=true;$('inverse-replay').hidden=false;$('inverse-dialog').showModal();}
+  finish(){if(this.mode==='complete'||!solved(this.run.puzzle))return;this.run.checkpointId='gate-court';this.run.completed=true;this.writeSave();track('level_completed',{level:'w1-l3',duration_s:durationBucket(this.elapsed),coins:this.run.coins.length,secrets:this.run.secrets.length,ranked_eligible:false,first_completion:this.store.load().completions===1});this.mode='complete';clearControls();this.physics.pause();$('inverse-panel').hidden=true;$('world-prompt').hidden=true;$('inverse-dialog-title').textContent='Gerbang Songsang dibuka!';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia · ${Math.round(this.elapsed/1000)} saat.\n\nf(x)=2x+3 pada domain {0,…,6} ialah satu-ke-satu. f⁻¹(13)=(13−3)/2=5. Songsangan memulangkan input asal; ia bukan 1/f.`;$('inverse-resume').hidden=true;$('inverse-replay').hidden=false;$('inverse-dialog').showModal();}
   returnToMenu(){this.writeSave();this.time.paused=false;this.tweens.resumeAll();this.input.keyboard.enabled=true;this.game.registry.set('showLevelSelect',true);this.scene.start('Lorong');}
  }
 }

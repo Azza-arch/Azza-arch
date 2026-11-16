@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Prototaip notifikasi DENAI</title>
+  <!-- DESIGN PROTOTYPE ONLY. Every control is disabled, there is no form
+       action and no script: nothing can be typed, submitted or stored.
+       See growth/EMAIL-OPTIN-SPEC.md for the real integration. -->
+  <style>
+    :root{--ink:#2b2118;--soft:#6b4a2b;--paper:#fdf3dc;--line:#d7b07a;--green:#1d6b4f;--bg:#7ff0a5}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);padding:16px}
+    main{max-width:560px;margin:0 auto;background:var(--paper);border:4px solid #5b3a1e;border-radius:10px;padding:20px}
+    .proto{background:#ffe27a;border:2px dashed #8a5a2b;padding:8px 10px;border-radius:6px;font-weight:700;margin:0 0 14px}
+    h1{font-size:24px;margin:0 0 6px}
+    p{margin:6px 0}
+    fieldset{border:0;padding:0;margin:12px 0 0}
+    label{display:block;font-weight:700;margin:10px 0 4px}
+    input[type=email],select{width:100%;min-height:44px;font-size:16px;padding:8px;border:2px solid var(--line);border-radius:6px;background:#fff}
+    .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin:10px 0}
+    .check input{width:22px;height:22px;margin-top:2px;flex:none}
+    button{min-height:46px;width:100%;margin-top:12px;font:800 17px system-ui,sans-serif;border:0;border-radius:6px;background:#f2b21c;color:var(--ink)}
+    [disabled]{cursor:not-allowed;opacity:.75}
+    details{margin-top:14px;border-top:2px solid var(--line);padding-top:10px}
+    summary{font-weight:700;cursor:pointer}
+    .small{font-size:14px;color:var(--soft)}
+  </style>
+</head>
+<body>
+<main>
+  <p class="proto" role="note">PROTOTAIP REKA BENTUK — borang ini dimatikan. Tiada e-mel diterima atau disimpan.</p>
+  <h1>Beritahu saya apabila Dunia 2 dibuka</h1>
+  <p>DENAI percuma dan boleh dimainkan tanpa e-mel. Daftar hanya jika anda mahu satu e-mel ringkas apabila dunia atau level baharu diterbitkan.</p>
+  <p class="small"><b>Pelajar bawah 18 tahun:</b> minta ibu bapa atau penjaga mendaftar menggunakan e-mel mereka.</p>
+  <form aria-describedby="privacy-summary">
+    <fieldset disabled>
+      <label for="email">E-mel</label>
+      <input id="email" type="email" autocomplete="email" placeholder="nama@contoh.com">
+      <label for="role">Saya ialah</label>
+      <select id="role"><option>Pilih…</option><option>Ibu bapa / penjaga</option><option>Guru / pusat tuisyen</option><option>Pelajar berumur 18 tahun ke atas</option></select>
+      <label class="check"><input type="checkbox"> <span>Saya berumur 18 tahun ke atas, atau saya ibu bapa/penjaga yang mendaftar bagi pihak anak saya.</span></label>
+      <label class="check"><input type="checkbox"> <span><b>Notifikasi pelancaran:</b> hantar e-mel apabila dunia atau level baharu DENAI diterbitkan (paling kerap sekali sebulan).</span></label>
+      <label class="check"><input type="checkbox"> <span><i>Pilihan, berasingan:</i> saya juga mahu maklumat tentang program guru atau cara menyokong DENAI.</span></label>
+      <button type="button">Daftar (prototaip)</button>
+    </fieldset>
+  </form>
+  <p id="privacy-summary" class="small">Anda akan menerima e-mel pengesahan dahulu; pendaftaran hanya aktif selepas anda klik pautan itu. Setiap e-mel ada pautan berhenti langganan satu klik.</p>
+  <details>
+    <summary>Notis privasi (ringkas)</summary>
+    <p class="small"><b>Apa yang disimpan:</b> e-mel, peranan, pilihan persetujuan anda, masa dan sumber pendaftaran (laman atau skrin tamat level). Tiada nama, sekolah, umur tepat atau data permainan dikaitkan.</p>
+    <p class="small"><b>Tujuan:</b> menghantar notifikasi pelancaran; dan maklumat program/sokongan hanya jika kotak pilihan itu ditanda.</p>
+    <p class="small"><b>Pemproses:</b> penyedia e-mel yang akan dinamakan di sini sebelum borang diaktifkan. E-mel tidak dikongsi atau dijual, dan tidak dipaparkan secara umum.</p>
+    <p class="small"><b>Simpanan:</b> dipadam dalam 30 hari selepas berhenti langganan, atau selepas 24 bulan tanpa sebarang e-mel dibuka.</p>
+    <p class="small"><b>Hak anda:</b> minta salinan, pembetulan atau pemadaman data, dan tarik balik persetujuan pada bila-bila masa melalui pautan dalam e-mel atau alamat hubungan yang akan disenaraikan di sini.</p>
+  </details>
+</main>
+</body>
+</html>

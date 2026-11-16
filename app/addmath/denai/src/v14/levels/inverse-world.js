@@ -48,4 +48,4 @@ export const WATER=[{x:378,width:108},{x:3240,width:216}];
 export const WATER_Y=1692;
 // Decorative spillway beside the bridge; it has no collider or gameplay effect.
 export const WATERFALL={x:3240,width:54,top:1512,bottom:1674};
-export const DEFINITION={WORLD,AB_TERRAIN,DECKS,LADDERS,parallaxShift:216};
+export const DEFINITION={WORLD,AB_TERRAIN,DECKS,LADDERS,parallaxShift:216,bgTheme:'forest'};

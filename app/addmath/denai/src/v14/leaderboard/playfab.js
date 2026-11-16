@@ -4,16 +4,23 @@
 import {LEADERBOARD_CONFIG as CFG} from './config.js';
 const BASE=`https://${CFG.playfab.titleId.toLowerCase()}.playfabapi.com/`;
 const DEVICE_KEY='denai-lb-device';      // random anonymous id, not a password
-const SUBMITTED_KEY='denai-lb-submitted'; // best time (ms) already sent from this device
+const SUBMITTED_KEY='denai-lb-submitted'; // + ':<board>': best time (ms) already sent from this device to that board
+const sentKey=board=>`${SUBMITTED_KEY}:${board}`;
 let session=null,pending=null;
 const store={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);}catch{}}};
 export class LeaderboardError extends Error{constructor(code,msg){super(msg||code);this.code=code;}}
-async function call(path,body,auth=null){
+// Automated browsers (navigator.webdriver: Playwright, Selenium…) never reach
+// the production title, so test runs cannot create accounts or scores there.
+// Browser tests that answer PlayFab with a local fake set
+// window.__DENAI_PLAYFAB_TEST_STUB__ = true before the page loads.
+const automated=()=>globalThis.navigator?.webdriver===true&&globalThis.__DENAI_PLAYFAB_TEST_STUB__!==true;
+async function call(path,body,auth=null,{keepalive=false}={}){
+  if(automated())throw new LeaderboardError('offline');
   const headers={'Content-Type':'application/json'};
   if(auth==='ticket')headers['X-Authorization']=session.ticket;
   if(auth==='entity')headers['X-EntityToken']=session.entityToken;
   let res;
-  try{res=await fetch(BASE+path,{method:'POST',headers,body:JSON.stringify(body)});}
+  try{res=await fetch(BASE+path,{method:'POST',headers,body:JSON.stringify(body),keepalive});}
   catch{throw new LeaderboardError('offline');}
   let json=null;try{json=await res.json();}catch{}
   if(!res.ok||!json||json.code!==200)throw new LeaderboardError(json?.error||`http-${res.status}`,json?.errorMessage);
@@ -39,22 +46,43 @@ export async function setDisplayName(name){
 }
 const toRow=e=>({rank:e.Rank,name:e.DisplayName||'Pemain tanpa nama',timeMs:Number(e.Scores?.[0]),entityId:e.Entity?.Id});
 const valid=r=>Number.isFinite(r.timeMs)&&r.timeMs>0;
-export async function topTimes(board,max=CFG.playfab.top){
+// One page of a leaderboard. entryCount is PlayFab's own count of entries on
+// that board (null when the response does not carry it — never estimated).
+export async function board(name,max=CFG.playfab.top){
   await login();
-  const d=await call('Leaderboard/GetLeaderboard',{LeaderboardName:board,StartingPosition:1,PageSize:max},'entity');
+  const d=await call('Leaderboard/GetLeaderboard',{LeaderboardName:name,StartingPosition:1,PageSize:max},'entity');
+  return {rows:(d.Rankings||[]).map(toRow).filter(valid),entryCount:Number.isSafeInteger(d.EntryCount)?d.EntryCount:null};
+}
+export async function topTimes(name,max=CFG.playfab.top){return (await board(name,max)).rows;}
+// The player's own row plus up to `around` neighbours on each side.
+export async function aroundMe(name,around=1){
+  await login();
+  const d=await call('Leaderboard/GetLeaderboardAroundEntity',{LeaderboardName:name,Entity:{Id:session.entity.Id,Type:session.entity.Type},MaxSurroundingEntries:around},'entity');
   return (d.Rankings||[]).map(toRow).filter(valid);
 }
-export async function myRank(board){
+export async function myRank(name){return (await aroundMe(name,1)).find(r=>r.entityId===session.entity.Id)||null;}
+// Unique-player counter: one statistic entry per player identity. Writing it
+// again from the same identity never adds an entry.
+export async function markStarted(statistic){
   await login();
-  const d=await call('Leaderboard/GetLeaderboardAroundEntity',{LeaderboardName:board,Entity:{Id:session.entity.Id,Type:session.entity.Type},MaxSurroundingEntries:1},'entity');
-  const e=(d.Rankings||[]).find(r=>r.Entity?.Id===session.entity.Id);return e&&valid(toRow(e))?toRow(e):null;
+  await call('Statistic/UpdateStatistics',{Statistics:[{Name:statistic,Scores:['1']}]},'entity');
 }
+// Writes ONLY the current-course statistics (never the classic archive).
 export async function submitTime(timeMs){
   await login();
-  const names=[CFG.playfab.leaderboards.allTime,CFG.playfab.leaderboards.weekly].filter(Boolean);
+  const names=[CFG.playfab.leaderboards.allTime,CFG.playfab.leaderboards.weekly].filter(n=>n&&n!==CFG.playfab.classic);
   await call('Statistic/UpdateStatistics',{Statistics:names.map(Name=>({Name,Scores:[String(Math.round(timeMs))]}))},'entity');
-  store.set(SUBMITTED_KEY,String(Math.round(timeMs)));
+  store.set(sentKey(CFG.playfab.leaderboards.allTime),String(Math.round(timeMs)));
 }
-export function submittedTime(){const v=Number(store.get(SUBMITTED_KEY));return v>0?v:null;}
+// The legacy unscoped key belonged to the classic board; it never counts for v2.
+export function submittedTime(board=CFG.playfab.leaderboards.allTime){const v=Number(store.get(sentKey(board)));return v>0?v:null;}
 export function currentName(){return session?.name||'';}
 export function playerId(){return session?.entity?.Id||null;}
+// Analytics (see ../analytics.js): PlayStream events for the signed-in
+// anonymous player. Never logs in by itself: events wait for a session that
+// the menu/leaderboard already opened.
+export function hasSession(){return !!session;}
+export async function writeEvents(events,{keepalive=false}={}){
+  if(!session)throw new LeaderboardError('no-session');
+  await call('Event/WriteEvents',{Events:events.map(e=>({...e,Entity:{Id:session.entity.Id,Type:session.entity.Type}}))},'entity',{keepalive});
+}

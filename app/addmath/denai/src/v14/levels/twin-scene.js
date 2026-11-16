@@ -1,4 +1,6 @@
-import {buildLandscape,buildTree} from '../environment.js';
+import {buildLandscape,buildTree,signText} from '../environment.js';
+import {track,durationBucket} from '../analytics.js';
+import {startCoin,coinPickup,checkpointFx,planksDrop,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createCampaignStore,newRun} from '../core/campaign-store.js';
@@ -22,24 +24,31 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    this.physics.world.setBounds(0,0,WORLD.width,WORLD.height,true,true,true,false);
    this.solids=this.physics.add.staticGroup();
    const {tile,pole}=buildLandscape(this,DEFINITION);
-   [[ 'T5',324,1296],['T4',1188,1296],['T6',2322,1296],['T7',3024,1296],['T4',4374,1242],['T2',4752,1188]].forEach(([type,x,y])=>buildTree(this,type,x,y));
+   // Groves, not one tree per area: entry pair + garden oak, a machine-yard
+   // shade tree, the deck tree, the canopy giant, a final-yard oak and an exit pair.
+   [['T3',486,1296],['T1',600,1296],['T5',860,1242],['T4',1188,1296],['T6',2322,1296],['T7',3024,1296],['T5',3760,1242],['T3',4300,1242],['T1',4420,1242]].forEach(([type,x,y])=>buildTree(this,type,x,y));
    for(const d of DEFINITION.DECKS){pole(d.x+27,d.y+18,DEFINITION.AB_TERRAIN.find(t=>d.x>=t.x&&d.x<t.x+t.width)?.y||1296);}
-   for(const w of WATER)for(let x=w.x;x<w.x+w.width;x+=54){tile(33,x,WATER_Y,7);tile(53,x,WATER_Y+54,7);}
+   // One surface row (33) over body tiles (73) down past the floor: no second wave row, no gap.
+   for(const w of WATER)for(let x=w.x;x<w.x+w.width;x+=54){tile(33,x,WATER_Y,7);tile(73,x,WATER_Y+54,7);}
    [[162,1296],[810,1242],[2484-54,1296],[3456,1242],[4482,1242]].forEach(([x,y])=>tile(125,x,y-54,11));
    tile(106,0,1242,11);tile(105,54,1242,11);
    this.checkpointArts=CHECKPOINTS.map(cp=>tile(cp.id===this.run.checkpointId?112:111,cp.x-27,cp.feet-54,12));
    tile(112,GOAL.x-27,GOAL.feet-54,12);
-   this.add.rectangle(GOAL.x,GOAL.feet-18,216,10,0x796c48).setDepth(11);
-   this.add.rectangle(GOAL.x,GOAL.feet-31,162,5,0xe2c576).setDepth(11);
-   this.worldText('TAMAT',GOAL.x,GOAL.feet-190,18).setStyle({backgroundColor:'#315c49',color:'#fff2c5',fontStyle:'bold'});
-   this.worldText('JEJAK MASUK',324,1100,21);
-   this.worldText('LALUAN RAHSIA ↑',3000,930,18);
+   // Finish arch: two rope posts on the flag terrace and a plank lintel
+   // (replaces two floating colour bars that had no support).
+   pole(GOAL.x-108,GOAL.feet-162,GOAL.feet);pole(GOAL.x+108,GOAL.feet-162,GOAL.feet);
+   for(let x=GOAL.x-135;x<GOAL.x+135;x+=54)tile(x===GOAL.x-135?48:x+54>=GOAL.x+135?50:49,x,GOAL.feet-180,11,54,18);
+   // Wayfinding on Kenney sign posts (frame 86 blank board)
+   // instead of floating text boxes; the 2 s area banners stay as they are.
+   tile(86,270-27,1296-54,11);signText(this,'Jejak Masuk',270,1236);
+   tile(86,3096-27,1296-54,11);signText(this,'Laluan rahsia ↑',3096,1236);
+   signText(this,'TAMAT',GOAL.x,GOAL.feet-182).setFontSize(20); // on the finish arch's plank lintel
    for(const station of STATIONS)this.buildStation(station);
-   this.coinViews=COINS.map(def=>({def,art:this.add.image(def.x,def.y,'kpp_coin').setScale(1.78).setDepth(14).setVisible(!this.run.coins.includes(def.id))}));
+   this.coinViews=COINS.map((def,i)=>({def,art:startCoin(this,this.add.sprite(def.x,def.y,ATLAS,COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion).setVisible(!this.run.coins.includes(def.id))}));
    this.secretViews=SECRETS.map(def=>({def,art:tile(67,def.x-18,def.feet-54,14,36,36).setAlpha(this.run.secrets.includes(def.id)?.4:1)}));
    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
    const cam=this.cameras.main;
-   cam.setBounds(0,300,WORLD.width,WORLD.floor-300).setBackgroundColor('#aee3f5');
+   cam.setBounds(0,300,WORLD.width,WORLD.floor-300).setBackgroundColor(this.bgColor??'#aee3f5');
    cam.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,100).setDeadzone(0,150);
    this.applyResponsiveZoom();this.respawn();
    this.installUI();
@@ -97,8 +106,8 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    const decks=[s.bridge];if(s.id==='twins')decks.push({...s.bridge,id:'upper-twin',y:1134});
    this.bridges[s.id]=decks.flatMap(d=>{
     const arts=this.deck(d);this.platform(d);
-    // Art and collision become available together; movement is visual only.
-    if(animate&&!reducedMotion)arts.forEach((a,i)=>{a.setAlpha(.25);this.tweens.add({targets:a,alpha:1,duration:400,delay:i*70});});
+    // Art and collision become available together; the plank drop is visual only.
+    if(animate)planksDrop(this,arts,{audio,SFX,reduced:reducedMotion,sound:d===decks[0]});
     return arts;
    });
    if(animate){SFX.checkpoint(audio);this.message(`${s.title}: kedua-dua isyarat diterima. Jambatan kini kukuh — teruskan!`);}
@@ -114,7 +123,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    dialog.innerHTML='<h2 id="twin-dialog-title"></h2><p id="twin-dialog-copy"></p><div class="twin-dialog-actions"><button type="button" id="twin-resume">Sambung</button><button type="button" id="twin-next" hidden>Teruskan ke Gerbang Songsang</button><button type="button" id="twin-replay">Main semula Level 1–2</button><button type="button" id="twin-menu">Pilih level</button></div>';
    document.querySelector('.shell').append(dialog);
    $('twin-resume').addEventListener('click',()=>this.resumeRun(),{signal});
-   $('twin-next').addEventListener('click',()=>{if(!this.run.completed||!LEVELS.find(l=>l.id==='w1-l3')?.ready)return;dialog.close();this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},{signal});
+   $('twin-next').addEventListener('click',()=>{if(this.run.completed)track('level_started',{level:'w1-l3',mode:'next'});if(!this.run.completed||!LEVELS.find(l=>l.id==='w1-l3')?.ready)return;dialog.close();this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},{signal});
    $('twin-replay').addEventListener('click',()=>{dialog.close();this.scene.restart({fresh:true});},{signal});
    $('twin-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu();},{signal});
    dialog.addEventListener('cancel',event=>{event.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
@@ -156,13 +165,13 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    for(const {def,art} of this.coinViews){
     // The coin over the upper bridge appears only with its supporting bridge.
     art.setVisible(!this.run.coins.includes(def.id)&&(def.x!==2052||solved(this.run.puzzles.twins)));
-    if(art.visible&&Math.abs(this.player.x-def.x)<30&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);SFX.coin?.(audio);this.writeSave();}
+    if(art.visible&&Math.abs(this.player.x-def.x)<30&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);art.anims?.stop();SFX.coin?.(audio);this.writeSave();coinPickup(this,def.x,art.y,{reduced:reducedMotion});}
    }
    CHECKPOINTS.forEach((cp,i)=>{
     // Both parallel routes share the safe lower-bank respawn point.
     const onLanding=Math.abs(body.bottom-cp.feet)<8||(cp.id==='beyond-twins'&&Math.abs(body.bottom-1134)<8);
     if(grounded&&Math.abs(this.player.x-cp.x)<44&&onLanding&&(!cp.requires||solved(this.run.puzzles[cp.requires]))&&CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId)<i){
-     this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();this.message('Checkpoint disimpan. R untuk kembali ke sini.');
+     this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');
     }
    });
    this.nearStation=STATIONS.find(s=>Math.abs(this.player.x-s.x)<255&&Math.abs(body.bottom-s.y)<65)||null;
@@ -219,6 +228,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   finish(){
    if(!solved(this.run.puzzles.final))return;
    this.run.checkpointId='exit';this.run.completed=true;this.writeSave();this.mode='complete';clearControls();this.physics.pause();
+   track('level_completed',{level:'w1-l2',duration_s:durationBucket(this.elapsed),coins:this.run.coins.length,secrets:this.run.secrets.length,ranked_eligible:false,first_completion:this.store.load().levels['w1-l2'].completions===1});
    $('twin-panel').hidden=true;$('world-prompt').hidden=true;$('twin-dialog-title').textContent='Jambatan Berkembar selesai!';
    const nextReady=LEVELS.find(l=>l.id==='w1-l3')?.ready;
    $('twin-next').hidden=!nextReady;

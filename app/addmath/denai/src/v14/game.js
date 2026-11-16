@@ -10,6 +10,9 @@ import {updatePlayer} from './core/player-motion.js';
 import {syncBControl,B_STOPS} from './b-control.js';
 import {createLiftPanelMethods} from './lift-panel.js';
 import {installLeaderboard} from './leaderboard/ui.js';
+import {startCoin,coinPickup,COIN_FACE} from './feel.js';
+import {track,trackGameStart,durationBucket} from './analytics.js';
+import {armPlayerCount,renderMenuCommunity,onVictory,openShare,installEngage} from './leaderboard/engage.js';
 import {selectVariant,variantById,describe} from './missions.js';
 import {migrateLegacy,addCoin,addSecret,noteRunVariant,recentVariants,loadProfile,recordCompletion,ACHIEVEMENTS,LEVEL_KEY} from './progress.js';
 import {evaluateRun,formatTime} from './leaderboard/records.js';
@@ -20,6 +23,7 @@ import {syncGControl} from './g-control.js';
 import {buildWorld,buildSecretMarkers} from './environment.js';
 import {createMechanismMethods} from './mechanisms.js';
 import {notify,syncPresentation,installPresentation,explain,showCheckpointToast,setWorldPrompt} from './presentation.js';
+import {sawmillPrompt,useSawmill} from './levels/sawmill.js';
 import { BUILD_STAGE, BATCH_END, SURFACES, WORLD, MOTION, SPAWN, GOAL, ZONES, GROUND_RANGES, FIRST_GAP, AB_TERRAIN, DECKS, LADDERS, GATES, TERMINALS, CHECKPOINTS, COLLECTIBLES, PUZZLES, SECRETS, CRATE_PUZZLE, WATER, WATER_Y } from './level.js';
 import { audio, SFX } from '../audio.js';
 import { SaveManager } from './save.js';
@@ -182,7 +186,7 @@ class Rooftop extends Phaser.Scene {
     // color list), replacing the flat neutral grey — now that the removed
     // background-legacy skyline no longer fills this role, a plain color
     // layer is the approved fallback per the brief's own clarification.
-    this.cameras.main.setBackgroundColor('#aee3f5');
+    this.cameras.main.setBackgroundColor(this.bgColor??'#aee3f5');
     this.cameras.main.centerOn(SPAWN.x, SPAWN.feet - 190);
     this.applyResponsiveZoom();
     this.prompt = this.add.text(0,0,'',{fontFamily:'Arial, sans-serif',fontSize:'17px',fontStyle:'bold',color:'#fff2ce',backgroundColor:'#203e36',padding:{x:8,y:6}}).setOrigin(.5,1).setDepth(40).setVisible(false);
@@ -273,8 +277,10 @@ class Rooftop extends Phaser.Scene {
     // coin used (18px native * 1.78 ≈ 32px); `refreshBody()` keeps the
     // static Arcade body in sync with the new texture/scale so pickup
     // overlap detection is unaffected.
-    for(const def of COLLECTIBLES) {
-      const coin=def.kind==='gem'?this.physics.add.staticImage(def.x,def.y,'kpp_terrain_atlas',67).setScale(2).setDepth(14):this.physics.add.staticSprite(def.x,def.y,'kpp_coin').setScale(1.78).setDepth(14);
+    // Game Feel V2: coins use the atlas coin frames (151 face / 152 edge) so
+    // they can turn; same 18 px frame and scale, so the body is unchanged.
+    for(const [i,def] of COLLECTIBLES.entries()) {
+      const coin=def.kind==='gem'?this.physics.add.staticImage(def.x,def.y,'kpp_terrain_atlas',67).setScale(2).setDepth(14):startCoin(this,this.physics.add.staticSprite(def.x,def.y,'kpp_terrain_atlas',COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion);
       coin.body.setSize(18,18); coin.refreshBody();
       if(def.requiresSecret&&!this.discoveredSecrets.has(def.requiresSecret))coin.body.enable=false;
       coin.setData('id',def.id);
@@ -463,19 +469,31 @@ class Rooftop extends Phaser.Scene {
       node.classList.toggle('done',i<step); node.removeAttribute('aria-current');
       if(i===step) node.setAttribute('aria-current','step');
     });
-    // A brief on-screen toast instead of a permanent world-space label over
-    // each building — the zone name only needs to be read once, on arrival.
+    // Area banner (Phase C UI pass): shown only on ENTERING a named area —
+    // 0.2 s in, 1.5 s readable, 0.3 s out (2.0 s, CSS `area-banner`). The
+    // persistent HUD chip shows the current LEVEL, not the area. Re-entering
+    // the same area within 6 s does not replay it; a newer area replaces the
+    // old banner at once. Pure DOM/CSS: physics, input and camera untouched.
     if(step<0) return;
+    $('hud-area').textContent='1–1 · Jejak Taman Fungsi';
+    const now=performance.now();this.areaBannerAt||={};
+    if(now-(this.areaBannerAt[step]??-1e9)<6000) return;
+    this.areaBannerAt[step]=now;
     const toast=$('zone-toast');
-    $('hud-area').textContent=ZONES[step].name.replace(/^0?(\d+) · /,'$1 · ');
     const goal=ZONE_GOALS[step]&&!(step===2&&this.solvedGates.has('lift'))?ZONE_GOALS[step]:'';
     toast.innerHTML='';const n=document.createElement('b');n.textContent=ZONES[step].name;toast.append(n);
     if(goal){const g=document.createElement('small');g.textContent=goal;toast.append(g);}
     clearTimeout(this.zoneToastTimer);
-    document.querySelector('.game-frame')?.classList.add('zone-announcing');
-    document.body.classList.add('zone-announcing');
-    toast.classList.add('show');
-    this.zoneToastTimer=setTimeout(()=>{toast.classList.remove('show');document.querySelector('.game-frame')?.classList.remove('zone-announcing');document.body.classList.remove('zone-announcing');},2600);
+    toast.classList.remove('show','play');toast.classList.add('area-banner');void toast.offsetWidth;toast.classList.add('show','play');
+    document.querySelector('.game-frame')?.classList.add('zone-announcing');document.body.classList.add('zone-announcing');
+    this.zoneToastTimer=setTimeout(()=>{toast.classList.remove('show','play');document.querySelector('.game-frame')?.classList.remove('zone-announcing');document.body.classList.remove('zone-announcing');},2000);
+  }
+  // Boundary hysteresis: stay in the current area until the player is 40 px
+  // past its edge, so standing on a boundary never flips the area back and forth.
+  zoneWithHysteresis() {
+    const now=this.currentZoneIndex(),z=ZONES[this.step];
+    if(!z||now===this.step) return now;
+    return this.player.x>=z.xStart-40&&this.player.x<z.xEnd+40?this.step:now;
   }
   // V7: zones can now stack (C sits directly above B, E above D — same
   // x-range, different tier) since the world is genuinely vertical, not
@@ -833,8 +851,7 @@ class Rooftop extends Phaser.Scene {
         // Animation pass: the coin pops up and fades (260ms) instead of
         // vanishing; the HUD coin chip gives a small bump. Pickup itself is
         // instant (physics body destroyed now), so nothing delays control.
-        if(!reducedMotion){const ghost=this.add.image(cx,cy,'kpp_coin').setScale(1.78).setDepth(15);
-          this.tweens.add({targets:ghost,y:cy-28,scale:2.4,alpha:0,duration:260,ease:'Quad.out',onComplete:()=>ghost.destroy()});}
+        const gem=coin.frame?.name===67;
         const chip=$('hud-collection');chip.classList.remove('bump');void chip.offsetWidth;chip.classList.add('bump');
         coin.destroy();this.coinsFound++;
         // V8 Phase 6: a collected coin is a "persistent collectible" per
@@ -842,7 +859,7 @@ class Rooftop extends Phaser.Scene {
         this.collectedCoinIds.add(coinId);addCoin(coinId);this.writeSave();
         $('coin-count').textContent=`Koleksi: ${this.coinsFound}`;
         announce('Koleksi dijumpai! Teruskan meneroka.');
-        this.sparkleBurst(cx,cy,7);
+        coinPickup(this,cx,cy,gem?{frame:67,scale:2,reduced:reducedMotion}:{reduced:reducedMotion}); // edge-on turn + pooled sparks
         this.floatingText(cx,cy-14,'+1');
         SFX.coin(audio);
       }
@@ -948,7 +965,7 @@ class Rooftop extends Phaser.Scene {
       if(CHECKPOINTS[cpIndex].id!=='cp-start')showCheckpointToast(); // the spawn flag saves silently
       SFX.checkpoint(audio);this.writeSave();
     }
-    this.setStep(this.currentZoneIndex());
+    this.setStep(this.zoneWithHysteresis());
     const terminal=this.nearestTerminal();
     const secret=this.nearestSecret();
     const near=(x,d=190)=>Math.abs(this.player.x-x)<d;
@@ -972,6 +989,9 @@ class Rooftop extends Phaser.Scene {
     // permanently unreachable for gates this build never defines.
     const required=GATES.map(g=>g.id);
     const atExit = BUILD_STAGE>=4 && required.every(id=>this.solvedGates.has(id)) && Math.abs(this.player.x-GOAL.x)<62 && Math.abs(body.bottom-GOAL.feet)<6 && body.blocked.down;
+    // Victory is automatic (same as 1-2/1-3): every required machine solved
+    // and standing on the goal plinth. finish() itself is idempotent.
+    if(atExit&&this.mode==='playing'&&!this.levelCompleted){this.finish();if(this.levelCompleted)return;}
     if(terminal || secret || atExit) {
       const cue = terminal || secret || {x:GOAL.x,feet:GOAL.feet};
       this.machineGlow.setPosition(cue.x,cue.feet-70).setVisible(true);
@@ -992,9 +1012,13 @@ class Rooftop extends Phaser.Scene {
     else if(this.crate&&this.crateSwitchActive&&!this.ledgeHintDone&&onGround&&Math.abs(body.bottom-1296)<4&&Math.abs(this.player.x-this.crate.x)<120)
       wp={key:K('Space','Lompat'),text:'Naik kotak, lompat ke pelantar',x:this.crate.x,y:this.crate.y-44};
     if(this.crateSwitchActive&&Math.abs(body.bottom-1188)<3&&onGround)this.ledgeHintDone=true;
+    // Phase C: optional riverside sawmill (builds the fishing jetty).
+    const saw=(!terminal&&!secret&&!atExit)?sawmillPrompt(this,onGround,touchDevice):(this.sawmillReady=false,null);
+    if(!wp&&saw)wp=saw;
     setWorldPrompt(this,wp);
     if(interact) {
-      if (secret) { if (secret.note) this.openSecretNote(secret); else this.discoverSecret(secret.id); }
+      if (this.sawmillReady&&!terminal&&!secret&&!atExit) useSawmill(this,{audio,SFX});
+      else if (secret) { if (secret.note) this.openSecretNote(secret); else this.discoverSecret(secret.id); }
       else if (atExit) this.finish();
       else if(terminal?.kind==='water-stage'||terminal?.kind==='water-activate')this.interactWaterworks(terminal);
       else if(terminal?.kind==='b-selector')this.cycleBInput();
@@ -1062,6 +1086,7 @@ Object.assign(Rooftop.prototype,{
     if(res?.isNewBest){const b=document.createElement('span');b.className='vbadge';b.textContent='Rekod!';b.title=`Rekod peribadi baharu: ${formatTime(res.best.timeMs)}`;$('vstat-time').append(b);}
     $('completion-pb').classList.remove('is-best');$('completion-pb').hidden=false;
     $('completion-pb').textContent=victoryHint(this);
+    onVictory(this.run?.explore?null:this.lastCompletion,this.elapsed);
     const dlg=$('complete');
     if(!dlg.open)dlg.showModal();
     requestAnimationFrame(()=>$('explore-again').focus({preventScroll:true}));
@@ -1141,6 +1166,7 @@ Object.assign(Rooftop.prototype,{
     if(!was&&this.levelCompleted&&this.run&&!this.run.explore){
       const verdict=evaluateRun({completed:true,requiredGates:GATES.map(g=>g.id),solvedGates:[...this.solvedGates],source:this.run.eligible?'fresh':'save',timeMs:this.elapsed});
       this.lastCompletion={...recordCompletion({timeMs:this.elapsed,coins:this.collectedCoinIds.size,secrets:this.discoveredSecrets.size,eligible:verdict.eligible,wrongAttempts:this.run.attempts.lift.wrong}),verdict};
+      track('level_completed',{level:'w1-l1',duration_s:durationBucket(this.elapsed),coins:this.collectedCoinIds.size,secrets:this.discoveredSecrets.size,ranked_eligible:verdict.eligible,first_completion:this.lastCompletion.completions===1});
     }
   };
   const baseClose=Rooftop.prototype.closeSecretNote;
@@ -1157,7 +1183,7 @@ Object.assign(Rooftop.prototype,{
     buildJournal($('secrets-list'),this);
     const miss=missingCoinsBySection(this.collectedCoinIds);
     $('collection-coins').textContent=`Syiling: ${this.collectedCoinIds.size}/${COLLECTIBLES.length} dalam pengembaraan ini · ${prof.coinIds.length}/${COLLECTIBLES.length} pernah ditemui.${miss.length?' Masih tertinggal: '+miss.join(', ')+'.':''}`;
-    const lv=prof.levels[LEVEL_KEY];$('collection-coins').textContent+=lv.best?` Rekod peribadi: ${formatTime(lv.best.timeMs)} (×${lv.completions} selesai).`:'';
+    const lv=prof.levels[LEVEL_KEY];$('collection-coins').textContent+=lv.best?` Rekod peribadi: ${formatTime(lv.best.timeMs)} (×${lv.completions} selesai).`:''+(lv.classicBest?` Rekod kursus lama: ${formatTime(lv.classicBest.timeMs)}.`:'');
     achievementChips($('collection-achievements'),prof.achievements);
   };
   // World 1 map: honest states only (1-1 real, 1-2 coming soon, 1-3 not yet).
@@ -1237,11 +1263,11 @@ function launchInverse(){
   activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start('GerbangSongsang');
 }
 $('level2-action').addEventListener('click',launchTwins);
-$('next-level2').addEventListener('click',launchTwins);
+$('next-level2').addEventListener('click',()=>{track('level_started',{level:'w1-l2',mode:'next'});launchTwins();});
 document.getElementById('level3-action').addEventListener('click',launchInverse);
 const originalLevelSelect=Rooftop.prototype.renderLevelSelect;
 Rooftop.prototype.renderLevelSelect=function(){originalLevelSelect.call(this);refreshTwinEntry();refreshInverseEntry();};
-installLeaderboard();
+installLeaderboard();installEngage();
 $('confirm-ok').addEventListener('click',()=>closeConfirm(true));
 $('confirm-cancel').addEventListener('click',()=>closeConfirm(false));
 function freshAdventure(){
@@ -1253,7 +1279,9 @@ function freshAdventure(){
 // Reuses the existing launchers and stores; see menu/progress.js.
 function startLevelScene(key,data){clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start(key,data);}
 function launchLevel(id,mode){
-  audio.unlock();SFX.ui(audio);
+  audio.unlock();SFX.ui(audio);armPlayerCount();
+  const m=mode==='replay'?'replay':mode==='continue'?'continue':'play';
+  trackGameStart(m==='continue'?'continue':'menu');track('level_started',{level:id,mode:m});if(m==='replay')track('level_replayed',{level:id});
   if(id==='w1-l1'){
     const save=SaveManager.load();
     // Replay (or a finished run) starts a fresh run: only the run save is
@@ -1282,7 +1310,7 @@ $('play-main').addEventListener('click',()=>{
 });
 $('world-map-btn').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);worldMap.open();});
 $('settings-main').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);openSettings();});
-{const base=Rooftop.prototype.refreshMenu;Rooftop.prototype.refreshMenu=function(){base.call(this);refreshPlayMain();};}
+{const base=Rooftop.prototype.refreshMenu;Rooftop.prototype.refreshMenu=function(){base.call(this);refreshPlayMain();renderMenuCommunity();};}
 function savedSummary(save){
   const cp=CHECKPOINTS.findIndex(c=>c.id===save.checkpointId)+1;
   return `${save.completed?'Level 1 sudah selesai':'Checkpoint '+(cp||'awal')} · ${save.collectedCoinIds.length} syiling · ${save.discoveredSecretIds.length} rahsia`;
@@ -1407,6 +1435,7 @@ $('complete-level-select').addEventListener('click',()=>{
   worldMap.open();
 });
 $('menu-btn').addEventListener('click',()=>activeScene?.returnToMenu());
+$('share-result').addEventListener('click',()=>{const s=activeScene;if(s)openShare({timeMs:s.elapsed,coins:s.collectedCoinIds.size,totalCoins:COLLECTIBLES.length});});
 // One owner for Escape prevents the native dialog's cancel event and Phaser
 // from handling the same key twice (resume followed immediately by pause).
 document.addEventListener('keydown',event=>{

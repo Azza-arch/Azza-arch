@@ -10,12 +10,13 @@ const $ = (id) => document.getElementById(id);
 function returning() {
   const save = read('denai-save-v14'), profile = read('denai-profile-v1');
   const lv = profile?.levels?.['w1-l1'];
-  if (!(save || (lv && (lv.completions > 0 || lv.best)))) return;
+  if (!(save || (lv && (lv.completions > 0 || lv.best || lv.classicBest)))) return;
   for (const id of ['play', 'play3']) { const l = $(id)?.querySelector('.btn-label'); if (l) l.textContent = 'SAMBUNG'; }
   $('cta-note').textContent = 'Kemajuan anda tersimpan dalam pelayar ini.';
   const stats = [];
   if (lv?.completions > 0) stats.push(['Tamat Level 1-1', `${lv.completions}×`]);
-  if (lv?.best?.timeMs > 0) stats.push(['Masa terbaik', mmss(lv.best.timeMs)]);
+  const best = lv?.best || lv?.classicBest; // classicBest: records from the earlier 1-1 course
+  if (best?.timeMs > 0) stats.push(['Masa terbaik', mmss(best.timeMs)]);
   if (Array.isArray(profile?.coinIds) && profile.coinIds.length) stats.push(['Syiling', `${profile.coinIds.length}/15`]);
   if (Array.isArray(profile?.achievements) && profile.achievements.length) stats.push(['Pencapaian', `${profile.achievements.length}/5`]);
   if (stats.length) $('stats').innerHTML = stats.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
@@ -44,5 +45,13 @@ function dock() {
   new IntersectionObserver(([e]) => { d.hidden = e.isIntersecting; }, { threshold: 0.05 }).observe(hero);
 }
 
-function init() { returning(); machine(); dock(); }
+// 4) Real player count (PlayFab). Loaded after the page is idle so it never delays
+//    the play button; hidden unless PlayFab returns a real number.
+function players() {
+  const el = $('players-live'); if (!el) return;
+  const go = () => import('./players.js').then((m) => m.showPlayerCount(el)).catch(() => {});
+  ('requestIdleCallback' in window) ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 1200);
+}
+
+function init() { returning(); machine(); dock(); players(); }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

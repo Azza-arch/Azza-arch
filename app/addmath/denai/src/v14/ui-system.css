@@ -663,3 +663,16 @@ body:has(#complete[open]) #zone-toast,body:has(#complete[open]) .zone-toast,body
 /* Leaderboard icon sits left of the settings gear on the menu. */
 body .lb-btn{right:calc(max(18px,env(safe-area-inset-right)) + 58px);font-size:22px;line-height:1}
 #welcome [hidden],.pause-actions [hidden],.settings-menu [hidden]{display:none!important}
+
+/* ---------- Phase C: temporary area banner (Level 1-1) -----------------
+   0.2 s fade/slide in · 1.5 s readable · 0.3 s fade out = 2.0 s total.
+   Top-centre wooden chip, between the coin chip and the pause button. */
+#zone-toast.area-banner{opacity:0;transition:none;top:max(14px,env(safe-area-inset-top));bottom:auto;max-width:min(380px,calc(100% - 260px))}
+#zone-toast.area-banner.play{animation:area-banner 2s linear forwards}
+@keyframes area-banner{0%{opacity:0;transform:translate(-50%,-10px)}10%{opacity:1;transform:translate(-50%,0)}85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-4px)}}
+@media (prefers-reduced-motion:reduce){@keyframes area-banner{0%{opacity:0}10%{opacity:1}85%{opacity:1}100%{opacity:0}}}
+body[data-notice="true"] #zone-toast.area-banner{animation:none;opacity:0}
+@media (max-width:820px),(max-height:540px){
+  #zone-toast.area-banner{top:max(8px,env(safe-area-inset-top));bottom:auto;font-size:13px;max-width:min(260px,calc(100% - 210px))}
+  #zone-toast.area-banner small{display:none}
+}
