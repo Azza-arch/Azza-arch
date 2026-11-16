@@ -47,12 +47,31 @@ tersimpan memang menghasilkan ≥ 8; kiraan dihadkan 999.
 - Checkpoint `exit` dan pintu keluar memerlukan bengkel siap.
 
 ## 4. Keputusan ujian
-RESULTS
+Semua ujian dijalankan pada binaan tempatan (PlayFab disekat/stub; tiada skor atau peristiwa dihantar).
+
+| Ujian | Keputusan |
+|---|---|
+| Unit (7 fail) termasuk `workshop-v3.test.mjs` baharu (gf(5)=8, fg(5)=6, langkah demo-dahulu, sanitasi & penghantaran palsu, migrasi lama, simpan/muat) | lulus |
+| `l2-playthrough.cjs` — papan kekunci sahaja: batu loncatan → larian demo 6/8 → reload → tangga/kanopi/dek → tukar → jatuh sengaja (respawn kekal) → 8/8 → lintas jambatan → tamat | lulus ×4 berturut · 66–68 s (bot) · kaki di jambatan 1242/1242 (30 sampel) · 0 ralat |
+| `l2-check.cjs` — migrasi (siap / belum siap), main semula, telefon landskap & potret dengan butang Guna | lulus · 0 ralat |
+| `l1-playthrough.cjs` — 1-1 penuh papan kekunci (stor, kunci, belian, pasang, tangga) | lulus · 74 s · 0 ralat |
+| `l1-v3-check.cjs` — variasi K2/K3, migrasi, pencapaian lama, main semula, sentuhan telefon, tangga lepas awal, susun atur stor 3 saiz | lulus · 0 ralat |
+| rc · engagement · analytics · feel · menu · puzzle-clarity (1-3) · bg-theme · banner · traversal (17/17) · landing-count | lulus · 0 tulisan papan klasik · 0 peristiwa analitik · 0 ralat |
+
+Ujian lama yang dikemas kini: pintas kemenangan 1-2 (`rc`, `analytics`) kini menetapkan `run.workshop`;
+`feel-check` menguji jambatan bengkel (papan jatuh + badan perlanggaran serta-merta, gerakan dikurangkan);
+bahagian panel 1-2 dalam `puzzle-clarity-check` dibuang (bahagian 1-3 kekal).
+`l2-playthrough` kini berlari ke tepi tebing dahulu kemudian melangkah perlahan — larian penuh kelajuan
+ke 14 px dari tebing kadang-kadang terlajak ke sungai semasa CPU sibuk (masalah bot, bukan level).
 
 ## 5. Had & catatan
 - Masa di atas ialah bot; masa pemain sebenar belum diukur.
 - Kod stesen lama (`composition*.js`, `STATIONS` dalam `twin-world.js`) masih wujud untuk migrasi dan
   ujian geometri lama; tidak lagi dipaparkan dalam permainan.
+- Gelembung teks bengkel kekal dalam skrin: di bawah pemain jika tiada ruang di atas, dibalut ikut lebar
+  kamera, mengelak penjejak misi, dan menutup toast checkpoint yang sedang dipapar.
+- Prestasi telefon (CPU ×4 perlahan, zoom 0.5, semua syiling berputar): median ~16 fps — ujian tekanan
+  sahaja, tidak berubah daripada Fasa C kerana bengkel tidak menambah objek berat.
 - Tiada pencapaian baharu untuk 1-2 dalam fasa ini (boleh ditambah dalam Fasa F jika dipersetujui).
 - Papan pendahulu V3 kekal tersembunyi sehingga `denai_l1_time_v3` dicipta oleh pemilik.
 

@@ -43,14 +43,15 @@ const PROFILE = JSON.stringify({ schemaVersion: 1, createdAt: '2026-11-01T00:00:
   await p.click('#play-main'); await p.waitForFunction(() => window.__game.scene.getScene('Jambatan')?.mode === 'playing', null, { timeout: 15000 }); await sleep(800); await p.evaluate(() => document.getElementById('game')?.focus?.());
   const t0 = Date.now();
   // 1. Entry → garden → over the first gap → warehouse.
-  log.toGap1 = await run(p, 1, 955); log.gap1 = await hop(p, 1, 1110);
-  log.toPosts = await run(p, 1, 1822);
+  // Run up short of each edge, then step to it: full-speed momentum under CPU load can carry the bot over.
+  await run(p, 1, 900); log.toGap1 = await settle(p, 950); log.gap1 = await hop(p, 1, 1110);
+  await run(p, 1, 1750); log.toPosts = await settle(p, 1815);
   await p.screenshot({ path: `${out}/1-batu-loncatan.png` });
   // 2. River posts: low post → high post → upper deck.
   log.post1 = await hop(p, 1, 1915); log.post2 = await hop(p, 1, 2060); log.deck = await hop(p, 1, 2200);
   // 3. On to the workshop (island and secret bank gaps).
-  log.toGap3 = await run(p, 1, 2468); log.gap3 = await hop(p, 1, 2640);
-  log.toGap4 = await run(p, 1, 2790); log.gap4 = await hop(p, 1, 2960);
+  await run(p, 1, 2420); log.toGap3 = await settle(p, 2462); log.gap3 = await hop(p, 1, 2640);
+  await run(p, 1, 2740); log.toGap4 = await settle(p, 2784); log.gap4 = await hop(p, 1, 2960);
   log.toYard = await run(p, 1, 3420); await sleep(800);
   log.intro = { tracker: await p.textContent('#qt-text'), w: await ws(p) };
   await settle(p, 3440); await p.screenshot({ path: `${out}/2-bengkel-ditemui.png` });
