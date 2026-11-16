@@ -71,7 +71,7 @@ ke 14 px dari tebing kadang-kadang terlajak ke sungai semasa CPU sibuk (masalah 
 - Gelembung teks bengkel kekal dalam skrin: di bawah pemain jika tiada ruang di atas, dibalut ikut lebar
   kamera, mengelak penjejak misi, dan menutup toast checkpoint yang sedang dipapar.
 - Prestasi telefon (CPU ×4 perlahan, zoom 0.5, semua syiling berputar): median ~16 fps — ujian tekanan
-  sahaja, tidak berubah daripada Fasa C kerana bengkel tidak menambah objek berat.
+  sahaja; tiada angka asas Fasa C untuk dibandingkan, jadi perlu disemak pada telefon sebenar.
 - Tiada pencapaian baharu untuk 1-2 dalam fasa ini (boleh ditambah dalam Fasa F jika dipersetujui).
 - Papan pendahulu V3 kekal tersembunyi sehingga `denai_l1_time_v3` dicipta oleh pemilik.
 
