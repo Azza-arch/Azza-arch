@@ -186,7 +186,7 @@ function installQuestUI(s){
  st.innerHTML='<p class="sp-head">Pembekal Kayu Hutan</p><p class="sp-receipt" id="sp-receipt"></p><div class="sp-row"><span>Papan</span><button type="button" id="sp-minus" aria-label="Kurangkan papan">−</button><output id="sp-qty">1</output><button type="button" id="sp-plus" aria-label="Tambah papan">+</button></div><p class="sp-total" id="sp-total"></p><button type="button" id="sp-buy" class="sp-buy">Beli · E</button><p id="sp-msg" role="status" aria-live="polite"></p>';
  frame.append(tr,st);
  if(matchMedia('(pointer: coarse)').matches)$('sp-buy').textContent='Beli';
- const abort=new AbortController(),signal=abort.signal;s.events.once('shutdown',()=>{abort.abort();tr.remove();st.remove();});
+ const abort=new AbortController(),signal=abort.signal;s.events.once('shutdown',()=>{abort.abort();tr.remove();st.remove();document.body.classList.remove('store-open');});
  s.storeQty=1;
  const setQty=n=>{s.storeQty=Math.max(1,Math.min(STOCK,n));$('sp-msg').textContent='';renderStore(s);};
  $('sp-minus').addEventListener('click',()=>setQty(s.storeQty-1),{signal});
@@ -196,7 +196,8 @@ function installQuestUI(s){
  $('qt-hint').addEventListener('click',()=>{s.hintLevel=((s.hintLevel||0)%3)+1;renderTracker(s);},{signal});
  $('qt-math').addEventListener('click',()=>{const t=$('qt-math-text');t.hidden=!t.hidden;},{signal});
 }
-function openStore(s){const st=$('store-panel');if(st&&st.hidden){st.hidden=false;renderStore(s);}}
+function setStore(open){const st=$('store-panel');if(st)st.hidden=!open;document.body.classList.toggle('store-open',!!open);}
+function openStore(s){const st=$('store-panel');if(st&&st.hidden){setStore(true);renderStore(s);}}
 export function renderStore(s){
  const qs=q(s);if(!qs||!$('store-panel'))return;const v=variantById(qs.variant),x=s.storeQty;
  $('sp-receipt').textContent=`RM${v.price} sebatang + RM${v.delivery} hantaran · ${formula(v)}`;
@@ -216,7 +217,7 @@ function buy(s,{audio,SFX}={}){
  SFX?.correct?.(audio);burst(s,STORE.doorX,STORE.feet-40,8,0xffe27a);
  s.writeSave();renderTracker(s);
  bubble(s,`${x} papan dibeli. Bawa ke jambatan.`);
- s.time.delayedCall(1400,()=>{const st=$('store-panel');if(st)st.hidden=true;});
+ s.time.delayedCall(1400,()=>setStore(false));
 }
 function repair(s,{audio,SFX}={}){
  const qs=q(s);if(!qs||!qs.bought||qs.repaired||s.repairing)return;
@@ -271,6 +272,6 @@ export function renderTracker(s){
 // Called from the scene each frame: keep panels in sync with position/mode.
 export function syncQuestUI(s){
  const qs=q(s),st=$('store-panel');
- if(st&&!st.hidden){const near=Math.abs(s.player.x-STORE.doorX)<90&&Math.abs(s.player.body.bottom-STORE.feet)<10;if(!near||s.mode!=='playing')st.hidden=true;}
+ if(st&&!st.hidden){const near=Math.abs(s.player.x-STORE.doorX)<90&&Math.abs(s.player.body.bottom-STORE.feet)<10;if(!near||s.mode!=='playing')setStore(false);}
  const tr=$('quest-tracker');if(tr){const show=s.mode==='playing'&&questStep(qs)!=='none';if(tr.hidden===show)renderTracker(s);}
 }

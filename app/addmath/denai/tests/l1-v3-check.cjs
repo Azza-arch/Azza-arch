@@ -76,5 +76,26 @@ async function buyFlow(p, tries) { // key in hand: open the store and try each x
     await p.screenshot({ path: `${out}/telefon-5-siap.png` });
     res.phone = { quest: await ev(p, (s) => ({ ...s.run.quest })), lift: await ev(p, (s) => s.solvedGates.has('lift')), trackerBox: await p.evaluate(() => { const r = document.getElementById('quest-tracker').getBoundingClientRect(); return [Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height), innerWidth, innerHeight]; }), errs };
     await ctx.close(); }
+  // F. Ladder top: release W a few px before the top → steps onto the arch (no hang).
+  { const { ctx, p, errs } = await open(b, desk, {});
+    await play(p); await teleport(p, 1215, 1404); await sleep(600); await p.click('#game');
+    await p.keyboard.down('KeyW'); const t0 = Date.now();
+    while (Date.now() - t0 < 6000) { const b2 = await ev(p, (s) => Math.round(s.player.body.bottom)); if (b2 <= 1084) break; await sleep(15); }
+    await p.keyboard.up('KeyW'); const atRelease = await ev(p, (s) => ({ bottom: Math.round(s.player.body.bottom), climbing: !!s.climbing })); await sleep(400);
+    const after = await ev(p, (s) => ({ bottom: Math.round(s.player.body.bottom), climbing: !!s.climbing, grounded: s.player.body.blocked.down || s.player.body.touching.down }));
+    await p.keyboard.down('KeyD'); await sleep(500); await p.keyboard.up('KeyD'); const moved = await ev(p, (s) => Math.round(s.player.x));
+    res.ladderTop = { atRelease, after, movedRightTo: moved, errs }; await ctx.close(); }
+  // G. Store panel on phones: no overlap with pause / touch controls / tracker, fully on screen.
+  res.storeLayout = {};
+  for (const [name, dev] of [['landskap', devices['iPhone 13 landscape']], ['potret', devices['iPhone 13']], ['se-landskap', { viewport: { width: 667, height: 375 }, isMobile: true, hasTouch: true }]]) {
+    const { ctx, p } = await open(b, dev, {}); await play(p);
+    await ev(p, (s) => { Object.assign(s.run.quest, { found: true, key: true }); s.supply.key.destroy(); }); await teleport(p, 2367, 1242); await sleep(800);
+    await p.locator('[data-action="interact"]').tap(); await sleep(600);
+    res.storeLayout[name] = await p.evaluate(() => { const r = (id) => { const e = document.getElementById(id); if (!e || !e.offsetParent && getComputedStyle(e).position !== 'fixed') return null; const b = e.getBoundingClientRect(); return b.width ? b : null; };
+      const hit = (a, b) => a && b && a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom; const st = r('store-panel');
+      const btns = [...document.querySelectorAll('#touch-controls button')].filter((x) => x.offsetParent).map((x) => x.getBoundingClientRect());
+      return { store: st && [Math.round(st.left), Math.round(st.top), Math.round(st.right), Math.round(st.bottom)], onScreen: st && st.left >= 0 && st.top >= 0 && st.right <= innerWidth && st.bottom <= innerHeight, hitPause: hit(st, r('pause')), hitTouch: btns.some((b) => hit(st, b)), trackerHidden: !r('quest-tracker'), minButton: Math.min(...[...document.querySelectorAll('#store-panel button')].map((x) => x.getBoundingClientRect().height)) }; });
+    await p.screenshot({ path: `${out}/stor-${name}.png` }); await ctx.close();
+  }
   await b.close(); console.log(JSON.stringify(res, null, 1));
 })();

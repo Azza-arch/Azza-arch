@@ -27,7 +27,9 @@ export function updatePlayer(scene,time,delta,{controls,audio,SFX,reducedMotion,
         scene.climbing=null;scene.climbLockUntil=time+250;body.setAllowGravity(true);
         body.setVelocity((right?1:left?-1:0)*MOTION.speed,-MOTION.jump);scene.jumpAt=-1000;
         scene.dustBurst(scene.player.x,body.bottom,4);SFX.jump(audio);
-      } else if(body.bottom<=ladder.top && up) {
+      // Top exit: within 6 px of the top and not climbing down → step onto the
+      // platform, whether W is still held or was released a moment early.
+      } else if(body.bottom<=ladder.top+6 && !down) {
         body.reset(ladder.x,ladder.top-MOTION.bodyHeight/2-1);
         scene.climbing=null;body.setAllowGravity(true);body.setVelocity(0,0);scene.climbLockUntil=time+180;
       } else if(body.bottom>=ladder.bottom && down) {
