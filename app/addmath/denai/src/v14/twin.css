@@ -22,3 +22,15 @@
 .twin-actions button:focus-visible{outline:3px solid #a45116;outline-offset:2px}
 .twin-comparison{margin-top:8px;font-size:13px;font-variant-numeric:tabular-nums;line-height:1.5}
 .twin-comparison p{overflow-wrap:anywhere}
+
+/* Clarity pass */
+#twin-panel .twin-goal{margin-top:2px!important}
+#twin-panel .twin-goals{list-style:none;margin:2px 0 6px;padding:0;display:flex;gap:6px;flex-wrap:wrap}
+#twin-panel .twin-goals li{flex:1;min-width:120px;padding:4px 8px;border:2px solid #b9ab86;border-radius:4px;font-weight:700;background:#fffaf0}
+#twin-panel .twin-goals li.is-now{border-color:#a45116;background:#ffe9b8}
+#twin-panel .twin-goals li.is-done{border-color:#2e7d55;background:#d9f2e2;color:#1d5a3c}
+#twin-panel .twin-send{display:block;width:100%;margin:6px 0;min-height:44px;font-weight:800}
+#twin-panel .twin-hint{font-weight:700;color:#8a4b14;min-height:0}
+#twin-panel .twin-hint:empty{display:none}
+@media (min-height:501px){#twin-panel{top:58px}} /* clear the HUD chips */
+@media (max-height:500px){#twin-panel .twin-rule,#twin-panel .twin-goal{display:none}#twin-panel .twin-goals{margin:2px 0 4px}#twin-panel .twin-send{min-height:36px;margin:4px 0}}

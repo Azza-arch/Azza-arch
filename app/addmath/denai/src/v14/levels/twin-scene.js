@@ -94,7 +94,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    view.labels[0].setText('Hantar');
    ['fg','gf'].forEach((o,i)=>view.receivers[i].lamp.setFillStyle(state.receivers[o]?0x438f55:0x796d50));
    const last=state.route&&state.drives?.[state.route];
-   view.driveLabel.setText(last?`Output ${last.output} → tanda ${TARGETS[s.id][state.route]} · ${state.receivers[state.route]?'dikunci':last.output>TARGETS[s.id][state.route]?'lebihan, belum terkunci':'belum sejajar'}`:'Pilih tanda penerima sebelum menghantar');
+   view.driveLabel.setText(last?`Output ${last.output} → tanda ${TARGETS[s.id][state.route]} · ${state.receivers[state.route]?'dikunci':last.output>TARGETS[s.id][state.route]?'lebihan, belum terkunci':'belum sejajar'}`:`Sasaran: ${TARGETS[s.id].fg} dan ${TARGETS[s.id].gf}`);
    view.preview.forEach((a,i)=>{
     const route=i<view.preview.length/2?'fg':'gf',fraction=driveFraction(state,s.id,route);
     a.setVisible(!solved(state));
@@ -116,10 +116,12 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   installUI(){
    this.uiAbort=new AbortController();const signal=this.uiAbort.signal;
    const panel=document.createElement('section');panel.id='twin-panel';panel.hidden=true;panel.setAttribute('aria-label','Kawalan mesin fungsi');
-   panel.innerHTML='<p class="twin-heading"></p><p class="twin-rule">f(x) = 2x + 1 · g(x) = x²</p><p class="twin-order"></p><div class="twin-actions"><button type="button" data-command="input"></button><button type="button" data-command="order">Tukar urutan</button></div><p class="twin-route-help">Ke tanda mana output ini akan menggerakkan dek?</p><div class="twin-actions"><button data-command="route-fg"></button><button data-command="route-gf"></button><button type="button" data-command="send">Hantar · E</button></div><div class="twin-comparison"><p data-trace="fg"></p><p data-trace="gf"></p></div><p class="twin-trace" role="status" aria-live="polite"></p>';
+   // Clarity pass: one goal, three controls (x, order, send). The receiver
+   // follows the chosen order automatically (it had to match it anyway).
+   panel.innerHTML='<p class="twin-heading"></p><p class="twin-goal">Cari <b>satu nilai x</b> yang buat kedua-duanya betul:</p><ul class="twin-goals"><li data-goal="fg"></li><li data-goal="gf"></li></ul><p class="twin-rule">f(x) = 2x + 1 · g(x) = x²</p><div class="twin-actions"><button type="button" data-command="input"></button><button type="button" data-command="order"></button></div><button type="button" class="twin-send" data-command="send">Hantar · E</button><p class="twin-trace" role="status" aria-live="polite"></p><p class="twin-hint" aria-live="polite"></p>';
    document.querySelector('.game-frame').append(panel);
    panel.querySelectorAll('[data-command]').forEach(b=>b.addEventListener('click',()=>{audio.unlock();this.act(b.dataset.command);b.blur();$('game').focus({preventScroll:true});},{signal}));
-   document.addEventListener('keydown',e=>{if(!this.nearStation||this.mode!=='playing'||e.repeat||e.target.matches?.('input,select'))return;const action={KeyX:'input',KeyT:'order',Digit1:'route-fg',Digit2:'route-gf'}[e.code];if(action){e.preventDefault();this.act(action);}},{signal});
+   document.addEventListener('keydown',e=>{if(!this.nearStation||this.mode!=='playing'||e.repeat||e.target.matches?.('input,select'))return;const action={KeyX:'input',KeyT:'order'}[e.code];if(action){e.preventDefault();this.act(action);}},{signal});
    const dialog=document.createElement('dialog');dialog.id='twin-dialog';dialog.setAttribute('aria-labelledby','twin-dialog-title');
    dialog.innerHTML='<h2 id="twin-dialog-title"></h2><p id="twin-dialog-copy"></p><div class="twin-dialog-actions"><button type="button" id="twin-resume">Sambung</button><button type="button" id="twin-next" hidden>Teruskan ke Gerbang Songsang</button><button type="button" id="twin-replay">Main semula Level 1–2</button><button type="button" id="twin-menu">Peta Dunia</button><button type="button" id="twin-main-menu">Menu utama</button></div>';
    document.querySelector('.shell').append(dialog);
@@ -134,10 +136,10 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   message(text){this.feedback=text;$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+6500;}
   act(action){
    const s=this.nearStation;if(!s||this.mode!=='playing'||this.busy)return;
-   const before=this.run.puzzles[s.id];
-   if(action==='send'&&!before.route){this.message('Pilih tanda penerima dahulu: 1 atau 2.');return;}
+   let before=this.run.puzzles[s.id];
+   if(action==='send'&&before.route!==before.order)before=workshopCommand(before,`route-${before.order}`,s.id); // receiver = chosen order
    const next=workshopCommand(before,action,s.id);
-   if(action!=='send'){this.run.puzzles[s.id]=next;this.refreshStation(s);this.writeSave();return;}
+   if(action!=='send'){this.machineSay='';this.run.puzzles[s.id]=next;this.refreshStation(s);this.writeSave();return;}
    this.busy=true;this.pendingTrace=next.last;
    const result=next.last;
    const packet=this.worldText(String(result.input),s.x-150,s.y-116,20).setDepth(30);
@@ -145,8 +147,11 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
     packet.destroy();this.busy=false;this.pendingTrace=null;this.run.puzzles[s.id]=next;
     this.refreshStation(s);if(solved(next))this.openBridge(s);
     this.writeSave();
-    const destination=TARGETS[s.id][before.route];
-    this.message(`${result.trace}. Ke tanda ${destination}: ${result.output===destination&&before.route===result.order?'pemacu dikunci.':`dek ${result.output<destination?'terlalu pendek':'melepasi tanda'}. Ubah input, urutan atau saluran.`}`);
+    const destination=TARGETS[s.id][before.route],ok=result.output===destination;
+    const name=`${result.outer}(${result.inner}(${result.input}))`;
+    this.wrongSends||={};this.wrongSends[s.id]=ok?0:(this.wrongSends[s.id]||0)+1;
+    this.machineSay=ok?`${name} = ${result.output} ✓ Terkunci!${solved(next)?' Jambatan dibina.':' Sekarang tukar urutan dan hantar lagi.'}`:`${name} = ${result.output}, bukan ${destination}. ${result.output>destination?'Terlalu besar.':'Terlalu kecil.'}`;
+    this.message(this.machineSay);this.renderPanel();
    };
    // Commit after both machine steps; pausing freezes tweens and game time.
    this.tweens.add({targets:packet,x:s.x-54,duration:reducedMotion?1:350,onComplete:()=>{
@@ -197,19 +202,24 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   }
   renderPanel(){
    const panel=$('twin-panel'),s=this.nearStation;panel.hidden=!s||this.mode!=='playing';document.body.classList.toggle('twin-near-machine',!panel.hidden);if(!s)return;
-   const state=this.run.puzzles[s.id],r=compose(state.input,state.order);
-   panel.querySelector('.twin-heading').textContent=`${s.title} · sasaran ${s.targets} · ${Number(state.receivers.fg)+Number(state.receivers.gf)}/2`;
-   panel.querySelector('.twin-order').textContent=`${r.outer}(${r.inner}(x)) · ${r.inner} dahulu`;
-   panel.querySelector('[data-command="input"]').textContent=`Input: ${state.input} ↻`;
-   panel.querySelectorAll('button').forEach(b=>b.disabled=this.busy);
-   for(const [i,route] of ['fg','gf'].entries()){
-    const b=panel.querySelector(`[data-command="route-${route}"]`);b.textContent=`${i+1} · Ke ${TARGETS[s.id][route]}`;b.setAttribute('aria-pressed',String(state.route===route));
-    const trace=state.history?.[`${state.input}:${route}`];panel.querySelector(`[data-trace="${route}"]`).textContent=trace?trace.trace:`${route==='fg'?'g → f':'f → g'}: belum diuji pada x=${state.input}`;
+   const state=this.run.puzzles[s.id],r=compose(state.input,state.order),t=TARGETS[s.id];
+   const done=Number(state.receivers.fg)+Number(state.receivers.gf);
+   panel.querySelector('.twin-heading').textContent=`${s.title} · ${done}/2 terkunci`;
+   for(const route of ['fg','gf']){
+    const li=panel.querySelector(`[data-goal="${route}"]`),label=route==='fg'?'f(g(x))':'g(f(x))';
+    li.textContent=`${state.receivers[route]?'✓':route===state.order?'▶':'○'} ${label} = ${t[route]}`;
+    li.className=state.receivers[route]?'is-done':route===state.order?'is-now':'';
    }
-   panel.querySelector('[data-command="send"]').disabled=this.busy||!state.route;
+   panel.querySelector('[data-command="input"]').textContent=`x = ${state.input}  ↻`;
+   panel.querySelector('[data-command="order"]').textContent=`Urutan: ${r.outer}(${r.inner}(x))  ↻`;
+   panel.querySelectorAll('button').forEach(b=>b.disabled=this.busy);
    const last=this.pendingTrace||state.last;
-   panel.querySelector('.twin-trace').textContent=this.busy?`Memproses… ${last.trace}`:this.feedback||'X: input · T: urutan · 1/2: saluran. Bandingkan jejak kedua-dua urutan.';
+   panel.querySelector('.twin-trace').textContent=this.busy?`Mesin: ${last.trace}`:this.machineSay||`Pilih x dan urutan, kemudian Hantar. (${r.inner} dikira dahulu.)`;
+   const wrong=this.wrongSends?.[s.id]||0,goal=t[state.order],now=compose(state.input,state.order).output;
+   const answer=[0,1,2,3,4].find(x=>compose(x,'fg').output===t.fg&&compose(x,'gf').output===t.gf);
+   panel.querySelector('.twin-hint').textContent=state.receivers[state.order]?'':wrong>=4?`Petunjuk: cuba x = ${answer}.`:wrong>=2?`Petunjuk: ${now>goal?'cuba x yang lebih kecil':'cuba x yang lebih besar'}.`:'';
   }
+
   writeSave(){if(!this.run)return;this.run.elapsedMs=this.elapsed;if(!this.store.saveRun(this.run)&&$('status'))$('status').textContent='Simpanan tidak tersedia. Kemajuan sesi ini masih boleh dimainkan.';}
   resetCrate(){}
   respawn(){

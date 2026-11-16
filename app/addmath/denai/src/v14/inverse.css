@@ -34,3 +34,22 @@
 @media(max-width:600px) and (orientation:portrait){.inverse-active #inverse-panel{max-height:40%}}
 @media(max-height:540px) and (orientation:landscape){.inverse-near-machine #world-prompt{display:none!important}}
 @media(max-height:540px) and (orientation:landscape){.inverse-active #inverse-panel{max-height:calc(100% - 126px);width:300px}.inverse-active .inverse-order{display:block}}
+
+/* Clarity pass */
+#inverse-panel .inverse-goal{margin:4px 0;font-size:17px;color:#26382f}
+#inverse-panel .inverse-goal b{color:#a45116}
+#inverse-panel .inverse-work{font-size:16px;font-weight:800;color:#26382f;background:#fff9e9;border:2px dashed #b9ab86;border-radius:4px;padding:4px 8px}
+.inverse-active #inverse-panel .inverse-order{display:block!important;font-weight:700;color:#8a4b14}
+#inverse-panel .inverse-apply{width:100%;margin:6px 0 2px;font-weight:800}
+#inverse-panel .inverse-info{margin-top:6px;font-size:12px}
+#inverse-panel .inverse-info summary{cursor:pointer;font-weight:700}
+#inverse-panel .inverse-trace:empty{display:none}
+@media (max-height:500px){
+ .inverse-active #inverse-panel{top:40px;max-height:calc(100% - 52px);padding:5px 8px;font-size:11px}
+ #inverse-panel .inverse-rule{display:none}
+ #inverse-panel .inverse-goal{font-size:14px;margin:2px 0}
+ #inverse-panel .inverse-work{font-size:13px;padding:2px 6px}
+ #inverse-panel .inverse-order{margin:3px 0!important}
+ #inverse-panel button{min-height:34px;padding:3px 6px}
+ #inverse-panel .inverse-apply{margin:4px 0 0}
+}
