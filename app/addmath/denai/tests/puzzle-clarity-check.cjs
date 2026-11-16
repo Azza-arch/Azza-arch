@@ -1,5 +1,4 @@
 // Machine panels after the clarity pass, driven only through the panel buttons.
-// 1-2: wrong tries → hint; x=2, f(g(x)) → 9 ✓; order → g(f(x)) → 25 ✓; bridge.
 // 1-3: −3, ÷2 WITHOUT the demo → seal 13; a wrong step → hint → Undur; 7; 15.
 // Usage: node tests/puzzle-clarity-check.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium, devices } = require('playwright');
@@ -15,18 +14,7 @@ async function run(b, tag, opts) {
   const go = async (k) => { await p.evaluate((k) => { const g = window.__game; g.scene.getScenes(true).forEach((x) => x.scene.stop()); g.scene.start(k); }, k); await sleep(2800); await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach((d) => d.close())); };
   const click = async (sel) => { await p.evaluate((sel) => document.querySelector(sel).click(), sel); await sleep(1900); };
   const res = {};
-  // ── 1-2 ──
-  await go('Jambatan');
-  await p.evaluate(() => { const s = window.__game.scene.getScene('Jambatan'); s.player.body.reset(1300, 1265); }); await sleep(800);
-  const twin = () => p.evaluate(() => { const q = (s) => document.querySelector(s)?.textContent; return { heading: q('.twin-heading'), goals: [...document.querySelectorAll('.twin-goals li')].map((l) => l.textContent), x: q('[data-command="input"]'), order: q('[data-command="order"]'), trace: q('.twin-trace'), hint: q('.twin-hint'), routeButtons: document.querySelectorAll('[data-command^="route-"]').length }; });
-  res.l2Start = await twin(); await p.screenshot({ path: `${out}/${tag}-1-2-mula.png` });
-  await click('[data-command="input"]'); await click('[data-command="send"]'); await click('[data-command="send"]');
-  res.l2AfterWrong = await twin(); await p.screenshot({ path: `${out}/${tag}-1-2-petunjuk.png` });
-  for (let i = 0; i < 4; i++) await click('[data-command="input"]'); // 3 → 4 → 0 → 1 → 2
-  await click('[data-command="send"]'); res.l2First = await twin();
-  await click('[data-command="order"]'); await click('[data-command="send"]'); await sleep(600);
-  res.l2Done = { ...(await twin()), bridge: await p.evaluate(() => !!window.__game.scene.getScene('Jambatan').bridges?.twins) };
-  await p.screenshot({ path: `${out}/${tag}-1-2-siap.png` });
+  // 1-2 machine panel was replaced by the V3 workshop (tests/l2-playthrough.cjs, tests/l2-check.cjs).
   // ── 1-3 ──
   await go('GerbangSongsang');
   await p.evaluate(() => { const s = window.__game.scene.getScene('GerbangSongsang'); s.player.body.reset(2700, 1585); }); await sleep(900);

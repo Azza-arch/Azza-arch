@@ -33,7 +33,7 @@ function playfabStub(ctx, calls) {
 // Test shortcut: mark the level's puzzles solved and stand on its goal.
 const WIN = {
   Lorong: async () => { const s = window.__game.scene.getScene('Lorong'); s.solvedGates.add('lift'); s.elapsed = Math.max(s.elapsed, 151000); s.player.body.reset(5751, 1188 - 31); },
-  Jambatan: async () => { const s = window.__game.scene.getScene('Jambatan'); s.run.puzzles.twins.receivers = { fg: true, gf: true }; s.run.puzzles.final.receivers = { fg: true, gf: true }; s.player.body.reset(4698, 1188 - 31); },
+  Jambatan: async () => { const s = window.__game.scene.getScene('Jambatan'); s.run.workshop = { order: 'AB', runs: 1, lastOut: 8, delivered: true, swaps: 1 }; s.player.body.reset(4698, 1188 - 31); },
   GerbangSongsang: async () => { const m = await import('/app/addmath/denai/src/v14/levels/inverse.js'); const s = window.__game.scene.getScene('GerbangSongsang'); s.run.puzzle.seals = Object.fromEntries(m.SEAL_OUTPUTS.map((y) => [y, true])); s.player.body.reset(5292, 1566 - 31); },
 };
 const win = (p, key) => p.evaluate(`(${WIN[key].toString()})()`);

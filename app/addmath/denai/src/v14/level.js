@@ -130,7 +130,7 @@ export const CRATE_PUZZLE={crate:{id:'crate-1',x:216,feet:1296},floorSwitch:{id:
 export const SECRETS=[
  {id:'tower-whisper',name:'Jejak di Akar',title:'Jejak di Akar',description:'Di bawah akar, laluan rendah menyimpan petunjuk kecil.',foundText:'Rahsia ditemui!',x:1124,feet:1404,radius:52,hint:'Sesuatu tersembunyi di bawah laluan atas Laluan Akar.'},
  {id:'lookout-note',name:'Nota Fungsi Misteri',title:'Nota Fungsi Misteri',description:'Nota di puncak Pokok Tinjau.',foundText:'Nota rahsia ditemui!',x:4446,feet:1026,radius:46,note:true,hint:'Satu misteri menanti jauh di atas lantai hutan.',
-  noteText:'Di puncak Pokok Tinjau tertulis:\n\n"Di Jambatan Berkembar, f(x) = 2x + 1 dan g(x) = x².\nApakah yang berubah apabila urutan mesin ditukar?"\n\nPetua: hasil mesin pertama menjadi input mesin kedua.'}
+  noteText:'Di puncak Pokok Tinjau tertulis:\n\n"Di bengkel hilir sungai ada dua mesin: f(x) = 2x dan g(x) = x − 2.\nApakah yang berubah apabila susunan mesin ditukar?"\n\nPetua: hasil mesin pertama menjadi input mesin kedua.'}
 ];
 export const PUZZLES=[{...ORIGINAL_PUZZLES[0],gate:'lift'}];
 export const ZONES=[

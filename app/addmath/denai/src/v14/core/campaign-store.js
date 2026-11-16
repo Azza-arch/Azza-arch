@@ -1,18 +1,22 @@
 import {CHECKPOINTS,COINS,SECRETS} from '../levels/twin-world.js';
 import {initialPuzzle,restorePuzzle,solved} from '../levels/composition.js';
+import {newWorkshop,sanitizeWorkshop} from '../levels/workshop-model.js';
 export const CAMPAIGN_KEY='denai-campaign-v1';
 const unique=(value,allowed)=>[...new Set(Array.isArray(value)?value.filter(id=>allowed.includes(id)):[])];
 const count=n=>Number.isSafeInteger(n)&&n>=0?n:0;
 export function newRun() {
-  return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],puzzles:{twins:initialPuzzle(),final:initialPuzzle()},elapsedMs:0,completed:false};
+  return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],puzzles:{twins:initialPuzzle(),final:initialPuzzle()},workshop:newWorkshop(),elapsedMs:0,completed:false};
 }
 export function sanitizeRun(raw) {
   if(!raw||typeof raw.id!=='string')return null;
   const puzzles={twins:restorePuzzle(raw.puzzles?.twins,'twins'),final:restorePuzzle(raw.puzzles?.final,'final')};
   // Final progress is impossible before crossing the first bridge.
   if(!solved(puzzles.twins))puzzles.final=initialPuzzle();
-  const cp=CHECKPOINTS.find(c=>c.id===raw.checkpointId&&(!c.requires||solved(puzzles[c.requires])))||CHECKPOINTS[0];
-  return {id:raw.id.slice(0,100),checkpointId:cp.id,coins:unique(raw.coins,COINS.map(c=>c.id)),secrets:unique(raw.secrets,SECRETS.map(s=>s.id)),puzzles,elapsedMs:Math.max(0,Math.min(Number(raw.elapsedMs)||0,86400000)),completed:raw.completed===true&&solved(puzzles.final)&&cp.id==='exit'};
+  // World 1 V3: the two-machine workshop replaces both stations. A run from
+  // the previous course that had finished the final station keeps its bridge.
+  const workshop=sanitizeWorkshop(raw.workshop,solved(puzzles.final));
+  const cp=CHECKPOINTS.find(c=>c.id===raw.checkpointId&&(!c.requires||workshop.delivered))||CHECKPOINTS[0];
+  return {id:raw.id.slice(0,100),checkpointId:cp.id,coins:unique(raw.coins,COINS.map(c=>c.id)),secrets:unique(raw.secrets,SECRETS.map(s=>s.id)),puzzles,workshop,elapsedMs:Math.max(0,Math.min(Number(raw.elapsedMs)||0,86400000)),completed:raw.completed===true&&workshop.delivered&&cp.id==='exit'};
 }
 export function createCampaignStore(storage) {
   let lastError=null;

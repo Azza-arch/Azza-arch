@@ -10,7 +10,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { window.__DENAI_PLAYFAB_TEST_STUB__ = true; let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
 const WIN = {
   Lorong: `(() => { const s = window.__game.scene.getScene('Lorong'); s.solvedGates.add('lift'); s.elapsed = 151000; s.player.body.reset(5751, 1157); })()`,
-  Jambatan: `(() => { const s = window.__game.scene.getScene('Jambatan'); s.run.puzzles.twins.receivers = { fg: true, gf: true }; s.run.puzzles.final.receivers = { fg: true, gf: true }; s.player.body.reset(4698, 1157); })()`,
+  Jambatan: `(() => { const s = window.__game.scene.getScene('Jambatan'); s.run.workshop = { order: 'AB', runs: 1, lastOut: 8, delivered: true, swaps: 1 }; s.player.body.reset(4698, 1157); })()`,
   GerbangSongsang: `import('/app/addmath/denai/src/v14/levels/inverse.js').then((m) => { const s = window.__game.scene.getScene('GerbangSongsang'); s.run.puzzle.seals = Object.fromEntries(m.SEAL_OUTPUTS.map((y) => [y, true])); s.player.body.reset(5292, 1535); })`,
 };
 async function run(b, { force, gpc }) {
