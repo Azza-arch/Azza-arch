@@ -9,7 +9,13 @@ const sentKey=board=>`${SUBMITTED_KEY}:${board}`;
 let session=null,pending=null;
 const store={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);}catch{}}};
 export class LeaderboardError extends Error{constructor(code,msg){super(msg||code);this.code=code;}}
+// Automated browsers (navigator.webdriver: Playwright, Selenium…) never reach
+// the production title, so test runs cannot create accounts or scores there.
+// Browser tests that answer PlayFab with a local fake set
+// window.__DENAI_PLAYFAB_TEST_STUB__ = true before the page loads.
+const automated=()=>globalThis.navigator?.webdriver===true&&globalThis.__DENAI_PLAYFAB_TEST_STUB__!==true;
 async function call(path,body,auth=null){
+  if(automated())throw new LeaderboardError('offline');
   const headers={'Content-Type':'application/json'};
   if(auth==='ticket')headers['X-Authorization']=session.ticket;
   if(auth==='entity')headers['X-EntityToken']=session.entityToken;
@@ -40,15 +46,26 @@ export async function setDisplayName(name){
 }
 const toRow=e=>({rank:e.Rank,name:e.DisplayName||'Pemain tanpa nama',timeMs:Number(e.Scores?.[0]),entityId:e.Entity?.Id});
 const valid=r=>Number.isFinite(r.timeMs)&&r.timeMs>0;
-export async function topTimes(board,max=CFG.playfab.top){
+// One page of a leaderboard. entryCount is PlayFab's own count of entries on
+// that board (null when the response does not carry it — never estimated).
+export async function board(name,max=CFG.playfab.top){
   await login();
-  const d=await call('Leaderboard/GetLeaderboard',{LeaderboardName:board,StartingPosition:1,PageSize:max},'entity');
+  const d=await call('Leaderboard/GetLeaderboard',{LeaderboardName:name,StartingPosition:1,PageSize:max},'entity');
+  return {rows:(d.Rankings||[]).map(toRow).filter(valid),entryCount:Number.isSafeInteger(d.EntryCount)?d.EntryCount:null};
+}
+export async function topTimes(name,max=CFG.playfab.top){return (await board(name,max)).rows;}
+// The player's own row plus up to `around` neighbours on each side.
+export async function aroundMe(name,around=1){
+  await login();
+  const d=await call('Leaderboard/GetLeaderboardAroundEntity',{LeaderboardName:name,Entity:{Id:session.entity.Id,Type:session.entity.Type},MaxSurroundingEntries:around},'entity');
   return (d.Rankings||[]).map(toRow).filter(valid);
 }
-export async function myRank(board){
+export async function myRank(name){return (await aroundMe(name,1)).find(r=>r.entityId===session.entity.Id)||null;}
+// Unique-player counter: one statistic entry per player identity. Writing it
+// again from the same identity never adds an entry.
+export async function markStarted(statistic){
   await login();
-  const d=await call('Leaderboard/GetLeaderboardAroundEntity',{LeaderboardName:board,Entity:{Id:session.entity.Id,Type:session.entity.Type},MaxSurroundingEntries:1},'entity');
-  const e=(d.Rankings||[]).find(r=>r.Entity?.Id===session.entity.Id);return e&&valid(toRow(e))?toRow(e):null;
+  await call('Statistic/UpdateStatistics',{Statistics:[{Name:statistic,Scores:['1']}]},'entity');
 }
 // Writes ONLY the current-course statistics (never the classic archive).
 export async function submitTime(timeMs){

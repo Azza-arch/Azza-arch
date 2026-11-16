@@ -93,6 +93,7 @@ async function send(ev){
     await PF.login();
     if(PF.currentName()!==c.name)await PF.setDisplayName(c.name);
     await PF.submitTime(pb.timeMs);
+    try{localStorage.setItem('denai-lb-consent','joined');localStorage.setItem('denai-lb-name',c.name);}catch{} // explicit consent via this form
     msg.textContent='';renderSubmit();await loadLive();
   }catch(e){if(NOT_READY.has(e?.code)){boardReady=false;renderSubmit();}msg.textContent=friendly(e,'send');}
   finally{busy=false;$('lb-send').disabled=false;}

@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="src/v14/e-control.css">
   <link rel="stylesheet" href="src/v14/g-control.css">
   <link rel="stylesheet" href="src/v14/ui-system.css">
+  <link rel="stylesheet" href="src/v14/leaderboard/engage.css">
   <link rel="stylesheet" href="src/orientation.css">
   <link rel="stylesheet" href="src/v14/menu/world-map.css">
   <script defer src="vendor/phaser-3.90.0.min.js"></script>
@@ -56,6 +57,11 @@
               <!-- Existing start/continue actions stay wired (used by MAIN/SAMBUNG for Level 1-1) but are not shown. -->
               <div class="legacy-actions" hidden><button type="button" id="continue-btn" class="primary main-btn" hidden>SAMBUNG</button><button type="button" id="start" class="primary main-btn">MAIN</button></div>
             </div>
+            <aside id="community" class="community" hidden aria-label="Komuniti DENAI">
+              <p class="cm-stats"><span id="cm-players" hidden></span><span id="cm-levels"></span></p>
+              <div id="cm-top-wrap" hidden><p class="cm-head">Terpantas · Level 1-1</p><ol id="cm-top" class="cm-top" aria-live="polite"></ol></div>
+              <button type="button" id="cm-ranking" class="link-btn cm-ranking">Lihat ranking</button>
+            </aside>
           </div>
         </section>
         <section id="world-map-page" class="world-map-page" hidden aria-labelledby="wm-heading">
@@ -132,6 +138,14 @@
       <p id="lb-submit-msg" class="lb-submit-msg" role="status" aria-live="polite"></p>
     </form>
   </dialog>
+  <dialog id="share-dialog" class="share-dialog" aria-labelledby="share-title">
+    <button type="button" class="close" id="share-close" aria-label="Tutup kad keputusan">×</button>
+    <h2 id="share-title">Kad keputusan</h2>
+    <img id="share-img" alt="Kad keputusan DENAI: level, masa dan syiling" width="600" height="315">
+    <p class="small">Pilihan sahaja. Kad ini tidak mengandungi e-mel, ID akaun atau token.</p>
+    <div class="dialog-actions"><button type="button" id="share-native" class="primary" hidden>Kongsi</button><a id="share-save" class="secondary button-link" download="denai-keputusan.png">Simpan gambar</a></div>
+    <p id="share-msg" class="small" role="status"></p>
+  </dialog>
   <dialog id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-body">
     <div class="banner-wrap"><h2 id="confirm-title" class="ribbon"></h2></div>
     <p id="confirm-body"></p>
@@ -154,7 +168,7 @@
       <h3 id="save-info-title">Simpanan</h3>
       <p>Kemajuan disimpan secara automatik dalam pelayar ini setiap kali anda tiba di checkpoint. Tiada akaun atau e-mel diperlukan.</p>
       <p class="small">Simpanan ini hanya wujud pada peranti dan pelayar ini, dan <b>tidak</b> disandarkan ke awan. Ia boleh hilang jika data pelayar dipadam, mod peribadi/inkognito digunakan, atau anda bertukar peranti. Akaun pilihan untuk menyimpan merentas peranti belum tersedia.</p>
-      <p class="small">Papan pendahulu: hanya jika anda membukanya, ID rawak peranti ini dihantar ke PlayFab (Microsoft) untuk memaparkan rekod. Nama paparan dan masa hanya dihantar apabila anda tekan Hantar.</p>
+      <p class="small">Komuniti &amp; papan pendahulu: menu utama memuatkan kiraan pemain dan 3 rekod teratas daripada PlayFab (Microsoft) menggunakan ID rawak peranti ini (tanpa nama, e-mel atau akaun). Selepas 15 saat bermain, ID rawak itu dikira sekali sebagai seorang pemain. Nama samaran dan masa hanya dihantar jika anda memilih untuk menyertai papan pendahulu.</p>
     </section>
     <nav class="menu-secondary settings-menu" aria-label="Menu lanjutan">
       <button type="button" id="level-select-btn">Peta Dunia</button>
@@ -215,6 +229,18 @@
         <p class="vstat" id="vstat-time"><span class="vicon vicon-flag" aria-hidden="true"></span><b id="completion-time">0:00</b><small>Masa</small></p>
       </div>
       <p id="completion-pb" class="victory-hint"></p>
+      <section id="vrank" class="vrank" hidden aria-label="Rekod dan ranking">
+        <p id="vrank-pb" class="vrank-pb" role="status"></p>
+        <form id="vrank-join" class="vrank-join" novalidate hidden>
+          <p class="vrank-why">Sertai papan pendahulu awam? Nama samaran dan masa terbaik anda akan dilihat oleh semua pemain. Jangan guna nama sebenar atau e-mel.</p>
+          <label for="vrank-name">Nama samaran (3–16 aksara)</label>
+          <div class="lb-submit-row"><input id="vrank-name" name="name" type="text" minlength="3" maxlength="16" autocomplete="nickname" spellcheck="false" placeholder="cth. ChillGamer"><button type="submit" id="vrank-send" class="primary">Sertai</button></div>
+          <p id="vrank-msg" class="lb-submit-msg" role="status" aria-live="polite"></p>
+          <button type="button" id="vrank-skip" class="link-btn">Langkau — simpan dalam peranti sahaja</button>
+        </form>
+        <div id="vrank-result" class="vrank-result" hidden><p id="vrank-status" role="status" aria-live="polite"></p><ol id="vrank-list" class="vrank-list" hidden></ol><button type="button" id="vrank-edit" class="link-btn" hidden>Tukar nama samaran</button></div>
+        <p id="vrank-later" class="vrank-later" hidden>Rekod disimpan dalam peranti ini. <button type="button" id="vrank-later-join" class="link-btn">Sertai papan pendahulu</button></p>
+      </section>
       <aside class="teaser" aria-label="Pengembaraan seterusnya">
         <div class="teaser-art" aria-hidden="true"><span class="sil sil-machine"></span><span class="sil sil-plank"></span><span class="sil sil-q">?</span><span class="sil sil-plank"></span><span class="sil sil-machine"></span></div>
         <p class="teaser-kicker">Pengembaraan seterusnya</p>
@@ -225,8 +251,9 @@
       <div class="victory-actions">
         <button type="button" id="explore-again" class="primary victory-main">Teroka semula</button>
         <button type="button" id="replay" class="secondary">Pengembaraan baharu</button>
+        <button type="button" id="complete-level-select" class="secondary">Peta Dunia</button>
+        <button type="button" id="share-result" class="link-btn">Kongsi keputusan</button>
         <button type="button" id="menu-btn" class="link-btn">Menu utama</button>
-        <button type="button" id="complete-level-select" hidden>Pilih Level</button>
       </div>
     </div>
   </dialog>

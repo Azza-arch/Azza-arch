@@ -10,6 +10,7 @@ import {updatePlayer} from './core/player-motion.js';
 import {syncBControl,B_STOPS} from './b-control.js';
 import {createLiftPanelMethods} from './lift-panel.js';
 import {installLeaderboard} from './leaderboard/ui.js';
+import {armPlayerCount,renderMenuCommunity,onVictory,openShare,installEngage} from './leaderboard/engage.js';
 import {selectVariant,variantById,describe} from './missions.js';
 import {migrateLegacy,addCoin,addSecret,noteRunVariant,recentVariants,loadProfile,recordCompletion,ACHIEVEMENTS,LEVEL_KEY} from './progress.js';
 import {evaluateRun,formatTime} from './leaderboard/records.js';
@@ -1082,6 +1083,7 @@ Object.assign(Rooftop.prototype,{
     if(res?.isNewBest){const b=document.createElement('span');b.className='vbadge';b.textContent='Rekod!';b.title=`Rekod peribadi baharu: ${formatTime(res.best.timeMs)}`;$('vstat-time').append(b);}
     $('completion-pb').classList.remove('is-best');$('completion-pb').hidden=false;
     $('completion-pb').textContent=victoryHint(this);
+    onVictory(this.run?.explore?null:this.lastCompletion,this.elapsed);
     const dlg=$('complete');
     if(!dlg.open)dlg.showModal();
     requestAnimationFrame(()=>$('explore-again').focus({preventScroll:true}));
@@ -1261,7 +1263,7 @@ $('next-level2').addEventListener('click',launchTwins);
 document.getElementById('level3-action').addEventListener('click',launchInverse);
 const originalLevelSelect=Rooftop.prototype.renderLevelSelect;
 Rooftop.prototype.renderLevelSelect=function(){originalLevelSelect.call(this);refreshTwinEntry();refreshInverseEntry();};
-installLeaderboard();
+installLeaderboard();installEngage();
 $('confirm-ok').addEventListener('click',()=>closeConfirm(true));
 $('confirm-cancel').addEventListener('click',()=>closeConfirm(false));
 function freshAdventure(){
@@ -1273,7 +1275,7 @@ function freshAdventure(){
 // Reuses the existing launchers and stores; see menu/progress.js.
 function startLevelScene(key,data){clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start(key,data);}
 function launchLevel(id,mode){
-  audio.unlock();SFX.ui(audio);
+  audio.unlock();SFX.ui(audio);armPlayerCount();
   if(id==='w1-l1'){
     const save=SaveManager.load();
     // Replay (or a finished run) starts a fresh run: only the run save is
@@ -1302,7 +1304,7 @@ $('play-main').addEventListener('click',()=>{
 });
 $('world-map-btn').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);worldMap.open();});
 $('settings-main').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);openSettings();});
-{const base=Rooftop.prototype.refreshMenu;Rooftop.prototype.refreshMenu=function(){base.call(this);refreshPlayMain();};}
+{const base=Rooftop.prototype.refreshMenu;Rooftop.prototype.refreshMenu=function(){base.call(this);refreshPlayMain();renderMenuCommunity();};}
 function savedSummary(save){
   const cp=CHECKPOINTS.findIndex(c=>c.id===save.checkpointId)+1;
   return `${save.completed?'Level 1 sudah selesai':'Checkpoint '+(cp||'awal')} · ${save.collectedCoinIds.length} syiling · ${save.discoveredSecretIds.length} rahsia`;
@@ -1427,6 +1429,7 @@ $('complete-level-select').addEventListener('click',()=>{
   worldMap.open();
 });
 $('menu-btn').addEventListener('click',()=>activeScene?.returnToMenu());
+$('share-result').addEventListener('click',()=>{const s=activeScene;if(s)openShare({timeMs:s.elapsed,coins:s.collectedCoinIds.size,totalCoins:COLLECTIBLES.length});});
 // One owner for Escape prevents the native dialog's cancel event and Phaser
 // from handling the same key twice (resume followed immediately by pause).
 document.addEventListener('keydown',event=>{

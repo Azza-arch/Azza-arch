@@ -11,7 +11,7 @@ const { chromium, devices } = require('playwright');
 const out = process.argv[2] || '.';
 const PAGE = 'http://denai.test:8790/app/addmath/denai/main.html';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const HOOK = () => { let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
+const HOOK = () => { window.__DENAI_PLAYFAB_TEST_STUB__ = true; let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
 const ready = (p) => p.waitForFunction(() => window.__game?.scene?.getScene('Lorong')?.player && !document.getElementById('welcome').hidden, null, { timeout: 30000 });
 const active = (p) => p.evaluate(() => window.__game.scene.getScenes(true).map((s) => s.scene.key + ':' + s.mode));
 const levels = (p) => p.$$eval('#wm-panel .wm-level', (els) => els.map((e) => `${e.querySelector('.wm-num').textContent} ${e.querySelector('.wm-chip').textContent} [${[...e.querySelectorAll('button')].map((b) => b.textContent + (b.disabled ? '(x)' : '')).join('|')}]`));
