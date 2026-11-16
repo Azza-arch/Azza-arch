@@ -5,6 +5,7 @@
 // and (when solved) one one-way platform + one ladder. No save schema change:
 // the jetty is an optional shortcut and is rebuilt each session.
 import {JETTY,SAWMILL} from '../level.js';
+import {notify} from '../presentation.js';
 
 export const SAWMILL_TARGET = JETTY.planks; // 11
 export const MAX_LOGS = 6;
@@ -26,19 +27,18 @@ export function buildSawmill(s) {
   for (const px of [x - 40, x + 40]) tile(89, px - 27, feet - 36, 10.4, 54, 36);
   tile(48, x - 54, feet - 54, 10.5, 54, 18); tile(50, x, feet - 54, 10.5, 54, 18);          // saw bench (2 tiles, inside the bank)
   tile(7, x - 84, feet - 54, 10.45); tile(8, x + 30, feet - 72, 10.6);                     // logs waiting by the bench
-  const board = s.add.text(x - 27, feet - 62, 'KILANG PAPAN\ng(b) = 3b − 1', { ...TEXT, fontSize: '14px' }).setOrigin(.5, 1).setDepth(15);
-  const status = s.add.text(x - 27, feet - 108, 'b = ? kayu balak', { ...TEXT, fontSize: '13px', color: '#fee481' }).setOrigin(.5, 1).setDepth(15);
-  // Launch lever at the jetty head (east edge of cliff-1): sends the cut planks out.
-  // The result is shown here, above the jetty, where the planks land.
+  // One sign above the bench (high enough to clear the player and the prompt).
+  // The chosen b lives in the prompt; the result is a short screen notice,
+  // and the planks themselves appear on the jetty — no floating text near
+  // the player, the lever or the ladder.
+  const board = s.add.text(x - 27, feet - 200, 'KILANG PAPAN · g(b) = 3b − 1\njeti perlu 11 papan', { ...TEXT, fontSize: '13px' }).setOrigin(.5, 1).setDepth(15);
   const lever = tile(64, SAWMILL.leverX - 27, SAWMILL.leverFeet - 54, 11);
-  s.add.text(SAWMILL.leverX - 40, SAWMILL.leverFeet - 60, 'Jeti perlu 11 papan', { ...TEXT, fontSize: '12px' }).setOrigin(.5, 1).setDepth(15);
-  const result = s.add.text(JETTY.x + JETTY.width / 2, JETTY.y - 70, '', { ...TEXT, fontSize: '13px', color: '#fee481' }).setOrigin(.5, 1).setDepth(15);
   // Old jetty posts already stand in the water; the deck is missing.
   const pw = JETTY.width / JETTY.planks;
   for (const px of [JETTY.x + 27, JETTY.x + JETTY.width / 2, JETTY.x + JETTY.width - 27]) for (let y = JETTY.y + 18; y < 1566; y += 54) tile(89, px - 27, y, 6.5, 54, Math.min(54, 1566 - y));
   const planks = Array.from({ length: JETTY.planks }, (_, i) => tile(49, JETTY.x + i * pw, JETTY.y, 10, pw, 18).setVisible(false));
   const extras = Array.from({ length: sawmillPlanks(MAX_LOGS) - SAWMILL_TARGET }, (_, i) => tile(49, x - 27, feet - 60 - i * 6, 10.6, 54, 6).setVisible(false)); // leftovers stacked on the bench
-  s.sawmill = { b: 0, built: false, board, status, result, planks, extras, lever };
+  s.sawmill = { b: 0, built: false, board, planks, extras, lever, last: '' };
 }
 
 function showPlanks(s, n, built) {
@@ -51,7 +51,7 @@ export function sawmillPrompt(s, onGround, touch) {
   const m = s.sawmill; s.sawmillReady = null; if (!m || m.built || !onGround) return null;
   const at = (x, feet, r) => Math.abs(s.player.x - x) < r && Math.abs(s.player.body.bottom - feet) < 8;
   const key = touch ? 'Guna' : 'E';
-  if (at(SAWMILL.x, SAWMILL.feet, 110)) { s.sawmillReady = 'mill'; return { key, text: m.b ? `Tukar bilangan kayu balak (b = ${m.b})` : 'Muat kayu balak', x: SAWMILL.x, y: SAWMILL.feet - 150 }; }
+  if (at(SAWMILL.x, SAWMILL.feet, 110)) { s.sawmillReady = 'mill'; return { key, text: m.b ? `b = ${m.b} kayu balak · tukar` : 'Muat kayu balak', x: SAWMILL.x - 27, y: SAWMILL.feet - 112 }; }
   if (at(SAWMILL.leverX, SAWMILL.leverFeet, 60)) { s.sawmillReady = 'lever'; return { key, text: m.b ? `Hantar ${m.b} kayu balak ke jeti` : 'Muat kayu balak di kilang dahulu', x: SAWMILL.leverX, y: SAWMILL.leverFeet - 110 }; }
   return null;
 }
@@ -62,13 +62,13 @@ export function useSawmill(s, { audio, SFX } = {}) {
   const m = s.sawmill; if (!m || m.built) return;
   if (s.sawmillReady === 'mill') {
     m.b = nextLogs(m.b); showPlanks(s, 0, false);
-    m.status.setText(`b = ${m.b} kayu balak · berapa papan?`); m.result.setText('');
+    notify(`b = ${m.b} kayu balak dimuat. Berapa papan? Tarik tuil di kepala jeti.`);
     return;
   }
   if (s.sawmillReady === 'lever' && m.b) {
     const fb = sawmillFeedback(m.b);
     m.lever.setFrame(66); s.time?.delayedCall?.(500, () => m.lever.setFrame(64));
-    m.result.setText(fb.text.replace(' · ', '\n'));
+    m.last = fb.text; notify(fb.text, 2);
     showPlanks(s, fb.planks, false);
     if (fb.done) buildJetty(s, { audio, SFX });
   }

@@ -54,3 +54,22 @@ Scripts: `tests/l1-redesign-check.cjs`, `tests/l1-playthrough.cjs`, `tests/sawmi
 4. From the jetty you cannot climb back onto cliff-1 (rise 162); the exit is the ladder to the rest cliff (stated in the design).
 5. The sawmill text (3 lines) is quite dense on a phone at zoom ⅔; readable, but it could be simplified.
 6. The 1-1 → 1-2 transition is visual only (sign + text); 1-2 has not been changed yet (needs approval).
+
+## UI and visual pass (temporary area banners)
+Evidence: `ui-pass/` (before/after pairs + desktop/phone banners). Tests: `tests/l1-banner-check.cjs`, `tests/l1-redesign-check.cjs`, `tests/l1-playthrough.cjs`.
+
+**Area banner** (`game.js` `setStep()` + `zoneWithHysteresis()`, CSS `ui-system.css` `#zone-toast.area-banner`). It uses the existing `#zone-toast`; there is no second HUD.
+- Timing: 0.2 s fade/slide in · 1.5 s readable · 0.3 s fade out = 2.0 s (measured ≈1.8–1.9 s at opacity > 5 %).
+- Shown only on entering a different area; none while standing still. The boundary has 40 px hysteresis (jitter around 4212: 0 banners). The same area does not replay within 6 s. Respawn in the same area: 0 banners. A new area replaces the old banner at once (the animation restarts).
+- The persistent HUD chip now shows the **current level** ("1–1 · Jejak Taman Fungsi"), not the area. Coins, pause, secrets and prompts are unchanged.
+- Position: top centre, between the coin chip and pause. On phones (≤ 820 px wide or ≤ 540 px tall) the chip is smaller (13 px, max 260 px wide) and no longer appears bottom centre over the game. iPhone 13 landscape: banner at 291–459 × 8–48 px, no overlap with the coins or pause.
+- Root cause found: the existing rule `.zone-toast:not(.show)` hides the element, so `show` is kept during the animation.
+
+**Visual defects corrected (verified in the real render)**
+1. Sawmill (`levels/sawmill.js`): three stacked texts over the player and under the prompt → one sign higher up (feet − 200: "KILANG PAPAN · g(b) = 3b − 1 / jeti perlu 11 papan"); the chosen b appears in the prompt; the result is a short screen notice (`notify`), not floating text.
+2. Jetty: the result text overlapped pier-1's post and the "Panjat tangga" prompt → removed (notice + the planks themselves). The "Jeti perlu 11 papan" label above the lever (over the player's head) → moved onto the sawmill sign.
+3. Rope bridge (`environment.js`): two loose posts above the deck → Kenney rope-railing tiles 90/91/92 along the span.
+4. Area name: the persistent chip with the area name + a bottom-centre banner on phones → temporary top-centre banner (above).
+Checked and **no defect found**: stone arch joins (60–63 / 140–143, no seams), crane rope/bundle (rope centre x 2727 = bundle centre), jetty and ladder alignment (ladder 3672–3726 against the rest cliff, landing at 1188), tree branches (`treeJoinErrors` = 0, no crown overlaps).
+
+**Re-tested:** sawmill b = 3 (8 planks, jetty not built) and b = 4 (built), jetty → ladder → rest cliff, `pier-high` coin, arch, veranda, rope bridge, the main machine, touch "Guna" at the sawmill, full playthrough 2/2 (`complete`, save `completed: true`, 34 s), 1-2/1-3 collision unchanged, 0 console errors. The playthrough bot now stops 30–40 px before the edges (a bot change only).

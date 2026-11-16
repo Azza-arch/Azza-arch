@@ -248,8 +248,9 @@ export function buildWorld(s){
  // deck carried by the tree's own branch tiles, and the top deck on the
  // trunk plus a post standing on the low deck. Railings mark the deck edge.
  pole(4293,1152,1296);pole(4563,1152,1296);pole(4422,1044,1134);
- // Rope bridge anchors (posts above the deck ends) — the deck itself is a one-way surface.
- pole(4545,954,1026,10.6);pole(4851,954,1026,10.6);
+ // Rope bridge: Kenney rope-railing tiles (90 post · 91 rope · 92 post) along
+ // the deck, so the span reads as one hung bridge (no loose posts).
+ for(let x=4536;x<4860;x+=54)tile(x===4536?90:x+54>=4860?92:91,x,972,10.6);
   tile(124,4800,1242,11);tile(129,5000,1242,11);tile(125,5130,1242,11);
  // ── 06 · Destinasi Terakhir ─────────────────────────────────────────────
  // Wide clearing; the goal flag waves on a stone plinth; a low fence and a

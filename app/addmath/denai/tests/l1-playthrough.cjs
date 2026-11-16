@@ -36,10 +36,10 @@ async function hop(p, dir, toX) {
   await p.locator(`[data-token="${c.right}"]`).click(); await p.locator('#dial-test').click(); await p.locator('#puzzle-go').click();
   await p.waitForFunction(() => { const s = window.__game.scene.getScene('Lorong'); return s.solvedGates.has('lift') && s.mode === 'playing'; }, null, { timeout: 15000 });
   await sleep(1500); await p.click('#game');
-  log.bridge = await run(p, 1, 3120);
+  log.bridge = await run(p, 1, 3090);
   await p.screenshot({ path: `${out}/p-far-bank.png` });
   log.hops = [];
-  for (const [edge, target] of [[3120, 3300], [3390, 3555], [3605, 3790], [3875, 4050], [4110, 4290]]) { await run(p, 1, edge, 4000); log.hops.push(await hop(p, 1, target)); }
+  for (const [edge, target] of [[3090, 3300], [3370, 3555], [3590, 3790], [3860, 4050], [4095, 4290]]) { await run(p, 1, edge, 4000); log.hops.push(await hop(p, 1, target)); }
   log.toGoal = await run(p, 1, 5745);
   for (let i = 0; i < 20; i++) { const s = await st(p); if (Math.abs(s.x - 5751) < 30 && s.bottom === 1188) break; await p.keyboard.down(s.x < 5751 ? 'KeyD' : 'KeyA'); await sleep(40); await p.keyboard.up('KeyD'); await p.keyboard.up('KeyA'); await sleep(80); }
   await sleep(400); await p.keyboard.press('KeyE'); await sleep(2500);

@@ -462,19 +462,31 @@ class Rooftop extends Phaser.Scene {
       node.classList.toggle('done',i<step); node.removeAttribute('aria-current');
       if(i===step) node.setAttribute('aria-current','step');
     });
-    // A brief on-screen toast instead of a permanent world-space label over
-    // each building — the zone name only needs to be read once, on arrival.
+    // Area banner (Phase C UI pass): shown only on ENTERING a named area —
+    // 0.2 s in, 1.5 s readable, 0.3 s out (2.0 s, CSS `area-banner`). The
+    // persistent HUD chip shows the current LEVEL, not the area. Re-entering
+    // the same area within 6 s does not replay it; a newer area replaces the
+    // old banner at once. Pure DOM/CSS: physics, input and camera untouched.
     if(step<0) return;
+    $('hud-area').textContent='1–1 · Jejak Taman Fungsi';
+    const now=performance.now();this.areaBannerAt||={};
+    if(now-(this.areaBannerAt[step]??-1e9)<6000) return;
+    this.areaBannerAt[step]=now;
     const toast=$('zone-toast');
-    $('hud-area').textContent=ZONES[step].name.replace(/^0?(\d+) · /,'$1 · ');
     const goal=ZONE_GOALS[step]&&!(step===2&&this.solvedGates.has('lift'))?ZONE_GOALS[step]:'';
     toast.innerHTML='';const n=document.createElement('b');n.textContent=ZONES[step].name;toast.append(n);
     if(goal){const g=document.createElement('small');g.textContent=goal;toast.append(g);}
     clearTimeout(this.zoneToastTimer);
-    document.querySelector('.game-frame')?.classList.add('zone-announcing');
-    document.body.classList.add('zone-announcing');
-    toast.classList.add('show');
-    this.zoneToastTimer=setTimeout(()=>{toast.classList.remove('show');document.querySelector('.game-frame')?.classList.remove('zone-announcing');document.body.classList.remove('zone-announcing');},2600);
+    toast.classList.remove('show','play');toast.classList.add('area-banner');void toast.offsetWidth;toast.classList.add('show','play');
+    document.querySelector('.game-frame')?.classList.add('zone-announcing');document.body.classList.add('zone-announcing');
+    this.zoneToastTimer=setTimeout(()=>{toast.classList.remove('show','play');document.querySelector('.game-frame')?.classList.remove('zone-announcing');document.body.classList.remove('zone-announcing');},2000);
+  }
+  // Boundary hysteresis: stay in the current area until the player is 40 px
+  // past its edge, so standing on a boundary never flips the area back and forth.
+  zoneWithHysteresis() {
+    const now=this.currentZoneIndex(),z=ZONES[this.step];
+    if(!z||now===this.step) return now;
+    return this.player.x>=z.xStart-40&&this.player.x<z.xEnd+40?this.step:now;
   }
   // V7: zones can now stack (C sits directly above B, E above D — same
   // x-range, different tier) since the world is genuinely vertical, not
@@ -947,7 +959,7 @@ class Rooftop extends Phaser.Scene {
       if(CHECKPOINTS[cpIndex].id!=='cp-start')showCheckpointToast(); // the spawn flag saves silently
       SFX.checkpoint(audio);this.writeSave();
     }
-    this.setStep(this.currentZoneIndex());
+    this.setStep(this.zoneWithHysteresis());
     const terminal=this.nearestTerminal();
     const secret=this.nearestSecret();
     const near=(x,d=190)=>Math.abs(this.player.x-x)<d;
