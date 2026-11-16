@@ -150,7 +150,7 @@ export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=
  return {tile,pole,post,beam};
 }
 export function buildWorld(s){
- const {tile,pole,post,beam}=buildLandscape(s,{AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,WORLD});
+ const {tile,pole,post,beam}=buildLandscape(s,{AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,WORLD,bgTheme:'forest'});
  // ── 01 · Taman Permulaan ────────────────────────────────────────────────
  // Landmark: wide oak (T5) beside the garden step + small pine companion.
  // The crate lane (x150–430) carries no decoration so the puzzle reads.

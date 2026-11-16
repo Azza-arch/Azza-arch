@@ -183,7 +183,7 @@ class Rooftop extends Phaser.Scene {
     // color list), replacing the flat neutral grey — now that the removed
     // background-legacy skyline no longer fills this role, a plain color
     // layer is the approved fallback per the brief's own clarification.
-    this.cameras.main.setBackgroundColor('#aee3f5');
+    this.cameras.main.setBackgroundColor(this.bgColor??'#aee3f5');
     this.cameras.main.centerOn(SPAWN.x, SPAWN.feet - 190);
     this.applyResponsiveZoom();
     this.prompt = this.add.text(0,0,'',{fontFamily:'Arial, sans-serif',fontSize:'17px',fontStyle:'bold',color:'#fff2ce',backgroundColor:'#203e36',padding:{x:8,y:6}}).setOrigin(.5,1).setDepth(40).setVisible(false);

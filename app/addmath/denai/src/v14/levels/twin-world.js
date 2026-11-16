@@ -39,4 +39,4 @@ export const SECRETS=[
 ];
 export const WATER=[{x:972,width:108},{x:1836,width:324},{x:2484,width:108},{x:2808,width:108},{x:3888,width:324}];
 export const WATER_Y=1512;
-export const DEFINITION={WORLD,AB_TERRAIN,DECKS,LADDERS};
+export const DEFINITION={WORLD,AB_TERRAIN,DECKS,LADDERS,bgTheme:'forest'};
