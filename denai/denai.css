@@ -43,6 +43,9 @@ a { color: var(--ribbon-dark); font-weight: 800; text-underline-offset: 3px; }
   .btn-play:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--gold-shade), 0 2px 0 3px var(--wood-dark); }
 }
 .cta-note { margin: 14px 0 0; font-size: 14.5px; color: var(--ink-soft); font-weight: 700; }
+.players-live { margin: 8px 0 0; font-size: 15px; font-weight: 800; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.players-live::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: #2eb082; box-shadow: 0 0 0 3px #2eb08233; flex: none; }
+.players-live[hidden] { display: none; }
 .returning { margin-top: 16px; padding: 12px 16px; background: var(--card); border: 3px solid var(--wood); border-radius: 10px; box-shadow: 0 3px 0 var(--wood-dark); max-width: 30em; }
 .welcome { margin: 0 0 6px; font-weight: 800; }
 .stats { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
