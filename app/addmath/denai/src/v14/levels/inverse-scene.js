@@ -1,4 +1,5 @@
 import {buildLandscape,buildTree} from '../environment.js';
+import {startCoin,coinPickup,checkpointFx,planksDrop,sealPop,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createInverseStore,newRun} from '../core/inverse-campaign.js';
@@ -44,7 +45,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    this.creekBridgeArt=this.deckArtById?.['creek-crossing']||[];
    this.creekBridgeArt.forEach(a=>a.setData('restY',a.y));
    if(!reducedMotion){let phase=0;this.time.addEvent({delay:520,loop:true,callback:()=>{phase^=1;this.waterSurfaceTiles?.forEach((a,i)=>a.setFrame(((i+phase)&1)?53:33));}});}
-   this.coinViews=COINS.map(def=>({def,art:this.add.image(def.x,def.y,'kpp_coin').setScale(1.78).setDepth(14).setVisible(!this.run.coins.includes(def.id))}));
+   this.coinViews=COINS.map((def,i)=>({def,art:startCoin(this,this.add.sprite(def.x,def.y,ATLAS,COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion).setVisible(!this.run.coins.includes(def.id))}));
    // Keep notes discoverable through the close-range E prompt without
    // floating blue gem markers that read like detached pipe fragments.
    this.secretViews=SECRETS.map(def=>({def}));
@@ -99,7 +100,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(let x=BRIDGE.x;x<BRIDGE.x+BRIDGE.width;x+=54){const frame=x===BRIDGE.x?48:x+54>=BRIDGE.x+BRIDGE.width?50:49;this.previewDeck.push(tile(frame,x,BRIDGE.y+54,10,54,18).setAlpha(.55));}
    this.driveReadout=this.machineText('Pratonton dek · belum boleh dipijak',BRIDGE.x,BRIDGE.y-72,14).setOrigin(0,1);
    this.driveHandle=tile(64,2781,1512,14);
-   this.bridgeArt=[];
+   this.bridgeArt=[];this.sealsSeen=null; // scene instances are reused on restart
    // Stone gateway: paired masonry piers, a deep lintel and three puzzle seals.
    const left=4860,right=5292,top=1188,feet=1566;
    const stone=(key,x,y)=>this.add.image(x,y,key).setOrigin(0).setDisplaySize(54,54).setDepth(11);
@@ -194,9 +195,11 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
     art.setVisible(!open);this.tweens.add({targets:art,y,alpha:p.seals[seal]?1:.65,duration:reducedMotion?1:420});
    });
    if(p.applied){this.driveHandle?.setX(2781+p.applied.input*18);this.driveReadout?.setText(`Pemacu ${p.applied.input} → ${p.applied.output} · tanda ${p.applied.target}\n${open?'Dek dikunci · lintas': 'Pratonton · lengkapkan 3 pengunci'}`);}
-   this.gateSeals?.forEach(({out,art})=>art.setFillStyle(this.run.puzzle.seals[out]?0xe6c75f:0x746847));
+   // Game Feel V2: a seal that just lit pops once; restoring a save does not.
+   const seen=this.sealsSeen;this.sealsSeen=Object.fromEntries(SEAL_OUTPUTS.map(o=>[o,!!this.run.puzzle.seals[o]]));
+   this.gateSeals?.forEach(({out,art})=>{art.setFillStyle(this.run.puzzle.seals[out]?0xe6c75f:0x746847);if(seen&&!seen[out]&&this.sealsSeen[out])sealPop(this,art,{reduced:reducedMotion});});
    this.gateLabel?.setText(open?'PINTU KELUAR\nMeterai lengkap - jambatan terbuka':'PINTU KELUAR\nPerlu 3 meterai: 13, 7, 15');
-   if(open&&!this.bridgeArt.length){this.bridgeArt=this.deck(BRIDGE);this.platform(BRIDGE);this.bridgeArt.forEach(a=>a.setAlpha(reducedMotion?1:.95));}
+   if(open&&!this.bridgeArt.length){this.bridgeArt=this.deck(BRIDGE);this.platform(BRIDGE);if(seen)planksDrop(this,this.bridgeArt,{audio,SFX,reduced:reducedMotion});}
   }
   act(action,value){
    if(!this.machineNear||this.mode!=='playing'||this.busy)return;
@@ -234,9 +237,9 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
     this.creekBridgeArt.forEach((a,i)=>{this.tweens.killTweensOf(a);this.tweens.add({targets:a,y:a.getData('restY')+(i%2?2:-2),angle:(i%2?1:-1)*direction,duration:85,yoyo:true,repeat:1,ease:'Sine.inOut'});});
    }
    if(this.noticeUntil&&time>this.noticeUntil){$('notice').classList.remove('show');this.noticeUntil=0;}
-   for(const {def,art} of this.coinViews)if(art.visible&&Math.abs(this.player.x-def.x)<32&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);SFX.coin?.(audio);this.writeSave();}
+   for(const {def,art} of this.coinViews)if(art.visible&&Math.abs(this.player.x-def.x)<32&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);art.anims?.stop();SFX.coin?.(audio);this.writeSave();coinPickup(this,def.x,art.y,{reduced:reducedMotion});}
    for(const {def,art} of this.secretViews){if(Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14){if(interact){if(!this.run.secrets.includes(def.id)){this.run.secrets.push(def.id);art?.setAlpha(.4);this.writeSave();}this.message(def.text);}}}
-   CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||solved(this.run.puzzle))&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
+   CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||solved(this.run.puzzle))&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
    this.machineNear=Math.abs(this.player.x-2862)<260&&Math.abs(body.bottom-1620)<70;
    const secretNear=this.secretViews.some(({def})=>Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14);
    let prompt='';if(secretNear)prompt='E · Baca catatan';else if(this.machineNear)prompt='E · Salur nilai ke dek';

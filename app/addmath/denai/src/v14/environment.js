@@ -245,7 +245,7 @@ export function buildWorld(s){
  CHECKPOINTS.forEach((c,i)=>s.checkpointArts[i]=s.add.image(c.x,c.feet,'kpp_terrain_atlas',111).setOrigin(.5,1).setScale(3).setDepth(11));
  s.spawnCollectibles();s.buildSecrets();s.buildCratePuzzle();
 }
-function signText(s,text,x,y){
+export function signText(s,text,x,y){
  return s.add.text(x,y,text,{fontFamily:'Arial, sans-serif',fontSize:'13px',fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3}).setOrigin(.5,1).setDepth(12);
 }
 export function buildSecretMarkers(s){

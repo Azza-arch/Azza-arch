@@ -10,6 +10,7 @@ import {updatePlayer} from './core/player-motion.js';
 import {syncBControl,B_STOPS} from './b-control.js';
 import {createLiftPanelMethods} from './lift-panel.js';
 import {installLeaderboard} from './leaderboard/ui.js';
+import {startCoin,coinPickup,COIN_FACE} from './feel.js';
 import {armPlayerCount,renderMenuCommunity,onVictory,openShare,installEngage} from './leaderboard/engage.js';
 import {selectVariant,variantById,describe} from './missions.js';
 import {migrateLegacy,addCoin,addSecret,noteRunVariant,recentVariants,loadProfile,recordCompletion,ACHIEVEMENTS,LEVEL_KEY} from './progress.js';
@@ -275,8 +276,10 @@ class Rooftop extends Phaser.Scene {
     // coin used (18px native * 1.78 ≈ 32px); `refreshBody()` keeps the
     // static Arcade body in sync with the new texture/scale so pickup
     // overlap detection is unaffected.
-    for(const def of COLLECTIBLES) {
-      const coin=def.kind==='gem'?this.physics.add.staticImage(def.x,def.y,'kpp_terrain_atlas',67).setScale(2).setDepth(14):this.physics.add.staticSprite(def.x,def.y,'kpp_coin').setScale(1.78).setDepth(14);
+    // Game Feel V2: coins use the atlas coin frames (151 face / 152 edge) so
+    // they can turn; same 18 px frame and scale, so the body is unchanged.
+    for(const [i,def] of COLLECTIBLES.entries()) {
+      const coin=def.kind==='gem'?this.physics.add.staticImage(def.x,def.y,'kpp_terrain_atlas',67).setScale(2).setDepth(14):startCoin(this,this.physics.add.staticSprite(def.x,def.y,'kpp_terrain_atlas',COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion);
       coin.body.setSize(18,18); coin.refreshBody();
       if(def.requiresSecret&&!this.discoveredSecrets.has(def.requiresSecret))coin.body.enable=false;
       coin.setData('id',def.id);
@@ -847,8 +850,7 @@ class Rooftop extends Phaser.Scene {
         // Animation pass: the coin pops up and fades (260ms) instead of
         // vanishing; the HUD coin chip gives a small bump. Pickup itself is
         // instant (physics body destroyed now), so nothing delays control.
-        if(!reducedMotion){const ghost=this.add.image(cx,cy,'kpp_coin').setScale(1.78).setDepth(15);
-          this.tweens.add({targets:ghost,y:cy-28,scale:2.4,alpha:0,duration:260,ease:'Quad.out',onComplete:()=>ghost.destroy()});}
+        const gem=coin.frame?.name===67;
         const chip=$('hud-collection');chip.classList.remove('bump');void chip.offsetWidth;chip.classList.add('bump');
         coin.destroy();this.coinsFound++;
         // V8 Phase 6: a collected coin is a "persistent collectible" per
@@ -856,7 +858,7 @@ class Rooftop extends Phaser.Scene {
         this.collectedCoinIds.add(coinId);addCoin(coinId);this.writeSave();
         $('coin-count').textContent=`Koleksi: ${this.coinsFound}`;
         announce('Koleksi dijumpai! Teruskan meneroka.');
-        this.sparkleBurst(cx,cy,7);
+        coinPickup(this,cx,cy,gem?{frame:67,scale:2,reduced:reducedMotion}:{reduced:reducedMotion}); // edge-on turn + pooled sparks
         this.floatingText(cx,cy-14,'+1');
         SFX.coin(audio);
       }

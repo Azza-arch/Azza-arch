@@ -1,4 +1,5 @@
-import {buildLandscape,buildTree} from '../environment.js';
+import {buildLandscape,buildTree,signText} from '../environment.js';
+import {startCoin,coinPickup,checkpointFx,planksDrop,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createCampaignStore,newRun} from '../core/campaign-store.js';
@@ -36,11 +37,13 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    // (replaces two floating colour bars that had no support).
    pole(GOAL.x-108,GOAL.feet-162,GOAL.feet);pole(GOAL.x+108,GOAL.feet-162,GOAL.feet);
    for(let x=GOAL.x-135;x<GOAL.x+135;x+=54)tile(x===GOAL.x-135?48:x+54>=GOAL.x+135?50:49,x,GOAL.feet-180,11,54,18);
-   this.worldText('TAMAT',GOAL.x,GOAL.feet-186,18).setStyle({backgroundColor:'#315c49',color:'#fff2c5',fontStyle:'bold'});
-   this.worldText('JEJAK MASUK',324,1100,21);
-   this.worldText('LALUAN RAHSIA ↑',3000,930,18);
+   // Wayfinding on Kenney sign posts (frame 86 blank board)
+   // instead of floating text boxes; the 2 s area banners stay as they are.
+   tile(86,270-27,1296-54,11);signText(this,'Jejak Masuk',270,1236);
+   tile(86,3096-27,1296-54,11);signText(this,'Laluan rahsia ↑',3096,1236);
+   signText(this,'TAMAT',GOAL.x,GOAL.feet-182).setFontSize(20); // on the finish arch's plank lintel
    for(const station of STATIONS)this.buildStation(station);
-   this.coinViews=COINS.map(def=>({def,art:this.add.image(def.x,def.y,'kpp_coin').setScale(1.78).setDepth(14).setVisible(!this.run.coins.includes(def.id))}));
+   this.coinViews=COINS.map((def,i)=>({def,art:startCoin(this,this.add.sprite(def.x,def.y,ATLAS,COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion).setVisible(!this.run.coins.includes(def.id))}));
    this.secretViews=SECRETS.map(def=>({def,art:tile(67,def.x-18,def.feet-54,14,36,36).setAlpha(this.run.secrets.includes(def.id)?.4:1)}));
    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
    const cam=this.cameras.main;
@@ -102,8 +105,8 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    const decks=[s.bridge];if(s.id==='twins')decks.push({...s.bridge,id:'upper-twin',y:1134});
    this.bridges[s.id]=decks.flatMap(d=>{
     const arts=this.deck(d);this.platform(d);
-    // Art and collision become available together; movement is visual only.
-    if(animate&&!reducedMotion)arts.forEach((a,i)=>{a.setAlpha(.25);this.tweens.add({targets:a,alpha:1,duration:400,delay:i*70});});
+    // Art and collision become available together; the plank drop is visual only.
+    if(animate)planksDrop(this,arts,{audio,SFX,reduced:reducedMotion,sound:d===decks[0]});
     return arts;
    });
    if(animate){SFX.checkpoint(audio);this.message(`${s.title}: kedua-dua isyarat diterima. Jambatan kini kukuh — teruskan!`);}
@@ -161,13 +164,13 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    for(const {def,art} of this.coinViews){
     // The coin over the upper bridge appears only with its supporting bridge.
     art.setVisible(!this.run.coins.includes(def.id)&&(def.x!==2052||solved(this.run.puzzles.twins)));
-    if(art.visible&&Math.abs(this.player.x-def.x)<30&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);SFX.coin?.(audio);this.writeSave();}
+    if(art.visible&&Math.abs(this.player.x-def.x)<30&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);art.anims?.stop();SFX.coin?.(audio);this.writeSave();coinPickup(this,def.x,art.y,{reduced:reducedMotion});}
    }
    CHECKPOINTS.forEach((cp,i)=>{
     // Both parallel routes share the safe lower-bank respawn point.
     const onLanding=Math.abs(body.bottom-cp.feet)<8||(cp.id==='beyond-twins'&&Math.abs(body.bottom-1134)<8);
     if(grounded&&Math.abs(this.player.x-cp.x)<44&&onLanding&&(!cp.requires||solved(this.run.puzzles[cp.requires]))&&CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId)<i){
-     this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();this.message('Checkpoint disimpan. R untuk kembali ke sini.');
+     this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');
     }
    });
    this.nearStation=STATIONS.find(s=>Math.abs(this.player.x-s.x)<255&&Math.abs(body.bottom-s.y)<65)||null;
