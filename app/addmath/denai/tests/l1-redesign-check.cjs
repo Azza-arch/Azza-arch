@@ -57,13 +57,13 @@ async function E(p) { await p.keyboard.press('KeyE'); await sleep(250); }
   await p.screenshot({ path: `${out}/g-house.png` });
   // D. sawmill + jetty: one wrong attempt (b = 3), then the right one (b = 4)
   await tp(p, 3060, 1242); await E(p); await E(p); await E(p);
-  res.millAfter3 = await p.evaluate(() => window.__game.scene.getScene('Lorong').sawmill.status.text);
+  res.millAfter3 = await p.evaluate(() => window.__game.scene.getScene('Lorong').sawmill.b);
   await tp(p, 3375, 1296); await E(p); await sleep(300);
-  res.leverWrong = await p.evaluate(() => { const m = window.__game.scene.getScene('Lorong').sawmill; return { text: m.result.text, built: m.built, shown: m.planks.filter((q) => q.visible).length }; });
+  res.leverWrong = await p.evaluate(() => { const m = window.__game.scene.getScene('Lorong').sawmill; return { text: m.last, built: m.built, shown: m.planks.filter((q) => q.visible).length }; });
   await p.screenshot({ path: `${out}/g-jetty-wrong.png` });
   await tp(p, 3060, 1242); await E(p);
   await tp(p, 3375, 1296); await E(p); await sleep(400);
-  res.leverRight = await p.evaluate(() => { const m = window.__game.scene.getScene('Lorong').sawmill; return { text: m.result.text, built: m.built, shown: m.planks.filter((q) => q.visible).length }; });
+  res.leverRight = await p.evaluate(() => { const m = window.__game.scene.getScene('Lorong').sawmill; return { text: m.last, built: m.built, shown: m.planks.filter((q) => q.visible).length }; });
   res.jettyWalk = await run(p, 1, 3690, 6000); res.jettyWalk.trace = undefined;
   await p.screenshot({ path: `${out}/g-jetty-built.png` });
   res.jettyLadder = await climb(p, 'KeyW');
