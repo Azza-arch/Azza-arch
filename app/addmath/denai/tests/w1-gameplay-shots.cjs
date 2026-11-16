@@ -3,7 +3,7 @@
 const { chromium, devices } = require('playwright');
 const out = process.argv[2] || '.', mode = process.argv[3] || 'desk';
 const CAPTURE = () => { let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
-const SPOTS = { Lorong: [600, 1250, 2300, 3780, 4455, 5650], Jambatan: [500, 1450, 2350, 3050, 3700, 4650], GerbangSongsang: [300, 1500, 2800, 3520, 4600, 5150] };
+const SPOTS = { Lorong: [400, 1000, 1450, 2000, 3060, 3550, 4455, 4950, 5650], Jambatan: [500, 1450, 2350, 3050, 3700, 4650], GerbangSongsang: [300, 1500, 2800, 3520, 4600, 5150] };
 (async () => {
   const b = await chromium.launch();
   const ctx = await b.newContext(mode === 'phone' ? { ...devices['iPhone 13 landscape'] } : { viewport: { width: 1280, height: 760 } });

@@ -18,6 +18,7 @@ import {syncGControl} from './g-control.js';
 import {buildWorld,buildSecretMarkers} from './environment.js';
 import {createMechanismMethods} from './mechanisms.js';
 import {notify,syncPresentation,installPresentation,explain,showCheckpointToast,setWorldPrompt} from './presentation.js';
+import {sawmillPrompt,useSawmill} from './levels/sawmill.js';
 import { BUILD_STAGE, BATCH_END, SURFACES, WORLD, MOTION, SPAWN, GOAL, ZONES, GROUND_RANGES, FIRST_GAP, AB_TERRAIN, DECKS, LADDERS, GATES, TERMINALS, CHECKPOINTS, COLLECTIBLES, PUZZLES, SECRETS, CRATE_PUZZLE, WATER, WATER_Y } from './level.js';
 import { audio, SFX } from '../audio.js';
 import { SaveManager } from './save.js';
@@ -990,9 +991,13 @@ class Rooftop extends Phaser.Scene {
     else if(this.crate&&this.crateSwitchActive&&!this.ledgeHintDone&&onGround&&Math.abs(body.bottom-1296)<4&&Math.abs(this.player.x-this.crate.x)<120)
       wp={key:K('Space','Lompat'),text:'Naik kotak, lompat ke pelantar',x:this.crate.x,y:this.crate.y-44};
     if(this.crateSwitchActive&&Math.abs(body.bottom-1188)<3&&onGround)this.ledgeHintDone=true;
+    // Phase C: optional riverside sawmill (builds the fishing jetty).
+    const saw=(!terminal&&!secret&&!atExit)?sawmillPrompt(this,onGround,touchDevice):(this.sawmillReady=false,null);
+    if(!wp&&saw)wp=saw;
     setWorldPrompt(this,wp);
     if(interact) {
-      if (secret) { if (secret.note) this.openSecretNote(secret); else this.discoverSecret(secret.id); }
+      if (this.sawmillReady&&!terminal&&!secret&&!atExit) useSawmill(this,{audio,SFX});
+      else if (secret) { if (secret.note) this.openSecretNote(secret); else this.discoverSecret(secret.id); }
       else if (atExit) this.finish();
       else if(terminal?.kind==='water-stage'||terminal?.kind==='water-activate')this.interactWaterworks(terminal);
       else if(terminal?.kind==='b-selector')this.cycleBInput();
