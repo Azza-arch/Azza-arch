@@ -66,7 +66,9 @@ Notes:
 - **No** lives, daily streaks or arbitrary difficulty. A wrong maths experiment can always be recovered from.
 
 ## 6. World map / World selection (Phase 8)
-Layout sketch: `design/blueprints/world-select.svg` (+ PNG).
+**Final version (V2):** a side-view **pixel-art adventure map** built from real Kenney tiles: `design/blueprints/world-map-pixel.png` (generator `design/world-map-mock.py`). Each World is a region with its own landform (forest + river and a plank bridge; tall stone pillars; factory chimneys and girders; farm terraces; coast; snowy peaks). The path, nodes and cards are a UI layer. Regions that are not yet open get a white mist; tiles are **not** recoloured.
+UI layout and the phone card list: `design/blueprints/world-select.svg` (+ PNG). On phones the **card list** stays the main interface.
+**Completed vs available:** each World card shows two different numbers: "Selesai 2/3" (levels finished) and "Tersedia 3/3" (levels that can be played). Previously only "3/3 level" was shown, which was confusing.
 - **Desktop:** one peninsula; each World is a region with its own shape and colour (forest + river, karst peaks, mine, terraced highlands, mangrove coast, canopy, fantasy snow peak, mechanical city). A dotted path connects the nodes. Clicking a node opens a level panel: Play / Continue / Replay / Explore mode, with ✓, coins and secrets per level.
 - **Phone:** a vertical list of World cards (colour + status + progress bar + Continue). Tapping a card opens a level sheet. In landscape: a small map on the left and the cards on the right.
 - **Status:** World 1 "playable"; World 2 "in development" (preview only, behind a local flag until ready); the rest "coming soon" (greyed out, no map revealed).

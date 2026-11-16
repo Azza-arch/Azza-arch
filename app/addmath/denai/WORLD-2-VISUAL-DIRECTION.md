@@ -1,6 +1,6 @@
 # World 2 · Lembah Parabola: visual and geometry direction (design only)
 
-This document adds to `WORLD-2-BLUEPRINT.md`, which stays the source for puzzles and the DSKP mapping. Draft layout of 2-1: `design/blueprints/w2-l1.svg`.
+This document adds to `WORLD-2-BLUEPRINT.md`, which stays the source for puzzles and the DSKP mapping. Draft layout of 2-1: `design/blueprints/w2-l1.svg`. **Status: BLUEPRINT ONLY.** No full map is built until Station A has been assessed for maths, collision and game feel (owner's decision, 16 Nov).
 The owner's decisions already recorded: unlocked after 1-1; 1 maths unit = 1 tile; fixed challenge set first.
 
 ## 1. Identity

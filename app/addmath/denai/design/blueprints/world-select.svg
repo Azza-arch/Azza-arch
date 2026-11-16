@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1640" height="760" viewBox="0 0 1640 760" font-family="Arial, sans-serif">
   <rect width="1640" height="760" fill="#ffffff"/>
-  <text x="20" y="30" font-size="18" font-weight="bold" fill="#203e36">DENAI · Peta Dunia (cadangan susun atur, bukan seni akhir)</text>
+  <text x="20" y="30" font-size="18" font-weight="bold" fill="#203e36">DENAI · Peta Dunia: susun atur UI (seni akhir = world-map-pixel.png, jubin Kenney)</text>
   <text x="20" y="50" font-size="12" fill="#5a6e68">Kiri: desktop 1100×640 · Kanan: telefon (potret dan landskap guna senarai kad yang sama). Wilayah ialah kawasan berbeza, bukan segi empat berulang.</text>
   <!-- desktop frame -->
   <g transform="translate(20,70)">
@@ -30,7 +30,7 @@
     <!-- nodes -->
     <g font-size="13" font-weight="bold" fill="#203e36">
       <circle cx="210" cy="520" r="22" fill="#2f9d55" stroke="#fff" stroke-width="4"/><text x="210" y="525" text-anchor="middle" fill="#fff">1</text>
-      <text x="140" y="565">Hutan &amp; Sungai</text><text x="140" y="582" font-weight="normal" font-size="11">Fungsi · BOLEH DIMAIN · 3/3 level</text>
+      <text x="140" y="565">Hutan &amp; Sungai</text><text x="140" y="582" font-weight="normal" font-size="11">Fungsi · Selesai 2/3 · Tersedia 3/3</text>
       <circle cx="450" cy="410" r="22" fill="#d7a21f" stroke="#fff" stroke-width="4"/><text x="450" y="415" text-anchor="middle" fill="#203e36">2</text>
       <text x="390" y="345">Lembah Batu Kapur</text><text x="390" y="362" font-weight="normal" font-size="11">F. Kuadratik · DALAM PEMBANGUNAN</text>
       <circle cx="690" cy="470" r="20" fill="#9aa3a0" stroke="#fff" stroke-width="4"/><text x="690" y="475" text-anchor="middle" fill="#fff">3</text>
@@ -59,7 +59,7 @@
     <rect width="440" height="640" rx="26" fill="#f4f8f6" stroke="#203e36" stroke-width="3"/>
     <text x="24" y="40" font-size="16" font-weight="bold" fill="#203e36">Peta Dunia</text>
     <rect x="20" y="56" width="400" height="90" rx="12" fill="#79c97a" stroke="#2f7d45" stroke-width="2"/>
-    <text x="34" y="82" font-size="14" font-weight="bold" fill="#123">1 · Hutan &amp; Sungai</text><text x="34" y="100" font-size="11" fill="#123">Fungsi · 3/3 level</text>
+    <text x="34" y="82" font-size="14" font-weight="bold" fill="#123">1 · Hutan &amp; Sungai</text><text x="34" y="100" font-size="11" fill="#123">Fungsi · Selesai 2/3 · Tersedia 3/3</text>
     <rect x="34" y="110" width="260" height="10" rx="5" fill="#ffffff"/><rect x="34" y="110" width="200" height="10" rx="5" fill="#2f7d45"/>
     <rect x="310" y="96" width="96" height="36" rx="18" fill="#203e36"/><text x="358" y="119" font-size="13" fill="#fff2ce" text-anchor="middle" font-weight="bold">SAMBUNG</text>
     <rect x="20" y="158" width="400" height="90" rx="12" fill="#c9cfc8" stroke="#6d756e" stroke-width="2"/>

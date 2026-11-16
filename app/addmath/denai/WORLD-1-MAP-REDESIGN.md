@@ -1,190 +1,128 @@
-# World 1: map redesign (design only, no code)
+# World 1: map redesign V2 (design only, no game code)
 
-Written 16 Nov 2026 on branch `claude/denai-map-masterplan-v2` (from `claude/denai-w1-environment` @ `ec2aa69`; **not merged to `main`**).
-Nothing in this document has been implemented. All geometry below is a proposal for review.
+Updated 16 Nov 2026 on branch `claude/denai-map-masterplan-v2` (based on `claude/denai-w1-environment` @ `ec2aa69`; **not merged to `main`**).
+Status: **general direction approved by the owner; game code implementation NOT yet approved.**
 
-Blueprints (each one shows CURRENT geometry read straight from the code, with the PROPOSAL underneath):
-`design/blueprints/w1-l1.svg`, `w1-l2.svg`, `w1-l3.svg` (PNG next to them). Proposal data: `design/proposals.mjs`.
-Generator: `node design/blueprint.mjs`. It also checks every main-route hop in the design data
-(rise ≤ 1.5 tiles, gap ≤ 3 tiles). Result: all four main routes pass (`design/blueprints/route-check.json`).
-This is a geometry check of the design, **not** a gameplay test.
+Blueprints (top = CURRENT geometry read directly from code, bottom = V2 PROPOSAL + list of purposes):
+`design/blueprints/w1-l1.svg`, `w1-l2.svg`, `w1-l3.svg`, `w1-transitions.svg` (PNG next to each one).
+Each blueprint marks: main route (green), optional routes **P#** (dashed teal), return loops **G#** (dotted pink),
+checkpoints (red flags), secrets (★), **∑ maths mechanisms** (purple), **non-maths interactions** (green squares),
+**⚠ R#** places where a player could get stuck or take a wrong turn. Below each proposal panel, every P/G/R is listed with its purpose.
+Proposal data: `design/proposals.mjs`; generator: `node design/blueprint.mjs`.
+The main-route check in the design data (rise ≤ 1.5 tiles, gap ≤ 3 tiles) passes for all levels (`route-check.json`).
+This is a geometry check of the design only, **not** a gameplay test.
 
-Fixed engine constraints (not to be changed): run 280 u/s, jump peak 92.3 u (1.71 tiles),
-running reach ≈ 210 u (3.9 tiles), 1 tile = 54 u, ladders, one-way decks, coyote/buffer as now.
+Fixed engine: speed 280, jump peak 92.3 u (1.71 tiles), running reach ≈ 210 u (3.9 tiles), 1 tile = 54 u. The map is **not** made wider: every level keeps its current width.
 
----
-## 1. Study of the existing maps (Phase 1)
+## 0. Owner decisions (16 Nov)
+| Item | Decision |
+|---|---|
+| 1-1 | Approved: garden hill, stone arch over the root path, construction area, jetty. The sawmill stays optional. |
+| 1-2 | Approved: ridge, waterwheel, bank cave, canopy, dam. The boat ticket challenge stays optional. |
+| 1-3 | Approved: stone stairs, aqueduct, cistern, cave behind the waterfall. The thermometer stays optional, with its own context. |
+| 2-1 | Blueprint only until Station A has been assessed (maths, collision, game feel). |
+| Length | Do not widen maps to reach a play time. Prioritise meaningful activities. |
 
-| | 1-1 Jejak Taman Fungsi | 1-2 Jambatan Berkembar | 1-3 Gerbang Songsang |
+## 1. Study of the current maps (summary; see the top panels of the blueprints)
+Repeated structures: flat rectangles down to the floor at almost the same height; "deck on two posts + ladder" appears 8 times; water as a slot between two rectangles; optional routes go up and come back down the same way; nothing passes underneath except the 1-1 root path.
+Already validated and kept: every puzzle, bridge, checkpoint ID, coin ID, secret, the treehouse, the stone gate and the three-seal gate.
+Reference maps (Wild Adventure): the files are **not** in the repo or this session; only principles from my earlier written interpretation in `MASTER-PLAN.md` were used. No geometry was copied.
+
+## 2. Continuity specification 1-1 → 1-2 → 1-3
+Blueprint: `design/blueprints/w1-transitions.svg` (the last 18 tiles of the previous level beside the first 16–20 tiles of the next level).
+
+**Geographic logic:** World 1 = forest edge (1-1, a raised kampung plateau) → **down** into the river valley (1-2) → **up the river** to the ruins at the source (1-3). The water flows from the ruins (cistern → aqueduct → waterfall) down to the valley river, so the direction of travel is believable.
+
+| | Exit | Entry | Matching rule |
 |---|---|---|---|
-| Size | 110 × 30 tiles (5940 u) | 90 × 30 tiles (4860 u) | 104 × 39 tiles (5616 u) |
-| Main route | meadow → down the root lane → yard → **7-plank bridge** → 5 hops over water → treehouse ground → plinth | entry → garden → terrace → **twin bridge** → islands → bank → final yard → **final bridge** → flag | stream → ruins → courtyard → upper ruins → machine yard → **seal bridge** → bank → gate approach → gate court |
-| Optional routes | crate ledge (crate puzzle), canopy walk (ladder), treehouse (ladder, 3 decks) | 2 upper decks (2 ladders), canopy giant + lookout (ladder) | ruin galleries (4 ladders), gate arch walk (1 ladder) |
-| Silhouette | flat blocks at rows 22–26; one dip (root lane); five water columns | flat blocks at rows 22–24 with water slots between them | flat blocks at rows 29–32 with tall wooden scaffolding on top |
-| Rhythm | walk–walk–puzzle–hop ×5–walk | walk–puzzle–hop ×2–walk–puzzle | walk–(optional climb)–puzzle–walk |
-| Verticality | 5 rows of variation; optional climbs to row 17 | 3 rows; optional climbs to row 19 | 4 rows on the main route; optional climbs to row 22 |
-| Mathematics | f(x) = 2x+1 → 7 planks (find the input) | f∘g and g∘f, targets 9/25 and 19/49 | inverse of y = 2x+3 on {0..6}, seals 13, 7, 15 |
-| Identity | garden → construction yard → cliffs → treehouse | river + two machines | ruins + waterworks + stone gate |
+| 1-1 → 1-2 | Taman Gate on the stone plinth (row 22, x 105–108), "Lembah Sungai →" sign at x 109, land drops away to the right, the river visible below | 1-2 starts on a ridge at **the same height (row 22)**; the 1-1 gate is visible small on the left (decoration, no collision); three 1-tile steps down to the river bank | same height at the seam; same oak/pine trees; same timber gate; river seen from above before reaching it |
+| 1-2 → 1-3 | After the final bridge: old stone stairs up to the flag platform (row 22) + a **stone marker**; the river narrows to the right into a stream | 1-3 starts beside **the same stream** with **the same stone marker**; the ruins appear on the right | ruin stone (l3-stone) first appears on the 1-2 dam; same water feature; same forest trees |
 
-**Repeated structures (the "looks the same" problem)**
-1. Every level is a chain of **flat rectangles to the floor** at almost the same height (1-1 rows 22–26, 1-2 rows 22–24, 1-3 rows 29–32).
-2. **Deck on two posts + a ladder in the middle** appears 2× in 1-1 (canopy), 2× in 1-2 (upper decks) and 4× in 1-3 (galleries). The same shape, everywhere.
-3. **Water = a slot between two rectangles** in all three levels.
-4. Optional areas always go **up from the main route by ladder and back down the same way**. There is no loop that uses a different path.
-5. The main route never goes **under** anything except the 1-1 root lane.
+Note: rows are numbered per level. 1-3 is a taller world (floor 2106), so its starting ground is at row 32. In screen terms, both seams start "on the bank by the water", so the camera shows the same scene.
+Each level stays a separate scene with separate progress. The transition is visual only (the exit decoration in one level + the entry decoration in the next), with no shared loading.
 
-**Keep (validated and working)**
-- 1-1: the crate puzzle and start ledge; the root-lane secret; the 7-plank station and bridge (x 47–53); the Tebing Berliku hops; the treehouse and its walls; the flag plinth.
-- 1-2: both stations, both bridges, the double-deck twin bridge, the islands, the canopy giant.
-- 1-3: the inverse machine and three seals; the seal bridge; the spring → pipe → waterfall; the stone gate; the gate arch walk.
-- All checkpoint IDs, coin IDs, save keys and puzzle logic.
+## 3. Level 1-1 · Jejak Taman Fungsi (intro, target 8–12 min)
+Blueprint `w1-l1.svg`. Width unchanged (110 tiles).
 
-**Redesign**
-- 1-1: the canopy walk (two identical post-and-deck frames); the flat garden; the flat yard.
-- 1-2: the flat entry (no sense of arriving from 1-1); the empty island area; the island → final yard stretch.
-- 1-3: four ladders in a row in the ruins; the scaffolding (it reads as wood, not as a ruin); waterworks that are cut off from the ruins; the hidden spaces that are missing.
-
-**Reference maps (Wild Adventure).** The five reference images are **not in the repo or in this session**. All that remains is my earlier written interpretation in `MASTER-PLAN.md` (hollow cave with rock islands; hilly horizontal route with floating platforms; packed rooms and corridors; winding vertical shaft; floating islands with jump arcs). The principles used here come from that interpretation only: large connected landforms, upper and lower routes that rejoin, overhangs, shafts and return loops. **No coordinates or layouts were copied.** For an exact geometry analysis, please upload the images again.
-
----
-## 2. World 1 continuity (Phase 4)
-
-World 1 is one region: **the edge of the forest → the river valley → the ancient ruins upstream.** The terrain runs **downhill into the river in 1-2, then climbs again into the ruins in 1-3.**
-
-| Transition | Exit of the previous level | Entrance of the next level | What carries over |
-|---|---|---|---|
-| 1-1 → 1-2 | The Taman Gerbang (posts + lintel, now built) on the plinth; a sign "Ke Lembah Sungai →"; on the right edge, the land drops away and a river glints below | 1-2 starts on a **ridge (row 22)**. The 1-1 gate stands small on the far left, then a switchback path goes down to the river | the same timber gate, the same pine and oak, the river first seen from above |
-| 1-2 → 1-3 | After the final bridge: **old stone steps** and a stone marker (the first ruin stones in the game), beside the dam built from the same stone | 1-3 starts beside **the same river, narrowing into a stream**, with the same stone marker; the ruins appear on the right | the river, the ruin stone (`l3-stone`), the water mechanisms (water wheel → dam → aqueduct) |
-
-Rules: the green background and palette stay the same throughout World 1. The ruin stone only appears from the end of 1-2. Each level stays a separate scene with its own progress (`denai-campaign-v1`, `denai-l3-campaign-v1`, `denai-save-v14`).
-
----
-## 3. Level 1-1 · Jejak Taman Fungsi: proposal
-
-Blueprint: `design/blueprints/w1-l1.svg`. Size unchanged (110 tiles). **Intro level, target 8–12 minutes.**
-
-**Geometry**
-- **Kampung (x 0–15):** a **house on stilts** with a veranda (deck row 22, x 0–3) behind the spawn. Flat ground stays (the crate puzzle needs it, so the ledge stays only reachable from the crate).
-- **Garden hill (x 15–20):** the flat step becomes a hill with a crest at row 22 (up 1, up 1, down 1).
-- **Root stone arch (x 23–32, NEW):** the two post-and-deck frames are replaced by a **natural stone arch** (block rows 20–23). Trees grow on top; the root lane passes through the tunnel underneath. The upper route walks over the arch and drops into the yard. The ladder moves to the west face of the arch (x 22.5).
-- **Construction yard (x 33–47):** a **stack of logs** (block 1 tile high, x 36–38) breaks up the flat yard. A **crane** marks the bridge mouth. A **sawmill (optional)** stands at x 34.5.
-- **Tebing Berliku (x 53–78):** the main hops stay. NEW: an optional **jetty** (x 58–65, row 27), an **island** (x 65–68), and two ladders (far bank x 58.5; rest cliff x 68.5) make a **loop** that rejoins the main route.
-- **Pokok Tinjau (x 78–96):** stays. NEW: a **rope bridge** from the high deck (row 19) east to a ridge deck (x 90–93), then down to the east grove.
-- **Taman Gerbang (x 96–110):** the finish gate on the plinth, a sign toward the valley.
-
-**Pacing (estimate; the current level is untimed, about 5–8 minutes based on route length and puzzles)**
-| Part | Current (est.) | Proposed |
+**Main route:** kampung → garden hill (crest at row 22) → drop into the root tunnel → yard (step over the log stack) → bridge machine f(x)=2x+1 → five hops at Tebing Berliku → treehouse ground → root dip → gate.
+**Optional routes (each one has a purpose and rejoins the main route):**
+| | Purpose | Back to the main route |
 |---|---|---|
-| Traversal | 2 min | 2.5 min |
-| Exploration (arch, treehouse, rope bridge) | 1 min | 2 min |
-| Maths experiments (machine, probe) | 2 min | 2 min |
-| Problem-solving (crate, crane, sawmill) | 1 min | 2 min |
-| Optional secrets (3 instead of 2) | 0.5 min | 1.5 min |
-| Final challenge (Tebing hops) | 1 min | 1 min |
-| **Total** | **≈ 5–8 min** | **≈ 9–12 min** |
+| P1 house veranda | starting note (controls) + 1 coin | step down to the field |
+| P2 crate ledge | 3 coins, reward for the crate puzzle | drop back into the field |
+| P3 over the stone arch | the 3 canopy coins (**same position: the arch top is at y 1080, the same as the old deck**) + an early view of the crane and the gap | land in the construction yard |
+| P4 jetty → island | Jetty Chest (new secret) + a shortcut past two hops; **needs the sawmill** | ladder up to the rest cliff (main route) |
+| P5 treehouse → rope bridge | Function Note + 3 coins | drop into the east forest |
 
-**Interactions**
-| Object | Why it exists | How to use it | Visible change | Maths? | Route | Wrong / incomplete |
+**Return loops:** G1 root loop (yard → tunnel → ladder → over the arch → yard); G2 jetty loop (far bank → jetty → island → rest cliff → jump back); G3 treehouse loop.
+**Interactions:** maths: the bridge machine (main), the sawmill g(b)=3b−1 (optional). Non-maths: push the crate onto the plate, probe, **crane** (lift a plank bundle to the bridge mouth: a short physical step before the machine), veranda note, rope bridge.
+**Risks ⚠:** R1 crate stuck (C already resets it); R2 falling into the tunnel: the ladder at x 22.5 must be visible from below; R3 jumping the gap before the bridge exists (gap > reach, respawn; already the case); R4 jetty ladder before the jetty is built: hide it or put up a sign; R5 the island mistaken for the main route: "Pulau (pilihan)" sign; R6 the rope bridge needs an opening in the branch wall (collision change).
+**Applied maths:** see §6 (bridge decking 2n+1; sawmill 3b−1).
+
+## 4. Level 1-2 · Jambatan Berkembar (intermediate, target 12–16 min)
+Blueprint `w1-l2.svg`. Width unchanged (90 tiles).
+
+**Area continuity:** ridge (looking down at the river) → stepped garden → **twin pump station + waterwheel** (on the river bank) → twin bridge over the river → islands in the middle of the river (+ boat stall) → bank and **bank cave** (under the island) → **canopy giant** → **stone dam** (final station) → final bridge → old stone stairs. Each area sees the next one: the river runs the whole length, and the dam holds back the river leading upstream.
+
+**Route variety:**
+| Kind | Where |
+|---|---|
+| Horizontal | the river terraces, islands (low hops), the dam |
+| Vertical | P1 upper twin deck (ladder up, other ladder down); P2 canopy giant up to the lookout, then the descending rope bridge |
+| Underground | P3 bank cave: the **floodgate lever** lowers the water level, revealing the ledge and the cave mouth; exit via the ladder at x 57.5 to the bank |
+
+**Optional routes:** P1 upper twin deck (observing that f∘g ≠ g∘f + coins); P2 canopy → rope bridge (canopy observation, lands in the dam yard); P3 bank cave (secret); P4 boat stall (**optional** ticket challenge, reward: a raft shortcut to the cave; not required).
+**Loops:** G1 underground (island → cave → bank → jump back to the island); G2 canopy (dam yard → back to the giant tree → up → rope bridge → dam).
+**Interactions:** maths: twin pump station (main), dam station (main), boat ticket (optional). Non-maths: waterwheel lever (starts the station), floodgate lever, descending rope bridge, stone marker (story board), valley view.
+**Risks ⚠:** R1 ridge descent (1-tile steps, can be climbed back up); R2 the cave is flooded before the floodgate is opened (show the water level clearly); R3 falling between islands (respawn; already the case); R4 the stall must not block the path; R5 the rope bridge lands near the dam panel (avoid opening it by accident).
+
+## 5. Level 1-3 · Gerbang Songsang (World 1 finale, target 15–20 min)
+Blueprint `w1-l3.svg`. Size unchanged (104 × 39).
+
+**Clear gameplay relationship:** the **inverse machine's meter only works once water is flowing.** The water comes from the **cistern at the top of the tower**, through the **aqueduct**, to the machine yard. So the main route **climbs the tower** (stone stairs → gallery → stone ledge → lookout), opens the **cistern valve**, crosses the **aqueduct** (upper route), and drops into the machine yard. The old ground route through the courtyard becomes the **return / alternative** route (P1, G1).
+The waterfall comes out of the same water channel, falls into the gorge, and the seal bridge crosses it. The cave under the bank (P4) shows the waterfall from inside.
+
+**Ladders: 5 → 2.** The stone stairs replace the ladders at x 17, 22 and 31; a stone ledge (x 35–36.5, row 23) replaces the tower ladder at x 35. Remaining: the gate ladder (x 85) and the cave ladder (x 68.5), and they are not next to each other.
+**Existing pits as entrances:** the 1-tile pits between the ruins and the courtyard (x 24–25) and between the bank and the gate approach (x 75–76) already exist and currently lead nowhere. In V2, they are shafts into the hidden chamber and the cave, giving a consistent visual language ("the ruin floor has collapsed").
+
+**Optional routes:** P1 lower courtyard (return route + coins); P2 root balcony (ruin inscription); P3 hidden chamber (**old thermometer**: *context*: a gauge from an old waterworks technician's workshop that uses Fahrenheit; set the warm pool temperature to open a chest; optional, not required for the seals); P4 cave under the bank (secret); P5 walk over the gate (inverse tablet).
+**Loops:** G1 tower (stairs → cistern → aqueduct → machine yard → lower courtyard → back to the foot of the stairs); G2 cave (collapsed pit → cave → ladder → bank).
+**Interactions:** maths: the inverse machine (main, seals 13/7/15), the thermometer (optional). Non-maths: the cistern valve, the flowing aqueduct, the two collapsed pits, the seal gate.
+**Risks ⚠:** R1 falling into the pit (it now lands in the chamber and there is a way out); R2 reaching the machine before the valve is open: the machine shows "tiada aliran" and the dry aqueduct is visible; R3 missing the valve at the top: water arrow + sound; R4 the second pit now leads to the cave; R5 gorge (respawn; already the case).
+
+## 6. Applied maths (details)
+| Level | Mechanism | Inspiration | Model / variables / units | Domain & assumptions | Feedback | Objective |
 |---|---|---|---|---|---|---|
-| Crate + plate (existing) | the gardener's goods crate | push it onto the plate | ledge appears | no | optional | push it again; C resets the crate |
-| Machine f(x)=2x+1 + lever (existing) | plank order for the bridge | choose x, pull the lever | 7 planks laid across the gap | yes | **main** | short: the bridge ends early; extra: planks stacked beside it; try again |
-| Crane (NEW, physical) | lifts plank bundles to the bridge mouth | lever: raise / lower | bundle moves; reaches the station | no | main (pacing) | lowered in the wrong place: the bundle comes back |
-| Sawmill g(b)=3b−1 (NEW) | cuts logs for the fishing jetty | choose b logs | jetty built over the river | yes | optional | the jetty falls short or has extra planks; logs return to the pile |
-| Rope bridge (NEW) | a short cut between the treehouse and the ridge | walk across | — | no | optional | — |
+| 1-1 main | bridge machine | bridge decking | P(n)=2n+1; n spans (count), P planks | n∈{0..6}; 2 planks per span + 1 end plank; **simplified fictional model** | n=2→5 "short by 2"; n=4→9 "2 extra" | evaluate, find the input (SP 1.1) |
+| 1-1 optional | sawmill | sawmill | g(b)=3b−1; b logs, g usable planks | b∈{1..6}; 3 planks per log, 1 offcut lost | b=3→8 jetty falls short; b=5→14 extra planks on the bank | the same skill, as a production rate |
+| 1-2 main | twin pump | two calibration stages | f(x)=2x+1, g(x)=x²; **explicitly fictional machines** | x∈{0..6} | the deck stops short / the lamp does not lock | composition, order matters (SP 1.2) |
+| 1-2 optional | boat ticket | RM5 voucher + 10% service charge | p RM; v(p)=p−5, s(p)=1.1p; s(v(p))=1.1p−5.5, v(s(p))=1.1p−5 | p≥5; the 10% rate is **an example**, real rules vary | p=20: RM16.50 vs RM17.00 | composition models a sequential process |
+| 1-3 main | inverse machine | valve meter | y=2x+3; x valve turns, y reading (**fictional unit**) | x∈{0..6}; image {3,…,15} | wrong x moves the deck to the wrong place | inverse, domain/image (SP 1.3) |
+| 1-3 optional | thermometer | real °F gauge | F=1.8C+32; C=(F−32)/1.8 | C∈[20,45], 1 d.p., tolerance 0.1; 95→35, 86→30, 104→40 | the door stays shut; hint "F − 32 first" | the inverse of a real formula |
 
-**Applied maths**
-- *Main (existing), bridge decking.* Model: P(n) = 2n + 1. n = number of spans between supports (count). P = planks (count). Domain n ∈ {0,…,6}. Assumptions: every span takes 2 planks, plus 1 plank at the end; planks are all the same; **a simplified fictional model**. Player controls: n. Effect: P planks laid. Reasoning: 2n + 1 = 7 → n = 3. Feedback: n = 2 → 5 planks, "short by 2"; n = 4 → 9, "2 extra". Objective: evaluate a function and find the input for a target output (SP 1.1).
-- *Optional (NEW), sawmill.* Model: g(b) = 3b − 1. b = logs (count), g = usable planks. Each log gives 3 planks; 1 is lost as the cutting offcut. Domain b ∈ {1,…,6}. Target: 11 planks for the jetty → b = 4. Feedback: b = 3 → 8 (the jetty stops before the island); b = 5 → 14 (extra planks stacked on the shore). Objective: the same skill on a different function, framed as a production rate.
+## 7. Migration plan: checkpoints, collectibles, progress and records
+Principle: **IDs never change; only positions move. Old saves must load safely and are never deleted.**
 
-**Replay:** the jetty and the third secret are only reachable after the sawmill. The arch and the rope bridge open a faster speedrun line. The plank challenge already has 12 variations (existing).
-**Landmarks:** kampung house; the root stone arch; the yard crane; Pokok Tinjau; Taman Gerbang.
-**Assets / risk:** all Kenney base (stone 40–43 / `kenney/tiles` stone, logs 6–8 from the farm pack, poles 69/89, planks 48–50). Moderate risk: the arch changes collision in the root lane area and the canopy route (coins `canopy-1..3` must move onto the arch).
+| Data | Current key | Plan |
+|---|---|---|
+| 1-1 progress | `denai-save-v14`, `denai-profile-v1`, `denai-records-v14` (read-through in `campaign-store.js`) | Unchanged. The old checkpoint `cp-*` restores to the same ID; positions are revalidated. The crate, coins and canopy coins keep their IDs (the arch top is at the same height as the old deck, so the canopy coin positions stay). |
+| 1-2 progress | `denai-campaign-v1` (schema 1) | Checkpoint `entry` moves to the ridge (same ID). The two coins in the entry area keep their IDs, new positions. `sanitizeRun` already filters by ID, so this is safe. |
+| 1-3 progress | `denai-l3-campaign-v1` | The `ruins` and `machine` checkpoints keep their IDs; gallery coins are revalidated against the stairs. New state "valve open" is added to the run (default **open** for old saves that have already reached the machine, so no one loses progress). |
+| New secrets (Jetty Chest, bank cave, chamber, cave) | — | New IDs, marked **bonus**: not counted in the old totals (15 coins + 2 secrets for 1-1), so existing achievements are unaffected. They are shown separately ("Bonus 0/2"). |
+| Level version | — | Add `version` to the registry (`w1-l1@2`, …). Every new run records the version; a run in progress from v1 continues from the same checkpoint ID but is **marked v1**. |
+| Local best time | `level.bestMs` (1-2), `denai-records-v14` (1-1) | Keep the old values as **"Klasik (v1)"**; the new version starts a new record. Nothing is deleted. |
+| PlayFab leaderboard 1-1 | statistic + leaderboard `denai_l1_time` | **Keep** `denai_l1_time` as the "Klasik (v1)" board. Create `denai_l1_time_v2` (new statistic + leaderboard, Min, Ascending) for the new geometry. The UI shows a tab "Versi semasa / Klasik v1". A v1 run is only submitted to the v1 board. Review `minPlausibleMs` (20 s) against the new route. **The secret key is never in the client.** |
 
----
-## 4. Level 1-2 · Jambatan Berkembar: proposal
-
-Blueprint: `design/blueprints/w1-l2.svg`. Size unchanged (90 tiles). **Intermediate level, target 12–16 minutes.**
-
-**Geometry**
-- **Rabung Masuk (x 0–12, NEW):** start on the ridge (row 22) and descend in three steps (rows 22 → 23 → 24). The 1-1 gate is visible far to the left. The view of the river opens up below.
-- **Twin Pump Station (x 20–34):** the existing station becomes a **water wheel** by the river (pump-station theme). The double-deck twin bridge (main + upper deck) stays.
-- **Islands (x 46–58):** the islands become rock pillars of different shapes. On the island stands the **Gerai Jeti** (optional challenge). NEW: a low ledge (row 26) leads into a **bank cave** (x 54.5–57.5) holding a secret.
-- **Canopy giant (x 54–62):** stays. NEW: a **descending rope bridge** from the lookout (row 19) to a treetop (x 67–70), then down into the final yard. This makes a loop.
-- **Stone Dam (x 64–78):** the final station becomes a **small dam** of ruin stone (the first sign of 1-3). The final bridge stays.
-- **Old stone steps (x 84–90):** the flag stands beside a stone marker; the stream continues into 1-3.
-
-**Pacing (current est. 6–9 min → proposed 12–16 min):** traversal 3, exploration 3, maths experiments 4 (two stations), optional challenge 2, secrets 1.5, final bridge 1.5.
-
-**Interactions**
-| Object | Why | How | Change | Maths? | Route | Wrong / incomplete |
-|---|---|---|---|---|---|---|
-| Twin machines f(x)=2x+1, g(x)=x² (existing) | two calibration stages that drive the pump | choose input, order, receiver mark; send | deck slides toward the marked receiver; lamp locks | yes | **main** | output over / under the mark: the deck stops short, the lamp does not lock; change order or input |
-| Water wheel (NEW, physical) | powers the station | lever to start | wheel turns; the twin machine lights up | no | main | — |
-| Gerai Jeti (NEW) | boat tickets from the island | choose the order: voucher then charge, or charge then voucher | the fare shown; correct choice gives a raft to the cave | yes | optional | the price shown is not the cheapest; the raft does not come; try the other order |
-| River sluice (NEW, physical) | lowers the water by the bank | lever | water level drops one row; cave ledge appears | no | optional | lever again: water rises |
-
-**Applied maths**
-- *Main (existing), twin machines.* f(x) = 2x + 1, g(x) = x². These are **explicitly fictional calibration machines**; they are not claimed to be real engineering. Domain x ∈ {0,…,6}. f(g(2)) = 9, g(f(2)) = 25; f(g(3)) = 19, g(f(3)) = 49. Objective: in a composite function the order matters; the inner function runs first (SP 1.2).
-- *Optional (NEW), boat ticket.* p = ticket price (RM, p ≥ 5). v(p) = p − 5 (an RM5 voucher). s(p) = 1.10p (a 10 % service charge, **as an example; real business rules differ**). s(v(p)) = 1.1p − 5.5; v(s(p)) = 1.1p − 5. For p = 20: RM16.50 and RM17.00. The player chooses the order and sees the real difference (50 sen). Objective: a composite function models a sequential process; order matters in everyday life.
-
-**Replay:** the optional challenge uses a different p each time (p ∈ {10, 15, 20, 30}). The cave and the rope bridge are new routes for collecting coins and secrets.
-**Landmarks:** the ridge with the view; the water wheel; the canopy giant; the stone dam.
-**Risk:** the ridge changes the entry checkpoint position (`entry` x 108 feet 1296 → row 22). The ID stays. The coins at the entry must move up. Old saves at checkpoint `entry` restore to the new position (safe).
-
----
-## 5. Level 1-3 · Gerbang Songsang: proposal
-
-Blueprint: `design/blueprints/w1-l3.svg`. Size unchanged (104 × 39). **World finale, target 15–20 minutes.**
-
-**Geometry**
-- **Jejak Sungai (x 0–12):** the stream from 1-2, the same stone marker.
-- **Ruin tower (x 13–39):** **stepped stone stairs** (blocks rising 1 tile, x 19–24) replace the ladders at x 17 and 22. A stone ledge (x 27–29, row 25) replaces the ladder at x 31. One ladder stays (inside the tower, x 35). Galleries stand on stone piers (already done in Phase A).
-- **Hidden chamber (x 14–25, rows 33–35, NEW):** entered by dropping into the **existing 1-tile pit between the ruins and the courtyard (x 24–25)**, which currently leads nowhere. The pit becomes a shaft into the chamber; leave by stone stairs. Holds the old thermometer (optional).
-- **Spring cistern + aqueduct (x 36–47, NEW):** the source moves **to the top of the tower** (water flows downhill, which is believable). A **walkable aqueduct** (one-way, row 24) carries the water to the machine yard. This is the **upper route**; the courtyard is the lower route.
-- **Machine yard (x 47–60):** the inverse machine stays. Its meter is fed by the aqueduct.
-- **Waterfall and seal bridge (x 60–64):** stay. NEW: a **cave behind the waterfall** (x 64–70, rows 33–35) with a ladder down from the far bank (x 68.5). This is a short loop with a secret.
-- **Gate (x 76–104):** stays, including the gate arch walk.
-
-Ladders: **5 → 3** (tower x 35, gate x 85, waterfall cave x 68.5), and no longer side by side.
-
-**Pacing (current est. 7–10 min → proposed 15–20 min):** traversal 3, tower climb and aqueduct 4, machine (3 seals) 5, thermometer 2, secrets (5) 3, gate 1.
-
-**Interactions**
-| Object | Why | How | Change | Maths? | Route | Wrong / incomplete |
-|---|---|---|---|---|---|---|
-| Inverse machine + 3 seals (existing) | a meter shows y; recover the valve setting x | undo the steps (−3, ÷2), send x to the deck | seal lights up; deck rises one third | yes | **main** | wrong x: the deck moves to the wrong position and the seal does not light; undo and try again |
-| Aqueduct valve (NEW, physical) | channels water to the yard | turn it at the tower top | water flows along the aqueduct; machine meter switches on | no | main (if it becomes the main route) / optional | closed: the meter is blank |
-| Shaft between the ruins and the courtyard (existing pit, NEW use) | the ruin floor has collapsed | drop in | lands in the hidden chamber | no | optional | leave by the stairs |
-| Thermometer F → C (NEW) | an old Fahrenheit gauge in the ruins | enter °C for the reading shown | the chamber pool lights up / the old door opens | yes | optional | the door stays shut; hint "F − 32 first" |
-| Seal gate (existing) | the exit to World 2 | — | seals light up, door opens | — | main | — |
-
-**Applied maths**
-- *Main (existing), valve meter.* y = 2x + 3. x = valve setting (turns), y = meter reading (**fictional unit**). Domain {0,…,6}, image {3, 5, …, 15}. f⁻¹(y) = (y − 3)/2. Seals 13 → 5, 7 → 2, 15 → 6. Objective: the inverse function, domain and image, a one-to-one function (SP 1.3). Values outside the image (e.g. 8) have no inverse in this domain; that is already explained in the tablet.
-- *Optional (NEW), thermometer.* F = 1.8C + 32 (real conversion). C = (F − 32)/1.8 is its inverse. Readings shown: 95 °F → 35 °C, 86 °F → 30 °C, 104 °F → 40 °C. Domain C ∈ [20, 45] (warm water). Answers to 1 decimal place, tolerance 0.1. Objective: the inverse of a real-world formula; the order of the inverse operations matters.
-
-**Replay:** the thermometer picks a different reading each run. Two caves. The aqueduct as a speedrun line.
-**Landmarks:** ruin tower + cistern; the aqueduct; the waterfall; the main gate (battlements are already done).
-**Risk (highest of the three):** big collision changes in the ruins (the stairs replace ladders). The positions of secrets `ruin-inscription` and coins 3–7 must move. Two new spaces need extra camera bounds below (rows 33–35). The camera must not reveal the chamber before it is found.
-
----
-## 6. Ranking of changes
-
+## 8. Ranking
 | Priority | Change |
 |---|---|
-| **Essential for World 1** | 1-3 stairs replacing 3 ladders; 1-1 root stone arch replacing two post-and-deck frames; transitions (1-2 ridge, the 1-1 → 1-2 valley sign, stone marker 1-2 → 1-3); 1-3 source at the tower top + aqueduct (connects the ruins, the water and the machine) |
-| **Desirable** | 1-1 jetty + sawmill (11 planks); 1-2 Gerai Jeti (composite money function); 1-3 thermometer; waterfall cave; 1-2 descending rope bridge; 1-1 crane |
-| **Future** | travel between checkpoints (return loops without walking); making the aqueduct the main route (1-3 lower route as the return path); a 1-1 kampung with NPCs |
+| Essential | 1-3 stairs + cistern + aqueduct (valve relationship); 1-1 stone arch; the 1-1→1-2 and 1-2→1-3 transitions; versioned migration and leaderboard |
+| Desirable | 1-1 jetty + sawmill; 1-2 bank cave + floodgate; 1-2 descending rope bridge; 1-3 thermometer chamber and cave; boat ticket |
+| Future | checkpoint travel; 1-1 kampung NPCs; live karst/cave art |
 
----
-## 7. Level design template (for future worlds)
-1. **Topic + SP** (DSKP code and title only).
-2. **Geography + continuity:** where this level sits in the World; what is seen at entry and exit.
-3. **Geometry pattern** (A–E in `WORLD-MAP-MASTERPLAN.md`) + silhouette sketch (blueprint generated from data).
-4. **Main route + 2 optional routes**, including at least **one loop** that rejoins the main route a different way.
-5. **Mechanism table** (the 6 questions: why it exists, how, visible change, maths?, route, wrong/incomplete).
-6. **Applied maths spec:** inspiration, model, variables + units, domain, assumptions, control, physical effect, reasoning, feedback for other values, objective. State clearly if the model is fictional.
-7. **Pacing** (6 categories, target duration).
-8. **Replay:** a variant, a secret, a speedrun line; **no** lives or forced grinding.
-9. **Landmarks** (at least 1 per area) + assets (`ASSET-BIOME-MATRIX.md`).
-10. **Physics check:** rise ≤ 1.5 tiles, gap ≤ 3 tiles on the main route (blueprint generator), then a real browser test after implementation.
-11. **Risks:** collision, saves, coins, the PlayFab leaderboard (best times change if the route changes).
+## 9. Level design template
+1. Topic + SP (DSKP code). 2. Geography + continuity (entry/exit, height at the seam). 3. Geometry pattern (A–E) + blueprint from data.
+4. Main route + ≥ 2 optional routes (each with a purpose and a way back) + ≥ 1 return loop. 5. Interaction table (why, how, change, maths?, route, wrong/incomplete).
+6. Applied maths spec (inspiration, model, variables + units, domain, assumptions, control, effect, reasoning, feedback, objective; state if it is fictional).
+7. Pacing (traversal, exploration, maths, problem-solving, secrets, final). 8. Replay (variants, secrets, versioned records; no lives).
+9. ⚠ Places where a player could get stuck or take a wrong turn + mitigation. 10. Migration of IDs/saves/records. 11. Real browser test after implementation.

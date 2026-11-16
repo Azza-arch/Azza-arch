@@ -24,12 +24,12 @@ function current11() {
     ladder: L1.LADDERS.map((l) => [t(l.x), t(l.top), t(l.bottom), 'keep']),
     walls: L1.WALLS.map((w) => [t(w.x), t(w.top), t(w.bottom)]),
     water: L1.WATER.map((w) => [t(w.x), t(w.x + w.width), t(L1.WATER_Y)]),
-    mech: [[t(L1.CRATE_PUZZLE.crate.x), t(L1.CRATE_PUZZLE.crate.feet), 'Kotak'], [t(L1.CRATE_PUZZLE.floorSwitch.x), t(L1.CRATE_PUZZLE.floorSwitch.feet), 'Plat'],
-      ...L1.TERMINALS.map((m) => [t(m.x), t(m.feet), m.kind === 'probe' ? 'Probe' : 'Mesin f(x)=2x+1'])],
+    math: [[t(L1.TERMINALS[1].x), t(L1.TERMINALS[1].feet), '∑ Mesin f(x)=2x+1']], inter: [[t(L1.CRATE_PUZZLE.crate.x), t(L1.CRATE_PUZZLE.crate.feet), 'Kotak'], [t(L1.CRATE_PUZZLE.floorSwitch.x), t(L1.CRATE_PUZZLE.floorSwitch.feet), 'Plat'],
+      [t(L1.TERMINALS[0].x), t(L1.TERMINALS[0].feet), 'Probe']],
     cp: L1.CHECKPOINTS.map((c) => [t(c.x), t(c.feet)]),
     secret: L1.SECRETS.map((q) => [t(q.x), t(q.feet), q.name]),
     coins: L1.COLLECTIBLES.map((c) => [t(c.x), t(c.y)]),
-    mark: [[t(L1.GOAL.x), t(L1.GOAL.feet) - 1.5, 'Bendera']], cave: [], main: [], optional: [],
+    mark: [[t(L1.GOAL.x), t(L1.GOAL.feet) - 1.5, 'Bendera']], cave: [], main: [], opt: [], loops: [], risk: [],
   };
 }
 function current12() {
@@ -40,9 +40,9 @@ function current12() {
     gate: L2.STATIONS.map((s) => [t(s.bridge.x), t(s.bridge.x + s.bridge.width), t(s.bridge.y), s.title]),
     ladder: L2.LADDERS.map((l) => [t(l.x), t(l.top), t(l.bottom), 'keep']),
     water: L2.WATER.map((w) => [t(w.x), t(w.x + w.width), t(L2.WATER_Y)]),
-    mech: L2.STATIONS.map((s) => [t(s.x), t(s.y), s.title]), cp: L2.CHECKPOINTS.map((c) => [t(c.x), t(c.feet)]),
+    math: L2.STATIONS.map((s) => [t(s.x), t(s.y), '∑ ' + s.title]), cp: L2.CHECKPOINTS.map((c) => [t(c.x), t(c.feet)]),
     secret: L2.SECRETS.map((q) => [t(q.x), t(q.feet), q.id]), coins: L2.COINS.map((c) => [t(c.x), t(c.y)]),
-    mark: [[t(L2.GOAL.x), t(L2.GOAL.feet) - 1.5, 'Bendera']], cave: [], main: [], optional: [],
+    mark: [[t(L2.GOAL.x), t(L2.GOAL.feet) - 1.5, 'Bendera']], cave: [], main: [], opt: [], loops: [], risk: [],
   };
 }
 function current13() {
@@ -53,15 +53,15 @@ function current13() {
     gate: [[t(L3.BRIDGE.x), t(L3.BRIDGE.x + L3.BRIDGE.width), t(L3.BRIDGE.y), 'Jambatan meterai']],
     ladder: L3.LADDERS.map((l) => [t(l.x), t(l.top), t(l.bottom), 'keep']),
     water: L3.WATER.map((w) => [t(w.x), t(w.x + w.width), t(L3.WATER_Y)]),
-    mech: [[53, 30, 'Mesin songsang'], [93, 29, 'Gerbang 3 meterai']], cp: L3.CHECKPOINTS.map((c) => [t(c.x), t(c.feet)]),
+    math: [[53, 30, '∑ Mesin songsang']], inter: [[93, 29, 'Gerbang 3 meterai']], cp: L3.CHECKPOINTS.map((c) => [t(c.x), t(c.feet)]),
     secret: L3.SECRETS.map((q) => [t(q.x), t(q.feet), q.id]), coins: L3.COINS.map((c) => [t(c.x), t(c.y)]),
-    mark: [[t(L3.GOAL.x), t(L3.GOAL.feet) - 1.5, 'Gerbang']], cave: [], main: [], optional: [],
+    mark: [[t(L3.GOAL.x), t(L3.GOAL.feet) - 1.5, 'Gerbang']], cave: [], main: [], opt: [], loops: [], risk: [],
   };
 }
 
 // ── SVG drawing ────────────────────────────────────────────────────────────
 const C = { sky: '#eef7f5', terrain: '#b98557', terrainNew: '#d6a06c', edge: '#5b3a24', slab: '#9d8a72', cave: '#3c2b22', deck: '#e08a2e', gate: '#7a4cc2',
-  ladder: '#e8c34a', water: '#5fb6ea', main: '#1f8f4a', opt: '#11849a', mech: '#7a4cc2', cp: '#d8432b', secret: '#e0a400', text: '#203e36', change: '#d8432b' };
+  ladder: '#e8c34a', water: '#5fb6ea', main: '#1f8f4a', opt: '#11849a', loop: '#b0479c', inter: '#2e7d5b', risk: '#c62828', mech: '#7a4cc2', cp: '#d8432b', secret: '#e0a400', text: '#203e36', change: '#d8432b' };
 function panel(d, { px, oy, label }) {
   const W = d.width * px, H = (d.rowBottom - d.rowTop) * px, X = (x) => x * px, Y = (r) => (r - d.rowTop) * px, floor = d.floor ?? d.rowBottom;
   const g = [];
@@ -85,14 +85,18 @@ function panel(d, { px, oy, label }) {
     g.push(`<text x="${X(c.ox + c.h)}" y="${Y(c.oy - c.k) - 6}" font-size="10" text-anchor="middle" fill="#2a6fdb" font-weight="bold">${c.label}</text>`);
   }
   const line = (pts, color, dash, w) => `<polyline points="${pts.map(([x, r]) => `${X(x).toFixed(1)},${(Y(r) - px * .55).toFixed(1)}`).join(' ')}" fill="none" stroke="${color}" stroke-width="${w}" ${dash ? `stroke-dasharray="${dash}"` : ''} stroke-linejoin="round" opacity=".9"/>`;
-  for (const o of d.optional) g.push(line(o, C.opt, '6,4', 2.2));
+  for (const o of d.opt ?? []) { g.push(line(o.pts, C.opt, '6,4', 2.2)); const [x, r] = o.pts[Math.floor(o.pts.length / 2)]; g.push(`<rect x="${X(x) - 11}" y="${Y(r) - px * .55 - 19}" width="22" height="13" rx="3" fill="${C.opt}"/><text x="${X(x)}" y="${Y(r) - px * .55 - 9}" font-size="9" fill="#fff" text-anchor="middle" font-weight="bold">${o.id}</text>`); }
+  for (const o of d.loops ?? []) { g.push(line(o.pts, C.loop, '2,4', 3)); const [x, r] = o.pts[0]; g.push(`<rect x="${X(x) - 11}" y="${Y(r) - px * .55 + 5}" width="22" height="13" rx="6" fill="${C.loop}"/><text x="${X(x)}" y="${Y(r) - px * .55 + 15}" font-size="9" fill="#fff" text-anchor="middle" font-weight="bold">${o.id}</text>`); }
   if (d.main.length) {
     g.push(line(d.main.map(([x, r]) => [x, r]), C.main, '', 3));
     const [sx, sr] = d.main[0], [ex, er] = d.main.at(-1);
-    g.push(`<text x="${X(sx)}" y="${Y(sr) - px * 1.3}" font-size="11" font-weight="bold" fill="${C.main}">▶ MASUK</text><text x="${X(ex)}" y="${Y(er) - px * 1.3}" font-size="11" font-weight="bold" fill="${C.main}" text-anchor="end">KELUAR ▶</text>`);
+    if (d.showStart !== false) g.push(`<text x="${X(sx)}" y="${Y(sr) - px * 1.3}" font-size="11" font-weight="bold" fill="${C.main}">▶ MASUK</text>`);
+    if (d.showEnd !== false) g.push(`<text x="${X(ex)}" y="${Y(er) - px * 1.3}" font-size="11" font-weight="bold" fill="${C.main}" text-anchor="end">KELUAR ▶</text>`);
   }
   for (const [x, r] of d.coins ?? []) g.push(`<circle cx="${X(x)}" cy="${Y(r)}" r="2.2" fill="#e8b923"/>`);
-  for (const [x, r, lab] of d.mech) g.push(`<rect x="${X(x) - 5}" y="${Y(r) - 16}" width="10" height="10" fill="${C.mech}" transform="rotate(45 ${X(x)} ${Y(r) - 11})"/><text x="${X(x)}" y="${Y(r) - 20}" font-size="9" text-anchor="middle" fill="${C.mech}" font-weight="bold">${lab}</text>`);
+  for (const [x, r, lab] of d.inter ?? []) g.push(`<rect x="${X(x) - 5}" y="${Y(r) - 15}" width="10" height="10" rx="2" fill="${C.inter}"/><text x="${X(x)}" y="${Y(r) - 19}" font-size="9" text-anchor="middle" fill="${C.inter}" font-weight="bold">${lab}</text>`);
+  for (const [x, r, lab] of d.risk ?? []) g.push(`<text x="${X(x)}" y="${Y(r)}" font-size="13" text-anchor="middle" fill="${C.risk}">⚠</text><text x="${X(x)}" y="${Y(r) + 10}" font-size="8" text-anchor="middle" fill="${C.risk}">${lab.split(' ')[0]}</text>`);
+  for (const [x, r, lab] of d.math ?? []) g.push(`<rect x="${X(x) - 5}" y="${Y(r) - 16}" width="10" height="10" fill="${C.mech}" transform="rotate(45 ${X(x)} ${Y(r) - 11})"/><text x="${X(x)}" y="${Y(r) - 20}" font-size="9" text-anchor="middle" fill="${C.mech}" font-weight="bold">${lab}</text>`);
   for (const [x, r] of d.cp) g.push(`<line x1="${X(x)}" y1="${Y(r)}" x2="${X(x)}" y2="${Y(r) - 14}" stroke="${C.cp}" stroke-width="1.5"/><path d="M${X(x)},${Y(r) - 14} l8,3 l-8,3z" fill="${C.cp}"/>`);
   for (const [x, r, lab] of d.secret) g.push(`<text x="${X(x)}" y="${Y(r) - 3}" font-size="13" text-anchor="middle" fill="${C.secret}">★</text><text x="${X(x)}" y="${Y(r) + 10}" font-size="8" text-anchor="middle" fill="#8a6a00">${lab}</text>`);
   for (const [x, r, lab] of d.mark) g.push(`<text x="${X(x)}" y="${Y(r)}" font-size="10" text-anchor="middle" fill="${C.text}" font-style="italic">◆ ${lab}</text>`);
@@ -110,13 +114,24 @@ const LEGEND = `<g font-size="10" fill="${C.text}"><rect width="12" height="10" 
 <rect x="870" width="12" height="10" fill="${C.water}"/><text x="886" y="9">air</text>
 <line x1="915" y1="5" x2="935" y2="5" stroke="${C.main}" stroke-width="3"/><text x="939" y="9">laluan utama</text>
 <line x1="1015" y1="5" x2="1035" y2="5" stroke="${C.opt}" stroke-width="2" stroke-dasharray="5,3"/><text x="1039" y="9">laluan pilihan</text>
-<rect x="1115" y="0" width="8" height="8" fill="${C.mech}" transform="rotate(45 1119 4)"/><text x="1128" y="9">mekanisme</text>
+<rect x="1115" y="0" width="8" height="8" fill="${C.mech}" transform="rotate(45 1119 4)"/><text x="1128" y="9">∑ matematik</text>
 <path d="M1195,0 l8,3 l-8,3z" fill="${C.cp}"/><text x="1206" y="9">checkpoint</text><text x="1270" y="10" fill="${C.secret}">★</text><text x="1282" y="9">rahsia</text>
-<text x="1330" y="9">◆ mercu tanda · grid 1 jubin = 54 unit, label setiap 10 jubin</text></g>`;
+<text x="1330" y="9">◆ mercu tanda</text>
+<line x1="0" y1="24" x2="20" y2="24" stroke="${C.loop}" stroke-width="3" stroke-dasharray="2,4"/><text x="24" y="28">gelung balik (G#)</text>
+<rect x="130" y="19" width="10" height="10" rx="2" fill="${C.inter}"/><text x="144" y="28">interaksi bukan matematik</text>
+<text x="300" y="29" fill="${C.risk}" font-size="12">⚠</text><text x="314" y="28">risiko tersangkut / salah arah (R#)</text>
+<text x="520" y="28">P# = laluan pilihan · grid 1 jubin = 54 unit, label setiap 10 jubin · senarai tujuan di bawah setiap panel cadangan</text></g>`;
 
+function notes(d, oy) {
+  const rows = [...(d.opt ?? []).map((o) => [C.opt, `${o.id} · ${o.why}`]), ...(d.loops ?? []).map((o) => [C.loop, `${o.id} · ${o.why}`]), ...(d.risk ?? []).map(([, , l]) => [C.risk, `⚠ ${l}`])];
+  const cols = 2, per = Math.ceil(rows.length / cols);
+  const svg = rows.map(([c, txt], i) => `<text x="${6 + Math.floor(i / per) * 880}" y="${oy + 14 + (i % per) * 15}" font-size="11" fill="${c}">${txt.replace(/&/g, '&amp;')}</text>`).join('');
+  return { svg, H: per * 15 + 10 };
+}
 function write(name, panels) {
-  const px = 16; let y = 30; const parts = []; let W = 0;
-  for (const p of panels) { const r = panel(p.d, { px, oy: y, label: p.label }); parts.push(r.svg); y += r.H + 26; W = Math.max(W, r.W); }
+  const px = 16; let y = 44; const parts = []; let W = 0;
+  for (const p of panels) { const r = panel(p.d, { px, oy: y, label: p.label }); parts.push(r.svg); y += r.H + 8; W = Math.max(W, r.W, 1760);
+    if ((p.d.opt?.length || p.d.loops?.length || p.d.risk?.length)) { const n = notes(p.d, y); parts.push(n.svg); y += n.H; } y += 18; }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${y}" viewBox="0 0 ${W} ${y}" font-family="Arial, sans-serif"><rect width="100%" height="100%" fill="#ffffff"/><g transform="translate(8,8)">${LEGEND}</g>${parts.join('')}</svg>`;
   fs.writeFileSync(new URL(name, OUT), svg);
 }
@@ -135,6 +150,40 @@ function check(d) {
   return out.length ? out : ['✓ semua lompatan laluan utama: naik ≤ 1.5 jubin, jarak ≤ 3 jubin'];
 }
 
+// ── transition strips: exit of one level beside the entrance of the next ──
+function slice(d, x0, x1, title, ends = {}) {
+  const inR = (x) => x >= x0 - 1e-9 && x <= x1 + 1e-9, sh = (x) => x - x0;
+  const rect = (a) => (a ?? []).filter((q) => q[1] > x0 && q[0] < x1).map((q) => [sh(Math.max(q[0], x0)), sh(Math.min(q[1], x1)), ...q.slice(2)]);
+  const pts = (a) => (a ?? []).filter((q) => inR(q[0])).map((q) => [sh(q[0]), ...q.slice(1)]);
+  return { ...d, title, width: x1 - x0, terrain: rect(d.terrain), slab: rect(d.slab), cave: rect(d.cave), deck: rect(d.deck), gate: rect(d.gate), water: rect(d.water),
+    ladder: pts(d.ladder), math: pts(d.math), inter: pts(d.inter), cp: pts(d.cp), secret: pts(d.secret), mark: pts(d.mark), risk: [], coins: [],
+    main: pts(d.main), opt: [], loops: [], curves: [], ...ends };
+}
+function writeRow(name, pairs) {
+  const px = 16; const parts = []; let y = 44; let W = 0;
+  for (let [a, b, caption] of pairs) {
+    const ra = panel(a, { px, oy: y, label: a.title }), wa = ra.W;
+    const rb = panel(b, { px, oy: 0, label: b.title });
+    parts.push(ra.svg, `<g transform="translate(${wa + 60},0)">${rb.svg}</g>`, `<text x="${wa + 30}" y="${y + ra.H / 2}" font-size="28" text-anchor="middle" fill="${C.main}">➜</text>`);
+    // place b at the same y
+    parts[parts.length - 2] = `<g transform="translate(${wa + 60},${y})">${rb.svg}</g>`;
+    y += Math.max(ra.H, rb.H) + 8;
+    const lines = caption.flatMap((c) => { const out = []; let cur = ''; for (const w of c.split(' ')) { if ((cur + ' ' + w).length > 170) { out.push(cur); cur = w; } else cur = cur ? cur + ' ' + w : w; } out.push(cur); return out; });
+    caption = lines; caption.forEach((c, i) => parts.push(`<text x="6" y="${y + 14 + i * 15}" font-size="11" fill="${C.text}">${c}</text>`));
+    y += caption.length * 15 + 26; W = Math.max(W, wa + 60 + rb.W, 1120);
+  }
+  fs.writeFileSync(new URL(name, OUT), `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${y}" viewBox="0 0 ${W} ${y}" font-family="Arial, sans-serif"><rect width="100%" height="100%" fill="#fff"/><g transform="translate(8,8)">${LEGEND}</g>${parts.join('')}</svg>`);
+}
+writeRow('w1-transitions.svg', [
+  [slice(L11, 92, 110, '1-1 KELUAR (x 92–110)', { showStart: false }), slice(L12, 0, 20, '1-2 MASUK (x 0–20)', { showEnd: false }), [
+    'Keluar 1-1: Gerbang Taman di atas pelantar batu (baris 22) → papan tanda "Lembah Sungai" → tanah menurun ke kanan, sungai berkilau di bawah.',
+    'Masuk 1-2: bermula pada rabung yang SAMA tinggi (baris 22); gerbang 1-1 kelihatan kecil di kiri; turun 3 langkah (22→23→24) ke tebing sungai.',
+    'Dibawa: pokok oak/pain yang sama, gerbang kayu yang sama, sungai pertama kali dilihat dari atas. Tiada perubahan biome.']],
+  [slice(L12, 74, 90, '1-2 KELUAR (x 74–90)', { showStart: false }), slice(L13, 0, 16, '1-3 MASUK (x 0–16)', { showEnd: false }), [
+    'Keluar 1-2: selepas jambatan akhir, tangga batu lama naik ke pelantar (baris 22) + tugu batu; sungai menyempit ke kanan menjadi anak sungai.',
+    'Masuk 1-3: anak sungai yang SAMA + tugu batu yang sama; runtuhan muncul di kanan. Aras tanah lebih rendah (baris 32) kerana dunia 1-3 lebih tinggi menegak: kamera bermula di tebing.',
+    'Dibawa: batu runtuhan (l3-stone) mula muncul di empangan 1-2; air (kincir → empangan → akueduk); pokok hutan yang sama.']],
+]);
 write('w1-l1.svg', [{ d: current11(), label: 'SEMASA — geometri sebenar (src/v14/level.js)' }, { d: L11, label: 'CADANGAN — ' + L11.title }]);
 write('w1-l2.svg', [{ d: current12(), label: 'SEMASA — geometri sebenar (twin-world.js)' }, { d: L12, label: 'CADANGAN — ' + L12.title }]);
 write('w1-l3.svg', [{ d: current13(), label: 'SEMASA — geometri sebenar (inverse-world.js)' }, { d: L13, label: 'CADANGAN — ' + L13.title }]);
