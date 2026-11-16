@@ -2,7 +2,7 @@
 # Side-view adventure panorama, one region per World.
 # V2.1: the world route is now pixel art that hugs the terrain (path dots on surfaces, plank
 # bridges, ladders, an industrial girder walkway); no diagram line crosses the sky.
-# Terrain columns use each pack's real edge pieces (single / left / middle / right).
+# Terrain uses each pack's surface pieces (not the floating-slab row) and draws an outline only on exposed sides.
 # Run from app/addmath/denai:  python3 design/world-map-mock.py
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -17,7 +17,9 @@ img = Image.new('RGBA', (W * TS, H * TS + 150), (174, 227, 245, 255))
 def fr(sheet, i, cols):
     c, r = i % cols, i // cols
     return sheet.crop((c * 18, r * 18, c * 18 + 18, r * 18 + 18)).resize((TS, TS), Image.NEAREST)
-def put(sheet, i, x, y, cols): img.alpha_composite(fr(sheet, i, cols), (int(round(x * TS)), int(round(y * TS))))
+props = Image.new('RGBA', img.size, (0, 0, 0, 0)); land = Image.new('RGBA', img.size, (0, 0, 0, 0))
+target = [props]
+def put(sheet, i, x, y, cols): target[0].alpha_composite(fr(sheet, i, cols), (int(round(x * TS)), int(round(y * TS))))
 B = lambda i, x, y: put(base, i, x, y, 20)
 F = lambda i, x, y: put(farm, i, x, y, 16)
 I = lambda i, x, y: put(ind, i, x, y, 16)
@@ -36,18 +38,26 @@ for k, x in enumerate(range(56 * TS, W * TS, 24 * S)):                      # sn
 
 # ── terrain columns with correct edge pieces ──
 BASE_GRASS = dict(top=(20, 21, 22, 23), body=(120, 121, (4, 5), 123), put=B)
-BASE_STONE = dict(top=(40, 41, 42, 43), body=(120, 121, (4, 5), 123), put=B)
-BASE_SNOW = dict(top=(80, 81, 82, 83), body=(120, 121, (4, 5), 123), put=B)
-IND = dict(top=(0, 1, 2, 3), body=(32, 33, 34, 35), put=I)
-FARM = dict(top=(0, 1, 2, 3), body=(32, 33, 34, 35), put=F)
+BASE_STONE = dict(top=(60, 61, 62, 63), body=(120, 121, (4, 5), 123), put=B)
+BASE_SNOW = dict(top=(100, 101, 102, 103), body=(120, 121, (4, 5), 123), put=B)
+IND = dict(top=(16, 17, 18, 19), body=(32, 33, 34, 35), put=I)
+FARM = dict(top=(16, 17, 18, 19), body=(32, 33, 34, 35), put=F)
+LAND = {}
 def block(x0, x1, top, kit):
-    """Solid land from column x0 to x1-1, surface at row `top`, down to the map bottom."""
-    for x in range(x0, x1):
-        k = 0 if x1 - x0 == 1 else 1 if x == x0 else 3 if x == x1 - 1 else 2
-        kit['put'](kit['top'][k], x, top)
-        for y in range(top + 1, H):
-            f = kit['body'][k]
+    """Record solid land for columns x0..x1-1 (surface row `top`); drawn later by draw_land()."""
+    for x in range(x0, x1): LAND[x] = (top, kit)
+def draw_land():
+    # An outline only where the ground is really exposed: a side edge is drawn on a row
+    # only if the neighbouring column has no ground on that row. No lines inside the land.
+    target[0] = land
+    filled = lambda x, y: x in LAND and LAND[x][0] <= y
+    for x, (top, kit) in LAND.items():
+        for y in range(top, H):
+            l, r = not filled(x - 1, y), not filled(x + 1, y)
+            k = 0 if l and r else 1 if l else 3 if r else 2
+            f = (kit['top'] if y == top else kit['body'])[k]
             kit['put'](f[(x + y) % 2] if isinstance(f, tuple) else f, x, y)
+    target[0] = props
 def water(x0, x1, top):
     for x in range(x0, x1):
         B(33, x, top)
@@ -102,6 +112,7 @@ ladder(55, 9, 11)                                                            # p
 ladder(58, 6, 8)                                                             # up to the peak
 B(145, 57, 8); B(154, 60, 3); B(155, 61, 3)
 
+draw_land(); img.alpha_composite(land); img.alpha_composite(props); target[0] = img
 # ── route marker: Kenney dot (frame 157) along walkable surfaces ──
 ROUTE = [(1, 11), (2, 11), (3, 11), (4, 11), (5, 11), (6, 11), (7, 11), (8, 11), (9, 11), (10, 11), (11, 11),
          (13, 8), (14, 8), (15, 8), (16, 8), (17, 5), (18, 5), (19, 5), (21, 9), (22, 8), (23, 8),
