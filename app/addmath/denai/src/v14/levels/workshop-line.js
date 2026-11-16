@@ -67,15 +67,16 @@ export function buildBridge(s,animate,{audio,SFX}={}){
 }
 export function bubble(s,text,ms=3000){
  const v=s.workshop;v.bubble?.destroy();
- v.bubble=s.add.text(s.player.x,s.player.body.top-18,text,{fontFamily:'Arial, sans-serif',fontSize:'15px',fontStyle:'bold',color:'#2b2118',backgroundColor:'#ffffff',padding:{x:8,y:5},wordWrap:{width:340}}).setOrigin(.5,1).setDepth(45);
+ v.bubble=s.add.text(s.player.x,s.player.body.top-18,text,{fontFamily:'Arial, sans-serif',fontSize:'15px',fontStyle:'bold',color:'#2b2118',backgroundColor:'#ffffff',padding:{x:8,y:5},wordWrap:{width:Math.min(340,s.cameras.main.worldView.width-40)}}).setOrigin(.5,1).setDepth(45);
  v.bubbleUntil=s.time.now+ms;placeBubble(s);
 }
 // Above the player, but never pushed off the top of the view (or under the HUD chips).
 function placeBubble(s){
  const b=s.workshop.bubble,cam=s.cameras.main;if(!b)return;
+ const view=cam.worldView,half=b.width/2+8,x=Math.min(Math.max(s.player.x,view.x+half),view.right-half);
  const above=s.player.body.top-18-b.height>=cam.worldView.y+58/cam.zoom;
- if(above)b.setOrigin(.5,1).setPosition(s.player.x,s.player.body.top-18);
- else b.setOrigin(.5,0).setPosition(s.player.x,s.player.body.bottom+12);
+ if(above)b.setOrigin(.5,1).setPosition(x,s.player.body.top-18);
+ else b.setOrigin(.5,0).setPosition(x,s.player.body.bottom+12);
 }
 
 // Prompt + passive triggers, called each frame while playing.
