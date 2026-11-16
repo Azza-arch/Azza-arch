@@ -1,4 +1,5 @@
 import {AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,CHECKPOINTS,GATES,SECRETS,WORLD,WATER,WATER_Y,GOAL} from './level.js';
+import {buildSawmill} from './levels/sawmill.js';
 // ─────────────────────────────────────────────────────────────────────────
 // DENAI landscape system (Phase 2A).
 // Everything here is drawn from verified frames of the Kenney Pixel
@@ -124,8 +125,12 @@ export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=
   const b=s.add.rectangle(t.x+t.width/2,(t.y+t.bottom)/2,t.width,t.bottom-t.y,0,0);
   s.physics.add.existing(b,true);s.solids.add(b);b.setData('oneWay',false).setData('id',t.id);s.routePlatforms.push(b);
   for(let x=t.x;x<t.x+t.width;x+=54){
-   const left=!filled(x-1,t.y),right=!filled(x+54,t.y);
-   tile(left&&right?0:left?1:right?3:2,x,t.y,9,Math.min(54,t.x+t.width-x),t.bottom-t.y);
+   const left=!filled(x-1,t.y),right=!filled(x+54,t.y),w=Math.min(54,t.x+t.width-x),k=left&&right?0:left?1:right?3:2;
+   if(t.style==='crates'){for(let y=t.y;y<t.bottom;y+=54)tile(26,x,y,9,w,Math.min(54,t.bottom-y));continue;}
+   if(t.style==='arch'){ // stone-topped rock band, bottom row outlined: one silhouette, no inner seams
+    for(let y=t.y;y<t.bottom;y+=54){const last=y+54>=t.bottom;tile(y===t.y?[60,61,63,62][[0,1,3,2].indexOf(k)]:last?[140,141,143,142][[0,1,3,2].indexOf(k)]:[120,121,123,122][[0,1,3,2].indexOf(k)],x,y,9,w,Math.min(54,t.bottom-y));}
+    continue;}
+   tile(k,x,t.y,9,w,t.bottom-t.y);
   }
  }
  s.deckArtById={};
@@ -150,7 +155,12 @@ export function buildWorld(s){
  // Landmark: wide oak (T5) beside the garden step + small pine companion.
  // The crate lane (x150–430) carries no decoration so the puzzle reads.
  pole(459,1206,1296);pole(567,1206,1296);       // supports for the crate ledge
- tile(106,0,1242,11);tile(105,54,1242,11);       // garden fence behind spawn
+ // Kampung house on stilts behind the spawn: veranda deck (optional, own
+ // ladder at x135), two posts to the ground, timber wall with a door, roof.
+ pole(13,1206,1296,4);pole(95,1206,1296,4);pole(149,1206,1296,4);
+ tile(6,0,1134,8);tile(150,54,1134,8);tile(6,0,1080,8);tile(130,54,1080,8);
+ beam(-27,1062,189);
+ tile(86,162,1242,11);signText(s,'Rumah kampung',81,1000);
  tile(128,640,1242,11);tile(124,757,1242,11);    // mushroom + tuft by the step
  tile(125,1110,1188,11);                         // tuft on the root overhang
  // ── 02 · Laluan Akar ────────────────────────────────────────────────────
@@ -159,16 +169,20 @@ export function buildWorld(s){
  for(let y=1296;y<1404;y+=54)for(let x=1080;x<1188;x+=54)tile(4+((x/54+y/54)&1),x,y,8).setAlpha(.45);
  tile(129,1188,1350,11);                         // tall mushroom marks the niche mouth
  // Canopy walk supports, each pole lands on the terrain directly below.
- pole(1250,1098,1404);pole(1450,1098,1404);pole(1520,1098,1350);pole(1710,1098,1296);
+ // Root arch supports: two old trunks stand in the tunnel under the arch
+ // (art only, no collision, so the root lane stays open). Root base on the
+ // floor, plain trunk above, branch-stub frame 117 where it meets the arch.
+ [[1242,1404],[1566,1350]].forEach(([x,floor])=>{for(let y=1188;y<floor;y+=54)tile(y+54>=floor?137:y===1188?117:136,x,y,3.3);});
  tile(124,1395,1350,11);tile(125,1735,1242,11);
  const trees=[
   ['T5',729,1296],['T1',891,1242],             // 01: one large + one small
-  ['T4',963,1242],['T3',1134,1242],           // 02: root pair, crowns side by side (no overlapping outlines; T3 rooted on the overhang)
-  ['T8',1998,1242],                            // 02: column tree at the exit
+  ['T4',963,1188],['T3',1134,1242],           // 02: hill-crest oak + overhang tree, crowns side by side
+  ['T3',1269,1080],['T4',1593,1080],           // 02: two old trees growing out of the root arch (their trunks carry it)
+  ['T8',2088,1242],                            // 03: column tree at the yard entrance (clear of the plank stack)
   ['T1',3294,1296],['T6',3850,1188],          // 04: pine on cliff-1, umbrella tree shading the rest cliff
   ['T7',4455,1296],                            // 05: POKOK TINJAU (giant, carries the lookout)
-  ['T8',4806,1242],['T2',5076,1296],
-  ['T3',1880,1242,'fg'],['T3',4950,1296,'fg'],['T4',3040,1242,'fg'], // FOREGROUND: Chill Boy walks behind these three           // 05: young clump in the root dip, column tree before the clearing
+  ['T3',4941,1296],['T2',5076,1296],           // 05: the ridge deck rests on this crown (rope-bridge landing)
+  ['T3',1880,1242,'fg'],                       // (fg oak at 3040 removed: the sawmill stands there now) // FOREGROUND: Chill Boy walks behind these three           // 05: young clump in the root dip, column tree before the clearing
   ['T5',5300,1242],['T3',5520,1242],['T1',5612,1242]]; // 06: three-tree grove (large / medium / small), crowns spaced so each reads
  trees.forEach(([t,x,f,fg])=>buildTree(s,t,x,f,!!fg));
  // ── 03 · Stesen Fungsi ──────────────────────────────────────────────────
@@ -195,6 +209,10 @@ export function buildWorld(s){
   s.bridgeRails=[];for(let x=g.x;x<g.x+g.width;x+=54)s.bridgeRails.push(tile(x===g.x?90:x+54>=g.x+g.width?92:91,x,g.y-54,5,Math.min(54,g.x+g.width-x),54).setVisible(false));
   pole(g.x+g.width+8,g.y-54,g.y);}               // right rope anchor on the far bank
  tile(125,2900,1188,11);
+ // Crane on the far bank: mast on the ground, jib over the gap, a plank
+ // bundle on its rope — where the bridge planks come from.
+ pole(2889,990,1242,4.5);tile(69,2862,936,4.5);beam(2700,972,216);
+ for(let y=990;y<1080;y+=54)tile(89,2700,y,4.4,54,Math.min(54,1080-y));tile(26,2700,1080,4.6);
  // Water: wave row in every gap; two wave frames alternate gently.
  s.waterTiles=[];
  for(const w of WATER)for(let x=w.x;x<w.x+w.width;x+=54)s.waterTiles.push(tile(33,x,WATER_Y,9.5,Math.min(54,w.x+w.width-x),54).setAlpha(.92));
@@ -208,6 +226,8 @@ export function buildWorld(s){
  // deck carried by the tree's own branch tiles, and the top deck on the
  // trunk plus a post standing on the low deck. Railings mark the deck edge.
  pole(4293,1152,1296);pole(4563,1152,1296);pole(4422,1044,1134);
+ // Rope bridge anchors (posts above the deck ends) — the deck itself is a one-way surface.
+ pole(4545,954,1026,10.6);pole(4851,954,1026,10.6);
   tile(124,4800,1242,11);tile(129,5000,1242,11);tile(125,5130,1242,11);
  // ── 06 · Destinasi Terakhir ─────────────────────────────────────────────
  // Wide clearing; the goal flag waves on a stone plinth; a low fence and a
@@ -218,9 +238,14 @@ export function buildWorld(s){
  for(let x=GOAL.x-81;x<GOAL.x+81;x+=54)tile(x===GOAL.x-81?48:x+54>=GOAL.x+81?50:49,x,GOAL.feet-180,10.8,54,18);
  s.goalFlag=s.add.image(GOAL.x,GOAL.feet,'kpp_terrain_atlas',112).setOrigin(.5,1).setScale(4).setDepth(11);
  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)s.time.addEvent({delay:420,loop:true,callback:()=>s.goalFlag.setFrame(s.goalFlag.frame.name===112?111:112)});
- tile(128,5420,1188,11);tile(86,5832,1188,11);tile(106,5886,1188,11);
+ tile(128,5420,1188,11);tile(85,5832,1188,11);tile(106,5886,1188,11); // arrow sign → Lembah Sungai (Level 1-2)
+ signText(s,'Ke Lembah Sungai →',5859,1146);
+ buildSawmill(s);
  CHECKPOINTS.forEach((c,i)=>s.checkpointArts[i]=s.add.image(c.x,c.feet,'kpp_terrain_atlas',111).setOrigin(.5,1).setScale(3).setDepth(11));
  s.spawnCollectibles();s.buildSecrets();s.buildCratePuzzle();
+}
+function signText(s,text,x,y){
+ return s.add.text(x,y,text,{fontFamily:'Arial, sans-serif',fontSize:'13px',fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3}).setOrigin(.5,1).setDepth(12);
 }
 export function buildSecretMarkers(s){
  s.secretMarkers={};
