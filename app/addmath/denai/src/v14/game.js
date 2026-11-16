@@ -11,6 +11,7 @@ import {syncBControl,B_STOPS} from './b-control.js';
 import {createLiftPanelMethods} from './lift-panel.js';
 import {installLeaderboard} from './leaderboard/ui.js';
 import {startCoin,coinPickup,COIN_FACE} from './feel.js';
+import {track,trackGameStart,durationBucket} from './analytics.js';
 import {armPlayerCount,renderMenuCommunity,onVictory,openShare,installEngage} from './leaderboard/engage.js';
 import {selectVariant,variantById,describe} from './missions.js';
 import {migrateLegacy,addCoin,addSecret,noteRunVariant,recentVariants,loadProfile,recordCompletion,ACHIEVEMENTS,LEVEL_KEY} from './progress.js';
@@ -1165,6 +1166,7 @@ Object.assign(Rooftop.prototype,{
     if(!was&&this.levelCompleted&&this.run&&!this.run.explore){
       const verdict=evaluateRun({completed:true,requiredGates:GATES.map(g=>g.id),solvedGates:[...this.solvedGates],source:this.run.eligible?'fresh':'save',timeMs:this.elapsed});
       this.lastCompletion={...recordCompletion({timeMs:this.elapsed,coins:this.collectedCoinIds.size,secrets:this.discoveredSecrets.size,eligible:verdict.eligible,wrongAttempts:this.run.attempts.lift.wrong}),verdict};
+      track('level_completed',{level:'w1-l1',duration_s:durationBucket(this.elapsed),coins:this.collectedCoinIds.size,secrets:this.discoveredSecrets.size,ranked_eligible:verdict.eligible,first_completion:this.lastCompletion.completions===1});
     }
   };
   const baseClose=Rooftop.prototype.closeSecretNote;
@@ -1261,7 +1263,7 @@ function launchInverse(){
   activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start('GerbangSongsang');
 }
 $('level2-action').addEventListener('click',launchTwins);
-$('next-level2').addEventListener('click',launchTwins);
+$('next-level2').addEventListener('click',()=>{track('level_started',{level:'w1-l2',mode:'next'});launchTwins();});
 document.getElementById('level3-action').addEventListener('click',launchInverse);
 const originalLevelSelect=Rooftop.prototype.renderLevelSelect;
 Rooftop.prototype.renderLevelSelect=function(){originalLevelSelect.call(this);refreshTwinEntry();refreshInverseEntry();};
@@ -1278,6 +1280,8 @@ function freshAdventure(){
 function startLevelScene(key,data){clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start(key,data);}
 function launchLevel(id,mode){
   audio.unlock();SFX.ui(audio);armPlayerCount();
+  const m=mode==='replay'?'replay':mode==='continue'?'continue':'play';
+  trackGameStart(m==='continue'?'continue':'menu');track('level_started',{level:id,mode:m});if(m==='replay')track('level_replayed',{level:id});
   if(id==='w1-l1'){
     const save=SaveManager.load();
     // Replay (or a finished run) starts a fresh run: only the run save is

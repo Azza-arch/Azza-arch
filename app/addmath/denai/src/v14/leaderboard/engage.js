@@ -10,6 +10,7 @@ import * as PF from './playfab.js';
 import {checkName} from './ui.js';
 import {formatTime,personalBest} from './records.js';
 import {LEVELS} from '../levels/registry.js';
+import {track} from '../analytics.js';
 
 const $=id=>document.getElementById(id);
 const BOARD=CFG.playfab.leaderboards.allTime,COMMUNITY=CFG.community||{};
@@ -147,7 +148,7 @@ async function join(ev){
   try{
     await PF.login();
     if(PF.currentName()!==c.name)await PF.setDisplayName(c.name);
-    store.set(K.consent,'joined');store.set(K.name,c.name);msg.textContent='';
+    store.set(K.consent,'joined');store.set(K.name,c.name);msg.textContent='';track('leaderboard_joined',{level:'w1-l1'});
     await afterSubmit(await submitBest());
   }catch(e){
     msg.textContent=e?.code==='NameNotAvailable'?'Nama itu sudah digunakan pemain lain. Cuba nama lain.':e?.code==='ProfaneDisplayName'||e?.code==='InvalidParams'?'Nama tidak diterima. Cuba nama lain.':e?.code==='offline'?'Tiada sambungan internet. Cuba lagi kemudian.':'Tidak dapat menyimpan nama sekarang. Cuba lagi kemudian.';
@@ -209,9 +210,10 @@ export function installEngage(){
   $('vrank-edit')?.addEventListener('click',()=>openJoin(true));
   $('cm-ranking')?.addEventListener('click',()=>$('lb-btn')?.click());
   $('share-close')?.addEventListener('click',()=>$('share-dialog').close());
+  $('share-save')?.addEventListener('click',()=>track('result_shared',{level:'w1-l1',method:'image'}));
   $('share-native')?.addEventListener('click',async()=>{
     if(!shareBlob)return;
-    try{await navigator.share({files:[new File([shareBlob],'denai-keputusan.png',{type:'image/png'})],title:'DENAI',text:'Keputusan DENAI saya',url:location.origin+location.pathname});}
+    try{await navigator.share({files:[new File([shareBlob],'denai-keputusan.png',{type:'image/png'})],title:'DENAI',text:'Keputusan DENAI saya',url:location.origin+location.pathname});track('result_shared',{level:'w1-l1',method:'native'});}
     catch(e){if(e?.name!=='AbortError')$('share-msg').textContent='Perkongsian tidak tersedia. Guna Simpan gambar.';}
   });
 }

@@ -35,6 +35,10 @@ export const LEADERBOARD_CONFIG = {
   // menu shows PlayFab's EntryCount for that board = unique players, all-time.
   // If the board or EntryCount is missing the counter stays hidden.
   community: { playersBoard: 'denai_players', countAfterMs: 15000, cacheMs: 5 * 60 * 1000 },
+  // Product analytics (Growth plan, Phase A). OFF until the owner has
+  // reviewed the event list and checked the events arrive in Game Manager.
+  // Anonymous PlayFab entity only; no names, e-mail or free text.
+  analytics: { enabled: false, namespace: 'custom.denai', flushEvery: 10, flushMs: 30000, purchasesLive: false },
   levelId: 'bab1-l1-jejak-taman-fungsi',
   rules: {
     minPlausibleMs: 20000,     // client check only; scores sent from a browser can be faked

@@ -1,4 +1,5 @@
 import {buildLandscape,buildTree,signText} from '../environment.js';
+import {track,durationBucket} from '../analytics.js';
 import {startCoin,coinPickup,checkpointFx,planksDrop,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
@@ -122,7 +123,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    dialog.innerHTML='<h2 id="twin-dialog-title"></h2><p id="twin-dialog-copy"></p><div class="twin-dialog-actions"><button type="button" id="twin-resume">Sambung</button><button type="button" id="twin-next" hidden>Teruskan ke Gerbang Songsang</button><button type="button" id="twin-replay">Main semula Level 1–2</button><button type="button" id="twin-menu">Pilih level</button></div>';
    document.querySelector('.shell').append(dialog);
    $('twin-resume').addEventListener('click',()=>this.resumeRun(),{signal});
-   $('twin-next').addEventListener('click',()=>{if(!this.run.completed||!LEVELS.find(l=>l.id==='w1-l3')?.ready)return;dialog.close();this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},{signal});
+   $('twin-next').addEventListener('click',()=>{if(this.run.completed)track('level_started',{level:'w1-l3',mode:'next'});if(!this.run.completed||!LEVELS.find(l=>l.id==='w1-l3')?.ready)return;dialog.close();this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},{signal});
    $('twin-replay').addEventListener('click',()=>{dialog.close();this.scene.restart({fresh:true});},{signal});
    $('twin-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu();},{signal});
    dialog.addEventListener('cancel',event=>{event.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
@@ -227,6 +228,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
   finish(){
    if(!solved(this.run.puzzles.final))return;
    this.run.checkpointId='exit';this.run.completed=true;this.writeSave();this.mode='complete';clearControls();this.physics.pause();
+   track('level_completed',{level:'w1-l2',duration_s:durationBucket(this.elapsed),coins:this.run.coins.length,secrets:this.run.secrets.length,ranked_eligible:false,first_completion:this.store.load().levels['w1-l2'].completions===1});
    $('twin-panel').hidden=true;$('world-prompt').hidden=true;$('twin-dialog-title').textContent='Jambatan Berkembar selesai!';
    const nextReady=LEVELS.find(l=>l.id==='w1-l3')?.ready;
    $('twin-next').hidden=!nextReady;

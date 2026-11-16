@@ -4,6 +4,7 @@ import {LEADERBOARD_CONFIG as CFG} from './config.js';
 import {MOCK_LEADERBOARDS,MOCK_NOTICE} from './mock.js';
 import {personalBest,formatTime,compareRuns} from './records.js';
 import * as PF from './playfab.js';
+import {track} from '../analytics.js';
 const $=id=>document.getElementById(id);
 const live=()=>CFG.provider==='playfab'&&CFG.playfab.enabled;
 let tab='allTime',busy=false;
@@ -94,6 +95,7 @@ async function send(ev){
     if(PF.currentName()!==c.name)await PF.setDisplayName(c.name);
     await PF.submitTime(pb.timeMs);
     try{localStorage.setItem('denai-lb-consent','joined');localStorage.setItem('denai-lb-name',c.name);}catch{} // explicit consent via this form
+    track('leaderboard_joined',{level:'w1-l1'});
     msg.textContent='';renderSubmit();await loadLive();
   }catch(e){if(NOT_READY.has(e?.code)){boardReady=false;renderSubmit();}msg.textContent=friendly(e,'send');}
   finally{busy=false;$('lb-send').disabled=false;}

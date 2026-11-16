@@ -14,13 +14,13 @@ export class LeaderboardError extends Error{constructor(code,msg){super(msg||cod
 // Browser tests that answer PlayFab with a local fake set
 // window.__DENAI_PLAYFAB_TEST_STUB__ = true before the page loads.
 const automated=()=>globalThis.navigator?.webdriver===true&&globalThis.__DENAI_PLAYFAB_TEST_STUB__!==true;
-async function call(path,body,auth=null){
+async function call(path,body,auth=null,{keepalive=false}={}){
   if(automated())throw new LeaderboardError('offline');
   const headers={'Content-Type':'application/json'};
   if(auth==='ticket')headers['X-Authorization']=session.ticket;
   if(auth==='entity')headers['X-EntityToken']=session.entityToken;
   let res;
-  try{res=await fetch(BASE+path,{method:'POST',headers,body:JSON.stringify(body)});}
+  try{res=await fetch(BASE+path,{method:'POST',headers,body:JSON.stringify(body),keepalive});}
   catch{throw new LeaderboardError('offline');}
   let json=null;try{json=await res.json();}catch{}
   if(!res.ok||!json||json.code!==200)throw new LeaderboardError(json?.error||`http-${res.status}`,json?.errorMessage);
@@ -78,3 +78,11 @@ export async function submitTime(timeMs){
 export function submittedTime(board=CFG.playfab.leaderboards.allTime){const v=Number(store.get(sentKey(board)));return v>0?v:null;}
 export function currentName(){return session?.name||'';}
 export function playerId(){return session?.entity?.Id||null;}
+// Analytics (see ../analytics.js): PlayStream events for the signed-in
+// anonymous player. Never logs in by itself: events wait for a session that
+// the menu/leaderboard already opened.
+export function hasSession(){return !!session;}
+export async function writeEvents(events,{keepalive=false}={}){
+  if(!session)throw new LeaderboardError('no-session');
+  await call('Event/WriteEvents',{Events:events.map(e=>({...e,Entity:{Id:session.entity.Id,Type:session.entity.Type}}))},'entity',{keepalive});
+}
