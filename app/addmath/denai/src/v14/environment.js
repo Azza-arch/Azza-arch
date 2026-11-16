@@ -1,5 +1,6 @@
 import {AB_TERRAIN,SLABS,DECKS,WALLS,LADDERS,CHECKPOINTS,GATES,SECRETS,WORLD,WATER,WATER_Y,GOAL} from './level.js';
 import {buildSawmill} from './levels/sawmill.js';
+import {buildSupplyQuest} from './levels/supply-quest.js';
 // ─────────────────────────────────────────────────────────────────────────
 // DENAI landscape system (Phase 2A).
 // Everything here is drawn from verified frames of the Kenney Pixel
@@ -244,6 +245,7 @@ export function buildWorld(s){
  buildSawmill(s);
  CHECKPOINTS.forEach((c,i)=>s.checkpointArts[i]=s.add.image(c.x,c.feet,'kpp_terrain_atlas',111).setOrigin(.5,1).setScale(3).setDepth(11));
  s.spawnCollectibles();s.buildSecrets();s.buildCratePuzzle();
+ buildSupplyQuest(s); // World 1 V3: storeroom, hut key, damaged bridge
 }
 export function signText(s,text,x,y){
  return s.add.text(x,y,text,{fontFamily:'Arial, sans-serif',fontSize:'13px',fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3}).setOrigin(.5,1).setDepth(12);

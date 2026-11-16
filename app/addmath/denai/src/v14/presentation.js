@@ -77,7 +77,7 @@ export function syncPresentation(scene){
  $('touch-controls').classList.toggle('ladder-near',ladder);
  document.querySelectorAll('[data-hold="up"],[data-hold="down"]').forEach(b=>b.hidden=!ladder);
  document.querySelector('[data-action="resetCrate"]').hidden=!(scene.crate&&scene.player.x<900&&Math.abs(scene.crate.x-scene.crateStart.x)>8);
- document.querySelector('[data-action="interact"]').hidden=!(scene.nearestTerminal()||scene.nearestSecret()||scene.sawmillReady||(Math.abs(scene.player.x-GOAL.x)<62&&scene.solvedGates.has('lift'))); // Phase C: + sawmill / jetty lever
+ document.querySelector('[data-action="interact"]').hidden=!(scene.nearestTerminal()||scene.nearestSecret()||scene.questReady||(Math.abs(scene.player.x-GOAL.x)<62&&scene.solvedGates.has('lift'))); // Phase C: + sawmill / jetty lever
  // Let the spatial design teach movement; no persistent tutorial ribbon.
  const tutorial=$('tutorial');tutorial.textContent='';tutorial.classList.remove('show');
 }

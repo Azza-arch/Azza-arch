@@ -18,7 +18,9 @@ function returning() {
   const best = lv?.best || lv?.classicBest; // classicBest: records from the earlier 1-1 course
   if (best?.timeMs > 0) stats.push(['Masa terbaik', mmss(best.timeMs)]);
   if (Array.isArray(profile?.coinIds) && profile.coinIds.length) stats.push(['Syiling', `${profile.coinIds.length}/15`]);
-  if (Array.isArray(profile?.achievements) && profile.achievements.length) stats.push(['Pencapaian', `${profile.achievements.length}/5`]);
+  const ACTIVE = ['jejak-pertama', 'bajet-cermat', 'pemburu-syiling', 'penjejak-rahsia', 'jalan-pintas']; // World 1 V3 set
+  const earned = Array.isArray(profile?.achievements) ? profile.achievements.filter((a) => ACTIVE.includes(a)).length : 0;
+  if (earned) stats.push(['Pencapaian', `${earned}/${ACTIVE.length}`]);
   if (stats.length) $('stats').innerHTML = stats.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
   $('returning').hidden = false;
 }

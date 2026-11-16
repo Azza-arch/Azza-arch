@@ -2,6 +2,7 @@ import {validBInput,sanitizeBTrial} from './b-control.js';
 import {CHECKPOINTS,COLLECTIBLES,SECRETS,GATES} from './level.js';
 import {sanitizeDialogue} from './dialogue.js';
 import {MISSION_BANK} from './missions.js';
+import {sanitizeQuest} from './levels/supply-quest.js';
 const variantIds=MISSION_BANK.map(v=>v.id);
 const count=v=>Number.isInteger(v)&&v>=0&&v<1e6?v:0;
 // V14: this slice has no water/river content (only the 'lift' gate exists —
@@ -40,6 +41,8 @@ export function sanitize(raw){
   phase1Reviewed:raw.phase1Reviewed===true&&solvedGateIds.includes('lift'),completed:raw.completed===true&&validCompletion&&cp?.id==='cp-final',
   bInput:validBInput(raw.bInput)?raw.bInput:null,bLastTrial:sanitizeBTrial(raw.bLastTrial),
   dialogue:sanitizeDialogue(raw.dialogue),
+  // World 1 V3 quest state (optional field: older saves migrate in place).
+  quest:sanitizeQuest(raw.quest,solvedGateIds.includes('lift')),
   elapsedMs:Number.isFinite(raw.elapsedMs)&&raw.elapsedMs>=0?raw.elapsedMs:0};
 }
 export const SaveManager={STORAGE_KEY,LEVEL_ID,SCHEMA_VERSION:2,
