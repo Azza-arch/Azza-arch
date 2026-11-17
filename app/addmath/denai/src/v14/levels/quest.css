@@ -23,8 +23,12 @@
 /* Fasa F: portrait → top right, under the pause button (clear of the prompt and touch buttons). */
 @media (max-aspect-ratio:1/1){#quest-tracker{top:64px;bottom:auto;right:8px}}
 /* Short screens: the tracker never grows into the touch buttons; long hints scroll. */
-@media (max-height:500px){#quest-tracker{max-height:calc(100% - 230px);overflow-y:auto} /* ends above the world prompt */
- #quest-tracker{font-size:11.5px;line-height:1.25}#quest-tracker .qt-head{font-size:9px}#quest-tracker #qt-hint{min-width:26px;min-height:26px}#quest-tracker .link-btn{min-height:26px;padding:2px 0}#quest-tracker #qt-hint-text,#quest-tracker #qt-math-text{font-size:11px}}
+@media (max-height:500px){#quest-tracker{max-height:calc(100% - 168px);overflow-y:auto} /* ends above the right-hand touch buttons */
+ /* 1-2 / 1-3 bottom prompt moves left (above the arrows), clear of the tracker on the right */
+ .twin-active #world-prompt,.inverse-active #world-prompt{left:12px!important;transform:none!important;max-width:calc(100% - 46vw - 36px)}
+ #quest-tracker{font-size:11.5px;line-height:1.25;width:min(320px,46vw)}#quest-tracker.hint-open #qt-inv{display:none}
+ /* the 44px touch '?' sits in the top-right corner instead of its own row */
+ #quest-tracker.has-hint-btn{min-height:58px}#quest-tracker.has-hint-btn #qt-hint{position:absolute;top:4px;right:5px}#quest-tracker.has-hint-btn #qt-text,#quest-tracker.has-hint-btn #qt-inv{padding-right:46px}#quest-tracker.has-hint-btn .qt-row:not(:has(#qt-math:not([hidden]))){display:contents}#quest-tracker .qt-head{font-size:9px}#quest-tracker #qt-hint{min-width:26px;min-height:26px}#quest-tracker .link-btn{min-height:26px;padding:2px 0}#quest-tracker #qt-hint-text,#quest-tracker #qt-math-text{font-size:11px}}
 /* A speech bubble with nowhere else to go (narrow portrait) briefly takes the tracker's place. */
 body.bubble-over-tracker #quest-tracker{visibility:hidden}
 /* Phone layout (V3 fix): while buying, the store is one compact bar under the

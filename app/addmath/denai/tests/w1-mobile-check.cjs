@@ -21,7 +21,7 @@ const MEASURE = () => {
   const g = window.__game, s = g.scene.getScenes(true).find((x) => x.player && x.mode === 'playing'), cam = s?.cameras.main, cv = g.canvas.getBoundingClientRect();
   let bubble = null; const bb = s?.bubble || s?.workshop?.bubble || s?.supply?.bubble;
   if (bb?.active && bb.visible) { const k = cam.zoom, wb = bb.getBounds(); bubble = { l: Math.round(cv.left + (wb.x - cam.worldView.x) * k), t: Math.round(cv.top + (wb.y - cam.worldView.y) * k), r: Math.round(cv.left + (wb.right - cam.worldView.x) * k), b: Math.round(cv.top + (wb.bottom - cam.worldView.y) * k) }; }
-  const trEl = $('#quest-tracker'), trackerShown = !!trEl && !trEl.hidden && getComputedStyle(trEl).visibility !== 'hidden', trackerScrolled = !!trEl && trEl.scrollTop > 0;
+  const trEl = $('#quest-tracker'), trackerShown = !!trEl && !trEl.hidden && getComputedStyle(trEl).visibility !== 'hidden', trackerScrolled = !!trEl && (trEl.scrollTop > 0 || trEl.scrollHeight > trEl.clientHeight + 1); // cut = scrolled or overflowing
   return { vw: innerWidth, vh: innerHeight, trackerShown, trackerScrolled, tracker: r($('#quest-tracker')), hint: r($('#qt-hint-text')), pause: r($('#pause')), area: r($('#hud-area')), coll: r($('#hud-collection')), prompt: r($('#world-prompt')), store: r($('#store-panel')), bubble, touch: [...document.querySelectorAll('#touch-controls button')].map(r).filter(Boolean) };
 };
 const hit = (a, b) => !!(a && b && a.l < b.r - 1 && b.l < a.r - 1 && a.t < b.b - 1 && b.t < a.b - 1);

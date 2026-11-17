@@ -237,6 +237,7 @@ export function renderTracker(s){
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}
  const lvl=s.hintLevel||0,hint=$('qt-hint-text');$('qt-hint').hidden=step==='done';
  hint.hidden=!lvl||step==='done';if(lvl)hint.textContent=`Petunjuk ${lvl}: ${hintsFor(st)[lvl-1]}`;
+ $('quest-tracker').classList.toggle('hint-open',!hint.hidden);$('quest-tracker').classList.toggle('has-hint-btn',!$('qt-hint').hidden);$('quest-tracker').scrollTop=0; // short screens: hint takes the status line's place
  $('qt-math').hidden=step!=='done';
  $('qt-math-text').textContent=`f(x) = 2x + 3 · f(5) = 13 ✓ · f⁻¹(13) = (13 − 3) ÷ 2 = 5${st.cave.solved?' · Injap gua: f⁻¹(15) = (15 − 3) ÷ 2 = 6':''}.`;
 }

@@ -266,6 +266,7 @@ export function renderTracker(s){
  const hint=$('qt-hint-text'),lvl=s.hintLevel||0;
  $('qt-hint').hidden=step==='done';
  hint.hidden=!lvl||step==='done';if(lvl&&HINTS[step])hint.textContent=`Petunjuk ${lvl}: ${HINTS[step][lvl-1]}`;
+ $('quest-tracker').classList.toggle('hint-open',!hint.hidden);$('quest-tracker').classList.toggle('has-hint-btn',!$('qt-hint').hidden);$('quest-tracker').scrollTop=0; // short screens: hint takes the status line's place
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;hint.hidden=true;}
  const m=$('qt-math');m.hidden=step!=='done'||!qs.bought;
  if(qs.bought)$('qt-math-text').textContent=`C(${qs.bought.x}) = ${v.price}(${qs.bought.x}) + ${v.delivery} = ${qs.bought.cost} · fungsi memetakan bilangan papan kepada kos.`;

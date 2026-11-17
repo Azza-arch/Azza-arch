@@ -150,6 +150,7 @@ export function renderTracker(s){
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}
  const lvl=s.hintLevel||0,hint=$('qt-hint-text');$('qt-hint').hidden=step==='done';
  hint.hidden=!lvl||step==='done';if(lvl&&HINTS[step])hint.textContent=`Petunjuk ${lvl}: ${HINTS[step][lvl-1]}`;
+ $('quest-tracker').classList.toggle('hint-open',!hint.hidden);$('quest-tracker').classList.toggle('has-hint-btn',!$('qt-hint').hidden);$('quest-tracker').scrollTop=0; // short screens: hint takes the status line's place
  $('qt-math').hidden=step!=='done';
  $('qt-math-text').textContent=`${runLine('AB').notation} ✓ · ${runLine('BA').notation}. Maka gf ≠ fg untuk contoh ini.`;
 }

@@ -21,7 +21,9 @@ export function placeBubbleObj(s, b) {
   if (b.width > view.width - 16 * k) b.setWordWrapWidth(Math.max(120, view.width - 32 * k));
   const hudBottom = view.y + 60 * k;
   const touchTops = [...document.querySelectorAll('#touch-controls button')].filter((x) => x.offsetParent).map((x) => x.getBoundingClientRect()).filter((r) => r.width);
-  const floor = touchTops.length ? view.y + (Math.min(...touchTops.map((r) => r.top)) - c.top) * k - 6 * k : view.bottom - 6 * k;
+  const wp0 = document.getElementById('world-prompt'), wpr = wp0 && !wp0.hidden && wp0.offsetParent ? wp0.getBoundingClientRect() : null;
+  const lows = [...touchTops.map((r) => r.top), ...(wpr && wpr.width ? [wpr.top] : [])]; // touch buttons and the 'E · …' prompt sit at the bottom
+  const floor = lows.length ? view.y + (Math.min(...lows) - c.top) * k - 6 * k : view.bottom - 6 * k;
   const tr = $('quest-tracker'), tRect = tr && !tr.hidden && tr.offsetParent ? tr.getBoundingClientRect() : null, track = tRect && tRect.width ? toWorld(tRect) : null;
   const wp = $('world-prompt'), pRect = wp && !wp.hidden && wp.offsetParent ? wp.getBoundingClientRect() : null, prompt = pRect && pRect.width ? toWorld(pRect) : null;
   const w = b.width, h = b.height, px = s.player.x, minX = view.x + 8 * k, maxX = view.right - 8 * k - w;
