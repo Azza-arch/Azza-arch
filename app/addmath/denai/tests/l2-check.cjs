@@ -5,6 +5,7 @@
 //    landscape and portrait screenshots.
 // Usage: node tests/l2-check.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium, devices } = require('playwright');
+const V4 = require('./v4-helpers.cjs');
 const out = process.argv[2] || '.';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
@@ -45,11 +46,13 @@ const state = (p) => p.evaluate(`({ w: { ...${S}.run.workshop }, cp: ${S}.run.ch
     const { ctx, p, errs } = await open(b, { ...dev }, { 'denai-profile-v1': PROFILE });
     await play(p); const guna = async () => { await p.locator('[data-action="interact"]').tap(); await sleep(300); };
     await tp(p, 3440, 1242); await sleep(1000); await p.screenshot({ path: `${out}/telefon-${name}-1-bengkel.png` });
+    await V4.closeDialogue(p, { tap: true }); // V4: discovery dialogue (touch buttons return after it)
     const visible = await p.isVisible('[data-action="interact"]');
     await guna(); await sleep(3400); await p.screenshot({ path: `${out}/telefon-${name}-2-hasil6.png` });
     await tp(p, 3214, 1026); await sleep(900); await guna(); await sleep(700); await p.screenshot({ path: `${out}/telefon-${name}-3-tukar.png` });
     await tp(p, 3440, 1242); await sleep(900); await guna(); await sleep(3600); await p.screenshot({ path: `${out}/telefon-${name}-4-jambatan.png` });
-    res[`phone_${name}`] = { gunaVisible: visible, ...(await state(p)), tracker: await p.evaluate(() => { const r = document.getElementById('quest-tracker').getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.right), Math.round(r.bottom), innerWidth, innerHeight]; }), errs };
+    await V4.closeDialogue(p, { tap: true, wait: 2500 });
+    res[`phone_${name}`] = { gunaVisible: visible, ...(await state(p)), tracker: await p.evaluate(() => { const r = document.getElementById('quest-pin').getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.right), Math.round(r.bottom), innerWidth, innerHeight]; }), errs };
     await ctx.close();
   }
   await b.close(); console.log(JSON.stringify(res, null, 1));

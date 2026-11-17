@@ -5,6 +5,7 @@
 // E. phone (touch "Guna" only): landscape + portrait screenshots, layout overlap.
 // Usage: node tests/l3-check.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium, devices } = require('playwright');
+const V4 = require('./v4-helpers.cjs');
 const out = process.argv[2] || '.';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { window.__DENAI_PLAYFAB_TEST_STUB__ = true; let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
@@ -47,16 +48,16 @@ const overlap = (a, b) => !!(a && b && a.l < b.r && b.l < a.r && a.t < b.b && b.
     await play(p); res.migratedOpen = { ...(await state(p)), errs }; await ctx.close(); }
   // C. Hints + tracker; wrong test shows a reading-specific hint.
   { const { ctx, p, errs } = await open(b, desk, {});
-    await play(p); await tp(p, 2620, 1620); await sleep(900);
-    const hints = []; for (let i = 0; i < 3; i++) { await p.click('#qt-hint'); hints.push(await p.textContent('#qt-hint-text')); }
+    await play(p); await tp(p, 2620, 1620); await sleep(900); const discovery = await V4.closeDialogue(p);
+    const hints = await V4.readHints(p, 3);
     await p.screenshot({ path: `${out}/petunjuk-3.png` });
     await tp(p, 2862, 1620); await sleep(400); await p.keyboard.press('KeyE'); await sleep(500); // valve 1 → reading 5
     await tp(p, 3060, 1620); await sleep(400); await p.keyboard.press('KeyE'); await waitIdle(p);
-    await p.click('#qt-hint'); const retry = await p.textContent('#qt-hint-text');
-    res.hints = { hints, retry, inv: await p.textContent('#qt-inv'), errs }; await ctx.close(); }
+    const retry = (await V4.readHints(p, 1))[0];
+    res.hints = { discovery, hints, retry, inv: await p.textContent('#qt-inv'), errs }; await ctx.close(); }
   // D. Reduced motion: opening is instant, no spin, no errors.
   { const { ctx, p, errs } = await open(b, { ...desk, reducedMotion: 'reduce' }, {});
-    await play(p); await tp(p, 2862, 1620); await sleep(400);
+    await play(p); await tp(p, 2862, 1620); await sleep(400); await V4.closeDialogue(p);
     for (let i = 0; i < 5; i++) { await p.keyboard.press('KeyE'); await sleep(150); }
     await tp(p, 3060, 1620); await sleep(400); await p.keyboard.press('KeyE'); await waitIdle(p); await sleep(300);
     res.reduced = { ...(await state(p)), coinsSpinning: await p.evaluate(`${S}.coinViews.filter((c) => c.art.anims?.isPlaying).length`), errs }; await ctx.close(); }
@@ -64,8 +65,9 @@ const overlap = (a, b) => !!(a && b && a.l < b.r && b.l < a.r && a.t < b.b && b.
   for (const [name, dev] of [['landskap', devices['iPhone 13 landscape']], ['potret', devices['iPhone 13']]]) {
     const { ctx, p, errs } = await open(b, { ...dev }, {});
     await play(p); const guna = async (w = 300) => { await p.locator('[data-action="interact"]').tap(); await sleep(w); };
-    const layout = async () => { const tr = await rect(p, '#quest-tracker'), pause = await rect(p, '#pause'), wp = await rect(p, '#world-prompt'), btns = await p.evaluate(() => [...document.querySelectorAll('#touch-controls button')].filter((x) => x.offsetParent).map((x) => { const r = x.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom }; })); return { tracker: tr, trackerHitsPause: overlap(tr, pause), trackerHitsTouch: btns.some((x) => overlap(tr, x)), promptHitsTouch: btns.some((x) => overlap(wp, x)), viewport: await p.evaluate(() => [innerWidth, innerHeight]) }; };
+    const layout = async () => { const tr = await rect(p, '#quest-pin'), pause = await rect(p, '#pause'), wp = await rect(p, '#world-prompt'), btns = await p.evaluate(() => [...document.querySelectorAll('#touch-controls button')].filter((x) => x.offsetParent).map((x) => { const r = x.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom }; })); return { tracker: tr, trackerHitsPause: overlap(tr, pause), trackerHitsTouch: btns.some((x) => overlap(tr, x)), promptHitsTouch: btns.some((x) => overlap(wp, x)), viewport: await p.evaluate(() => [innerWidth, innerHeight]) }; };
     await tp(p, 2700, 1620); await sleep(1400); await p.screenshot({ path: `${out}/telefon-${name}-1-ditemui.png` });
+    await V4.closeDialogue(p, { tap: true });
     const l1 = await layout();
     await tp(p, 2862, 1620); await sleep(600); const gunaVisible = await p.isVisible('[data-action="interact"]');
     for (let i = 0; i < 3; i++) await guna(450);

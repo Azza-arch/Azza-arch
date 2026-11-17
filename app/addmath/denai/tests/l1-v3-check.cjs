@@ -5,6 +5,7 @@
 // D. phone (touch "Guna" button) screenshots; E. hut/key close-up.
 // Usage: node tests/l1-v3-check.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium, devices } = require('playwright');
+const V4 = require('./v4-helpers.cjs');
 const out = process.argv[2] || '.';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
@@ -67,14 +68,15 @@ async function buyFlow(p, tries) { // key in hand: open the store and try each x
   { const { ctx, p, errs } = await open(b, { ...devices['iPhone 13 landscape'] }, {});
     await play(p); const tapGuna = async () => { await p.locator('[data-action="interact"]').tap(); await sleep(500); };
     await teleport(p, 2470, 1242); await sleep(1200); await p.screenshot({ path: `${out}/telefon-1-jambatan.png` });
+    res.phoneDiscovery = await V4.closeDialogue(p, { tap: true }); // V4: discovery dialogue, closed by tapping it
     await teleport(p, 2367, 1242); await sleep(800); await tapGuna(); await p.screenshot({ path: `${out}/telefon-2-berkunci.png` });
     await ev(p, (s) => { s.run.quest.key = true; s.supply.key.destroy(); }); await tapGuna(); await sleep(400);
     for (let i = 1; i < 5; i++) await p.locator('#sp-plus').tap();
     await p.screenshot({ path: `${out}/telefon-3-stor.png` }); await p.locator('#sp-buy').tap(); await sleep(300);
     await p.screenshot({ path: `${out}/telefon-4-dibeli.png` });
     await teleport(p, 2500, 1242); await sleep(900); await tapGuna(); await sleep(1800);
-    await p.screenshot({ path: `${out}/telefon-5-siap.png` });
-    res.phone = { quest: await ev(p, (s) => ({ ...s.run.quest })), lift: await ev(p, (s) => s.solvedGates.has('lift')), trackerBox: await p.evaluate(() => { const r = document.getElementById('quest-tracker').getBoundingClientRect(); return [Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height), innerWidth, innerHeight]; }), errs };
+    await p.screenshot({ path: `${out}/telefon-5-siap.png` }); res.phoneCompletion = await V4.closeDialogue(p, { tap: true, wait: 2500 });
+    res.phone = { quest: await ev(p, (s) => ({ ...s.run.quest })), lift: await ev(p, (s) => s.solvedGates.has('lift')), trackerBox: await p.evaluate(() => { const r = document.getElementById('quest-pin').getBoundingClientRect(); return [Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height), innerWidth, innerHeight]; }), errs };
     await ctx.close(); }
   // F. Ladder top: release W a few px before the top → steps onto the arch (no hang).
   { const { ctx, p, errs } = await open(b, desk, {});
