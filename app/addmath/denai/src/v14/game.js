@@ -481,7 +481,7 @@ class Rooftop extends Phaser.Scene {
     // the same area within 6 s does not replay it; a newer area replaces the
     // old banner at once. Pure DOM/CSS: physics, input and camera untouched.
     if(step<0) return;
-    $('hud-area').textContent='1–1 · Jejak Taman Fungsi';
+    $('hud-area').textContent='1–1'; // V4: level only; the area name is on the ribbon
     const now=performance.now();this.areaBannerAt||={};
     if(now-(this.areaBannerAt[step]??-1e9)<6000) return;
     this.areaBannerAt[step]=now;

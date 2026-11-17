@@ -1,5 +1,6 @@
 // DOM presentation derives from the Phaser scene; it owns no saved progress.
-import {COLLECTIBLES,GOAL} from './level.js';
+import {COLLECTIBLES,GOAL,SECRETS} from './level.js';
+import {hud} from './ui/v4-ui.js';
 const $=id=>document.getElementById(id);
 let noticeTimer,lastMode,noticePriority=0;
 export function notify(text,priority=1){
@@ -63,7 +64,8 @@ export function syncPresentation(scene){
   if(mode!=='playing')scene.prompt?.setVisible(false);
  }
  const count=scene.collectedCoinIds?.size||0;
- const coinText=`${count} / ${COLLECTIBLES.length}`;if($('hud-collection').textContent!==coinText){$('hud-collection').textContent=coinText;$('hud-collection').setAttribute('aria-label',`Syiling ${coinText}`);}
+ // V4: compact plaque (level · coins); full collection lives in the Journal.
+ hud(scene,{level:'1–1',coins:count,coll:`Syiling ${count}/${COLLECTIBLES.length} · Rahsia ${scene.discoveredSecrets?.size||0}/${SECRETS.length}`});
  placeWorldPrompt(scene);
  if(mode!=='playing')return;
  // Old world-space formula/readout sprites remain as data for mechanics,

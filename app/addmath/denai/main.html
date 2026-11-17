@@ -26,13 +26,13 @@
   <script type="module" src="src/orientation.js"></script>
   <link rel="stylesheet" href="src/v14/twin.css">
   <link rel="stylesheet" href="src/v14/inverse.css">
+  <link rel="stylesheet" href="src/v14/ui/v4.css">
 </head>
 <body>
   <main class="shell">
     <header class="masthead" aria-label="Status permainan">
-      <span id="hud-area" class="hud-chip hud-area"></span>
+      <span class="hud-plaque"><span id="hud-area" class="hud-chip hud-area"></span><span class="hud-sep" aria-hidden="true"></span><span id="hud-collection" class="hud-chip hud-coins" aria-label="Koleksi syiling">0</span></span>
       <span id="hud-mode" class="hud-chip hud-mode" hidden>Teroka</span>
-      <span id="hud-collection" class="hud-chip hud-coins" aria-label="Koleksi syiling">0 / 0</span>
       <button type="button" id="pause" disabled aria-label="Jeda permainan (Esc)" class="hud-pause"><span class="pause-glyph" aria-hidden="true"></span></button>
     </header>
     <div class="game-stage">

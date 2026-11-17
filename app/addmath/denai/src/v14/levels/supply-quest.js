@@ -16,6 +16,7 @@ import {GATES,CHECKPOINTS} from '../level.js';
 import {notify,showCheckpointToast} from '../presentation.js';
 import {planksDrop,burst} from '../feel.js';
 import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
+import {decorateJournal,syncJournal,dialogue,stamp,lock,unlock} from '../ui/v4-ui.js';
 import {awardAchievement,loadProfile,LEVEL_KEY} from '../progress.js';
 
 export const NEED=5, STOCK=8;
@@ -131,11 +132,11 @@ export function questPrompt(s,onGround,touch){
  const sp=s.supply,px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
  if(sp.bubble){placeBubbleObj(s,sp.bubble);if(s.time.now>sp.bubbleUntil){sp.bubble.destroy();sp.bubble=null;}}
  // 1. Discover the problem at the bridge edge.
- if(!qs.found&&onGround&&px>2430&&px<2560&&Math.abs(feet-1242)<6){qs.found=true;bubble(s,`Jambatan ni kurang ${NEED} papan.`);s.writeSave();renderTracker(s);}
+ if(!qs.found&&onGround&&px>2430&&px<2560&&Math.abs(feet-1242)<6){qs.found=true;s.writeSave();renderTracker(s);dialogue(s,[`Jambatan ni kurang ${NEED} papan.`,'Mungkin ada kayu dalam Stor Kayu.']);} // V4: story beat
  // 2. Key: touch it.
  if(!qs.key&&Math.abs(px-HUT.keyX)<40&&Math.abs(feet-HUT.feet)<10){
   qs.key=true;sp.key.destroy();burst(s,HUT.keyX,HUT.feet-24,10,0xffe27a);s.sfx?.coin?.();
-  bubble(s,qs.found?'Kunci stor! Turun di hujung timur gerbang — jalan pintas.':'Kunci lama… mungkin untuk Stor Kayu.');
+  bubble(s,qs.found?'Kunci stor! Jalan pintas di hujung timur.':'Kunci lama… untuk Stor Kayu?');
   s.writeSave();renderTracker(s);
  }
  // 3. Shortcut: walked on the arch with the key, then dropped east to the yard steps.
@@ -161,10 +162,10 @@ export function useQuest(s,{audio,SFX}={}){
  const qs=q(s);if(!qs)return;
  if(s.questReady==='door'){
   qs.doorTried=true;
-  if(!qs.key){bubble(s,'Stor berkunci. Kuncinya mungkin dekat pondok lama.');s.writeSave();renderTracker(s);return;}
+  if(!qs.key){bubble(s,'Stor berkunci. Kunci di pondok lama?');s.writeSave();renderTracker(s);return;}
   if(!qs.found){qs.found=true;}
   openDoor(s,true);qs.door=true;SFX?.checkpoint?.(audio);
-  bubble(s,'Stor dibuka. Lihat harga papan.');s.writeSave();renderTracker(s);openStore(s);return;
+  bubble(s,'Stor dibuka.');s.writeSave();renderTracker(s);openStore(s);return;
  }
  if(s.questReady==='buy'){openStore(s);buy(s,{audio,SFX});return;}
  if(s.questReady==='repair')repair(s,{audio,SFX});
@@ -184,21 +185,28 @@ function installQuestUI(s){
  const tr=document.createElement('aside');tr.id='quest-tracker';tr.hidden=true;tr.setAttribute('aria-label','Misi semasa');
  tr.innerHTML='<p class="qt-head">Misi</p><p id="qt-text" role="status" aria-live="polite"></p><p id="qt-inv" hidden></p><div class="qt-row"><button type="button" id="qt-hint" aria-label="Petunjuk">?</button><button type="button" id="qt-math" class="link-btn" hidden>Lihat cara kira</button></div><p id="qt-hint-text" hidden></p><p id="qt-math-text" hidden></p>';
  const st=document.createElement('section');st.id='store-panel';st.hidden=true;st.setAttribute('aria-label','Pembekal kayu');
- st.innerHTML='<p class="sp-head">Pembekal Kayu Hutan</p><p class="sp-receipt" id="sp-receipt"></p><div class="sp-row"><span>Papan</span><button type="button" id="sp-minus" aria-label="Kurangkan papan">−</button><output id="sp-qty">1</output><button type="button" id="sp-plus" aria-label="Tambah papan">+</button></div><p class="sp-total" id="sp-total"></p><button type="button" id="sp-buy" class="sp-buy">Beli · E</button><p id="sp-msg" role="status" aria-live="polite"></p>';
- frame.append(tr,st);
+ st.innerHTML='<p class="sp-head">Pembekal Kayu Hutan</p><p class="sp-receipt" id="sp-receipt"></p><div class="sp-row"><span>Papan</span><button type="button" id="sp-minus" aria-label="Kurangkan papan">−</button><output id="sp-qty">1</output><button type="button" id="sp-plus" aria-label="Tambah papan">+</button></div><p class="sp-total" id="sp-total"></p><span class="sp-actions"><button type="button" id="sp-buy" class="sp-buy">Beli · E</button><button type="button" id="sp-close" class="sp-close" aria-label="Tutup stor (Esc)">Tutup</button></span><p id="sp-msg" role="status" aria-live="polite"></p>';
+ frame.append(tr,st);decorateJournal(tr,s,{level:'1–1'});
  if(matchMedia('(pointer: coarse)').matches)$('sp-buy').textContent='Beli';
- const abort=new AbortController(),signal=abort.signal;s.events.once('shutdown',()=>{abort.abort();tr.remove();st.remove();document.body.classList.remove('store-open');});
+ const abort=new AbortController(),signal=abort.signal;s.events.once('shutdown',()=>{abort.abort();tr.remove();st.remove();document.body.classList.remove('store-open');unlock(s,'store');});
  s.storeQty=1;
  const setQty=n=>{s.storeQty=Math.max(1,Math.min(STOCK,n));$('sp-msg').textContent='';renderStore(s);};
  $('sp-minus').addEventListener('click',()=>setQty(s.storeQty-1),{signal});
  $('sp-plus').addEventListener('click',()=>setQty(s.storeQty+1),{signal});
  $('sp-buy').addEventListener('click',()=>buy(s,{audio:s.audioRef,SFX:s.sfxRef}),{signal});
- document.addEventListener('keydown',e=>{if(st.hidden||e.repeat)return;if(['Minus','NumpadSubtract'].includes(e.code)){e.preventDefault();setQty(s.storeQty-1);}if(['Equal','NumpadAdd'].includes(e.code)){e.preventDefault();setQty(s.storeQty+1);}},{signal});
+ $('sp-close').addEventListener('click',()=>setStore(false,s),{signal});
+ // V4: movement is locked while the store is open; E buys, Esc closes, a movement key closes (intent to leave).
+ window.addEventListener('keydown',e=>{if(st.hidden||e.repeat||e.target.matches?.('input,select,textarea'))return;
+  if(['Minus','NumpadSubtract'].includes(e.code)){e.preventDefault();setQty(s.storeQty-1);}
+  else if(['Equal','NumpadAdd'].includes(e.code)){e.preventDefault();setQty(s.storeQty+1);}
+  else if(e.code==='KeyE'){e.preventDefault();e.stopImmediatePropagation();buy(s,{audio:s.audioRef,SFX:s.sfxRef});}
+  else if(['Escape','KeyA','KeyD','ArrowLeft','ArrowRight'].includes(e.code)){e.preventDefault();e.stopImmediatePropagation();setStore(false,s);}
+ },{signal,capture:true});
  $('qt-hint').addEventListener('click',()=>{s.hintLevel=((s.hintLevel||0)%3)+1;renderTracker(s);},{signal});
  $('qt-math').addEventListener('click',()=>{const t=$('qt-math-text');t.hidden=!t.hidden;},{signal});
 }
-function setStore(open){const st=$('store-panel');if(st)st.hidden=!open;document.body.classList.toggle('store-open',!!open);}
-function openStore(s){const st=$('store-panel');if(st&&st.hidden){setStore(true);renderStore(s);}}
+function setStore(open,s){const st=$('store-panel');if(st)st.hidden=!open;document.body.classList.toggle('store-open',!!open);if(s)(open?lock:unlock)(s,'store');}
+function openStore(s){const st=$('store-panel');if(st&&st.hidden){setStore(true,s);renderStore(s);}}
 export function renderStore(s){
  const qs=q(s);if(!qs||!$('store-panel'))return;const v=variantById(qs.variant),x=s.storeQty;
  $('sp-receipt').textContent=`RM${v.price} sebatang + RM${v.delivery} hantaran · ${formula(v)}`;
@@ -217,8 +225,8 @@ function buy(s,{audio,SFX}={}){
  msg.className='good';msg.textContent=`Dibeli ${x} papan · RM${r.cost} · baki RM${r.change}`;
  SFX?.correct?.(audio);burst(s,STORE.doorX,STORE.feet-40,8,0xffe27a);
  s.writeSave();renderTracker(s);
- bubble(s,`${x} papan dibeli. Bawa ke jambatan.`);
- s.time.delayedCall(1400,()=>setStore(false));
+ bubble(s,`${x} papan dibeli!`);
+ s.time.delayedCall(1400,()=>setStore(false,s));
 }
 function repair(s,{audio,SFX}={}){
  const qs=q(s);if(!qs||!qs.bought||qs.repaired||s.repairing)return;
@@ -234,7 +242,8 @@ function repair(s,{audio,SFX}={}){
   const i=CHECKPOINTS.findIndex(c=>c.id==='cp-gate');if(i>=0){s.checkpointIndex=i;s.checkpointArts[i]?.setFrame(112);}
   s.writeSave();renderTracker(s);
   showCheckpointToast('Jambatan dibaiki · checkpoint disimpan');
-  s.time.delayedCall(2300,()=>notify('Fungsi membantu kita merancang kos berdasarkan kuantiti.',2)); // after the checkpoint toast
+  // V4: completion = short portrait dialogue + gold stamp (the maths summary is in the Journal).
+  s.time.delayedCall(700,()=>{dialogue(s,['Jambatan dah siap!','Fungsi bantu kita rancang kos ikut kuantiti.']).then(()=>stamp('Misi selesai · Jambatan dibaiki'));});
  };
  // Planks land one by one (≈60 ms apart); walking on the deck is safe once all are down.
  s.time.delayedCall(matchMedia('(prefers-reduced-motion: reduce)').matches?0:missing.length*60+260,done);
@@ -274,6 +283,7 @@ export function renderTracker(s){
 // Called from the scene each frame: keep panels in sync with position/mode.
 export function syncQuestUI(s){
  const qs=q(s),st=$('store-panel');
- if(st&&!st.hidden){const near=Math.abs(s.player.x-STORE.doorX)<90&&Math.abs(s.player.body.bottom-STORE.feet)<10;if(!near||s.mode!=='playing')setStore(false);}
+ if(st&&!st.hidden){const near=Math.abs(s.player.x-STORE.doorX)<90&&Math.abs(s.player.body.bottom-STORE.feet)<10;if(!near||s.mode!=='playing')setStore(false,s);}
  const tr=$('quest-tracker');if(tr){const show=s.mode==='playing'&&questStep(qs)!=='none';if(tr.hidden===show)renderTracker(s);}
+ syncJournal(s);
 }
