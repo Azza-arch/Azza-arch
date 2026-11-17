@@ -23,7 +23,10 @@
 /* Fasa F: portrait → top right, under the pause button (clear of the prompt and touch buttons). */
 @media (max-aspect-ratio:1/1){#quest-tracker{top:64px;bottom:auto;right:8px}}
 /* Short screens: the tracker never grows into the touch buttons; long hints scroll. */
-@media (max-height:500px){#quest-tracker{max-height:calc(100% - 230px);overflow-y:auto}} /* ends above the world prompt */
+@media (max-height:500px){#quest-tracker{max-height:calc(100% - 230px);overflow-y:auto} /* ends above the world prompt */
+ #quest-tracker{font-size:11.5px;line-height:1.25}#quest-tracker .qt-head{font-size:9px}#quest-tracker #qt-hint{min-width:26px;min-height:26px}#quest-tracker .link-btn{min-height:26px;padding:2px 0}#quest-tracker #qt-hint-text,#quest-tracker #qt-math-text{font-size:11px}}
+/* A speech bubble with nowhere else to go (narrow portrait) briefly takes the tracker's place. */
+body.bubble-over-tracker #quest-tracker{visibility:hidden}
 /* Phone layout (V3 fix): while buying, the store is one compact bar under the
    HUD chips; the tracker and the world prompt step aside (same info). */
 body.store-open #quest-tracker,body.store-open #world-prompt{display:none!important}

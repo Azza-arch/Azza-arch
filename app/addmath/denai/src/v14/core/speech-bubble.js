@@ -23,16 +23,24 @@ export function placeBubbleObj(s, b) {
   const touchTops = [...document.querySelectorAll('#touch-controls button')].filter((x) => x.offsetParent).map((x) => x.getBoundingClientRect()).filter((r) => r.width);
   const floor = touchTops.length ? view.y + (Math.min(...touchTops.map((r) => r.top)) - c.top) * k - 6 * k : view.bottom - 6 * k;
   const tr = $('quest-tracker'), tRect = tr && !tr.hidden && tr.offsetParent ? tr.getBoundingClientRect() : null, track = tRect && tRect.width ? toWorld(tRect) : null;
+  const wp = $('world-prompt'), pRect = wp && !wp.hidden && wp.offsetParent ? wp.getBoundingClientRect() : null, prompt = pRect && pRect.width ? toWorld(pRect) : null;
   const w = b.width, h = b.height, px = s.player.x, minX = view.x + 8 * k, maxX = view.right - 8 * k - w;
   const tops = [s.player.body.top - 18 - h, s.player.body.bottom + 12];
   for (const y of tops) {
     if (y < hudBottom || y + h > floor) continue;
     let x = Math.min(Math.max(px - w / 2, minX), maxX), r = { x, y, w, h };
     if (track && overlaps(r, { ...track, x: track.x - 6 * k, w: track.w + 12 * k })) { x = track.x - 6 * k - w; r = { x, y, w, h }; if (x < minX) continue; }
-    b.setPosition(Math.round(x), Math.round(y)); return;
+    if (prompt && overlaps(r, prompt)) continue; // the 'E · …' prompt stays readable
+    b.setPosition(Math.round(x), Math.round(y)); coverTracker(b, false); return;
   }
-  const y = Math.max(hudBottom, Math.min(tops[0], floor - h));
-  b.setPosition(Math.round(Math.min(Math.max(px - w / 2, minX), maxX)), Math.round(y));
+  // No free spot (narrow portrait): above the player; if that covers the
+  // tracker, the tracker steps aside while this short bubble is shown.
+  const y = Math.max(hudBottom, Math.min(tops[0], floor - h)), x = Math.round(Math.min(Math.max(px - w / 2, minX), maxX));
+  b.setPosition(x, Math.round(y)); coverTracker(b, !!(track && overlaps({ x, y, w, h }, track)));
+}
+function coverTracker(b, on) {
+  document.body.classList.toggle('bubble-over-tracker', on);
+  if (on && !b.__coverHook) { b.__coverHook = true; b.once('destroy', () => document.body.classList.remove('bubble-over-tracker')); }
 }
 // Level 1-3 helpers (state on the scene).
 export function say(s, text, ms = 3000) { s.bubble?.destroy(); s.bubble = makeBubble(s, text); s.bubbleUntil = s.time.now + ms; placeBubbleObj(s, s.bubble); }
