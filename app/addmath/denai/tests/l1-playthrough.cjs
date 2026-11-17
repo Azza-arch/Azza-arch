@@ -5,6 +5,7 @@
 // → cross (collision sampled) → Tebing Berliku hops → automatic finish → reload.
 // Usage: node tests/l1-playthrough.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium } = require('playwright');
+const V4 = require('./v4-helpers.cjs');
 const out = process.argv[2] || '.';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
@@ -43,15 +44,16 @@ const ready = (p) => p.waitForFunction(() => window.__game?.scene?.getScene('Lor
   const t0 = Date.now(), log = {};
   // 1. Explore to the bridge: the mission appears only there.
   log.beforeBridge = (await quest(p)).found;
-  log.toBridge = await run(p, 1, 2470); await sleep(600);
-  log.found = { quest: (await quest(p)).found, tracker: await p.textContent('#qt-text') };
-  await p.screenshot({ path: `${out}/1-jambatan-rosak.png` });
+  log.toBridge = await run(p, 1, 2470); await sleep(900);
+  await p.screenshot({ path: `${out}/1-jambatan-rosak.png` }); // V4: discovery dialogue
+  log.discovery = await V4.closeDialogue(p);
+  log.found = { quest: (await quest(p)).found, tracker: await p.textContent('#qt-text'), pin: await p.textContent('#quest-pin-text') };
   // 2. Locked store.
   await run(p, -1, 2380); await settle(p, 2367); await p.keyboard.press('KeyE'); await sleep(500);
   log.locked = { doorTried: (await quest(p)).doorTried, door: (await quest(p)).door, tracker: await p.textContent('#qt-text') };
   await p.screenshot({ path: `${out}/2-stor-berkunci.png` });
   // 3. Hint ladder (optional help, 3 levels).
-  log.hints = []; for (let i = 0; i < 3; i++) { await p.click('#qt-hint'); log.hints.push(await p.textContent('#qt-hint-text')); } await p.click('#game');
+  log.hints = await V4.readHints(p, 3); // V4: hints live in the Journal
   // 4. Back west, down to the root lane, up the root ladder, along the arch to the hut.
   log.toLadder = await run(p, -1, 1240); await settle(p, 1215);
   log.climb = await climbUp(p, 1080);
@@ -86,9 +88,10 @@ const ready = (p) => p.waitForFunction(() => window.__game?.scene?.getScene('Lor
   // 8. Back to the bridge edge and install.
   const sf = await st(p); log.backToBridge = await run(p, sf.x < 2505 ? 1 : -1, 2505); await settle(p, 2500);
   await p.keyboard.press('KeyE'); await sleep(1800);
+  await p.screenshot({ path: `${out}/5-jambatan-siap.png` }); // V4: completion dialogue
+  log.completion = await V4.closeDialogue(p, { wait: 2500 });
   log.repaired = { quest: await quest(p), lift: await p.evaluate(() => window.__game.scene.getScene('Lorong').solvedGates.has('lift')), tracker: await p.textContent('#qt-text') };
-  await p.click('#qt-math').catch(() => {}); log.mathLine = await p.textContent('#qt-math-text').catch(() => null); await p.click('#game');
-  await p.screenshot({ path: `${out}/5-jambatan-siap.png` });
+  await sleep(1200); log.mathLine = await V4.readMath(p);
   // 9. Cross: sample the feet over the repaired deck.
   await p.keyboard.down('KeyD'); const samples = []; const tc = Date.now();
   while (Date.now() - tc < 6000) { const s = await st(p); if (s.x > 2560 && s.x < 2840) samples.push(s.bottom); if (s.x >= 3090) break; await sleep(25); }
@@ -100,6 +103,7 @@ const ready = (p) => p.waitForFunction(() => window.__game?.scene?.getScene('Lor
   log.toGoal = await run(p, 1, 5745); await sleep(2500);
   log.finished = await p.evaluate(() => { const s = window.__game.scene.getScene('Lorong'); return { mode: s.mode, completed: s.levelCompleted, panel: document.getElementById('complete').open, achievements: JSON.parse(localStorage.getItem('denai-profile-v1')).achievements, best: JSON.parse(localStorage.getItem('denai-profile-v1')).levels['w1-l1'].best }; });
   log.seconds = Math.round((Date.now() - t0) / 1000);
+  log.dialogues = await V4.dialogLog(p);
   await p.screenshot({ path: `${out}/6-tamat.png` });
   await p.reload(); await ready(p); await sleep(1000);
   log.afterFinishReload = { main: await p.textContent('#play-main'), quest: await p.evaluate(() => JSON.parse(localStorage.getItem('denai-save-v14')).quest) };

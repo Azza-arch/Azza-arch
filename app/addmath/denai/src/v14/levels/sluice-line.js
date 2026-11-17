@@ -42,7 +42,7 @@ export function buildSluice(s){
  wheel.add([s.add.rectangle(0,0,58,7,0x394238),s.add.rectangle(0,0,7,58,0x394238),s.add.rectangle(0,-25,9,9,0xd8a35a).setStrokeStyle(2,0x394238),s.add.circle(0,0,8,0xd8a35a).setStrokeStyle(2,0x394238)]);
  v.wheel=wheel.setAngle(state.setting*60);
  const plate=s.add.rectangle(SLUICE.wheelX+56,1500,40,30,0x394238).setDepth(11.5).setStrokeStyle(2,0xf9f2d8);
- v.setLabel=s.add.text(SLUICE.wheelX+56,1478,'INJAP',{fontFamily:'Arial',fontSize:'9px',fontStyle:'bold',color:'#f9f2d8'}).setOrigin(.5,1).setDepth(11.6);
+ v.setLabel=s.add.text(SLUICE.wheelX+56,1478,'TETAPAN',{fontFamily:'Arial',fontSize:'9px',fontStyle:'bold',color:'#f9f2d8'}).setOrigin(.5,1).setDepth(11.6);
  v.showSetting=()=>digits(s,v.setDigits,s.run.sluice.setting,SLUICE.wheelX+56,1500,1.4,12);
  v.showSetting();plate.setData('noCull',true);
  // Meter on the pipe: dial, ticks 3…15, original mark 13, needle.

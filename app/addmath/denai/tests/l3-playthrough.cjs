@@ -8,6 +8,7 @@
 // chest opens, 2 coins + secret → gate court → automatic finish → reload.
 // Usage: node tests/l3-playthrough.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium } = require('playwright');
+const V4 = require('./v4-helpers.cjs');
 const out = process.argv[2] || '.';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { window.__DENAI_PLAYFAB_TEST_STUB__ = true; let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
@@ -61,11 +62,10 @@ const play = async (p) => { await p.click('#play-main'); await p.waitForFunction
   await play(p); const t0 = Date.now();
   // 1. Stream, ruins, upper ruins → machine yard (ground route, jumps where needed).
   log.toYard = await travel(p, 2580); await sleep(1500);
-  log.discovered = { bubble: await p.evaluate(`${S}.bubble?.text`), tracker: await p.textContent('#qt-text'), w: await sl(p) };
   await p.screenshot({ path: `${out}/1-pintu-air-ditemui.png` });
+  log.discovered = { dialogue: await V4.closeDialogue(p), tracker: await p.textContent('#qt-text'), w: await sl(p) };
   // 2. Torn maintenance note.
-  await run(p, 1, 2730); await settle(p, 2760); await press(p); log.note = { bubble: await p.evaluate(`${S}.bubble?.text`), inv: await p.textContent('#qt-inv') };
-  await p.screenshot({ path: `${out}/2-catatan.png` });
+  await run(p, 1, 2730); await settle(p, 2760); await press(p); await p.screenshot({ path: `${out}/2-catatan.png` }); log.note = { dialogue: await V4.closeDialogue(p), noteRead: (await sl(p)).noteRead };
   // 3. Valve to 3, flow → 9 (too low).
   await settle(p, 2862); for (let i = 0; i < 3; i++) await press(p, 'KeyE', 500);
   log.valve3 = (await sl(p)).setting;
@@ -90,8 +90,9 @@ const play = async (p) => { await p.click('#play-main'); await p.waitForFunction
   await p.screenshot({ path: `${out}/5-injap-5.png` });
   await run(p, 1, 3040); await settle(p, 3060); await press(p, 'KeyE', 2700);
   await p.screenshot({ path: `${out}/6-air-surut.png` }); await waitIdle(p); await sleep(1800);
-  log.open = { w: await sl(p), tracker: await p.textContent('#qt-text'), waterY: await p.evaluate(`${S}.sluice.waterY`), notice: await p.textContent('#notice') };
-  await p.evaluate(() => document.getElementById('qt-math').click()); log.math = await p.textContent('#qt-math-text');
+  log.completion = await V4.closeDialogue(p, { wait: 4000 }); // V4: completion dialogue + stamp
+  log.open = { w: await sl(p), tracker: await p.textContent('#qt-text'), waterY: await p.evaluate(`${S}.sluice.waterY`) };
+  await sleep(1200); log.math = await V4.readMath(p);
   await p.screenshot({ path: `${out}/7-ringkasan.png` });
   // 8. Hop across the stones, sampling the feet.
   await run(p, 1, 3200); await settle(p, 3222);
@@ -112,7 +113,7 @@ const play = async (p) => { await p.click('#play-main'); await p.waitForFunction
   log.caveSolved = (await sl(p)).cave;
   await run(p, -1, 4360); await settle(p, 4347); await sleep(400);
   await p.screenshot({ path: `${out}/10-peti-rahsia.png` });
-  await press(p); log.secret = { secrets: await p.evaluate(`[...${S}.run.secrets]`), notice: await p.textContent('#notice') };
+  await press(p); log.secret = { dialogue: await V4.closeDialogue(p), secrets: await p.evaluate(`[...${S}.run.secrets]`) };
   log.coinsAfterCave = await p.evaluate(`${S}.run.coins.filter((id) => id === 'l3-coin-21' || id === 'l3-coin-22')`);
   // 10. Off the walk to the gate court → automatic finish.
   log.toGoal = await run(p, 1, 5292); await sleep(2600);

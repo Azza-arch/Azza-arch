@@ -6,6 +6,7 @@
 // automatic finish → reload.
 // Usage: node tests/l2-playthrough.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium } = require('playwright');
+const V4 = require('./v4-helpers.cjs');
 const out = process.argv[2] || '.';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
@@ -56,7 +57,8 @@ const PROFILE = JSON.stringify({ schemaVersion: 1, createdAt: '2026-11-01T00:00:
   await run(p, 1, 2420); log.toGap3 = await settle(p, 2462); log.gap3 = await hop(p, 1, 2640);
   await run(p, 1, 2740); log.toGap4 = await settle(p, 2784); log.gap4 = await hop(p, 1, 2960);
   log.toYard = await run(p, 1, 3420); await sleep(800);
-  log.intro = { tracker: await p.textContent('#qt-text'), w: await ws(p) };
+  log.introDialogue = await V4.closeDialogue(p); // V4: discovery dialogue
+  log.intro = { tracker: await p.textContent('#qt-text'), pin: await p.textContent('#quest-pin-text'), w: await ws(p) };
   await settle(p, 3440); await p.screenshot({ path: `${out}/2-bengkel-ditemui.png` });
   // 4. Demonstration run (B first).
   await p.keyboard.press('KeyE'); await sleep(1100); await p.screenshot({ path: `${out}/3-larian-demo.png` }); await sleep(2600);
@@ -78,8 +80,9 @@ const PROFILE = JSON.stringify({ schemaVersion: 1, createdAt: '2026-11-01T00:00:
   // 8. Run again (A first) → 8 → bridge.
   const s1 = await st(p); await run(p, s1.x < 3440 ? 1 : -1, 3440); await settle(p, 3440);
   await p.keyboard.press('KeyE'); await sleep(1200); await p.screenshot({ path: `${out}/6-larian-betul.png` }); await sleep(2800);
+  log.completion = await V4.closeDialogue(p, { wait: 3000 }); // V4: completion dialogue + stamp
   log.success = { w: await ws(p), counter: await p.evaluate(`${S}.workshop.counter.text`), tracker: await p.textContent('#qt-text') };
-  await p.evaluate(() => document.getElementById('qt-math').click()); log.math = await p.textContent('#qt-math-text');
+  await sleep(1200); log.math = await V4.readMath(p);
   await p.screenshot({ path: `${out}/7-jambatan-siap.png` });
   // 9. Cross the new bridge, sampling the feet.
   await p.keyboard.down('KeyD'); const samples = []; const tc = Date.now();

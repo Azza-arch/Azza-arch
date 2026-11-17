@@ -114,6 +114,7 @@ export function syncJournal(s) {
 // {npc: url} (an NPC's own portrait), or 'none' (sign icon fallback). Returns a Promise.
 const queue = [];
 export function dialogue(s, pages, { portrait = 'player' } = {}) {
+  (window.__denaiDialogLog ||= []).push({ pages: pages.filter(Boolean), portrait: typeof portrait === 'string' ? portrait : 'npc' }); // read by tests
   return new Promise((resolve) => { queue.push({ s, pages: pages.filter(Boolean), portrait, resolve }); if (queue.length === 1) runDialogue(); });
 }
 export const dialogueOpen = () => !!$('v4-dialog')?.classList.contains('open');
