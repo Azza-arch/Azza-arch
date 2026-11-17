@@ -74,8 +74,8 @@ const overlap = (a, b) => !!(a && b && a.l < b.r && b.l < a.r && a.t < b.b && b.
     await tp(p, 3060, 1620); await sleep(500); await guna(2300); await p.screenshot({ path: `${out}/telefon-${name}-2-bacaan9.png` }); await waitIdle(p);
     const l2 = await layout();
     await tp(p, 2862, 1620); await sleep(500); await guna(450); await guna(450);
-    await tp(p, 3060, 1620); await sleep(500); await guna(2600); await p.screenshot({ path: `${out}/telefon-${name}-3-air-surut.png` }); await waitIdle(p); await sleep(1500);
-    await p.locator('#qt-math').tap(); await sleep(300); await p.screenshot({ path: `${out}/telefon-${name}-4-cara-kira.png` });
+    await tp(p, 3060, 1620); await sleep(500); await guna(2600); await p.screenshot({ path: `${out}/telefon-${name}-3-air-surut.png` }); await waitIdle(p); await V4.closeDialogue(p, { tap: true, wait: 4000 }); await sleep(800);
+    await V4.openJournal(p, { tap: true }); await p.locator('#qt-math').tap(); await sleep(300); await p.screenshot({ path: `${out}/telefon-${name}-4-cara-kira.png` }); await V4.closeJournal(p, { tap: true });
     await tp(p, 4374 + 6 * 54 + 27, 1242); await sleep(1300); await tp(p, 4779, 1242); await sleep(500); await guna(1500);
     await p.screenshot({ path: `${out}/telefon-${name}-5-injap-gua.png` });
     res[`phone_${name}`] = { gunaVisible, ...(await state(p)), layoutStart: l1, layoutAfterTest: l2, errs };
