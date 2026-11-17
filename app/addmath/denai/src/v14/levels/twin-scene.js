@@ -8,6 +8,7 @@ import {createCampaignStore,newRun} from '../core/campaign-store.js';
 import {inFinishZone} from './composition.js';
 import {LEVELS} from './registry.js';
 import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATER_Y,PIERS} from './twin-world.js';
+import {installViewCull} from '../core/view-cull.js';
 import {buildWorkshop,workshopPrompt,useWorkshop,syncWorkshopUI,renderTracker as renderWorkshopTracker,newWorkshop} from './workshop-line.js';
 const $=id=>document.getElementById(id);
 export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}) {
@@ -58,6 +59,8 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    cam.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,100).setDeadzone(0,150);
    this.applyResponsiveZoom();this.respawn();
    this.installUI();
+   // Fasa F: skip drawing off-screen tiles (core/view-cull.js; measured, pixel-identical).
+   if(!window.__DENAI_NO_CULL__)this.viewCull=installViewCull(this);
    document.body.classList.remove('menu-active');document.body.classList.add('game-active','twin-active');
    for(const id of ['welcome','loading','mission-indicator','chill-bubble','world-prompt','tutorial'])$(id).hidden=true;
    $('pause').disabled=false;$('touch-controls').hidden=!matchMedia('(pointer: coarse)').matches;

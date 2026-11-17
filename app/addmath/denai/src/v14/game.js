@@ -22,6 +22,7 @@ import {syncCControl} from './c-control.js';
 import {syncEControl} from './e-control.js';
 import {syncGControl} from './g-control.js';
 import {buildWorld,buildSecretMarkers} from './environment.js';
+import {installViewCull} from './core/view-cull.js';
 import {createMechanismMethods} from './mechanisms.js';
 import {notify,syncPresentation,installPresentation,explain,showCheckpointToast,setWorldPrompt} from './presentation.js';
 import {questPrompt,useQuest,newQuest,pickVariant,noteVariant,applyQuestState,syncQuestUI,renderTracker,sanitizeQuest} from './levels/supply-quest.js';
@@ -236,6 +237,8 @@ class Rooftop extends Phaser.Scene {
     this.renderLevelSelect();
     $('import-v9').hidden=!!existingSave || !SaveManager.legacyAvailable();
     announce('Ikut laluan dari taman ke sungai. Laluan atas ialah bonus pilihan.');
+    // Fasa F: skip drawing off-screen tiles (core/view-cull.js; measured, pixel-identical).
+    if(!window.__DENAI_NO_CULL__)this.viewCull=installViewCull(this);
     this.events.once('shutdown', () => { this.input.keyboard.enabled = true; });
     refreshTwinEntry();refreshInverseEntry();
     if(this.game.registry.get('showLevelSelect')){this.game.registry.remove('showLevelSelect');worldMap.open();} // returning from 1-2/1-3 → World Map page

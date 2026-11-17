@@ -19,8 +19,11 @@
 #store-panel .sp-buy{width:100%;min-height:42px;border:2px solid #5b3a1e;border-radius:4px;background:#f2b21c;font-weight:900}
 #store-panel #sp-msg{margin:5px 0 0;font-weight:700;min-height:1.2em}
 #store-panel #sp-msg.bad{color:#a4321a}#store-panel #sp-msg.good{color:#1d6b4f}
-@media (max-height:500px){#quest-tracker{top:48px;padding:4px 7px;font-size:12px}#store-panel{top:44px;padding:5px 8px;font-size:12px}#store-panel .sp-row button{min-width:34px;min-height:34px}#store-panel .sp-buy{min-height:34px}}
-@media (max-aspect-ratio:1/1){#quest-tracker{top:auto;bottom:150px;right:8px}}
+@media (max-height:500px){#quest-tracker{top:58px;padding:4px 7px;font-size:12px}#store-panel{top:44px;padding:5px 8px;font-size:12px}#store-panel .sp-row button{min-width:34px;min-height:34px}#store-panel .sp-buy{min-height:34px}}
+/* Fasa F: portrait → top right, under the pause button (clear of the prompt and touch buttons). */
+@media (max-aspect-ratio:1/1){#quest-tracker{top:64px;bottom:auto;right:8px}}
+/* Short screens: the tracker never grows into the touch buttons; long hints scroll. */
+@media (max-height:500px){#quest-tracker{max-height:calc(100% - 230px);overflow-y:auto}} /* ends above the world prompt */
 /* Phone layout (V3 fix): while buying, the store is one compact bar under the
    HUD chips; the tracker and the world prompt step aside (same info). */
 body.store-open #quest-tracker,body.store-open #world-prompt{display:none!important}

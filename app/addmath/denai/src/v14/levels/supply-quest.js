@@ -15,6 +15,7 @@
 import {GATES,CHECKPOINTS} from '../level.js';
 import {notify,showCheckpointToast} from '../presentation.js';
 import {planksDrop,burst} from '../feel.js';
+import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
 import {awardAchievement,loadProfile,LEVEL_KEY} from '../progress.js';
 
 export const NEED=5, STOCK=8;
@@ -107,8 +108,8 @@ export function buildSupplyQuest(s){
 // ── Small world bubble above the player (2.6 s) ──
 export function bubble(s,text){
  s.supply?.bubble?.destroy();
- const t=s.add.text(s.player.x,s.player.body.top-18,text,{fontFamily:'Arial, sans-serif',fontSize:'15px',fontStyle:'bold',color:'#2b2118',backgroundColor:'#ffffff',padding:{x:8,y:5}}).setOrigin(.5,1).setDepth(45);
- s.supply.bubble=t;s.supply.bubbleUntil=s.time.now+2600;
+ const t=makeBubble(s,text); // Fasa F: wraps and stays on screen (core/speech-bubble.js)
+ s.supply.bubble=t;s.supply.bubbleUntil=s.time.now+2600;placeBubbleObj(s,t);
 }
 
 const q=s=>s.run?.quest;
@@ -128,7 +129,7 @@ export function questStep(qs){
 export function questPrompt(s,onGround,touch){
  const qs=q(s);s.questReady=null;if(!qs||!s.supply)return null;
  const sp=s.supply,px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
- if(sp.bubble){sp.bubble.setPosition(px,s.player.body.top-18);if(s.time.now>sp.bubbleUntil){sp.bubble.destroy();sp.bubble=null;}}
+ if(sp.bubble){placeBubbleObj(s,sp.bubble);if(s.time.now>sp.bubbleUntil){sp.bubble.destroy();sp.bubble=null;}}
  // 1. Discover the problem at the bridge edge.
  if(!qs.found&&onGround&&px>2430&&px<2560&&Math.abs(feet-1242)<6){qs.found=true;bubble(s,`Jambatan ni kurang ${NEED} papan.`);s.writeSave();renderTracker(s);}
  // 2. Key: touch it.
