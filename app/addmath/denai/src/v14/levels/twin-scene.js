@@ -160,7 +160,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
     coins:[this.run.coins.length,COINS.length],secrets:[this.run.secrets.length,SECRETS.length],timeMs:this.elapsed,
     newBest:Number.isFinite(best)&&(!Number.isFinite(prevBest)||best<prevBest),
     hint:missing?`Masih ada ${missing} rahsia tersembunyi di jambatan ini…`:coinsLeft?`Semua rahsia ditemukan! ${coinsLeft} syiling masih menunggu.`:'Semua syiling dan rahsia ditemukan. Jejak yang sempurna!',
-    next:nextReady?{title:'Level 1-3: Gerbang Songsang',quote:'Pulihkan input asal untuk mengawal dek.',label:'Teruskan ke Level 1–3'}:null,
+    next:nextReady?{title:'Level 1-3: Gerbang Songsang',quote:'Pintu air lama tersekat. Cari semula tetapan asal injapnya.',label:'Teruskan ke Level 1–3'}:null,
     on:{next:()=>{track('level_started',{level:'w1-l3',mode:'next'});this.time.paused=false;this.input.keyboard.enabled=true;this.scene.start('GerbangSongsang');},
      replay:()=>this.scene.restart({fresh:true}),map:()=>this.returnToMenu(true),menu:()=>this.returnToMenu(false)}});
   }

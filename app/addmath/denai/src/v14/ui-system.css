@@ -636,7 +636,7 @@ body #complete .ribbon{font-size:22px;letter-spacing:.02em;border-width:0 32px;b
   body #complete .victory-actions .victory-main{min-height:46px;font-size:var(--fs-md)}
   body #complete .victory-actions #replay,body #complete .victory-actions #menu-btn{min-height:42px}
 }
-body:has(#complete[open]) #zone-toast,body:has(#complete[open]) .zone-toast,body:has(#complete[open]) .world-prompt{display:none!important}
+body:has(#complete[open]) #zone-toast,body:has(#complete[open]) .zone-toast,body:has(#complete[open]) .world-prompt,body:has(#complete[open]) #notice{display:none!important}
 /* pattern variants carry a clue row: tighten it on landscape phones so Semak stays on screen */
 @media (max-height:400px){
   #mechanism .mx-clues{margin-top:2px;gap:4px}

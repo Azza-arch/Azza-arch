@@ -4,7 +4,7 @@
 // Covers: new guest, player counting + dedupe, first completion, nickname
 // validation / duplicate / consent, confirmed rank, skip + join later,
 // replay slower/faster, reload after completion, offline + later retry,
-// classic vs v2 separation, keyboard flow, phone layout, share card.
+// classic vs V3 (denai_l1_time_v3) separation, keyboard flow, phone layout, share card.
 // Usage: node tests/engagement-check.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
 const { chromium, devices } = require('playwright');
 const out = process.argv[2] || '.';
@@ -16,7 +16,7 @@ const ready = (p) => p.waitForFunction(() => window.__game?.scene?.getScene('Lor
 class FakePlayFab {
   constructor() {
     this.offline = false; this.calls = []; this.names = {}; this.byCustom = {}; this.n = 0;
-    this.stats = { denai_players: { o1: 1, o2: 1, o3: 1, o4: 1 }, denai_l1_time_v2: { o1: 100000, o2: 130000, o3: 160000, o4: 210000 }, denai_l1_time: { a: 90000, b: 99000 } };
+    this.stats = { denai_players: { o1: 1, o2: 1, o3: 1, o4: 1 }, denai_l1_time_v3: { o1: 100000, o2: 130000, o3: 160000, o4: 210000 }, denai_l1_time: { a: 90000, b: 99000 } };
     Object.assign(this.names, { o1: 'Kancil', o2: 'Rusa', o3: 'Helang', o4: 'Tapir', a: 'ArkibA', b: 'ArkibB', taken: 'Diambil' });
   }
   ranked(board) { return Object.entries(this.stats[board]).sort((x, y) => (board === 'denai_players' ? 0 : x[1] - y[1])).map(([id, v], i) => ({ Rank: i + 1, DisplayName: this.names[id] || null, Scores: [String(v)], Entity: { Id: id, Type: 'title_player_account' } })); }
@@ -68,9 +68,9 @@ async function replayL1(p) { await p.click('#world-map-btn'); await sleep(400); 
   await p.fill('#vrank-name', 'ab'); await p.keyboard.press('Enter'); await sleep(300); res.shortName = (await vr(p)).msg;
   await p.fill('#vrank-name', '<b>x</b>'); await p.keyboard.press('Enter'); await sleep(300); res.htmlName = (await vr(p)).msg;
   await p.fill('#vrank-name', 'Diambil'); await p.keyboard.press('Enter'); await sleep(1200); res.dupName = (await vr(p)).msg;
-  res.v2BeforeConsent = fake.count(/denai_l1_time_v2=/);
+  res.v3BeforeConsent = fake.count(/denai_l1_time_v3=/);
   await p.fill('#vrank-name', 'Pelangi_7'); await p.keyboard.press('Enter'); await sleep(2500);
-  res.joined = await vr(p); res.v2AfterConsent = fake.calls.filter((c) => c.stats?.some((s) => s.startsWith('denai_l1_time_v2='))).map((c) => c.stats);
+  res.joined = await vr(p); res.v3AfterConsent = fake.calls.filter((c) => c.stats?.some((s) => s.startsWith('denai_l1_time_v3='))).map((c) => c.stats);
   await p.screenshot({ path: `${out}/e-desk-3-victory-rank.png` });
   await p.click('#share-result'); await sleep(800); res.share = await p.evaluate(() => ({ open: document.getElementById('share-dialog').open, img: document.getElementById('share-img').naturalWidth }));
   await p.screenshot({ path: `${out}/e-desk-4-share-card.png` });
@@ -78,14 +78,14 @@ async function replayL1(p) { await p.click('#world-map-btn'); await sleep(400); 
   const card = await p.evaluate(() => window.__card); require('fs').writeFileSync(`${out}/e-share-card.png`, Buffer.from(card.split(',')[1], 'base64'));
   await p.click('#share-close');
   // ── 4. Reload after completion: no duplicate submission ──
-  const before = fake.count(/denai_l1_time_v2=/);
-  await p.reload(); await ready(p); await sleep(2000); res.reload = { v2Writes: fake.count(/denai_l1_time_v2=/) - before, completeOpen: await p.evaluate(() => document.getElementById('complete').open), menu: await menuCard(p) };
+  const before = fake.count(/denai_l1_time_v3=/);
+  await p.reload(); await ready(p); await sleep(2000); res.reload = { v3Writes: fake.count(/denai_l1_time_v3=/) - before, completeOpen: await p.evaluate(() => document.getElementById('complete').open), menu: await menuCard(p) };
   await p.screenshot({ path: `${out}/e-desk-5-menu-after.png` });
   // ── 5. Replay slower: no submission; replay faster: submission + improvement ──
-  await replayL1(p); await win(p, 200000); res.slower = { ...(await vr(p)), v2Writes: fake.count(/denai_l1_time_v2=/) - before };
+  await replayL1(p); await win(p, 200000); res.slower = { ...(await vr(p)), v3Writes: fake.count(/denai_l1_time_v3=/) - before };
   await p.evaluate(() => localStorage.setItem('denai-lb-last-submit', '0')); // test clock: the 15 s throttle has passed
   await toMenu(p); await replayL1(p); await win(p, 120000); await sleep(1500);
-  res.faster = { ...(await vr(p)), writes: fake.calls.filter((c) => c.stats?.some((s) => s.startsWith('denai_l1_time_v2='))).map((c) => c.stats[0]) };
+  res.faster = { ...(await vr(p)), writes: fake.calls.filter((c) => c.stats?.some((s) => s.startsWith('denai_l1_time_v3='))).map((c) => c.stats[0]) };
   await p.screenshot({ path: `${out}/e-desk-6-replay-faster.png` });
   res.classicWrites = fake.count(/"denai_l1_time=/); res.classicBoard = fake.stats.denai_l1_time;
   res.playersEntries = Object.keys(fake.stats.denai_players).length;
@@ -94,11 +94,11 @@ async function replayL1(p) { await p.click('#world-map-btn'); await sleep(400); 
   // ── 6. Skip, then join later (second guest) ──
   { const c2 = await b.newContext({ viewport: { width: 1280, height: 760 } }); await c2.addInitScript(HOOK); await c2.route(/playfabapi\.com/, (r) => fake.handle(r));
     const q = await c2.newPage(); await q.goto(PAGE); await ready(q); await q.evaluate(() => localStorage.clear()); await q.reload(); await ready(q); await sleep(800);
-    const w0 = fake.count(/denai_l1_time_v2=/); await startL1(q); await win(q, 140000);
-    await q.click('#vrank-skip'); await sleep(300); res.skip = { ...(await vr(q)), consent: await q.evaluate(() => localStorage.getItem('denai-lb-consent')), v2Writes: fake.count(/denai_l1_time_v2=/) - w0, progressSaved: await q.evaluate(() => JSON.parse(localStorage.getItem('denai-profile-v1')).levels['w1-l1'].best?.timeMs) };
+    const w0 = fake.count(/denai_l1_time_v3=/); await startL1(q); await win(q, 140000);
+    await q.click('#vrank-skip'); await sleep(300); res.skip = { ...(await vr(q)), consent: await q.evaluate(() => localStorage.getItem('denai-lb-consent')), v3Writes: fake.count(/denai_l1_time_v3=/) - w0, progressSaved: await q.evaluate(() => JSON.parse(localStorage.getItem('denai-profile-v1')).levels['w1-l1'].best?.timeMs) };
     await q.screenshot({ path: `${out}/e-desk-7-skipped.png` });
     await q.click('#vrank-later-join'); await sleep(300); await q.fill('#vrank-name', 'Bayu'); await q.click('#vrank-send'); await sleep(2500);
-    res.joinLater = { ...(await vr(q)), v2Writes: fake.count(/denai_l1_time_v2=/) - w0 }; await c2.close(); }
+    res.joinLater = { ...(await vr(q)), v3Writes: fake.count(/denai_l1_time_v3=/) - w0 }; await c2.close(); }
 
   // ── 7. Network failure, then recovery (third guest) ──
   { const c3 = await b.newContext({ viewport: { width: 1280, height: 760 } }); await c3.addInitScript(HOOK); await c3.route(/playfabapi\.com/, (r) => fake.handle(r));
@@ -113,8 +113,8 @@ async function replayL1(p) { await p.click('#world-map-btn'); await sleep(400); 
     res.offlineCanContinue = await q.isVisible('#next-level2');
     await q.screenshot({ path: `${out}/e-desk-9-victory-offline.png` });
     fake.offline = false; await q.evaluate(() => { localStorage.setItem('denai-lb-last-submit', '0'); localStorage.removeItem('denai-community-cache'); });
-    const w0 = fake.count(/denai_l1_time_v2=/); await toMenu(q); await sleep(2500);
-    res.retryOnMenu = { v2Writes: fake.count(/denai_l1_time_v2=/) - w0, menu: await menuCard(q) }; res.offlineErrs = e3; await c3.close(); }
+    const w0 = fake.count(/denai_l1_time_v3=/); await toMenu(q); await sleep(2500);
+    res.retryOnMenu = { v3Writes: fake.count(/denai_l1_time_v3=/) - w0, menu: await menuCard(q) }; res.offlineErrs = e3; await c3.close(); }
 
   // ── 8. Phone (landscape + portrait) ──
   for (const [name, dev] of [['land', devices['iPhone 13 landscape']], ['port', devices['iPhone 13']]]) {
