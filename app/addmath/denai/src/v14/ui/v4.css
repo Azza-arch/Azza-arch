@@ -18,7 +18,7 @@
 .jb-icon{width:28px;height:28px;background:url('../../../assets/kenney-pixel-platformer/Tiles/tile_0086.png') center/contain no-repeat;image-rendering:pixelated}
 .jb-badge{position:absolute;right:-8px;top:-8px;min-width:20px;height:20px;border-radius:10px;background:var(--ribbon);color:#fff;font:900 13px/20px var(--ui-font);text-align:center;box-shadow:0 2px 0 var(--ribbon-dark);text-shadow:none}
 .jb-badge[hidden]{display:none}
-.v4-plus{position:absolute;left:calc(100% - 26px);top:2px;font:900 15px/1 var(--num-font);color:var(--gold-light);text-shadow:1px 1px 0 var(--outline-warm);pointer-events:none;animation:v4-plus .7s ease-out forwards}
+.v4-plus{position:absolute;left:calc(100% + 18px);top:4px;font:900 15px/1 var(--num-font);color:var(--gold-light);text-shadow:1px 1px 0 var(--outline-warm);pointer-events:none;animation:v4-plus .7s ease-out forwards}
 @keyframes v4-plus{0%{opacity:0;transform:translateY(4px)}20%{opacity:1}100%{opacity:0;transform:translateY(-18px)}}
 .hud-plaque{position:relative}
 /* Portrait phones used to hide the level label; the compact plaque keeps it. */
