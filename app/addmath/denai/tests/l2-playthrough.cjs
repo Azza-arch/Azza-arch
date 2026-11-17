@@ -34,11 +34,14 @@ const ready = (p) => p.waitForFunction(() => window.__game?.scene?.getScene('Lor
 const PROFILE = JSON.stringify({ schemaVersion: 1, createdAt: '2026-11-01T00:00:00.000Z', levels: { 'w1-l1': { completions: 1, firstCompletedAt: '2026-11-01T00:00:00.000Z', best: null } }, coinIds: [], secretIds: [], achievements: ['jejak-pertama'], adventuresCompleted: 1, mastered: { variants: [], types: [] }, recentVariants: { lift: [] }, migrated: ['records-v14', 'run-v1'] });
 
 (async () => {
-  const b = await chromium.launch({ args: ['--host-resolver-rules=MAP denai.test 127.0.0.1'] });
-  const ctx = await b.newContext({ viewport: { width: 1280, height: 720 } }); await ctx.addInitScript(HOOK); await ctx.route(/playfabapi\.com/, (r) => r.abort());
+  // W1_PROFILE_DIR (Fasa F): run in a persistent browser profile and keep its saves, so
+  // l1 → l2 → l3 playthroughs chain into one real World 1 progression.
+  const PERSIST = process.env.W1_PROFILE_DIR;
+  const ctx = PERSIST ? await chromium.launchPersistentContext(PERSIST, { viewport: { width: 1280, height: 720 }, args: ['--host-resolver-rules=MAP denai.test 127.0.0.1'] }) : await (await chromium.launch({ args: ['--host-resolver-rules=MAP denai.test 127.0.0.1'] })).newContext({ viewport: { width: 1280, height: 720 } });
+  const b = { close: () => (PERSIST ? ctx.close() : ctx.browser().close()) }; await ctx.addInitScript(HOOK); await ctx.route(/playfabapi\.com/, (r) => r.abort());
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error' && !/net::|favicon/.test(m.text())) errs.push(m.text()); });
   await p.goto('http://denai.test:8790/app/addmath/denai/main.html'); await ready(p);
-  await p.evaluate((pr) => { localStorage.clear(); localStorage.setItem('denai-profile-v1', pr); }, PROFILE); await p.reload(); await ready(p); await sleep(800);
+  if (!PERSIST) { await p.evaluate((pr) => { localStorage.clear(); localStorage.setItem('denai-profile-v1', pr); }, PROFILE); await p.reload(); await ready(p); } await sleep(800);
   const log = { mainLabel: await p.textContent('#play-main-sub') };
   await p.click('#play-main'); await p.waitForFunction(() => window.__game.scene.getScene('Jambatan')?.mode === 'playing', null, { timeout: 15000 }); await sleep(800); await p.evaluate(() => document.getElementById('game')?.focus?.());
   const t0 = Date.now();

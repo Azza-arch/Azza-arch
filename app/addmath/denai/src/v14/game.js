@@ -1,6 +1,8 @@
 import {createTwinScene} from './levels/twin-scene.js';
 import {createInverseScene} from './levels/inverse-scene.js';
 import {createInverseStore} from './core/inverse-campaign.js';
+import {COINS as L2_COINS,SECRETS as L2_SECRETS} from './levels/twin-world.js';
+import {COINS as L3_COINS,SECRETS as L3_SECRETS} from './levels/inverse-world.js';
 import {createCampaignStore} from './core/campaign-store.js';
 import {canPlay} from './levels/registry.js';
 import {installWorldMap} from './menu/world-map.js';
@@ -1256,7 +1258,7 @@ function refreshTwinEntry(){
   const allowed=canPlay('w1-l2',state.levels['w1-l1'].completed?['w1-l1']:[],{localPreview});
   $('level2-action').disabled=!allowed;
   $('level2-action').textContent=l2.run?'Sambung':'Main';
-  $('level2-status').textContent=l2.completions?`Selesai · ${l2.coins.length}/15 syiling · ${l2.secrets.length}/2 rahsia`:state.levels['w1-l1'].completed?'Fungsi gubahan':localPreview?'Prototype lokal · Fungsi gubahan':'Selesaikan Level 1–1 dahulu';
+  $('level2-status').textContent=l2.completions?`Selesai · ${l2.coins.length}/${L2_COINS.length} syiling · ${l2.secrets.length}/${L2_SECRETS.length} rahsia`:state.levels['w1-l1'].completed?'Fungsi gubahan':localPreview?'Prototype lokal · Fungsi gubahan':'Selesaikan Level 1–1 dahulu';
 }
 function launchTwins(){
   refreshTwinEntry();if($('level2-action').disabled)return;
@@ -1270,7 +1272,7 @@ function refreshInverseEntry(){
   $('level3-action').disabled=!allowed;
   $('level3-action').textContent=l3.run?'Sambung':'Main';
   $('level3-card').classList.toggle('is-locked',!allowed);
-  $('level3-status').textContent=l3.completions?`Selesai · ${l3.coins.length}/20 syiling · ${l3.secrets.length}/3 rahsia`:l2.completions?'Songsangan fungsi · f(x)=2x+3':localPreview?'Prototype lokal · Songsangan fungsi':'Selesaikan Level 1–2 dahulu';
+  $('level3-status').textContent=l3.completions?`Selesai · ${l3.coins.length}/${L3_COINS.length} syiling · ${l3.secrets.length}/${L3_SECRETS.length} rahsia`:l2.completions?'Fungsi songsang · pintu air lama':localPreview?'Prototype lokal · Fungsi songsang':'Selesaikan Level 1–2 dahulu';
 }
 function launchInverse(){
   refreshInverseEntry();if($('level3-action').disabled)return;

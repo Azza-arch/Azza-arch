@@ -49,9 +49,9 @@ export const COINS=[
  .concat([[4320,1188],[4374,1170]].map(([x,y],i)=>({id:`l3-coin-${21+i}`,x,y,cave:true})));
 export const SECRETS=[
  {id:'ruin-inscription',x:945,feet:1512,text:'Runtuhan ini dibina bertingkat: lihat laluan atas dari halaman, kemudian cari tangga pada dinding yang masih utuh.'},
- {id:'domain-tablet',x:3186,feet:1620,text:'Domain f ialah {0,1,2,3,4,5,6}. Imejnya {3,5,7,9,11,13,15}; setiap input berbeza menghasilkan output berbeza.'},
+ {id:'domain-tablet',x:3186,feet:1620,text:'Domain f ialah {0,1,2,3,4,5,6}. Julatnya {3,5,7,9,11,13,15}; setiap objek berbeza mempunyai imej berbeza (fungsi satu dengan satu).'},
  // V3: inside the cave-valve chest (shown once that optional valve is solved).
- {id:'inverse-tablet',x:4347,feet:1242,cave:true,text:'Injap gua: 15 − 3 = 12, 12 ÷ 2 = 6. Songsangan memulangkan input: f⁻¹(y) = (y − 3) ÷ 2. f⁻¹ bukan 1/f. Di dasar peti ada serpihan batu kapur — dari lembah di seberang gerbang.'},
+ {id:'inverse-tablet',x:4347,feet:1242,cave:true,text:'Injap gua: 15 − 3 = 12, 12 ÷ 2 = 6. Fungsi songsang memulangkan input: f⁻¹(y) = (y − 3) ÷ 2. f⁻¹ bukan 1/f. Di dasar peti ada serpihan batu kapur — dari lembah di seberang gerbang.'},
 ];
 export const WATER=[{x:378,width:108},{x:3240,width:216}];
 export const WATER_Y=1692; // channel water line before the sluice is restored (then +54)

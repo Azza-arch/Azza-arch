@@ -49,11 +49,14 @@ const L2DONE = JSON.stringify({ schemaVersion: 1, levels: { 'w1-l2': { completio
 const play = async (p) => { await p.click('#play-main'); await p.waitForFunction(() => window.__game.scene.getScene('GerbangSongsang')?.mode === 'playing', null, { timeout: 15000 }); await sleep(900); await p.evaluate(() => { document.querySelectorAll('dialog[open]').forEach((d) => d.close()); document.getElementById('game')?.focus?.(); }); };
 
 (async () => {
-  const b = await chromium.launch({ args: ['--host-resolver-rules=MAP denai.test 127.0.0.1'] });
-  const ctx = await b.newContext({ viewport: { width: 1280, height: 720 } }); await ctx.addInitScript(HOOK); await ctx.route(/playfabapi\.com/, (r) => r.abort());
+  // W1_PROFILE_DIR (Fasa F): run in a persistent browser profile and keep its saves, so
+  // l1 → l2 → l3 playthroughs chain into one real World 1 progression.
+  const PERSIST = process.env.W1_PROFILE_DIR;
+  const ctx = PERSIST ? await chromium.launchPersistentContext(PERSIST, { viewport: { width: 1280, height: 720 }, args: ['--host-resolver-rules=MAP denai.test 127.0.0.1'] }) : await (await chromium.launch({ args: ['--host-resolver-rules=MAP denai.test 127.0.0.1'] })).newContext({ viewport: { width: 1280, height: 720 } });
+  const b = { close: () => (PERSIST ? ctx.close() : ctx.browser().close()) }; await ctx.addInitScript(HOOK); await ctx.route(/playfabapi\.com/, (r) => r.abort());
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error' && !/net::|favicon/.test(m.text())) errs.push(m.text()); });
   await p.goto('http://denai.test:8790/app/addmath/denai/main.html'); await ready(p);
-  await p.evaluate(([pr, l2]) => { localStorage.clear(); localStorage.setItem('denai-profile-v1', pr); localStorage.setItem('denai-campaign-v1', l2); }, [PROFILE, L2DONE]); await p.reload(); await ready(p); await sleep(800);
+  if (!PERSIST) { await p.evaluate(([pr, l2]) => { localStorage.clear(); localStorage.setItem('denai-profile-v1', pr); localStorage.setItem('denai-campaign-v1', l2); }, [PROFILE, L2DONE]); await p.reload(); await ready(p); } await sleep(800);
   const log = { mainLabel: await p.textContent('#play-main-sub') };
   await play(p); const t0 = Date.now();
   // 1. Stream, ruins, upper ruins → machine yard (ground route, jumps where needed).
