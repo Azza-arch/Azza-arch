@@ -1,0 +1,2 @@
+# Rendered video (31 MB) is above the 25 MiB per-file limit of the static host; keep it out of the deployed site.
+*.mp4

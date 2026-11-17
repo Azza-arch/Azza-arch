@@ -1,0 +1,23 @@
+const { open } = require('./rec.cjs'); const C = __dirname + '/cap'; const K = 'Jambatan';
+const PROFILE = JSON.stringify({ schemaVersion: 1, createdAt: '2026-11-01T00:00:00.000Z', levels: { 'w1-l1': { completions: 1, firstCompletedAt: '2026-11-01T00:00:00.000Z', best: null } }, coinIds: [], secretIds: [], achievements: ['jejak-pertama'], adventuresCompleted: 1, mastered: { variants: [], types: [] }, recentVariants: { lift: [] }, migrated: ['records-v14', 'run-v1'] });
+(async () => {
+  const r = await open({ seed: { 'denai-profile-v1': PROFILE } }); const { p } = r; const log = (m) => r.st(K).then((s) => console.log(m, JSON.stringify(s)));
+  await p.click('#play-main'); await p.waitForFunction(() => window.__game.scene.getScene('Jambatan')?.mode === 'playing', null, { timeout: 15000 });
+  await r.fake(); await r.idle(20); await r.closeDialogs();
+  r.shot(C + '/l2-river'); await r.frames(10);
+  await r.run(K, 1, 900); await r.settle(K, 950); await r.hop(K, 1, 1110);
+  await r.run(K, 1, 1750); await r.settle(K, 1815);
+  await r.hop(K, 1, 1915); await r.hop(K, 1, 2060); await r.hop(K, 1, 2200); await r.frames(10); await log('river');
+  r.dir = null; await r.run(K, 1, 2420); await r.settle(K, 2462); await r.hop(K, 1, 2640);
+  await r.run(K, 1, 2740); await r.settle(K, 2784); await r.hop(K, 1, 2960);
+  r.shot(C + '/l2-yard'); await r.run(K, 1, 3420); await r.frames(70); await r.closeDlg(); await r.settle(K, 3440);
+  await r.tap('KeyE'); await r.frames(120); await log('demo');
+  r.dir = null; let s0 = await r.st(K); if (s0.x > 3060) await r.run(K, -1, 3060); await r.settle(K, 3024);
+  await r.climbAny(K); await r.run(K, 1, 3112); await r.hop(K, 1, 3214); await r.settle(K, 3214);
+  r.shot(C + '/l2-swap'); await r.frames(8); await r.tap('KeyE'); await r.frames(45); await log('swap');
+  r.dir = null; await r.run(K, 1, 3500); await r.run(K, 1, 3960, 300); await r.idle(45);
+  const s1 = await r.st(K); await r.run(K, s1.x < 3440 ? 1 : -1, 3440); await r.settle(K, 3440);
+  r.shot(C + '/l2-success'); await r.frames(5); await r.tap('KeyE'); await r.frames(150); await r.closeDlg(); await r.frames(45); await log('success');
+  r.shot(C + '/l2-cross'); await r.run(K, 1, 4300, 300); await r.frames(10); await log('cross');
+  console.log('errs', r.errs); await r.close();
+})();
