@@ -15,7 +15,8 @@ const SCENE = process.argv[3] || 'GerbangSongsang';
 const QUICK = process.argv[4] === 'quick';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { window.__DENAI_PLAYFAB_TEST_STUB__ = true; let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
-const SPOTS = { GerbangSongsang: [['mula', 300, 1728], ['runtuhan', 1500, 1404], ['halaman-mesin', 2862, 1620], ['gerbang', 5000, 1566]] }[SCENE];
+const SPOTS = { GerbangSongsang: [['mula', 300, 1728], ['runtuhan', 1500, 1404], ['halaman-mesin', 2862, 1620], ['gerbang', 5000, 1566]],
+  Jambatan: [['mula', 500, 1296], ['halaman-mesin', 2214, 1134], ['bengkel', 3440, 1242], ['tamat', 4500, 1242]] }[SCENE]; // 1-2: comparison only
 
 async function open(b, opts) {
   const ctx = await b.newContext(opts); await ctx.addInitScript(HOOK); await ctx.route(/playfabapi\.com/, (r) => r.abort());

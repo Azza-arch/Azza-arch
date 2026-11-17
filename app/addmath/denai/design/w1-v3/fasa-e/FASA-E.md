@@ -75,10 +75,28 @@ bukan `visible`, jadi logik permainan tidak terganggu). Hanya `Image`; sprite (p
 dan objek bergerak sentiasa dilukis. **Piksel sama** (5 lokasi dibandingkan piksel demi piksel).
 Hanya 1-3 menggunakannya.
 
-RESULTS_PERF
+**Selepas (1-3 V3 penuh, `perf-selepas-1-3-v3.json`):**
+| Profil | fps (mula / runtuhan / halaman mesin / gerbang) | render ms | bingkai > 33 ms (/240) |
+|---|---|---|---|
+| Desktop 1280×720 | 60 / 60 / 59.9 / 60 | 1.3 | 0 |
+| iPhone 13 landskap, CPU×4 | 56.4 / 59.4 / 55.0 / 55.5 | 4.7–6.2 | 0–2 |
+| iPhone 13 potret, CPU×4 | 58.6 / 60.2 / 59.9 / 58.5 | 3.3–4.7 | 0–2 |
+
+Selepas culling, putaran syiling, animasi air dan letupan kutip masih tidak bermakna (±2–4 fps, dalam
+hingar) — **tiada animasi dikurangkan**. Ujian `feel-check` mengesahkan 22 syiling terus berputar.
 
 ## 4. Keputusan ujian
-RESULTS_TESTS
+Semua pada binaan tempatan; PlayFab disekat/stub; 0 skor dihantar, 0 peristiwa analitik.
+
+| Ujian | Keputusan |
+|---|---|
+| Unit (8 fail) termasuk `sluice.test.mjs` baharu (f satu-dengan-satu, f⁻¹(13)=5, f⁻¹(15)=6, putaran 6→0, ujian tanpa kerugian, plat gua, simpanan palsu, migrasi meterai lama, geometri saluran) | lulus |
+| `l3-playthrough.cjs` — papan kekunci sahaja: anak sungai/runtuhan (5 lompatan jurang) → pintu air ditemui → catatan → injap 3: bacaan 9 → jatuh sengaja (respawn, tetapan kekal) → reload → injap 6: bacaan 15 → 6→0→5 → 13: air surut → batu loncatan (kaki 1701/1701) → tangga → plat 4 salah, lintas plat tanpa ubah, plat 6 betul → peti + 2 syiling + rahsia → tamat → reload | lulus (2 larian pada kod akhir: 101 s & 106 s, bot) · 0 ralat |
+| `l3-check.cjs` — migrasi (3 meterai / separa), main semula, petunjuk 3 peringkat + petunjuk bacaan, gerakan dikurangkan, telefon landskap & potret sentuhan sahaja, tindihan susun atur | lulus · 0 tindihan · 0 ralat |
+| `l3-perf.cjs` — prestasi (§3) | lulus · 0 ralat |
+| l1-playthrough · l1-v3-check · l2-playthrough · l2-check | lulus · 0 ralat (1-1/1-2 tiada regresi) |
+| rc · engagement · analytics · feel · menu · bg-theme · banner · traversal (17/17) · landing-count | lulus · 0 tulisan papan klasik · 0 peristiwa analitik |
+| Dibuang (menguji panel yang dibuang) | `puzzle-clarity-check.cjs`, `inverse-smoke.py`, `twins-smoke.py` |
 
 ## 5. Lain-lain
 - **Permata biru 1-2 (permintaan pengguna):** penanda rahsia 1-2 dilukis melalui `tile(67,…,36,36)` yang
@@ -94,7 +112,7 @@ RESULTS_TESTS
 ## 6. Had
 - Masa ialah bot; masa pemain sebenar belum diukur (sasaran 6–10 minit).
 - Prestasi diukur pada Chromium emulasi (tiada GPU); telefon sebenar perlu disemak dalam Fasa F.
-- 1-1 dan 1-2 menggunakan latar yang sama (RESULTS_OTHERS). View-cull belum dipasang di sana kerana
+- 1-1 dan 1-2 menggunakan latar yang sama dan mempunyai punca yang sama: 1-2 pada telefon landskap CPU×4 = 25–31 fps, render 17–20 ms, `perf-perbandingan-1-2.json`. View-cull belum dipasang di sana kerana
   arahan tidak mengubah 1-1/1-2; dicadangkan untuk Fasa F.
 
 ## Bukti
