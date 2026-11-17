@@ -151,3 +151,9 @@ body.dialogue-open #touch-controls,body.dialogue-open #world-prompt,body.dialogu
 @media (max-height:540px){#store-panel{top:14%!important;left:52%!important;width:min(300px,42%)!important;font-size:13px!important;padding:4px 10px!important;gap:4px 8px}
   #store-panel .sp-head{display:none!important}#store-panel output{font-size:20px!important}#store-panel .sp-total{font-size:14px!important}}
 @media (max-width:600px) and (orientation:portrait){#store-panel{top:118px!important;left:12px!important;right:12px!important;width:auto!important}}
+/* Portrait: the ribbon sits under the HUD row, on one line (it overlapped the plaque/pause). */
+@media (max-width:600px) and (orientation:portrait){
+  #zone-toast.area-banner{top:calc(max(12px,env(safe-area-inset-top)) + 58px);white-space:nowrap;max-width:calc(100% - 40px);min-width:0}
+  #zone-toast.area-banner b{font-size:15px}
+  body:has(#zone-toast.area-banner.show) #quest-pin{visibility:hidden}
+}

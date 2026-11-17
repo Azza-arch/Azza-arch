@@ -9,6 +9,7 @@ import {inFinishZone} from './composition.js';
 import {LEVELS} from './registry.js';
 import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATER_Y,PIERS} from './twin-world.js';
 import {installViewCull} from '../core/view-cull.js';
+import {hud,dialogue,pagesOf,reward} from '../ui/v4-ui.js';
 import {buildWorkshop,workshopPrompt,useWorkshop,syncWorkshopUI,renderTracker as renderWorkshopTracker,newWorkshop} from './workshop-line.js';
 const $=id=>document.getElementById(id);
 export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}) {
@@ -65,7 +66,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    for(const id of ['welcome','loading','mission-indicator','chill-bubble','world-prompt','tutorial'])$(id).hidden=true;
    $('pause').disabled=false;$('touch-controls').hidden=!matchMedia('(pointer: coarse)').matches;
    $('hud-mode').hidden=true;
-   this.message('Jambatan Berkembar — ikut sungai ke bengkel di hilir. A/D: gerak · Space: lompat · W/S: tangga · E: guna.');
+   this.message('Ikut sungai ke bengkel di hilir.');
    this.writeSave();
    this.events.once('shutdown',()=>{
     this.writeSave();clearControls();this.input.keyboard.enabled=true;
@@ -88,7 +89,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    dialog.addEventListener('cancel',event=>{event.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
    window.addEventListener('pagehide',()=>this.writeSave(),{signal});
   }
-  message(text){this.feedback=text;$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+6500;}
+  message(text){this.feedback=text;$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+3500;}
   update(time,delta){
    if(!this.player||this.mode!=='playing')return;
    this.elapsed+=delta;
@@ -114,7 +115,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    const secret=this.secretViews.find(({def})=>Math.abs(this.player.x-def.x)<55&&Math.abs(body.bottom-def.feet)<12);
    let prompt='';let action=null;
    if(wsp){action='workshop';prompt=`E · ${wsp.text}`;}
-   if(secret){prompt='E · Baca catatan rahsia';if(interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();}this.message(secret.def.text);}}
+   if(secret){prompt='E · Baca catatan rahsia';if(interact){const fresh=!this.run.secrets.includes(secret.def.id);if(fresh){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secret.def.text),{portrait:'none'});}} // V4: a note speaks through the fallback portrait
    else if(interact&&action==='workshop')useWorkshop(this,{audio,SFX});
    const inExitZone=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
    if(inExitZone&&this.run.workshop.delivered){this.finish();return;}
@@ -127,7 +128,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    if(prompt){$('world-prompt-key').textContent='E';$('world-prompt-text').textContent=prompt.slice(4);wp.style.transform='translate(-50%, 0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';}
    syncWorkshopUI(this);
    const zone=this.player.x<1080?'Jejak Masuk':this.player.x<1836?'Gudang':this.player.x<2484?'Batu Loncatan':this.player.x<3402?'Laluan Rahsia':'Bengkel Dua Mesin';
-   $('hud-area').textContent=`1–2 · ${zone}`;$('hud-collection').textContent=`${this.run.coins.length}/${COINS.length} · ${this.run.secrets.length}/2 rahsia`;
+   hud(this,{level:'1–2',coins:this.run.coins.length,zone,coll:`Syiling ${this.run.coins.length}/${COINS.length} · Rahsia ${this.run.secrets.length}/${SECRETS.length}`}); // V4 plaque + ribbon
    if(time-(this.lastAutosave||0)>10000){this.lastAutosave=time;this.writeSave();}
   }
   writeSave(){if(!this.run)return;this.run.elapsedMs=this.elapsed;if(!this.store.saveRun(this.run)&&$('status'))$('status').textContent='Simpanan tidak tersedia. Kemajuan sesi ini masih boleh dimainkan.';}

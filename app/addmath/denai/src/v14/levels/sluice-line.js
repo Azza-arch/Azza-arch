@@ -10,6 +10,7 @@
 // The rule f(x) = 2x + 3 appears only on the note / summary (blueprint B5).
 import {burst} from '../feel.js';
 import {say,placeBubble} from '../core/speech-bubble.js';
+import {decorateJournal,syncJournal,dialogue} from '../ui/v4-ui.js';
 import {TARGET,CAVE_TARGET,reading,inverseSteps,turnValve,testFlow,readNote,stepPlate,pullCave,sluiceStep} from './sluice-model.js';
 import {SLUICE,CAVE,CHANNEL,STONES,WATER_Y} from './inverse-world.js';
 export {newSluice,sanitizeSluice} from './sluice-model.js';
@@ -104,7 +105,7 @@ export function sluicePrompt(s,grounded,touch){
  const v=s.sluice,st=s.run.sluice;s.sluiceReady=null;if(!v)return null;
  const px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
  placeBubble(s);
- if(!s.sluiceIntro&&px>2560&&px<3240&&Math.abs(feet-SLUICE.feet)<10&&!st.open){s.sluiceIntro=true;say(s,'Air di saluran terlalu tinggi — batu loncatan tenggelam. Pintu air lama tidak berfungsi.',4200);renderTracker(s);}
+ if(!s.sluiceIntro&&px>2560&&px<3240&&Math.abs(feet-SLUICE.feet)<10&&!st.open){s.sluiceIntro=true;renderTracker(s);dialogue(s,['Air di saluran terlalu tinggi.','Batu loncatan tenggelam — pintu air lama rosak.']);}
  // Cave plates: standing still on one for a moment presses it (walking past
  // at running speed does not), which sets the cave valve.
  const k=Math.floor((px-CAVE.plateX)/54),onPlate=grounded&&Math.abs(feet-CAVE.feet)<6&&k>=0&&k<7&&!st.cave.solved&&!v.busy;
@@ -113,7 +114,7 @@ export function sluicePrompt(s,grounded,touch){
   const held=s.time.now-s.plateDwell.since,p=v.plates[k];
   if(st.cave.setting!==k){p.art.y=CAVE.feet-54+Math.min(1,held/450)*5;if(held>=450){p.art.y=CAVE.feet-54;setPlate(s,k);}}
  }else if(s.plateDwell){const p=v.plates[s.plateDwell.k];if(p&&st.cave.setting!==p.k)p.art.y=CAVE.feet-54;s.plateDwell=null;}
- if(!s.caveIntro&&grounded&&Math.abs(feet-CAVE.feet)<6&&px>CAVE.plateX&&px<CAVE.leverX&&!st.cave.solved){s.caveIntro=true;say(s,'Plat bernombor 0–6. Berdiri diam di atas satu plat untuk menetapkan injap gua, kemudian tarik tuas.',4200);}
+ if(!s.caveIntro&&grounded&&Math.abs(feet-CAVE.feet)<6&&px>CAVE.plateX&&px<CAVE.leverX&&!st.cave.solved){s.caveIntro=true;say(s,'Berdiri diam atas plat untuk set injap gua.',3600);}
  if(!grounded||v.busy)return null;
  const near=[];
  if(Math.abs(feet-SLUICE.feet)<8){
@@ -136,7 +137,7 @@ export function useSluice(s,{audio,SFX}={}){
 }
 function note(s){
  s.run.sluice=readNote(s.run.sluice);s.writeSave();renderTracker(s);
- say(s,'Catatan penyelenggaraan (koyak): «Kalibrasi injap: bacaan = 2 × tetapan + 3. Bacaan asal …» — selebihnya koyak.',5200);
+ dialogue(s,['Catatan penyelenggaraan (koyak):\n«Kalibrasi injap: bacaan = 2 × tetapan + 3. Bacaan asal …»','Selebihnya koyak.'],{portrait:'none'}); // V4: the note speaks
 }
 function wheel(s,{audio,SFX}){
  const v=s.sluice;s.run.sluice=turnValve(s.run.sluice);const x=s.run.sluice.setting;
@@ -161,7 +162,7 @@ function flow(s,{audio,SFX}){
   if(t.result==='open'){
    SFX?.correct?.(audio);SFX?.bridge?.(audio);openSluice(s,true);
    if(!R)s.cameras.main.shake(260,.003);
-   say(s,'Bacaan 13 ✓ Pintu air terangkat — air surut, batu loncatan timbul!',3600);
+   say(s,'Bacaan 13 ✓',2000);
    s.time.delayedCall(D(1400),()=>{v.busy=false;renderTracker(s);});
    s.time.delayedCall(D(2600),()=>s.summary?.());
    return;
@@ -171,11 +172,11 @@ function flow(s,{audio,SFX}){
    const lift=Math.max(8,(t.reading-3)*3);
    s.tweens.add({targets:v.gate.list,y:`-=${lift}`,duration:D(500),yoyo:true,hold:D(500),ease:'Sine.inOut'});
    burst(s,SLUICE.gateX+54,1680,6,0x7fd8ff,R);
-   say(s,`Bacaan ${t.reading} — terlalu rendah. Pintu air terangkat sedikit sahaja, kemudian jatuh semula.`,3800);
+   say(s,'Aliran masih rendah.',2800);
   }else{
    SFX?.incorrect?.(audio);if(!R)s.cameras.main.shake(180,.004);
    for(let i=0;i<3;i++)s.time.delayedCall(D(i*140),()=>burst(s,DIAL.x+30,1404,10,0x7fd8ff,R));
-   say(s,`Bacaan ${t.reading} — terlalu tinggi! Injap keselamatan memancut air. Pintu air kekal tertutup.`,3800);
+   say(s,'Tekanan terlalu tinggi!',2800);
   }
   s.time.delayedCall(D(1600),()=>{
    s.tweens.add({targets:v.needle,angle:-130,duration:D(500)});digits(s,v.readDigits,null);
@@ -191,20 +192,20 @@ function setPlate(s,k){
 }
 function cave(s,{audio,SFX}){
  const v=s.sluice,r=pullCave(s.run.sluice);
- if(r.result==='none'){say(s,'Pijak satu plat bernombor untuk menetapkan injap gua dahulu.',3000);return;}
+ if(r.result==='none'){say(s,'Pijak satu plat dahulu.',2400);return;}
  s.run.sluice=r.state;s.writeSave();v.busy=true;v.caveLever.setFrame(66);SFX?.machine?.(audio);
  const R=reduced(),D=k=>R?1:k;
  s.time.delayedCall(D(700),()=>{
   if(r.result==='solved'){
    SFX?.correct?.(audio);v.chest.setFrame(11);burst(s,CAVE.chestX,CAVE.feet-30,10,0xffe27a,R);
    s.revealCave?.();
-   say(s,'Injap gua berbunyi “klik” — peti tersembunyi terbuka!',3600);v.busy=false;renderTracker(s);
+   say(s,'Klik! Peti tersembunyi terbuka.',3000);v.busy=false;renderTracker(s);
    return;
   }
   SFX?.incorrect?.(audio);
   for(let i=0;i<3;i++)s.time.delayedCall(D(i*120),()=>burst(s,CAVE.leverX+20,CAVE.feet-100,8,0x7fd8ff,R));
   v.plates.forEach(p=>p.art.setFrame(148));
-  say(s,'Air memancut balik dari saluran gua. Tetapan itu tidak memberi bacaan 15 — plat dikembalikan.',3800);
+  say(s,'Air memancut balik. Plat dikembalikan.',3000);
   s.time.delayedCall(D(900),()=>{v.caveLever.setFrame(64);v.busy=false;});
  });
 }
@@ -222,7 +223,7 @@ export function installTracker(s){
  $('quest-tracker')?.remove();
  const tr=document.createElement('aside');tr.id='quest-tracker';tr.hidden=true;tr.setAttribute('aria-label','Misi semasa');
  tr.innerHTML='<p class="qt-head">Misi</p><p id="qt-text" role="status" aria-live="polite"></p><p id="qt-inv" hidden></p><div class="qt-row"><button type="button" id="qt-hint" aria-label="Petunjuk">?</button><button type="button" id="qt-math" class="link-btn" hidden>Lihat cara kira</button></div><p id="qt-hint-text" hidden></p><p id="qt-math-text" hidden></p>';
- frame.append(tr);
+ frame.append(tr);decorateJournal(tr,s,{level:'1–3'});
  const abort=new AbortController();s.events.once('shutdown',()=>{abort.abort();tr.remove();});
  $('qt-hint').addEventListener('click',()=>{s.hintLevel=((s.hintLevel||0)%3)+1;renderTracker(s);},{signal:abort.signal});
  $('qt-math').addEventListener('click',()=>{const t=$('qt-math-text');t.hidden=!t.hidden;},{signal:abort.signal});
@@ -241,6 +242,6 @@ export function renderTracker(s){
  $('qt-math').hidden=step!=='done';
  $('qt-math-text').textContent=`f(x) = 2x + 3 · f(5) = 13 ✓ · f⁻¹(13) = (13 − 3) ÷ 2 = 5${st.cave.solved?' · Injap gua: f⁻¹(15) = (15 − 3) ÷ 2 = 6':''}.`;
 }
-export function syncSluiceUI(s){const tr=$('quest-tracker');if(!tr)return;if(tr.hidden===trackerShown(s))renderTracker(s);}
+export function syncSluiceUI(s){const tr=$('quest-tracker');if(!tr)return;if(tr.hidden===trackerShown(s))renderTracker(s);syncJournal(s);}
 export const sluiceWaterY=s=>s.sluice?.waterY??WATER_Y;
 export {CHANNEL,reading};

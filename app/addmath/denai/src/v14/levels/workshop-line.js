@@ -15,6 +15,7 @@
 import {notify} from '../presentation.js';
 import {planksDrop,burst} from '../feel.js';
 import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
+import {decorateJournal,syncJournal,dialogue,stamp} from '../ui/v4-ui.js';
 
 import {STOCK,NEED,MACHINES,runLine,workshopStep} from './workshop-model.js';
 export {STOCK,NEED,MACHINES,ORDERS,runLine,newWorkshop,sanitizeWorkshop,workshopStep} from './workshop-model.js';
@@ -77,7 +78,7 @@ export function workshopPrompt(s,grounded,touch){
  const w=s.run.workshop,v=s.workshop;s.workshopReady=null;if(!w||!v)return null;
  const px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
  if(v.bubble){placeBubble(s);if(s.time.now>v.bubbleUntil){v.bubble.destroy();v.bubble=null;}}
- if(!s.workshopIntro&&px>3420&&Math.abs(feet-LINE.y)<8){s.workshopIntro=true;if(!w.delivered){bubble(s,`Bengkel perlu ${NEED} komponen untuk jambatan. Ada ${STOCK}.`);renderTracker(s);}}
+ if(!s.workshopIntro&&px>3420&&Math.abs(feet-LINE.y)<8){s.workshopIntro=true;if(!w.delivered){renderTracker(s);dialogue(s,[`Bengkel perlu ${NEED} komponen untuk jambatan.`,`Stok cuma ada ${STOCK}. Mesin mesti hasilkan lebih.`]);}}
  if(!grounded||v.busy||w.delivered)return null;
  if(Math.abs(px-LINE.runLeverX)<50&&Math.abs(feet-LINE.y)<8){s.workshopReady='run';return {key,text:'Jalankan bengkel',x:LINE.runLeverX,y:LINE.y-110};}
  if(Math.abs(px-LINE.orderLever.x)<36&&Math.abs(feet-LINE.orderLever.feet)<8){s.workshopReady='swap';return {key,text:'Tukar susunan mesin',x:LINE.orderLever.x,y:LINE.orderLever.feet-110};}
@@ -92,7 +93,7 @@ function swap(s,{audio,SFX}){
  w.order=w.order==='AB'?'BA':'AB';w.swaps++;
  v.orderLever.setFrame(w.order==='AB'?66:64);v.place(w.order,true);SFX?.machine?.(audio);
  const first=MACHINES[w.order[0]];
- bubble(s,`Kini ${first.id} (${first.rule}) menerima bahan dahulu. Ramal hasilnya sebelum menjalankan.`);
+ bubble(s,`Kini ${first.id} dahulu.`);
  s.writeSave();renderTracker(s);
 }
 // A production run: five crates ride the conveyor; each machine relabels the
@@ -113,13 +114,13 @@ function finishRun(s,r,token,{audio,SFX}){
  if(r.enough){
   w.delivered=true;token.destroy();v.busy=false;
   renderCounter(s);buildBridge(s,true,{audio,SFX});SFX?.correct?.(audio);
-  bubble(s,`${r.out} komponen diterima. Jambatan dibina!`);
   s.writeSave();renderTracker(s);
-  s.time.delayedCall(2300,()=>notify('Susunan fungsi boleh mengubah hasil.',2));
+  // V4: completion = short portrait dialogue + gold stamp (maths summary in the Journal).
+  s.time.delayedCall(900,()=>{dialogue(s,[`${r.out} komponen! Jambatan bengkel dah dibina.`,'Susunan mesin mengubah hasil.']).then(()=>stamp('Misi selesai · Jambatan bengkel'));});
   return;
  }
  renderCounter(s);SFX?.incorrect?.(audio);
- bubble(s,`Hasil ${r.out} — belum cukup ${NEED}. Komponen dikembalikan. Mungkin susunan mesin silap? Tuas susunan ada di dek atas.`,4200);
+ bubble(s,`Hasil ${r.out} — belum cukup ${NEED}.`,3200); // what to try next is in the Journal (status + hints)
  // Nothing is lost: the batch rides back to the stock pile.
  s.tweens.add({targets:token,x:LINE.hopperX,alpha:.4,duration:reduced()?1:900,onComplete:()=>{token.destroy();v.busy=false;v.timber.forEach(t=>t.setAlpha(1));}});
  s.writeSave();renderTracker(s);
@@ -133,9 +134,9 @@ const HINTS={
 function installTracker(s){
  const frame=document.querySelector('.game-frame');if(!frame)return;
  $('quest-tracker')?.remove();
- const tr=document.createElement('aside');tr.id='quest-tracker';tr.hidden=true;tr.setAttribute('aria-label','Misi semasa');
+ const tr=document.createElement('aside');tr.id='quest-tracker';tr.hidden=true;tr.setAttribute('aria-label','Misi semasa');tr.dataset.level='1–2';
  tr.innerHTML='<p class="qt-head">Misi</p><p id="qt-text" role="status" aria-live="polite"></p><p id="qt-inv" hidden></p><div class="qt-row"><button type="button" id="qt-hint" aria-label="Petunjuk">?</button><button type="button" id="qt-math" class="link-btn" hidden>Lihat cara kira</button></div><p id="qt-hint-text" hidden></p><p id="qt-math-text" hidden></p>';
- frame.append(tr);
+ frame.append(tr);decorateJournal(tr,s,{level:'1–2'});
  const abort=new AbortController();s.events.once('shutdown',()=>{abort.abort();tr.remove();});
  $('qt-hint').addEventListener('click',()=>{s.hintLevel=((s.hintLevel||0)%3)+1;renderTracker(s);},{signal:abort.signal});
  $('qt-math').addEventListener('click',()=>{const t=$('qt-math-text');t.hidden=!t.hidden;},{signal:abort.signal});
@@ -154,4 +155,4 @@ export function renderTracker(s){
  $('qt-math').hidden=step!=='done';
  $('qt-math-text').textContent=`${runLine('AB').notation} ✓ · ${runLine('BA').notation}. Maka gf ≠ fg untuk contoh ini.`;
 }
-export function syncWorkshopUI(s){const tr=$('quest-tracker');if(!tr)return;const w=s.run.workshop,show=s.mode==='playing'&&(s.workshopIntro||w.runs>0||w.delivered);if(tr.hidden===show)renderTracker(s);}
+export function syncWorkshopUI(s){const tr=$('quest-tracker');if(!tr)return;const w=s.run.workshop,show=s.mode==='playing'&&(s.workshopIntro||w.runs>0||w.delivered);if(tr.hidden===show)renderTracker(s);syncJournal(s);}

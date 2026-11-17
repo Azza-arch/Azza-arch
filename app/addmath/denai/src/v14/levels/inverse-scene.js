@@ -6,6 +6,7 @@ import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createInverseStore,newRun} from '../core/inverse-campaign.js';
 import {installViewCull} from '../core/view-cull.js';
+import {hud,dialogue,pagesOf,reward,stamp} from '../ui/v4-ui.js';
 import {inFinishZone} from './inverse.js';
 import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATERFALL} from './inverse-world.js';
 import {buildSluice,sluicePrompt,useSluice,installTracker,renderTracker,syncSluiceUI,sluiceWaterY,newSluice} from './sluice-line.js';
@@ -170,7 +171,8 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    $('inverse-main-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu(false);},{signal});
    dialog.addEventListener('cancel',e=>{e.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
   }
-  summary(){this.message('Fungsi songsang membantu mencari semula input daripada output.');renderTracker(this);}
+  // V4: completion = short portrait dialogue + gold stamp (maths summary in the Journal).
+  summary(){renderTracker(this);dialogue(this,['Air dah surut! Laluan dah terbuka.','Fungsi songsang bantu cari semula input daripada output.']).then(()=>stamp('Misi selesai · Pintu air dipulihkan'));}
   revealCave(){
    for(const {def,art} of this.coinViews)if(def.cave&&!this.run.coins.includes(def.id)){art.setVisible(true);if(!reducedMotion){art.setScale(.4);this.tweens.add({targets:art,scale:1.78,duration:380,ease:'Back.out'});}}
   }
@@ -186,7 +188,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(const {def,art} of this.coinViews)if(art.visible&&Math.abs(this.player.x-def.x)<32&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);art.anims?.stop();SFX.coin?.(audio);this.writeSave();coinPickup(this,def.x,art.y,{reduced:reducedMotion});}
    const secretOpen=def=>!def.cave||this.run.sluice.cave.solved;
    const secret=this.secretViews.find(({def})=>secretOpen(def)&&Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14);
-   if(secret&&interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);this.writeSave();}this.message(secret.def.text);}
+   if(secret&&interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secret.def.text),{portrait:'none'});} // V4
    CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||this.run.sluice.open)&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
    const touch=matchMedia('(pointer: coarse)').matches;
    const sp=sluicePrompt(this,grounded||body.blocked.down||body.touching.down,touch);
@@ -199,10 +201,10 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    const wp=$('world-prompt');wp.hidden=!prompt;if(prompt){$('world-prompt-key').textContent=touch?'Guna':'E';$('world-prompt-text').textContent=prompt.replace(/^E · /,'');wp.style.transform='translate(-50%,0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';}
    syncSluiceUI(this);
    const zone=this.player.x<756?'Jejak Sungai':this.player.x<2538?'Runtuhan Bertingkat':this.player.x<3240?'Halaman Mesin':this.player.x<4104?'Air Terjun':'Gerbang Utama';
-   $('hud-area').textContent=`1–3 · ${zone}`;$('hud-collection').textContent=`${this.run.coins.length}/${COINS.length} · ${this.run.secrets.length}/${SECRETS.length} rahsia`;
+   hud(this,{level:'1–3',coins:this.run.coins.length,zone,coll:`Syiling ${this.run.coins.length}/${COINS.length} · Rahsia ${this.run.secrets.length}/${SECRETS.length}`}); // V4 plaque + ribbon
    if(time-(this.lastAutosave||0)>10000){this.lastAutosave=time;this.writeSave();}
   }
-  message(text){$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+6000;}
+  message(text){$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+3500;}
   writeSave(){if(!this.run)return;this.run.elapsedMs=this.elapsed;if(!this.store.save(this.run)&&$('status'))$('status').textContent='Simpanan Level 1–3 tidak tersedia.';}
   respawn(){const cp=CHECKPOINTS.find(c=>c.id===this.run.checkpointId)||SPAWN;this.climbing=null;this.climbLockUntil=0;this.jumpAt=-1000;this.groundedAt=-1000;this.player.body.setAllowGravity(true);this.player.body.reset(cp.x,cp.feet-31);this.player.body.setVelocity(0,0);this.syncVisual();this.cameras.main.centerOn(cp.x,cp.feet-190);clearControls();}
   pauseRun(){if(this.mode!=='playing')return;this.mode='paused';clearControls();this.writeSave();this.physics.pause();this.tweens.pauseAll();this.time.paused=true;this.input.keyboard.enabled=false;$('world-prompt').hidden=true;$('quest-tracker')&&($('quest-tracker').hidden=true);$('inverse-dialog-title').textContent='Gerbang Songsang · Jeda';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia. Checkpoint disimpan.`;$('inverse-resume').hidden=false;$('inverse-replay').hidden=true;$('inverse-dialog').showModal();}
