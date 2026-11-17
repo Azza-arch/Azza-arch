@@ -2,14 +2,17 @@ import {MOTION} from '../level.js';
 export function updatePlayer(scene,time,delta,{controls,audio,SFX,reducedMotion,BASE_SCALE,WATER,WATER_Y}) {
     const body=scene.player.body;
     const key=scene.keys;
-    const left=key.left.isDown||key.a.isDown||controls.left;
-    const right=key.right.isDown||key.d.isDown||controls.right;
-    const up=key.up.isDown||key.w.isDown||controls.up;
-    const down=key.down.isDown||key.s.isDown||controls.down;
-    const jump=Phaser.Input.Keyboard.JustDown(key.jump)||controls.jump;
-    const interact=Phaser.Input.Keyboard.JustDown(key.interact)||controls.interact;
+    // V4: while a dialogue, the journal or an interaction panel is open (scene.uiLocks), inputs
+    // are read (so a key press cannot fire later) but ignored. Physics itself is unchanged.
+    const free=!scene.uiLocks?.size;
+    const left=free&&(key.left.isDown||key.a.isDown||controls.left);
+    const right=free&&(key.right.isDown||key.d.isDown||controls.right);
+    const up=free&&(key.up.isDown||key.w.isDown||controls.up);
+    const down=free&&(key.down.isDown||key.s.isDown||controls.down);
+    const jump=(Phaser.Input.Keyboard.JustDown(key.jump)||controls.jump)&&free;
+    const interact=(Phaser.Input.Keyboard.JustDown(key.interact)||controls.interact)&&free;
     controls.jump=false;controls.interact=false;
-    if(Phaser.Input.Keyboard.JustDown(key.restart)||controls.restart) {controls.restart=false;scene.respawn();return {respawned:true};}
+    if((Phaser.Input.Keyboard.JustDown(key.restart)||controls.restart)&&free) {controls.restart=false;scene.respawn();return {respawned:true};}
     if(Phaser.Input.Keyboard.JustDown(key.resetCrate)||controls.resetCrate) {controls.resetCrate=false;scene.resetCrate(false);}
     if(jump) scene.jumpAt=time;
     if(body.blocked.down||body.touching.down) scene.groundedAt=time;
@@ -27,7 +30,9 @@ export function updatePlayer(scene,time,delta,{controls,audio,SFX,reducedMotion,
         scene.climbing=null;scene.climbLockUntil=time+250;body.setAllowGravity(true);
         body.setVelocity((right?1:left?-1:0)*MOTION.speed,-MOTION.jump);scene.jumpAt=-1000;
         scene.dustBurst(scene.player.x,body.bottom,4);SFX.jump(audio);
-      } else if(body.bottom<=ladder.top && up) {
+      // Top exit: within 6 px of the top and not climbing down → step onto the
+      // platform, whether W is still held or was released a moment early.
+      } else if(body.bottom<=ladder.top+6 && !down) {
         body.reset(ladder.x,ladder.top-MOTION.bodyHeight/2-1);
         scene.climbing=null;body.setAllowGravity(true);body.setVelocity(0,0);scene.climbLockUntil=time+180;
       } else if(body.bottom>=ladder.bottom && down) {

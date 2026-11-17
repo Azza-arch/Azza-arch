@@ -1,5 +1,6 @@
 // DOM presentation derives from the Phaser scene; it owns no saved progress.
-import {COLLECTIBLES,GOAL} from './level.js';
+import {COLLECTIBLES,GOAL,SECRETS} from './level.js';
+import {hud} from './ui/v4-ui.js';
 const $=id=>document.getElementById(id);
 let noticeTimer,lastMode,noticePriority=0;
 export function notify(text,priority=1){
@@ -39,6 +40,8 @@ function placeWorldPrompt(scene){
  const k=c.width/scene.scale.width;
  let x=c.left-fr.left+(wp.x-cam.worldView.x)*cam.zoom*k,y=c.top-fr.top+(wp.y-cam.worldView.y)*cam.zoom*k;
  el.hidden=false;const half=el.offsetWidth/2+10;x=Math.max(half,Math.min(fr.width-half,x));y=Math.max(el.offsetHeight+70,y);
+ // V4: never above the quest pin's bottom edge (the prompt sits above its anchor, translate -100%).
+ const pin=$('quest-pin');if(pin&&!pin.hidden&&getComputedStyle(pin).display!=='none'){const pr=pin.getBoundingClientRect();if(pr.width&&x-half<pr.right-fr.left+6)y=Math.max(y,pr.bottom-fr.top+8+el.offsetHeight);}
  el.style.transform=`translate(${Math.round(x)}px,${Math.round(y)}px) translate(-50%,-100%)`;
 }
 export function explain(scene,worked=false){
@@ -63,7 +66,8 @@ export function syncPresentation(scene){
   if(mode!=='playing')scene.prompt?.setVisible(false);
  }
  const count=scene.collectedCoinIds?.size||0;
- const coinText=`${count} / ${COLLECTIBLES.length}`;if($('hud-collection').textContent!==coinText){$('hud-collection').textContent=coinText;$('hud-collection').setAttribute('aria-label',`Syiling ${coinText}`);}
+ // V4: compact plaque (level · coins); full collection lives in the Journal.
+ hud(scene,{level:'1–1',coins:count,coll:`Syiling ${count}/${COLLECTIBLES.length} · Rahsia ${scene.discoveredSecrets?.size||0}/${SECRETS.length}`});
  placeWorldPrompt(scene);
  if(mode!=='playing')return;
  // Old world-space formula/readout sprites remain as data for mechanics,
@@ -77,7 +81,7 @@ export function syncPresentation(scene){
  $('touch-controls').classList.toggle('ladder-near',ladder);
  document.querySelectorAll('[data-hold="up"],[data-hold="down"]').forEach(b=>b.hidden=!ladder);
  document.querySelector('[data-action="resetCrate"]').hidden=!(scene.crate&&scene.player.x<900&&Math.abs(scene.crate.x-scene.crateStart.x)>8);
- document.querySelector('[data-action="interact"]').hidden=!(scene.nearestTerminal()||scene.nearestSecret()||scene.sawmillReady||(Math.abs(scene.player.x-GOAL.x)<62&&scene.solvedGates.has('lift'))); // Phase C: + sawmill / jetty lever
+ document.querySelector('[data-action="interact"]').hidden=!(scene.nearestTerminal()||scene.nearestSecret()||scene.questReady||(Math.abs(scene.player.x-GOAL.x)<62&&scene.solvedGates.has('lift'))); // Phase C: + sawmill / jetty lever
  // Let the spatial design teach movement; no persistent tutorial ribbon.
  const tutorial=$('tutorial');tutorial.textContent='';tutorial.classList.remove('show');
 }

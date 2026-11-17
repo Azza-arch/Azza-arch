@@ -29,26 +29,30 @@ const go = async (p, k) => { await p.evaluate((k) => { const g = window.__game; 
       return { id, delta: s.coinsFound - before, inRun: s.collectedCoinIds.has(id), inSave: save?.collectedCoinIds.includes(id), inProfile: prof.coinIds.includes(id), emitters: s.children.list.filter((o) => o.type === 'ParticleEmitter').length }; });
     // 1-2: coins spin, pickup once, checkpoint chime + spring, bridge planks drop but collide immediately
     await go(p, 'Jambatan');
-    res.l2 = await p.evaluate(async () => { const s = window.__game.scene.getScene('Jambatan'), raf = () => new Promise((r) => requestAnimationFrame(r)); const m = await import('/app/addmath/denai/src/v14/levels/twin-world.js');
+    res.l2 = await p.evaluate(async () => { const s = window.__game.scene.getScene('Jambatan'), raf = () => new Promise((r) => requestAnimationFrame(r)); const m = await import('/app/addmath/denai/src/v14/levels/workshop-line.js');
       const v = s.coinViews.find((c) => c.art.visible); const playing = s.coinViews.filter((c) => c.art.anims?.isPlaying).length;
       for (let k = 0; k < 2; k++) { s.player.body.reset(v.def.x, v.def.y + 20); for (let i = 0; i < 20; i++) await raf(); }
       const coinTimes = s.run.coins.filter((id) => id === v.def.id).length, stored = JSON.parse(localStorage.getItem('denai-campaign-v1')).levels['w1-l2'].coins.includes(v.def.id);
       s.player.body.reset(1188 + 30, 1260); for (let i = 0; i < 40; i++) await raf(); const cpArt = s.checkpointArts[1];
-      s.openBridge(m.STATIONS[0]); const plankTweens = s.tweens.getTweens().length; const deck = s.bridges.twins.length;
-      const body = s.solids?.getChildren?.().find((o) => o.body && Math.abs(o.body.top - 1296) < 1 && o.body.left >= 1836 && o.body.left < 2160);
+      const t0 = s.tweens.getTweens().length; m.buildBridge(s, true); const plankTweens = s.tweens.getTweens().length - t0; const deck = s.workshop.bridgeArt.length;
+      const body = s.solids?.getChildren?.().find((o) => o.body && Math.abs(o.body.top - 1242) < 1 && o.body.left >= 3888 && o.body.left < 4212);
       return { playing, total: s.coinViews.length, coinTimes, stored, cp: s.run.checkpointId, cpFrame: cpArt.frame.name, plankTweens, deck, bridgeBodyNow: !!body }; });
     // restart → pooled emitter is recreated without errors
     await p.evaluate(() => window.__game.scene.getScene('Jambatan').scene.restart({ fresh: true })); await sleep(2500);
     res.l2AfterRestart = await p.evaluate(async () => { const s = window.__game.scene.getScene('Jambatan'); const f = await import('/app/addmath/denai/src/v14/feel.js'); for (let i = 0; i < 40; i++) f.burst(s, 500, 1200, 6, 0xffffff, false); return { emitters: s.children.list.filter((o) => o.type === 'ParticleEmitter').length, alive: s.__feelEmitter?.getAliveParticleCount?.() }; });
-    // 1-3: seals pop only when newly lit; restore does not replay
+    // 1-3 (V3): restoring the sluice — gate lifts, water drops, stones become solid at once; coins keep spinning.
     await go(p, 'GerbangSongsang');
-    res.l3 = await p.evaluate(async () => { const s = window.__game.scene.getScene('GerbangSongsang'); const n0 = s.tweens.getTweens().length; s.run.puzzle.seals[13] = true; s.updateGate(); const n1 = s.tweens.getTweens().length; s.updateGate(); const n2 = s.tweens.getTweens().length; s.run.puzzle.seals[7] = true; s.run.puzzle.seals[15] = true; s.updateGate(); return { popTweens: n1 - n0, repeatCallTweens: n2 - n1, bridge: s.bridgeArt.length, coinsPlaying: s.coinViews.filter((c) => c.art.anims?.isPlaying).length }; });
+    res.l3 = await p.evaluate(async () => { const s = window.__game.scene.getScene('GerbangSongsang'), raf = () => new Promise((r) => requestAnimationFrame(r)); const m = await import('/app/addmath/denai/src/v14/levels/sluice-line.js');
+      s.run.sluice.setting = 5; s.sluiceReady = 'flow'; const n0 = s.tweens.getTweens().length; m.useSluice(s, {}); const during = s.tweens.getTweens().length - n0;
+      for (let i = 0; i < 200 && s.sluice.busy; i++) await raf(); await new Promise((r) => setTimeout(r, 1500));
+      const top = s.solids.getChildren().filter((o) => o.getData?.('id')?.startsWith('stone-')).map((o) => Math.round(o.body.top));
+      return { open: s.run.sluice.open, tweens: during, stones: top, waterY: s.sluice.waterY, surfaceY: Math.round(s.channelWater.surface[0].y), coinsPlaying: s.coinViews.filter((c) => c.art.anims?.isPlaying).length }; });
     res.errs = errs; await ctx.close(); }
   // reduced motion: no spin, no particles, no plank tweens; state still updates
   { const { ctx, p, errs } = await open(b, { reducedMotion: 'reduce' });
     res.reduced = await p.evaluate(async () => { const s = window.__game.scene.getScene('Lorong'); const c = s.collectibles.find((o) => o.anims); const playing = s.collectibles.filter((o) => o.anims?.isPlaying).length; const before = s.coinsFound; s.player.body.reset(c.x, c.y); for (let i = 0; i < 20; i++) await new Promise((r) => requestAnimationFrame(r)); return { playing, frame: c.frame.name, collected: s.coinsFound - before, emitters: s.children.list.filter((o) => o.type === 'ParticleEmitter').length }; });
     await go(p, 'Jambatan');
-    res.reducedL2 = await p.evaluate(async () => { const s = window.__game.scene.getScene('Jambatan'); const m = await import('/app/addmath/denai/src/v14/levels/twin-world.js'); const n0 = s.tweens.getTweens().length; s.openBridge(m.STATIONS[0]); return { tweens: s.tweens.getTweens().length - n0, deck: s.bridges.twins.length, alpha: s.bridges.twins[0].alpha }; });
+    res.reducedL2 = await p.evaluate(async () => { const s = window.__game.scene.getScene('Jambatan'); const m = await import('/app/addmath/denai/src/v14/levels/workshop-line.js'); const n0 = s.tweens.getTweens().length; m.buildBridge(s, true); return { tweens: s.tweens.getTweens().length - n0, deck: s.workshop.bridgeArt.length, alpha: s.workshop.bridgeArt[0].alpha }; });
     res.reducedErrs = errs; await ctx.close(); }
   // throttled phone frame rate (CPU ×4), 1-2 with every coin on screen spinning
   { const { ctx, p, errs } = await open(b, { ...devices['iPhone 13 landscape'] });

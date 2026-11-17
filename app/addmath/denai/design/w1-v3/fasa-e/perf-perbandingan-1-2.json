@@ -1,0 +1,382 @@
+{
+ "scene": "Jambatan",
+ "browser": "153.0.8010.12",
+ "note": "headless Chromium, Canvas 2D renderer (Phaser.CANVAS), software raster",
+ "profiles": {
+  "desktop-1280x720": {
+   "cpuThrottle": 1,
+   "rows": [
+    {
+     "spot": "mula",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 60.1,
+     "medianMs": 16.7,
+     "p95Ms": 18.8,
+     "p99Ms": 20,
+     "long33": 0,
+     "renderMs": 3.67,
+     "objects": 698,
+     "visible": 699,
+     "inView": 100,
+     "tweens": 0,
+     "emitters": 0,
+     "canvas": [
+      1280,
+      720
+     ],
+     "zoom": 1.3333333333333333
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 60,
+     "medianMs": 16.7,
+     "p95Ms": 19.5,
+     "p99Ms": 21.3,
+     "long33": 0,
+     "renderMs": 3.76,
+     "objects": 699,
+     "visible": 700,
+     "inView": 73,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      1280,
+      720
+     ],
+     "zoom": 1.3333333333333333
+    },
+    {
+     "spot": "bengkel",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 60,
+     "medianMs": 16.7,
+     "p95Ms": 19.6,
+     "p99Ms": 20.7,
+     "long33": 0,
+     "renderMs": 3.75,
+     "objects": 700,
+     "visible": 701,
+     "inView": 151,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      1280,
+      720
+     ],
+     "zoom": 1.3333333333333333
+    },
+    {
+     "spot": "tamat",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 60.1,
+     "medianMs": 16.7,
+     "p95Ms": 19.1,
+     "p99Ms": 20.2,
+     "long33": 0,
+     "renderMs": 3.72,
+     "objects": 699,
+     "visible": 701,
+     "inView": 93,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      1280,
+      720
+     ],
+     "zoom": 1.3333333333333333
+    }
+   ],
+   "errs": []
+  },
+  "iphone13-landskap-cpu4x": {
+   "cpuThrottle": 4,
+   "rows": [
+    {
+     "spot": "mula",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 25.6,
+     "medianMs": 38.1,
+     "p95Ms": 50.8,
+     "p99Ms": 62.1,
+     "long33": 110,
+     "renderMs": 19.22,
+     "objects": 698,
+     "visible": 698,
+     "inView": 112,
+     "tweens": 0,
+     "emitters": 0,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 26.3,
+     "medianMs": 37.6,
+     "p95Ms": 48.9,
+     "p99Ms": 68.2,
+     "long33": 92,
+     "renderMs": 19.01,
+     "objects": 699,
+     "visible": 699,
+     "inView": 86,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "bengkel",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 30.1,
+     "medianMs": 31.6,
+     "p95Ms": 38.4,
+     "p99Ms": 58.9,
+     "long33": 48,
+     "renderMs": 17.41,
+     "objects": 699,
+     "visible": 700,
+     "inView": 168,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "tamat",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 25.4,
+     "medianMs": 37.3,
+     "p95Ms": 57.4,
+     "p99Ms": 75,
+     "long33": 102,
+     "renderMs": 20.03,
+     "objects": 699,
+     "visible": 699,
+     "inView": 98,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "coinsStatic",
+     "frames": 120,
+     "fps": 26,
+     "medianMs": 38.1,
+     "p95Ms": 52.1,
+     "p99Ms": 59.7,
+     "long33": 108,
+     "renderMs": 19.11,
+     "objects": 699,
+     "visible": 699,
+     "inView": 84,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "waterStatic",
+     "frames": 120,
+     "fps": 25.8,
+     "medianMs": 38.3,
+     "p95Ms": 49,
+     "p99Ms": 53.5,
+     "long33": 102,
+     "renderMs": 19.44,
+     "objects": 699,
+     "visible": 699,
+     "inView": 85,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "culled",
+     "frames": 120,
+     "fps": 31.4,
+     "medianMs": 31.6,
+     "p95Ms": 39.1,
+     "p99Ms": 41.6,
+     "long33": 37,
+     "renderMs": 14.97,
+     "objects": 699,
+     "visible": 183,
+     "inView": 85,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "burst",
+     "frames": 120,
+     "fps": 31,
+     "medianMs": 31.7,
+     "p95Ms": 37.5,
+     "p99Ms": 40.4,
+     "long33": 47,
+     "renderMs": 16.85,
+     "objects": 699,
+     "visible": 699,
+     "inView": 85,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 31.7,
+     "medianMs": 30.8,
+     "p95Ms": 36.1,
+     "p99Ms": 39.6,
+     "long33": 41,
+     "renderMs": 16.45,
+     "objects": 699,
+     "visible": 699,
+     "inView": 85,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      750,
+      342
+     ],
+     "zoom": 0.6666666666666666
+    }
+   ],
+   "errs": []
+  },
+  "iphone13-potret-cpu4x": {
+   "cpuThrottle": 4,
+   "rows": [
+    {
+     "spot": "mula",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 33.5,
+     "medianMs": 28.7,
+     "p95Ms": 38.6,
+     "p99Ms": 45.3,
+     "long33": 21,
+     "renderMs": 17.33,
+     "objects": 698,
+     "visible": 698,
+     "inView": 45,
+     "tweens": 0,
+     "emitters": 0,
+     "canvas": [
+      390,
+      664
+     ],
+     "zoom": 1
+    },
+    {
+     "spot": "halaman-mesin",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 34.9,
+     "medianMs": 27.7,
+     "p95Ms": 34.5,
+     "p99Ms": 42.3,
+     "long33": 7,
+     "renderMs": 16.39,
+     "objects": 699,
+     "visible": 699,
+     "inView": 55,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      390,
+      664
+     ],
+     "zoom": 1
+    },
+    {
+     "spot": "bengkel",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 31.1,
+     "medianMs": 31.3,
+     "p95Ms": 47.3,
+     "p99Ms": 58.7,
+     "long33": 33,
+     "renderMs": 18.03,
+     "objects": 699,
+     "visible": 700,
+     "inView": 77,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      390,
+      664
+     ],
+     "zoom": 1
+    },
+    {
+     "spot": "tamat",
+     "ablation": "base",
+     "frames": 120,
+     "fps": 30.6,
+     "medianMs": 32.3,
+     "p95Ms": 43.6,
+     "p99Ms": 50.2,
+     "long33": 50,
+     "renderMs": 18.32,
+     "objects": 699,
+     "visible": 699,
+     "inView": 55,
+     "tweens": 0,
+     "emitters": 1,
+     "canvas": [
+      390,
+      664
+     ],
+     "zoom": 1
+    }
+   ],
+   "errs": []
+  }
+ }
+}

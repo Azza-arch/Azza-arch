@@ -23,7 +23,7 @@ export const FIRST_GAP={x:2538,width:324};
 export const ROOMS=[
  {id:'R01',zone:'A',from:0,to:972,name:'Taman Permulaan'},
  {id:'R02',zone:'A',from:972,to:2052,name:'Laluan Akar'},
- {id:'R03',zone:'B',from:2052,to:3024,name:'Stesen Fungsi'},
+ {id:'R03',zone:'B',from:2052,to:3024,name:'Stesen Kayu'},
  {id:'R04',zone:'C',from:3024,to:4212,name:'Tebing Berliku'},
  {id:'R05',zone:'C',from:4212,to:5184,name:'Pokok Tinjau'},
  {id:'R06',zone:'C',from:5184,to:5940,name:'Destinasi Terakhir'}];
@@ -106,7 +106,7 @@ export const SAWMILL={id:'sawmill',x:3060,feet:1242,leverX:3375,leverFeet:1296};
 // Water is drawn (not collided) in front of cliff bases too, so the Tebing
 // Berliku cliffs visibly rise out of one continuous stretch of water.
 export const WATER=[{x:2538,width:324},{x:3132,width:1080}];
-export const GATES=[{id:'lift',x:2538,y:1242,width:324,parkedY:1242,planks:7}];
+export const GATES=[{id:'lift',x:2538,y:1242,width:324,parkedY:1242,planks:6}]; // V3: 6 plank slots, 5 missing
 export const TERMINALS=[
  {id:'probe',kind:'probe',x:2151,feet:1242},
  {id:'lift',kind:'lift',gate:'lift',x:2484,feet:1242}];
@@ -130,13 +130,13 @@ export const CRATE_PUZZLE={crate:{id:'crate-1',x:216,feet:1296},floorSwitch:{id:
 export const SECRETS=[
  {id:'tower-whisper',name:'Jejak di Akar',title:'Jejak di Akar',description:'Di bawah akar, laluan rendah menyimpan petunjuk kecil.',foundText:'Rahsia ditemui!',x:1124,feet:1404,radius:52,hint:'Sesuatu tersembunyi di bawah laluan atas Laluan Akar.'},
  {id:'lookout-note',name:'Nota Fungsi Misteri',title:'Nota Fungsi Misteri',description:'Nota di puncak Pokok Tinjau.',foundText:'Nota rahsia ditemui!',x:4446,feet:1026,radius:46,note:true,hint:'Satu misteri menanti jauh di atas lantai hutan.',
-  noteText:'Di puncak Pokok Tinjau tertulis:\n\n"Di Jambatan Berkembar, f(x) = 2x + 1 dan g(x) = x².\nApakah yang berubah apabila urutan mesin ditukar?"\n\nPetua: hasil mesin pertama menjadi input mesin kedua.'}
+  noteText:'Di puncak Pokok Tinjau tertulis:\n\n"Di bengkel hilir sungai ada dua mesin: f(x) = 2x dan g(x) = x − 2.\nApakah yang berubah apabila susunan mesin ditukar?"\n\nPetua: hasil mesin pertama menjadi input mesin kedua.'}
 ];
 export const PUZZLES=[{...ORIGINAL_PUZZLES[0],gate:'lift'}];
 export const ZONES=[
  {name:'01 · Taman Permulaan',xStart:0,xEnd:972},
  {name:'02 · Laluan Akar',xStart:972,xEnd:2052},
- {name:'03 · Stesen Fungsi',xStart:2052,xEnd:3024},
+ {name:'03 · Stesen Kayu',xStart:2052,xEnd:3024},
  {name:'04 · Tebing Berliku',xStart:3024,xEnd:4212},
  {name:'05 · Pokok Tinjau',xStart:4212,xEnd:5184},
  {name:'06 · Destinasi Terakhir',xStart:5184,xEnd:5940}

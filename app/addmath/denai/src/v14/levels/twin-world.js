@@ -10,7 +10,7 @@ export const AB_TERRAIN=[
 ].map(([id,x,width,y])=>({id,x,width,y}));
 export const DECKS=[
   {id:'upper-west',x:1674,y:1134,width:162},
-  {id:'upper-east',x:2160,y:1134,width:270},
+  {id:'upper-east',x:2160,y:1134,width:162}, // V3: shorter, so running off its end lands on the bank, not in the river
   {id:'canopy',x:2916,y:1080,width:216},
   {id:'lookout',x:3186,y:1026,width:162},
 ];
@@ -22,21 +22,24 @@ export const STATIONS=[
 export const CHECKPOINTS=[
   {id:'entry',x:108,feet:1296},
   {id:'machines',x:1188,feet:1296},
-  {id:'beyond-twins',x:2214,feet:1296,requires:'twins'},
-  {id:'secret-bank',x:2970,feet:1296,requires:'twins'},
-  {id:'final-yard',x:3402,feet:1242,requires:'twins'},
-  {id:'exit',x:4266,feet:1242,requires:'final'},
+  {id:'beyond-twins',x:2214,feet:1296},
+  {id:'secret-bank',x:2970,feet:1296},
+  {id:'final-yard',x:3402,feet:1242},
+  {id:'exit',x:4266,feet:1242,requires:'workshop'},
 ];
 export const COINS=[
   [324,1260],[756,1206],[918,1206],[1242,1260],
-  [1728,1098],[2052,1098],[2376,1098],
+  [1728,1098],[2052,1098],[2295,1098],
   [2430,1260],[2700,1206],[3024,1044],[3240,990],
   [3294,1206],[4320,1206],[4590,1152],[4752,1152],
 ].map(([x,y],i)=>({id:`l2-coin-${i+1}`,x,y}));
 export const SECRETS=[
-  {id:'twin-observation',x:2376,feet:1134,text:'Urutan dibaca dari dalam: f(g(x)) bermula dengan g. Pada x = 2, 9 ≠ 25.'},
-  {id:'canopy-observation',x:3294,feet:1026,text:'Tidak semestinya berbeza untuk setiap input: pada x = 0, f(g(0)) = g(f(0)) = 1. Satu persamaan tidak membuktikan dua fungsi sama.'},
+  {id:'twin-observation',x:2214,feet:1134,text:'Catatan mandur: dalam fg(x) = f(g(x)), mesin g bekerja dahulu. Hasil mesin pertama menjadi input mesin kedua.'},
+  {id:'canopy-observation',x:3294,feet:1026,text:'Dengan f(x) = 2x dan g(x) = x − 2: gf(x) = 2x − 2 tetapi fg(x) = 2x − 4. Untuk setiap x, bezanya sentiasa 2.'},
 ];
+// World 1 V3: the first crossing is a platforming challenge (no maths):
+// two posts in the river, stepping up toward the upper deck.
+export const PIERS=[{id:'pier-low',x:1890,y:1242,width:72},{id:'pier-high',x:2034,y:1188,width:72}];
 export const WATER=[{x:972,width:108},{x:1836,width:324},{x:2484,width:108},{x:2808,width:108},{x:3888,width:324}];
 export const WATER_Y=1512;
 export const DEFINITION={WORLD,AB_TERRAIN,DECKS,LADDERS,bgTheme:'forest'};

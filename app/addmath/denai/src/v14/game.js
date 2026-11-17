@@ -1,6 +1,8 @@
 import {createTwinScene} from './levels/twin-scene.js';
 import {createInverseScene} from './levels/inverse-scene.js';
 import {createInverseStore} from './core/inverse-campaign.js';
+import {COINS as L2_COINS,SECRETS as L2_SECRETS} from './levels/twin-world.js';
+import {COINS as L3_COINS,SECRETS as L3_SECRETS} from './levels/inverse-world.js';
 import {createCampaignStore} from './core/campaign-store.js';
 import {canPlay} from './levels/registry.js';
 import {installWorldMap} from './menu/world-map.js';
@@ -22,9 +24,10 @@ import {syncCControl} from './c-control.js';
 import {syncEControl} from './e-control.js';
 import {syncGControl} from './g-control.js';
 import {buildWorld,buildSecretMarkers} from './environment.js';
+import {installViewCull} from './core/view-cull.js';
 import {createMechanismMethods} from './mechanisms.js';
 import {notify,syncPresentation,installPresentation,explain,showCheckpointToast,setWorldPrompt} from './presentation.js';
-import {sawmillPrompt,useSawmill} from './levels/sawmill.js';
+import {questPrompt,useQuest,newQuest,pickVariant,noteVariant,applyQuestState,syncQuestUI,renderTracker,sanitizeQuest} from './levels/supply-quest.js';
 import { BUILD_STAGE, BATCH_END, SURFACES, WORLD, MOTION, SPAWN, GOAL, ZONES, GROUND_RANGES, FIRST_GAP, AB_TERRAIN, DECKS, LADDERS, GATES, TERMINALS, CHECKPOINTS, COLLECTIBLES, PUZZLES, SECRETS, CRATE_PUZZLE, WATER, WATER_Y } from './level.js';
 import { audio, SFX } from '../audio.js';
 import { SaveManager } from './save.js';
@@ -85,7 +88,7 @@ function fail(message) {
   $('pause').disabled = true;
 }
 
-const ZONE_GOALS=[ '', '', 'Cari mesin fungsi untuk membuka jambatan.', '', '', 'Bendera penamat menanti di hujung.' ];
+const ZONE_GOALS=[ '', '', 'Baiki jambatan yang rosak di Stesen Kayu.', '', '', 'Bendera penamat menanti di hujung.' ];
 class Rooftop extends Phaser.Scene {
   constructor(key='Lorong') { super(key); }
   init() {
@@ -140,7 +143,7 @@ class Rooftop extends Phaser.Scene {
   }
   create() {
     if (fatal) return;
-    activeScene = this;
+    activeScene = this;this.audioRef=audio;this.sfxRef=SFX;
     $('world-prompt').removeAttribute('style');
     // V8 Phase 7: loaded here, unconditionally, BEFORE buildEnvironment()
     // draws the secret markers below — so an already-discovered secret
@@ -236,6 +239,8 @@ class Rooftop extends Phaser.Scene {
     this.renderLevelSelect();
     $('import-v9').hidden=!!existingSave || !SaveManager.legacyAvailable();
     announce('Ikut laluan dari taman ke sungai. Laluan atas ialah bonus pilihan.');
+    // Fasa F: skip drawing off-screen tiles (core/view-cull.js; measured, pixel-identical).
+    if(!window.__DENAI_NO_CULL__)this.viewCull=installViewCull(this);
     this.events.once('shutdown', () => { this.input.keyboard.enabled = true; });
     refreshTwinEntry();refreshInverseEntry();
     if(this.game.registry.get('showLevelSelect')){this.game.registry.remove('showLevelSelect');worldMap.open();} // returning from 1-2/1-3 → World Map page
@@ -476,7 +481,7 @@ class Rooftop extends Phaser.Scene {
     // the same area within 6 s does not replay it; a newer area replaces the
     // old banner at once. Pure DOM/CSS: physics, input and camera untouched.
     if(step<0) return;
-    $('hud-area').textContent='1–1 · Jejak Taman Fungsi';
+    $('hud-area').textContent='1–1'; // V4: level only; the area name is on the ribbon
     const now=performance.now();this.areaBannerAt||={};
     if(now-(this.areaBannerAt[step]??-1e9)<6000) return;
     this.areaBannerAt[step]=now;
@@ -708,13 +713,14 @@ class Rooftop extends Phaser.Scene {
     let seed=0;try{seed=crypto.getRandomValues(new Uint32Array(1))[0];}catch{seed=(Math.random()*2**32)>>>0;}
     const v=selectVariant(seed,recentVariants());noteRunVariant(v.id);
     const id=(()=>{try{return crypto.randomUUID();}catch{return 'run-'+seed.toString(16)+'-'+Date.now().toString(36);}})();
-    this.run={runId:id,runSeed:seed,missions:{lift:v.id},attempts:{lift:{wrong:0,correct:0}},eligible:true,explore:false,startedAt:new Date().toISOString()};
+    const qv=pickVariant();noteVariant(qv);
+    this.run={runId:id,runSeed:seed,missions:{lift:v.id},attempts:{lift:{wrong:0,correct:0}},eligible:true,explore:false,startedAt:new Date().toISOString(),quest:newQuest(qv)};
     this.applyMission();
   }
   loadRun(save) {
     this.run={runId:save.runId,runSeed:save.runSeed,missions:{...save.missions},attempts:{lift:{...save.attempts.lift}},
       // A resumed run spans sessions, so its time can't be verified as continuous.
-      eligible:false,explore:save.explore,startedAt:save.startedAt};
+      eligible:false,explore:save.explore,startedAt:save.startedAt,quest:sanitizeQuest(save.quest,save.solvedGateIds?.includes('lift'))};
     this.applyMission();
   }
   applyMission() {
@@ -725,7 +731,7 @@ class Rooftop extends Phaser.Scene {
   }
   runSaveFields() {
     const r=this.run||{};
-    return {runId:r.runId,runSeed:r.runSeed,missions:r.missions,attempts:r.attempts,eligible:!!r.eligible,explore:!!r.explore,startedAt:r.startedAt};
+    return {runId:r.runId,runSeed:r.runSeed,missions:r.missions,attempts:r.attempts,eligible:!!r.eligible,explore:!!r.explore,startedAt:r.startedAt,quest:r.quest};
   }
   startRun() {
     if(!this.runSource)this.runSource='fresh';
@@ -1014,11 +1020,12 @@ class Rooftop extends Phaser.Scene {
       wp={key:K('Space','Lompat'),text:'Naik kotak, lompat ke pelantar',x:this.crate.x,y:this.crate.y-44};
     if(this.crateSwitchActive&&Math.abs(body.bottom-1188)<3&&onGround)this.ledgeHintDone=true;
     // Phase C: optional riverside sawmill (builds the fishing jetty).
-    const saw=(!terminal&&!secret&&!atExit)?sawmillPrompt(this,onGround,touchDevice):(this.sawmillReady=false,null);
-    if(!wp&&saw)wp=saw;
+    // World 1 V3: storeroom / key / purchase / repair (supply-quest.js).
+    const quest=(!terminal&&!secret&&!atExit)?questPrompt(this,onGround,touchDevice):(this.questReady=null,null);
+    if(!wp&&quest)wp=quest;
     setWorldPrompt(this,wp);
     if(interact) {
-      if (this.sawmillReady&&!terminal&&!secret&&!atExit) useSawmill(this,{audio,SFX});
+      if (this.questReady&&!terminal&&!secret&&!atExit) useQuest(this,{audio,SFX});
       else if (secret) { if (secret.note) this.openSecretNote(secret); else this.discoverSecret(secret.id); }
       else if (atExit) this.finish();
       else if(terminal?.kind==='water-stage'||terminal?.kind==='water-activate')this.interactWaterworks(terminal);
@@ -1064,7 +1071,7 @@ function buildJournal(list,scene){
   }
 }
 function achievementChips(list,ids,fresh=[]){
-  list.replaceChildren();for(const a of ACHIEVEMENTS.filter(a=>ids.includes(a.id))){const li=document.createElement('li');li.textContent=a.title;li.title=a.desc;if(fresh.includes(a.id)){li.classList.add('is-new');li.setAttribute('aria-label',`${a.title} (baharu)`);}list.append(li);}
+  list.replaceChildren();for(const a of ACHIEVEMENTS.filter(a=>ids.includes(a.id))){const li=document.createElement('li');li.textContent=a.legacy?`${a.title} (lama)`:a.title;li.title=a.desc;if(fresh.includes(a.id)){li.classList.add('is-new');li.setAttribute('aria-label',`${a.title} (baharu)`);}list.append(li);}
   list.hidden=!list.children.length;
 }
 // One discreet line under the stats: what is still hidden (place, not answer).
@@ -1176,6 +1183,14 @@ Object.assign(Rooftop.prototype,{
     if(this.noteReturnMode){$('secret-note').close();this.mode=this.noteReturnMode;this.noteReturnMode=null;return;}
     return baseClose.call(this);
   };
+  // World 1 V3: the lift machine and probe board are retired (the bridge is
+  // repaired with purchased planks); their terminals never prompt again.
+  const baseTerminal=Rooftop.prototype.nearestTerminal;
+  Rooftop.prototype.nearestTerminal=function(){const t=baseTerminal.call(this);return t&&['lift','probe','b-selector'].includes(t.kind)?null:t;};
+  const baseContinue=Rooftop.prototype.continueFromSave;
+  Rooftop.prototype.continueFromSave=function(){const r=baseContinue.call(this);applyQuestState(this);return r;};
+  const baseUpdate=Rooftop.prototype.update;
+  Rooftop.prototype.update=function(time,delta){baseUpdate.call(this,time,delta);if(this.player)syncQuestUI(this);};
   const baseStart=Rooftop.prototype.startRun;
   Rooftop.prototype.startRun=function(){baseStart.call(this);$('hud-mode').hidden=!this.run?.explore;};
   // Journal (pause → Jurnal): same journal + lifetime coins + achievements.
@@ -1243,7 +1258,7 @@ function refreshTwinEntry(){
   const allowed=canPlay('w1-l2',state.levels['w1-l1'].completed?['w1-l1']:[],{localPreview});
   $('level2-action').disabled=!allowed;
   $('level2-action').textContent=l2.run?'Sambung':'Main';
-  $('level2-status').textContent=l2.completions?`Selesai · ${l2.coins.length}/15 syiling · ${l2.secrets.length}/2 rahsia`:state.levels['w1-l1'].completed?'Fungsi gubahan':localPreview?'Prototype lokal · Fungsi gubahan':'Selesaikan Level 1–1 dahulu';
+  $('level2-status').textContent=l2.completions?`Selesai · ${l2.coins.length}/${L2_COINS.length} syiling · ${l2.secrets.length}/${L2_SECRETS.length} rahsia`:state.levels['w1-l1'].completed?'Fungsi gubahan':localPreview?'Prototype lokal · Fungsi gubahan':'Selesaikan Level 1–1 dahulu';
 }
 function launchTwins(){
   refreshTwinEntry();if($('level2-action').disabled)return;
@@ -1257,7 +1272,7 @@ function refreshInverseEntry(){
   $('level3-action').disabled=!allowed;
   $('level3-action').textContent=l3.run?'Sambung':'Main';
   $('level3-card').classList.toggle('is-locked',!allowed);
-  $('level3-status').textContent=l3.completions?`Selesai · ${l3.coins.length}/20 syiling · ${l3.secrets.length}/3 rahsia`:l2.completions?'Songsangan fungsi · f(x)=2x+3':localPreview?'Prototype lokal · Songsangan fungsi':'Selesaikan Level 1–2 dahulu';
+  $('level3-status').textContent=l3.completions?`Selesai · ${l3.coins.length}/${L3_COINS.length} syiling · ${l3.secrets.length}/${L3_SECRETS.length} rahsia`:l2.completions?'Fungsi songsang · pintu air lama':localPreview?'Prototype lokal · Fungsi songsang':'Selesaikan Level 1–2 dahulu';
 }
 function launchInverse(){
   refreshInverseEntry();if($('level3-action').disabled)return;

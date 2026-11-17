@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="src/v14/g-control.css">
   <link rel="stylesheet" href="src/v14/ui-system.css">
   <link rel="stylesheet" href="src/v14/leaderboard/engage.css">
+  <link rel="stylesheet" href="src/v14/levels/quest.css">
   <link rel="stylesheet" href="src/orientation.css">
   <link rel="stylesheet" href="src/v14/menu/world-map.css">
   <script defer src="vendor/phaser-3.90.0.min.js"></script>
@@ -25,13 +26,13 @@
   <script type="module" src="src/orientation.js"></script>
   <link rel="stylesheet" href="src/v14/twin.css">
   <link rel="stylesheet" href="src/v14/inverse.css">
+  <link rel="stylesheet" href="src/v14/ui/v4.css">
 </head>
 <body>
   <main class="shell">
     <header class="masthead" aria-label="Status permainan">
-      <span id="hud-area" class="hud-chip hud-area"></span>
+      <span class="hud-plaque"><span id="hud-area" class="hud-chip hud-area"></span><span class="hud-sep" aria-hidden="true"></span><span id="hud-collection" class="hud-chip hud-coins" aria-label="Koleksi syiling">0</span></span>
       <span id="hud-mode" class="hud-chip hud-mode" hidden>Teroka</span>
-      <span id="hud-collection" class="hud-chip hud-coins" aria-label="Koleksi syiling">0 / 0</span>
       <button type="button" id="pause" disabled aria-label="Jeda permainan (Esc)" class="hud-pause"><span class="pause-glyph" aria-hidden="true"></span></button>
     </header>
     <div class="game-stage">
@@ -245,7 +246,7 @@
         <div class="teaser-art" aria-hidden="true"><span class="sil sil-machine"></span><span class="sil sil-plank"></span><span class="sil sil-q">?</span><span class="sil sil-plank"></span><span class="sil sil-machine"></span></div>
         <p class="teaser-kicker">Pengembaraan seterusnya</p>
         <p class="teaser-title">Level 1-2: Jambatan Berkembar</p>
-        <p class="teaser-quote">Dua mesin. Dua laluan. Apakah yang berlaku apabila peraturannya berbeza?</p>
+        <p class="teaser-quote">Bengkel kekurangan komponen. Susunan dua mesin menentukan hasilnya.</p>
         <button type="button" id="next-level2" class="primary">Teruskan ke Level 1–2</button>
       </aside>
       <div class="victory-actions">

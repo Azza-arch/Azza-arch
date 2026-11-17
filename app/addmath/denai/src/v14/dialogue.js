@@ -11,7 +11,7 @@
 // telling the player it happened. Kept only the two lines that carry
 // information the world doesn't otherwise show: a wrong-answer nudge and
 // the end-of-level line.
-export const MISSION='Cari pengangkat dan uji fungsinya.';
+export const MISSION='Teroka hutan dan cari jalan ke seberang sungai.';
 export const LINES={
  'failed:lift':'Belum sampai ke lintasan. Cuba input lain.',
  'destination':'Jejak pertama selesai!'
@@ -46,6 +46,6 @@ export class DialogueQueue{
 }
 export function missionObjective(scene){
  if(scene.levelCompleted)return 'Level 1 selesai.';
- if(!scene.solvedGates.has('lift'))return 'Cari pengangkat dan uji fungsinya.';
+ if(!scene.solvedGates.has('lift'))return 'Baiki jambatan di Stesen Kayu.';
  return 'Lintasi laluan batu loncatan ke destinasi slice.';
 }

@@ -5,18 +5,24 @@
 import {COLLECTIBLES,SECRETS} from './level.js';
 export const PROFILE_KEY='denai-profile-v1', LEVEL_KEY='w1-l1';
 // Current Level 1-1 course (bump when the 1-1 map changes so old times stay separate).
-export const L1_COURSE='v2';
+export const L1_COURSE='v3'; // World 1 V3: storeroom + purchase mission
 const LEGACY_RECORDS_KEY='denai-records-v14', LEGACY_RECORDS_LEVEL='bab1-l1-jejak-taman-fungsi';
 const coinIds=COLLECTIBLES.map(c=>c.id), secretIds=SECRETS.map(s=>s.id);
 const pick=(v,allowed)=>Array.isArray(v)?[...new Set(v.filter(x=>allowed.includes(x)))]:[];
 const num=(v,min=0)=>Number.isFinite(v)&&v>=min?v:null;
+// World 1 V3: 'tepat-sekali' and 'tiga-cara' belonged to the retired lift
+// machine. They are no longer awarded, but players who earned them keep
+// them (legacy:true keeps them valid in saves and visible in the journal).
 export const ACHIEVEMENTS=[
  {id:'jejak-pertama',title:'Jejak Pertama',desc:'Selesaikan Level 1-1.'},
- {id:'tepat-sekali',title:'Tepat Sekali',desc:'Hidupkan mesin fungsi tanpa jawapan salah.'},
+ {id:'bajet-cermat',title:'Bajet Cermat',desc:'Beli tepat 5 papan dalam bajet di Stor Kayu.'},
  {id:'pemburu-syiling',title:'Pemburu Syiling',desc:`Kumpul ${coinIds.length}/${coinIds.length} syiling dalam satu pengembaraan.`},
  {id:'penjejak-rahsia',title:'Penjejak Rahsia',desc:`Temui ${secretIds.length}/${secretIds.length} rahsia.`},
- {id:'tiga-cara',title:'Tiga Cara Berfikir',desc:'Selesaikan mesin dengan tiga jenis misi berbeza.'},
+ {id:'jalan-pintas',title:'Jalan Pintas',desc:'Guna laluan turun dari gerbang akar ke Stor Kayu.'},
+ {id:'tepat-sekali',title:'Tepat Sekali',desc:'Hidupkan mesin fungsi lama tanpa jawapan salah.',legacy:true},
+ {id:'tiga-cara',title:'Tiga Cara Berfikir',desc:'Selesaikan mesin lama dengan tiga jenis misi.',legacy:true},
 ];
+export const ACTIVE_ACHIEVEMENTS=ACHIEVEMENTS.filter(a=>!a.legacy);
 const levelDefault=()=>({completions:0,firstCompletedAt:null,best:null,classicBest:null});
 export function defaultProfile(){
  return {schemaVersion:1,createdAt:new Date().toISOString(),levels:{[LEVEL_KEY]:levelDefault()},
@@ -65,6 +71,8 @@ export function migrateLegacy(oldRunSave){
   return p;
  });
 }
+// Quest achievements are given at the moment they happen (once).
+export const awardAchievement=id=>update(p=>{if(ACHIEVEMENTS.some(a=>a.id===id&&!a.legacy)&&!p.achievements.includes(id))p.achievements.push(id);});
 export const addCoin=id=>update(p=>{if(coinIds.includes(id)&&!p.coinIds.includes(id))p.coinIds.push(id);});
 export const addSecret=id=>update(p=>{if(secretIds.includes(id)&&!p.secretIds.includes(id))p.secretIds.push(id);});
 export const noteRunVariant=id=>update(p=>{p.recentVariants.lift=[...p.recentVariants.lift.filter(x=>x!==id),id].slice(-4);});
@@ -79,10 +87,8 @@ export function recordCompletion(run){
   let isNewBest=false;if(run.eligible&&better(entry,lv.best)){lv.best=entry;isNewBest=true;}
   const has=id=>p.achievements.includes(id),give=id=>{if(!has(id))p.achievements.push(id);};
   give('jejak-pertama');
-  if(run.wrongAttempts===0)give('tepat-sekali');
   if(run.coins>=coinIds.length)give('pemburu-syiling');
   if(p.secretIds.length>=secretIds.length)give('penjejak-rahsia');
-  if(p.mastered.types.length>=3)give('tiga-cara');
   return {isNewBest,best:lv.best,prevBest,completions:lv.completions,newAchievements:p.achievements.filter(a=>!before.has(a))};
  });
 }

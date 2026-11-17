@@ -1,0 +1,140 @@
+{
+ "desktop": {
+  "teroka": {
+   "pct": 1.3,
+   "parts": {
+    "hud-area": 0.6,
+    "hud-collection": 0.3,
+    "pause": 0.3,
+    "notice": 0.1
+   }
+  },
+  "penemuan": {
+   "pct": 5.4,
+   "parts": {
+    "hud-collection": 0.3,
+    "pause": 0.3,
+    "zone-toast": 2,
+    "notice": 0.1,
+    "quest-tracker": 2.5
+   }
+  },
+  "selepasPenemuan": {
+   "pct": 3.9,
+   "parts": {
+    "hud-area": 0.6,
+    "hud-collection": 0.3,
+    "pause": 0.3,
+    "notice": 0.1,
+    "quest-tracker": 2.5
+   }
+  },
+  "interaksiStor": {
+   "pct": 8.5,
+   "parts": {
+    "hud-area": 0.6,
+    "hud-collection": 0.3,
+    "pause": 0.3,
+    "notice": 0.1,
+    "store-panel": 7.1
+   }
+  }
+ },
+ "iphone13-landskap": {
+  "teroka": {
+   "pct": 9.3,
+   "parts": {
+    "hud-area": 2,
+    "hud-collection": 1,
+    "pause": 0.8,
+    "notice": 0.4,
+    "BUTTON": 2.4,
+    "jump": 2.2
+   }
+  },
+  "penemuan": {
+   "pct": 17.4,
+   "parts": {
+    "hud-collection": 1,
+    "pause": 0.8,
+    "zone-toast": 2.4,
+    "notice": 0.4,
+    "BUTTON": 2.4,
+    "jump": 2.2,
+    "quest-tracker": 7.2
+   }
+  },
+  "selepasPenemuan": {
+   "pct": 16.9,
+   "parts": {
+    "hud-area": 2,
+    "hud-collection": 1,
+    "pause": 0.8,
+    "notice": 0.4,
+    "BUTTON": 2.4,
+    "jump": 2.2,
+    "quest-tracker": 7.2
+   }
+  },
+  "interaksiStor": {
+   "pct": 33.4,
+   "parts": {
+    "hud-area": 2,
+    "hud-collection": 1,
+    "pause": 0.8,
+    "notice": 0.4,
+    "BUTTON": 2.4,
+    "interact": 1.3,
+    "jump": 2.2,
+    "store-panel": 22.3
+   }
+  }
+ },
+ "iphone13-potret": {
+  "teroka": {
+   "pct": 8.3,
+   "parts": {
+    "hud-collection": 1,
+    "pause": 0.7,
+    "notice": 0.4,
+    "BUTTON": 3.2,
+    "jump": 2.7
+   }
+  },
+  "penemuan": {
+   "pct": 18.6,
+   "parts": {
+    "hud-collection": 1,
+    "pause": 0.7,
+    "zone-toast": 2.4,
+    "notice": 0.4,
+    "BUTTON": 3.2,
+    "jump": 2.7,
+    "quest-tracker": 7.6
+   }
+  },
+  "selepasPenemuan": {
+   "pct": 16.2,
+   "parts": {
+    "hud-collection": 1,
+    "pause": 0.7,
+    "notice": 0.4,
+    "BUTTON": 3.2,
+    "jump": 2.7,
+    "quest-tracker": 7.6
+   }
+  },
+  "interaksiStor": {
+   "pct": 25.4,
+   "parts": {
+    "hud-collection": 1,
+    "pause": 0.7,
+    "notice": 0.4,
+    "BUTTON": 3.2,
+    "interact": 1.6,
+    "jump": 2.7,
+    "store-panel": 15.3
+   }
+  }
+ }
+}

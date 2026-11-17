@@ -8,19 +8,21 @@ Everything below is done by the title owner in PlayFab Game Manager.
 | Name | Purpose | Exists in production? |
 |---|---|---|
 | `denai_l1_time` | Level 1-1 **classic** course (old map). Historical records. | yes (existing) |
-| `denai_l1_time_v2` | Level 1-1 **current** course (redesigned map) | **no** (`GetLeaderboard` → 404) |
+| `denai_l1_time_v3` | Level 1-1 **current** course (redesigned map) | **no** (`GetLeaderboard` → 404) |
 | `denai_players` | Unique player counter for the main menu | **no** (`GetLeaderboard` → 404) |
 
 Until the two missing items exist, the game behaves safely: the menu hides the player count,
 says the new-course ranking opens soon, the victory panel saves results on the device only, and
 nothing is written to the classic board.
 
-## 1. Statistic + leaderboard `denai_l1_time_v2`
+## 1. Statistic + leaderboard `denai_l1_time_v3`
+
+(World 1 V3 course. `denai_l1_time_v2` is skipped: it was never created and its course is replaced.)
 
 Same settings as `denai_l1_time`:
 
-- Statistic: name `denai_l1_time_v2`, entity type `title_player_account`, 1 column, aggregation **Min**.
-- Leaderboard: name `denai_l1_time_v2`, linked to that statistic, sort **Ascending** (fastest first), no reset.
+- Statistic: name `denai_l1_time_v3`, entity type `title_player_account`, 1 column, aggregation **Min**.
+- Leaderboard: name `denai_l1_time_v3`, linked to that statistic, sort **Ascending** (fastest first), no reset.
 
 Keep `denai_l1_time` unchanged as the archive. Do **not** copy its rows into v2: the courses differ.
 

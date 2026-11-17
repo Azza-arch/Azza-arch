@@ -16,7 +16,7 @@ export const DECKS=[
  {id:'upper-gallery',x:1566,y:1296,width:324},
  {id:'lookout',x:1836,y:1188,width:270},
  {id:'gallery-step',x:1566,y:1404,width:324},
- {id:'gate-arch-walk',x:4482,y:1242,width:270},
+ {id:'gate-arch-walk',x:4320,y:1242,width:486}, // V3: longer, carries the cave-valve plates
 ];
 export const LADDERS=[
  {x:918,top:1512,bottom:1674},
@@ -25,27 +25,36 @@ export const LADDERS=[
  {x:1890,top:1188,bottom:1404},
  {x:4590,top:1242,bottom:1620},
 ];
-export const BRIDGE={id:'seal-crossing',x:3240,y:1620,width:216};
+// V3: the flooded sluice channel. Too wide to jump (216 > jump range) until the
+// sluice is restored; then the water drops 54 px and two stepping stones emerge.
+export const CHANNEL={x:3240,width:216};
+export const STONES=[{id:'stone-1',x:3267,y:1701,width:54},{id:'stone-2',x:3375,y:1701,width:54}];
+export const SLUICE={noteX:2760,wheelX:2862,meterX:2970,leverX:3060,feet:1620,gateX:3294,gateWidth:108,waterDrop:54};
+// Optional cave valve on the arch walk: plate k (0…6) at plateX+54k, lever and chest.
+export const CAVE={plateX:4374,feet:1242,leverX:4779,chestX:4347};
 export const CHECKPOINTS=[
  {id:'entry',x:108,feet:1728},
  {id:'ruins',x:1998,feet:1674},
  {id:'machine',x:2592,feet:1620},
- {id:'far-bank',x:3564,feet:1674,requires:'seals'},
- {id:'gate-court',x:4860,feet:1566,requires:'seals'},
+ {id:'far-bank',x:3564,feet:1674,requires:'sluice'},
+ {id:'gate-court',x:4860,feet:1566,requires:'sluice'},
 ];
 export const COINS=[
  [324,1692],[756,1638],[1026,1476],[1188,1368],[1512,1368],
  [1674,1260],[1890,1152],[2106,1638],[2430,1584],[2700,1584],
  [3024,1368],[3186,1584],[3402,1584],[3672,1638],[3996,1584],
  [4266,1584],[4482,1206],[4806,1530],[5076,1530],[5400,1530],
-].map(([x,y],i)=>({id:`l3-coin-${i+1}`,x,y}));
+].map(([x,y],i)=>({id:`l3-coin-${i+1}`,x,y}))
+ // V3: two coins inside the cave-valve chest, shown once that valve is solved.
+ .concat([[4320,1188],[4374,1170]].map(([x,y],i)=>({id:`l3-coin-${21+i}`,x,y,cave:true})));
 export const SECRETS=[
  {id:'ruin-inscription',x:945,feet:1512,text:'Runtuhan ini dibina bertingkat: lihat laluan atas dari halaman, kemudian cari tangga pada dinding yang masih utuh.'},
- {id:'domain-tablet',x:3024,feet:1620,text:'Domain f ialah {0,1,2,3,4,5,6}. Imejnya {3,5,7,9,11,13,15}; setiap input berbeza menghasilkan output berbeza.'},
- {id:'inverse-tablet',x:4590,feet:1242,text:'Songsangan memulangkan input: f⁻¹(y)=(y−3)/2 untuk y dalam imej f. f⁻¹ bukan 1/f; nilai di luar imej tiada input songsang dalam domain ini.'},
+ {id:'domain-tablet',x:3186,feet:1620,text:'Domain f ialah {0,1,2,3,4,5,6}. Julatnya {3,5,7,9,11,13,15}; setiap objek berbeza mempunyai imej berbeza (fungsi satu dengan satu).'},
+ // V3: inside the cave-valve chest (shown once that optional valve is solved).
+ {id:'inverse-tablet',x:4347,feet:1242,cave:true,text:'Injap gua: 15 − 3 = 12, 12 ÷ 2 = 6. Fungsi songsang memulangkan input: f⁻¹(y) = (y − 3) ÷ 2. f⁻¹ bukan 1/f. Di dasar peti ada serpihan batu kapur — dari lembah di seberang gerbang.'},
 ];
 export const WATER=[{x:378,width:108},{x:3240,width:216}];
-export const WATER_Y=1692;
+export const WATER_Y=1692; // channel water line before the sluice is restored (then +54)
 // Decorative spillway beside the bridge; it has no collider or gameplay effect.
 export const WATERFALL={x:3240,width:54,top:1512,bottom:1674};
 export const DEFINITION={WORLD,AB_TERRAIN,DECKS,LADDERS,parallaxShift:216,bgTheme:'forest'};
