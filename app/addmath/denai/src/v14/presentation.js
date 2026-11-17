@@ -40,6 +40,8 @@ function placeWorldPrompt(scene){
  const k=c.width/scene.scale.width;
  let x=c.left-fr.left+(wp.x-cam.worldView.x)*cam.zoom*k,y=c.top-fr.top+(wp.y-cam.worldView.y)*cam.zoom*k;
  el.hidden=false;const half=el.offsetWidth/2+10;x=Math.max(half,Math.min(fr.width-half,x));y=Math.max(el.offsetHeight+70,y);
+ // V4: never above the quest pin's bottom edge (the prompt sits above its anchor, translate -100%).
+ const pin=$('quest-pin');if(pin&&!pin.hidden&&getComputedStyle(pin).display!=='none'){const pr=pin.getBoundingClientRect();if(pr.width&&x-half<pr.right-fr.left+6)y=Math.max(y,pr.bottom-fr.top+8+el.offsetHeight);}
  el.style.transform=`translate(${Math.round(x)}px,${Math.round(y)}px) translate(-50%,-100%)`;
 }
 export function explain(scene,worked=false){
