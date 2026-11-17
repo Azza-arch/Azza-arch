@@ -53,7 +53,18 @@ stor, gelembung pendek) · `levels/workshop-line.js`, `levels/twin-scene.js` (1-
 **Tidak diubah:** fizik, terrain, peraturan misi, matematik, kunci simpanan, progresi, papan pendahulu, pencapaian.
 
 ## 4. Pengesahan
-FINAL_TESTS
+Semua pada commit akhir branch ini; PlayFab disekat/stub (0 skor, 0 peristiwa analitik).
+
+| Ujian | Keputusan |
+|---|---|
+| Unit (8 fail): matematik, simpanan, migrasi | ✅ PASS (tidak terjejas) |
+| `l1/l2/l3-playthrough` — papan kekunci sebenar, larian penuh (dialog ditutup dengan Space; petunjuk & cara kira dari Jurnal) | ✅ PASS · 72 s / 71 s / 109 s · 0 ralat · kaki jambatan 1242/1242 · batu 1701/1701 |
+| `w1-progression` — satu profil baharu 1-1 → 1-2 → 1-3 → "Dunia 1 selesai"; profil lama: sambung, respawn, reload, tamat | ✅ PASS · 0 ralat |
+| `l1-v3-check` · `l2-check` · `l3-check` — variasi, migrasi, main semula, petunjuk, telefon sentuh (dialog ditutup dengan ketik) | ✅ PASS · 0 ralat |
+| `w1-mobile-check` — 10 viewport × 3 level, elemen V4 | ✅ 0 isu · 0 ralat |
+| rc · engagement (papan V3) · analytics · feel · menu · bg-theme · banner · traversal · landing-count | ✅ PASS · 0 tulisan papan klasik |
+| Semakan V4 langsung (desktop, telefon landskap & potret × 3 level): dialog muncul, pemain tidak bergerak semasa dialog (0 px), pin, Jurnal buka/tutup (Esc tidak membuka jeda), stor mengunci pergerakan & ditutup oleh kekunci gerak | ✅ 9/9 |
+| Mikro-animasi: syiling "+1", toast "Rahsia ditemui · 1/3", nota melalui potret fallback, cap "Misi selesai" + lencana Jurnal | ✅ |
 
 **Telefon (`w1-mobile-check`, 10 viewport, sentuhan sahaja):** dialog (kotak + potret) dalam skrin dan tidak
 menyentuh HUD; butang sentuh tersembunyi semasa dialog; pin, resit stor, gesaan, gelembung tidak bertindih
