@@ -12,7 +12,9 @@ const out = process.argv[2] || '.';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HOOK = () => { window.__DENAI_PLAYFAB_TEST_STUB__ = true; let P; Object.defineProperty(window, 'Phaser', { configurable: true, get: () => P, set: (v) => { P = v; const G = v.Game; v.Game = class extends G { constructor(c) { super(c); window.__game = this; } }; } }); };
 const VIEWPORTS = [['iphone-se', 'iPhone SE'], ['iphone-13', 'iPhone 13'], ['pixel-5', 'Pixel 5'], ['galaxy-s8', 'Galaxy S8'], ['ipad-mini', 'iPad Mini']]
-  .flatMap(([id, d]) => [[`${id}-potret`, devices[d]], [`${id}-landskap`, devices[`${d} landscape`]]]);
+  .flatMap(([id, d]) => [[`${id}-potret`, devices[d]], [`${id}-landskap`, devices[`${d} landscape`]]])
+  // Real Android Chrome landscape keeps its address bar: the game frame is only ~260 CSS px tall.
+  .concat([['android-bar-landskap', { viewport: { width: 705, height: 262 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }]]);
 const PROFILE = JSON.stringify({ schemaVersion: 1, createdAt: '2026-11-01T00:00:00.000Z', levels: { 'w1-l1': { completions: 1, firstCompletedAt: '2026-11-01T00:00:00.000Z', best: null } }, coinIds: [], secretIds: [], achievements: [], adventuresCompleted: 1, mastered: { variants: [], types: [] }, recentVariants: { lift: [] }, migrated: ['records-v14', 'run-v1'] });
 const L2DONE = JSON.stringify({ schemaVersion: 1, levels: { 'w1-l2': { completions: 1, completedRuns: ['seed'], coins: [], secrets: [], bestMs: 60000, run: null } } });
 const MEASURE = () => {
