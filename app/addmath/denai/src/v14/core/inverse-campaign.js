@@ -1,13 +1,15 @@
 import {CHECKPOINTS,COINS,SECRETS} from '../levels/inverse-world.js';
-import {newPuzzle,sanitizePuzzle,solved} from '../levels/inverse.js';
+import {sanitizePuzzle,solved} from '../levels/inverse.js'; // previous course (3 seals): read for migration only
+import {newSluice,sanitizeSluice} from '../levels/sluice-model.js';
 export const KEY='denai-l3-campaign-v1';
 const unique=(v,allowed)=>[...new Set(Array.isArray(v)?v.filter(x=>allowed.includes(x)):[])];
-export function newRun(){return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],puzzle:newPuzzle(),elapsedMs:0,completed:false};}
+export function newRun(){return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],sluice:newSluice(),elapsedMs:0,completed:false};}
 export function sanitizeRun(raw){
  if(!raw||typeof raw.id!=='string')return null;
- const puzzle=sanitizePuzzle(raw.puzzle);
- const cp=CHECKPOINTS.find(c=>c.id===raw.checkpointId&&(!c.requires||solved(puzzle)))||CHECKPOINTS[0];
- return {id:raw.id.slice(0,100),checkpointId:cp.id,coins:unique(raw.coins,COINS.map(c=>c.id)),secrets:unique(raw.secrets,SECRETS.map(s=>s.id)),puzzle,elapsedMs:Math.max(0,Math.min(Number(raw.elapsedMs)||0,86400000)),completed:raw.completed===true&&solved(puzzle)&&cp.id==='gate-court'};
+ // V3: a previous-course run with all three seals lit keeps its crossing open.
+ const sluice=sanitizeSluice(raw.sluice,!raw.sluice&&raw.puzzle!=null&&solved(sanitizePuzzle(raw.puzzle)));
+ const cp=CHECKPOINTS.find(c=>c.id===raw.checkpointId&&(!c.requires||sluice.open))||CHECKPOINTS[0];
+ return {id:raw.id.slice(0,100),checkpointId:cp.id,coins:unique(raw.coins,COINS.filter(c=>!c.cave||sluice.cave.solved).map(c=>c.id)),secrets:unique(raw.secrets,SECRETS.filter(s=>!s.cave||sluice.cave.solved||(raw.secrets||[]).includes(s.id)&&!raw.sluice).map(s=>s.id)),sluice,elapsedMs:Math.max(0,Math.min(Number(raw.elapsedMs)||0,86400000)),completed:raw.completed===true&&sluice.open&&cp.id==='gate-court'};
 }
 export function createInverseStore(storage){
  const read=()=>{try{return JSON.parse(storage.getItem(KEY)||'null');}catch{return null;}};

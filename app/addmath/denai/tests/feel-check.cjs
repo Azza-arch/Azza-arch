@@ -40,9 +40,13 @@ const go = async (p, k) => { await p.evaluate((k) => { const g = window.__game; 
     // restart → pooled emitter is recreated without errors
     await p.evaluate(() => window.__game.scene.getScene('Jambatan').scene.restart({ fresh: true })); await sleep(2500);
     res.l2AfterRestart = await p.evaluate(async () => { const s = window.__game.scene.getScene('Jambatan'); const f = await import('/app/addmath/denai/src/v14/feel.js'); for (let i = 0; i < 40; i++) f.burst(s, 500, 1200, 6, 0xffffff, false); return { emitters: s.children.list.filter((o) => o.type === 'ParticleEmitter').length, alive: s.__feelEmitter?.getAliveParticleCount?.() }; });
-    // 1-3: seals pop only when newly lit; restore does not replay
+    // 1-3 (V3): restoring the sluice — gate lifts, water drops, stones become solid at once; coins keep spinning.
     await go(p, 'GerbangSongsang');
-    res.l3 = await p.evaluate(async () => { const s = window.__game.scene.getScene('GerbangSongsang'); const n0 = s.tweens.getTweens().length; s.run.puzzle.seals[13] = true; s.updateGate(); const n1 = s.tweens.getTweens().length; s.updateGate(); const n2 = s.tweens.getTweens().length; s.run.puzzle.seals[7] = true; s.run.puzzle.seals[15] = true; s.updateGate(); return { popTweens: n1 - n0, repeatCallTweens: n2 - n1, bridge: s.bridgeArt.length, coinsPlaying: s.coinViews.filter((c) => c.art.anims?.isPlaying).length }; });
+    res.l3 = await p.evaluate(async () => { const s = window.__game.scene.getScene('GerbangSongsang'), raf = () => new Promise((r) => requestAnimationFrame(r)); const m = await import('/app/addmath/denai/src/v14/levels/sluice-line.js');
+      s.run.sluice.setting = 5; s.sluiceReady = 'flow'; const n0 = s.tweens.getTweens().length; m.useSluice(s, {}); const during = s.tweens.getTweens().length - n0;
+      for (let i = 0; i < 200 && s.sluice.busy; i++) await raf(); await new Promise((r) => setTimeout(r, 1500));
+      const top = s.solids.getChildren().filter((o) => o.getData?.('id')?.startsWith('stone-')).map((o) => Math.round(o.body.top));
+      return { open: s.run.sluice.open, tweens: during, stones: top, waterY: s.sluice.waterY, surfaceY: Math.round(s.channelWater.surface[0].y), coinsPlaying: s.coinViews.filter((c) => c.art.anims?.isPlaying).length }; });
     res.errs = errs; await ctx.close(); }
   // reduced motion: no spin, no particles, no plank tweens; state still updates
   { const { ctx, p, errs } = await open(b, { reducedMotion: 'reduce' });

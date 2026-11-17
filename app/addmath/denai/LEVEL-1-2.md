@@ -95,8 +95,8 @@ Commands (Node 22 and Python Playwright):
 
 ```text
 node --experimental-default-type=module app/addmath/denai/tests/twins.test.mjs
-python app/addmath/denai/tests/twins-smoke.py
-python app/addmath/denai/tests/twins-smoke.py --phone
+node app/addmath/denai/tests/l2-playthrough.cjs <outdir>   # World 1 V3 workshop (replaces twins-smoke.py)
+node app/addmath/denai/tests/l2-check.cjs <outdir>
 git diff --check
 ```
 

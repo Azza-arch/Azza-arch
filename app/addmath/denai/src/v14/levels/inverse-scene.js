@@ -1,12 +1,14 @@
 import {buildLandscape,buildTree} from '../environment.js';
 import {track,durationBucket} from '../analytics.js';
 import {showLevelVictory} from '../victory.js';
-import {startCoin,coinPickup,checkpointFx,planksDrop,sealPop,ATLAS,COIN_FACE} from '../feel.js';
+import {startCoin,coinPickup,checkpointFx,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
 import {updatePlayer} from '../core/player-motion.js';
 import {createInverseStore,newRun} from '../core/inverse-campaign.js';
-import {puzzleCommand,solved,inFinishZone,SEAL_OUTPUTS,RANGE,DOMAIN,forward,stage,target,work,OPERATIONS} from './inverse.js';
-import {DEFINITION,WORLD,SPAWN,GOAL,BRIDGE,CHECKPOINTS,COINS,SECRETS,WATER,WATER_Y,WATERFALL} from './inverse-world.js';
+import {installViewCull} from '../core/view-cull.js';
+import {inFinishZone} from './inverse.js';
+import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATERFALL} from './inverse-world.js';
+import {buildSluice,sluicePrompt,useSluice,installTracker,renderTracker,syncSluiceUI,sluiceWaterY,newSluice} from './sluice-line.js';
 const $=id=>document.getElementById(id);
 export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}){
  return class GerbangSongsang extends Base{
@@ -14,7 +16,8 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   init(data={}){
    super.init();this.fresh=data.fresh===true;this.store=createInverseStore(localStorage);
    this.run=this.fresh?newRun():(this.store.load().run||newRun());this.elapsed=this.run.elapsedMs;
-   this.mode='playing';this.exitHinted=false;this.busy=false;this.machineNear=false;this.seenHint=new Set();
+   this.run.sluice||=newSluice();
+   this.mode='playing';this.exitHinted=false;this.sluiceIntro=false;this.hintLevel=0;this.lastHintStep=null;
   }
   preload(){
    this.load.image('l3-stone-left','assets/kenney/tiles/terrain_stone_block_left.png');
@@ -47,19 +50,21 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    this.creekBridgeArt=this.deckArtById?.['creek-crossing']||[];
    this.creekBridgeArt.forEach(a=>a.setData('restY',a.y));
    if(!reducedMotion){let phase=0;this.time.addEvent({delay:520,loop:true,callback:()=>{phase^=1;this.waterSurfaceTiles?.forEach((a,i)=>a.setFrame(((i+phase)&1)?53:33));}});}
-   this.coinViews=COINS.map((def,i)=>({def,art:startCoin(this,this.add.sprite(def.x,def.y,ATLAS,COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion).setVisible(!this.run.coins.includes(def.id))}));
+   this.coinViews=COINS.map((def,i)=>({def,art:startCoin(this,this.add.sprite(def.x,def.y,ATLAS,COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion).setVisible(!this.run.coins.includes(def.id)&&(!def.cave||this.run.sluice.cave.solved))}));
    // Keep notes discoverable through the close-range E prompt without
    // floating blue gem markers that read like detached pipe fragments.
    this.secretViews=SECRETS.map(def=>({def}));
    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
    this.cameras.main.setBounds(0,240,WORLD.width,WORLD.floor-240).setBackgroundColor(this.bgColor??'#aee3f5');
    this.cameras.main.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,100).setDeadzone(0,150);
-   this.applyResponsiveZoom();this.respawn();this.installUI();
+   this.applyResponsiveZoom();this.respawn();this.installUI();installTracker(this);
+   // Performance (Fasa E): skip drawing off-screen tiles — see core/view-cull.js.
+   if(!window.__DENAI_NO_CULL__)this.viewCull=installViewCull(this,{exclude:[...this.creekBridgeArt]});
    document.body.classList.remove('menu-active');document.body.classList.add('game-active','inverse-active');
    for(const id of ['welcome','loading','mission-indicator','chill-bubble','world-prompt','tutorial'])$(id).hidden=true;
    $('pause').disabled=false;$('touch-controls').hidden=!matchMedia('(pointer: coarse)').matches;$('hud-mode').hidden=true;
-   this.syncTarget();this.updateGate();this.message('Pergi ke mesin. Cari x supaya f(x) = 13, 7 dan 15 untuk menyalakan 3 meterai.');this.writeSave();
-   this.events.once('shutdown',()=>{this.writeSave();clearControls();this.uiAbort?.abort();$('inverse-panel')?.remove();$('inverse-dialog')?.remove();document.body.classList.remove('inverse-active','inverse-near-machine');$('touch-controls').hidden=true;});
+   this.message(this.run.sluice.open?'Pintu air sudah dipulihkan. Teruskan ke gerbang.':'Ikut sungai ke halaman mesin lama.');this.writeSave();renderTracker(this);
+   this.events.once('shutdown',()=>{this.writeSave();clearControls();this.uiAbort?.abort();this.bubble?.destroy();this.bubble=null;$('inverse-dialog')?.remove();document.body.classList.remove('inverse-active');$('touch-controls').hidden=true;});
   }
   buildRuinDetails(tile,pole,beam){
    // Signboards sit in the soil band, so area names read as part of the world.
@@ -92,18 +97,12 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    // the catch pool. This cascade is scenic and adds no gameplay collider.
    this.waterfallTiles=[];
    for(let y=WATERFALL.top;y<WATERFALL.bottom;y+=54)this.waterfallTiles.push(tile(73,WATERFALL.x,y,6));
+   this.channelWater={surface:[],firstRow:[]};
    for(let x=3240;x<3456;x+=54){
-    this.waterSurfaceTiles.push(tile(33,x,1674,6));
-    for(let y=1728;y<WORLD.floor+54;y+=54)tile(73,x,y,6); // pool reaches the floor (no open band under it)
+    const surface=tile(33,x,1674,6.4);this.waterSurfaceTiles.push(surface);this.channelWater.surface.push(surface);
+    for(let y=1728;y<WORLD.floor+54;y+=54){const body=tile(73,x,y,6.4);if(y===1728)this.channelWater.firstRow.push(body);} // pool reaches the floor
    }
-   this.machineScreen=this.add.text(2862,1398,'f(x) = 2x + 3',{fontFamily:'Arial,sans-serif',fontSize:'16px',fontStyle:'bold',color:'#fff1cf',stroke:'#394238',strokeThickness:3}).setOrigin(.5,1).setDepth(15);
-   // A real gap is crossed only after all three inverse seals release this deck.
-   this.previewDeck=[];
-   for(let x=BRIDGE.x;x<BRIDGE.x+BRIDGE.width;x+=54){const frame=x===BRIDGE.x?48:x+54>=BRIDGE.x+BRIDGE.width?50:49;this.previewDeck.push(tile(frame,x,BRIDGE.y+54,10,54,18).setAlpha(.55));}
-   this.driveReadout=this.machineText('Pratonton dek · belum boleh dipijak',BRIDGE.x,BRIDGE.y-72,14).setOrigin(0,1);
-   this.driveHandle=tile(64,2781,1512,14);
-   this.bridgeArt=[];this.sealsSeen=null; // scene instances are reused on restart
-   // Stone gateway: paired masonry piers, a deep lintel and three puzzle seals.
+   // Stone gateway: paired masonry piers and a deep lintel (the exit landmark).
    const left=4860,right=5292,top=1188,feet=1566;
    const stone=(key,x,y)=>this.add.image(x,y,key).setOrigin(0).setDisplaySize(54,54).setDepth(11);
    for(let y=top;y<feet;y+=54){
@@ -118,11 +117,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(let x=left;x<right;x+=108)stone(x===left?'l3-stone-left':x+54>=right?'l3-stone-right':'l3-stone-center',x,top-162);
    stone('l3-stone-right',right-54,top-162);
    for(const x of [left+27,right-27])this.add.image(x,top-162,'kpp_terrain_atlas',112).setOrigin(.5,1).setScale(3).setDepth(11);
-   this.gateSeals=SEAL_OUTPUTS.map((out,i)=>{
-    const x=left+126+i*90;const art=this.add.circle(x,top-84,17,0x746847).setStrokeStyle(4,0x394238).setDepth(15);
-    const label=this.machineText(String(out),x,top-48,15);return {out,art,label};
-   });
-   this.gateLabel=this.worldText('PINTU KELUAR\nPerlu 3 meterai: 13, 7, 15',5076,1398,14);
+   buildSluice(this);
   }
   areaSign(tile,pole,x,y,width,text){
    const left=x-width/2;
@@ -166,20 +161,6 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   machineText(text,x,y,size=15){return this.add.text(x,y,text,{fontFamily:'Arial,sans-serif',fontSize:`${size}px`,fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(16);}
   installUI(){
    this.uiAbort=new AbortController();const signal=this.uiAbort.signal;
-   const panel=document.createElement('section');panel.id='inverse-panel';panel.hidden=true;panel.setAttribute('aria-label','Kawalan mesin songsang');
-   // Clarity pass: the goal is chosen for the player, one "next step" line,
-   // x is fed to the deck automatically (no separate slider).
-   panel.innerHTML='<p class="inverse-heading"></p><p class="inverse-goal"></p><p class="inverse-rule">Mesin f: x → <b>×2</b> → <b>+3</b> → y.<br>Untuk patah balik: buat songsang, dari belakang.</p><p class="inverse-work"></p><div class="inverse-actions inverse-operations"><button data-action="subtract" title="J">−3</button><button data-action="divide" title="K">÷2</button><button data-action="add" title="U">+3</button><button data-action="multiply" title="I">×2</button></div><p class="inverse-order" aria-live="polite"></p><div class="inverse-actions"><button data-action="undo">Undur</button><button data-action="reset">Mula semula</button><button data-action="demo">Tunjuk saya</button></div><button data-action="apply" class="inverse-apply">Salur x ke dek · E</button><p class="inverse-trace" role="status" aria-live="polite"></p><details class="inverse-info"><summary>Info</summary><p>f(x) = 2x + 3 · domain {0…6} · imej {3,5,7,9,11,13,15}</p><label class="inverse-select">Cuba output lain <select id="inverse-output" aria-label="Output untuk diproses"></select></label><label class="inverse-drive" hidden>Input pemacu x <input id="inverse-actuator" type="range" min="0" max="6" step="1" value="0"><output id="inverse-actuator-value">0</output></label></details>';
-   document.querySelector('.game-frame').append(panel);
-   for(let y=0;y<=18;y++)$('inverse-output').add(new Option(String(y),String(y)));
-   $('inverse-output').addEventListener('change',e=>this.act('select',Number(e.target.value)),{signal});
-   $('inverse-actuator').addEventListener('input',e=>this.act('actuator',Number(e.target.value)),{signal});
-   panel.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>{audio.unlock();this.act(b.dataset.action);},{signal}));
-   // Machine shortcuts never replace movement keys. Native select/slider retain their keys.
-   const keys={KeyJ:'subtract',KeyK:'divide',KeyU:'add',KeyI:'multiply',Backspace:'undo'};
-   document.addEventListener('keydown',e=>{if(!this.machineNear||this.mode!=='playing'||e.repeat||e.target.matches?.('input,select'))return;const action=keys[e.code];if(action){e.preventDefault();this.act(action);}},{signal});
-   panel.addEventListener('keydown',e=>{if(e.target.matches('input,select'))e.stopPropagation();},{signal});
-   panel.addEventListener('focusin',()=>clearControls(),{signal});
    const dialog=document.createElement('dialog');dialog.id='inverse-dialog';dialog.setAttribute('aria-labelledby','inverse-dialog-title');
    dialog.innerHTML='<h2 id="inverse-dialog-title"></h2><p id="inverse-dialog-copy"></p><div class="inverse-dialog-actions"><button id="inverse-resume">Sambung</button><button id="inverse-replay">Main semula 1–3</button><button id="inverse-menu">Peta Dunia</button><button id="inverse-main-menu">Menu utama</button></div>';
    document.querySelector('.shell').append(dialog);
@@ -189,73 +170,13 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    $('inverse-main-menu').addEventListener('click',()=>{dialog.close();this.returnToMenu(false);},{signal});
    dialog.addEventListener('cancel',e=>{e.preventDefault();if(this.mode==='paused')this.resumeRun();},{signal});
   }
-  updateGate(){
-   const open=solved(this.run.puzzle);
-   const p=this.run.puzzle;
-   this.previewDeck?.forEach((art,i)=>{
-    const seal=SEAL_OUTPUTS[Math.floor(i*3/this.previewDeck.length)];
-    const trial=p.applied,offset=trial?Math.max(-48,Math.min(90,(trial.target-trial.output)*8)):54;
-    this.tweens.killTweensOf(art);
-    const y=BRIDGE.y+(p.seals[seal]?0:offset||24);
-    art.setVisible(!open);this.tweens.add({targets:art,y,alpha:p.seals[seal]?1:.65,duration:reducedMotion?1:420});
-   });
-   if(p.applied){this.driveHandle?.setX(2781+p.applied.input*18);this.driveReadout?.setText(`Pemacu ${p.applied.input} → ${p.applied.output} · tanda ${p.applied.target}\n${open?'Dek dikunci · lintas': 'Pratonton · lengkapkan 3 pengunci'}`);}
-   // Game Feel V2: a seal that just lit pops once; restoring a save does not.
-   const seen=this.sealsSeen;this.sealsSeen=Object.fromEntries(SEAL_OUTPUTS.map(o=>[o,!!this.run.puzzle.seals[o]]));
-   this.gateSeals?.forEach(({out,art})=>{art.setFillStyle(this.run.puzzle.seals[out]?0xe6c75f:0x746847);if(seen&&!seen[out]&&this.sealsSeen[out])sealPop(this,art,{reduced:reducedMotion});});
-   this.gateLabel?.setText(open?'PINTU KELUAR\nMeterai lengkap - jambatan terbuka':'PINTU KELUAR\nPerlu 3 meterai: 13, 7, 15');
-   if(open&&!this.bridgeArt.length){this.bridgeArt=this.deck(BRIDGE);this.platform(BRIDGE);if(seen)planksDrop(this,this.bridgeArt,{audio,SFX,reduced:reducedMotion});}
+  summary(){this.message('Fungsi songsang membantu mencari semula input daripada output.');renderTracker(this);}
+  revealCave(){
+   for(const {def,art} of this.coinViews)if(def.cave&&!this.run.coins.includes(def.id)){art.setVisible(true);if(!reducedMotion){art.setScale(.4);this.tweens.add({targets:art,scale:1.78,duration:380,ease:'Back.out'});}}
   }
-  act(action,value){
-   if(!this.machineNear||this.mode!=='playing'||this.busy)return;
-   let before=this.run.puzzle;
-   // x goes to the deck automatically: it is the value the player's steps produced.
-   if(action==='apply'&&['independent','complete'].includes(stage(before))&&DOMAIN.includes(work(before).value))before=puzzleCommand(before,'actuator',work(before).value);
-   // Doing −3 then ÷2 yourself counts as having seen the demonstration.
-   if(action==='apply'&&stage(before)==='demo'&&!before.demoSeen&&forward(work(before).value)===before.output)before={...before,demoSeen:true};
-   const next=puzzleCommand(before,action,value);
-   const lit=SEAL_OUTPUTS.find(y=>next.seals[y]&&!before.seals[y]),x=work(before).value;
-   const say=action==='apply'?(lit!==undefined?`f(${x}) = ${forward(x)} ✓ Meterai ${lit} menyala!${solved(next)?' Jambatan keluar dibina.':''}`:DOMAIN.includes(x)?(forward(x)===before.output?`f(${x}) = ${forward(x)} ✓ Betul!`:`f(${x}) = ${forward(x)}, bukan ${before.output}. Semak langkah anda (Undur).`):`${x} bukan input yang sah (0 hingga 6). Tekan Undur.`):action==='demo'?'Lihat: 13 − 3 = 10, kemudian 10 ÷ 2 = 5. Sekarang tekan Salur.':null;
-   const animate=action==='demo'||action==='apply'||Object.hasOwn(OPERATIONS,action);
-   const commit=()=>{this.busy=false;this.pendingPuzzle=null;this.run.puzzle=next;this.syncTarget();this.updateGate();this.renderPanel();this.writeSave();if(say)this.message(say);this.lastSay=say;};
-   if(!animate){commit();return;}
-   this.busy=true;this.pendingPuzzle=next;
-   const packet=this.machineText(String(work(before).value),2808,1370,18).setDepth(30);
-   const values=action==='demo'&&next.demoSeen?[13,10,5]:[work(before).value,action==='apply'?next.applied?.output??work(next).value:work(next).value];
-   let step=0;const advance=()=>{packet.setText(String(values[step]));if(++step>=values.length){this.time.delayedCall(reducedMotion?1:280,()=>{packet.destroy();commit();});return;}this.tweens.add({targets:packet,x:2808+step*90,duration:reducedMotion?1:400,onComplete:advance});};advance();
-   this.renderPanel();
-  }
-  // Until all three seals are lit, the machine works on the current seal's number.
-  syncTarget(){
-   const p=this.run.puzzle;if(stage(p)==='complete'||p.output===target(p))return;
-   this.run.puzzle={...puzzleCommand(p,'select',target(p)),last:null};
-  }
-  nextStep(state){
-   const ops=state.steps,v=work(state).value,phase=stage(state),guided=phase==='demo'||phase==='guided';
-   if(phase==='complete')return 'Semua meterai menyala. Cuba output lain di Info, atau teruskan ke gerbang.';
-   if(ops.length===2&&ops[0]==='subtract'&&ops[1]==='divide')return `x = ${v}. Tekan Salur x ke dek.`;
-   if(ops.length&&!(ops[0]==='subtract'&&ops.length===1))return 'Itu bukan langkah songsang yang betul. Tekan Undur. (Songsang +3 ialah −3; songsang ×2 ialah ÷2.)';
-   if(ops.length===1)return guided?'Langkah 2: buang ×2 — tekan ÷2.':'Bagus. Apa langkah seterusnya?';
-   return guided?'Langkah 1: buang +3 dahulu — tekan −3.':'Buat songsang mesin, langkah demi langkah.';
-  }
-  renderPanel(){
-   const p=$('inverse-panel');p.hidden=!this.machineNear||this.mode!=='playing';document.body.classList.toggle('inverse-near-machine',!p.hidden);if(!this.machineNear)return;
-   const state=this.run.puzzle,phase=stage(state),lit=SEAL_OUTPUTS.filter(y=>state.seals[y]).length;
-   p.querySelector('.inverse-heading').textContent=`Gerbang Songsang · meterai ${lit}/3`;
-   p.querySelector('.inverse-goal').innerHTML=phase==='complete'?'Semua meterai menyala ✓':`Cari x supaya <b>f(x) = ${state.output}</b>`;
-   p.querySelector('.inverse-order').textContent=this.busy?'':this.nextStep(this.pendingPuzzle||state);
-   p.querySelector('[data-action="demo"]').hidden=phase!=='demo';
-   p.querySelector('.inverse-select').hidden=phase!=='complete';
-   if(document.activeElement!==$('inverse-output'))$('inverse-output').value=String(state.output);
-   p.querySelector('.inverse-work').textContent=work(this.pendingPuzzle||state).trace;
-   p.querySelector('.inverse-trace').textContent=this.busy?'Mesin bergerak…':this.lastSay||'';
-   p.querySelectorAll('button,select,input').forEach(b=>b.disabled=this.busy);
-   p.querySelector('[data-action="undo"]').disabled=this.busy||!state.steps.length;
-  }
-
   update(time,delta){
    if(!this.player||this.mode!=='playing')return;this.elapsed+=delta;
-   const motion=updatePlayer(this,time,delta,{controls,audio,SFX,reducedMotion,BASE_SCALE,WATER,WATER_Y});if(motion.respawned)return;
+   const motion=updatePlayer(this,time,delta,{controls,audio,SFX,reducedMotion,BASE_SCALE,WATER,WATER_Y:sluiceWaterY(this)});if(motion.respawned)return;
    const {body,interact,grounded}=motion;if(body.bottom>WORLD.floor-8){this.respawn();return;}
    if(!reducedMotion&&grounded&&Math.abs(body.velocity.x)>35&&this.player.x>=348&&this.player.x<=516&&time>=(this.nextCreekWobbleAt||0)){
     const direction=Math.sign(body.velocity.x);this.nextCreekWobbleAt=time+360;
@@ -263,17 +184,20 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    }
    if(this.noticeUntil&&time>this.noticeUntil){$('notice').classList.remove('show');this.noticeUntil=0;}
    for(const {def,art} of this.coinViews)if(art.visible&&Math.abs(this.player.x-def.x)<32&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);art.anims?.stop();SFX.coin?.(audio);this.writeSave();coinPickup(this,def.x,art.y,{reduced:reducedMotion});}
-   for(const {def,art} of this.secretViews){if(Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14){if(interact){if(!this.run.secrets.includes(def.id)){this.run.secrets.push(def.id);art?.setAlpha(.4);this.writeSave();}this.message(def.text);}}}
-   CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||solved(this.run.puzzle))&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
-   this.machineNear=Math.abs(this.player.x-2862)<260&&Math.abs(body.bottom-1620)<70;
-   const secretNear=this.secretViews.some(({def})=>Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14);
-   let prompt='';if(secretNear)prompt='E · Baca catatan';else if(this.machineNear)prompt='E · Salur nilai ke dek';
-   if(interact&&this.machineNear&&!secretNear)this.act(stage(this.run.puzzle)==='demo'&&!this.run.puzzle.demoSeen?'demo':'apply');
+   const secretOpen=def=>!def.cave||this.run.sluice.cave.solved;
+   const secret=this.secretViews.find(({def})=>secretOpen(def)&&Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14);
+   if(secret&&interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);this.writeSave();}this.message(secret.def.text);}
+   CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||this.run.sluice.open)&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
+   const touch=matchMedia('(pointer: coarse)').matches;
+   const sp=sluicePrompt(this,grounded||body.blocked.down||body.touching.down,touch);
+   let prompt='';if(secret)prompt='E · Baca catatan';else if(sp)prompt=`E · ${sp.text}`;
+   if(interact&&sp&&!secret)useSluice(this,{audio,SFX});
+   {const g=document.querySelector('[data-action="interact"]');if(g)g.hidden=!(sp||secret);} // touch: Guna only when it does something
    const inExit=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
-   if(inExit&&solved(this.run.puzzle)){this.finish();return;}
-   if(inExit&&!solved(this.run.puzzle)){prompt='Terangi ketiga-tiga meterai dahulu';if(!this.exitHinted){this.exitHinted=true;this.message(prompt);}}else this.exitHinted=false;
-   const wp=$('world-prompt');wp.hidden=!prompt;if(prompt){$('world-prompt-key').textContent='E';$('world-prompt-text').textContent=prompt.replace(/^E · /,'');wp.style.transform='translate(-50%,0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';}
-   this.renderPanel();
+   if(inExit&&this.run.sluice.open){this.finish();return;}
+   if(inExit&&!this.run.sluice.open){prompt='Pulihkan pintu air dahulu';if(!this.exitHinted){this.exitHinted=true;this.message(prompt);}}else this.exitHinted=false;
+   const wp=$('world-prompt');wp.hidden=!prompt;if(prompt){$('world-prompt-key').textContent=touch?'Guna':'E';$('world-prompt-text').textContent=prompt.replace(/^E · /,'');wp.style.transform='translate(-50%,0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';}
+   syncSluiceUI(this);
    const zone=this.player.x<756?'Jejak Sungai':this.player.x<2538?'Runtuhan Bertingkat':this.player.x<3240?'Halaman Mesin':this.player.x<4104?'Air Terjun':'Gerbang Utama';
    $('hud-area').textContent=`1–3 · ${zone}`;$('hud-collection').textContent=`${this.run.coins.length}/${COINS.length} · ${this.run.secrets.length}/${SECRETS.length} rahsia`;
    if(time-(this.lastAutosave||0)>10000){this.lastAutosave=time;this.writeSave();}
@@ -281,16 +205,16 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   message(text){$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+6000;}
   writeSave(){if(!this.run)return;this.run.elapsedMs=this.elapsed;if(!this.store.save(this.run)&&$('status'))$('status').textContent='Simpanan Level 1–3 tidak tersedia.';}
   respawn(){const cp=CHECKPOINTS.find(c=>c.id===this.run.checkpointId)||SPAWN;this.climbing=null;this.climbLockUntil=0;this.jumpAt=-1000;this.groundedAt=-1000;this.player.body.setAllowGravity(true);this.player.body.reset(cp.x,cp.feet-31);this.player.body.setVelocity(0,0);this.syncVisual();this.cameras.main.centerOn(cp.x,cp.feet-190);clearControls();}
-  pauseRun(){if(this.mode!=='playing')return;this.mode='paused';clearControls();this.writeSave();this.physics.pause();this.tweens.pauseAll();this.time.paused=true;this.input.keyboard.enabled=false;$('inverse-panel').hidden=true;$('world-prompt').hidden=true;$('inverse-dialog-title').textContent='Gerbang Songsang · Jeda';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia. Checkpoint disimpan.`;$('inverse-resume').hidden=false;$('inverse-replay').hidden=true;$('inverse-dialog').showModal();}
-  resumeRun(){if(this.mode!=='paused')return;$('inverse-dialog').close();clearControls();this.mode='playing';this.physics.resume();this.tweens.resumeAll();this.time.paused=false;this.input.keyboard.enabled=true;$('game').focus({preventScroll:true});}
-  finish(){if(this.mode==='complete'||!solved(this.run.puzzle))return;
+  pauseRun(){if(this.mode!=='playing')return;this.mode='paused';clearControls();this.writeSave();this.physics.pause();this.tweens.pauseAll();this.time.paused=true;this.input.keyboard.enabled=false;$('world-prompt').hidden=true;$('quest-tracker')&&($('quest-tracker').hidden=true);$('inverse-dialog-title').textContent='Gerbang Songsang · Jeda';$('inverse-dialog-copy').textContent=`${this.run.coins.length}/${COINS.length} syiling · ${this.run.secrets.length}/${SECRETS.length} rahsia. Checkpoint disimpan.`;$('inverse-resume').hidden=false;$('inverse-replay').hidden=true;$('inverse-dialog').showModal();}
+  resumeRun(){if(this.mode!=='paused')return;$('inverse-dialog').close();clearControls();this.mode='playing';this.physics.resume();this.tweens.resumeAll();this.time.paused=false;this.input.keyboard.enabled=true;renderTracker(this);$('game').focus({preventScroll:true});}
+  finish(){if(this.mode==='complete'||!this.run.sluice.open)return;
    const prevBest=this.store.load().bestMs;
    this.run.checkpointId='gate-court';this.run.completed=true;this.writeSave();
    track('level_completed',{level:'w1-l3',duration_s:durationBucket(this.elapsed),coins:this.run.coins.length,secrets:this.run.secrets.length,ranked_eligible:false,first_completion:this.store.load().completions===1});
-   this.mode='complete';clearControls();this.physics.pause();$('inverse-panel').hidden=true;$('world-prompt').hidden=true;
+   this.mode='complete';clearControls();this.physics.pause();$('world-prompt').hidden=true;$('quest-tracker')&&($('quest-tracker').hidden=true);
    const best=this.store.load().bestMs,missing=SECRETS.length-this.run.secrets.length,coinsLeft=COINS.length-this.run.coins.length;
    SFX.victory?.(audio);
-   showLevelVictory({level:'1-3',quote:'Songsangan memulangkan input asal: f⁻¹(13) = (13 − 3) ÷ 2 = 5. Ia bukan 1/f.',
+   showLevelVictory({level:'1-3',quote:'Fungsi songsang membantu mencari semula input daripada output: f⁻¹(13) = (13 − 3) ÷ 2 = 5.',
     coins:[this.run.coins.length,COINS.length],secrets:[this.run.secrets.length,SECRETS.length],timeMs:this.elapsed,
     newBest:Number.isFinite(best)&&(!Number.isFinite(prevBest)||best<prevBest),
     hint:missing?`Masih ada ${missing} rahsia tersembunyi di gerbang ini…`:coinsLeft?`Semua rahsia ditemukan! ${coinsLeft} syiling masih menunggu.`:'Semua syiling dan rahsia ditemukan. Jejak yang sempurna!',

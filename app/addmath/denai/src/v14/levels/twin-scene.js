@@ -51,7 +51,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    tile(85,1512,1242,11);signText(this,'Bengkel di hilir',1539,1236);
    buildWorkshop(this,{audio,SFX});
    this.coinViews=COINS.map((def,i)=>({def,art:startCoin(this,this.add.sprite(def.x,def.y,ATLAS,COIN_FACE).setScale(1.78).setDepth(14),i,reducedMotion).setVisible(!this.run.coins.includes(def.id))}));
-   this.secretViews=SECRETS.map(def=>({def,art:tile(67,def.x-18,def.feet-54,14,36,36).setAlpha(this.run.secrets.includes(def.id)?.4:1)}));
+   this.secretViews=SECRETS.map(def=>({def,art:this.add.image(def.x,def.feet-18,'kpp_terrain_atlas',67).setOrigin(.5,1).setScale(2).setDepth(14).setAlpha(this.run.secrets.includes(def.id)?.4:1)}));
    createPlayer(this,{SPAWN,BASE_SCALE,reducedMotion,controls});
    const cam=this.cameras.main;
    cam.setBounds(0,300,WORLD.width,WORLD.floor-300).setBackgroundColor(this.bgColor??'#aee3f5');
