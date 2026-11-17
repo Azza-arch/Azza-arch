@@ -170,3 +170,20 @@ body.dialogue-open #touch-controls,body.dialogue-open #world-prompt,body.dialogu
 
 /* While the store is open its receipt shows the same objective: the pin steps aside. */
 body.store-open #quest-pin{display:none!important}
+/* Very short landscape (Android Chrome with its address bar, ~260–320 px):
+   the pin moves up beside the HUD plaque so it never meets the bubble over
+   the player's head, and the Journal is compacted to fit without scrolling. */
+@media (max-height:320px) and (orientation:landscape){
+  #quest-pin{top:max(8px,env(safe-area-inset-top));left:calc(max(12px,env(safe-area-inset-left)) + 112px);max-width:calc(100% - 236px);min-height:36px;margin-top:2px}
+  body:has(#zone-toast.area-banner.show) #quest-pin{visibility:hidden}
+  #zone-toast.area-banner{top:max(8px,env(safe-area-inset-top))}
+  #zone-toast.area-banner b{font-size:14px;white-space:nowrap}
+  body.journal-open #quest-tracker{max-height:calc(100% - 12px);padding:2px 12px 6px}
+  body.journal-open #quest-tracker .qt-top{margin:0 0 2px;padding-bottom:2px}
+  body.journal-open #quest-tracker #qt-close{min-height:36px}
+  body.journal-open #quest-tracker #qt-text{font-size:15px;margin:0 0 2px}
+  body.journal-open #quest-tracker .qt-row{margin-top:2px}
+  body.journal-open #quest-tracker #qt-hint{min-height:36px}
+  body.journal-open #quest-tracker #qt-hint-text,body.journal-open #quest-tracker #qt-math-text{font-size:13px;line-height:1.35;margin-top:4px}
+  body.journal-open #quest-tracker .qt-coll{margin-top:4px;padding-top:4px;font-size:12px}
+}

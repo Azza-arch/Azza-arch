@@ -562,10 +562,15 @@ class Rooftop extends Phaser.Scene {
   // crisp step (~513 units). World coordinates and physics are untouched.
   applyResponsiveZoom() {
     const cam=this.cameras.main,h=this.scale.height||700;
-    const TARGET=610,MIN=480,MAX=740;
+    // Short frames (phone landscape with the browser bar, ~260–420 CSS px)
+    // had no 1/3 step inside the range and fell back to zoom 1/3: a 20 px
+    // player and MORE world on screen than desktop. They now use 1/6 steps
+    // (still whole device pixels on 2× screens) and a closer ~480-unit view,
+    // close to the 513 units already tested on iPhone landscape.
+    const short=h<420,STEP=short?6:3,TARGET=short?480:610,MIN=short?380:480,MAX=short?560:740;
     let best=null;
-    for(let n=1;n<=24;n++){const k=n/3,view=h/k;if(view<MIN||view>MAX)continue;if(!best||Math.abs(view-TARGET)<Math.abs(h/best-TARGET))best=k;}
-    if(!best)best=Math.max(1/3,Math.round(h/TARGET*3)/3);
+    for(let n=1;n<=STEP*8;n++){const k=n/STEP,view=h/k;if(view<MIN||view>MAX)continue;if(!best||Math.abs(view-TARGET)<Math.abs(h/best-TARGET))best=k;}
+    if(!best)best=Math.max(1/STEP,Math.round(h/TARGET*STEP)/STEP);
     cam.setZoom(best);
     this.viewUnits={w:this.scale.width/best,h:h/best};
     // Player sits lower in the frame: less dirt below the feet, more of the
@@ -1295,8 +1300,17 @@ function freshAdventure(){
 // ---- Main menu (MAIN/SAMBUNG · PETA DUNIA · TETAPAN) and World Map ----
 // Reuses the existing launchers and stores; see menu/progress.js.
 function startLevelScene(key,data){clearControls();document.querySelectorAll('dialog[open]').forEach(d=>d.close());activeScene.time.paused=false;activeScene.tweens.resumeAll();activeScene.scene.start(key,data);}
+// Phones: starting a level from the menu also asks for fullscreen (inside the
+// tap, as browsers require) so the browser bar stops taking a third of a
+// landscape screen. Touch-only devices; silently ignored where unsupported
+// (iPhone Safari). The pause menu keeps the manual toggle.
+function autoFullscreen(){
+  const el=document.querySelector('.shell');
+  if(document.fullscreenElement||!el?.requestFullscreen||!matchMedia('(pointer:coarse)').matches||matchMedia('(any-pointer:fine)').matches)return;
+  try{el.requestFullscreen({navigationUI:'hide'}).catch(()=>{});}catch{}
+}
 function launchLevel(id,mode){
-  audio.unlock();SFX.ui(audio);armPlayerCount();
+  autoFullscreen();audio.unlock();SFX.ui(audio);armPlayerCount();
   const m=mode==='replay'?'replay':mode==='continue'?'continue':'play';
   trackGameStart(m==='continue'?'continue':'menu');track('level_started',{level:id,mode:m});if(m==='replay')track('level_replayed',{level:id});
   if(id==='w1-l1'){
