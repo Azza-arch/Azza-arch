@@ -11,22 +11,13 @@ export const LEADERBOARD_CONFIG = {
     titleId: '1FD1D5',
     enabled: true,
     // PlayFab Leaderboards (Progression / v2). Scores are run times in ms.
-    // Level 1-1 course versions are NOT comparable, so each has its own board:
-    //   'denai_l1_time'     classic course: historical records, READ-ONLY here
-    //   'denai_l1_time_v3'  World 1 V3 course (storeroom + purchase mission):
-    //                       the only board this client writes. ('_v2' was
-    //                       never created and is skipped.)
-    // Owner must create in Game Manager (same settings as the classic one):
-    //   Statistic   'denai_l1_time_v3'  entity: title_player_account, 1 column, aggregation Min
-    //   Leaderboard 'denai_l1_time_v3'  linked to that statistic, sort Ascending
-    // Until it exists PlayFab answers LeaderboardNotFound / StatisticNotFound,
-    // the dialog says the board is being prepared, and nothing is written to
-    // the classic board.
+    // Use the existing PlayFab statistic + leaderboard. This keeps the board
+    // available without creating another backend resource. It can include
+    // records from earlier Level 1-1 course versions.
     leaderboards: {
-      allTime: 'denai_l1_time_v3',
-      weekly: null,            // e.g. 'denai_l1_time_v3_weekly' once a statistic + leaderboard with a weekly reset exist
+      allTime: 'denai_l1_time',
+      weekly: null,
     },
-    classic: 'denai_l1_time',  // archive of the old 1-1 course: never submitted to
     top: 10,
   },
   // Community stats on the main menu (Player Engagement V1).

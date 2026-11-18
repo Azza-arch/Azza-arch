@@ -7,25 +7,21 @@ Everything below is done by the title owner in PlayFab Game Manager.
 
 | Name | Purpose | Exists in production? |
 |---|---|---|
-| `denai_l1_time` | Level 1-1 **classic** course (old map). Historical records. | yes (existing) |
-| `denai_l1_time_v3` | Level 1-1 **current** course (redesigned map) | Not available in the latest reported game view |
+| `denai_l1_time` | Level 1-1 leaderboard; active board for current client | yes (existing; owner confirmed) |
+| `denai_l1_time_v3` | Separate redesigned-course board | Not used; not available |
 | `denai_players` | Unique player counter for the main menu | Available; latest reported game view shows 2 entries |
 
-The current-course leaderboard still needs to be created. The player counter is separate from
-the total PlayFab account count: it includes identities that started a level after the counter
-was enabled. Existing accounts are added only when they start a level again; there is no safe
-client API to read or backfill the title's total account count.
+The game writes new eligible Level 1-1 records to the existing `denai_l1_time` board. This
+reuses its historical entries, so times from earlier course versions may appear alongside new
+times. The player counter is separate from the total PlayFab account count: it includes
+identities that started a level after the counter was enabled. Existing accounts are added only
+when they start a level again; there is no safe client API to read or backfill the title's total
+account count.
 
-## 1. Statistic + leaderboard `denai_l1_time_v3`
+## 1. Statistic + leaderboard `denai_l1_time`
 
-(World 1 V3 course. `denai_l1_time_v2` is skipped: it was never created and its course is replaced.)
-
-Same settings as `denai_l1_time`:
-
-- Statistic: name `denai_l1_time_v3`, entity type `title_player_account`, 1 column, aggregation **Min**.
-- Leaderboard: name `denai_l1_time_v3`, linked to that statistic, sort **Ascending** (fastest first), no reset.
-
-Keep `denai_l1_time` unchanged as the archive. Do **not** copy its rows into v2: the courses differ.
+This existing board is configured in PlayFab Game Manager and is the board the client now reads
+and updates. No separate V3 board is required.
 
 ## 2. Statistic + leaderboard `denai_players`
 

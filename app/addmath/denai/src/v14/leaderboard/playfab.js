@@ -67,15 +67,24 @@ export async function markStarted(statistic){
   await login();
   await call('Statistic/UpdateStatistics',{Statistics:[{Name:statistic,Scores:['1']}]},'entity');
 }
-// Writes ONLY the current-course statistics (never the classic archive).
+// Writes the configured all-time board and any configured weekly board.
 export async function submitTime(timeMs){
   await login();
-  const names=[CFG.playfab.leaderboards.allTime,CFG.playfab.leaderboards.weekly].filter(n=>n&&n!==CFG.playfab.classic);
+  const names=[CFG.playfab.leaderboards.allTime,CFG.playfab.leaderboards.weekly].filter(Boolean);
   await call('Statistic/UpdateStatistics',{Statistics:names.map(Name=>({Name,Scores:[String(Math.round(timeMs))]}))},'entity');
   store.set(sentKey(CFG.playfab.leaderboards.allTime),String(Math.round(timeMs)));
 }
-// The legacy unscoped key belonged to the classic board; it never counts for v2.
-export function submittedTime(board=CFG.playfab.leaderboards.allTime){const v=Number(store.get(sentKey(board)));return v>0?v:null;}
+// Older clients stored a submission without a board suffix. It belonged to
+// denai_l1_time, which is the active board again, so preserve that local state.
+export function submittedTime(board=CFG.playfab.leaderboards.allTime){
+  const current=Number(store.get(sentKey(board)));
+  if(current>0)return current;
+  if(board==='denai_l1_time'){
+    const legacy=Number(store.get(SUBMITTED_KEY));
+    return legacy>0?legacy:null;
+  }
+  return null;
+}
 export function currentName(){return session?.name||'';}
 export function playerId(){return session?.entity?.Id||null;}
 // Analytics (see ../analytics.js): PlayStream events for the signed-in
