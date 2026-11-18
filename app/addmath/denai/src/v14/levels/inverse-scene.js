@@ -10,7 +10,7 @@ import {installViewCull} from '../core/view-cull.js';
 import {hud,dialogue,pagesOf,reward,stamp} from '../ui/v4-ui.js';
 import {inFinishZone} from './inverse.js';
 import {secretText,victoryLine} from './sluice-model.js';
-import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATERFALL} from './inverse-world.js';
+import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATERFALL,ARTIFACTS} from './inverse-world.js';
 import {buildSluice,sluicePrompt,useSluice,installTracker,renderTracker,syncSluiceUI,sluiceWaterY,newSluice} from './sluice-line.js';
 const $=id=>document.getElementById(id);
 export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}){
@@ -28,7 +28,9 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    this.load.image('l3-stone-right','assets/kenney/tiles/terrain_stone_block_right.png');
   }
   create(){
-   setActive(this);clearControls();this.physics.world.setBounds(0,0,WORLD.width,WORLD.height,true,true,true,false);
+   setActive(this);clearControls();
+   // Day 07: permanent collectibles live in this level's store (lifetime field, not the run).
+   this.ownedArtifacts=new Set(this.store.load().artifacts);this.artifactOwned=id=>this.ownedArtifacts.has(id);this.physics.world.setBounds(0,0,WORLD.width,WORLD.height,true,true,true,false);
    for(const key of ['l3-stone-left','l3-stone-center','l3-stone-right'])this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
    this.solids=this.physics.add.staticGroup();const {tile,pole,beam}=buildLandscape(this,DEFINITION);
    this.landTile=tile;this.landPole=pole;
@@ -124,6 +126,23 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(const x of [left+27,right-27])this.add.image(x,top-162,'kpp_terrain_atlas',112).setOrigin(.5,1).setScale(3).setDepth(11);
    buildSluice(this);
   }
+  // Day 07: walking into the Kristal Kapur (once the grille is open) adds it to the
+  // permanent collection; the store refuses a second copy, so it is collected once.
+  collectArtifacts(body,{audio,SFX}){
+   const v=this.sluice;if(!v||!this.run.sluice.cistern.solved)return;
+   for(const a of ARTIFACTS){
+    if(this.ownedArtifacts.has(a.id)||this.artifactFailed?.has(a.id)||Math.abs(this.player.x-a.x)>34||Math.abs(body.bottom-(a.feet+54))>10)return;
+    if(!this.store.addArtifact(a.id)){
+     // Already stored (e.g. another tab) → show it as owned; storage unavailable → stop retrying this session.
+     if(this.store.load().artifacts.includes(a.id)){this.ownedArtifacts.add(a.id);v.syncArtifact(true);}
+     else{(this.artifactFailed||=new Set()).add(a.id);this.message('Simpanan tidak tersedia: artifak tidak dapat disimpan.');}
+     return;
+    }
+    this.ownedArtifacts.add(a.id);
+    v.syncArtifact(true);SFX.coin?.(audio);coinPickup(this,a.x,a.feet-20,{reduced:reducedMotion});
+    reward(`Artifak ditemui · ${a.name}`);stamp(`Koleksi · ${a.name}`);renderTracker(this);
+   }
+  }
   areaSign(tile,pole,x,y,width,text){
    const left=x-width/2;
    for(let row=0;row<2;row++)for(let dx=0;dx<width;dx+=54){
@@ -197,16 +216,17 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    const touch=matchMedia('(pointer: coarse)').matches;
    const sp=sluicePrompt(this,grounded||body.blocked.down||body.touching.down,touch);
    // Day 05 · P2-A: prompts are {key, text}; an explanation (exit not open yet) has no key cap.
-   const K=touch?'Guna':'E';let prompt=null;if(secret)prompt={key:K,text:'Baca catatan'};else if(sp)prompt={key:K,text:sp.text};
-   if(interact&&sp&&!secret)useSluice(this,{audio,SFX});
-   {const g=document.querySelector('[data-action="interact"]');if(g)g.hidden=!(sp||secret);} // touch: Guna only when it does something
+   const K=touch?'Guna':'E';let prompt=null;if(secret)prompt={key:K,text:'Baca catatan'};else if(sp)prompt={key:sp.act===false?sp.key:K,text:sp.text}; // Day 07: hatch / ladder hints show ↓ ↑ (S W), not an E action
+   if(interact&&sp&&!secret&&sp.act!==false)useSluice(this,{audio,SFX});
+   this.collectArtifacts(body,{audio,SFX});
+   {const g=document.querySelector('[data-action="interact"]');if(g)g.hidden=!((sp&&sp.act!==false)||secret);} // touch: Guna only when it does something
    const inExit=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
    if(inExit&&this.run.sluice.open){this.finish();return;}
    if(inExit&&!this.run.sluice.open){prompt={key:null,text:'Pulihkan pintu air dahulu'};if(!this.exitHinted){this.exitHinted=true;this.message(prompt.text);}}else this.exitHinted=false;
    fixedPrompt(prompt);
    syncSluiceUI(this);
    const zone=this.player.x<756?'Jejak Sungai':this.player.x<2538?'Runtuhan Bertingkat':this.player.x<3240?'Halaman Mesin':this.player.x<4104?'Air Terjun':'Gerbang Utama';
-   hud(this,{level:'1–3',coins:this.run.coins.length,zone,coll:`Syiling ${this.run.coins.length}/${COINS.length} · Rahsia ${this.run.secrets.length}/${SECRETS.length}`}); // V4 plaque + ribbon
+   hud(this,{level:'1–3',coins:this.run.coins.length,zone,coll:`Syiling ${this.run.coins.length}/${COINS.length} · Rahsia ${this.run.secrets.length}/${SECRETS.length} · Artifak ${this.ownedArtifacts.size}/${ARTIFACTS.length}`}); // V4 plaque + ribbon
    if(time-(this.lastAutosave||0)>10000){this.lastAutosave=time;this.writeSave();}
   }
   message(text){$('objective').textContent=text;$('status').textContent=text;$('notice').textContent=text;$('notice').classList.add('show');this.noticeUntil=this.time.now+3500;}

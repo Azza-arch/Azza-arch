@@ -128,8 +128,10 @@ export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=
   for(let x=t.x;x<t.x+t.width;x+=54){
    const left=!filled(x-1,t.y),right=!filled(x+54,t.y),w=Math.min(54,t.x+t.width-x),k=left&&right?0:left?1:right?3:2;
    if(t.style==='crates'){for(let y=t.y;y<t.bottom;y+=54)tile(26,x,y,9,w,Math.min(54,t.bottom-y));continue;}
-   if(t.style==='arch'){ // stone-topped rock band, bottom row outlined: one silhouette, no inner seams
-    for(let y=t.y;y<t.bottom;y+=54){const last=y+54>=t.bottom;tile(y===t.y?[60,61,63,62][[0,1,3,2].indexOf(k)]:last?[140,141,143,142][[0,1,3,2].indexOf(k)]:[120,121,123,122][[0,1,3,2].indexOf(k)],x,y,9,w,Math.min(54,t.bottom-y));}
+   if(t.style==='arch'||t.style==='ruin'){ // stone-topped rock band, bottom row outlined: one silhouette, no inner seams
+    // Day 07: 'ruin' = the same band with the ruin-stone top row (40–43) used by Level 1-3's stone terrain.
+    const top=t.style==='ruin'?[40,41,43,42]:[60,61,63,62];
+    for(let y=t.y;y<t.bottom;y+=54){const last=y+54>=t.bottom;tile(y===t.y?top[[0,1,3,2].indexOf(k)]:last?[140,141,143,142][[0,1,3,2].indexOf(k)]:[120,121,123,122][[0,1,3,2].indexOf(k)],x,y,9,w,Math.min(54,t.bottom-y));}
     continue;}
    tile(k,x,t.y,9,w,t.bottom-t.y);
   }

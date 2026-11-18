@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 import {forward,reverseOutput,newPuzzle,puzzleCommand,solved,SEAL_OUTPUTS,sanitizePuzzle,work,stage} from '../src/v14/levels/inverse.js';
 import {createInverseStore,newRun,KEY} from '../src/v14/core/inverse-campaign.js';
-import {AB_TERRAIN,DECKS,LADDERS,CHECKPOINTS,CHANNEL,COINS,SECRETS,GOAL,WATER,WATERFALL} from '../src/v14/levels/inverse-world.js';
+import {AB_TERRAIN as ALL_TERRAIN,DECKS,LADDERS,CHECKPOINTS,CHANNEL,COINS,SECRETS,GOAL,WATER,WATERFALL,SLABS,CISTERN} from '../src/v14/levels/inverse-world.js';
+// Day 07: the cistern floor lies under the route (roofed by a slab + the hatch); the walking
+// surface over it is checked separately below, so the route checks use the surface columns.
+const AB_TERRAIN=[...ALL_TERRAIN.filter(t=>t.id!=='cistern-floor'),{id:'cistern-cover',x:CISTERN.x,width:CISTERN.width,y:CISTERN.hatch.y}].sort((a,b)=>a.x-b.x); // hatch + roof slab = walking surface
 import {newSluice} from '../src/v14/levels/sluice-model.js';
 import {canPlay} from '../src/v14/levels/registry.js';
 import {inFinishZone} from '../src/v14/levels/inverse.js';
@@ -47,7 +50,11 @@ assert(!canPlay('w1-l3',['w1-l1']));assert(canPlay('w1-l3',['w1-l2']));assert(ca
 for(const s of [...AB_TERRAIN,...DECKS])for(const n of [s.x,s.y,s.width])assert.equal(n%54,0);
 const range=280*(2*520/1400),peak=520**2/(2*1400);
 for(let i=1;i<AB_TERRAIN.length;i++){const a=AB_TERRAIN[i-1],b=AB_TERRAIN[i],gap=b.x-a.x-a.width;if(gap>108&&!(a.id==='machine-yard'&&gap===CHANNEL.width))assert.fail(`unexpected gap ${a.id} -> ${b.id}: ${gap}`);if(a.id==='machine-yard'){assert.equal(gap,CHANNEL.width);assert(gap>range);}else assert(a.y-b.y<=54&&a.y-b.y<peak);}
-for(const l of LADDERS){assert([...DECKS,...AB_TERRAIN].some(d=>l.x>=d.x&&l.x<=d.x+d.width&&d.y===l.top));assert([...AB_TERRAIN,...DECKS].some(d=>l.x>=d.x&&l.x<=d.x+d.width&&d.y===l.bottom));}
+{const roof=SLABS.find(s=>s.id==='cistern-roof'),west=ALL_TERRAIN.find(t=>t.id==='upper-ruins'),east=ALL_TERRAIN.find(t=>t.id==='upper-ruins-east'),floor=ALL_TERRAIN.find(t=>t.id==='cistern-floor');
+ assert.deepEqual([west.x+west.width,CISTERN.hatch.x+CISTERN.hatch.width,roof.x+roof.width],[CISTERN.hatch.x,roof.x,east.x],'route over the cistern has no gap');
+ assert(west.y===CISTERN.hatch.y&&roof.y===CISTERN.hatch.y&&east.y===CISTERN.hatch.y,'route over the cistern stays flat');
+ assert(floor.y===CISTERN.feet&&CISTERN.feet<2106-8,'cistern floor is above the respawn line');}
+for(const l of LADDERS){assert([...DECKS,CISTERN.hatch,...ALL_TERRAIN].some(d=>l.x>=d.x&&l.x<=d.x+d.width&&d.y===l.top));assert([...ALL_TERRAIN,...DECKS].some(d=>l.x>=d.x&&l.x<=d.x+d.width&&d.y===l.bottom));}
 for(const cp of CHECKPOINTS)assert(AB_TERRAIN.some(d=>cp.x>=d.x&&cp.x<=d.x+d.width&&cp.feet===d.y));
 assert(DECKS.some(d=>d.id==='root-balcony'&&d.x===756&&SECRETS[0].x>=d.x&&SECRETS[0].x<=d.x+d.width),'first secret remains on the optional canopy route');
 assert(DECKS.some(d=>d.id==='creek-crossing'&&d.x===378&&d.width===108),'entry creek must retain a safe bridge crossing');

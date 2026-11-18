@@ -1,4 +1,4 @@
-import {CHECKPOINTS,COINS,SECRETS} from '../levels/inverse-world.js';
+import {CHECKPOINTS,COINS,SECRETS,ARTIFACTS} from '../levels/inverse-world.js';
 import {sanitizePuzzle,solved} from '../levels/inverse.js'; // previous course (3 seals): read for migration only
 import {newSluice,replaySluice,sanitizeSluice} from '../levels/sluice-model.js';
 export const KEY='denai-l3-campaign-v1';
@@ -14,7 +14,11 @@ export function sanitizeRun(raw){
 }
 export function createInverseStore(storage){
  const read=()=>{try{return JSON.parse(storage.getItem(KEY)||'null');}catch{return null;}};
- const load=()=>{const raw=read();return {schemaVersion:1,completions:Number.isSafeInteger(raw?.completions)&&raw.completions>=0?raw.completions:0,completedRuns:unique(raw?.completedRuns,Array.isArray(raw?.completedRuns)?raw.completedRuns.filter(x=>typeof x==='string'):[]),coins:unique(raw?.coins,COINS.map(c=>c.id)),secrets:unique(raw?.secrets,SECRETS.map(s=>s.id)),bestMs:Number.isFinite(raw?.bestMs)&&raw.bestMs>0?raw.bestMs:null,run:sanitizeRun(raw?.run)};};
+ const load=()=>{const raw=read();return {schemaVersion:1,completions:Number.isSafeInteger(raw?.completions)&&raw.completions>=0?raw.completions:0,completedRuns:unique(raw?.completedRuns,Array.isArray(raw?.completedRuns)?raw.completedRuns.filter(x=>typeof x==='string'):[]),coins:unique(raw?.coins,COINS.map(c=>c.id)),secrets:unique(raw?.secrets,SECRETS.map(s=>s.id)),bestMs:Number.isFinite(raw?.bestMs)&&raw.bestMs>0?raw.bestMs:null,run:sanitizeRun(raw?.run),
+  // Day 07: permanent collectibles (lifetime; never reset by a replay). Older saves have none.
+  artifacts:unique(raw?.artifacts,ARTIFACTS.map(a=>a.id))};};
  const save=run=>{const raw=read();if(raw?.schemaVersion>1)return false;const state=load();state.run=sanitizeRun(run);if(!state.run)return false;state.coins=[...new Set([...state.coins,...state.run.coins])];state.secrets=[...new Set([...state.secrets,...state.run.secrets])];if(state.run.completed&&!state.completedRuns.includes(run.id)){state.completedRuns.push(run.id);state.completions++;state.bestMs=Math.min(state.bestMs||Infinity,state.run.elapsedMs);}try{storage.setItem(KEY,JSON.stringify(state));return true;}catch{return false;}};
- return {load,save};
+ // Day 07: record a permanent collectible once; returns true only the first time.
+ const addArtifact=id=>{if(!ARTIFACTS.some(a=>a.id===id))return false;const raw=read();if(raw?.schemaVersion>1)return false;const state=load();if(state.artifacts.includes(id))return false;state.artifacts.push(id);try{storage.setItem(KEY,JSON.stringify(state));return true;}catch{return false;}};
+ return {load,save,addArtifact};
 }

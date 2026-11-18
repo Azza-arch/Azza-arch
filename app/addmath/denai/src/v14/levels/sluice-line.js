@@ -11,10 +11,11 @@
 import {burst} from '../feel.js';
 import {say,placeBubble} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue} from '../ui/v4-ui.js';
-import {meterOf,noteText,mathText,turnValve,testFlow,readNote,stepPlate,pullCave,sluiceStep,reading} from './sluice-model.js';
+import {meterOf,noteText,mathText,turnValve,testFlow,readNote,stepPlate,pullCave,sluiceStep,reading,turnCistern,pullCistern} from './sluice-model.js';
 // Day 04: every number on the meter, note, plate and journal comes from the
 // run's puzzle session: meterOf(s.run.sluice).
-import {SLUICE,CAVE,CHANNEL,STONES,WATER_Y} from './inverse-world.js';
+import {SLUICE,CAVE,CHANNEL,STONES,WATER_Y,CISTERN,ARTIFACTS} from './inverse-world.js';
+import {signText} from '../environment.js';
 export {newSluice,sanitizeSluice} from './sluice-model.js';
 const $=id=>document.getElementById(id);
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -85,7 +86,74 @@ export function buildSluice(s){
  // Water: the channel's surface row and the row under it (hidden when drained).
  v.water=s.channelWater;v.waterY=WATER_Y;
  if(state.open)openSluice(s,false);
+ buildCistern(s,v);
  return v;
+}
+
+// ── Day 07 · Takungan Lama (optional cistern under the upper ruins) ──
+// Main route: the plank hatch is flush with the ruin floor, so walking over it
+// is unchanged. Optional: ↓ on the hatch climbs down the shaft; the room holds
+// an inverse-function code lock (same machine as the sluice) guarding the
+// Kristal Kapur. ↑ on the ladder climbs back to the same spot on the route.
+function buildCistern(s,v){
+ const tile=s.tile,C=CISTERN,st=s.run.sluice,m=meterOf(st);
+ // Back wall: rock tiles behind the room (it is not open sky) under a translucent shade, so the
+ // room reads as a recess. (The game uses Phaser's CANVAS renderer, where setTint has no effect.)
+ const rock=(x,y)=>tile(4+((x/54+y/54)&1),x,y,5);
+ for(let x=C.x;x<C.x+C.width;x+=54)for(let y=C.roof;y<C.feet;y+=54)rock(x,y);
+ for(let y=C.hatch.y;y<C.roof;y+=54)rock(C.x,y);                    // shaft
+ s.add.rectangle(C.x,C.roof,C.width,C.feet-C.roof,0x1c120c,.38).setOrigin(0).setDepth(5.5);
+ s.add.rectangle(C.x,C.hatch.y,54,C.roof-C.hatch.y,0x1c120c,.38).setOrigin(0).setDepth(5.5);
+ s.platform(C.hatch);v.hatch=s.deck(C.hatch);                         // one-way plank hatch, flush with the route
+ tile(86,C.x+54,C.hatch.y-54,11);signText(s,'Takungan ↓',C.x+81,C.hatch.y-6); // signpost beside the hatch (optional branch)
+ // Inscription: the rule and the target come from the run's puzzle session.
+ const r=m.rule;
+ s.add.text(C.plateX,C.roof+10,`TAKUNGAN LAMA\njeriji dibuka bila f(kod) = ${m.CISTERN_TARGET}\nf(x) = ${r.a}x${r.b?` + ${r.b}`:''}`,{fontFamily:'Arial',fontSize:'11px',fontStyle:'bold',color:'#203e36',backgroundColor:'#f9f2d8',padding:{x:6,y:3},align:'center'}).setOrigin(.5,0).setDepth(12);
+ // Code dial: hand wheel + digit plate (same pieces as the sluice valve, smaller).
+ const wheel=s.add.container(C.dialX,C.feet-44).setDepth(12);
+ [[93,-12,-12],[94,12,-12],[113,-12,12],[114,12,12]].forEach(([f,x,y])=>wheel.add(s.add.image(x,y,ATLAS,f).setScale(1.35)));
+ wheel.add([s.add.rectangle(0,0,40,5,0x394238),s.add.rectangle(0,0,5,40,0x394238),s.add.circle(0,0,6,0xd8a35a).setStrokeStyle(2,0x394238)]);
+ v.cWheel=wheel.setAngle(st.cistern.setting*60);
+ s.add.rectangle(C.dialX,C.feet-96,34,26,0x394238).setDepth(11.5).setStrokeStyle(2,0xf9f2d8);
+ s.add.text(C.dialX,C.feet-110,'KOD',{fontFamily:'Arial',fontSize:'9px',fontStyle:'bold',color:'#f9f2d8'}).setOrigin(.5,1).setDepth(11.6);
+ v.cDigits=[];v.showCode=()=>digits(s,v.cDigits,s.run.sluice.cistern.setting,C.dialX,C.feet-96,1.2,12);v.showCode();
+ v.cLever=tile(st.cistern.solved?66:64,C.leverX-27,C.feet-54,12);
+ // Grille: Kenney lock blocks, solid until the code is right.
+ v.cGate=[];for(let y=C.roof;y<C.feet;y+=54)v.cGate.push(tile(28,C.gate.x,y,11));
+ v.cGateBody=null;
+ if(!st.cistern.solved){const b=s.add.rectangle(C.gate.x+C.gate.width/2,(C.roof+C.feet)/2,C.gate.width,C.feet-C.roof,0,0);s.physics.add.existing(b,true);s.solids.add(b);b.setData('oneWay',false).setData('id','cistern-gate');v.cGateBody=b;}
+ else v.cGate.forEach(g=>g.setVisible(false));
+ // Pedestal + Kristal Kapur (Kenney gem 67 on a stone plinth with a soft glow; a faint ghost once it is in the collection).
+ const a=ARTIFACTS[0];
+ s.add.image(a.x-27,C.feet-54,'l3-stone-center').setOrigin(0).setDisplaySize(54,54).setDepth(11);
+ v.glow=s.add.circle(a.x,a.feet-20,20,0xfff3c4,.35).setDepth(11.9);
+ v.crystal=s.add.image(a.x,a.feet,ATLAS,67).setOrigin(.5,1).setScale(2.2).setDepth(12);
+ if(!reduced()){s.tweens.add({targets:v.crystal,y:a.feet-6,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'});s.tweens.add({targets:v.glow,alpha:.12,duration:900,yoyo:true,repeat:-1});}
+ v.syncArtifact=(owned)=>{v.crystal.setAlpha(owned?.25:1);v.glow.setVisible(!owned);};
+ v.syncArtifact(!!s.artifactOwned?.(a.id));
+}
+function cisternDial(s){
+ const v=s.sluice;s.run.sluice=turnCistern(s.run.sluice);const x=s.run.sluice.cistern.setting;
+ s.sfxRef?.ui?.(s.audioRef);s.tweens.killTweensOf(v.cWheel);
+ s.tweens.add({targets:v.cWheel,angle:x===0?360:x*60,duration:reduced()?1:300,ease:'Back.out',onComplete:()=>{if(x===0)v.cWheel.setAngle(0);}});
+ v.showCode();s.writeSave();
+}
+function cisternLever(s,{audio,SFX}={}){
+ const v=s.sluice;if(v.busy)return;
+ const before=s.run.sluice.cistern.setting,r=pullCistern(s.run.sluice),m=meterOf(s.run.sluice);
+ s.run.sluice=r.state;s.writeSave();v.busy=true;v.cLever.setFrame(66);SFX?.machine?.(audio);
+ const R=reduced(),D=k=>R?1:k;
+ s.time.delayedCall(D(500),()=>{
+  if(r.result==='solved'){
+   SFX?.correct?.(audio);say(s,`f(${before}) = ${m.CISTERN_TARGET} ✓ Jeriji terbuka.`,3000);
+   if(v.cGateBody){v.cGateBody.destroy();v.cGateBody=null;}
+   v.cGate.forEach((g,i)=>s.tweens.add({targets:g,y:g.y-24,alpha:0,duration:D(320),delay:D(i*60),onComplete:()=>g.setVisible(false)}));
+   burst(s,CISTERN.gate.x+27,CISTERN.feet-60,8,0xfff3c4,R);v.busy=false;return;
+  }
+  SFX?.incorrect?.(audio);say(s,`f(${before}) = ${r.reading}, bukan ${m.CISTERN_TARGET}. Jeriji masih berkunci.`,3200);
+  if(!R)s.cameras.main.shake(140,.003);
+  s.time.delayedCall(D(700),()=>{v.cLever.setFrame(64);v.busy=false;});
+ });
 }
 
 function openSluice(s,animate){
@@ -127,9 +195,15 @@ export function sluicePrompt(s,grounded,touch){
  if(Math.abs(feet-CAVE.feet)<8){
   if(!st.cave.solved)near.push({id:'cave',x:CAVE.leverX,r:34,text:'Tarik tuas injap gua'});
  }
+ // Day 07 · cistern: the hatch and the ladder foot explain the way (not E actions).
+ if(Math.abs(feet-CISTERN.hatch.y)<8)near.push({id:'hatch',x:CISTERN.ladder.x,r:30,text:'Turun ke Takungan Lama',key:touch?'↓':'S',act:false});
+ if(Math.abs(feet-CISTERN.feet)<8){
+  near.push({id:'cistern-up',x:CISTERN.ladder.x,r:30,text:'Naik ke runtuhan',key:touch?'↑':'W',act:false});
+  if(!st.cistern.solved){near.push({id:'cistern-dial',x:CISTERN.dialX,r:26,text:`Pusing kod (kini ${st.cistern.setting})`});near.push({id:'cistern-lever',x:CISTERN.leverX,r:26,text:'Tarik tuas jeriji'});}
+ }
  const best=near.filter(n=>Math.abs(px-n.x)<n.r).sort((a,b)=>Math.abs(px-a.x)-Math.abs(px-b.x))[0];
  if(!best)return null;
- s.sluiceReady=best.id;return {key,text:best.text};
+ s.sluiceReady=best.act===false?null:best.id;return {key:best.key??key,text:best.text,act:best.act};
 }
 export function useSluice(s,{audio,SFX}={}){
  const id=s.sluiceReady;if(!id)return;
@@ -137,6 +211,8 @@ export function useSluice(s,{audio,SFX}={}){
  if(id==='wheel')return wheel(s,{audio,SFX});
  if(id==='flow')return flow(s,{audio,SFX});
  if(id==='cave')return cave(s,{audio,SFX});
+ if(id==='cistern-dial')return cisternDial(s);
+ if(id==='cistern-lever')return cisternLever(s,{audio,SFX});
 }
 function note(s){
  s.run.sluice=readNote(s.run.sluice);s.writeSave();renderTracker(s);

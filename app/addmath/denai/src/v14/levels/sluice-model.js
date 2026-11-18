@@ -25,7 +25,11 @@ export function meterFor(session) {
     definition: def, caveDefinition: cave, rule: P.rule,
     DOMAIN: Object.freeze(domain), RANGE: Object.freeze(range), MIN: range[0], MAX: range[range.length - 1],
     TARGET: P.target, CAVE_TARGET: cave.parameters.target, SETTING: def.answer.setting, CAVE_SETTING: cave.answer.setting,
+    // Day 07 · cistern code: the same machine, a third input that is neither the sluice
+    // setting nor the cave setting (fixed order, so it is deterministic per session).
+    CISTERN_SETTING: [3, 4, 2, 5, 1, 6].find((x) => x !== def.answer.setting && x !== cave.answer.setting),
     reading: (x) => inverseModel.forward(P, x),
+    get CISTERN_TARGET() { return inverseModel.forward(P, this.CISTERN_SETTING); },
     inverseSteps: (y) => inverseModel.inverseSteps(P, y),
   });
   if (views.size > 32) views.clear();
@@ -44,7 +48,7 @@ export const inverseSteps = base.inverseSteps;
 // (replays); the same seed always gives the same rule and targets.
 export function newSluice({ seed } = {}) {
   const puzzle = Number.isSafeInteger(seed) ? createSession(LEVEL, { seed }) : BASE_SESSION;
-  return { setting: 0, tests: 0, lastReading: null, open: false, noteRead: false, cave: { setting: null, tries: 0, solved: false }, puzzle };
+  return { setting: 0, tests: 0, lastReading: null, open: false, noteRead: false, cave: { setting: null, tries: 0, solved: false }, cistern: { setting: 0, tries: 0, solved: false }, puzzle };
 }
 export const replaySluice = () => newSluice({ seed: newSeed() });
 // One notch clockwise; past 6 the wheel comes back to 0.
@@ -68,6 +72,16 @@ export function pullCave(s) {
   // A wrong pull spits water back and resets the plates; no other cost.
   return { state: { ...s, cave: { setting: ok ? c.setting : null, tries: Math.min(c.tries + 1, 999), solved: ok } }, result: ok ? 'solved' : 'wrong', reading: reading(c.setting) };
 }
+// Day 07 · optional cistern (Takungan Lama): a code dial 0…6 and a lever. The
+// grille opens only when f(code) equals the cistern target (inverse function).
+// Wrong pulls cost nothing; the reading is shown so the player can adjust.
+export const turnCistern = (s) => (s.cistern?.solved ? s : { ...s, cistern: { ...s.cistern, setting: (s.cistern.setting + 1) % DOMAIN.length } });
+export function pullCistern(s) {
+  const c = s.cistern, m = meterOf(s);
+  if (c.solved) return { state: s, result: 'solved', reading: m.CISTERN_TARGET };
+  const r = m.reading(c.setting), ok = r === m.CISTERN_TARGET;
+  return { state: { ...s, cistern: { setting: c.setting, tries: Math.min(c.tries + 1, 999), solved: ok } }, result: ok ? 'solved' : 'wrong', reading: r };
+}
 export const sluiceStep = (s) => (!s ? 'none' : s.open ? 'done' : s.tests === 0 ? 'investigate' : 'retry');
 
 const int = (v, lo, hi) => (Number.isSafeInteger(v) && v >= lo && v <= hi ? v : null);
@@ -85,6 +99,10 @@ export function sanitizeSluice(raw, legacyOpen = false) {
     const c = raw.cave && typeof raw.cave === 'object' ? raw.cave : {};
     const cs = int(c.setting, 0, 6);
     s.cave = { setting: cs, tries: int(c.tries, 0, 999) ?? 0, solved: c.solved === true && reading(cs) === CAVE_TARGET };
+    // Day 07: optional cistern (missing in older saves → closed, setting 0).
+    const k = raw.cistern && typeof raw.cistern === 'object' ? raw.cistern : {};
+    const ks = int(k.setting, 0, 6) ?? 0;
+    s.cistern = { setting: ks, tries: int(k.tries, 0, 999) ?? 0, solved: k.solved === true && reading(ks) === meterOf(s).CISTERN_TARGET };
   }
   if (legacyOpen) Object.assign(s, { setting: SETTING, open: true, lastReading: TARGET, tests: Math.max(s.tests, 1) });
   return s;

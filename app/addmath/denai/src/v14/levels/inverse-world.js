@@ -8,10 +8,29 @@ export const GOAL={x:5292,feet:1566};
 // step; the first real gap (x 1296–1350) is reached after ≈4.2 s and is signed.
 export const AB_TERRAIN=[
  ['stream-approach-west',0,378,1728],['stream-approach-east',486,216,1728],['ruin-entry',702,594,1674],
- ['ruin-courtyard',1350,540,1728],['upper-ruins',1944,540,1674],
+ ['ruin-courtyard',1350,540,1728],
+ // Day 07 · vertical slice: the upper ruins are no longer one solid column. The
+ // walking surface (y 1674) is unchanged; below it is the optional cistern
+ // (see CISTERN): west block, cistern floor, east wall; its roof is a SLAB.
+ ['upper-ruins',1944,162,1674],['cistern-floor',2106,324,2052],['upper-ruins-east',2430,54,1674],
  ['machine-yard',2538,702,1620],['waterfall-bank',3456,594,1674],
  ['gate-approach',4104,594,1620],['gate-court',4752,864,1566],
-].map(([id,x,width,y])=>({id,x,width,y,style:['ruin-entry','ruin-courtyard','upper-ruins'].includes(id)?'stone':undefined}));
+].map(([id,x,width,y])=>({id,x,width,y,style:['ruin-entry','ruin-courtyard','upper-ruins','cistern-floor','upper-ruins-east'].includes(id)?'stone':undefined}));
+// Day 07 · Takungan Lama (optional cistern under the upper ruins).
+// Room x 2106–2430, air y 1782–2052 (floor = feet 2052, 46 px above the respawn
+// line WORLD.floor − 8 = 2098). Entered by a plank hatch over a one-tile shaft
+// (x 2106–2160) with a ladder; the hatch is a one-way deck flush with the main
+// route, so walking over it is unchanged. Outside the camera's water band
+// (x 2640–3716), so camera framing is the existing behaviour.
+export const CISTERN={x:2106,width:324,roof:1782,feet:2052,
+ hatch:{id:'cistern-hatch',x:2106,y:1674,width:54},
+ ladder:{x:2133,top:1674,bottom:2052},
+ dialX:2214,leverX:2268,plateX:2241,
+ gate:{x:2322,width:54},            // lock blocks (Kenney 28); solid until the code is right
+ pedestalX:2403};
+export const SLABS=[{id:'cistern-roof',x:2160,y:1674,width:270,bottom:1782,style:'ruin'}];
+// The one collectible prototype (permanent, stored in denai-l3-campaign-v1).
+export const ARTIFACTS=[{id:'kristal-kapur',name:'Kristal Kapur',x:CISTERN.pedestalX,feet:CISTERN.feet-54}];
 export const DECKS=[
  {id:'creek-crossing',x:378,y:1728,width:108},
  {id:'root-balcony',x:756,y:1512,width:270},
@@ -27,6 +46,7 @@ export const LADDERS=[
  {x:1674,top:1296,bottom:1404},
  {x:1890,top:1188,bottom:1404},
  {x:4590,top:1242,bottom:1620},
+ {x:2133,top:1674,bottom:2052}, // Day 07: cistern shaft (CISTERN.ladder)
 ];
 // V3: the flooded sluice channel. Too wide to jump (216 > jump range) until the
 // sluice is restored; then the water drops 54 px and two stepping stones emerge.
@@ -60,4 +80,4 @@ export const WATER=[{x:378,width:108},{x:3240,width:216}];
 export const WATER_Y=1692; // channel water line before the sluice is restored (then +54)
 // Decorative spillway beside the bridge; it has no collider or gameplay effect.
 export const WATERFALL={x:3240,width:54,top:1512,bottom:1674};
-export const DEFINITION={WORLD,AB_TERRAIN,DECKS,LADDERS,parallaxShift:216,bgTheme:'forest'};
+export const DEFINITION={WORLD,AB_TERRAIN,SLABS,DECKS,LADDERS,parallaxShift:216,bgTheme:'forest'};
