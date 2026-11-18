@@ -11,14 +11,17 @@
 import {burst} from '../feel.js';
 import {say,placeBubble} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue} from '../ui/v4-ui.js';
-import {TARGET,CAVE_TARGET,reading,inverseSteps,turnValve,testFlow,readNote,stepPlate,pullCave,sluiceStep,DEFINITION} from './sluice-model.js';
+import {meterOf,noteText,mathText,turnValve,testFlow,readNote,stepPlate,pullCave,sluiceStep,reading} from './sluice-model.js';
+// Day 04: every number on the meter, note, plate and journal comes from the
+// run's puzzle session: meterOf(s.run.sluice).
 import {SLUICE,CAVE,CHANNEL,STONES,WATER_Y} from './inverse-world.js';
 export {newSluice,sanitizeSluice} from './sluice-model.js';
 const $=id=>document.getElementById(id);
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ATLAS='kpp_terrain_atlas';
 const DIAL={x:SLUICE.meterX,y:1494,r:30};
-const angleFor=r=>-120+(Math.max(3,Math.min(15,r))-3)*20; // 3…15 → −120°…+120°
+// The dial spans the machine's range (lowest → highest reading) over −120°…+120°.
+const angleFor=(m,r)=>-120+(Math.max(m.MIN,Math.min(m.MAX,r))-m.MIN)*240/(m.MAX-m.MIN);
 
 // Pixel digits from the Kenney atlas (170–179), centred on x.
 function digits(s,group,value,x,y,scale=2,depth=16){
@@ -29,7 +32,7 @@ function digits(s,group,value,x,y,scale=2,depth=16){
 }
 
 export function buildSluice(s){
- const tile=s.tile,state=s.run.sluice;
+ const tile=s.tile,state=s.run.sluice,m=meterOf(state),{TARGET,CAVE_TARGET}=m;
  const v=s.sluice={busy:false,setDigits:[],readDigits:[],caveDigits:[],stoneBodies:[],plates:[]};
  // Torn maintenance note on a sign post.
  v.note=tile(86,SLUICE.noteX-27,SLUICE.feet-54,11);
@@ -45,14 +48,14 @@ export function buildSluice(s){
  v.setLabel=s.add.text(SLUICE.wheelX+56,1478,'TETAPAN',{fontFamily:'Arial',fontSize:'9px',fontStyle:'bold',color:'#f9f2d8'}).setOrigin(.5,1).setDepth(11.6);
  v.showSetting=()=>digits(s,v.setDigits,s.run.sluice.setting,SLUICE.wheelX+56,1500,1.4,12);
  v.showSetting();plate.setData('noCull',true);
- // Meter on the pipe: dial, ticks 3…15, original mark 13, needle.
+ // Meter on the pipe: dial, one tick per possible reading, original mark, needle.
  const g=s.add.graphics().setDepth(11.8);
  g.fillStyle(0x394238,1).fillCircle(DIAL.x,DIAL.y,DIAL.r+4);g.fillStyle(0xf9f2d8,1).fillCircle(DIAL.x,DIAL.y,DIAL.r);
- for(let r=3;r<=15;r+=2){const a=Phaser.Math.DegToRad(angleFor(r)-90),k=r===TARGET?1:0;g.lineStyle(k?4:2,k?0xc0392b:0x394238,1).lineBetween(DIAL.x+Math.cos(a)*(DIAL.r-9),DIAL.y+Math.sin(a)*(DIAL.r-9),DIAL.x+Math.cos(a)*(DIAL.r-2),DIAL.y+Math.sin(a)*(DIAL.r-2));}
+ for(const r of m.RANGE){const a=Phaser.Math.DegToRad(angleFor(m,r)-90),k=r===TARGET?1:0;g.lineStyle(k?4:2,k?0xc0392b:0x394238,1).lineBetween(DIAL.x+Math.cos(a)*(DIAL.r-9),DIAL.y+Math.sin(a)*(DIAL.r-9),DIAL.x+Math.cos(a)*(DIAL.r-2),DIAL.y+Math.sin(a)*(DIAL.r-2));}
  g.lineStyle(2,0x394238,1).lineBetween(DIAL.x,DIAL.y-DIAL.r-4,DIAL.x,1458); // hangs from the pipe
  v.dial=g;
- v.needle=s.add.container(DIAL.x,DIAL.y,[s.add.rectangle(0,0,4,DIAL.r-6,0x8a2b2b).setOrigin(.5,1),s.add.circle(0,0,4,0x394238)]).setDepth(12).setAngle(state.open?angleFor(TARGET):-130);
- v.mark=s.add.text(DIAL.x,DIAL.y+DIAL.r+6,'TANDA ASAL 13',{fontFamily:'Arial',fontSize:'10px',fontStyle:'bold',color:'#fff1cf',stroke:'#394238',strokeThickness:3}).setOrigin(.5,0).setDepth(12);
+ v.needle=s.add.container(DIAL.x,DIAL.y,[s.add.rectangle(0,0,4,DIAL.r-6,0x8a2b2b).setOrigin(.5,1),s.add.circle(0,0,4,0x394238)]).setDepth(12).setAngle(state.open?angleFor(m,TARGET):-130);
+ v.mark=s.add.text(DIAL.x,DIAL.y+DIAL.r+6,`TANDA ASAL ${TARGET}`,{fontFamily:'Arial',fontSize:'10px',fontStyle:'bold',color:'#fff1cf',stroke:'#394238',strokeThickness:3}).setOrigin(.5,0).setDepth(12);
  if(state.open)digits(s,v.readDigits,TARGET,DIAL.x,DIAL.y+DIAL.r+34,1.3,12);
  // Flow lever.
  v.lever=tile(state.open?66:64,SLUICE.leverX-27,SLUICE.feet-54,12);
@@ -68,12 +71,12 @@ export function buildSluice(s){
  v.stones=STONES.map(st=>s.add.image(st.x,st.y,'l3-stone-center').setOrigin(0).setDisplaySize(54,54).setDepth(5.8).setTint(0xcfc6b4));
  // Cave valve on the arch walk: sign with broken meter, 7 plates, lever, chest.
  const c=state.cave;
- s.add.text(CAVE.plateX+189,CAVE.feet-112,'INJAP GUA · meter rosak\nperlu bacaan 15',{fontFamily:'Arial',fontSize:'12px',fontStyle:'bold',color:'#203e36',backgroundColor:'#f9f2d8',padding:{x:6,y:3},align:'center'}).setOrigin(.5,1).setDepth(12);
+ s.add.text(CAVE.plateX+189,CAVE.feet-112,`INJAP GUA · meter rosak\nperlu bacaan ${CAVE_TARGET}`,{fontFamily:'Arial',fontSize:'12px',fontStyle:'bold',color:'#203e36',backgroundColor:'#f9f2d8',padding:{x:6,y:3},align:'center'}).setOrigin(.5,1).setDepth(12);
  const cg=s.add.graphics().setDepth(11.8),cx=CAVE.leverX,cy=CAVE.feet-92;
  cg.fillStyle(0x394238,1).fillCircle(cx,cy,18);cg.fillStyle(0xd9d2bf,1).fillCircle(cx,cy,15);cg.lineStyle(2,0x394238,1).lineBetween(cx-10,cy-9,cx+2,cy+1).lineBetween(cx+2,cy+1,cx-3,cy+11).lineBetween(cx+2,cy+1,cx+11,cy-4); // cracked glass
  for(let k=0;k<7;k++){
   const x=CAVE.plateX+k*54;
-  const art=tile(c.setting===k||c.solved&&k===6?149:148,x,CAVE.feet-54,11);
+  const art=tile(c.setting===k||c.solved&&k===m.CAVE_SETTING?149:148,x,CAVE.feet-54,11);
   const num=s.add.image(x+27,CAVE.feet-70,ATLAS,170+k).setScale(1.3).setDepth(11);
   v.plates.push({k,art,num});
  }
@@ -137,7 +140,7 @@ export function useSluice(s,{audio,SFX}={}){
 }
 function note(s){
  s.run.sluice=readNote(s.run.sluice);s.writeSave();renderTracker(s);
- dialogue(s,['Catatan penyelenggaraan (koyak):\n«Kalibrasi injap: bacaan = 2 × tetapan + 3. Bacaan asal …»','Selebihnya koyak.'],{portrait:'none'}); // V4: the note speaks
+ dialogue(s,[noteText(s.run.sluice),'Selebihnya koyak.'],{portrait:'none'}); // V4: the note speaks
 }
 function wheel(s,{audio,SFX}){
  const v=s.sluice;s.run.sluice=turnValve(s.run.sluice);const x=s.run.sluice.setting;
@@ -148,28 +151,28 @@ function wheel(s,{audio,SFX}){
 }
 function flow(s,{audio,SFX}){
  const v=s.sluice;if(v.busy)return;
- const before=s.run.sluice,t=testFlow(before);s.run.sluice=t.state;s.writeSave(); // state first: reload mid-animation is safe
+ const before=s.run.sluice,m=meterOf(before),t=testFlow(before);s.run.sluice=t.state;s.writeSave(); // state first: reload mid-animation is safe
  v.busy=true;v.lever.setFrame(66);SFX?.machine?.(audio);
  const R=reduced(),D=k=>R?1:k;
  // Water pulses along the pipe from the spring to the meter.
  const path=(s.pipeCells||[]).map(c=>({x:c.x+27,y:c.y+27}));
  if(!R&&path.length){for(let i=0;i<4;i++){const dot=s.add.circle(path[0].x,path[0].y,5,0x7fd8ff).setDepth(11.9).setAlpha(.9);const seq=path.filter(p=>p.x<=DIAL.x+27);s.tweens.chain({targets:dot,delay:i*120,tweens:seq.map(p=>({x:p.x,y:p.y,duration:900/seq.length})),onComplete:()=>dot.destroy()});}}
  s.time.delayedCall(D(900),()=>{
-  s.tweens.add({targets:v.needle,angle:angleFor(t.reading),duration:D(650),ease:'Back.out'});
+  s.tweens.add({targets:v.needle,angle:angleFor(m,t.reading),duration:D(650),ease:'Back.out'});
   digits(s,v.readDigits,t.reading,DIAL.x,DIAL.y+DIAL.r+34,1.3,12);
  });
  s.time.delayedCall(D(1700),()=>{
   if(t.result==='open'){
    SFX?.correct?.(audio);SFX?.bridge?.(audio);openSluice(s,true);
    if(!R)s.cameras.main.shake(260,.003);
-   say(s,'Bacaan 13 ✓',2000);
+   say(s,`Bacaan ${m.TARGET} ✓`,2000);
    s.time.delayedCall(D(1400),()=>{v.busy=false;renderTracker(s);});
    s.time.delayedCall(D(2600),()=>s.summary?.());
    return;
   }
   const low=t.result==='low';
   if(low){
-   const lift=Math.max(8,(t.reading-3)*3);
+   const lift=Math.max(8,(t.reading-m.MIN)*3);
    s.tweens.add({targets:v.gate.list,y:`-=${lift}`,duration:D(500),yoyo:true,hold:D(500),ease:'Sine.inOut'});
    burst(s,SLUICE.gateX+54,1680,6,0x7fd8ff,R);
    say(s,'Aliran masih rendah.',2800);
@@ -211,12 +214,11 @@ function cave(s,{audio,SFX}){
 }
 
 // ── Compact tracker (same look as Levels 1-1/1-2) ──
-const HINTS={
- investigate:DEFINITION.hints, // Day 03: from the puzzle definition 'w1.l3.sluice.main'
-};
+// Day 04: from the session's definition (same numbers as the meter).
 function hintsFor(st){
- if(sluiceStep(st)!=='retry')return HINTS.investigate;
- const r=st.lastReading;return [`Bacaan ${r} ${r<TARGET?'terlalu rendah':'terlalu tinggi'} — sasaran ${TARGET}. ${r<TARGET?'Tetapan perlu lebih besar.':'Tetapan perlu lebih kecil.'}`,HINTS.investigate[1],HINTS.investigate[2]];
+ const {TARGET,definition}=meterOf(st),investigate=definition.hints;
+ if(sluiceStep(st)!=='retry')return investigate;
+ const r=st.lastReading;return [`Bacaan ${r} ${r<TARGET?'terlalu rendah':'terlalu tinggi'} — sasaran ${TARGET}. ${r<TARGET?'Tetapan perlu lebih besar.':'Tetapan perlu lebih kecil.'}`,investigate[1],investigate[2]];
 }
 export function installTracker(s){
  const frame=document.querySelector('.game-frame');if(!frame)return;
@@ -234,13 +236,13 @@ export function renderTracker(s){
  const step=sluiceStep(st),show=trackerShown(s);tr.hidden=!show;if(!show)return;
  $('qt-text').textContent=step==='done'?'Pintu air dipulihkan ✓':'Pulihkan pintu air: cari tetapan asal injap.';
  const inv=$('qt-inv');inv.hidden=step==='done';
- inv.textContent=`Injap ${st.setting} · sasaran 13${st.lastReading!==null?` · bacaan lalu ${st.lastReading}`:''}`; // max 2 lines (formula: note + hint 2)
+ inv.textContent=`Injap ${st.setting} · sasaran ${meterOf(st).TARGET}${st.lastReading!==null?` · bacaan lalu ${st.lastReading}`:''}`; // max 2 lines (formula: note + hint 2)
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}
  const lvl=s.hintLevel||0,hint=$('qt-hint-text');$('qt-hint').hidden=step==='done';
  hint.hidden=!lvl||step==='done';if(lvl)hint.textContent=`Petunjuk ${lvl}: ${hintsFor(st)[lvl-1]}`;
  $('quest-tracker').classList.toggle('hint-open',!hint.hidden);$('quest-tracker').classList.toggle('has-hint-btn',!$('qt-hint').hidden);$('quest-tracker').scrollTop=0; // short screens: hint takes the status line's place
  $('qt-math').hidden=step!=='done';
- $('qt-math-text').textContent=`f(x) = 2x + 3 · f(5) = 13 ✓ · f⁻¹(13) = (13 − 3) ÷ 2 = 5${st.cave.solved?' · Injap gua: f⁻¹(15) = (15 − 3) ÷ 2 = 6':''}.`;
+ $('qt-math-text').textContent=mathText(st);
 }
 export function syncSluiceUI(s){const tr=$('quest-tracker');if(!tr)return;if(tr.hidden===trackerShown(s))renderTracker(s);syncJournal(s);}
 export const sluiceWaterY=s=>s.sluice?.waterY??WATER_Y;

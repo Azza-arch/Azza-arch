@@ -17,16 +17,18 @@ assert.equal(workshopStep({...w0,delivered:true}),'done');assert.equal(workshopS
 // sanitize: garbage, caps, forged delivery
 assert.deepEqual(sanitizeWorkshop('x'),newWorkshop());
 const bad=sanitizeWorkshop({order:'ZZ',runs:-3,swaps:1e9,lastOut:7,delivered:true});
-assert.deepEqual(bad,{order:'BA',runs:0,lastOut:null,delivered:false,swaps:999},'BA cannot be delivered');
+// Day 04: the sanitised workshop also carries its puzzle session (old save → original puzzle).
+assert.deepEqual(bad,{order:'BA',runs:0,lastOut:null,delivered:false,swaps:999,puzzle:newWorkshop().puzzle},'BA cannot be delivered');
 assert.equal(sanitizeWorkshop({order:'AB',runs:5000,delivered:true}).runs,999);
 assert.equal(sanitizeWorkshop({order:'AB',runs:2,delivered:true,lastOut:8}).delivered,true);
 // legacy course finished → bridge stands
-assert.deepEqual(sanitizeWorkshop(undefined,true),{order:'AB',runs:1,lastOut:8,delivered:true,swaps:0});
+assert.deepEqual(sanitizeWorkshop(undefined,true),{order:'AB',runs:1,lastOut:8,delivered:true,swaps:0,puzzle:newWorkshop().puzzle});
 // store round trip + migration of the previous 1-2 course
 const mk=(seed)=>{const bytes=new Map(Object.entries(seed||{}));return createCampaignStore({getItem:k=>bytes.get(k)??null,setItem:(k,v)=>bytes.set(k,v)});};
 const st=mk(),run=newRun();assert.deepEqual(run.workshop,newWorkshop());
 run.workshop={order:'AB',runs:2,lastOut:8,delivered:true,swaps:1};run.checkpointId='exit';assert(st.saveRun(run));
-assert.deepEqual(st.load().levels['w1-l2'].run.workshop,run.workshop);
+// Day 04: a workshop saved without a session comes back with the original puzzle's session.
+assert.deepEqual(st.load().levels['w1-l2'].run.workshop,{...run.workshop,puzzle:newWorkshop().puzzle});
 const solved={input:2,order:'gf',revision:4,receivers:{fg:true,gf:true},last:null,route:null,history:{},drives:{}};
 const open0={...solved,order:'fg',revision:0,receivers:{fg:false,gf:false}};
 const old=(final,cp)=>({'denai-campaign-v1':JSON.stringify({schemaVersion:1,levels:{'w1-l2':{completions:0,completedRuns:[],coins:['l2-coin-1'],secrets:[],bestMs:null,run:{id:'r',checkpointId:cp,coins:['l2-coin-1'],secrets:[],puzzles:{twins:solved,final},elapsedMs:9e4,completed:false}}}})});

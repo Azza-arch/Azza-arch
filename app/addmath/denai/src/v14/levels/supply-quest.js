@@ -19,6 +19,7 @@ import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue,stamp,lock,unlock} from '../ui/v4-ui.js';
 import {awardAchievement,loadProfile,LEVEL_KEY} from '../progress.js';
 import {puzzlesFor,fill} from '../puzzles/index.js';
+import {restoreSession,createSession,legacySupplySession,definitionFor,newSeed} from '../puzzles/session.js';
 import * as linear from '../puzzles/models/linear-cost.js';
 
 // Day 03: the price lists, hints and feedback come from the puzzle definitions
@@ -28,7 +29,16 @@ const SUPPLY_DEFS=puzzlesFor('supply-store').filter(d=>d.status==='live');
 export const NEED=SUPPLY_DEFS[0].parameters.need, STOCK=SUPPLY_DEFS[0].parameters.stock;
 export const VARIANTS=Object.freeze(SUPPLY_DEFS.map(d=>Object.freeze({id:d.legacyId,price:d.parameters.price,delivery:d.parameters.delivery,budget:d.parameters.budget})));
 export const variantById=id=>VARIANTS.find(v=>v.id===id)||VARIANTS[0];
-const definitionOf=v=>SUPPLY_DEFS.find(d=>d.legacyId===v.id)||SUPPLY_DEFS[0];
+// Day 04: the price list of a run comes from its puzzle session (quest.puzzle,
+// see puzzles/session.js). Saves from before Day 04 have no session: their
+// K1/K2/K3 id gives the original price list. variantOf() keeps the old
+// {id, price, delivery, budget} shape so cost/checkPurchase work unchanged.
+const LEGACY_IDS=Object.fromEntries(SUPPLY_DEFS.map(d=>[d.id,d.legacyId]));
+export function variantOf(qs){
+ const p=qs?.puzzle?.params;if(!p)return variantById(qs?.variant);
+ return {id:LEGACY_IDS[qs.puzzle.id]||'G',price:p.price,delivery:p.delivery,budget:p.budget};
+}
+const definitionOf=qs=>definitionFor('w1-l1',qs?.puzzle||legacySupplySession(variantById(qs?.variant).id));
 const params=v=>({price:v.price,delivery:v.delivery,budget:v.budget,need:NEED,stock:STOCK});
 export const cost=(v,x)=>linear.cost(params(v),x);
 export const formula=v=>linear.formula(params(v));
@@ -36,13 +46,18 @@ export const checkPurchase=(v,x)=>linear.checkPurchase(params(v),x);
 export const acceptedChoices=v=>linear.acceptedChoices(params(v));
 
 // ── Quest state (stored in the run save; see save.js sanitizeQuest) ──
-export function newQuest(variant='K1'){return {variant:variantById(variant).id,found:false,doorTried:false,key:false,door:false,bought:null,planks:0,repaired:false,shortcut:false};}
+export function newQuest(variant='K1',puzzle=null){
+ const session=puzzle||legacySupplySession(variantById(variant).id);
+ return {variant:LEGACY_IDS[session.id]||'G',found:false,doorTried:false,key:false,door:false,bought:null,planks:0,repaired:false,shortcut:false,puzzle:session};
+}
 export function sanitizeQuest(raw,bridgeSolved=false){
- const q=newQuest(raw?.variant);
+ const legacy=variantById(raw?.variant).id;
+ const q=newQuest(legacy,restoreSession('w1-l1',raw&&typeof raw==='object'?raw.puzzle:null,()=>legacySupplySession(legacy)));
  if(raw&&typeof raw==='object'){
   for(const k of ['found','doorTried','key','door','repaired','shortcut'])q[k]=raw[k]===true;
   const b=raw.bought;
-  if(b&&Number.isInteger(b.x)&&checkPurchase(variantById(q.variant),b.x).ok)q.bought={x:b.x,cost:cost(variantById(q.variant),b.x)};
+  const v=variantOf(q);
+  if(b&&Number.isInteger(b.x)&&checkPurchase(v,b.x).ok)q.bought={x:b.x,cost:cost(v,b.x)};
   q.planks=q.bought&&!q.repaired?q.bought.x:0;
   // Each step implies the ones before it (no impossible combinations).
   if(q.bought){q.door=true;q.key=true;q.found=true;}
@@ -54,15 +69,20 @@ export function sanitizeQuest(raw,bridgeSolved=false){
  return q;
 }
 const LAST_VARIANT_KEY='denai-l1-last-variant';
-// First adventure: base prices. Replays rotate through the other variants.
-export function pickVariant(){
+// First adventure: base prices (K1). Replays: the two other hand-written price
+// lists once each (K2, K3), then a new seeded price list every replay
+// (alternating 'mudah' = one spare plank fits, 'cabaran' = exactly 5 fits).
+// The session is created once per run and saved, so a reload never changes it.
+export function pickSession(){
  let completions=0;try{completions=loadProfile().levels[LEVEL_KEY].completions;}catch{}
- if(!completions)return 'K1';
+ if(!completions)return legacySupplySession('K1');
  let last=null;try{last=localStorage.getItem(LAST_VARIANT_KEY);}catch{}
- const i=VARIANTS.findIndex(v=>v.id===last);
- return VARIANTS[(i+1)%VARIANTS.length].id;
+ if(last==='K1')return legacySupplySession('K2');
+ if(last==='K2')return legacySupplySession('K3');
+ return createSession('w1-l1',{seed:newSeed(),difficulty:completions%2?'mudah':'cabaran'});
 }
-export function noteVariant(id){try{localStorage.setItem(LAST_VARIANT_KEY,id);}catch{}}
+export const pickVariant=()=>LEGACY_IDS[pickSession().id]||'G'; // kept for old callers
+export function noteVariant(session){try{localStorage.setItem(LAST_VARIANT_KEY,typeof session==='string'?session:LEGACY_IDS[session?.id]||'G');}catch{}}
 
 // ── World layout (existing Level 1-1 geometry) ──
 export const STORE={doorX:2367,feet:1242,wallX:2232,wallW:270,top:1080};
@@ -214,16 +234,16 @@ function installQuestUI(s){
 function setStore(open,s){const st=$('store-panel');if(st)st.hidden=!open;document.body.classList.toggle('store-open',!!open);if(s)(open?lock:unlock)(s,'store');}
 function openStore(s){const st=$('store-panel');if(st&&st.hidden){setStore(true,s);renderStore(s);}}
 export function renderStore(s){
- const qs=q(s);if(!qs||!$('store-panel'))return;const v=variantById(qs.variant),x=s.storeQty;
+ const qs=q(s);if(!qs||!$('store-panel'))return;const v=variantOf(qs),x=s.storeQty;
  $('sp-receipt').textContent=`RM${v.price} sebatang + RM${v.delivery} hantaran · ${formula(v)}`;
  $('sp-qty').textContent=String(x);
  $('sp-total').textContent=`Jumlah: RM${cost(v,x)} · Bajet: RM${v.budget}`;
 }
 function buy(s,{audio,SFX}={}){
  const qs=q(s);if(!qs||qs.bought||!qs.door)return;
- const v=variantById(qs.variant),x=s.storeQty,r=checkPurchase(v,x),msg=$('sp-msg');
+ const v=variantOf(qs),x=s.storeQty,r=checkPurchase(v,x),msg=$('sp-msg');
  if(!r.ok){
-  msg.className='bad';msg.textContent=fill(definitionOf(v).wrongFeedback[r.code]||definitionOf(v).wrongFeedback.range,{x,need:NEED,cost:r.cost,budget:v.budget});
+  msg.className='bad';msg.textContent=fill(definitionOf(qs).wrongFeedback[r.code]||definitionOf(qs).wrongFeedback.range,{x,need:NEED,cost:r.cost,budget:v.budget});
   SFX?.incorrect?.(audio);return; // nothing is spent
  }
  qs.bought={x,cost:r.cost};qs.planks=x;
@@ -269,19 +289,19 @@ const HINTS={
  find:['Stor Kayu di sebelah kiri anda.','Pintu stor mungkin berkunci — cuba dahulu.','Kunci ada di pondok lama atas gerbang akar.'],
  key:['Pondok lama di atas gerbang akar, di belakang anda.','Panjat tangga di hujung barat laluan akar.','Selepas ambil kunci, turun di hujung timur gerbang: jalan pintas.'],
  open:['Bawa kunci ke pintu Stor Kayu.','Tekan E / Guna di pintu stor.','Stor di sebelah kiri jambatan.'],
- buy:SUPPLY_DEFS[0].hints, // Day 03: from the puzzle definition
+ // buy: from the run's puzzle definition (Day 04), see renderTracker
  repair:['Bawa papan ke tebing jambatan.','Berdiri di hujung jambatan dan tekan E / Guna.','Papan dipasang satu demi satu.'],
 };
 export function renderTracker(s){
  const tr=$('quest-tracker'),qs=q(s);if(!tr)return;
  const step=questStep(qs),playing=s.mode==='playing';
  tr.hidden=!playing||step==='none';if(tr.hidden)return;
- const v=variantById(qs.variant);
+ const v=variantOf(qs),hints=step==='buy'?definitionOf(qs).hints:HINTS[step];
  $('qt-text').textContent={go:'Stesen Kayu',find:`Cari ${NEED} papan untuk baiki jambatan.`,key:'Cari kunci Stor Kayu di pondok lama.',open:'Buka Stor Kayu.',buy:`Beli papan secukupnya · bajet RM${v.budget}.`,repair:`Pasang ${NEED} papan di jambatan.`,done:'Jambatan dibaiki ✓'}[step];
  const inv=$('qt-inv');inv.hidden=!qs.bought;if(qs.bought)inv.textContent=qs.repaired?`Dibeli ${qs.bought.x} papan · RM${qs.bought.cost}`:`🪵 ${qs.planks} papan · baki RM${v.budget-qs.bought.cost}`;
  const hint=$('qt-hint-text'),lvl=s.hintLevel||0;
  $('qt-hint').hidden=step==='done';
- hint.hidden=!lvl||step==='done';if(lvl&&HINTS[step])hint.textContent=`Petunjuk ${lvl}: ${HINTS[step][lvl-1]}`;
+ hint.hidden=!lvl||step==='done';if(lvl&&hints)hint.textContent=`Petunjuk ${lvl}: ${hints[lvl-1]}`;
  $('quest-tracker').classList.toggle('hint-open',!hint.hidden);$('quest-tracker').classList.toggle('has-hint-btn',!$('qt-hint').hidden);$('quest-tracker').scrollTop=0; // short screens: hint takes the status line's place
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;hint.hidden=true;}
  const m=$('qt-math');m.hidden=step!=='done'||!qs.bought;

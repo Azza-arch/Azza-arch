@@ -8,6 +8,7 @@ import {createInverseStore,newRun} from '../core/inverse-campaign.js';
 import {installViewCull} from '../core/view-cull.js';
 import {hud,dialogue,pagesOf,reward,stamp} from '../ui/v4-ui.js';
 import {inFinishZone} from './inverse.js';
+import {secretText,victoryLine} from './sluice-model.js';
 import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATERFALL} from './inverse-world.js';
 import {buildSluice,sluicePrompt,useSluice,installTracker,renderTracker,syncSluiceUI,sluiceWaterY,newSluice} from './sluice-line.js';
 const $=id=>document.getElementById(id);
@@ -16,7 +17,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   constructor(){super('GerbangSongsang');}
   init(data={}){
    super.init();this.fresh=data.fresh===true;this.store=createInverseStore(localStorage);
-   this.run=this.fresh?newRun():(this.store.load().run||newRun());this.elapsed=this.run.elapsedMs;
+   this.run=this.fresh?newRun({replay:true}):(this.store.load().run||newRun());this.elapsed=this.run.elapsedMs;
    this.run.sluice||=newSluice();
    this.mode='playing';this.exitHinted=false;this.sluiceIntro=false;this.hintLevel=0;this.lastHintStep=null;
   }
@@ -190,7 +191,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    for(const {def,art} of this.coinViews)if(art.visible&&Math.abs(this.player.x-def.x)<32&&Math.abs(body.center.y-def.y)<48){this.run.coins.push(def.id);art.setVisible(false);art.anims?.stop();SFX.coin?.(audio);this.writeSave();coinPickup(this,def.x,art.y,{reduced:reducedMotion});}
    const secretOpen=def=>!def.cave||this.run.sluice.cave.solved;
    const secret=this.secretViews.find(({def})=>secretOpen(def)&&Math.abs(this.player.x-def.x)<54&&Math.abs(body.bottom-def.feet)<14);
-   if(secret&&interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secret.def.text),{portrait:'none'});} // V4
+   if(secret&&interact){if(!this.run.secrets.includes(secret.def.id)){this.run.secrets.push(secret.def.id);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secretText(secret.def,this.run.sluice)),{portrait:'none'});} // V4
    CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||this.run.sluice.open)&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
    const touch=matchMedia('(pointer: coarse)').matches;
    const sp=sluicePrompt(this,grounded||body.blocked.down||body.touching.down,touch);
@@ -218,7 +219,7 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    this.mode='complete';clearControls();this.physics.pause();$('world-prompt').hidden=true;$('quest-tracker')&&($('quest-tracker').hidden=true);
    const best=this.store.load().bestMs,missing=SECRETS.length-this.run.secrets.length,coinsLeft=COINS.length-this.run.coins.length;
    SFX.victory?.(audio);
-   showLevelVictory({level:'1-3',quote:'Fungsi songsang membantu mencari semula input daripada output: f⁻¹(13) = (13 − 3) ÷ 2 = 5.',
+   showLevelVictory({level:'1-3',quote:victoryLine(this.run.sluice),
     coins:[this.run.coins.length,COINS.length],secrets:[this.run.secrets.length,SECRETS.length],timeMs:this.elapsed,
     newBest:Number.isFinite(best)&&(!Number.isFinite(prevBest)||best<prevBest),
     hint:missing?`Masih ada ${missing} rahsia tersembunyi di gerbang ini…`:coinsLeft?`Semua rahsia ditemukan! ${coinsLeft} syiling masih menunggu.`:'Semua syiling dan rahsia ditemukan. Jejak yang sempurna!',

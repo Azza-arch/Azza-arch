@@ -1,9 +1,10 @@
 import {CHECKPOINTS,COINS,SECRETS} from '../levels/inverse-world.js';
 import {sanitizePuzzle,solved} from '../levels/inverse.js'; // previous course (3 seals): read for migration only
-import {newSluice,sanitizeSluice} from '../levels/sluice-model.js';
+import {newSluice,replaySluice,sanitizeSluice} from '../levels/sluice-model.js';
 export const KEY='denai-l3-campaign-v1';
 const unique=(v,allowed)=>[...new Set(Array.isArray(v)?v.filter(x=>allowed.includes(x)):[])];
-export function newRun(){return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],sluice:newSluice(),elapsedMs:0,completed:false};}
+// Day 04: a replay (fresh run) gets a new seeded puzzle; the first run keeps the original.
+export function newRun({replay=false}={}){return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],sluice:replay?replaySluice():newSluice(),elapsedMs:0,completed:false};}
 export function sanitizeRun(raw){
  if(!raw||typeof raw.id!=='string')return null;
  // V3: a previous-course run with all three seals lit keeps its crossing open.

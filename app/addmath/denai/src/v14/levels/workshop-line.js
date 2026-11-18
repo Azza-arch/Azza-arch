@@ -18,8 +18,9 @@ import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue,stamp} from '../ui/v4-ui.js';
 import {signText} from '../environment.js';
 
-import {STOCK,NEED,MACHINES,runLine,workshopStep,DEFINITION} from './workshop-model.js';
-export {STOCK,NEED,MACHINES,ORDERS,runLine,newWorkshop,sanitizeWorkshop,workshopStep} from './workshop-model.js';
+import {lineOf,workshopStep} from './workshop-model.js';
+export {STOCK,NEED,MACHINES,ORDERS,runLine,newWorkshop,sanitizeWorkshop,workshopStep,lineOf} from './workshop-model.js';
+// Day 04: every number shown comes from the run's puzzle session: lineOf(w).
 
 // ── World layout (Level 1-2 final yard: 3456–3888 @1242) ──
 export const LINE={y:1242,beltY:1188,beltX0:3473,beltX1:3837,hopperX:3510,slots:[3640,3780],receiverX:3864,runLeverX:3440,orderLever:{x:3214,feet:1026},guideSignX:3360,ladderX:3024,ladderTop:1080,bridge:{id:'workshop-bridge',x:3888,y:1242,width:324}};
@@ -28,7 +29,7 @@ const TXT={fontFamily:'Arial, sans-serif',fontStyle:'bold',color:'#fff1cf',strok
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function buildWorkshop(s,{audio,SFX}={}){
- const tile=s.tile,w=s.run.workshop;
+ const tile=s.tile,w=s.run.workshop,{STOCK,MACHINES}=lineOf(w);
  s.add.text(3672,1000,'BENGKEL KAYU',{...TXT,fontSize:'18px'}).setOrigin(.5,1).setDepth(11.6);
  // Conveyor: plank rail on posts from the stock pile to the receiver.
  for(let x=LINE.beltX0;x<LINE.beltX1;x+=54)tile(x===LINE.beltX0?48:x+54>=LINE.beltX1?50:49,x,LINE.beltY,10.2,Math.min(54,LINE.beltX1-x),18);
@@ -70,7 +71,7 @@ export function buildWorkshop(s,{audio,SFX}={}){
  if(w.delivered)buildBridge(s,false,{audio,SFX});
  renderCounter(s);installTracker(s);
 }
-function renderCounter(s){const w=s.run.workshop,v=s.workshop;v.counter.setText(w.delivered?`Penerima ${NEED}/${NEED} ✓`:w.lastOut!=null?`Penerima ${w.lastOut}/${NEED}`:`Penerima: perlu ≥ ${NEED}`);}
+function renderCounter(s){const w=s.run.workshop,v=s.workshop,{NEED}=lineOf(w);v.counter.setText(w.delivered?`Penerima ${NEED}/${NEED} ✓`:w.lastOut!=null?`Penerima ${w.lastOut}/${NEED}`:`Penerima: perlu ≥ ${NEED}`);}
 export function buildBridge(s,animate,{audio,SFX}={}){
  const v=s.workshop;if(v.bridgeArt)return;
  v.bridgeArt=s.deck(LINE.bridge);s.platform(LINE.bridge);
@@ -85,6 +86,7 @@ const placeBubble=s=>placeBubbleObj(s,s.workshop.bubble); // shared placement (c
 // Prompt + passive triggers, called each frame while playing.
 export function workshopPrompt(s,grounded,touch){
  const w=s.run.workshop,v=s.workshop;s.workshopReady=null;if(!w||!v)return null;
+ const {NEED,STOCK}=lineOf(w);
  const px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
  if(v.bubble){placeBubble(s);if(s.time.now>v.bubbleUntil){v.bubble.destroy();v.bubble=null;}}
  // Ladder marker: only while the order must change and the player has not climbed yet.
@@ -101,7 +103,7 @@ export function useWorkshop(s,{audio,SFX}={}){
 }
 function swap(s,{audio,SFX}){
  const w=s.run.workshop,v=s.workshop;if(v.busy||w.delivered)return;
- w.order=w.order==='AB'?'BA':'AB';w.swaps++;
+ w.order=w.order==='AB'?'BA':'AB';w.swaps++;const {MACHINES}=lineOf(w);
  v.orderLever.setFrame(w.order==='AB'?66:64);v.place(w.order,true);SFX?.machine?.(audio);
  const first=MACHINES[w.order[0]];
  bubble(s,`Kini ${first.id} dahulu.`);
@@ -111,7 +113,7 @@ function swap(s,{audio,SFX}){
 // batch with its output; the receiver shows the total.
 function runBatch(s,{audio,SFX}){
  const w=s.run.workshop,v=s.workshop;if(v.busy||w.delivered)return;
- const r=runLine(w.order);v.busy=true;w.runs++;
+ const {STOCK,MACHINES,runLine}=lineOf(w),r=runLine(w.order);v.busy=true;w.runs++;
  v.runLever.setFrame(66);SFX?.machine?.(audio);
  const token=s.add.text(LINE.hopperX,LINE.beltY-16,String(STOCK),{fontFamily:'ui-monospace,monospace',fontSize:'18px',fontStyle:'bold',color:'#2b2118',backgroundColor:'#ffe27a',padding:{x:6,y:2}}).setOrigin(.5,1).setDepth(30);
  const d=reduced()?1:700;
@@ -121,7 +123,7 @@ function runBatch(s,{audio,SFX}){
  bubble(s,`${MACHINES[w.order[0]].id} dahulu: ${STOCK} → ${r.mid} → ${r.out}`,2600);
 }
 function finishRun(s,r,token,{audio,SFX}){
- const w=s.run.workshop,v=s.workshop;w.lastOut=r.out;v.runLever.setFrame(64);
+ const w=s.run.workshop,v=s.workshop,{NEED}=lineOf(w);w.lastOut=r.out;v.runLever.setFrame(64);
  if(r.enough){
   w.delivered=true;token.destroy();v.busy=false;
   renderCounter(s);buildBridge(s,true,{audio,SFX});SFX?.correct?.(audio);
@@ -138,10 +140,11 @@ function finishRun(s,r,token,{audio,SFX}){
 }
 
 // ── Compact tracker (same look as Level 1-1) ──
-const HINTS={
- run:[`Jambatan perlukan sekurang-kurangnya ${NEED} komponen.`,'Tarik tuas Jalankan dan lihat nombor di antara mesin.','Mesin pertama menerima 5; hasilnya menjadi input mesin kedua.'],
- swap:DEFINITION.hints, // Day 03: from the puzzle definition 'w1.l2.workshop.main'
-};
+// Day 04: built from the session's definition, so the numbers always match the machines.
+const hintsFor=(L,step)=>({
+ run:[`Jambatan perlukan sekurang-kurangnya ${L.NEED} komponen.`,'Tarik tuas Jalankan dan lihat nombor di antara mesin.',`Mesin pertama menerima ${L.STOCK}; hasilnya menjadi input mesin kedua.`],
+ swap:L.definition.hints,
+})[step];
 function installTracker(s){
  const frame=document.querySelector('.game-frame');if(!frame)return;
  $('quest-tracker')?.remove();
@@ -156,14 +159,14 @@ export function renderTracker(s){
  const tr=$('quest-tracker'),w=s.run.workshop;if(!tr)return;
  const step=workshopStep(w),show=s.mode==='playing'&&(s.workshopIntro||w.runs>0||w.delivered);
  tr.hidden=!show;if(!show)return;
- const first=MACHINES[w.order[0]];
+ const L=lineOf(w),{NEED,MACHINES,runLine}=L,first=MACHINES[w.order[0]];
  $('qt-text').textContent=step==='done'?'Jambatan bengkel dibina ✓':step==='swap'?'Naik ke dek atas untuk mengubah susunan mesin.':`Hasilkan ≥ ${NEED} komponen untuk jambatan.`;
  const inv=$('qt-inv');inv.hidden=step==='done';inv.textContent=`Susunan: ${first.id} dahulu · penerima ${w.lastOut??0}/${NEED}`;
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}
  const lvl=s.hintLevel||0,hint=$('qt-hint-text');$('qt-hint').hidden=step==='done';
- hint.hidden=!lvl||step==='done';if(lvl&&HINTS[step])hint.textContent=`Petunjuk ${lvl}: ${HINTS[step][lvl-1]}`;
+ hint.hidden=!lvl||step==='done';if(lvl&&hintsFor(L,step))hint.textContent=`Petunjuk ${lvl}: ${hintsFor(L,step)[lvl-1]}`;
  $('quest-tracker').classList.toggle('hint-open',!hint.hidden);$('quest-tracker').classList.toggle('has-hint-btn',!$('qt-hint').hidden);$('quest-tracker').scrollTop=0; // short screens: hint takes the status line's place
  $('qt-math').hidden=step!=='done';
- $('qt-math-text').textContent=`${runLine('AB').notation} ✓ · ${runLine('BA').notation}. Maka gf ≠ fg untuk contoh ini.`;
+ $('qt-math-text').textContent=`${runLine(L.WORKING).notation} ✓ · ${runLine(L.START).notation}. Maka gf ≠ fg untuk contoh ini.`;
 }
 export function syncWorkshopUI(s){const tr=$('quest-tracker');if(!tr)return;const w=s.run.workshop,show=s.mode==='playing'&&(s.workshopIntro||w.runs>0||w.delivered);if(tr.hidden===show)renderTracker(s);syncJournal(s);}

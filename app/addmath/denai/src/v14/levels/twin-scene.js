@@ -11,13 +11,14 @@ import {DEFINITION,WORLD,SPAWN,GOAL,CHECKPOINTS,COINS,SECRETS,WATER,WATER_Y,PIER
 import {installViewCull} from '../core/view-cull.js';
 import {hud,dialogue,pagesOf,reward} from '../ui/v4-ui.js';
 import {buildWorkshop,workshopPrompt,useWorkshop,syncWorkshopUI,renderTracker as renderWorkshopTracker,newWorkshop} from './workshop-line.js';
+import {canopyNote,victoryLine} from './workshop-model.js';
 const $=id=>document.getElementById(id);
 export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCALE,setActive,clearControls}) {
  return class Jambatan extends Base {
   constructor(){super('Jambatan');}
   init(data={}) {
    super.init();this.fresh=data.fresh===true;this.store=createCampaignStore(localStorage);
-   this.run=this.fresh?newRun():(this.store.load().levels['w1-l2'].run||newRun());
+   this.run=this.fresh?newRun({replay:true}):(this.store.load().levels['w1-l2'].run||newRun());
    this.run.workshop||=newWorkshop();this.elapsed=this.run.elapsedMs;this.mode='playing';this.bridges={};this.stationViews={};this.busy=false;this.nearStation=null;this.exitHinted=false;
   }
   // Shared textures are loaded by the initial L1 scene before scene switching.
@@ -115,7 +116,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    const secret=this.secretViews.find(({def})=>Math.abs(this.player.x-def.x)<55&&Math.abs(body.bottom-def.feet)<12);
    let prompt='';let action=null;
    if(wsp){action='workshop';prompt=`E · ${wsp.text}`;}
-   if(secret){prompt='E · Baca catatan rahsia';if(interact){const fresh=!this.run.secrets.includes(secret.def.id);if(fresh){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secret.def.text),{portrait:'none'});}} // V4: a note speaks through the fallback portrait
+   if(secret){prompt='E · Baca catatan rahsia';if(interact){const fresh=!this.run.secrets.includes(secret.def.id);if(fresh){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secret.def.id==='canopy-observation'?canopyNote(this.run.workshop):secret.def.text),{portrait:'none'});}} // V4: a note speaks through the fallback portrait
    else if(interact&&action==='workshop')useWorkshop(this,{audio,SFX});
    const inExitZone=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
    if(inExitZone&&this.run.workshop.delivered){this.finish();return;}
@@ -157,7 +158,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    const best=this.store.load().levels['w1-l2'].bestMs,nextReady=!!LEVELS.find(l=>l.id==='w1-l3')?.ready;
    const missing=SECRETS.length-this.run.secrets.length,coinsLeft=COINS.length-this.run.coins.length;
    SFX.victory?.(audio);
-   showLevelVictory({level:'1-2',quote:'Susunan fungsi boleh mengubah hasil: gf(5) = 8, fg(5) = 6.',
+   showLevelVictory({level:'1-2',quote:victoryLine(this.run.workshop),
     coins:[this.run.coins.length,COINS.length],secrets:[this.run.secrets.length,SECRETS.length],timeMs:this.elapsed,
     newBest:Number.isFinite(best)&&(!Number.isFinite(prevBest)||best<prevBest),
     hint:missing?`Masih ada ${missing} rahsia tersembunyi di jambatan ini…`:coinsLeft?`Semua rahsia ditemukan! ${coinsLeft} syiling masih menunggu.`:'Semua syiling dan rahsia ditemukan. Jejak yang sempurna!',

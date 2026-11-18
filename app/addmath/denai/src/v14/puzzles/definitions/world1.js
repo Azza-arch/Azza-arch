@@ -62,6 +62,13 @@ export function sluiceDefinition(id, { rule, domain = [0, 6], target }, answer, 
   };
 }
 
+// Optional cave valve of Level 1-3: same machine, broken meter, the plate gives the reading.
+export function caveDefinition(id, { rule, domain = [0, 6], target }, answer, extra = {}) {
+  const p = { rule, domain, target };
+  return sluiceDefinition(id, p, answer, { mechanic: 'pressure-plates', difficulty: 'cabaran', status: 'optional',
+    hints: [`Meter gua rosak, tetapi plat menyatakan bacaan ${target}.`, `Mesin yang sama: bacaan = ${rule.a} × tetapan + ${rule.b}.`, `Undur langkah: ${inverseSteps(p, target)}. Berdiri pada plat ${answer.setting}.`], ...extra });
+}
+
 const F2 = makeRule(2, 0), G2 = makeRule(1, -2), SLUICE = makeRule(2, 3);
 
 export const WORLD1 = Object.freeze([
@@ -71,6 +78,5 @@ export const WORLD1 = Object.freeze([
   workshopDefinition('w1.l2.workshop.main', { input: 5, need: 8, start: 'BA', f: F2, g: G2 }, { working: ['AB'], outputs: { AB: 8, BA: 6 } }),
   sluiceDefinition('w1.l3.sluice.main', { rule: SLUICE, target: 13 }, { setting: 5 }),
   // Optional cave valve: same machine, broken meter, plate says "bacaan 15".
-  sluiceDefinition('w1.l3.cave.main', { rule: SLUICE, target: 15 }, { setting: 6 }, { mechanic: 'pressure-plates', difficulty: 'cabaran', status: 'optional',
-    hints: ['Meter gua rosak, tetapi plat menyatakan bacaan 15.', 'Mesin yang sama: bacaan = 2 × tetapan + 3.', 'Undur langkah: 15 − 3 = 12, 12 ÷ 2 = 6. Berdiri pada plat 6.'] }),
+  caveDefinition('w1.l3.cave.main', { rule: SLUICE, target: 15 }, { setting: 6 }),
 ]);

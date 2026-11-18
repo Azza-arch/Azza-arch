@@ -1,11 +1,12 @@
 import {CHECKPOINTS,COINS,SECRETS} from '../levels/twin-world.js';
 import {initialPuzzle,restorePuzzle,solved} from '../levels/composition.js';
-import {newWorkshop,sanitizeWorkshop} from '../levels/workshop-model.js';
+import {newWorkshop,replayWorkshop,sanitizeWorkshop} from '../levels/workshop-model.js';
 export const CAMPAIGN_KEY='denai-campaign-v1';
 const unique=(value,allowed)=>[...new Set(Array.isArray(value)?value.filter(id=>allowed.includes(id)):[])];
 const count=n=>Number.isSafeInteger(n)&&n>=0?n:0;
-export function newRun() {
-  return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],puzzles:{twins:initialPuzzle(),final:initialPuzzle()},workshop:newWorkshop(),elapsedMs:0,completed:false};
+// Day 04: a replay (fresh run) gets a new seeded puzzle; the first run keeps the original.
+export function newRun({replay=false}={}) {
+  return {id:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,checkpointId:'entry',coins:[],secrets:[],puzzles:{twins:initialPuzzle(),final:initialPuzzle()},workshop:replay?replayWorkshop():newWorkshop(),elapsedMs:0,completed:false};
 }
 export function sanitizeRun(raw) {
   if(!raw||typeof raw.id!=='string')return null;

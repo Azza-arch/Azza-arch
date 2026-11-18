@@ -27,7 +27,7 @@ import {buildWorld,buildSecretMarkers} from './environment.js';
 import {installViewCull} from './core/view-cull.js';
 import {createMechanismMethods} from './mechanisms.js';
 import {notify,syncPresentation,installPresentation,explain,showCheckpointToast,setWorldPrompt} from './presentation.js';
-import {questPrompt,useQuest,newQuest,pickVariant,noteVariant,applyQuestState,syncQuestUI,renderTracker,sanitizeQuest} from './levels/supply-quest.js';
+import {questPrompt,useQuest,newQuest,pickSession,noteVariant,applyQuestState,syncQuestUI,renderTracker,sanitizeQuest} from './levels/supply-quest.js';
 import { BUILD_STAGE, BATCH_END, SURFACES, WORLD, MOTION, SPAWN, GOAL, ZONES, GROUND_RANGES, FIRST_GAP, AB_TERRAIN, DECKS, LADDERS, GATES, TERMINALS, CHECKPOINTS, COLLECTIBLES, PUZZLES, SECRETS, CRATE_PUZZLE, WATER, WATER_Y } from './level.js';
 import { audio, SFX } from '../audio.js';
 import { SaveManager } from './save.js';
@@ -718,8 +718,8 @@ class Rooftop extends Phaser.Scene {
     let seed=0;try{seed=crypto.getRandomValues(new Uint32Array(1))[0];}catch{seed=(Math.random()*2**32)>>>0;}
     const v=selectVariant(seed,recentVariants());noteRunVariant(v.id);
     const id=(()=>{try{return crypto.randomUUID();}catch{return 'run-'+seed.toString(16)+'-'+Date.now().toString(36);}})();
-    const qv=pickVariant();noteVariant(qv);
-    this.run={runId:id,runSeed:seed,missions:{lift:v.id},attempts:{lift:{wrong:0,correct:0}},eligible:true,explore:false,startedAt:new Date().toISOString(),quest:newQuest(qv)};
+    const qs=pickSession();noteVariant(qs); // Day 04: the run's puzzle session (saved in quest.puzzle)
+    this.run={runId:id,runSeed:seed,missions:{lift:v.id},attempts:{lift:{wrong:0,correct:0}},eligible:true,explore:false,startedAt:new Date().toISOString(),quest:newQuest(null,qs)};
     this.applyMission();
   }
   loadRun(save) {
