@@ -11,7 +11,7 @@
 import {burst} from '../feel.js';
 import {say,placeBubble} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue} from '../ui/v4-ui.js';
-import {TARGET,CAVE_TARGET,reading,inverseSteps,turnValve,testFlow,readNote,stepPlate,pullCave,sluiceStep} from './sluice-model.js';
+import {TARGET,CAVE_TARGET,reading,inverseSteps,turnValve,testFlow,readNote,stepPlate,pullCave,sluiceStep,DEFINITION} from './sluice-model.js';
 import {SLUICE,CAVE,CHANNEL,STONES,WATER_Y} from './inverse-world.js';
 export {newSluice,sanitizeSluice} from './sluice-model.js';
 const $=id=>document.getElementById(id);
@@ -212,11 +212,11 @@ function cave(s,{audio,SFX}){
 
 // ── Compact tracker (same look as Levels 1-1/1-2) ──
 const HINTS={
- investigate:['Meter pada paip menunjukkan tanda asal 13. Pintu air terbuka hanya jika bacaan tepat 13.','Baca catatan penyelenggaraan: bacaan = 2 × tetapan + 3. Tetapan berapa memberi 13?',`Undur langkah mesin: ${inverseSteps(TARGET)}. Pusing injap ke 5, kemudian tarik tuas aliran.`],
+ investigate:DEFINITION.hints, // Day 03: from the puzzle definition 'w1.l3.sluice.main'
 };
 function hintsFor(st){
  if(sluiceStep(st)!=='retry')return HINTS.investigate;
- const r=st.lastReading;return [`Bacaan ${r} ${r<TARGET?'terlalu rendah':'terlalu tinggi'} — sasaran 13. ${r<TARGET?'Tetapan perlu lebih besar.':'Tetapan perlu lebih kecil.'}`,HINTS.investigate[1],HINTS.investigate[2]];
+ const r=st.lastReading;return [`Bacaan ${r} ${r<TARGET?'terlalu rendah':'terlalu tinggi'} — sasaran ${TARGET}. ${r<TARGET?'Tetapan perlu lebih besar.':'Tetapan perlu lebih kecil.'}`,HINTS.investigate[1],HINTS.investigate[2]];
 }
 export function installTracker(s){
  const frame=document.querySelector('.game-frame');if(!frame)return;

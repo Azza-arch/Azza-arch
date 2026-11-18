@@ -5,11 +5,18 @@
 // must recover the setting that produced it: f⁻¹(13) = (13 − 3) ÷ 2 = 5.
 // Optional second valve (cave channel): its meter is broken, the plate says
 // "bacaan 15", so the setting has to be worked out: f⁻¹(15) = 6.
-export const DOMAIN = Object.freeze([0, 1, 2, 3, 4, 5, 6]);
-export const TARGET = 13, CAVE_TARGET = 15;
-export const reading = (x) => (DOMAIN.includes(x) ? 2 * x + 3 : null);
-export const inverse = (y) => (y - 3) / 2;
-export const inverseSteps = (y) => `${y} − 3 = ${y - 3}, ${y - 3} ÷ 2 = ${inverse(y)}`;
+// Day 03: rule, domain and targets come from the puzzle definitions
+// 'w1.l3.sluice.main' / 'w1.l3.cave.main'; maths in puzzles/models/inverse.js.
+// Exports keep their previous names and values (saves store setting/readings).
+import { puzzleById } from '../puzzles/index.js';
+import * as inverseModel from '../puzzles/models/inverse.js';
+export const DEFINITION = puzzleById('w1.l3.sluice.main'), CAVE_DEFINITION = puzzleById('w1.l3.cave.main');
+const P = DEFINITION.parameters;
+export const DOMAIN = Object.freeze(inverseModel.domainOf(P));
+export const TARGET = P.target, CAVE_TARGET = CAVE_DEFINITION.parameters.target;
+export const reading = (x) => inverseModel.forward(P, x);
+export const inverse = (y) => (y - P.rule.b) / P.rule.a;
+export const inverseSteps = (y) => inverseModel.inverseSteps(P, y);
 
 export function newSluice() {
   return { setting: 0, tests: 0, lastReading: null, open: false, noteRead: false, cave: { setting: null, tries: 0, solved: false } };

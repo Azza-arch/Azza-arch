@@ -18,24 +18,22 @@ import {planksDrop,burst} from '../feel.js';
 import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue,stamp,lock,unlock} from '../ui/v4-ui.js';
 import {awardAchievement,loadProfile,LEVEL_KEY} from '../progress.js';
+import {puzzlesFor,fill} from '../puzzles/index.js';
+import * as linear from '../puzzles/models/linear-cost.js';
 
-export const NEED=5, STOCK=8;
-export const VARIANTS=Object.freeze([
- {id:'K1',price:4,delivery:6,budget:30},
- {id:'K2',price:3,delivery:9,budget:25},
- {id:'K3',price:5,delivery:5,budget:32},
-]);
+// Day 03: the price lists, hints and feedback come from the puzzle definitions
+// (puzzles/definitions/world1.js); the maths runs in puzzles/models/linear-cost.js.
+// Exports keep their previous names and shapes; saves still store K1/K2/K3.
+const SUPPLY_DEFS=puzzlesFor('supply-store').filter(d=>d.status==='live');
+export const NEED=SUPPLY_DEFS[0].parameters.need, STOCK=SUPPLY_DEFS[0].parameters.stock;
+export const VARIANTS=Object.freeze(SUPPLY_DEFS.map(d=>Object.freeze({id:d.legacyId,price:d.parameters.price,delivery:d.parameters.delivery,budget:d.parameters.budget})));
 export const variantById=id=>VARIANTS.find(v=>v.id===id)||VARIANTS[0];
-export const cost=(v,x)=>v.price*x+v.delivery;
-export const formula=v=>`C(x) = ${v.price}x + ${v.delivery}`;
-export function checkPurchase(v,x){
- if(!Number.isInteger(x)||x<1||x>STOCK)return {ok:false,code:'range'};
- const c=cost(v,x);
- if(x<NEED)return {ok:false,code:'short',cost:c};
- if(c>v.budget)return {ok:false,code:'budget',cost:c};
- return {ok:true,cost:c,change:v.budget-c,exact:x===NEED};
-}
-export const acceptedChoices=v=>Array.from({length:STOCK},(_,i)=>i+1).filter(x=>checkPurchase(v,x).ok);
+const definitionOf=v=>SUPPLY_DEFS.find(d=>d.legacyId===v.id)||SUPPLY_DEFS[0];
+const params=v=>({price:v.price,delivery:v.delivery,budget:v.budget,need:NEED,stock:STOCK});
+export const cost=(v,x)=>linear.cost(params(v),x);
+export const formula=v=>linear.formula(params(v));
+export const checkPurchase=(v,x)=>linear.checkPurchase(params(v),x);
+export const acceptedChoices=v=>linear.acceptedChoices(params(v));
 
 // ── Quest state (stored in the run save; see save.js sanitizeQuest) ──
 export function newQuest(variant='K1'){return {variant:variantById(variant).id,found:false,doorTried:false,key:false,door:false,bought:null,planks:0,repaired:false,shortcut:false};}
@@ -225,7 +223,7 @@ function buy(s,{audio,SFX}={}){
  const qs=q(s);if(!qs||qs.bought||!qs.door)return;
  const v=variantById(qs.variant),x=s.storeQty,r=checkPurchase(v,x),msg=$('sp-msg');
  if(!r.ok){
-  msg.className='bad';msg.textContent=r.code==='short'?`${x} papan tak cukup: jambatan perlukan ${NEED}.`:r.code==='budget'?`RM${r.cost} melebihi bajet RM${v.budget}.`:'Pilih bilangan papan.';
+  msg.className='bad';msg.textContent=fill(definitionOf(v).wrongFeedback[r.code]||definitionOf(v).wrongFeedback.range,{x,need:NEED,cost:r.cost,budget:v.budget});
   SFX?.incorrect?.(audio);return; // nothing is spent
  }
  qs.bought={x,cost:r.cost};qs.planks=x;
@@ -271,7 +269,7 @@ const HINTS={
  find:['Stor Kayu di sebelah kiri anda.','Pintu stor mungkin berkunci — cuba dahulu.','Kunci ada di pondok lama atas gerbang akar.'],
  key:['Pondok lama di atas gerbang akar, di belakang anda.','Panjat tangga di hujung barat laluan akar.','Selepas ambil kunci, turun di hujung timur gerbang: jalan pintas.'],
  open:['Bawa kunci ke pintu Stor Kayu.','Tekan E / Guna di pintu stor.','Stor di sebelah kiri jambatan.'],
- buy:[`Jambatan perlukan ${NEED} papan.`,'Kos = harga setiap papan × bilangan + hantaran (sekali).','Kira dahulu: C(5) = ? Bandingkan dengan bajet.'],
+ buy:SUPPLY_DEFS[0].hints, // Day 03: from the puzzle definition
  repair:['Bawa papan ke tebing jambatan.','Berdiri di hujung jambatan dan tekan E / Guna.','Papan dipasang satu demi satu.'],
 };
 export function renderTracker(s){

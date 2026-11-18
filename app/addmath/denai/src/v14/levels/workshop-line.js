@@ -18,7 +18,7 @@ import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue,stamp} from '../ui/v4-ui.js';
 import {signText} from '../environment.js';
 
-import {STOCK,NEED,MACHINES,runLine,workshopStep} from './workshop-model.js';
+import {STOCK,NEED,MACHINES,runLine,workshopStep,DEFINITION} from './workshop-model.js';
 export {STOCK,NEED,MACHINES,ORDERS,runLine,newWorkshop,sanitizeWorkshop,workshopStep} from './workshop-model.js';
 
 // ── World layout (Level 1-2 final yard: 3456–3888 @1242) ──
@@ -140,7 +140,7 @@ function finishRun(s,r,token,{audio,SFX}){
 // ── Compact tracker (same look as Level 1-1) ──
 const HINTS={
  run:[`Jambatan perlukan sekurang-kurangnya ${NEED} komponen.`,'Tarik tuas Jalankan dan lihat nombor di antara mesin.','Mesin pertama menerima 5; hasilnya menjadi input mesin kedua.'],
- swap:['Hasil 6 tak cukup. Apa yang berubah jika mesin lain bermula dahulu?','Tuas berada di dek atas, berhampiran tangga.','Cuba gandakan dahulu, kemudian buang 2: g(f(5)).'],
+ swap:DEFINITION.hints, // Day 03: from the puzzle definition 'w1.l2.workshop.main'
 };
 function installTracker(s){
  const frame=document.querySelector('.game-frame');if(!frame)return;
