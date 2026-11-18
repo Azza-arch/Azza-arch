@@ -20,7 +20,8 @@ test('quest state: steps imply earlier ones; invalid purchases are dropped',()=>
   const q=sanitizeQuest({variant:'K1',bought:{x:5}});assert.equal(q.door,true);assert.equal(q.key,true);assert.equal(q.found,true);assert.equal(q.planks,5);assert.equal(q.bought.cost,26);
   assert.equal(sanitizeQuest({variant:'K1',bought:{x:7}}).bought,null,'over budget never restored');
   assert.equal(sanitizeQuest({variant:'ZZ'}).variant,'K1');
-  assert.equal(questStep(newQuest()),'none');assert.equal(questStep({...newQuest(),found:true}),'find');assert.equal(questStep({...newQuest(),found:true,doorTried:true}),'key');
+  // Day 02 · P1-05: a fresh quest already has an objective ("Stesen Kayu") before the bridge is found.
+  assert.equal(questStep(newQuest()),'go');assert.equal(questStep(null),'none');assert.equal(questStep({...newQuest(),found:true}),'find');assert.equal(questStep({...newQuest(),found:true,doorTried:true}),'key');
 });
 test('old saves with the bridge already built stay repaired',()=>{
   const q=sanitizeQuest(undefined,true);assert.equal(q.repaired,true);assert.equal(questStep(q),'done');
