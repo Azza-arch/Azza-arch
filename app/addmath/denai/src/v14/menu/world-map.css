@@ -73,3 +73,15 @@ body.world-map-open #welcome,body.world-map-open .masthead,body.world-map-open #
 }
 .wm-card:hover,.wm-card:focus-visible{background:#2c5a4c;color:var(--parchment)}
 .wm-node:hover .wm-tag{background:var(--wood-light)}
+/* Day 02 · P1-02 — one colour language on the world map:
+   gold = selected / the playable world you start from; green = available;
+   slate blue = in development (not a call to action); grey = coming later. */
+.wm-card.wm-playable{border-left-color:#2f9d55}
+.wm-card.wm-development{border-left-color:#7f9db5;background:#22404a}
+.wm-card.wm-development .wm-badge,.wm-development .wm-badge{background:#5d7486;color:#eef4f8}
+.wm-card.wm-soon{border-left-color:#8b938f;opacity:.72}
+.wm-card.is-selected{outline:3px solid var(--gold-light);outline-offset:-3px;border-left-color:var(--gold);background:#2f6352}
+.wm-card.wm-development.is-selected,.wm-card.wm-soon.is-selected{outline-color:#b9cbd8;border-left-color:#b9cbd8;background:#2a4a55}
+.wm-node.wm-playable .wm-badge{width:40px;height:40px}
+.wm-node.wm-development.is-selected .wm-badge,.wm-node.wm-soon.is-selected .wm-badge{outline-color:#b9cbd8}
+.wm-dev{background:#26404d;color:#d6e4ee;border-left:4px solid #7f9db5}

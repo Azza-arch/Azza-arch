@@ -74,7 +74,16 @@ const V4 = require('./v4-helpers.cjs');
       await p.locator('#sp-close').tap(); await sleep(300);
       await V4.openJournal(p, { tap: true }); await p.locator('#qt-hint').tap(); await sleep(250);
       const journal = await p.evaluate(MEASURE); await p.screenshot({ path: `${out}/${vp}-1-1-jurnal.png` }); await V4.closeJournal(p, { tap: true });
-      res[vp]['1-1'] = { dialogPages: pages.length, dialogIssues: judge(dlg), pinIssues: judge(pin), storeOpen: !!store.store, storeIssues: judge(store), journalIssues: judge(journal), hintVisible: !!journal.hint, errs }; await ctx.close(); }
+      // Day 02 · P1-01: every pause action must be on screen without scrolling, unclipped and not overlapping.
+      await p.locator('#pause').tap(); await sleep(400);
+      const pause = await p.evaluate(() => { const d = document.getElementById('paused'), dr = d.getBoundingClientRect(), vh = innerHeight, vw = innerWidth;
+        const bs = ['resume', 'restart', 'pause-settings-btn', 'pause-menu'].map((id) => { const q = document.getElementById(id).getBoundingClientRect(); return { id, l: q.left, t: q.top, r: q.right, b: q.bottom, h: q.height }; });
+        const issues = [];
+        for (const x of bs) { if (x.t < Math.max(0, dr.top) - 1 || x.b > Math.min(vh, dr.bottom) + 1 || x.l < 0 || x.r > vw) issues.push(`jeda: ${x.id} tidak kelihatan tanpa skrol`); if (x.h < 36) issues.push(`jeda: ${x.id} terlalu kecil (${Math.round(x.h)} px)`); }
+        for (let i = 0; i < bs.length; i++) for (let j = i + 1; j < bs.length; j++) { const a = bs[i], c = bs[j]; if (a.l < c.r - 1 && c.l < a.r - 1 && a.t < c.b - 1 && c.t < a.b - 1) issues.push(`jeda: ${a.id} ⟂ ${c.id}`); }
+        return issues; });
+      await p.screenshot({ path: `${out}/${vp}-1-1-jeda.png` }); await p.evaluate(() => document.getElementById('resume').click()); await sleep(300);
+      res[vp]['1-1'] = { dialogPages: pages.length, dialogIssues: judge(dlg), pinIssues: judge(pin), storeOpen: !!store.store, storeIssues: judge(store), journalIssues: judge(journal), hintVisible: !!journal.hint, pauseIssues: pause, errs }; await ctx.close(); }
     // 1-2: discovery dialogue → workshop run (one-line bubble).
     { const { ctx, p, errs } = await start(b, dev, 'Jambatan'); const K = 'Jambatan';
       await tp(p, K, 3440, 1242); await sleep(1200); const dlg = await p.evaluate(MEASURE); await V4.closeDialogue(p, { tap: true });

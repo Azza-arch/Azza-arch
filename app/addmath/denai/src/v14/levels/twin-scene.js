@@ -44,7 +44,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    // Wayfinding on Kenney sign posts (frame 86 blank board)
    // instead of floating text boxes; the 2 s area banners stay as they are.
    tile(86,270-27,1296-54,11);signText(this,'Jejak Masuk',270,1236);
-   tile(86,3096-27,1296-54,11);signText(this,'Laluan rahsia ↑',3096,1236);
+   tile(86,3096-27,1296-54,11);signText(this,'Dek atas ↑',3096,1236); // Day 02 · P1-11: the required route to the order lever, not only a secret
    signText(this,'TAMAT',GOAL.x,GOAL.feet-182).setFontSize(20); // on the finish arch's plank lintel
    // World 1 V3: the first river is crossed on two posts (platforming only).
    for(const pr of PIERS){this.platform({...pr,oneWay:true});this.deck(pr);pole(pr.x+36,pr.y+18,WATER_Y+30);}

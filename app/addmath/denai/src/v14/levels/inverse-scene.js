@@ -1,4 +1,4 @@
-import {buildLandscape,buildTree} from '../environment.js';
+import {buildLandscape,buildTree,signText} from '../environment.js';
 import {track,durationBucket} from '../analytics.js';
 import {showLevelVictory} from '../victory.js';
 import {startCoin,coinPickup,checkpointFx,ATLAS,COIN_FACE} from '../feel.js';
@@ -70,6 +70,8 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
   buildRuinDetails(tile,pole,beam){
    // Signboards sit in the soil band, so area names read as part of the world.
    this.areaSign(tile,pole,216,1764,216,'JEJAK SUNGAI');
+   // Day 02 · P1-12: warning post before the first gap (ruin-entry edge, x 1296).
+   tile(86,1238-27,1674-54,11);signText(this,'Awas · lompat',1238,1668);
    this.areaSign(tile,pole,1755,1764,324,'RUNTUHAN BERTINGKAT');
    this.areaSign(tile,pole,2862,1764,324,'HALAMAN MESIN');
    this.areaSign(tile,pole,5076,1764,270,'GERBANG UTAMA');

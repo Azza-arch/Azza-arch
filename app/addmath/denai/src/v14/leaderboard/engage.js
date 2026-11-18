@@ -93,8 +93,11 @@ export async function renderMenuCommunity(){
     else if(!c.top.length)list.append(el('li','cm-empty','Belum ada rekod. Jadi pemain pertama!'));
     else for(const r of c.top){const li=el('li',r.entityId&&r.entityId===PF.playerId()?'is-me':'');li.append(el('b',null,`${r.rank}.`),el('span','cm-name',r.name),el('span','cm-time',formatTime(r.timeMs)));list.append(li);}
   }catch{
+    // Day 02 · P2-07: offline / PlayFab unreachable — an invitation, not a
+    // technical error, on the first screen. The ranking dialog (on request)
+    // still explains the connection state; pending results retry next visit.
     $('cm-players').hidden=true;$('cm-top-wrap').hidden=false;
-    $('cm-top').replaceChildren(el('li','cm-empty','Ranking memerlukan sambungan internet.'));
+    $('cm-top').replaceChildren(el('li','cm-empty cm-offline','Main dahulu untuk sertai ranking.'));
   }finally{menuBusy=false;}
 }
 

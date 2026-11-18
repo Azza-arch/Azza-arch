@@ -16,12 +16,13 @@ import {notify} from '../presentation.js';
 import {planksDrop,burst} from '../feel.js';
 import {makeBubble,placeBubbleObj} from '../core/speech-bubble.js';
 import {decorateJournal,syncJournal,dialogue,stamp} from '../ui/v4-ui.js';
+import {signText} from '../environment.js';
 
 import {STOCK,NEED,MACHINES,runLine,workshopStep} from './workshop-model.js';
 export {STOCK,NEED,MACHINES,ORDERS,runLine,newWorkshop,sanitizeWorkshop,workshopStep} from './workshop-model.js';
 
 // ── World layout (Level 1-2 final yard: 3456–3888 @1242) ──
-export const LINE={y:1242,beltY:1188,beltX0:3473,beltX1:3837,hopperX:3510,slots:[3640,3780],receiverX:3864,runLeverX:3440,orderLever:{x:3214,feet:1026},bridge:{id:'workshop-bridge',x:3888,y:1242,width:324}};
+export const LINE={y:1242,beltY:1188,beltX0:3473,beltX1:3837,hopperX:3510,slots:[3640,3780],receiverX:3864,runLeverX:3440,orderLever:{x:3214,feet:1026},guideSignX:3360,ladderX:3024,ladderTop:1080,bridge:{id:'workshop-bridge',x:3888,y:1242,width:324}};
 const $=id=>document.getElementById(id);
 const TXT={fontFamily:'Arial, sans-serif',fontStyle:'bold',color:'#fff1cf',stroke:'#3d493c',strokeThickness:3,align:'center'};
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,9 +56,16 @@ export function buildWorkshop(s,{audio,SFX}={}){
  const runLever=tile(64,LINE.runLeverX-27,LINE.y-54,11.5);
  const orderLever=tile(w.order==='AB'?66:64,LINE.orderLever.x-27,LINE.orderLever.feet-54,11.5);
  s.add.text(LINE.orderLever.x,LINE.orderLever.feet-60,'Tuas susunan mesin',{...TXT,fontSize:'12px'}).setOrigin(.5,1).setDepth(11.6);
+ // Day 02 · P1-11 — wayfinding to the order lever. A sign post at the west
+ // end of the yard points back to the ladder; gold markers bob over the
+ // ladder top and the lever only while the order still has to be changed.
+ tile(86,LINE.guideSignX-27,LINE.y-54,11);signText(s,'← Dek atas · tuas',LINE.guideSignX,LINE.y-6);
+ const marker=(x,y)=>{const m=s.add.text(x,y,'▼',{...TXT,fontSize:'22px',color:'#ffd25a'}).setOrigin(.5,1).setDepth(13).setVisible(false);
+  if(!reduced())s.tweens.add({targets:m,y:y-8,duration:700,yoyo:true,repeat:-1,ease:'Sine.inOut'});return m;};
+ const guides=[marker(LINE.ladderX,LINE.ladderTop-56),marker(LINE.orderLever.x,LINE.orderLever.feet-78)];
  // The crossing: posts in the water now, deck appears when 8 components arrive.
  for(const x of [LINE.bridge.x+54,LINE.bridge.x+LINE.bridge.width-54])tile(89,x-27,LINE.y,6.5,54,54),tile(89,x-27,LINE.y+54,6.5,54,54);
- s.workshop={machines,place,counter,runLever,orderLever,stock,timber,bridgeArt:null,busy:false,bubble:null};
+ s.workshop={machines,place,counter,runLever,orderLever,stock,timber,guides,bridgeArt:null,busy:false,bubble:null};
  if(w.delivered)buildBridge(s,false,{audio,SFX});
  renderCounter(s);installTracker(s);
 }
@@ -78,6 +86,7 @@ export function workshopPrompt(s,grounded,touch){
  const w=s.run.workshop,v=s.workshop;s.workshopReady=null;if(!w||!v)return null;
  const px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
  if(v.bubble){placeBubble(s);if(s.time.now>v.bubbleUntil){v.bubble.destroy();v.bubble=null;}}
+ const guide=workshopStep(w)==='swap'&&!v.busy;for(const g of v.guides||[])if(g.visible!==guide)g.setVisible(guide);
  if(!s.workshopIntro&&px>3420&&Math.abs(feet-LINE.y)<8){s.workshopIntro=true;if(!w.delivered){renderTracker(s);dialogue(s,[`Bengkel perlu ${NEED} komponen untuk jambatan.`,`Stok cuma ada ${STOCK}. Mesin mesti hasilkan lebih.`]);}}
  if(!grounded||v.busy||w.delivered)return null;
  if(Math.abs(px-LINE.runLeverX)<50&&Math.abs(feet-LINE.y)<8){s.workshopReady='run';return {key,text:'Jalankan bengkel',x:LINE.runLeverX,y:LINE.y-110};}
@@ -129,7 +138,7 @@ function finishRun(s,r,token,{audio,SFX}){
 // ── Compact tracker (same look as Level 1-1) ──
 const HINTS={
  run:[`Jambatan perlukan sekurang-kurangnya ${NEED} komponen.`,'Tarik tuas Jalankan dan lihat nombor di antara mesin.','Mesin pertama menerima 5; hasilnya menjadi input mesin kedua.'],
- swap:['Hasil 6 tak cukup. Apa yang berubah jika mesin lain bermula dahulu?','Tuas susunan ada di dek atas (naik tangga laluan rahsia).','Cuba gandakan dahulu, kemudian buang 2: g(f(5)).'],
+ swap:['Hasil 6 tak cukup. Apa yang berubah jika mesin lain bermula dahulu?','Tuas susunan ada di dek atas: patah balik ke tangga di tebing (papan tanda “Dek atas”).','Cuba gandakan dahulu, kemudian buang 2: g(f(5)).'],
 };
 function installTracker(s){
  const frame=document.querySelector('.game-frame');if(!frame)return;
@@ -146,7 +155,7 @@ export function renderTracker(s){
  const step=workshopStep(w),show=s.mode==='playing'&&(s.workshopIntro||w.runs>0||w.delivered);
  tr.hidden=!show;if(!show)return;
  const first=MACHINES[w.order[0]];
- $('qt-text').textContent=step==='done'?'Jambatan bengkel dibina ✓':step==='swap'?'Tukar susunan mesin, kemudian jalankan semula.':`Hasilkan ≥ ${NEED} komponen untuk jambatan.`;
+ $('qt-text').textContent=step==='done'?'Jambatan bengkel dibina ✓':step==='swap'?'Naik ke dek atas · tukar susunan mesin, kemudian jalankan semula.':`Hasilkan ≥ ${NEED} komponen untuk jambatan.`;
  const inv=$('qt-inv');inv.hidden=step==='done';inv.textContent=`Susunan: ${first.id} dahulu · penerima ${w.lastOut??0}/${NEED}`;
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}
  const lvl=s.hintLevel||0,hint=$('qt-hint-text');$('qt-hint').hidden=step==='done';

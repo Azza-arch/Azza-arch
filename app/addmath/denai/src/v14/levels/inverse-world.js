@@ -3,8 +3,11 @@ export const SPAWN={x:108,feet:1728};
 export const GOAL={x:5292,feet:1566};
 // Five readable spaces: stream approach, stepped ruins, machine yard,
 // waterfall crossing, and the raised gate court.
+// Day 02 · P1-12: the 54-unit pit at x 648–702 (≈1.9 s after spawn, an instant
+// fall) is now solid ground, so the first stretch is a safe walk to a one-tile
+// step; the first real gap (x 1296–1350) is reached after ≈4.2 s and is signed.
 export const AB_TERRAIN=[
- ['stream-approach-west',0,378,1728],['stream-approach-east',486,162,1728],['ruin-entry',702,594,1674],
+ ['stream-approach-west',0,378,1728],['stream-approach-east',486,216,1728],['ruin-entry',702,594,1674],
  ['ruin-courtyard',1350,540,1728],['upper-ruins',1944,540,1674],
  ['machine-yard',2538,702,1620],['waterfall-bank',3456,594,1674],
  ['gate-approach',4104,594,1620],['gate-court',4752,864,1566],

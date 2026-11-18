@@ -165,12 +165,15 @@
       <div class="audio-row"><label for="audio-master">Kelantangan utama</label><input type="range" id="audio-master" min="0" max="100" step="1"></div>
       <div class="audio-row"><label for="audio-sfx">Kelantangan kesan bunyi</label><input type="range" id="audio-sfx" min="0" max="100" step="1"></div>
     </div>
-    <section class="save-info" aria-labelledby="save-info-title">
-      <h3 id="save-info-title">Simpanan</h3>
+    <!-- Day 02 · P2-06: audio controls stay on top; the full saving / privacy
+         text is unchanged but folded behind one line so it no longer pushes
+         the controls off short screens. -->
+    <details class="save-info" id="save-info">
+      <summary id="save-info-title">Simpanan &amp; privasi</summary>
       <p>Kemajuan disimpan secara automatik dalam pelayar ini setiap kali anda tiba di checkpoint. Tiada akaun atau e-mel diperlukan.</p>
       <p class="small">Simpanan ini hanya wujud pada peranti dan pelayar ini, dan <b>tidak</b> disandarkan ke awan. Ia boleh hilang jika data pelayar dipadam, mod peribadi/inkognito digunakan, atau anda bertukar peranti. Akaun pilihan untuk menyimpan merentas peranti belum tersedia.</p>
       <p class="small">Komuniti &amp; papan pendahulu: menu utama memuatkan kiraan pemain dan 3 rekod teratas daripada PlayFab (Microsoft) menggunakan ID rawak peranti ini (tanpa nama, e-mel atau akaun). Selepas 15 saat bermain, ID rawak itu dikira sekali sebagai seorang pemain. Nama samaran dan masa hanya dihantar jika anda memilih untuk menyertai papan pendahulu.</p>
-    </section>
+    </details>
     <nav class="menu-secondary settings-menu" aria-label="Menu lanjutan">
       <button type="button" id="level-select-btn">Peta Dunia</button>
       <button type="button" id="how-to-play">Cara Main</button>

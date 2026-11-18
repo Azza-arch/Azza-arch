@@ -107,10 +107,10 @@ export function buildSupplyQuest(s){
 }
 
 // ── Small world bubble above the player (2.6 s) ──
-export function bubble(s,text){
+export function bubble(s,text,ms=2600){
  s.supply?.bubble?.destroy();
  const t=makeBubble(s,text); // Fasa F: wraps and stays on screen (core/speech-bubble.js)
- s.supply.bubble=t;s.supply.bubbleUntil=s.time.now+2600;placeBubbleObj(s,t);
+ s.supply.bubble=t;s.supply.bubbleUntil=s.time.now+ms;placeBubbleObj(s,t);
 }
 
 const q=s=>s.run?.quest;
@@ -122,7 +122,7 @@ export function questStep(qs){
  if(qs.key)return 'open';
  if(qs.doorTried)return 'key';
  if(qs.found)return 'find';
- return 'none';
+ return 'go'; // Day 02 · P1-05: objective shown from the start of the level
 }
 
 // Called every frame from the scene (only while playing). Returns a world
@@ -131,6 +131,14 @@ export function questPrompt(s,onGround,touch){
  const qs=q(s);s.questReady=null;if(!qs||!s.supply)return null;
  const sp=s.supply,px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
  if(sp.bubble){placeBubbleObj(s,sp.bubble);if(s.time.now>sp.bubbleUntil){sp.bubble.destroy();sp.bubble=null;}}
+ // 0. Day 02 · P1-05 — early hook: two short lines over Chill Boy (non-blocking,
+ //    movement never stops), once per scene start, only while the bridge
+ //    problem is still undiscovered. The pin already reads "Ke Stesen Kayu".
+ if(!qs.found&&!sp.intro){sp.intro={step:0,at:s.time.now+700};}
+ if(!qs.found&&sp.intro&&sp.intro.step<2&&s.time.now>=sp.intro.at){
+  const lines=['Jambatan di hadapan rosak. Kita perlukan papan untuk membaikinya.','Kita kena cari papan yang cukup tanpa melebihi bajet.'];
+  bubble(s,lines[sp.intro.step],3600);sp.intro.step++;sp.intro.at=s.time.now+3800;
+ }
  // 1. Discover the problem at the bridge edge.
  if(!qs.found&&onGround&&px>2430&&px<2560&&Math.abs(feet-1242)<6){qs.found=true;s.writeSave();renderTracker(s);dialogue(s,[`Jambatan ni kurang ${NEED} papan.`,'Mungkin ada kayu dalam Stor Kayu.']);} // V4: story beat
  // 2. Key: touch it.
@@ -259,6 +267,7 @@ export function applyQuestState(s){
 }
 
 const HINTS={
+ go:['Ikut laluan ke kanan (timur).','Stesen Kayu ialah bangsal kayu di tepi jambatan.','Jalan terus melepasi gerbang akar — jambatan rosak di hujung laluan.'],
  find:['Stor Kayu di sebelah kiri anda.','Pintu stor mungkin berkunci — cuba dahulu.','Kunci ada di pondok lama atas gerbang akar.'],
  key:['Pondok lama di atas gerbang akar, di belakang anda.','Panjat tangga di hujung barat laluan akar.','Selepas ambil kunci, turun di hujung timur gerbang: jalan pintas.'],
  open:['Bawa kunci ke pintu Stor Kayu.','Tekan E / Guna di pintu stor.','Stor di sebelah kiri jambatan.'],
@@ -270,7 +279,7 @@ export function renderTracker(s){
  const step=questStep(qs),playing=s.mode==='playing';
  tr.hidden=!playing||step==='none';if(tr.hidden)return;
  const v=variantById(qs.variant);
- $('qt-text').textContent={find:`Cari ${NEED} papan untuk baiki jambatan.`,key:'Cari kunci Stor Kayu di pondok lama.',open:'Buka Stor Kayu.',buy:`Beli papan secukupnya · bajet RM${v.budget}.`,repair:`Pasang ${NEED} papan di jambatan.`,done:'Jambatan dibaiki ✓'}[step];
+ $('qt-text').textContent={go:'Ke Stesen Kayu — jambatan perlu dibaiki.',find:`Cari ${NEED} papan untuk baiki jambatan.`,key:'Cari kunci Stor Kayu di pondok lama.',open:'Buka Stor Kayu.',buy:`Beli papan secukupnya · bajet RM${v.budget}.`,repair:`Pasang ${NEED} papan di jambatan.`,done:'Jambatan dibaiki ✓'}[step];
  const inv=$('qt-inv');inv.hidden=!qs.bought;if(qs.bought)inv.textContent=qs.repaired?`Dibeli ${qs.bought.x} papan · RM${qs.bought.cost}`:`🪵 ${qs.planks} papan · baki RM${v.budget-qs.bought.cost}`;
  const hint=$('qt-hint-text'),lvl=s.hintLevel||0;
  $('qt-hint').hidden=step==='done';
