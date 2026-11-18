@@ -11,6 +11,9 @@
 .cm-top .cm-time{font-variant-numeric:tabular-nums}
 .cm-top li.cm-empty{display:block;color:#5b3a1e;font-style:italic}
 .community .cm-ranking{margin-top:4px;min-height:32px;padding:4px 0;font-weight:800}
+@media (min-width:900px) and (min-aspect-ratio:1/1){
+  .community{position:fixed;right:clamp(18px,4vw,56px);bottom:clamp(18px,4vh,36px);width:min(290px,27vw);max-width:none;margin:0;padding:10px 14px;font-size:13px;z-index:26}
+}
 @media (max-height:520px) and (min-aspect-ratio:1/1){
   .community{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));margin:0;width:min(250px,34vw);max-width:none;font-size:12px;padding:6px 10px;z-index:2}
   .cm-top li{padding:0}

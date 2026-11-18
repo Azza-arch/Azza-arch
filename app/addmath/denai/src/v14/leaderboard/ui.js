@@ -7,7 +7,7 @@ import * as PF from './playfab.js';
 import {track} from '../analytics.js';
 const $=id=>document.getElementById(id);
 const live=()=>CFG.provider==='playfab'&&CFG.playfab.enabled;
-let tab='allTime',busy=false;
+let busy=false;
 const PRIVACY='Papan ini dikongsi dengan semua pemain. Jika anda hantar rekod, nama paparan dan masa terbaik anda dipaparkan secara umum, bersama ID rawak peranti ini (disimpan oleh PlayFab, Microsoft). Jangan guna nama penuh sebenar.';
 // Display names: short, plain characters, no obvious insults (PlayFab also requires them to be unique).
 const BLOCK=/(babi|bodoh|sial|puki|pukimak|kimak|lancau|bangang|celaka|fuck|shit|bitch|asshole|dick|pussy|nigg)/i;
@@ -36,21 +36,11 @@ function row(r,i,me=false){
   return tr;
 }
 function status(text){const body=$('lb-rows');body.replaceChildren();const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=3;td.className='lb-status';td.textContent=text;tr.append(td);body.append(tr);}
-// Tabs: current course (ranked, writable) and the classic course archive
-// (old 1-1 map, read-only). Times from different courses are never mixed.
-const boardFor=t=>t==='classic'?CFG.playfab.classic:CFG.playfab.leaderboards.allTime;
 let boardReady=true; // false once PlayFab says the current-course board does not exist yet
 const NOT_READY=new Set(['LeaderboardNotFound','StatisticNotFound']);
-function renderTabs(){
-  const tabs=live()&&!!CFG.playfab.classic;
-  document.querySelector('.lb-tabs').hidden=!tabs;
-  if(!tabs)tab='allTime';
-  document.querySelectorAll('[data-lb-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.lbTab===tab)));
-}
 function renderSubmit(){
   const box=$('lb-submit'),pb=personalBest(),sent=PF.submittedTime();
   const msg=$('lb-submit-msg');msg.textContent='';
-  if(tab==='classic'){box.hidden=true;$('lb-pb').textContent='Arkib kursus lama Level 1-1 (sebelum reka bentuk semula). Rekod baharu tidak dihantar ke sini.';return;}
   if(!boardReady){box.hidden=true;$('lb-pb').textContent=pb?`Rekod peribadi anda (${formatTime(pb.timeMs)}) disimpan dalam peranti ini. Papan kursus baharu sedang disediakan.`:'Papan kursus baharu sedang disediakan.';return;}
   if(!pb){box.hidden=true;$('lb-pb').textContent='Tamatkan Level 1-1 dari awal tanpa sambung untuk mendapat masa yang boleh dihantar.';return;}
   if(sent&&sent<=pb.timeMs){box.hidden=true;$('lb-pb').textContent=`Rekod terbaik anda (${formatTime(pb.timeMs)}) sudah dihantar.`;return;}
@@ -61,7 +51,7 @@ function renderSubmit(){
 async function loadLive(){
   status('Memuatkan papan pendahulu…');
   try{
-    const stat=boardFor(tab);
+    const stat=CFG.playfab.leaderboards.allTime;
     const [rows,me]=await Promise.all([PF.topTimes(stat),PF.myRank(stat)]);
     const body=$('lb-rows');body.replaceChildren();
     if(!rows.length)status('Belum ada rekod. Jadilah yang pertama!');
@@ -70,15 +60,14 @@ async function loadLive(){
     rows.forEach((r,i)=>body.append(row(r,i,r.entityId===myId)));
     if(me&&!rows.some(r=>r.entityId===myId))body.append(row(me,0,true));
   }catch(e){
-    if(tab!=='classic'&&NOT_READY.has(e?.code)){boardReady=false;renderSubmit();status('Papan pendahulu kursus baharu sedang disediakan. Rekod anda selamat dalam peranti ini.');return;}
+    if(NOT_READY.has(e?.code)){boardReady=false;renderSubmit();status('Papan pendahulu kursus baharu sedang disediakan. Rekod anda selamat dalam peranti ini.');return;}
     status(friendly(e));
   }
 }
 export function renderLeaderboard(){
-  renderTabs();
   if(!live()){
     $('lb-notice').textContent=MOCK_NOTICE;$('lb-submit').hidden=true;
-    const body=$('lb-rows');body.replaceChildren();[...(MOCK_LEADERBOARDS[tab]||[])].sort(compareRuns).forEach((r,i)=>body.append(row(r,i)));
+    const body=$('lb-rows');body.replaceChildren();[...(MOCK_LEADERBOARDS.allTime||[])].sort(compareRuns).forEach((r,i)=>body.append(row(r,i)));
     const pb=personalBest();$('lb-pb').textContent=pb?`Rekod peribadi anda (peranti ini): ${formatTime(pb.timeMs)}`:'Rekod peribadi anda: belum ada larian penuh yang layak.';
     return;
   }
@@ -107,5 +96,4 @@ export function installLeaderboard(){
   $('lb-btn')?.addEventListener('click',open);
   $('lb-close').addEventListener('click',()=>$('leaderboard').close());
   $('lb-submit').addEventListener('submit',send);
-  document.querySelectorAll('[data-lb-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.lbTab;renderLeaderboard();}));
 }
