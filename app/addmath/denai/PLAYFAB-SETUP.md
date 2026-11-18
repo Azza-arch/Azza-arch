@@ -3,17 +3,18 @@
 Title ID `1FD1D5` is public. The Secret Key is **never** placed in this repo or in browser code.
 Everything below is done by the title owner in PlayFab Game Manager.
 
-## Current state (observed 2026-11-16, read-only requests)
+## Current state
 
 | Name | Purpose | Exists in production? |
 |---|---|---|
 | `denai_l1_time` | Level 1-1 **classic** course (old map). Historical records. | yes (existing) |
-| `denai_l1_time_v3` | Level 1-1 **current** course (redesigned map) | **no** (`GetLeaderboard` → 404) |
-| `denai_players` | Unique player counter for the main menu | **no** (`GetLeaderboard` → 404) |
+| `denai_l1_time_v3` | Level 1-1 **current** course (redesigned map) | Not available in the latest reported game view |
+| `denai_players` | Unique player counter for the main menu | Available; latest reported game view shows 2 entries |
 
-Until the two missing items exist, the game behaves safely: the menu hides the player count,
-says the new-course ranking opens soon, the victory panel saves results on the device only, and
-nothing is written to the classic board.
+The current-course leaderboard still needs to be created. The player counter is separate from
+the total PlayFab account count: it includes identities that started a level after the counter
+was enabled. Existing accounts are added only when they start a level again; there is no safe
+client API to read or backfill the title's total account count.
 
 ## 1. Statistic + leaderboard `denai_l1_time_v3`
 
@@ -31,8 +32,10 @@ Keep `denai_l1_time` unchanged as the archive. Do **not** copy its rows into v2:
 - Statistic: name `denai_players`, entity type `title_player_account`, 1 column, aggregation **Max**.
 - Leaderboard: name `denai_players`, linked to that statistic (sort does not matter), no reset.
 
-The game writes `1` once per player identity after 15 s of real gameplay. The menu shows the
-leaderboard's `EntryCount` (PlayFab's own count of entries) = unique players, all-time.
+The game writes `1` once per player identity when they start a level. The menu shows the
+leaderboard's `EntryCount` (PlayFab's own count of entries) = unique players recorded by this
+counter, all-time. The counter is not retroactive: existing players are added when they start
+playing on a version with this counter.
 If a response does not carry `EntryCount`, the counter stays hidden — it is never estimated.
 
 ## 3. API access

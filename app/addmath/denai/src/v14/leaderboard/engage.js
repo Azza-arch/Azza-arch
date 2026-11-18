@@ -25,16 +25,15 @@ let confirmed=null; // {rank,timeMs} confirmed by the board this session (share 
 
 // ── Player counting ─────────────────────────────────────────────────────
 // Counted once per player identity (anonymous PlayFab account of this
-// browser) after countAfterMs of real gameplay; reloads and later sessions
-// do not count again (local flag + PlayFab keeps one entry per identity).
-let countTimer=null;
+// browser) when they start a level; reloads and later sessions do not count
+// again (local flag + PlayFab keeps one entry per identity).
+let countRequest=null;
 export function armPlayerCount(){
-  if(!live()||!COMMUNITY.playersBoard||store.get(K.counted))return;
-  clearTimeout(countTimer);
-  countTimer=setTimeout(()=>{
-    if(!document.body.classList.contains('game-active')||document.hidden)return; // left early: next start re-arms
-    PF.markStarted(COMMUNITY.playersBoard).then(()=>{store.set(K.counted,'1');store.del(K.cache);}).catch(e=>console.warn('DENAI: kiraan pemain gagal —',e?.code||e?.message||e));
-  },COMMUNITY.countAfterMs??15000);
+  if(!live()||!COMMUNITY.playersBoard||store.get(K.counted)||countRequest)return;
+  countRequest=PF.markStarted(COMMUNITY.playersBoard)
+    .then(()=>{store.set(K.counted,'1');store.del(K.cache);})
+    .catch(e=>console.warn('DENAI: kiraan pemain gagal —',e?.code||e?.message||e))
+    .finally(()=>{countRequest=null;});
 }
 
 // ── Community data (cached) ─────────────────────────────────────────────
@@ -86,7 +85,8 @@ export async function renderMenuCommunity(){
     retryPending();
     const c=await community();
     const n=c.players;$('cm-players').hidden=!(Number.isSafeInteger(n)&&n>0);
-    if(!$('cm-players').hidden)$('cm-players').textContent=`${n.toLocaleString('ms-MY')} pemain`;
+    if(!$('cm-players').hidden)$('cm-players').textContent=`${n.toLocaleString('ms-MY')} pemain direkodkan`;
+    $('cm-count-note').hidden=$('cm-players').hidden;
     const list=$('cm-top');list.replaceChildren();$('cm-top-wrap').hidden=false;
     if(!c.boardReady)list.append(el('li','cm-empty','Ranking kursus baharu akan dibuka tidak lama lagi.'));
     else if(!c.top)list.append(el('li','cm-empty','Ranking tidak dapat dimuatkan sekarang.'));
@@ -96,7 +96,7 @@ export async function renderMenuCommunity(){
     // Day 02 · P2-07: offline / PlayFab unreachable — an invitation, not a
     // technical error, on the first screen. The ranking dialog (on request)
     // still explains the connection state; pending results retry next visit.
-    $('cm-players').hidden=true;$('cm-top-wrap').hidden=false;
+    $('cm-players').hidden=true;$('cm-top-wrap').hidden=false;$('cm-count-note').hidden=true;
     $('cm-top').replaceChildren(el('li','cm-empty cm-offline','Main dahulu untuk sertai ranking.'));
   }finally{menuBusy=false;}
 }
