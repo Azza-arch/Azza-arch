@@ -161,7 +161,9 @@ export function buildWorld(s){
  pole(13,1206,1296,4);pole(95,1206,1296,4);pole(149,1206,1296,4);
  tile(6,0,1134,8);tile(150,54,1134,8);tile(6,0,1080,8);tile(130,54,1080,8);
  beam(-27,1062,189);
- tile(86,162,1242,11);signText(s,'Rumah kampung',81,1000);
+ // Day 02 copy pass: the floating place name "Rumah kampung" was removed — the
+ // house reads by itself and the label sat under the objective pin at spawn.
+ tile(86,162,1242,11);
  tile(128,640,1242,11);tile(124,757,1242,11);    // mushroom + tuft by the step
  tile(125,1110,1188,11);                         // tuft on the root overhang
  // ── 02 · Laluan Akar ────────────────────────────────────────────────────

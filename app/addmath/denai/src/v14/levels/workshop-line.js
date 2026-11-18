@@ -57,12 +57,13 @@ export function buildWorkshop(s,{audio,SFX}={}){
  const orderLever=tile(w.order==='AB'?66:64,LINE.orderLever.x-27,LINE.orderLever.feet-54,11.5);
  s.add.text(LINE.orderLever.x,LINE.orderLever.feet-60,'Tuas susunan mesin',{...TXT,fontSize:'12px'}).setOrigin(.5,1).setDepth(11.6);
  // Day 02 · P1-11 — wayfinding to the order lever. A sign post at the west
- // end of the yard points back to the ladder; gold markers bob over the
- // ladder top and the lever only while the order still has to be changed.
- tile(86,LINE.guideSignX-27,LINE.y-54,11);signText(s,'← Dek atas · tuas',LINE.guideSignX,LINE.y-6);
+ // end of the yard points back to the ladder; one gold marker bobs over the
+ // ladder top while the order still has to be changed and the player has not
+ // climbed yet (the lever keeps its own label, so it gets no marker).
+ tile(86,LINE.guideSignX-27,LINE.y-54,11);signText(s,'← Dek atas',LINE.guideSignX,LINE.y-6);
  const marker=(x,y)=>{const m=s.add.text(x,y,'▼',{...TXT,fontSize:'22px',color:'#ffd25a'}).setOrigin(.5,1).setDepth(13).setVisible(false);
   if(!reduced())s.tweens.add({targets:m,y:y-8,duration:700,yoyo:true,repeat:-1,ease:'Sine.inOut'});return m;};
- const guides=[marker(LINE.ladderX,LINE.ladderTop-56),marker(LINE.orderLever.x,LINE.orderLever.feet-78)];
+ const guides=[marker(LINE.ladderX,LINE.ladderTop-56)];
  // The crossing: posts in the water now, deck appears when 8 components arrive.
  for(const x of [LINE.bridge.x+54,LINE.bridge.x+LINE.bridge.width-54])tile(89,x-27,LINE.y,6.5,54,54),tile(89,x-27,LINE.y+54,6.5,54,54);
  s.workshop={machines,place,counter,runLever,orderLever,stock,timber,guides,bridgeArt:null,busy:false,bubble:null};
@@ -86,7 +87,8 @@ export function workshopPrompt(s,grounded,touch){
  const w=s.run.workshop,v=s.workshop;s.workshopReady=null;if(!w||!v)return null;
  const px=s.player.x,feet=s.player.body.bottom,key=touch?'Guna':'E';
  if(v.bubble){placeBubble(s);if(s.time.now>v.bubbleUntil){v.bubble.destroy();v.bubble=null;}}
- const guide=workshopStep(w)==='swap'&&!v.busy;for(const g of v.guides||[])if(g.visible!==guide)g.setVisible(guide);
+ // Ladder marker: only while the order must change and the player has not climbed yet.
+ const guide=workshopStep(w)==='swap'&&!v.busy&&feet>LINE.ladderTop+20;for(const g of v.guides||[])if(g.visible!==guide)g.setVisible(guide);
  if(!s.workshopIntro&&px>3420&&Math.abs(feet-LINE.y)<8){s.workshopIntro=true;if(!w.delivered){renderTracker(s);dialogue(s,[`Bengkel perlu ${NEED} komponen untuk jambatan.`,`Stok cuma ada ${STOCK}. Mesin mesti hasilkan lebih.`]);}}
  if(!grounded||v.busy||w.delivered)return null;
  if(Math.abs(px-LINE.runLeverX)<50&&Math.abs(feet-LINE.y)<8){s.workshopReady='run';return {key,text:'Jalankan bengkel',x:LINE.runLeverX,y:LINE.y-110};}
@@ -138,7 +140,7 @@ function finishRun(s,r,token,{audio,SFX}){
 // ── Compact tracker (same look as Level 1-1) ──
 const HINTS={
  run:[`Jambatan perlukan sekurang-kurangnya ${NEED} komponen.`,'Tarik tuas Jalankan dan lihat nombor di antara mesin.','Mesin pertama menerima 5; hasilnya menjadi input mesin kedua.'],
- swap:['Hasil 6 tak cukup. Apa yang berubah jika mesin lain bermula dahulu?','Tuas susunan ada di dek atas: patah balik ke tangga di tebing (papan tanda “Dek atas”).','Cuba gandakan dahulu, kemudian buang 2: g(f(5)).'],
+ swap:['Hasil 6 tak cukup. Apa yang berubah jika mesin lain bermula dahulu?','Tuas berada di dek atas, berhampiran tangga.','Cuba gandakan dahulu, kemudian buang 2: g(f(5)).'],
 };
 function installTracker(s){
  const frame=document.querySelector('.game-frame');if(!frame)return;
@@ -155,7 +157,7 @@ export function renderTracker(s){
  const step=workshopStep(w),show=s.mode==='playing'&&(s.workshopIntro||w.runs>0||w.delivered);
  tr.hidden=!show;if(!show)return;
  const first=MACHINES[w.order[0]];
- $('qt-text').textContent=step==='done'?'Jambatan bengkel dibina ✓':step==='swap'?'Naik ke dek atas · tukar susunan mesin, kemudian jalankan semula.':`Hasilkan ≥ ${NEED} komponen untuk jambatan.`;
+ $('qt-text').textContent=step==='done'?'Jambatan bengkel dibina ✓':step==='swap'?'Naik ke dek atas untuk mengubah susunan mesin.':`Hasilkan ≥ ${NEED} komponen untuk jambatan.`;
  const inv=$('qt-inv');inv.hidden=step==='done';inv.textContent=`Susunan: ${first.id} dahulu · penerima ${w.lastOut??0}/${NEED}`;
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}
  const lvl=s.hintLevel||0,hint=$('qt-hint-text');$('qt-hint').hidden=step==='done';

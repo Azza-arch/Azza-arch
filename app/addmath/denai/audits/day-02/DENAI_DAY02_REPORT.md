@@ -8,9 +8,9 @@ PlayFab was blocked/stubbed in every browser run: real online leaderboard behavi
 |---|---|---|---|
 | 1 Mobile pause | P1-01 | Short-landscape layout (`max-height:420px` + landscape): Sambung on top, Mula semula / Tetapan / Menu utama in one row, 40 px buttons, smaller ribbon; scroll fade if anything still overflows. Desktop & portrait untouched. New pause assertion in `w1-mobile-check` (visible without scrolling, ≥ 36 px, no overlap). | At 705×262 two of four actions were hidden below the fold with no hint. |
 | 2 World map | P1-02 | Gold reserved for selected/playable; in-development = slate blue (border, badge, info box); coming-soon = grey; selected non-playable world uses a pale outline. | World 2 (not playable) had a solid gold border and looked like the main choice. |
-| 3 Level 1-1 hook | P1-05 | New quest step `go` (derived from `found === false`, **no save change**): pin "Ke Stesen Kayu — jambatan perlu dibaiki." from the start + 3 hints; two non-blocking lines over Chill Boy at spawn ("Jambatan di hadapan rosak…", "Kita kena cari papan yang cukup tanpa melebihi bajet."). Bridge discovery dialogue kept. | The objective appeared only at x ≈ 2470. |
-| 4 Level 1-2 route | P1-11 | Sign "Laluan rahsia ↑" → "Dek atas ↑" (the required route); new sign post "← Dek atas · tuas" at the yard; bobbing gold ▼ over the ladder top and the lever only while the order must be changed; pin "Naik ke dek atas · tukar susunan mesin…"; hint 2 points to the signed ladder. Secret notes, coins, lever and logic unchanged. | Players did not know the lever was up the "secret" ladder. |
-| 5 Level 1-3 opening | P1-12 | The 54-unit pit at x 648–702 (reached ≈ 1.9 s after spawn, instant fall) is now ground; a one-tile step remains. Warning post "Awas · lompat" before the first real gap (x 1296). | Unfair early death; no telegraph. |
+| 3 Level 1-1 hook | P1-05 | New quest step `go` (derived from `found === false`, **no save change**): pin "Stesen Kayu" from the start + 3 Journal hints; two non-blocking lines over Chill Boy at spawn. Bridge discovery dialogue kept. (Final copy in §9.) | The objective appeared only at x ≈ 2470. |
+| 4 Level 1-2 route | P1-11 | Sign "Laluan rahsia ↑" → "Dek atas ↑" (the required route); second sign post "← Dek atas" at the yard; one bobbing gold ▼ over the ladder top only while the order must be changed and the player has not climbed; pin and hint 2 updated. Secret notes, coins, lever and logic unchanged. | Players did not know the lever was up the "secret" ladder. |
+| 5 Level 1-3 opening | P1-12 | The 54-unit pit at x 648–702 (reached ≈ 1.9 s after spawn, instant fall) is now ground; a one-tile step remains. Warning post "Awas!" before the first real gap (x 1296). | Unfair early death; no telegraph. |
 | 6 Settings | P2-06 | Audio controls first; the full saving/privacy text (unchanged words) folded into "Simpanan & privasi" (`<details>`); compact grid rows on short landscape. | Policy text pushed controls off short screens. |
 | 7 Offline menu | P2-07 | Menu card offline text "Ranking memerlukan sambungan internet." → "Main dahulu untuk sertai ranking." Online paths, pending-result retry and the ranking dialog's own connection message unchanged. | First screen opened with an error. |
 
@@ -32,8 +32,8 @@ PlayFab was blocked/stubbed in every browser run: real online leaderboard behavi
 |---|---|---|
 | Pause at 705×262: actions visible without scroll | 2 / 4 | **4 / 4** (all 40 px, one screen) |
 | Pause at 11 mobile viewports (new assertion) | — | 0 issues |
-| Level 1-1: objective visible | at x ≈ 2470 (~9 s of running) | **pin at 1.3 s**, line 1 at ~0.7 s, line 2 at ~4.5 s; player moved while bubbles showed (no input lock) |
-| Level 1-2: route cues to lever | 1 sign saying "Laluan rahsia" | signed ladder + yard sign + 2 markers after the first run; markers hidden before it (verified false/false → true/true) |
+| Level 1-1: objective visible | at x ≈ 2470 (~9 s of running) | **pin "Stesen Kayu" at 1.3 s**, line 1 at ~0.7 s, line 2 at ~4.5 s; player moved while bubbles showed (no input lock) |
+| Level 1-2: route cues to lever | 1 sign saying "Laluan rahsia" | signed ladder + yard sign + 1 ladder marker after the first run; hidden before it and once the player is on the decks (verified true below → false on deck) |
 | Level 1-3: spawn → first lethal gap (hold right, jump when blocked) | ≈ 1.9 s (pit) | **4.5 s**, no death on the way, gap signed |
 | Settings at 705×262: audio controls visible | mute + master only (SFX at 277 px > 262) | mute 114, master 160, SFX 206 px — all visible; privacy folded |
 | Settings persistence (master volume 37 → reload) | — | 37 kept (desktop and 705×262) |
@@ -60,6 +60,21 @@ In headless Chromium at short heights (262/300 px), the Settings dialog opened *
 - Level 1-1: the new pin sits over the canvas label "Rumah kampung" at spawn (cosmetic).
 - Level 1-2: the area banner "Laluan Rahsia" (zone name) still appears when climbing to the deck — the zone is genuinely the secret bank; left as is.
 - Copy is Malay and new; owner review recommended.
+
+## 9. Final copy & label pass (owner request, same branch)
+**Final copy (as specified):** pin 1-1 `Stesen Kayu` · intro lines `Jambatan di hadapan rosak. Kita perlukan papan.` / `Cari papan secukupnya tanpa melebihi bajet.` · Journal hints `Ikut laluan ke kanan.` / `Cari bangsal kayu berhampiran jambatan.` / `Teruskan perjalanan hingga ke jambatan.` · signs 1-2 `Dek atas ↑`, `← Dek atas` · pin 1-2 `Naik ke dek atas untuk mengubah susunan mesin.` · hint 1-2 `Tuas berada di dek atas, berhampiran tangga.` · 1-3 `Awas!` · settings `Simpanan & privasi` / `Disimpan dalam pelayar ini.` · offline `Main dahulu untuk sertai ranking.` — all verified in the browser (desktop + phone).
+
+**Labels removed (visual only; names remain in data, map, progress and navigation):**
+| Label | Where | Why |
+|---|---|---|
+| "Rumah kampung" (floating canvas text) | 1-1 spawn, `environment.js` | Decorative place name with no gameplay role; sat under the objective pin at spawn. The sign post prop stays. |
+| "Jejak Masuk" sign | 1-2 spawn, `twin-scene.js` | Repeated the area banner "Jejak Masuk" shown at the same moment. |
+| Gold ▼ over the order lever | 1-2, `workshop-line.js` | The lever already carries its label "Tuas susunan mesin"; one marker (ladder) is enough. |
+| Ladder ▼ after climbing | 1-2 | Hidden once the player is on the upper decks — the route is understood. |
+
+**Labels kept (and why):** HUD plaque `1–1 │ coins` (short, no world name; the world name is not shown permanently in the HUD) · area ribbons (2 s, temporary) · "Pondok lama", "STOR KAYU" (1-1 landmarks the quest and hints refer to) · "Ke Lembah Sungai →", "TAMAT" (exits) · "Bengkel di hilir" (direction to the workshop, far from the yard) · "BENGKEL KAYU", "Stok: 5 komponen", machine plates, "Tuas susunan mesin" (puzzle objects) · 1-3 area boards in the soil and "TETAPAN / TANDA ASAL 13 / Tuas aliran / PINTU AIR" (part of the machine) · level-start notices (temporary dialogue-style hooks).
+**Duplication check:** one objective pin at a time; the pin mirrors the Journal mission line; detail lives only in Journal hints.
+**Observation for the owner:** "Dek atas ↑" (x 3096) and "← Dek atas" (x 3360) are 264 units apart and appear on screen together on desktop and phone; the second one could be removed later if the first proves enough.
 
 ## 8. GO / NO-GO
 **CONDITIONAL GO** for review/merge: all acceptance criteria measured above pass and no regression was found. Conditions: owner checks the new Malay lines, and the Settings paint quirk (§6) is checked on a real phone. Do not merge or deploy without owner approval.

@@ -208,7 +208,7 @@ body.store-open #quest-pin{display:none!important}
 #settings .save-info summary::-webkit-details-marker{display:none}
 #settings .save-info summary::before{content:"▸";color:var(--wood,#8a5a2b);transition:transform .15s}
 #settings .save-info[open] summary::before{transform:rotate(90deg)}
-#settings .save-info summary::after{content:"Disimpan dalam pelayar ini · tiada akaun";margin-left:auto;font:600 12px var(--ui-font);color:var(--ink-soft,#6b5537)}
+#settings .save-info summary::after{content:"Disimpan dalam pelayar ini.";margin-left:auto;font:600 12px var(--ui-font);color:var(--ink-soft,#6b5537)}
 @media (max-height:420px) and (orientation:landscape){
   #settings{padding:10px 18px 8px;width:min(560px,calc(100% - 24px))}
   #settings h2{font-size:20px;margin:0 0 4px;padding-bottom:4px}

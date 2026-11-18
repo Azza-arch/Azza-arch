@@ -133,10 +133,10 @@ export function questPrompt(s,onGround,touch){
  if(sp.bubble){placeBubbleObj(s,sp.bubble);if(s.time.now>sp.bubbleUntil){sp.bubble.destroy();sp.bubble=null;}}
  // 0. Day 02 · P1-05 — early hook: two short lines over Chill Boy (non-blocking,
  //    movement never stops), once per scene start, only while the bridge
- //    problem is still undiscovered. The pin already reads "Ke Stesen Kayu".
+ //    problem is still undiscovered. The pin already reads "Stesen Kayu".
  if(!qs.found&&!sp.intro){sp.intro={step:0,at:s.time.now+700};}
  if(!qs.found&&sp.intro&&sp.intro.step<2&&s.time.now>=sp.intro.at){
-  const lines=['Jambatan di hadapan rosak. Kita perlukan papan untuk membaikinya.','Kita kena cari papan yang cukup tanpa melebihi bajet.'];
+  const lines=['Jambatan di hadapan rosak. Kita perlukan papan.','Cari papan secukupnya tanpa melebihi bajet.'];
   bubble(s,lines[sp.intro.step],3600);sp.intro.step++;sp.intro.at=s.time.now+3800;
  }
  // 1. Discover the problem at the bridge edge.
@@ -267,7 +267,7 @@ export function applyQuestState(s){
 }
 
 const HINTS={
- go:['Ikut laluan ke kanan (timur).','Stesen Kayu ialah bangsal kayu di tepi jambatan.','Jalan terus melepasi gerbang akar — jambatan rosak di hujung laluan.'],
+ go:['Ikut laluan ke kanan.','Cari bangsal kayu berhampiran jambatan.','Teruskan perjalanan hingga ke jambatan.'],
  find:['Stor Kayu di sebelah kiri anda.','Pintu stor mungkin berkunci — cuba dahulu.','Kunci ada di pondok lama atas gerbang akar.'],
  key:['Pondok lama di atas gerbang akar, di belakang anda.','Panjat tangga di hujung barat laluan akar.','Selepas ambil kunci, turun di hujung timur gerbang: jalan pintas.'],
  open:['Bawa kunci ke pintu Stor Kayu.','Tekan E / Guna di pintu stor.','Stor di sebelah kiri jambatan.'],
@@ -279,7 +279,7 @@ export function renderTracker(s){
  const step=questStep(qs),playing=s.mode==='playing';
  tr.hidden=!playing||step==='none';if(tr.hidden)return;
  const v=variantById(qs.variant);
- $('qt-text').textContent={go:'Ke Stesen Kayu — jambatan perlu dibaiki.',find:`Cari ${NEED} papan untuk baiki jambatan.`,key:'Cari kunci Stor Kayu di pondok lama.',open:'Buka Stor Kayu.',buy:`Beli papan secukupnya · bajet RM${v.budget}.`,repair:`Pasang ${NEED} papan di jambatan.`,done:'Jambatan dibaiki ✓'}[step];
+ $('qt-text').textContent={go:'Stesen Kayu',find:`Cari ${NEED} papan untuk baiki jambatan.`,key:'Cari kunci Stor Kayu di pondok lama.',open:'Buka Stor Kayu.',buy:`Beli papan secukupnya · bajet RM${v.budget}.`,repair:`Pasang ${NEED} papan di jambatan.`,done:'Jambatan dibaiki ✓'}[step];
  const inv=$('qt-inv');inv.hidden=!qs.bought;if(qs.bought)inv.textContent=qs.repaired?`Dibeli ${qs.bought.x} papan · RM${qs.bought.cost}`:`🪵 ${qs.planks} papan · baki RM${v.budget-qs.bought.cost}`;
  const hint=$('qt-hint-text'),lvl=s.hintLevel||0;
  $('qt-hint').hidden=step==='done';

@@ -43,7 +43,7 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
    for(let x=GOAL.x-135;x<GOAL.x+135;x+=54)tile(x===GOAL.x-135?48:x+54>=GOAL.x+135?50:49,x,GOAL.feet-180,11,54,18);
    // Wayfinding on Kenney sign posts (frame 86 blank board)
    // instead of floating text boxes; the 2 s area banners stay as they are.
-   tile(86,270-27,1296-54,11);signText(this,'Jejak Masuk',270,1236);
+   // Day 02 copy pass: the spawn sign "Jejak Masuk" repeated the area banner shown at the same moment; removed.
    tile(86,3096-27,1296-54,11);signText(this,'Dek atas ↑',3096,1236); // Day 02 · P1-11: the required route to the order lever, not only a secret
    signText(this,'TAMAT',GOAL.x,GOAL.feet-182).setFontSize(20); // on the finish arch's plank lintel
    // World 1 V3: the first river is crossed on two posts (platforming only).
