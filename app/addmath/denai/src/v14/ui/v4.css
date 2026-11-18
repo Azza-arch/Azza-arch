@@ -160,12 +160,23 @@ body.dialogue-open #touch-controls,body.dialogue-open #world-prompt,body.dialogu
 /* Phone landscape: receipt below the HUD row; quantity and Beli/Tutup share one row so it stays
    short (clear of the journal/pause buttons above and the touch buttons below). */
 @media (max-height:540px) and (orientation:landscape){
-  #store-panel{top:62px!important;left:46%!important;width:min(430px,50%)!important;grid-template-columns:auto 1fr;gap:2px 10px;padding:2px 10px!important}
+  /* Day 05 · P1-B: never narrower than the quantity + Beli/Tutup row, and moved left when
+     needed so its right edge stays 8 px inside the screen (iPhone SE 568×320). */
+  #store-panel{top:62px!important;left:min(46%,calc(100% - min(430px,max(50%,330px)) - 8px))!important;width:min(430px,max(50%,330px))!important;grid-template-columns:auto 1fr;gap:2px 10px;padding:2px 10px!important}
+  #store-panel .sp-receipt,#store-panel #sp-msg{overflow-wrap:anywhere}
   #store-panel .sp-row{grid-column:1;grid-row:1}#store-panel .sp-row span{display:none!important}
   #store-panel .sp-actions{grid-column:2;grid-row:1;justify-content:flex-end}
   #store-panel .sp-total{grid-column:1/-1;grid-row:2;font-size:13px!important}
   #store-panel .sp-receipt{grid-row:3}#store-panel #sp-msg{grid-row:4}
   #store-panel .sp-receipt{font-size:11px!important;padding-top:2px!important}
+}
+/* Day 05 · P1-B: narrow phone landscape (≤ 640 px wide): tighter spacing so the row fits inside
+   the 330 px panel's wooden frame without covering more of the scene. */
+@media (max-height:540px) and (orientation:landscape) and (max-width:640px){
+  #store-panel{gap:2px 6px}
+  #store-panel .sp-row,#store-panel .sp-actions{gap:4px!important}
+  #store-panel .sp-row button{min-width:38px!important}
+  #store-panel .sp-close{padding:0 10px}
 }
 
 /* While the store is open its receipt shows the same objective: the pin steps aside. */

@@ -1,5 +1,6 @@
 import {buildLandscape,buildTree,signText} from '../environment.js';
 import {track,durationBucket} from '../analytics.js';
+import {fixedPrompt} from '../presentation.js';
 import {showLevelVictory} from '../victory.js';
 import {startCoin,coinPickup,checkpointFx,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
@@ -195,13 +196,14 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
    CHECKPOINTS.forEach((cp,i)=>{const current=CHECKPOINTS.findIndex(c=>c.id===this.run.checkpointId);if(grounded&&Math.abs(this.player.x-cp.x)<48&&Math.abs(body.bottom-cp.feet)<8&&(!cp.requires||this.run.sluice.open)&&i>current){this.run.checkpointId=cp.id;this.checkpointArts[i].setFrame(112);this.writeSave();checkpointFx(this,this.checkpointArts[i],{audio,SFX,reduced:reducedMotion});this.message('Checkpoint disimpan. R untuk kembali ke sini.');}});
    const touch=matchMedia('(pointer: coarse)').matches;
    const sp=sluicePrompt(this,grounded||body.blocked.down||body.touching.down,touch);
-   let prompt='';if(secret)prompt='E · Baca catatan';else if(sp)prompt=`E · ${sp.text}`;
+   // Day 05 · P2-A: prompts are {key, text}; an explanation (exit not open yet) has no key cap.
+   const K=touch?'Guna':'E';let prompt=null;if(secret)prompt={key:K,text:'Baca catatan'};else if(sp)prompt={key:K,text:sp.text};
    if(interact&&sp&&!secret)useSluice(this,{audio,SFX});
    {const g=document.querySelector('[data-action="interact"]');if(g)g.hidden=!(sp||secret);} // touch: Guna only when it does something
    const inExit=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
    if(inExit&&this.run.sluice.open){this.finish();return;}
-   if(inExit&&!this.run.sluice.open){prompt='Pulihkan pintu air dahulu';if(!this.exitHinted){this.exitHinted=true;this.message(prompt);}}else this.exitHinted=false;
-   const wp=$('world-prompt');wp.hidden=!prompt;if(prompt){$('world-prompt-key').textContent=touch?'Guna':'E';$('world-prompt-text').textContent=prompt.replace(/^E · /,'');wp.style.transform='translate(-50%,0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';}
+   if(inExit&&!this.run.sluice.open){prompt={key:null,text:'Pulihkan pintu air dahulu'};if(!this.exitHinted){this.exitHinted=true;this.message(prompt.text);}}else this.exitHinted=false;
+   fixedPrompt(prompt);
    syncSluiceUI(this);
    const zone=this.player.x<756?'Jejak Sungai':this.player.x<2538?'Runtuhan Bertingkat':this.player.x<3240?'Halaman Mesin':this.player.x<4104?'Air Terjun':'Gerbang Utama';
    hud(this,{level:'1–3',coins:this.run.coins.length,zone,coll:`Syiling ${this.run.coins.length}/${COINS.length} · Rahsia ${this.run.secrets.length}/${SECRETS.length}`}); // V4 plaque + ribbon

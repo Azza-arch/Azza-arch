@@ -234,7 +234,7 @@ const trackerShown=s=>s.mode==='playing'&&(s.sluiceIntro||s.run.sluice.tests>0||
 export function renderTracker(s){
  const tr=$('quest-tracker'),st=s.run.sluice;if(!tr)return;
  const step=sluiceStep(st),show=trackerShown(s);tr.hidden=!show;if(!show)return;
- $('qt-text').textContent=step==='done'?'Pintu air dipulihkan ✓':'Pulihkan pintu air: cari tetapan asal injap.';
+ $('qt-text').textContent=step==='done'?'Pintu air pulih ✓ · Ke penamat →':'Pulihkan pintu air: cari tetapan asal injap.';
  const inv=$('qt-inv');inv.hidden=step==='done';
  inv.textContent=`Injap ${st.setting} · sasaran ${meterOf(st).TARGET}${st.lastReading!==null?` · bacaan lalu ${st.lastReading}`:''}`; // max 2 lines (formula: note + hint 2)
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}

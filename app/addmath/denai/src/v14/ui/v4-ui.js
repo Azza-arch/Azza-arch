@@ -81,6 +81,7 @@ export function decorateJournal(tr, s, { level }) {
 export function openJournal(s) {
   if (s.mode !== 'playing') return;
   const tr = $('quest-tracker'); if (!tr) return;
+  s.events?.emit?.('journal-open'); // Day 05 · P2-B: level panels (Stor Kayu) close first — one interface at a time
   document.body.classList.add('journal-open'); lock(s, 'journal');
   const empty = tr.hidden; tr.classList.toggle('qt-empty', empty);
   $('qt-coll').textContent = s.__coll || '';

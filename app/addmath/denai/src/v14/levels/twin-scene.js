@@ -1,5 +1,6 @@
 import {buildLandscape,buildTree,signText} from '../environment.js';
 import {track,durationBucket} from '../analytics.js';
+import {fixedPrompt} from '../presentation.js';
 import {showLevelVictory} from '../victory.js';
 import {startCoin,coinPickup,checkpointFx,ATLAS,COIN_FACE} from '../feel.js';
 import {createPlayer} from '../core/player.js';
@@ -112,21 +113,22 @@ export function createTwinScene(Base,{controls,audio,SFX,reducedMotion,BASE_SCAL
     }
    });
    this.nearStation=null; // V3: no more answer stations
-   const wsp=workshopPrompt(this,grounded||body.blocked.down||body.touching.down,matchMedia('(pointer: coarse)').matches);
+   const touch=matchMedia('(pointer: coarse)').matches,K=touch?'Guna':'E';
+   const wsp=workshopPrompt(this,grounded||body.blocked.down||body.touching.down,touch);
    const secret=this.secretViews.find(({def})=>Math.abs(this.player.x-def.x)<55&&Math.abs(body.bottom-def.feet)<12);
-   let prompt='';let action=null;
-   if(wsp){action='workshop';prompt=`E · ${wsp.text}`;}
-   if(secret){prompt='E · Baca catatan rahsia';if(interact){const fresh=!this.run.secrets.includes(secret.def.id);if(fresh){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secret.def.id==='canopy-observation'?canopyNote(this.run.workshop):secret.def.text),{portrait:'none'});}} // V4: a note speaks through the fallback portrait
+   // Day 05 · P1-C: the key cap follows the input (E on keyboard, Guna on touch), as in 1-1 and 1-3.
+   let prompt=null;let action=null;
+   if(wsp){action='workshop';prompt={key:wsp.key,text:wsp.text};}
+   if(secret){prompt={key:K,text:'Baca catatan rahsia'};if(interact){const fresh=!this.run.secrets.includes(secret.def.id);if(fresh){this.run.secrets.push(secret.def.id);secret.art.setAlpha(.4);this.writeSave();reward(`Rahsia ditemui · ${this.run.secrets.length}/${SECRETS.length}`);}dialogue(this,pagesOf(secret.def.id==='canopy-observation'?canopyNote(this.run.workshop):secret.def.text),{portrait:'none'});}} // V4: a note speaks through the fallback portrait
    else if(interact&&action==='workshop')useWorkshop(this,{audio,SFX});
    const inExitZone=inFinishZone({x:this.player.x,feet:body.bottom,grounded:grounded||body.blocked.down||body.touching.down},GOAL);
    if(inExitZone&&this.run.workshop.delivered){this.finish();return;}
    if(inExitZone&&!this.run.workshop.delivered){
-    prompt='Bina jambatan bengkel dahulu';
-    if(!this.exitHinted){this.exitHinted=true;this.message(prompt);}
+    prompt={key:null,text:'Bina jambatan bengkel dahulu'}; // Day 05 · P2-A: explanation, no key cap
+    if(!this.exitHinted){this.exitHinted=true;this.message(prompt.text);}
    }else this.exitHinted=false;
    {const g=document.querySelector('[data-action="interact"]');if(g)g.hidden=!(wsp||secret);} // touch: Guna only when it does something
-   const wp=$('world-prompt');wp.hidden=!prompt||this.mode!=='playing';
-   if(prompt){$('world-prompt-key').textContent='E';$('world-prompt-text').textContent=prompt.slice(4);wp.style.transform='translate(-50%, 0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';}
+   fixedPrompt(this.mode==='playing'?prompt:null);
    syncWorkshopUI(this);
    const zone=this.player.x<1080?'Jejak Masuk':this.player.x<1836?'Gudang':this.player.x<2484?'Batu Loncatan':this.player.x<3402?'Laluan Rahsia':'Bengkel Dua Mesin';
    hud(this,{level:'1–2',coins:this.run.coins.length,zone,coll:`Syiling ${this.run.coins.length}/${COINS.length} · Rahsia ${this.run.secrets.length}/${SECRETS.length}`}); // V4 plaque + ribbon

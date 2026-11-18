@@ -24,10 +24,13 @@ const MEASURE = () => {
   const g = window.__game, s = g.scene.getScenes(true).find((x) => x.player && x.mode === 'playing'), cam = s?.cameras.main, cv = g.canvas.getBoundingClientRect();
   let bubble = null; const bb = s?.bubble || s?.workshop?.bubble || s?.supply?.bubble;
   if (bb?.active && bb.visible) { const k = cam.zoom, wb = bb.getBounds(); bubble = { l: Math.round(cv.left + (wb.x - cam.worldView.x) * k), t: Math.round(cv.top + (wb.y - cam.worldView.y) * k), r: Math.round(cv.left + (wb.right - cam.worldView.x) * k), b: Math.round(cv.top + (wb.bottom - cam.worldView.y) * k) }; }
+  // Day 05 · P1-B: the store panel's own contents must stay inside its frame and on screen.
+  const storeCut = () => { const st = $('#store-panel'); if (!vis(st)) return []; const b = st.getBoundingClientRect(), cs = getComputedStyle(st), L = b.left + parseFloat(cs.borderLeftWidth), R = b.right - parseFloat(cs.borderRightWidth);
+    return [...st.querySelectorAll('button,output,p')].filter((e) => e.offsetParent).filter((e) => { const q = e.getBoundingClientRect(); return q.left < L - 1 || q.right > R + 1 || q.right > innerWidth + 1 || e.scrollWidth > e.clientWidth + 1; }).map((e) => e.id || e.className); };
   const dlgOpen = !!$('#v4-dialog')?.classList.contains('open'), jr = $('#quest-tracker'), journalOpen = document.body.classList.contains('journal-open');
   return { vw: innerWidth, vh: innerHeight, dlgOpen, journalOpen, journalCut: journalOpen && jr.scrollHeight > jr.clientHeight + 1,
     pin: r($('#quest-pin')), jbtn: r($('#journal-btn')), journal: journalOpen ? r(jr) : null, hint: r($('#qt-hint-text')), dlgBox: dlgOpen ? r($('#v4-dialog .dlg-box')) : null, dlgPortrait: dlgOpen ? r($('#v4-dialog .dlg-portrait')) : null,
-    pause: r($('#pause')), plaque: r($('.hud-plaque')), prompt: r($('#world-prompt')), store: r($('#store-panel')), bubble, touch: [...document.querySelectorAll('#touch-controls button')].map(r).filter(Boolean) };
+    pause: r($('#pause')), plaque: r($('.hud-plaque')), prompt: r($('#world-prompt')), store: r($('#store-panel')), storeCut: storeCut(), bubble, touch: [...document.querySelectorAll('#touch-controls button')].map(r).filter(Boolean) };
 };
 const hit = (a, b) => !!(a && b && a.l < b.r - 1 && b.l < a.r - 1 && a.t < b.b - 1 && b.t < a.b - 1);
 const off = (a, m) => !!(a && (a.l < -1 || a.t < -1 || a.r > m.vw + 1 || a.b > m.vh + 1));
@@ -36,6 +39,7 @@ function judge(m) {
   const check = (name, el, others) => { if (!el) return; if (off(el, m)) issues.push(`${name} di luar skrin`); for (const [n, o] of others) if ((Array.isArray(o) ? o : [o]).some((x) => hit(el, x))) issues.push(`${name} ⟂ ${n}`); };
   check('pin', m.pin, [['HUD', hud], ['butang sentuh', m.touch]]);
   check('panel stor', m.store, [['HUD', hud], ['butang sentuh', m.touch], ['pin', m.pin]]);
+  if (m.storeCut?.length) issues.push(`panel stor: kandungan terpotong (${m.storeCut.join(', ')})`);
   check('gesaan', m.prompt, [['butang sentuh', m.touch], ['pin', m.pin]]);
   check('gelembung', m.bubble, [['pin', m.pin], ['HUD', hud], ['butang sentuh', m.touch], ['gesaan', m.prompt]]);
   check('dialog', m.dlgBox, [['HUD', hud]]); check('potret', m.dlgPortrait, [['HUD', hud]]);

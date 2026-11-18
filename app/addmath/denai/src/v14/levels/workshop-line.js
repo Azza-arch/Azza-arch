@@ -160,7 +160,7 @@ export function renderTracker(s){
  const step=workshopStep(w),show=s.mode==='playing'&&(s.workshopIntro||w.runs>0||w.delivered);
  tr.hidden=!show;if(!show)return;
  const L=lineOf(w),{NEED,MACHINES,runLine}=L,first=MACHINES[w.order[0]];
- $('qt-text').textContent=step==='done'?'Jambatan bengkel dibina ✓':step==='swap'?'Naik ke dek atas untuk mengubah susunan mesin.':`Hasilkan ≥ ${NEED} komponen untuk jambatan.`;
+ $('qt-text').textContent=step==='done'?'Jambatan bengkel siap ✓ · Ke penamat →':step==='swap'?'Naik ke dek atas untuk mengubah susunan mesin.':`Hasilkan ≥ ${NEED} komponen untuk jambatan.`;
  const inv=$('qt-inv');inv.hidden=step==='done';inv.textContent=`Susunan: ${first.id} dahulu · penerima ${w.lastOut??0}/${NEED}`;
  if(s.lastHintStep!==step){s.lastHintStep=step;s.hintLevel=0;}
  const lvl=s.hintLevel||0,hint=$('qt-hint-text');$('qt-hint').hidden=step==='done';

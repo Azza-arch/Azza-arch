@@ -31,10 +31,19 @@ export function showCheckpointToast(text='Checkpoint disimpan'){
 // World-anchored contextual prompt (key cap + verb). scene.worldPrompt is
 // {key,text,x,y} in world coordinates, or null.
 export function setWorldPrompt(scene,wp){scene.worldPrompt=wp;}
+// Day 05 · P1-C / P2-A — the fixed (bottom-centre) prompt of Levels 1-2 and 1-3.
+// p = {key, text} or null. key is 'E' (keyboard) or 'Guna' (touch); key = null
+// marks an explanation that is not an action, so no key cap is shown.
+export function fixedPrompt(p){
+ const wp=$('world-prompt');if(!wp)return;wp.hidden=!p;if(!p)return;
+ const k=$('world-prompt-key');k.hidden=!p.key;if(p.key&&k.textContent!==p.key)k.textContent=p.key;
+ $('world-prompt-text').textContent=p.text;
+ wp.style.transform='translate(-50%,0)';wp.style.left='50%';wp.style.top='auto';wp.style.bottom='108px';
+}
 function placeWorldPrompt(scene){
  const el=$('world-prompt');if(!el)return;const wp=scene.worldPrompt;
  if(!wp||scene.mode!=='playing'){el.hidden=true;return;}
- if($('world-prompt-key').textContent!==wp.key)$('world-prompt-key').textContent=wp.key;
+ const key=$('world-prompt-key');key.hidden=!wp.key;if(wp.key&&key.textContent!==wp.key)key.textContent=wp.key;
  if($('world-prompt-text').textContent!==wp.text)$('world-prompt-text').textContent=wp.text;
  const cam=scene.cameras.main,c=scene.game.canvas.getBoundingClientRect(),fr=document.querySelector('.game-frame').getBoundingClientRect();
  const k=c.width/scene.scale.width;

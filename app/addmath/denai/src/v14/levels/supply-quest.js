@@ -193,7 +193,9 @@ export function useQuest(s,{audio,SFX}={}){
   openDoor(s,true);qs.door=true;SFX?.checkpoint?.(audio);
   bubble(s,'Stor dibuka.');s.writeSave();renderTracker(s);openStore(s);return;
  }
- if(s.questReady==='buy'){openStore(s);buy(s,{audio,SFX});return;}
+ // Day 05 · P1-A: E / Guna at the door only opens the supplier panel; buying is done with
+ // the Beli button (or its E shortcut inside the panel), so reopening never submits a purchase.
+ if(s.questReady==='buy'){openStore(s);return;}
  if(s.questReady==='repair')repair(s,{audio,SFX});
 }
 
@@ -222,7 +224,9 @@ function installQuestUI(s){
  $('sp-buy').addEventListener('click',()=>buy(s,{audio:s.audioRef,SFX:s.sfxRef}),{signal});
  $('sp-close').addEventListener('click',()=>setStore(false,s),{signal});
  // V4: movement is locked while the store is open; E buys, Esc closes, a movement key closes (intent to leave).
- window.addEventListener('keydown',e=>{if(st.hidden||e.repeat||e.target.matches?.('input,select,textarea'))return;
+ // Day 05 · P2-B: the Journal closes the store, and store keys never act behind the Journal.
+ const onJournal=()=>setStore(false,s);s.events.on('journal-open',onJournal);s.events.once('shutdown',()=>s.events.off('journal-open',onJournal));
+ window.addEventListener('keydown',e=>{if(st.hidden||e.repeat||document.body.classList.contains('journal-open')||e.target.matches?.('input,select,textarea'))return;
   if(['Minus','NumpadSubtract'].includes(e.code)){e.preventDefault();setQty(s.storeQty-1);}
   else if(['Equal','NumpadAdd'].includes(e.code)){e.preventDefault();setQty(s.storeQty+1);}
   else if(e.code==='KeyE'){e.preventDefault();e.stopImmediatePropagation();buy(s,{audio:s.audioRef,SFX:s.sfxRef});}
@@ -232,7 +236,7 @@ function installQuestUI(s){
  $('qt-math').addEventListener('click',()=>{const t=$('qt-math-text');t.hidden=!t.hidden;},{signal});
 }
 function setStore(open,s){const st=$('store-panel');if(st)st.hidden=!open;document.body.classList.toggle('store-open',!!open);if(s)(open?lock:unlock)(s,'store');}
-function openStore(s){const st=$('store-panel');if(st&&st.hidden){setStore(true,s);renderStore(s);}}
+function openStore(s){const st=$('store-panel');if(st&&st.hidden){const m=$('sp-msg');if(m){m.textContent='';m.className='';}setStore(true,s);renderStore(s);}}
 export function renderStore(s){
  const qs=q(s);if(!qs||!$('store-panel'))return;const v=variantOf(qs),x=s.storeQty;
  $('sp-receipt').textContent=`RM${v.price} sebatang + RM${v.delivery} hantaran · ${formula(v)}`;
@@ -297,7 +301,7 @@ export function renderTracker(s){
  const step=questStep(qs),playing=s.mode==='playing';
  tr.hidden=!playing||step==='none';if(tr.hidden)return;
  const v=variantOf(qs),hints=step==='buy'?definitionOf(qs).hints:HINTS[step];
- $('qt-text').textContent={go:'Stesen Kayu',find:`Cari ${NEED} papan untuk baiki jambatan.`,key:'Cari kunci Stor Kayu di pondok lama.',open:'Buka Stor Kayu.',buy:`Beli papan secukupnya · bajet RM${v.budget}.`,repair:`Pasang ${NEED} papan di jambatan.`,done:'Jambatan dibaiki ✓'}[step];
+ $('qt-text').textContent={go:'Stesen Kayu',find:`Cari ${NEED} papan untuk baiki jambatan.`,key:'Cari kunci Stor Kayu di pondok lama.',open:'Buka Stor Kayu.',buy:`Beli papan secukupnya · bajet RM${v.budget}.`,repair:`Pasang ${NEED} papan di jambatan.`,done:'Jambatan dibaiki ✓ · Ke penamat →'}[step]; // Day 05 · P2-C: next step after the mission
  const inv=$('qt-inv');inv.hidden=!qs.bought;if(qs.bought)inv.textContent=qs.repaired?`Dibeli ${qs.bought.x} papan · RM${qs.bought.cost}`:`🪵 ${qs.planks} papan · baki RM${v.budget-qs.bought.cost}`;
  const hint=$('qt-hint-text'),lvl=s.hintLevel||0;
  $('qt-hint').hidden=step==='done';
