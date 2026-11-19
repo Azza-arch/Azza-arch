@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ms">
+<meta charset="utf-8">
+<title>Render video konsep Anjung Nyiur</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; background: #221c16; color: #fff; font: 16px system-ui, sans-serif; }
+  main { width: min(100%, 960px); margin: auto; }
+  canvas { display: block; width: 100%; max-height: 78vh; object-fit: contain; background: #17130f; }
+  p { margin: 12px 0; }
+</style>
+<main>
+  <canvas id="frame"></canvas>
+  <p id="status">Menyediakan video…</p>
+</main>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const vertical = params.get("format") === "vertical";
+  const width = vertical ? 720 : 1280;
+  const height = vertical ? 1280 : 720;
+  const duration = 20;
+  const fps = 30;
+  const canvas = document.querySelector("#frame");
+  const ctx = canvas.getContext("2d", { alpha: false });
+  const status = document.querySelector("#status");
+  canvas.width = width;
+  canvas.height = height;
+
+  const scenes = [
+    { image: "images/timber-house.webp", title: "Penginapan yang elok,", sub: "patut mudah ditemui.", start: 0, end: 4.2, credit: "Rumah kayu di Melaka · foto rujukan" },
+    { image: "images/kuala-terengganu-bridge.webp", title: "Suasana yang", sub: "mengundang cerita.", start: 4.2, end: 8, credit: "Jambatan Kuala Terengganu · foto rujukan" },
+    { image: "images/redang-aerial.webp", title: "Tunjukkan apa", sub: "yang tetamu mahu tahu.", start: 8, end: 11.8, credit: "Pulau Redang · foto rujukan" },
+    { image: "images/redang-turtles.webp", title: "Beri jawapan", sub: "sebelum ditanya.", start: 11.8, end: 15.7, credit: "Penyu di Pulau Redang · foto rujukan" },
+    { image: "images/timber-house.webp", title: "Laman yang jelas", sub: "bermula dengan cerita anda.", start: 15.7, end: 20, credit: "Konsep laman web oleh haziqbuilds" }
+  ];
+  const loaded = scenes.map((scene) => new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => { scene.bitmap = image; resolve(); };
+    image.onerror = reject;
+    image.src = scene.image;
+  }));
+
+  function ease(value) { return 1 - Math.pow(1 - Math.min(1, Math.max(0, value)), 3); }
+  function fitImage(image, progress) {
+    const scale = 1.05 + progress * .08;
+    const imageRatio = image.width / image.height;
+    const frameRatio = width / height;
+    let drawWidth, drawHeight;
+    if (imageRatio > frameRatio) { drawHeight = height * scale; drawWidth = drawHeight * imageRatio; }
+    else { drawWidth = width * scale; drawHeight = drawWidth / imageRatio; }
+    const drift = (progress - .5) * Math.min(width, height) * .045;
+    ctx.drawImage(image, (width - drawWidth) / 2 - drift, (height - drawHeight) / 2, drawWidth, drawHeight);
+  }
+  function wrapLines(text, maxWidth, font) {
+    ctx.font = font;
+    const words = text.split(" ");
+    const lines = [];
+    let line = "";
+    for (const word of words) {
+      const trial = line ? `${line} ${word}` : word;
+      if (ctx.measureText(trial).width > maxWidth && line) { lines.push(line); line = word; }
+      else line = trial;
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+  function render(time) {
+    const scene = scenes.find((item) => time >= item.start && time < item.end) || scenes.at(-1);
+    const progress = (time - scene.start) / (scene.end - scene.start);
+    fitImage(scene.bitmap, progress);
+    const fadeIn = ease(Math.min(1, (time - scene.start) / .48));
+    const fadeOut = ease(Math.min(1, (scene.end - time) / .38));
+    const alpha = Math.min(fadeIn, fadeOut);
+    const side = vertical ? 54 : 76;
+    const bottom = vertical ? 130 : 92;
+    const top = vertical ? height * .49 : height * .39;
+    const textX = vertical ? width / 2 : side;
+    const align = vertical ? "center" : "left";
+    const fontSize = vertical ? 56 : 62;
+    const titleFont = `500 ${fontSize}px Georgia, serif`;
+    const maxText = vertical ? width - 108 : width * .69;
+    const lines = [...wrapLines(scene.title, maxText, titleFont), ...wrapLines(scene.sub, maxText, `italic 500 ${fontSize}px Georgia, serif`)];
+    const lineHeight = fontSize * 1.12;
+    const textBlockHeight = lines.length * lineHeight;
+    const left = vertical ? 0 : side;
+    const panelTop = vertical ? top - 48 : top - 42;
+    const panelHeight = textBlockHeight + 105;
+    const panelWidth = vertical ? width : Math.min(width - side * 2, maxText + 64);
+    ctx.fillStyle = "rgba(29, 23, 18, .68)";
+    ctx.fillRect(left, panelTop, panelWidth, panelHeight);
+    ctx.globalAlpha = alpha;
+    ctx.textAlign = align;
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#f4eee3";
+    ctx.font = titleFont;
+    const tx = vertical ? width / 2 : side + 28;
+    const ty = top;
+    lines.forEach((line, index) => {
+      const isLast = index === lines.length - 1;
+      ctx.font = isLast ? `italic 500 ${fontSize}px Georgia, serif` : titleFont;
+      ctx.fillStyle = isLast ? "#b4dcd2" : "#fffaf0";
+      ctx.fillText(line, tx, ty + index * lineHeight);
+    });
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `600 ${vertical ? 20 : 18}px Arial, sans-serif`;
+    ctx.fillText("KONSEP LAMAN PENGINAPAN · HAZIQBUILDS", tx, ty + textBlockHeight + 22);
+    ctx.textAlign = vertical ? "center" : "left";
+    ctx.font = `500 ${vertical ? 17 : 15}px Arial, sans-serif`;
+    ctx.fillStyle = "rgba(255,255,255,.88)";
+    ctx.fillText(scene.credit, vertical ? width / 2 : side, height - bottom);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "rgba(30,24,19,.76)";
+    ctx.fillRect(0, height - (vertical ? 78 : 58), width, vertical ? 78 : 58);
+    ctx.fillStyle = "#fff8e9";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = `600 ${vertical ? 18 : 16}px Arial, sans-serif`;
+    ctx.fillText("ANJUNG NYIUR IALAH KONSEP REKAAN · TIADA TEMPAHAN SEBENAR", width / 2, height - (vertical ? 39 : 29));
+  }
+  function startAudio(audioContext, destination) {
+    const master = audioContext.createGain();
+    master.gain.value = .17;
+    master.connect(destination);
+    const notes = [220, 261.63, 329.63, 392, 329.63, 293.66, 261.63, 196];
+    notes.forEach((frequency, index) => {
+      const at = audioContext.currentTime + .2 + index * 2.35;
+      const osc = audioContext.createOscillator();
+      const envelope = audioContext.createGain();
+      osc.type = "sine";
+      osc.frequency.value = frequency;
+      envelope.gain.setValueAtTime(.0001, at);
+      envelope.gain.exponentialRampToValueAtTime(.2, at + .05);
+      envelope.gain.exponentialRampToValueAtTime(.0001, at + 1.65);
+      osc.connect(envelope);
+      envelope.connect(master);
+      osc.start(at);
+      osc.stop(at + 1.7);
+    });
+    const drone = audioContext.createOscillator();
+    const volume = audioContext.createGain();
+    drone.type = "sine";
+    drone.frequency.value = 110;
+    volume.gain.value = .035;
+    drone.connect(volume).connect(master);
+    drone.start();
+    drone.stop(audioContext.currentTime + duration + .4);
+  }
+  function readSize(bytes, offset) {
+    const first = bytes[offset];
+    let length = 1;
+    let marker = 0x80;
+    while (length <= 8 && !(first & marker)) { marker >>= 1; length++; }
+    if (length > 8 || offset + length > bytes.length) throw new Error("Header WebM tidak sah");
+    let value = first & (marker - 1);
+    for (let index = 1; index < length; index++) value = value * 256 + bytes[offset + index];
+    return { length, value };
+  }
+  function writeSize(value, length) {
+    const marker = 1 << (8 - length);
+    const maxValue = Math.pow(2, length * 7) - 1;
+    if (value >= maxValue) throw new Error("Metadata WebM terlalu besar untuk saiz asal");
+    const bytes = new Uint8Array(length);
+    let remaining = value;
+    for (let index = length - 1; index >= 0; index--) { bytes[index] = remaining & 255; remaining = Math.floor(remaining / 256); }
+    bytes[0] |= marker;
+    return bytes;
+  }
+  async function withDurationMetadata(blob) {
+    const bytes = new Uint8Array(await blob.arrayBuffer());
+    const infoId = new Uint8Array([0x15, 0x49, 0xa9, 0x66]);
+    const durationId = new Uint8Array([0x44, 0x89]);
+    let infoOffset = -1;
+    for (let index = 0; index <= bytes.length - infoId.length; index++) {
+      if (infoId.every((value, offset) => bytes[index + offset] === value)) { infoOffset = index; break; }
+    }
+    if (infoOffset < 0) throw new Error("Metadata Info WebM tidak ditemui");
+    const sizeOffset = infoOffset + infoId.length;
+    const infoSize = readSize(bytes, sizeOffset);
+    const infoDataOffset = sizeOffset + infoSize.length;
+    const infoEnd = infoDataOffset + infoSize.value;
+    for (let index = infoDataOffset; index < infoEnd - durationId.length; index++) {
+      if (durationId.every((value, offset) => bytes[index + offset] === value)) return blob;
+    }
+    const durationElement = new Uint8Array(11);
+    durationElement.set(durationId, 0);
+    durationElement[2] = 0x88;
+    new DataView(durationElement.buffer).setFloat64(3, duration * 1000, false);
+    const output = new Uint8Array(bytes.length + durationElement.length);
+    output.set(bytes.subarray(0, infoEnd), 0);
+    output.set(writeSize(infoSize.value + durationElement.length, infoSize.length), sizeOffset);
+    output.set(durationElement, infoEnd);
+    output.set(bytes.subarray(infoEnd), infoEnd + durationElement.length);
+    return new Blob([output], { type: "video/webm" });
+  }
+
+  Promise.all(loaded).then(async () => {
+    const audioContext = new AudioContext();
+    await audioContext.resume();
+    const audio = audioContext.createMediaStreamDestination();
+    startAudio(audioContext, audio);
+    const stream = canvas.captureStream(fps);
+    audio.stream.getAudioTracks().forEach((track) => stream.addTrack(track));
+    const mimeType = MediaRecorder.isTypeSupported("video/webm;codecs=vp9,opus") ? "video/webm;codecs=vp9,opus" : "video/webm;codecs=vp8,opus";
+    const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 5_000_000, audioBitsPerSecond: 160_000 });
+    const chunks = [];
+    recorder.ondataavailable = (event) => { if (event.data.size) chunks.push(event.data); };
+    recorder.onstop = async () => {
+      const blob = await withDurationMetadata(new Blob(chunks, { type: "video/webm" }));
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = vertical ? "promo-vertical.webm" : "promo-wide.webm";
+      link.click();
+      document.documentElement.dataset.done = "true";
+      status.textContent = `Video siap: ${link.download} (${Math.round(blob.size / 1024)} KB)`;
+      audioContext.close();
+    };
+    let start;
+    function tick(now) {
+      if (!start) start = now;
+      const elapsed = Math.min(duration, (now - start) / 1000);
+      render(elapsed);
+      status.textContent = `Merakam ${vertical ? "menegak" : "lebar"}: ${elapsed.toFixed(1)} / ${duration} saat`;
+      if (elapsed >= duration) recorder.stop();
+      else requestAnimationFrame(tick);
+    }
+    render(0);
+    recorder.start(250);
+    requestAnimationFrame(tick);
+  }).catch((error) => {
+    document.documentElement.dataset.error = String(error);
+    status.textContent = `Ralat: ${error.message}`;
+  });
+})();
+</script>
+</html>
