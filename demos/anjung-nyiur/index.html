@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f2ede3">
   <meta name="robots" content="noindex, follow">
-  <meta name="description" content="Anjung Nyiur ialah demo rekaan oleh haziqbuilds yang menunjukkan bagaimana laman penginapan boleh menyampaikan suasana dan memudahkan pertanyaan.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
-  <title>Anjung Nyiur — Konsep laman penginapan | haziqbuilds</title>
+  <meta name="description" content="Demo rekaan laman homestay keluarga Anjung Nyiur oleh haziqbuilds. Semua maklumat, foto dan harga ialah contoh demonstrasi.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action 'none'; upgrade-insecure-requests">
+  <title>Anjung Nyiur — Demo laman homestay | haziqbuilds</title>
+  <link rel="icon" type="image/png" href="../../favicon-32.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
@@ -17,29 +18,29 @@
 <body>
   <a class="skip-link" href="#main">Terus ke kandungan</a>
 
-  <div class="concept-strip">
-    <p><strong>Demo rekaan</strong><span> · Anjung Nyiur bukan hartanah sebenar dan tidak menerima tempahan.</span></p>
-    <a href="../../work.html#website-concepts"><span aria-hidden="true">←</span> Portfolio haziqbuilds</a>
-  </div>
-
-  <header class="site-header" id="top">
+  <header class="site-header" id="utama">
     <div class="wrap header-row">
-      <a class="brand" href="#top" aria-label="Anjung Nyiur, ke halaman utama">Anjung <em>Nyiur</em></a>
-      <nav class="desktop-nav" aria-label="Navigasi halaman">
-        <a href="#cerita">Konsep</a>
+      <a class="brand" href="#utama" aria-label="Anjung Nyiur, ke halaman utama">Anjung <em>Nyiur</em></a>
+      <nav class="desktop-nav" aria-label="Navigasi utama">
+        <a href="#utama">Utama</a>
+        <a href="#penginapan">Penginapan</a>
+        <a href="#kemudahan">Kemudahan</a>
         <a href="#galeri">Galeri</a>
-        <a href="#reka-bentuk">Reka bentuk</a>
-        <a href="#video">Video</a>
+        <a href="#lokasi">Lokasi</a>
+        <a href="#faq">FAQ</a>
+        <a href="#tempahan">Tempahan</a>
       </nav>
-      <a class="btn btn-primary header-cta" href="../../index.html#contact">Bina laman anda <span aria-hidden="true">↗</span></a>
+      <a class="btn btn-primary header-cta" href="#tempahan">Lihat borang pertanyaan</a>
       <details class="mobile-menu">
-        <summary aria-label="Buka menu navigasi">Menu <span aria-hidden="true">＋</span></summary>
+        <summary aria-label="Buka menu navigasi">Menu</summary>
         <nav class="mobile-menu-panel" aria-label="Navigasi telefon">
-          <a href="#cerita">Konsep</a>
+          <a href="#utama">Utama</a>
+          <a href="#penginapan">Penginapan</a>
+          <a href="#kemudahan">Kemudahan</a>
           <a href="#galeri">Galeri</a>
-          <a href="#reka-bentuk">Reka bentuk</a>
-          <a href="#video">Video</a>
-          <a class="mobile-menu-cta" href="../../index.html#contact">Hubungi haziqbuilds <span aria-hidden="true">↗</span></a>
+          <a href="#lokasi">Lokasi</a>
+          <a href="#faq">FAQ</a>
+          <a href="#tempahan">Tempahan</a>
         </nav>
       </details>
     </div>
@@ -49,112 +50,231 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div class="hero-copy" data-reveal>
-          <p class="eyebrow">Konsep laman penginapan <span aria-hidden="true">/</span> haziqbuilds</p>
-          <h1 id="hero-title">Penginapan yang elok, <em>patut mudah ditemui.</em></h1>
-          <p class="lede">Sebuah laman yang menyampaikan suasana dengan jelas, memudahkan tetamu mencari maklumat, dan membuka ruang untuk bertanya.</p>
+          <h1 id="hero-title">Rumah untuk <em>masa bersama.</em></h1>
+          <p class="lede">Anjung Nyiur ialah konsep rekaan laman homestay. Butiran penginapan di halaman ini hanya contoh.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="../../index.html#contact">Bincang laman penginapan anda <span aria-hidden="true">↗</span></a>
-            <a class="text-link" href="#galeri">Teroka konsep <span aria-hidden="true">↓</span></a>
+            <a class="btn btn-primary" href="#penginapan">Lihat penginapan</a>
+            <a class="text-link" href="#tempahan">Lihat borang pertanyaan</a>
           </div>
-          <p class="truth-note">Anjung Nyiur ialah konsep rekaan. Tiada alamat, hos atau tempahan sebenar.</p>
         </div>
         <figure class="hero-photo" data-reveal>
-          <img src="images/timber-house.webp" width="1000" height="1250" fetchpriority="high" decoding="async" alt="Rumah kayu tradisional sebagai rujukan visual untuk konsep Anjung Nyiur">
-          <span class="image-label">Rujukan visual · bukan foto hartanah</span>
-          <figcaption>Suasana rumah kayu sebagai arah visual untuk konsep ini.</figcaption>
+          <img src="images/timber-house.webp" width="1000" height="1250" fetchpriority="high" decoding="async" alt="Rumah kayu tradisional, foto rujukan untuk konsep Anjung Nyiur">
+          <span class="image-label">Foto rujukan · bukan foto hartanah</span>
+          <figcaption>Suasana rumah kayu sebagai rujukan visual.</figcaption>
         </figure>
       </div>
     </section>
 
-    <section class="story-section" id="cerita" aria-labelledby="story-title">
-      <div class="wrap story-grid">
-        <p class="eyebrow">Direka dengan tetamu dalam fikiran</p>
-        <h2 id="story-title">Soalan tetamu, dijawab dengan tenang.</h2>
-        <p class="story-copy">Rupa tempat, maklumat yang disediakan dan cara menghubungi hos patut mudah ditemui. Konsep ini menunjukkan bagaimana susunan yang ringkas boleh membantu tetamu membuat langkah seterusnya.</p>
+    <section class="welcome-section" id="penginapan" aria-labelledby="welcome-title">
+      <div class="wrap welcome-grid">
+        <div class="welcome-title" data-reveal>
+          <h2 id="welcome-title">Selamat datang ke Anjung Nyiur.</h2>
+        </div>
+        <div class="welcome-copy" data-reveal>
+          <p>Anjung Nyiur membayangkan sebuah banglo keluarga untuk penginapan satu kumpulan. Warisan tropika moden menjadi arah suasana: bahan semula jadi, ruang yang lapang dan sudut yang mengundang tetamu untuk berkumpul.</p>
+          <p>Semua butiran di halaman ini ialah kandungan contoh untuk demonstrasi reka bentuk, bukan spesifikasi hartanah sebenar.</p>
+        </div>
+      </div>
+      <div class="wrap stay-facts" aria-label="Butiran contoh penginapan">
+        <div><span>Jenis contoh</span><strong>Banglo · seluruh rumah</strong></div>
+        <div><span>Kapasiti contoh</span><strong>Sehingga 8 tetamu</strong></div>
+        <div><span>Bilik tidur contoh</span><strong>4 bilik</strong></div>
+        <div><span>Bilik air contoh</span><strong>2 bilik air</strong></div>
+        <div><span>Susunan katil contoh</span><strong>2 katil queen · 4 katil bujang</strong></div>
+        <div><span>Parkir contoh</span><strong>2 kenderaan</strong></div>
+      </div>
+    </section>
+
+    <section class="facilities-section" id="kemudahan" aria-labelledby="facilities-title">
+      <div class="wrap facilities-layout">
+        <div class="section-heading" data-reveal>
+          <h2 id="facilities-title">Kemudahan untuk rutin yang mudah.</h2>
+          <p>Contoh kemudahan untuk menunjukkan cara maklumat penginapan boleh dipaparkan.</p>
+        </div>
+        <div class="facility-groups" aria-label="Contoh kemudahan">
+          <section class="facility-group" aria-labelledby="comfort-title">
+            <h3 id="comfort-title">Keselesaan</h3>
+            <ul class="facility-list"><li>Penyaman udara</li><li>Wi-Fi</li><li>Pemanas air</li></ul>
+          </section>
+          <section class="facility-group" aria-labelledby="kitchen-title">
+            <h3 id="kitchen-title">Dapur &amp; makan</h3>
+            <ul class="facility-list"><li>Dapur untuk memasak</li><li>Peti sejuk</li><li>Ruang makan</li></ul>
+          </section>
+          <section class="facility-group" aria-labelledby="shared-title">
+            <h3 id="shared-title">Ruang &amp; kemudahan lain</h3>
+            <ul class="facility-list"><li>Televisyen</li><li>Mesin basuh</li><li>Ruang tamu</li><li>Parkir di premis</li></ul>
+          </section>
+        </div>
+        <p class="sample-note facilities-note">Senarai ini rekaan dan tidak mengesahkan kemudahan di mana-mana hartanah.</p>
       </div>
     </section>
 
     <section class="gallery-section" id="galeri" aria-labelledby="gallery-title">
       <div class="wrap">
-        <div class="section-heading" data-reveal>
-          <p class="eyebrow">Bahasa visual</p>
-          <h2 id="gallery-title">Suasana dahulu. Maklumat menyusul.</h2>
-          <p>Imej membentuk nada laman, sementara kapsyen menerangkan dengan jujur apa yang sedang dilihat.</p>
+        <div class="section-heading gallery-heading" data-reveal>
+          <h2 id="gallery-title">Ruang untuk berehat dan berkumpul.</h2>
+          <p>Foto rujukan bagi ruang dalaman dan sudut santai.</p>
         </div>
         <div class="gallery-grid">
-          <figure class="gallery-item gallery-house" data-reveal>
-            <img src="images/kuala-terengganu-bridge.webp" width="1400" height="787" loading="lazy" decoding="async" alt="Jambatan angkat Kuala Terengganu pada waktu senja, imej rujukan destinasi">
-            <figcaption><span>Destinasi</span> Kuala Terengganu · imej rujukan</figcaption>
+          <figure class="gallery-item gallery-living" data-reveal>
+            <img src="images/living-room.webp" width="1400" height="933" loading="lazy" decoding="async" alt="Ruang tamu terang dengan kerusi, meja dan tingkap, foto rujukan">
+            <figcaption><span>Ruang tamu</span>Contoh ruang untuk berkumpul</figcaption>
           </figure>
-          <figure class="gallery-item gallery-sea" data-reveal>
-            <img src="images/redang-aerial.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Pemandangan udara pantai Pulau Redang, imej rujukan destinasi">
-            <figcaption><span>Pesisir</span> Pulau Redang · imej rujukan</figcaption>
+          <figure class="gallery-item gallery-bedroom" data-reveal>
+            <img src="images/bedroom.webp" width="1400" height="933" loading="lazy" decoding="async" alt="Bilik tidur berpanel kayu dengan katil dan cahaya semula jadi, foto rujukan">
+            <figcaption><span>Bilik tidur</span>Contoh suasana bilik</figcaption>
           </figure>
-          <figure class="gallery-item gallery-turtle" data-reveal>
-            <img src="images/redang-turtles.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Penyu di perairan Pulau Redang, imej rujukan destinasi">
-            <figcaption><span>Alam</span> Pulau Redang · imej rujukan</figcaption>
+          <figure class="gallery-item gallery-kitchen" data-reveal>
+            <img src="images/kitchen.webp" width="1400" height="933" loading="lazy" decoding="async" alt="Dapur dengan kabinet kayu, sinki dan peralatan memasak, foto rujukan">
+            <figcaption><span>Dapur</span>Contoh ruang memasak</figcaption>
+          </figure>
+          <figure class="gallery-item gallery-dining" data-reveal>
+            <img src="images/dining.webp" width="1400" height="933" loading="lazy" decoding="async" alt="Ruang makan bersebelahan dapur, foto rujukan">
+            <figcaption><span>Ruang makan</span>Contoh ruang berkongsi hidangan</figcaption>
+          </figure>
+          <figure class="gallery-item gallery-bathroom" data-reveal>
+            <img src="images/bathroom.webp" width="1400" height="933" loading="lazy" decoding="async" alt="Bilik air dengan singki dan cermin, foto rujukan">
+            <figcaption><span>Bilik air</span>Contoh kemasan ruang</figcaption>
+          </figure>
+          <figure class="gallery-item gallery-outdoor" data-reveal>
+            <img src="images/outdoor-deck.webp" width="1200" height="850" loading="lazy" decoding="async" alt="Dek kayu luar dengan meja dan kerusi di bawah payung, foto rujukan">
+            <figcaption><span>Ruang luar</span>Contoh sudut bersantai</figcaption>
           </figure>
         </div>
-        <p class="image-disclosure">Semua imej ialah rujukan dari lokasi lain. Ia bukan foto penginapan atau bukti bahawa Anjung Nyiur berada di lokasi tersebut.</p>
+        <p class="image-disclosure">Semua foto galeri ialah rujukan Unsplash daripada lokasi berbeza. Foto tersebut tidak menggambarkan Anjung Nyiur atau mengesahkan ciri hartanah ini.</p>
       </div>
     </section>
 
-    <section class="principles-section" id="reka-bentuk" aria-labelledby="design-title">
-      <div class="wrap principles-grid">
+    <section class="rates-section" aria-labelledby="rates-title">
+      <div class="wrap rates-layout">
         <div class="section-heading" data-reveal>
-          <p class="eyebrow">Prinsip reka bentuk</p>
-          <h2 id="design-title">Setiap bahagian ada tugasnya.</h2>
-          <p>Aliran yang ringkas membantu tetamu bergerak daripada melihat kepada bertanya.</p>
+          <h2 id="rates-title">Kadar contoh penginapan.</h2>
+          <p>Contoh struktur harga untuk menunjukkan cara kadar boleh dipaparkan dengan jelas.</p>
         </div>
-        <ol class="principle-list">
-          <li data-reveal><span aria-hidden="true">01</span><div><h3>Mulakan dengan suasana</h3><p>Foto dan kapsyen memberi gambaran awal tanpa mengaburkan sumber imej.</p></div></li>
-          <li data-reveal><span aria-hidden="true">02</span><div><h3>Jadikan maklumat mudah dicari</h3><p>Susun kandungan dalam bahasa ringkas yang selesa dibaca pada skrin kecil.</p></div></li>
-          <li data-reveal><span aria-hidden="true">03</span><div><h3>Jelaskan langkah seterusnya</h3><p>Saluran pertanyaan sebenar pemilik boleh diletakkan dengan jelas pada laman mereka.</p></div></li>
-        </ol>
+        <div class="rate-list" aria-label="Kadar contoh demonstrasi">
+          <div><span>Hari biasa</span><strong>RM350 <small>/ malam</small></strong></div>
+          <div><span>Hujung minggu</span><strong>RM450 <small>/ malam</small></strong></div>
+          <div><span>Cuti umum</span><strong>RM550 <small>/ malam</small></strong></div>
+          <div><span>Tilam tambahan</span><strong>RM30 <small>/ malam</small></strong></div>
+        </div>
+        <p class="sample-note">Semua harga ialah angka rekaan untuk demonstrasi; ia bukan tawaran atau kadar sebenar.</p>
       </div>
     </section>
 
-    <section class="video-section" id="video" aria-labelledby="video-title">
-      <div class="wrap video-grid">
-        <div class="video-copy" data-reveal>
-          <p class="eyebrow">Tonton konsep</p>
-          <h2 id="video-title">Lihat idea ini bergerak.</h2>
-          <p>Video pendek ini mempersembahkan arah visual Anjung Nyiur menggunakan imej rujukan, bukan rakaman hartanah sebenar.</p>
-          <a class="text-link" href="promo-vertical.webm" download>Muat turun video menegak <span aria-hidden="true">↓</span></a>
+    <section class="location-section" id="lokasi" aria-labelledby="location-title">
+      <div class="wrap location-grid">
+        <div class="section-heading" data-reveal>
+          <h2 id="location-title">Lokasi yang akan ditentukan oleh pemilik.</h2>
+          <p>Kawasan contoh belum ditetapkan. Laman sebenar perlu menyatakan kawasan, titik rujukan dan pautan peta selepas pemilik mengesahkan lokasi.</p>
         </div>
-        <figure class="promo-video-frame" data-reveal>
-          <video controls playsinline preload="metadata" width="1280" height="720" poster="images/timber-house.webp" aria-label="Video promosi konsep laman web Anjung Nyiur, 20 saat">
-            <source src="promo-wide.webm" type="video/webm; codecs=vp9,opus">
-            Pelayar anda tidak menyokong video. <a href="promo-wide.webm">Muat turun video konsep.</a>
-          </video>
-          <figcaption>Video konsep · 20 saat · imej rujukan</figcaption>
-        </figure>
+        <div class="location-placeholder" data-reveal>
+          <span class="location-mark" aria-hidden="true"></span>
+          <p>Kawasan contoh belum ditetapkan</p>
+          <small>Peta ditambah selepas alamat sebenar disahkan.</small>
+        </div>
+        <div class="nearby-list" data-reveal>
+          <h3>Butiran untuk tetamu</h3>
+          <p>Selepas lokasi disahkan, pemilik boleh tambah kedai makan, pasar raya, tempat ibadah dan tarikan berdekatan berserta jarak yang tepat.</p>
+          <span class="sample-note">Tiada tempat atau jarak direka untuk demonstrasi ini.</span>
+        </div>
       </div>
     </section>
 
-    <section class="contact-cta" aria-labelledby="cta-title">
-      <div class="wrap contact-grid" data-reveal>
-        <div><p class="eyebrow">Untuk pemilik penginapan</p><h2 id="cta-title">Biar laman anda mudahkan tetamu memilih.</h2></div>
-        <div><p>Kongsikan jenis penginapan dan tujuan laman anda. Kita boleh mulakan dengan perbualan ringkas.</p><a class="btn btn-light" href="../../index.html#contact">Minta sebut harga <span aria-hidden="true">↗</span></a></div>
+    <section class="faq-section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap faq-grid">
+        <div class="section-heading" data-reveal>
+          <h2 id="faq-title">Soalan sebelum merancang penginapan.</h2>
+          <p>Semua jawapan di bawah ialah contoh; polisi sebenar perlu disahkan oleh pemilik hartanah.</p>
+        </div>
+        <div class="faq-list">
+          <details><summary>Daftar masuk &amp; tempahan</summary>
+            <div class="faq-answers">
+              <div><h3>Apakah waktu daftar masuk dan daftar keluar?</h3><p>Daftar masuk selepas 3.00 petang dan daftar keluar sebelum 12.00 tengah hari.</p></div>
+              <div><h3>Adakah deposit diperlukan?</h3><p>Contoh deposit tempahan ialah 30% daripada jumlah penginapan.</p></div>
+              <div><h3>Bagaimana jika saya perlu membatalkan tempahan?</h3><p>Pembatalan lebih awal daripada 7 hari mungkin layak untuk bayaran balik deposit.</p></div>
+            </div>
+          </details>
+          <details><summary>Kapasiti &amp; kemudahan</summary>
+            <div class="faq-answers">
+              <div><h3>Berapakah jumlah tetamu yang boleh menginap?</h3><p>Kapasiti contoh ialah sehingga 8 tetamu.</p></div>
+              <div><h3>Bolehkah tetamu memasak?</h3><p>Contoh polisi membenarkan penggunaan dapur; tetamu diminta membersihkan ruang selepas digunakan.</p></div>
+              <div><h3>Adakah parkir disediakan?</h3><p>Contoh kapasiti parkir ialah 2 kenderaan.</p></div>
+            </div>
+          </details>
+          <details><summary>Peraturan rumah</summary>
+            <div class="faq-answers">
+              <div><h3>Apakah peraturan rumah?</h3><p>Peraturan contoh merangkumi waktu senyap, larangan merokok di dalam rumah dan had tetamu.</p></div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="booking-section" id="tempahan" aria-labelledby="booking-title">
+      <div class="wrap booking-grid">
+        <div class="booking-copy" data-reveal>
+          <h2 id="booking-title">Semak keperluan penginapan anda.</h2>
+          <p>Isikan butiran contoh untuk melihat draf pertanyaan homestay.</p>
+        </div>
+        <div class="booking-form" data-reveal>
+          <div class="booking-fields">
+            <div class="field field-wide">
+              <label for="guest-name">Nama tetamu</label>
+              <input id="guest-name" name="name" autocomplete="name" maxlength="80" required>
+            </div>
+            <div class="field">
+              <label for="check-in">Tarikh daftar masuk</label>
+              <input id="check-in" name="check-in" type="date" required>
+            </div>
+            <div class="field">
+              <label for="check-out">Tarikh daftar keluar</label>
+              <input id="check-out" name="check-out" type="date" required>
+            </div>
+            <div class="field">
+              <label for="guest-count">Bilangan tetamu</label>
+              <input id="guest-count" name="guests" type="number" min="1" max="8" value="2" required>
+              <small>Nilai contoh, maksimum 8 tetamu.</small>
+            </div>
+            <div class="field field-wide">
+              <label for="guest-question">Soalan tambahan <span>(pilihan)</span></label>
+              <textarea id="guest-question" name="question" rows="3" maxlength="300" placeholder="Contoh: Adakah dapur boleh digunakan?"></textarea>
+            </div>
+          </div>
+          <p class="form-error" id="booking-error" role="alert" hidden></p>
+          <p class="booking-disclosure">Pratonton sahaja. Ia tidak membuka WhatsApp, menghantar mesej atau menyimpan maklumat.</p>
+          <button class="btn btn-light preview-button" id="preview-booking" type="button" aria-controls="message-preview" disabled>Pratonton mesej WhatsApp</button>
+          <noscript><p class="form-error">Aktifkan JavaScript untuk melihat pratonton mesej. Tiada tempahan atau mesej akan dihantar.</p></noscript>
+          <div class="message-preview" id="message-preview" aria-live="polite" hidden>
+            <h3>Pratonton mesej</h3>
+            <p>Mesej contoh ini tidak dihantar.</p>
+            <pre id="message-text"></pre>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="wrap footer-top">
-      <div><a class="brand" href="#top">Anjung <em>Nyiur</em></a><p>Konsep laman penginapan rekaan oleh haziqbuilds.</p></div>
-      <a href="../../index.html#contact">Bina laman untuk penginapan anda <span aria-hidden="true">↗</span></a>
+      <div><a class="brand" href="#utama">Anjung <em>Nyiur</em></a><p>Contoh laman penginapan keluarga.</p></div>
+      <a href="../../index.html#contact">Bina laman untuk penginapan anda</a>
     </div>
     <div class="wrap credits">
-      <p class="credits-label">Kredit imej · Unsplash</p>
-      <ul>
-        <li><a href="https://unsplash.com/photos/BNlHp0VbpTQ" rel="noopener">Rumah kayu, Melaka</a> — Ainur Iman</li>
-        <li><a href="https://unsplash.com/photos/VDGY-hTW9yA" rel="noopener">Jambatan angkat Kuala Terengganu</a> — Zhen zz</li>
-        <li><a href="https://unsplash.com/photos/dFBK4wQU7d0" rel="noopener">Pantai Pulau Redang</a> — Nazarizal Mohammad</li>
-        <li><a href="https://unsplash.com/photos/fhYWii3Yk4s" rel="noopener">Penyu, Pulau Redang</a> — Nazarizal Mohammad</li>
-      </ul>
-      <p class="footer-note">Anjung Nyiur ialah konsep fiksyen. Tiada alamat, hos atau tempahan sebenar.</p>
+      <div>
+        <p class="credits-label">Kredit foto rujukan</p>
+        <ul>
+          <li><a href="https://unsplash.com/@mynameisiknow" rel="noopener">Rumah kayu · profil Ainur Iman</a></li>
+          <li><a href="https://unsplash.com/photos/interior-of-a-living-room-XyGvEj587Mc" rel="noopener">Ruang tamu</a> — Francesca Tosolini</li>
+          <li><a href="https://unsplash.com/photos/bright-bedroom-with-wooden-walls-a-bed-sofa-and-windows-DsBUrDxMRak" rel="noopener">Bilik tidur</a> — Clay Banks</li>
+          <li><a href="https://unsplash.com/photos/modern-kitchen-with-wooden-cabinets-and-stainless-steel-appliances-htmZWzApbJE/" rel="noopener">Dapur</a> — Clay Banks</li>
+          <li><a href="https://unsplash.com/photos/a-dining-room-and-kitchen-area-of-a-modern-home-mPPL5rAOZsQ" rel="noopener">Ruang makan</a> — Alex Tyson</li>
+          <li><a href="https://unsplash.com/photos/a-bathroom-with-a-sink-and-a-mirror-ZJghebNZhDk" rel="noopener">Bilik air</a> — Clay Banks</li>
+          <li><a href="https://unsplash.com/photos/a-wooden-deck-with-a-table-and-chairs-under-an-umbrella-rprqxtRWMvw" rel="noopener">Dek luar</a> — Annie Hatuanh</li>
+        </ul>
+      </div>
+      <p class="footer-note">Demo rekaan oleh haziqbuilds. Anjung Nyiur bukan hartanah sebenar. Maklumat, kemudahan, harga dan foto ialah contoh demonstrasi; tiada tempahan sebenar diterima.</p>
     </div>
   </footer>
+  <script src="booking-preview.js" defer></script>
 </body>
 </html>
