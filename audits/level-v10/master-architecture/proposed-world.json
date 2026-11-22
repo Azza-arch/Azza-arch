@@ -1,0 +1,1056 @@
+{
+  "status": "PROPOSED BLUEPRINT ONLY \u2014 not engine validated",
+  "world": {
+    "width": 8400,
+    "height": 1600,
+    "tilePitch": 54,
+    "terrainBottom": 1566,
+    "cameraMinY": 300,
+    "respawnPlayerCenterY": 1510
+  },
+  "surfaces": [
+    {
+      "id": "A0",
+      "x": 0,
+      "y": 1296,
+      "width": 648,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A1",
+      "x": 756,
+      "y": 1296,
+      "width": 270,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A2",
+      "x": 1026,
+      "y": 1242,
+      "width": 108,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A3",
+      "x": 1134,
+      "y": 1188,
+      "width": 108,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A4",
+      "x": 1242,
+      "y": 1134,
+      "width": 162,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A-ledge",
+      "x": 414,
+      "y": 1176,
+      "width": 162,
+      "kind": "optional",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "B0",
+      "x": 1404,
+      "y": 1134,
+      "width": 270,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B1",
+      "x": 1674,
+      "y": 1080,
+      "width": 108,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B2",
+      "x": 1782,
+      "y": 1080,
+      "width": 270,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "G1",
+      "x": 2052,
+      "y": 1080,
+      "width": 324,
+      "kind": "gate",
+      "zone": "B",
+      "gate": "gear"
+    },
+    {
+      "id": "B3",
+      "x": 2376,
+      "y": 1080,
+      "width": 216,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B4",
+      "x": 2592,
+      "y": 1026,
+      "width": 108,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B5",
+      "x": 2700,
+      "y": 972,
+      "width": 216,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "C0",
+      "x": 1512,
+      "y": 810,
+      "width": 432,
+      "kind": "optional",
+      "zone": "C",
+      "gate": null
+    },
+    {
+      "id": "D0",
+      "x": 2916,
+      "y": 972,
+      "width": 432,
+      "kind": "solid",
+      "zone": "D",
+      "gate": null
+    },
+    {
+      "id": "G2",
+      "x": 3348,
+      "y": 972,
+      "width": 324,
+      "kind": "gate",
+      "zone": "D",
+      "gate": "block"
+    },
+    {
+      "id": "D1",
+      "x": 3672,
+      "y": 972,
+      "width": 432,
+      "kind": "solid",
+      "zone": "D",
+      "gate": null
+    },
+    {
+      "id": "D-upper",
+      "x": 3780,
+      "y": 756,
+      "width": 270,
+      "kind": "optional",
+      "zone": "D",
+      "gate": null
+    },
+    {
+      "id": "E0",
+      "x": 4104,
+      "y": 972,
+      "width": 216,
+      "kind": "solid",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E1",
+      "x": 4104,
+      "y": 756,
+      "width": 324,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E-recovery",
+      "x": 4320,
+      "y": 1080,
+      "width": 594,
+      "kind": "solid",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E2",
+      "x": 4536,
+      "y": 810,
+      "width": 270,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E3",
+      "x": 4590,
+      "y": 648,
+      "width": 324,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "G3",
+      "x": 4914,
+      "y": 648,
+      "width": 324,
+      "kind": "gate",
+      "zone": "E",
+      "gate": "pipe"
+    },
+    {
+      "id": "E4",
+      "x": 5238,
+      "y": 648,
+      "width": 432,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "F0",
+      "x": 5724,
+      "y": 702,
+      "width": 216,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F1",
+      "x": 5940,
+      "y": 756,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F2",
+      "x": 6048,
+      "y": 810,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F3",
+      "x": 6156,
+      "y": 864,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F4",
+      "x": 6264,
+      "y": 918,
+      "width": 216,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F-roof",
+      "x": 6480,
+      "y": 918,
+      "width": 270,
+      "kind": "oneway",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F-cave",
+      "x": 6480,
+      "y": 1242,
+      "width": 270,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F5",
+      "x": 6750,
+      "y": 972,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F6",
+      "x": 6858,
+      "y": 1026,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F7",
+      "x": 6966,
+      "y": 1080,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F8",
+      "x": 7074,
+      "y": 1134,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F9",
+      "x": 7182,
+      "y": 1188,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "G0",
+      "x": 7290,
+      "y": 1242,
+      "width": 216,
+      "kind": "solid",
+      "zone": "G",
+      "gate": null
+    },
+    {
+      "id": "G-bank",
+      "x": 7506,
+      "y": 1296,
+      "width": 216,
+      "kind": "solid",
+      "zone": "G",
+      "gate": null
+    },
+    {
+      "id": "G4",
+      "x": 7722,
+      "y": 1296,
+      "width": 378,
+      "kind": "gate",
+      "zone": "G",
+      "gate": "final"
+    },
+    {
+      "id": "G-exit",
+      "x": 8100,
+      "y": 1296,
+      "width": 300,
+      "kind": "solid",
+      "zone": "G",
+      "gate": null
+    }
+  ],
+  "ladders": [
+    {
+      "id": "LC-in",
+      "x": 1566,
+      "top": 810,
+      "bottom": 1134,
+      "upper": "C0",
+      "lower": "B0",
+      "optional": true
+    },
+    {
+      "id": "LC-out",
+      "x": 1836,
+      "top": 810,
+      "bottom": 1080,
+      "upper": "C0",
+      "lower": "B2",
+      "optional": true
+    },
+    {
+      "id": "LD-note",
+      "x": 3834,
+      "top": 756,
+      "bottom": 972,
+      "upper": "D-upper",
+      "lower": "D1",
+      "optional": true
+    },
+    {
+      "id": "LE-main",
+      "x": 4212,
+      "top": 756,
+      "bottom": 972,
+      "upper": "E1",
+      "lower": "E0",
+      "optional": false
+    },
+    {
+      "id": "LE-recover",
+      "x": 4374,
+      "top": 756,
+      "bottom": 1080,
+      "upper": "E1",
+      "lower": "E-recovery",
+      "optional": false
+    },
+    {
+      "id": "LE-pipe",
+      "x": 4698,
+      "top": 648,
+      "bottom": 810,
+      "upper": "E3",
+      "lower": "E2",
+      "optional": false
+    },
+    {
+      "id": "LF-cave",
+      "x": 6588,
+      "top": 918,
+      "bottom": 1242,
+      "upper": "F-roof",
+      "lower": "F-cave",
+      "optional": true
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "cp-a",
+      "x": 1080,
+      "feet": 1242,
+      "optional": false
+    },
+    {
+      "id": "cp-b",
+      "x": 1900,
+      "feet": 1080,
+      "optional": false
+    },
+    {
+      "id": "cp-c",
+      "x": 1620,
+      "feet": 810,
+      "optional": true
+    },
+    {
+      "id": "cp-d",
+      "x": 3024,
+      "feet": 972,
+      "optional": false
+    },
+    {
+      "id": "cp-e",
+      "x": 4752,
+      "feet": 648,
+      "optional": false
+    },
+    {
+      "id": "cp-f",
+      "x": 5832,
+      "feet": 702,
+      "optional": false
+    },
+    {
+      "id": "cp-g",
+      "x": 7560,
+      "feet": 1296,
+      "optional": false
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "crate",
+      "x": 270,
+      "feet": 1296,
+      "kind": "crate",
+      "label": "Push / plate / ledge"
+    },
+    {
+      "id": "probe",
+      "x": 1480,
+      "feet": 1134,
+      "kind": "probe",
+      "label": "D / codomain / range"
+    },
+    {
+      "id": "gear",
+      "x": 1960,
+      "feet": 1080,
+      "kind": "gear",
+      "label": "P1: f(3) = 7"
+    },
+    {
+      "id": "cafe",
+      "x": 1740,
+      "feet": 810,
+      "kind": "optional",
+      "label": "Optional mapping tray"
+    },
+    {
+      "id": "block",
+      "x": 3186,
+      "feet": 972,
+      "kind": "block",
+      "label": "P2: 3x - 2 = 10"
+    },
+    {
+      "id": "primer",
+      "x": 3942,
+      "feet": 972,
+      "kind": "pipe",
+      "label": "2 > 5 > 13"
+    },
+    {
+      "id": "pipe",
+      "x": 4806,
+      "feet": 648,
+      "kind": "pipe",
+      "label": "g(f(3)) = 19"
+    },
+    {
+      "id": "inverse",
+      "x": 6650,
+      "feet": 1242,
+      "kind": "optional",
+      "label": "Optional inverse"
+    },
+    {
+      "id": "final",
+      "x": 7632,
+      "feet": 1296,
+      "kind": "final",
+      "label": "P3 + familiar pipe order"
+    },
+    {
+      "id": "exit",
+      "x": 8316,
+      "feet": 1296,
+      "kind": "exit",
+      "label": "Home / reflection"
+    }
+  ],
+  "routes": [
+    {
+      "source": "A0",
+      "target": "A1",
+      "kind": "jump",
+      "gap": 108,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "A1",
+      "target": "A2",
+      "kind": "jump",
+      "gap": 0,
+      "rise": 54,
+      "ladder": null
+    },
+    {
+      "source": "A2",
+      "target": "A3",
+      "kind": "jump",
+      "gap": 0,
+      "rise": 54,
+      "ladder": null
+    },
+    {
+      "source": "A3",
+      "target": "A4",
+      "kind": "jump",
+      "gap": 0,
+      "rise": 54,
+      "ladder": null
+    },
+    {
+      "source": "A4",
+      "target": "B0",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "B0",
+      "target": "B1",
+      "kind": "jump",
+      "gap": 0,
+      "rise": 54,
+      "ladder": null
+    },
+    {
+      "source": "B1",
+      "target": "B2",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "B2",
+      "target": "G1",
+      "kind": "gate",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "G1",
+      "target": "B3",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "B3",
+      "target": "B4",
+      "kind": "jump",
+      "gap": 0,
+      "rise": 54,
+      "ladder": null
+    },
+    {
+      "source": "B4",
+      "target": "B5",
+      "kind": "jump",
+      "gap": 0,
+      "rise": 54,
+      "ladder": null
+    },
+    {
+      "source": "B5",
+      "target": "D0",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "D0",
+      "target": "G2",
+      "kind": "gate",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "G2",
+      "target": "D1",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "D1",
+      "target": "E0",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "E0",
+      "target": "E1",
+      "kind": "ladder",
+      "gap": -216,
+      "rise": 216,
+      "ladder": "LE-main"
+    },
+    {
+      "source": "E1",
+      "target": "E2",
+      "kind": "jump",
+      "gap": 108,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "E2",
+      "target": "E3",
+      "kind": "ladder",
+      "gap": -216,
+      "rise": 162,
+      "ladder": "LE-pipe"
+    },
+    {
+      "source": "E3",
+      "target": "G3",
+      "kind": "gate",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "G3",
+      "target": "E4",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "E4",
+      "target": "F0",
+      "kind": "jump",
+      "gap": 54,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F0",
+      "target": "F1",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F1",
+      "target": "F2",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F2",
+      "target": "F3",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F3",
+      "target": "F4",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F4",
+      "target": "F-roof",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "F-roof",
+      "target": "F5",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F5",
+      "target": "F6",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F6",
+      "target": "F7",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F7",
+      "target": "F8",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F8",
+      "target": "F9",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "F9",
+      "target": "G0",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "G0",
+      "target": "G-bank",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": -54,
+      "ladder": null
+    },
+    {
+      "source": "G-bank",
+      "target": "G4",
+      "kind": "gate",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    },
+    {
+      "source": "G4",
+      "target": "G-exit",
+      "kind": "walk/drop",
+      "gap": 0,
+      "rise": 0,
+      "ladder": null
+    }
+  ],
+  "physics": {
+    "gravity": 1400.0,
+    "speed": 280.0,
+    "acceleration": 2100.0,
+    "braking": 2500.0,
+    "jump": 520.0,
+    "bodyWidth": 28.0,
+    "bodyHeight": 60.0,
+    "climb": 150.0,
+    "maxRise": 96.57142857142857,
+    "flatFlight": 0.7428571428571429,
+    "flatRange": 208.0,
+    "runup": 18.666666666666668,
+    "stopDistance": 15.68,
+    "gateFlatUpperBound": 266.8,
+    "cafeToFarBankReachUpperBound": 365.422802270623
+  },
+  "beats": [
+    [
+      1,
+      "A",
+      160,
+      1296,
+      "Welcome / safe movement",
+      25,
+      40,
+      false
+    ],
+    [
+      2,
+      "A",
+      450,
+      1296,
+      "Crate / optional reward",
+      45,
+      75,
+      true
+    ],
+    [
+      3,
+      "A",
+      1080,
+      1242,
+      "Gap / stepped ascent",
+      25,
+      40,
+      false
+    ],
+    [
+      4,
+      "B",
+      1480,
+      1134,
+      "Input-output probe",
+      30,
+      50,
+      false
+    ],
+    [
+      5,
+      "B",
+      1960,
+      1080,
+      "Function gear",
+      45,
+      75,
+      false
+    ],
+    [
+      6,
+      "C",
+      1740,
+      810,
+      "Cafe mapping / rest",
+      40,
+      70,
+      true
+    ],
+    [
+      7,
+      "B",
+      2700,
+      972,
+      "Mill release / workshop reveal",
+      15,
+      25,
+      false
+    ],
+    [
+      8,
+      "D",
+      3186,
+      972,
+      "Number-block insertion",
+      60,
+      90,
+      false
+    ],
+    [
+      9,
+      "D",
+      3930,
+      756,
+      "Upper note branch",
+      30,
+      50,
+      true
+    ],
+    [
+      10,
+      "D",
+      3942,
+      972,
+      "Composition rehearsal",
+      35,
+      55,
+      false
+    ],
+    [
+      11,
+      "E",
+      4536,
+      810,
+      "Roof rhythm / recovery",
+      20,
+      40,
+      false
+    ],
+    [
+      12,
+      "E",
+      4806,
+      648,
+      "Pipe order twist",
+      60,
+      90,
+      false
+    ],
+    [
+      13,
+      "F",
+      5832,
+      702,
+      "Hill overlook / checkpoint",
+      20,
+      30,
+      false
+    ],
+    [
+      14,
+      "F",
+      6650,
+      1242,
+      "Cave inverse challenge",
+      60,
+      90,
+      true
+    ],
+    [
+      15,
+      "F",
+      7074,
+      1134,
+      "Descent / river foreshadow",
+      15,
+      25,
+      false
+    ],
+    [
+      16,
+      "G",
+      7580,
+      1296,
+      "Final input: h(x) = 17",
+      45,
+      75,
+      false
+    ],
+    [
+      17,
+      "G",
+      7690,
+      1296,
+      "Bridge / familiar synthesis",
+      40,
+      60,
+      false
+    ],
+    [
+      18,
+      "G",
+      8316,
+      1296,
+      "Arrival / explain a mapping",
+      20,
+      30,
+      false
+    ]
+  ],
+  "crate": {
+    "x": 270,
+    "feet": 1296,
+    "size": 48,
+    "plateX": 450,
+    "plateRadius": 40,
+    "ledge": "A-ledge",
+    "reward": [
+      500,
+      1112
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "viewport": "desktop",
+      "pass": true,
+      "sessionSeconds": 13.82
+    },
+    {
+      "viewport": "laptop",
+      "pass": true,
+      "sessionSeconds": 9.36
+    },
+    {
+      "viewport": "portrait",
+      "pass": true,
+      "sessionSeconds": 8.43
+    },
+    {
+      "viewport": "landscape",
+      "pass": true,
+      "sessionSeconds": 7.23
+    }
+  ],
+  "errors": []
+}

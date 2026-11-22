@@ -1,0 +1,14 @@
+{
+  "desktop": {
+    "passed": true,
+    "errors": []
+  },
+  "portrait": {
+    "passed": true,
+    "errors": []
+  },
+  "gf-retry-and-pause": {
+    "passed": true,
+    "errors": []
+  }
+}

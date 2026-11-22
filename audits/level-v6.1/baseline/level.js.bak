@@ -1,0 +1,173 @@
+// All geometry is in world pixels. Art never determines collision outlines.
+// Physics constants are unchanged from the prior validated prototype (rule:
+// preserve working movement unless a specific bug is verified).
+export const WORLD = { width: 7400, height: 1152, gravity: 1400 };
+export const MOTION = { speed: 280, acceleration: 2100, braking: 2500, jump: 520,
+  climb: 150, coyote: 110, buffer: 130, bodyWidth: 28, bodyHeight: 60 };
+export const SPAWN = { x: 156, feet: 1000 };
+export const GOAL = { x: 7330, feet: 824 };
+
+// Seven zones (A-G), matching the player's own Level 1 planning map
+// ("Lorong Atas Bumbung — Pekan Tanjung, Terengganu"). Geometry below is the
+// source of truth; zone ranges here are descriptive labels only, carved out
+// of the same tested geometry rather than moved.
+export const ZONES = [
+  { id:'taman-perumahan', name:'A · Taman Perumahan', xStart:0, xEnd:1100 },
+  { id:'lorong-pekan', name:'B · Lorong Pekan', xStart:1100, xEnd:2200 },
+  { id:'cafe-atas-angin', name:'C · Café Atas Angin', xStart:2200, xEnd:3100 },
+  { id:'bengkel-fungsi', name:'D · Bengkel Fungsi', xStart:3100, xEnd:4300 },
+  { id:'deretan-bumbung', name:'E · Deretan Bumbung', xStart:4300, xEnd:6150 },
+  { id:'bukit-tanjung-gua', name:'F · Bukit Tanjung & Gua', xStart:6150, xEnd:6800 },
+  { id:'jambatan-destinasi', name:'G · Jambatan Sungai', xStart:6800, xEnd:7400 },
+];
+
+// Continuous safe ground (y=1000) everywhere EXCEPT at FIRST_GAP (a plain,
+// un-gated jump — see below) and where a GATE further on cuts a gap. This
+// is what gives zones B and E a genuine lower recovery route: falling off
+// an upper deck always lands back on real ground, never a void, except
+// specifically inside an unsolved gate's gap or this first jump.
+export const FIRST_GAP = { x: 420, width: 120 };  // Zone A's one meaningful, forgiving jump
+export const GROUND_RANGES = [
+  [0, FIRST_GAP.x],
+  [FIRST_GAP.x + FIRST_GAP.width, 3850],   // rest of residential -> small town -> café -> workshop approach
+  [4300, 5650],   // post-workshop street -> rooftop zone lower route
+  [6150, 7400],   // hill approach (the hill's own rise continues from here)
+];
+
+// Elevated decks: upper-route platforms and landmark roofs. Every deck here
+// reconnects to the continuous ground via at least one ladder in LADDERS.
+export const DECKS = [
+  { id:'town-upper-1', x:1300, y:824, width:200 },      // Zone B upper route
+  { id:'town-upper-2', x:1628, y:824, width:220 },      // Zone B upper route (128px jump from town-upper-1)
+  { id:'cafe-roof', x:2700, y:824, width:180 },         // Zone C optional roof
+  { id:'roof-e1', x:4750, y:824, width:250 },           // Zone E upper route
+  { id:'roof-e2', x:5128, y:824, width:250 },           // Zone E upper route (128px jump from roof-e1), ladder back down
+  { id:'hill-plateau', x:6700, y:824, width:700 },      // Zone F/G gentle rise to the finish
+  // "...gua" (cave) from the planning map: a genuinely optional side ledge,
+  // not on the main gold route — reached and left by the same ladder, never
+  // blocking progress if skipped.
+  { id:'gua-alcove', x:6400, y:824, width:150 },
+];
+export const LADDERS = [
+  { x:1350, top:824, bottom:1000 },  // Zone B up (lands on town-upper-1 1300-1500)
+  { x:1800, top:824, bottom:1000 },  // Zone B back down (lands on town-upper-2 1628-1848, reconnects before café)
+  { x:2720, top:824, bottom:1000 },  // Zone C optional café roof (lands on cafe-roof 2700-2880)
+  { x:4800, top:824, bottom:1000 },  // Zone E up (lands on roof-e1 4750-5000)
+  { x:5350, top:824, bottom:1000 },  // Zone E back down (lands on roof-e2 5128-5378, reconnects before the rooftop gate).
+  // Previously this climbed a third tier (roof-e3) only to immediately
+  // need a second ladder back down a few steps later — a textbook
+  // "climb and instantly descend" with no gameplay purpose. One up, one
+  // down, one meaningful 128px jump between them.
+  { x:6720, top:824, bottom:1000 },  // Zone F gentle rise (lands on hill-plateau 6700-7400)
+  { x:6460, top:824, bottom:1000 },  // Zone F optional cave ledge (lands on gua-alcove 6400-6550)
+];
+
+// Mandatory crossings. Each is absent (a real gap in the ground) until its
+// matching puzzle is solved, at which point it gets a walkable bridge, same
+// mechanic that was already validated for the single bridge in the prior
+// prototype, generalized to three. Widths all safely exceed the maximum
+// single-jump range (~208px) plus body width, so none can be jumped.
+export const GATES = [
+  { id:'workshop-gate', x:3850, y:1000, width:450 },
+  { id:'rooftop-gate', x:5650, y:1000, width:500 },
+  { id:'final-gate', x:6900, y:824, width:350 },
+];
+
+export const TERMINALS = [
+  { id:'p1', gate:'workshop-gate', x:3750, feet:1000 },
+  { id:'p2', gate:'rooftop-gate', x:5570, feet:1000 },
+  { id:'p3', gate:'final-gate', x:6820, feet:824 },
+];
+
+// Positioned to match the planning map exactly: CP1 at the café (C), CP2
+// after the main platforming in Deretan Bumbung (E) — not right after the
+// workshop gate, which was the earlier layout's mismatch — and CP3 partway
+// through Bukit Tanjung & Gua (F), before the final river bridge (G).
+export const CHECKPOINTS = [
+  { id:'cp1-cafe', x:2750, feet:1000 },
+  { id:'cp2-bumbung', x:6200, feet:1000 },
+  { id:'cp3-bukit', x:6780, feet:824 },
+];
+
+export const COLLECTIBLES = [
+  { id:'coin-a', x:565, y:940, area:'taman-perumahan' },  // just past FIRST_GAP, in plain view of the jump
+  { id:'coin-b1', x:1380, y:770, area:'lorong-pekan' },
+  { id:'coin-b2', x:1720, y:770, area:'lorong-pekan' },
+  { id:'coin-c', x:2760, y:770, area:'cafe-atas-angin' },
+  { id:'coin-e1', x:4820, y:770, area:'deretan-bumbung' },
+  { id:'coin-e2', x:5330, y:770, area:'deretan-bumbung' },
+  // Cave reward — only found by taking the optional detour.
+  { id:'coin-gua1', x:6420, y:770, area:'bukit-tanjung-gua' },
+  { id:'coin-gua2', x:6490, y:770, area:'bukit-tanjung-gua' },
+  { id:'coin-g', x:7050, y:770, area:'jambatan-destinasi' },
+];
+
+function parseNum(raw) {
+  const text = String(raw).trim();
+  if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(text)) return null;
+  const n = Number(text);
+  return Number.isFinite(n) ? n : null;
+}
+
+// Three required encounters (Phase 5). Puzzle 1 asks for an output given x;
+// puzzles 2 and 3 ask for an input given an output — the UI reads `given`/
+// `prompt`/`inputLabel` to present each correctly without hardcoding text.
+export const PUZZLES = [
+  {
+    id: 'p1', gate: 'workshop-gate',
+    formula: 'f(x) = 2x + 1',
+    given: 'Diberi x = 3.',
+    prompt: 'Cari f(3).',
+    inputLabel: 'Jawapan f(3)',
+    placeholder: 'Contoh: 7',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 7, wrongMessage: n2 => `Anda masukkan ${n2}. f(3) = 2(3) + 1 = 7.` };
+    },
+    solvedMessage: 'f(3) = 2(3) + 1 = 7',
+    hints: [
+      'f(x) = 2x + 1 bermaksud gandakan x, kemudian tambah 1.',
+      'Gantikan x = 3 ke dalam formula: 2(3) + 1.',
+      '2(3) + 1 = 6 + 1 = 7.',
+    ],
+  },
+  {
+    id: 'p2', gate: 'rooftop-gate',
+    formula: 'f(x) = 3x − 2',
+    given: 'Diberi f(x) = 10.',
+    prompt: 'Cari nilai x.',
+    inputLabel: 'Jawapan x',
+    placeholder: 'Contoh: 4',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 4, wrongMessage: n2 => `3(${n2}) − 2 = ${3*n2-2}, bukan 10. Cuba lagi.` };
+    },
+    solvedMessage: '3x − 2 = 10  →  3x = 12  →  x = 4',
+    hints: [
+      '3x − 2 = 10. Cuba asingkan sebutan x.',
+      'Tambah 2 pada kedua-dua belah: 3x = 12.',
+      'Bahagikan dengan 3: x = 4.',
+    ],
+  },
+  {
+    id: 'p3', gate: 'final-gate',
+    formula: 'f(x) = 4x − 3',
+    given: 'Diberi f(x) = 17.',
+    prompt: 'Cari nilai x.',
+    inputLabel: 'Jawapan x',
+    placeholder: 'Contoh: 5',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 5, wrongMessage: n2 => `4(${n2}) − 3 = ${4*n2-3}, bukan 17. Cuba lagi.` };
+    },
+    solvedMessage: '4x − 3 = 17  →  4x = 20  →  x = 5',
+    hints: [
+      '4x − 3 = 17. Cuba asingkan sebutan x.',
+      'Tambah 3 pada kedua-dua belah: 4x = 20.',
+      'Bahagikan dengan 4: x = 5.',
+    ],
+  },
+];

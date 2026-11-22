@@ -1,0 +1,115 @@
+{
+  "stage": 5,
+  "passed": true,
+  "mobile": false,
+  "freshStart": true,
+  "teleports": false,
+  "wallSeconds": 100.12,
+  "events": [
+    {
+      "name": "B to D; C skipped",
+      "x": 3162.3890277777564,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear"
+      ],
+      "coins": [],
+      "cp": 4,
+      "elapsed": 18677.653333333335
+    },
+    {
+      "name": "D workshop passed",
+      "x": 3933.999999999997,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block"
+      ],
+      "coins": [
+        "coin-d-note"
+      ],
+      "cp": 4,
+      "elapsed": 38905.22333333341
+    },
+    {
+      "name": "E waterworks passed",
+      "x": 5476.933333333388,
+      "feet": 648,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block",
+        "pipe"
+      ],
+      "coins": [
+        "coin-d-note",
+        "coin-e1",
+        "coin-e2"
+      ],
+      "cp": 5,
+      "elapsed": 61830.973333333524
+    },
+    {
+      "name": "F cave and return passed",
+      "x": 7217.1488166667095,
+      "feet": 1188,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block",
+        "pipe"
+      ],
+      "coins": [
+        "coin-d-note",
+        "coin-e1",
+        "coin-e2"
+      ],
+      "cp": 6,
+      "elapsed": 78135.28333333373
+    },
+    {
+      "name": "Full A to G complete",
+      "x": 8319.821122222254,
+      "feet": 1296,
+      "mode": "complete",
+      "gates": [
+        "gear",
+        "block",
+        "pipe",
+        "final"
+      ],
+      "coins": [
+        "coin-d-note",
+        "coin-e1",
+        "coin-e2",
+        "coin-g"
+      ],
+      "cp": 7,
+      "elapsed": 90249.5200000009
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "final": {
+    "x": 8319.821122222254,
+    "feet": 1296,
+    "mode": "complete",
+    "gates": [
+      "gear",
+      "block",
+      "pipe",
+      "final"
+    ],
+    "coins": [
+      "coin-d-note",
+      "coin-e1",
+      "coin-e2",
+      "coin-g"
+    ],
+    "cp": 7,
+    "elapsed": 90249.5200000009
+  }
+}

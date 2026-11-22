@@ -1,0 +1,500 @@
+import { WORLD, MOTION, SPAWN, GOAL, ZONES, GROUND_RANGES, FIRST_GAP, DECKS, LADDERS, GATES, TERMINALS, CHECKPOINTS, COLLECTIBLES, PUZZLES } from './level.js';
+
+const $ = (id) => document.getElementById(id);
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const touchDevice = matchMedia('(pointer: coarse)').matches;
+const controls = { left:false, right:false, up:false, down:false, jump:false, interact:false, restart:false };
+let activeScene;
+let fatal = false;
+function announce(text) { $('status').textContent = text; }
+function clearControls() {
+  Object.keys(controls).forEach(key => controls[key] = false);
+  activeScene?.input.keyboard.resetKeys();
+  if (activeScene?.player) activeScene.player.body.setVelocity(0, 0);
+}
+function fail(message) {
+  fatal = true;
+  $('loading').hidden = false;
+  $('loading').textContent = message;
+  $('welcome').hidden = true;
+  $('pause').disabled = true;
+}
+
+class Rooftop extends Phaser.Scene {
+  constructor() { super('Lorong'); }
+  init() {
+    this.mode = 'welcome'; this.climbing = null; this.climbLockUntil = 0; this.groundedAt = -1000;
+    this.jumpAt = -1000; this.elapsed = 0; this.step = -1;
+    this.routePlatforms = []; this.ladderZones = [];
+    this.coinsFound = 0; this.collectibles = [];
+    // Multi-gate / multi-checkpoint state (replaces the old single
+    // solved/checkpointReached booleans now that there are three of each).
+    this.solvedGates = new Set(); this.checkpointIndex = -1;
+    this.gateBodies = {}; this.machines = {}; this.checkpointArts = [];
+    this.activePuzzle = null; this.hintLevels = {}; this.attempts = {};
+  }
+  preload() {
+    this.load.on('progress', value => $('load-progress') && ($('load-progress').textContent = `${Math.round(value * 100)}%`));
+    this.load.on('loaderror', file => fail(`Aset tidak dapat dimuatkan: ${file.key}. Muat semula halaman untuk cuba lagi.`));
+    Object.entries(this.game.registry.get('assets')).forEach(([key,path]) => {
+      if (!this.textures.exists(key)) this.load.image(key, path);
+    });
+  }
+  create() {
+    if (fatal) return;
+    activeScene = this;
+    this.physics.world.setBounds(0, 0, WORLD.width, WORLD.height, true, true, true, false);
+    this.solids = this.physics.add.staticGroup();
+    this.buildEnvironment();
+    // A separate rectangular body means animation transparency never changes collisions.
+    this.player = this.add.rectangle(SPAWN.x, SPAWN.feet - MOTION.bodyHeight/2, MOTION.bodyWidth, MOTION.bodyHeight, 0xffffff, 0);
+    this.physics.add.existing(this.player);
+    this.player.body.setSize(MOTION.bodyWidth, MOTION.bodyHeight).setMaxVelocity(MOTION.speed, 850).setCollideWorldBounds(true);
+    this.visual = this.add.sprite(SPAWN.x, SPAWN.feet, 'idle-00').setOrigin(346/659, 525/626).setScale(.158).setDepth(20);
+    for (const [key,count,fps] of [['idle',12,8],['run',10,14],['jump',1,1],['fall',1,1]]) {
+      if (!this.anims.exists(key)) this.anims.create({ key, frames:Array.from({length:count},(_,i)=>({key:`${key}-${String(i).padStart(2,'0')}`})), frameRate:fps, repeat:-1 });
+    }
+    this.visual.play('idle');
+    this.physics.add.collider(this.player, this.solids, undefined, (_player, platform) => {
+      if (this.climbing && platform.getData('oneWay')) return false;
+      // Decks are one-way. Solid street geometry is never bypassed.
+      if (platform.getData('oneWay')) return this.player.body.velocity.y >= 0 && this.player.body.prev.y + MOTION.bodyHeight <= platform.body.top + 8;
+      return true;
+    });
+    this.keys = this.input.keyboard.addKeys({left:'LEFT',right:'RIGHT',up:'UP',down:'DOWN',a:'A',d:'D',w:'W',s:'S',jump:'SPACE',interact:'E',restart:'R'});
+    // Latch even a very short tap between render frames; held keys do not auto-jump.
+    for(const action of ['jump','interact','restart']) this.keys[action].on('down',()=>{
+      if(this.mode==='playing') controls[action]=true;
+    });
+    this.input.keyboard.removeCapture(['W','A','S','D','E','R','ESC']);
+    this.cameras.main.setBounds(0, 220, WORLD.width, WORLD.height - 220);
+    this.cameras.main.startFollow(this.player, true, reducedMotion ? 1 : .14, reducedMotion ? 1 : .16, -85, 60);
+    this.cameras.main.setBackgroundColor('#e8e9e3');
+    this.cameras.main.centerOn(SPAWN.x, SPAWN.feet - 190);
+    this.prompt = this.add.text(0,0,'',{fontFamily:'Arial, sans-serif',fontSize:'17px',fontStyle:'bold',color:'#242624',backgroundColor:'#fffefa',padding:{x:12,y:8}}).setOrigin(.5,1).setDepth(40).setVisible(false);
+    this.physics.world.pause();
+    $('loading').hidden = true;
+    $('welcome').hidden = false;
+    $('pause').disabled = true;
+    $('touch-controls').hidden = true;
+    $('checkpoint-state').textContent = 'Mula di rumah';
+    $('objective').textContent = 'Terokai kejiranan. Cari jalan ke bukit kecil.';
+    this.setStep(0);
+    announce('Ikut jalan ke kanan. Tiga mesin fungsi menanti sepanjang laluan.');
+    this.events.once('shutdown', () => { this.input.keyboard.enabled = true; });
+    if (this.game.registry.get('replay')) {
+      this.game.registry.set('replay', false); this.startRun();
+    }
+  }
+  art(key,x,y,scale=1,depth=4,alpha=1) { return this.add.image(x,y,key).setOrigin(0,1).setScale(scale).setDepth(depth).setAlpha(alpha); }
+  label(text,x,y,size=15) {
+    return this.add.text(x,y,text,{fontFamily:'Arial, sans-serif',fontSize:`${size}px`,color:'#343831',backgroundColor:'#f9f9f3',padding:{x:9,y:6}}).setOrigin(.5,1).setDepth(12);
+  }
+  platform(data, oneWay=true) {
+    const body = this.add.rectangle(data.x + data.width/2, data.y+8, data.width, 16, 0, 0);
+    this.physics.add.existing(body,true); this.solids.add(body);
+    body.setData('oneWay',oneWay).setData('id',data.id);
+    this.routePlatforms.push(body);
+    return body;
+  }
+  deck(data, supports=true) {
+    // Collision-visible surface art: Kenney stone tiles only (temporary, see
+    // assets/provenance.json). No other visual family mixed in.
+    const images=[];
+    for(let x=0;x<data.width;x+=32) {
+      const key = x===0?'kenney_deck_left':x+32>=data.width?'kenney_deck_right':'kenney_deck_center';
+      images.push(this.add.image(data.x+x,data.y,key).setOrigin(0).setScale(.5).setDepth(10));
+    }
+    if(supports) {
+      for(const x of [data.x+30,data.x+data.width-46]) {
+        for(let y=data.y+10;y<1000;y+=64) this.add.image(x,y,'kenney_block_center').setOrigin(0).setDepth(5);
+      }
+    }
+    return images;
+  }
+  gateArt(data) {
+    // A solved gate's walkable surface uses a visually distinct Kenney tile
+    // (log planks, not stone) so the activated mechanism reads differently
+    // from ordinary ground/deck terrain.
+    const images=[];
+    for(let x=0;x<data.width;x+=64) images.push(this.add.image(data.x+x,data.y,'kenney_bridge').setOrigin(0).setDepth(10));
+    return images;
+  }
+  spawnCollectibles() {
+    for(const def of COLLECTIBLES) {
+      const coin=this.physics.add.staticSprite(def.x,def.y,'kenney_coin').setScale(.5).setDepth(14);
+      coin.setData('id',def.id);
+      this.tweens.add({targets:coin,y:def.y-10,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+      this.collectibles.push(coin);
+    }
+  }
+  buildEnvironment() {
+    // Strict Kenney-only art policy: one restrained sky backdrop, buildings
+    // composed from generic Kenney blocks/doors (see `building()`), no
+    // Figma art anywhere in this scene. Chill Boy is the only non-Kenney
+    // visual asset.
+    for(let i=0;i<Math.ceil(WORLD.width/1152)+1;i++) this.art('kenney_bg_clouds',i*1152-150,0,4.5,0,.5).setScrollFactor(.3,.2);
+    // Continuous safe ground except where a gate genuinely cuts a gap —
+    // see GROUND_RANGES in level.js for why this gives every upper route a
+    // real lower-route fallback instead of a respawn.
+    for(const [left,right] of GROUND_RANGES) {
+      for(let x=left;x<right;x+=64) {
+        const key=x===left?'kenney_ground_left':x+64>=right?'kenney_ground_right':'kenney_ground_center';
+        this.add.image(x,998,key).setOrigin(0).setDepth(9);
+      }
+      this.add.rectangle((left+right)/2,1108,right-left,88,0x787c73).setDepth(3);
+      this.platform({id:`street-${left}`,x:left,y:1000,width:right-left},false);
+    }
+    DECKS.forEach(d => {this.deck(d);this.platform(d);});
+    LADDERS.forEach(ladder => {
+      for(let y=ladder.top;y<ladder.bottom;y+=48) {
+        const key=y===ladder.top?'kenney_ladder_top':y+48>=ladder.bottom?'kenney_ladder_bottom':'kenney_ladder_middle';
+        const height=Math.min(48,ladder.bottom-y);
+        this.add.image(ladder.x-24,y,key).setOrigin(0).setDisplaySize(48,height).setDepth(13);
+      }
+      const zone=this.add.zone(ladder.x,(ladder.top+ladder.bottom)/2,56,ladder.bottom-ladder.top+72);
+      this.physics.add.existing(zone,true); zone.setData('ladder',ladder); this.ladderZones.push(zone);
+    });
+    // Zone names are announced once as a brief toast on arrival (setStep).
+    // Deliberately no background "buildings" — stacking flat Kenney terrain
+    // blocks into tower shapes read as arbitrary obstacles, not architecture
+    // (confirmed by direct feedback), and the pack has no actual house/shop
+    // sprites to use instead. Café/workshop/etc. stay simple landmarks —
+    // their checkpoint sign, machine and lever already mark them clearly —
+    // rather than fake buildings competing with the real platforming.
+    this.label(touchDevice?'Lompat':'Space · Lompat', FIRST_GAP.x+30, 950, 13);
+    // The cave ledge, visibly darker and off the main gold-line route so it
+    // reads as "detour", not a missed jump. Lower contrast than any required
+    // surface, per the visual-hierarchy rule (background decoration ranks
+    // below gameplay terrain). This label stays, since it marks a specific
+    // optional feature rather than an entire zone's name.
+    this.art('kenney_block_blue', 6400, 824, 1, 1, .85);
+    this.art('kenney_block_blue', 6464, 824, 1, 1, .85);
+    this.label('Gua (pilihan)', 6475, 760, 12);
+    // Checkpoints: plain Kenney sign posts, each switching to a small flag
+    // once reached. One per CHECKPOINTS entry, in order.
+    CHECKPOINTS.forEach((cp,i) => {
+      this.checkpointArts[i] = this.art('kenney_sign', cp.x-16, cp.feet, .9, 11);
+    });
+    // Function machines: a Kenney lever per puzzle, switching to its pulled
+    // state once solved. No formula baked into the art — the puzzle dialog
+    // alone presents each f(x), so puzzle values can change without new art.
+    TERMINALS.forEach((t,i) => {
+      this.machines[t.id] = this.art('kenney_lever', t.x-16, t.feet, 1, 11);
+      this.label(`MESIN ${i+1}`, t.x, t.feet-150, 16);
+    });
+    // Closed gates get a small sign naming the blocking mechanism instead of
+    // implying a floor that silently isn't there.
+    GATES.forEach(g => this.label('Selesaikan mesin →', g.x+40, g.y-20, 13));
+    // Goal: a classic Kenney finish flag, animated between its two frames.
+    this.label('DESTINASI', GOAL.x, GOAL.feet-150, 17);
+    this.flag=this.add.sprite(GOAL.x,GOAL.feet,'kenney_flag_a').setOrigin(.5,1).setScale(1.3).setDepth(14);
+    // Each flag frame is its own whole-image texture (loaded via load.image,
+    // not a spritesheet), so Phaser needs the '__BASE' frame name explicit —
+    // omitting it leaves the animation frame's texture-frame lookup empty
+    // and throws inside startAnimation on every scene create.
+    if(!this.anims.exists('flag-wave')) this.anims.create({key:'flag-wave',frames:[{key:'kenney_flag_a',frame:'__BASE'},{key:'kenney_flag_b',frame:'__BASE'}],frameRate:2,repeat:-1});
+    this.flag.play('flag-wave');
+    this.spawnCollectibles();
+  }
+  setStep(step) {
+    if(this.step===step) return;
+    this.step=step;
+    document.querySelectorAll('[data-step]').forEach((node,i)=>{
+      node.classList.toggle('done',i<step); node.removeAttribute('aria-current');
+      if(i===step) node.setAttribute('aria-current','step');
+    });
+    // A brief on-screen toast instead of a permanent world-space label over
+    // each building — the zone name only needs to be read once, on arrival.
+    if(step<0) return;
+    const toast=$('zone-toast');
+    toast.textContent=ZONES[step].name;
+    clearTimeout(this.zoneToastTimer);
+    toast.classList.add('show');
+    this.zoneToastTimer=setTimeout(()=>toast.classList.remove('show'),2600);
+  }
+  currentZoneIndex() { return ZONES.findIndex(z => this.player.x < z.xEnd); }
+  startRun() {
+    this.mode='playing';this.physics.world.resume();clearControls();
+    $('welcome').hidden=true;$('pause').disabled=false;
+    $('touch-controls').hidden=!touchDevice;
+    $('game').focus({preventScroll:true});
+    announce(touchDevice?'Gunakan butang arah dan Lompat. Teroka ke kanan.':'A / D untuk bergerak. Space untuk lompat. Teroka ke kanan.');
+  }
+  pauseRun() {
+    if(this.mode!=='playing') return;
+    this.mode='paused';this.physics.world.pause();clearControls();
+    this.input.keyboard.enabled=false;$('paused').showModal();
+  }
+  resumeRun() {
+    $('paused').close();this.mode='playing';this.input.keyboard.enabled=true;
+    clearControls();this.physics.world.resume();$('game').focus({preventScroll:true});
+  }
+  nearestTerminal() {
+    return TERMINALS.find(t => !this.solvedGates.has(t.gate)
+      && Math.abs(this.player.x-t.x)<115 && Math.abs(this.player.body.bottom-t.feet)<48);
+  }
+  openPuzzle() {
+    if(this.mode!=='playing') return;
+    const terminal=this.nearestTerminal();
+    if(!terminal) return;
+    const puzzle=PUZZLES.find(p => p.id===terminal.id);
+    this.activePuzzle=puzzle;
+    this.mode='puzzle';this.physics.world.pause();clearControls();
+    this.input.keyboard.enabled=false;
+    $('puzzle-title').textContent=puzzle.id==='p1'?'Buka laluan bengkel':puzzle.id==='p2'?'Hidupkan mekanisme bumbung':'Buka laluan terakhir';
+    $('equation').textContent=puzzle.formula;
+    $('puzzle-given').textContent=puzzle.given;
+    $('puzzle-prompt').textContent=puzzle.prompt;
+    $('answer-label').textContent=puzzle.inputLabel;
+    $('answer').value='';$('answer').placeholder=puzzle.placeholder;
+    $('answer-feedback').textContent=`${puzzle.given} ${puzzle.prompt}`;
+    this.renderHints();
+    $('puzzle').showModal();$('answer').focus();
+  }
+  renderHints() {
+    const puzzle=this.activePuzzle;
+    const level=this.hintLevels[puzzle.id]||0;
+    $('hint-btn').hidden=level>=puzzle.hints.length;
+    $('hint-list').innerHTML='';
+    for(let i=0;i<level;i++) {
+      const li=document.createElement('li');li.textContent=puzzle.hints[i];$('hint-list').append(li);
+    }
+  }
+  requestHint() {
+    if(this.mode!=='puzzle') return;
+    const puzzle=this.activePuzzle;
+    const level=this.hintLevels[puzzle.id]||0;
+    if(level>=puzzle.hints.length) return;
+    this.hintLevels[puzzle.id]=level+1;
+    this.renderHints();
+  }
+  closePuzzle() {
+    $('puzzle').close();this.input.keyboard.enabled=true;this.mode='playing';
+    this.activePuzzle=null;
+    clearControls();this.physics.world.resume();$('game').focus({preventScroll:true});
+  }
+  answer(raw) {
+    if(this.mode!=='puzzle'||!this.activePuzzle) return;
+    const puzzle=this.activePuzzle;
+    const result=puzzle.check(raw);
+    if(!result.valid) { $('answer-feedback').textContent='Masukkan nombor sahaja. Mesin menunggu satu jawapan.'; return; }
+    if(!result.correct) {
+      this.attempts[puzzle.id]=(this.attempts[puzzle.id]||0)+1;
+      $('answer-feedback').textContent=result.wrongMessage(Number(raw));
+      $('answer').select();return;
+    }
+    this.solvedGates.add(puzzle.gate);
+    this.machines[puzzle.id].setTexture('kenney_lever_left');
+    const gate=GATES.find(g=>g.id===puzzle.gate);
+    this.closePuzzle();
+    const planks=this.gateArt(gate);
+    // Collision is created with the visible gate surface, never for wrong/empty inputs.
+    this.gateBodies[gate.id]=this.platform(gate);
+    if(!reducedMotion) this.tweens.add({targets:planks,alpha:{from:.25,to:1},duration:450,delay:this.tweens.stagger(18)});
+    $('objective').textContent=`Laluan terbuka. ${this.solvedGates.size<PUZZLES.length?'Teruskan meneroka.':'Capai destinasi.'}`;
+    announce(`Betul! ${puzzle.solvedMessage}. Laluan kini boleh dilalui.`);
+  }
+  respawn() {
+    const point=CHECKPOINTS[this.checkpointIndex]||SPAWN;
+    this.climbing=null;this.player.body.setAllowGravity(true);
+    this.player.body.reset(point.x,point.feet-MOTION.bodyHeight/2-2);
+    clearControls();this.groundedAt=-1000;this.jumpAt=-1000;
+    this.syncVisual();
+    // Checkpoint recovery always faces the player back toward progress,
+    // regardless of which way they were facing when they fell.
+    this.visual.setFlipX(true);this.visual.play('idle',true);
+    this.cameras.main.centerOn(this.player.x+85,this.player.y-60);
+    announce(this.checkpointIndex>=0?'Kembali ke checkpoint. Semua mesin yang sudah diselesaikan kekal terbuka.':'Kembali ke rumah. Cuba lagi — tiada nyawa yang hilang.');
+  }
+  finish() {
+    this.mode='complete';this.physics.world.pause();clearControls();this.visual.play('idle');
+    this.input.keyboard.enabled=false;
+    const seconds=Math.round(this.elapsed/1000);
+    $('completion-time').textContent=`Masa meneroka: ${Math.floor(seconds/60)} min ${seconds%60} saat · Tiada had masa`;
+    $('completion-coins').textContent=`Koleksi dijumpai: ${this.coinsFound}/${COLLECTIBLES.length}`;
+    $('completion-puzzles').textContent=`Mesin fungsi diselesaikan: ${this.solvedGates.size}/${PUZZLES.length}`;
+    $('complete').showModal();$('replay').focus();
+    announce('Level 1 selesai!');
+  }
+  syncVisual() { this.visual.setPosition(this.player.x,this.player.body.bottom); }
+  update(time,delta) {
+    if(fatal||!this.player||this.mode!=='playing') return;
+    this.elapsed+=delta;
+    const body=this.player.body;
+    const key=this.keys;
+    const left=key.left.isDown||key.a.isDown||controls.left;
+    const right=key.right.isDown||key.d.isDown||controls.right;
+    const up=key.up.isDown||key.w.isDown||controls.up;
+    const down=key.down.isDown||key.s.isDown||controls.down;
+    const jump=Phaser.Input.Keyboard.JustDown(key.jump)||controls.jump;
+    const interact=Phaser.Input.Keyboard.JustDown(key.interact)||controls.interact;
+    controls.jump=false;controls.interact=false;
+    if(Phaser.Input.Keyboard.JustDown(key.restart)||controls.restart) {controls.restart=false;this.respawn();return;}
+    if(jump) this.jumpAt=time;
+    if(body.blocked.down||body.touching.down) this.groundedAt=time;
+    const nearby=this.ladderZones.find(zone=>this.physics.overlap(this.player,zone)&&Math.abs(this.player.x-zone.x)<34)?.getData('ladder');
+    if(!this.climbing&&nearby&&time>this.climbLockUntil&&(up||down)) {
+      if((up&&body.bottom>nearby.top+2)||(down&&body.bottom<nearby.bottom-2)) {
+        this.climbing=nearby;body.setAllowGravity(false);body.setVelocity(0,0);
+        body.reset(nearby.x,this.player.y);
+      }
+    }
+    if(this.climbing) {
+      const ladder=this.climbing;
+      body.setVelocity(0,(down?1:0)-(up?1:0)); body.velocity.y*=MOTION.climb;
+      if(jump) {
+        this.climbing=null;this.climbLockUntil=time+250;body.setAllowGravity(true);
+        body.setVelocity((right?1:left?-1:0)*MOTION.speed,-MOTION.jump);this.jumpAt=-1000;
+      } else if(body.bottom<=ladder.top && up) {
+        body.reset(ladder.x,ladder.top-MOTION.bodyHeight/2-1);
+        this.climbing=null;body.setAllowGravity(true);body.setVelocity(0,0);this.climbLockUntil=time+180;
+      } else if(body.bottom>=ladder.bottom && down) {
+        body.reset(ladder.x,ladder.bottom-MOTION.bodyHeight/2-1);
+        this.climbing=null;body.setAllowGravity(true);body.setVelocity(0,0);this.climbLockUntil=time+180;
+      }
+    } else {
+      const direction=(right?1:0)-(left?1:0);
+      const target=direction*MOTION.speed;
+      const change=(direction?MOTION.acceleration:MOTION.braking)*Math.min(delta,40)/1000;
+      body.setVelocityX(body.velocity.x+Phaser.Math.Clamp(target-body.velocity.x,-change,change));
+      if(time-this.jumpAt<MOTION.buffer&&time-this.groundedAt<MOTION.coyote) {
+        body.setVelocityY(-MOTION.jump);this.jumpAt=-1000;this.groundedAt=-1000;
+      }
+    }
+    let anim=this.climbing?'idle':body.velocity.y < -35?'jump':body.velocity.y>60?'fall':Math.abs(body.velocity.x)>20?'run':'idle';
+    this.visual.play(anim,true);
+    this.visual.setOrigin(346/659,(anim==='jump'?463:anim==='fall'?461:525)/626);
+    // Source frames (idle/run/jump/fall) are drawn facing left by default;
+    // flip only when moving right so the sprite always faces its travel
+    // direction instead of walking backward. Idle keeps whatever facing it
+    // last had (velocity.x===0 skips the flip call entirely below).
+    if(body.velocity.x!==0) this.visual.setFlipX(body.velocity.x>0);
+    this.syncVisual();
+    for(const coin of this.collectibles) {
+      if(coin.active && this.physics.overlap(this.player,coin)) {
+        coin.destroy();this.coinsFound++;
+        $('coin-count').textContent=`Koleksi: ${this.coinsFound}`;
+        announce('Koleksi dijumpai! Teruskan meneroka.');
+      }
+    }
+    // Only an UNSOLVED gate's own gap is a hazard — this replaces a global
+    // "past x=1160" trip wire that would have misfired on the level's own
+    // continuous lower-route ground once it extended past that point.
+    const inOpenGate = GATES.some(g => !this.solvedGates.has(g.id) && this.player.x>g.x && this.player.x<g.x+g.width);
+    if(this.player.y>1060 || (inOpenGate && body.bottom>900)) {this.respawn();return;}
+    const nextCheckpoint=CHECKPOINTS[this.checkpointIndex+1];
+    if(nextCheckpoint && Math.abs(this.player.x-nextCheckpoint.x)<70 && Math.abs(body.bottom-nextCheckpoint.feet)<5 && body.blocked.down) {
+      this.checkpointIndex++;
+      this.checkpointArts[this.checkpointIndex].setTexture('kenney_flag_a');
+      $('checkpoint-state').textContent=`Checkpoint ${this.checkpointIndex+1} disimpan`;
+      announce(touchDevice?'Checkpoint dicapai.':'Checkpoint dicapai. Tekan R untuk kembali ke sini jika jatuh.');
+    }
+    this.setStep(this.currentZoneIndex());
+    const terminal=this.nearestTerminal();
+    this.prompt.setVisible(!!terminal || (!!nearby&&!this.climbing));
+    if(terminal) this.prompt.setText(touchDevice?'Guna · Mesin fungsi':'E · Gunakan mesin').setPosition(terminal.x,terminal.feet-134);
+    else if(nearby&&!this.climbing) this.prompt.setText(touchDevice?'↑ / ↓ · Tangga':'W / S · Tangga').setPosition(nearby.x,this.player.body.top-20);
+    if(interact) this.openPuzzle();
+    if(this.solvedGates.size>=PUZZLES.length && Math.abs(this.player.x-GOAL.x)<62 && Math.abs(body.bottom-GOAL.feet)<6 && body.blocked.down) this.finish();
+  }
+}
+
+function restart() {
+  ['complete','paused','puzzle'].forEach(id=>$(id).close());
+  clearControls();activeScene.game.registry.set('replay',true);activeScene.scene.restart();
+}
+$('start').addEventListener('click',()=>activeScene?.startRun());
+$('pause').addEventListener('click',()=>activeScene?.pauseRun());
+// Fullscreen: the game should be able to use most of the screen, not sit
+// in a small fixed column. Feature-detected; hidden entirely where the
+// Fullscreen API isn't available rather than showing a button that fails.
+const shellEl=document.querySelector('.shell');
+if(shellEl.requestFullscreen) {
+  $('fullscreen').addEventListener('click',()=>{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else shellEl.requestFullscreen().catch(()=>{});
+  });
+  document.addEventListener('fullscreenchange',()=>{
+    $('fullscreen').textContent=document.fullscreenElement?'Keluar skrin penuh':'Skrin penuh';
+  });
+} else {
+  $('fullscreen').hidden=true;
+}
+$('resume').addEventListener('click',()=>activeScene?.resumeRun());
+$('restart').addEventListener('click',restart);
+$('replay').addEventListener('click',restart);
+$('close-puzzle').addEventListener('click',()=>activeScene?.closePuzzle());
+$('answer-form').addEventListener('submit',event=>{event.preventDefault();activeScene?.answer($('answer').value);});
+$('hint-btn').addEventListener('click',()=>activeScene?.requestHint());
+$('puzzle').addEventListener('cancel',event=>{event.preventDefault();activeScene?.closePuzzle();});
+$('paused').addEventListener('cancel',event=>{event.preventDefault();activeScene?.resumeRun();});
+$('complete').addEventListener('cancel',event=>event.preventDefault());
+// One owner for Escape prevents the native dialog's cancel event and Phaser
+// from handling the same key twice (resume followed immediately by pause).
+document.addEventListener('keydown',event=>{
+  if(event.code!=='Escape'||!activeScene) return;
+  event.preventDefault();event.stopImmediatePropagation();
+  if(event.repeat) return;
+  if(activeScene.mode==='playing') activeScene.pauseRun();
+  else if(activeScene.mode==='paused') activeScene.resumeRun();
+  else if(activeScene.mode==='puzzle') activeScene.closePuzzle();
+},true);
+window.addEventListener('blur',()=>{clearControls();activeScene?.pauseRun();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearControls();activeScene?.pauseRun();}});
+for(const button of document.querySelectorAll('[data-hold],[data-action]')) {
+  button.addEventListener('pointerdown',event=>{
+    event.preventDefault();button.setPointerCapture(event.pointerId);
+    if(activeScene?.mode!=='playing') return;
+    controls[button.dataset.hold||button.dataset.action]=true;
+  });
+  for(const type of ['pointerup','pointercancel','lostpointercapture']) button.addEventListener(type,()=>{
+    if(button.dataset.hold) controls[button.dataset.hold]=false;
+  });
+  button.addEventListener('contextmenu',event=>event.preventDefault());
+}
+
+try {
+  if(!window.Phaser) throw new Error('Phaser runtime missing');
+  const response=await fetch('assets/manifest.json');
+  if(!response.ok) throw new Error('Asset manifest missing');
+  const assets=await response.json();
+  const stage=document.querySelector('.game-stage');
+  const frame=document.querySelector('.game-frame');
+  // CSS aspect-ratio inside a centering flexbox, with a percentage-sized
+  // child (#game is 100%/100%), is a circular sizing dependency that some
+  // engines resolve by collapsing the box instead of shrinking it — so the
+  // frame's pixel size is computed here instead, from .game-stage's real
+  // flex-resolved remaining space (header/footer height already excluded).
+  // This is also what keeps the browser page itself from ever scrolling:
+  // .game-stage already can't exceed the viewport, so the frame can't either.
+  // Game-first layout: the frame fills the ENTIRE available stage, full
+  // stop — no fixed 16:9/3:4 ratio forcing it to shrink on a short-but-wide
+  // window. A fixed ratio was height-bound on real short desktop windows
+  // (confirmed: 807x454 on a 1365x633 viewport, 59% of available width)
+  // because the ratio math capped width to match a height the window
+  // didn't have room for.
+  // `dimensions()` below already computes Phaser's internal resolution from
+  // whatever the frame's real aspect ratio turns out to be, so sprites stay
+  // uniformly scaled (never stretched) at any ratio — there is nothing a
+  // fixed ratio was protecting here.
+  function fitFrame() {
+    frame.style.width=`${Math.max(1,Math.floor(stage.clientWidth))}px`;
+    frame.style.height=`${Math.max(1,Math.floor(stage.clientHeight))}px`;
+  }
+  fitFrame();
+  const dimensions=()=>({width:Math.round(648*frame.clientWidth/frame.clientHeight),height:648});
+  const size=dimensions();
+  const game=new Phaser.Game({type:Phaser.CANVAS,parent:'game',...size,backgroundColor:'#e8e9e3',
+    banner:false,audio:{noAudio:true},render:{antialias:true,roundPixels:true},
+    scale:{mode:Phaser.Scale.FIT,autoCenter:Phaser.Scale.CENTER_BOTH},
+    physics:{default:'arcade',arcade:{gravity:{y:WORLD.gravity},debug:false}},
+    callbacks:{preBoot:game=>game.registry.set('assets',assets)},scene:[Rooftop]});
+  const observer=new ResizeObserver(()=>{fitFrame();const d=dimensions();game.scale.setGameSize(d.width,d.height);});
+  observer.observe(stage);
+  // Explicit opt-in read/test access; no production shortcuts or skip-level controls.
+  if(new URLSearchParams(location.search).has('test')) window.rooftop={game,get scene(){return activeScene;},constants:{WORLD,MOTION,ZONES,DECKS,GATES,LADDERS,TERMINALS,CHECKPOINTS,PUZZLES,FIRST_GAP}};
+} catch(error) {
+  console.error(error);
+  fail('Permainan tidak dapat dimulakan. Muat semula halaman atau kembali ke Add Math.');
+}

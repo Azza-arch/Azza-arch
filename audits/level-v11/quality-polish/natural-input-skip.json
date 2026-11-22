@@ -1,0 +1,2070 @@
+{
+  "passed": true,
+  "naturalInputOnly": true,
+  "durationSeconds": 70.18,
+  "events": [
+    {
+      "event": "walk",
+      "target": 220,
+      "x": 241,
+      "feet": 1296,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": -1,
+      "crateX": 540,
+      "plate": false,
+      "mapping": [],
+      "coins": []
+    },
+    {
+      "event": "jump-land",
+      "target": 390,
+      "x": 406,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 0,
+      "crateX": 540,
+      "plate": false,
+      "mapping": [],
+      "coins": []
+    },
+    {
+      "event": "walk",
+      "target": 485,
+      "x": 503,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 0,
+      "crateX": 540.626404166667,
+      "plate": false,
+      "mapping": [],
+      "coins": []
+    },
+    {
+      "event": "screenshot",
+      "name": "A-crate-plate-open",
+      "x": 736,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 0,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": []
+    },
+    {
+      "event": "jump-land",
+      "target": 855,
+      "x": 875,
+      "feet": 1122,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 0,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "A-crate-bonus-ledge",
+      "x": 875,
+      "feet": 1122,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 0,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 1020,
+      "x": 1040,
+      "feet": 1229,
+      "mode": "playing",
+      "grounded": false,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 0,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 1240,
+      "x": 1255,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 1400,
+      "x": 1423,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 1540,
+      "x": 1546,
+      "feet": 1163,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 1692,
+      "x": 1711,
+      "feet": 1134,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "C-skipped-by-natural-route",
+      "x": 1711,
+      "feet": 1134,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 1692,
+      "x": 1671,
+      "feet": 1134,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 1810,
+      "x": 1822,
+      "feet": 1134,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 1910,
+      "x": 1922,
+      "feet": 1062,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 1,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 2070,
+      "x": 2092,
+      "feet": 1080,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 2,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "B-lift-locked",
+      "x": 2092,
+      "feet": 1080,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 2,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "B-lift-wrong-input",
+      "x": 2092,
+      "feet": 1080,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [],
+      "checkpoint": 2,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "B-lift-moving",
+      "x": 2092,
+      "feet": 1080,
+      "mode": "mechanism-transition",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 2,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "lift-state",
+      "text": "Lintasan selamat \u00b7 checkpoint disimpan",
+      "bridgeY": [
+        1080,
+        1080,
+        1080,
+        1080,
+        1080,
+        1080
+      ],
+      "body": {
+        "x": 2322,
+        "y": 1088,
+        "w": 324,
+        "h": 16
+      },
+      "platforms": [
+        {
+          "id": "B-control",
+          "x": 1836,
+          "y": 1080,
+          "w": 324,
+          "h": 486,
+          "oneWay": false
+        },
+        {
+          "id": "B-bank",
+          "x": 2484,
+          "y": 1080,
+          "w": 162,
+          "h": 486,
+          "oneWay": false
+        },
+        {
+          "id": "lift-open",
+          "x": 2160,
+          "y": 1080,
+          "w": 324,
+          "h": 16,
+          "oneWay": true
+        }
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "B-lift-locked-safe",
+      "x": 2092,
+      "feet": 1080,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 2,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 2700,
+      "x": 2702,
+      "feet": 1026,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 2,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 2900,
+      "x": 2902,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 4,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 3200,
+      "x": 3223,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 4,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R08-number-rack",
+      "x": 3223,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 4,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 3330,
+      "x": 3351,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return"
+      ]
+    },
+    {
+      "event": "climb-up",
+      "targetFeet": 738,
+      "x": 3330,
+      "feet": 738,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 3402,
+      "x": 3420,
+      "feet": 738,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R09-service-reward",
+      "x": 3420,
+      "feet": 738,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 3330,
+      "x": 3311,
+      "feet": 738,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "climb-down",
+      "targetFeet": 972,
+      "x": 3330,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 3380,
+      "x": 3402,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R08-input-panel",
+      "x": 3402,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R08-wrong-input",
+      "x": 3402,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R08-span-moving",
+      "x": 3402,
+      "feet": 972,
+      "mode": "mechanism-transition",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 5,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R08-span-safe",
+      "x": 3402,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 6,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 3915,
+      "x": 3936,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 6,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 3960,
+      "x": 3979,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 6,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R10-composition-panel",
+      "x": 3979,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 6,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "D-R10-composition-results",
+      "x": 3979,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 6,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "R08-R10-natural-route",
+      "naturalInput": true,
+      "x": 3979,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 6,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 4122,
+      "x": 4144,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R11-arrival",
+      "x": 4144,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 4220,
+      "x": 4239,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 4320,
+      "x": 4342,
+      "feet": 918,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 4480,
+      "x": 4492,
+      "feet": 864,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 4806,
+      "x": 4827,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "climb-down",
+      "targetFeet": 1188,
+      "x": 4806,
+      "feet": 1188,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R11-lower-recovery",
+      "x": 4806,
+      "feet": 1188,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 4644,
+      "x": 4622,
+      "feet": 1188,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R11-upper-reward",
+      "x": 4622,
+      "feet": 1188,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 4806,
+      "x": 4825,
+      "feet": 1188,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R11-recovery-return",
+      "x": 4825,
+      "feet": 1188,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "climb-up",
+      "targetFeet": 972,
+      "x": 4806,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 5100,
+      "x": 5120,
+      "feet": 1026,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 5238,
+      "x": 5251,
+      "feet": 950,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R12-pipe-network-locked",
+      "x": 5258,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R12-composition-panel",
+      "x": 5258,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R12-wrong-order-15",
+      "x": 5258,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R12-correct-order-19",
+      "x": 5258,
+      "feet": 972,
+      "mode": "mechanism-transition",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R12-water-flow",
+      "x": 5258,
+      "feet": 972,
+      "mode": "mechanism-transition",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 7,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R12-crossing-open-safe",
+      "x": 5258,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 5598,
+      "x": 5619,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "E-R12-far-bank-checkpoint",
+      "x": 5619,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "R11-R12-natural-route",
+      "naturalInput": true,
+      "x": 5619,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 5760,
+      "x": 5779,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 5890,
+      "x": 5913,
+      "feet": 918,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 6050,
+      "x": 6068,
+      "feet": 864,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "F-cave-skipped-by-natural-route",
+      "x": 6070,
+      "feet": 864,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 7000,
+      "x": 7019,
+      "feet": 1080,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 7180,
+      "x": 7180,
+      "feet": 1026,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "F-R13-overlook",
+      "x": 7198,
+      "feet": 1026,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 7330,
+      "x": 7348,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 7390,
+      "x": 7411,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R15-locked",
+      "x": 7411,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R15-wrong-h-input",
+      "x": 7411,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R15-wrong-composition",
+      "x": 7411,
+      "feet": 972,
+      "mode": "mechanism",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R15-correct-composition",
+      "x": 7411,
+      "feet": 972,
+      "mode": "mechanism-transition",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R15-bridge-moving",
+      "x": 7411,
+      "feet": 972,
+      "mode": "mechanism-transition",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 9,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R15-bridge-safe",
+      "x": 7411,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 11,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 7890,
+      "x": 7912,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 11,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R15-far-bank",
+      "x": 7912,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 11,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 8170,
+      "x": 8190,
+      "feet": 1026,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 12,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge",
+        "g-farbank"
+      ]
+    },
+    {
+      "event": "jump-land",
+      "target": 8300,
+      "x": 8322,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 12,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge",
+        "g-farbank"
+      ]
+    },
+    {
+      "event": "walk",
+      "target": 8316,
+      "x": 8303,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 12,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge",
+        "g-farbank"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R16-destination",
+      "x": 8303,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 12,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge",
+        "g-farbank"
+      ]
+    },
+    {
+      "event": "screenshot",
+      "name": "G-R16-completion",
+      "x": 8303,
+      "feet": 972,
+      "mode": "complete",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 12,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge",
+        "g-farbank"
+      ]
+    },
+    {
+      "event": "R13-R16-natural-route-and-completion",
+      "naturalInput": true,
+      "x": 8303,
+      "feet": 972,
+      "mode": "complete",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 12,
+      "crateX": 773.8726958652229,
+      "plate": true,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge",
+        "g-farbank"
+      ]
+    },
+    {
+      "event": "continue-restored-completion",
+      "naturalInput": true,
+      "x": 8170,
+      "feet": 1026,
+      "mode": "complete",
+      "grounded": false,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 12,
+      "crateX": 540,
+      "plate": false,
+      "mapping": [],
+      "coins": [
+        "a-ledge",
+        "b-return",
+        "d-service",
+        "e-waterwalk",
+        "f-ridge",
+        "g-farbank"
+      ]
+    },
+    {
+      "event": "mobile-touch-right-and-jump",
+      "naturalInput": true,
+      "x": 7349,
+      "feet": 956,
+      "mode": "playing",
+      "grounded": false,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 10,
+      "crateX": 540,
+      "plate": false,
+      "mapping": [],
+      "coins": []
+    },
+    {
+      "event": "mobile-reduced-motion-river",
+      "passed": true,
+      "x": 7349,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "climbing": false,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing",
+        "river-input",
+        "river-composition",
+        "river-crossing"
+      ],
+      "checkpoint": 11,
+      "crateX": 540,
+      "plate": false,
+      "mapping": [],
+      "coins": []
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "finalState": {
+    "x": 8170,
+    "feet": 1026,
+    "mode": "complete",
+    "grounded": false,
+    "climbing": false,
+    "solved": [
+      "lift",
+      "number-span",
+      "water-crossing",
+      "river-input",
+      "river-composition",
+      "river-crossing"
+    ],
+    "checkpoint": 12,
+    "crateX": 540,
+    "plate": false,
+    "mapping": [],
+    "coins": [
+      "a-ledge",
+      "b-return",
+      "d-service",
+      "e-waterwalk",
+      "f-ridge",
+      "g-farbank"
+    ]
+  }
+}

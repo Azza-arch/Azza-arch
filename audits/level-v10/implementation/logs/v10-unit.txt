@@ -1,0 +1,46 @@
+﻿TAP version 13
+# Subtest: isolated batch keeps exact original movement and mathematical questions
+ok 1 - isolated batch keeps exact original movement and mathematical questions
+  ---
+  duration_ms: 5.2733
+  type: 'test'
+  ...
+# Subtest: actual batch geometry agrees with approved tables
+ok 2 - actual batch geometry agrees with approved tables
+  ---
+  duration_ms: 2.5757
+  type: 'test'
+  ...
+# Subtest: gate cannot be jumped from ground or optional cafe
+ok 3 - gate cannot be jumped from ground or optional cafe
+  ---
+  duration_ms: 0.4165
+  type: 'test'
+  ...
+# Subtest: legacy import is explicit, accepts v1/v2, leaves old save bytes intact
+ok 4 - legacy import is explicit, accepts v1/v2, leaves old save bytes intact
+  ---
+  duration_ms: 3.8773
+  type: 'test'
+  ...
+# Subtest: checkpoint sanitization rejects unsafe far bank without earned gate
+ok 5 - checkpoint sanitization rejects unsafe far bank without earned gate
+  ---
+  duration_ms: 0.7607
+  type: 'test'
+  ...
+# Subtest: corrupt, wrong layout and unsupported saves fail safely
+ok 6 - corrupt, wrong layout and unsupported saves fail safely
+  ---
+  duration_ms: 0.3599
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 41.2693

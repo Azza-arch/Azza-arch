@@ -1,0 +1,1369 @@
+[
+  {
+    "key": "ground_left",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Ground/ground_left.png",
+    "path": "assets/production/Ground/ground_left.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "sha256": "806a7711a3727659a67a686eeef9943efa3544a83ea7ba6aefffba09e1f9ecc7"
+  },
+  {
+    "key": "ground_center",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Ground/ground_center.png",
+    "path": "assets/production/Ground/ground_center.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "sha256": "79cc69943f892910b8aec615516b7a612d61866ac78bfe832563e52ddb3a660f"
+  },
+  {
+    "key": "ground_right",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Ground/ground_right.png",
+    "path": "assets/production/Ground/ground_right.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "sha256": "0cc6f863b20c48082f8db3a0f0e35badac89a4233d23bcf2944b5fa310838db7"
+  },
+  {
+    "key": "ground_center_alt01",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Ground/ground_center_alt01.png",
+    "path": "assets/production/Ground/ground_center_alt01.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "sha256": "f951c270be0fa9d6a229eb553d8fda69dab6418bb2117ee8f8708fdcf188261d"
+  },
+  {
+    "key": "house_1_full",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Houses/house_1_full.png",
+    "path": "assets/production/Houses/house_1_full.png",
+    "dimensions": [
+      448,
+      381
+    ],
+    "alphaBounds": [
+      24,
+      6,
+      356,
+      379
+    ],
+    "sha256": "62a4e99eaf1488e193c3506de466b4cba74911de7cb042d05c1085c3e81be8e3"
+  },
+  {
+    "key": "house_2_full",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Houses/house_2_full.png",
+    "path": "assets/production/Houses/house_2_full.png",
+    "dimensions": [
+      448,
+      371
+    ],
+    "alphaBounds": [
+      17,
+      80,
+      431,
+      369
+    ],
+    "sha256": "b0cc41f83170e269a15d94e5b2080009dc48ea6ff47030923c09e011da64a19d"
+  },
+  {
+    "key": "house_3_full",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Houses/house_3_full.png",
+    "path": "assets/production/Houses/house_3_full.png",
+    "dimensions": [
+      468,
+      519
+    ],
+    "alphaBounds": [
+      5,
+      55,
+      433,
+      518
+    ],
+    "sha256": "f7227536c2d4960c2fe4e81a55fb1587e1bf2819df44fed0a2b4d6b1d3a0b2c8"
+  },
+  {
+    "key": "ladder_middle",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/ladder_middle.png",
+    "path": "assets/production/Traversal/ladder_middle.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      5,
+      0,
+      59,
+      64
+    ],
+    "sha256": "5bb18dbc74ff595c7ca2f8c4fb86a5fbf1758491756f001eb00802704847431b"
+  },
+  {
+    "key": "ladder_top",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/ladder_top.png",
+    "path": "assets/production/Traversal/ladder_top.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      5,
+      0,
+      64,
+      64
+    ],
+    "sha256": "1d1241f2932ecf3382b3f12e06aa2f166c31a71bcc9c66486162e1829d6774dd"
+  },
+  {
+    "key": "ladder_bottom",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/ladder_bottom.png",
+    "path": "assets/production/Traversal/ladder_bottom.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      7,
+      0,
+      57,
+      64
+    ],
+    "sha256": "6901e11d242a9d19f6da68f225478bd26daf1cd0bb586d0cd9d25c6842426e13"
+  },
+  {
+    "key": "platform_wood_center",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/platform_wood_center.png",
+    "path": "assets/production/Traversal/platform_wood_center.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      0,
+      64,
+      22
+    ],
+    "sha256": "a26a0c3d14f8ca724b83a425e62f751a1d400975652e59c864190fb5d208cfcc"
+  },
+  {
+    "key": "platform_wood_left",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/platform_wood_left.png",
+    "path": "assets/production/Traversal/platform_wood_left.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      2,
+      0,
+      64,
+      21
+    ],
+    "sha256": "9cea08683c142bda3e70619ba24a09869b512815734832674ab9b097c5c77dfa"
+  },
+  {
+    "key": "platform_wood_right",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/platform_wood_right.png",
+    "path": "assets/production/Traversal/platform_wood_right.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      0,
+      61,
+      21
+    ],
+    "sha256": "db6d0d43127efb13f6103aab8042080a9d759b76b35e45db69c4d4509460cc60"
+  },
+  {
+    "key": "platform_post",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/platform_post.png",
+    "path": "assets/production/Traversal/platform_post.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      24,
+      0,
+      40,
+      64
+    ],
+    "sha256": "53b91699571d51198993e6220dad047821afb18418172a953128b0caf051f365"
+  },
+  {
+    "key": "walkway_railing",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Traversal/walkway_railing.png",
+    "path": "assets/production/Traversal/walkway_railing.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      0,
+      4,
+      64,
+      55
+    ],
+    "sha256": "7e532d3e352801c6b0fa97115a53e3120dba9f6f9e1522e7e11b5cb3083ef99c"
+  },
+  {
+    "key": "water_tank_stand",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/water_tank_stand.png",
+    "path": "assets/production/Props/water_tank_stand.png",
+    "dimensions": [
+      128,
+      198
+    ],
+    "alphaBounds": [
+      4,
+      0,
+      124,
+      198
+    ],
+    "sha256": "58ab58c514066a65e9c6cccd0fa50f5b67ecaa36bc90242c4256b78a3556dfff"
+  },
+  {
+    "key": "plant_pot_leafy",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/plant_pot_leafy.png",
+    "path": "assets/production/Props/plant_pot_leafy.png",
+    "dimensions": [
+      59,
+      57
+    ],
+    "alphaBounds": [
+      6,
+      5,
+      53,
+      56
+    ],
+    "sha256": "6002fa1bb55b03e2cfb2cb4fb679f8fe0dcf5860af0f02f2c3d832d03c21b0d0"
+  },
+  {
+    "key": "plant_pot_tall",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/plant_pot_tall.png",
+    "path": "assets/production/Props/plant_pot_tall.png",
+    "dimensions": [
+      64,
+      96
+    ],
+    "alphaBounds": [
+      12,
+      7,
+      52,
+      96
+    ],
+    "sha256": "b2efa51a1eec423232daa6e259d808c606387a9374059fce2f5d05feef184040"
+  },
+  {
+    "key": "plant_hanging",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/plant_hanging.png",
+    "path": "assets/production/Props/plant_hanging.png",
+    "dimensions": [
+      48,
+      65
+    ],
+    "alphaBounds": [
+      4,
+      12,
+      43,
+      65
+    ],
+    "sha256": "012545b59f99b1b03df9773f58c16cdb6732eb44471f9331383eae4207cab8b8"
+  },
+  {
+    "key": "plant_bush",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/plant_bush.png",
+    "path": "assets/production/Props/plant_bush.png",
+    "dimensions": [
+      117,
+      52
+    ],
+    "alphaBounds": [
+      4,
+      11,
+      109,
+      49
+    ],
+    "sha256": "20aaf23b99ffd5d5d0194855bc4d641fc89cb08ae241799ed4c8aa5aafb15845"
+  },
+  {
+    "key": "laundry_line",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/laundry_line.png",
+    "path": "assets/production/Props/laundry_line.png",
+    "dimensions": [
+      196,
+      130
+    ],
+    "alphaBounds": [
+      1,
+      7,
+      194,
+      128
+    ],
+    "sha256": "f9391da0de48b7d81a26e9d2877578271f9fed2bab4f30368f4eb4f46af290ee"
+  },
+  {
+    "key": "flag_malaysia",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/flag_malaysia.png",
+    "path": "assets/production/Props/flag_malaysia.png",
+    "dimensions": [
+      104,
+      56
+    ],
+    "alphaBounds": [
+      1,
+      2,
+      102,
+      53
+    ],
+    "sha256": "c04cc3561b47603aded80f580d95c93ae85cf7a52f227c3920c9637d33b717f9"
+  },
+  {
+    "key": "lamp_wall",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Props/lamp_wall.png",
+    "path": "assets/production/Props/lamp_wall.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "alphaBounds": [
+      3,
+      9,
+      61,
+      62
+    ],
+    "sha256": "6bb9488ad893863beeb87353bf3c6b6eac745a8ad2da6e9a5decd345a22a99d4"
+  },
+  {
+    "key": "h3_roof_hut",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/HouseParts/h3_roof_hut.png",
+    "path": "assets/production/HouseParts/h3_roof_hut.png",
+    "dimensions": [
+      130,
+      90
+    ],
+    "alphaBounds": [
+      2,
+      3,
+      127,
+      89
+    ],
+    "sha256": "ca3de9155293af63ae78e500d906dd701c6068fc327949ab05e51207a5508b90"
+  },
+  {
+    "key": "h3_wall_upper",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/HouseParts/h3_wall_upper.png",
+    "path": "assets/production/HouseParts/h3_wall_upper.png",
+    "dimensions": [
+      224,
+      168
+    ],
+    "alphaBounds": [
+      3,
+      1,
+      221,
+      167
+    ],
+    "sha256": "24bab438aeb3fca66dfa2458edf5a51dafad221e7f500d328e8acdb7dda93597"
+  },
+  {
+    "key": "h3_wall_lower",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/HouseParts/h3_wall_lower.png",
+    "path": "assets/production/HouseParts/h3_wall_lower.png",
+    "dimensions": [
+      228,
+      159
+    ],
+    "alphaBounds": [
+      3,
+      1,
+      225,
+      159
+    ],
+    "sha256": "39766c291c1639aefd7b0e9cbc62b3b4524e3796d85fdbd7ef69c5fb2325169f"
+  },
+  {
+    "key": "h3_window_casement",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/HouseParts/h3_window_casement.png",
+    "path": "assets/production/HouseParts/h3_window_casement.png",
+    "dimensions": [
+      80,
+      88
+    ],
+    "alphaBounds": [
+      1,
+      5,
+      78,
+      84
+    ],
+    "sha256": "4c6ebc0a5ce9384f7e2f1cc980d7b213b7230ce2c7b32ac8a9535e288a8317fa"
+  },
+  {
+    "key": "h3_door_grille",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/HouseParts/h3_door_grille.png",
+    "path": "assets/production/HouseParts/h3_door_grille.png",
+    "dimensions": [
+      116,
+      130
+    ],
+    "alphaBounds": [
+      3,
+      3,
+      113,
+      127
+    ],
+    "sha256": "721a578ace1f9e90570d78d0804744050891a5f32ab0050a18cdcdbe3ea97b8d"
+  },
+  {
+    "key": "h1_roof_porch",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/HouseParts/h1_roof_porch.png",
+    "path": "assets/production/HouseParts/h1_roof_porch.png",
+    "dimensions": [
+      213,
+      65
+    ],
+    "alphaBounds": [
+      3,
+      3,
+      212,
+      57
+    ],
+    "sha256": "a0e6b8cc4e19f2b59e52baa52743d2ccf5a5076f63e9f6a59f4c19c008847f5e"
+  },
+  {
+    "key": "h3_parapet",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/HouseParts/h3_parapet.png",
+    "path": "assets/production/HouseParts/h3_parapet.png",
+    "dimensions": [
+      246,
+      48
+    ],
+    "alphaBounds": [
+      1,
+      5,
+      242,
+      47
+    ],
+    "sha256": "c475f3729340f3da174d9cff9b27008363934934fc87c8b243331c3aa4a49ff2"
+  },
+  {
+    "key": "function_machine_idle",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Puzzle/function_machine_idle.png",
+    "path": "assets/production/Puzzle/function_machine_idle.png",
+    "dimensions": [
+      169,
+      186
+    ],
+    "alphaBounds": [
+      18,
+      26,
+      169,
+      186
+    ],
+    "sha256": "6f7ead59d83045fc3a7acf19032397609e151eb40022ec66cee9b0617e806fe6"
+  },
+  {
+    "key": "function_machine_active",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Puzzle/function_machine_active.png",
+    "path": "assets/production/Puzzle/function_machine_active.png",
+    "dimensions": [
+      169,
+      186
+    ],
+    "alphaBounds": [
+      18,
+      26,
+      169,
+      186
+    ],
+    "sha256": "695f7dc3a8eafe7ca5eda78250de8a802701597b9db4aafaf44ad1802191de66"
+  },
+  {
+    "key": "checkpoint_post_idle",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Puzzle/checkpoint_post_idle.png",
+    "path": "assets/production/Puzzle/checkpoint_post_idle.png",
+    "dimensions": [
+      32,
+      99
+    ],
+    "alphaBounds": [
+      4,
+      1,
+      28,
+      97
+    ],
+    "sha256": "db37886acf1ae638ba6c2c5c826e19998d7077ef916eae133227a620cde29ffc"
+  },
+  {
+    "key": "checkpoint_post_active",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Puzzle/checkpoint_post_active.png",
+    "path": "assets/production/Puzzle/checkpoint_post_active.png",
+    "dimensions": [
+      34,
+      100
+    ],
+    "alphaBounds": [
+      4,
+      2,
+      32,
+      98
+    ],
+    "sha256": "ebdfbd243a1dc42d5ea0fd46123c0e58aa96ec74b6ebb9b5db92487df4f126f1"
+  },
+  {
+    "key": "answer_sign",
+    "source": "Untitled (6).zip",
+    "entry": "Level1/Puzzle/answer_sign.png",
+    "path": "assets/production/Puzzle/answer_sign.png",
+    "dimensions": [
+      32,
+      45
+    ],
+    "alphaBounds": [
+      1,
+      1,
+      31,
+      45
+    ],
+    "sha256": "e197a9096a6bad6a8ec9454a89a5c484f3550d384c77942337b213b2ae44be5e"
+  },
+  {
+    "key": "idle-00",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_000.png",
+    "path": "assets/chill-boy/idle-00.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      203,
+      81,
+      487,
+      525
+    ],
+    "sha256": "d55aa0b784f9e6ab4143184143796df25fb4bee240bfad5b239cb5693ee85de9"
+  },
+  {
+    "key": "idle-01",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_001.png",
+    "path": "assets/chill-boy/idle-01.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      203,
+      79,
+      488,
+      525
+    ],
+    "sha256": "ef15b28c502a30f2ca2a4d2ef6627696e1f5c4cf320a3dd7d7e23b391453458a"
+  },
+  {
+    "key": "idle-02",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_002.png",
+    "path": "assets/chill-boy/idle-02.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      204,
+      77,
+      488,
+      525
+    ],
+    "sha256": "02d8551de9386bfc4411af3f6ecc43d8c61244024e1e81e4d61145d322764c2b"
+  },
+  {
+    "key": "idle-03",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_003.png",
+    "path": "assets/chill-boy/idle-03.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      204,
+      76,
+      489,
+      525
+    ],
+    "sha256": "b910f255c47cfeeb97965f911697b2177070692c600ee53f5d70a5e023016b70"
+  },
+  {
+    "key": "idle-04",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_004.png",
+    "path": "assets/chill-boy/idle-04.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      205,
+      74,
+      489,
+      525
+    ],
+    "sha256": "a9864f652abed818e84b9ecd768e4c852a2d11e222ba6a84210d4b2552303ee9"
+  },
+  {
+    "key": "idle-05",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_005.png",
+    "path": "assets/chill-boy/idle-05.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      204,
+      77,
+      488,
+      525
+    ],
+    "sha256": "09f4a0b65a887a51a9df0d3c276c4511c163418b6d9e4d9d50d4bf7317be012b"
+  },
+  {
+    "key": "idle-06",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_006.png",
+    "path": "assets/chill-boy/idle-06.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      203,
+      79,
+      488,
+      525
+    ],
+    "sha256": "645f348b32d50d267cd9d939f9e38d63204dd4bef64f8bb6edabc0b5cfc3d725"
+  },
+  {
+    "key": "idle-07",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_007.png",
+    "path": "assets/chill-boy/idle-07.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      202,
+      81,
+      487,
+      525
+    ],
+    "sha256": "fad250b59bd2a0c48d0124ce31f7761abd19b60ce7e4b116a417457f9e4ab644"
+  },
+  {
+    "key": "idle-08",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_008.png",
+    "path": "assets/chill-boy/idle-08.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      201,
+      84,
+      486,
+      525
+    ],
+    "sha256": "567e257ae8056b88d917ee5454f2367034349d825b0cd3fa03bf8c203cb581f7"
+  },
+  {
+    "key": "idle-09",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_009.png",
+    "path": "assets/chill-boy/idle-09.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      199,
+      86,
+      485,
+      525
+    ],
+    "sha256": "a41fd1d98b7b440c5d4624bae6299491d1002a43f3bca85ed55bb991d69b8f6e"
+  },
+  {
+    "key": "idle-10",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_010.png",
+    "path": "assets/chill-boy/idle-10.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      200,
+      84,
+      486,
+      525
+    ],
+    "sha256": "c4bc4eb6bfcadc8e0d577161870748a0743a7aa1ec937596543058d5bd3aa884"
+  },
+  {
+    "key": "idle-11",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_011.png",
+    "path": "assets/chill-boy/idle-11.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      201,
+      82,
+      486,
+      525
+    ],
+    "sha256": "e173bfdee73ac042da92ec6ff419ec23236670c2d6a56796d7eb4d0206c4188d"
+  },
+  {
+    "key": "run-00",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_000.png",
+    "path": "assets/chill-boy/run-00.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      194,
+      68,
+      499,
+      496
+    ],
+    "sha256": "116a24b6a473d01cef241376810efc2279001001804105bc1ecea260d3ad7aac"
+  },
+  {
+    "key": "run-01",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_001.png",
+    "path": "assets/chill-boy/run-01.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      206,
+      75,
+      490,
+      514
+    ],
+    "sha256": "76d55f4f81938a038172b2a2a4f3963e6e02c0f9b5e88842945e8ccf31363816"
+  },
+  {
+    "key": "run-02",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_002.png",
+    "path": "assets/chill-boy/run-02.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      196,
+      82,
+      482,
+      523
+    ],
+    "sha256": "423136583d77f00171609baa9452b41eb144c80e431bddfeeecd22da7ae66535"
+  },
+  {
+    "key": "run-03",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_003.png",
+    "path": "assets/chill-boy/run-03.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      196,
+      82,
+      482,
+      530
+    ],
+    "sha256": "004ef059e838839b8d1f8550794ff986a1e7f9a4b3871744a94f7b4003fa7194"
+  },
+  {
+    "key": "run-04",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_004.png",
+    "path": "assets/chill-boy/run-04.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      195,
+      75,
+      490,
+      525
+    ],
+    "sha256": "108937717b0ed8b1d2fcdf3c2a0402ea3e9390aa5a290790fa5ad7f86072b238"
+  },
+  {
+    "key": "run-05",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_005.png",
+    "path": "assets/chill-boy/run-05.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      176,
+      68,
+      532,
+      498
+    ],
+    "sha256": "d532a88737b9e60b00dfeb46c99f9e63c4ad68548fb80e59bd9b98b4a05dbae1"
+  },
+  {
+    "key": "run-06",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_006.png",
+    "path": "assets/chill-boy/run-06.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      195,
+      75,
+      490,
+      518
+    ],
+    "sha256": "330a44d086a3631eb3fcd68aabbaf38c9999647d854722bc6bda535ea70daba3"
+  },
+  {
+    "key": "run-07",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_007.png",
+    "path": "assets/chill-boy/run-07.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      196,
+      82,
+      482,
+      526
+    ],
+    "sha256": "b3cea34cb4abb80ec5fcf8791c404ab9f379b082ba92de5f67b689e22aad5a22"
+  },
+  {
+    "key": "run-08",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_008.png",
+    "path": "assets/chill-boy/run-08.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      196,
+      82,
+      482,
+      531
+    ],
+    "sha256": "02ed72eb94450065e4e609af9512dff7ccc16a1692436d375aa372024b351a9b"
+  },
+  {
+    "key": "run-09",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_009.png",
+    "path": "assets/chill-boy/run-09.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      206,
+      75,
+      490,
+      524
+    ],
+    "sha256": "3d11b850fd674cea80d7732913ad235385b97cd48f052524687c62e1607fc0f9"
+  },
+  {
+    "key": "jump-00",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/07-Jump_Up/SPR_CHILL_BOY_Jump_Up_000.png",
+    "path": "assets/chill-boy/jump-00.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      181,
+      6,
+      515,
+      463
+    ],
+    "sha256": "6294455059dfe341c908091bbaa804c3e246efc555a7b558044cb76bfe0a2733"
+  },
+  {
+    "key": "fall-00",
+    "source": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "entry": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/08-Jump_Fall/SPR_CHILL_BOY_Jump_Fall_000.png",
+    "path": "assets/chill-boy/fall-00.png",
+    "dimensions": [
+      659,
+      626
+    ],
+    "alphaBounds": [
+      149,
+      31,
+      511,
+      461
+    ],
+    "sha256": "325a75daf85d979c692779067c96d17b2f5b7b1aeceb70bd15541be84b70b839"
+  },
+  {
+    "key": "kenney_ground_left",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_horizontal_left.png",
+    "path": "assets/kenney/tiles/terrain_stone_horizontal_left.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Street ground collision-visible surface (left cap)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "7b6b1c9f021a3f350426f1aa43c239bd7f5db4cf535af3da15579886d3b6f0e4"
+  },
+  {
+    "key": "kenney_ground_center",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_horizontal_middle.png",
+    "path": "assets/kenney/tiles/terrain_stone_horizontal_middle.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Street ground collision-visible surface (repeat tile)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "85aa3aaeb9bb0c1ac42c07a72066eb0e8bf3edec589dcabd6ae1ae6bf2678a00"
+  },
+  {
+    "key": "kenney_ground_right",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_horizontal_right.png",
+    "path": "assets/kenney/tiles/terrain_stone_horizontal_right.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Street ground collision-visible surface (right cap)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "457eede1d55c68710ce7c0076707ed165d51191a5cd615f691e9ef30cc08f25d"
+  },
+  {
+    "key": "kenney_deck_left",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_block_top_left.png",
+    "path": "assets/kenney/tiles/terrain_stone_block_top_left.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Elevated rooftop deck collision-visible surface (left cap)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "1d5793e74ba2c4ddf5fa105fc7a521cd09685edd3657e092aa824b67a8527871"
+  },
+  {
+    "key": "kenney_deck_center",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_block_top.png",
+    "path": "assets/kenney/tiles/terrain_stone_block_top.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Elevated rooftop deck collision-visible surface (repeat tile)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "e6ede2e9dbd6beec89b2b4fc13f798183ad002e1c8a1eb6692192bcd5a161101"
+  },
+  {
+    "key": "kenney_deck_right",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_block_top_right.png",
+    "path": "assets/kenney/tiles/terrain_stone_block_top_right.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Elevated rooftop deck collision-visible surface (right cap)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "680f4c49e73be1b952aaea7192bfe019c1de20be5f9cc7f6f688dfe4a5ee3050"
+  },
+  {
+    "key": "kenney_deck_overhang_left",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_horizontal_overhang_left.png",
+    "path": "assets/kenney/tiles/terrain_stone_horizontal_overhang_left.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Deck underside lip, left end",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "8d46df2a62a514e7952294f9f804b00c5dc35518c0bfed9544fc26a189aae36a"
+  },
+  {
+    "key": "kenney_deck_overhang_right",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_horizontal_overhang_right.png",
+    "path": "assets/kenney/tiles/terrain_stone_horizontal_overhang_right.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Deck underside lip, right end",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "1c3608d2eb17b8b9828167d00f75236cf2e94f69a01ccb0a8c8e16528be45d26"
+  },
+  {
+    "key": "kenney_block_center",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_block_center.png",
+    "path": "assets/kenney/tiles/terrain_stone_block_center.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Reserved: filler block for future area geometry",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "d9f7523736b7b28fbf5c3e9d6694a8585ca4d443c4050fee89de85ccebade222"
+  },
+  {
+    "key": "kenney_block_left",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_block_left.png",
+    "path": "assets/kenney/tiles/terrain_stone_block_left.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Reserved: filler block for future area geometry",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "be9353b806cd6aa5b321f40b86b10e371efaa412392687ac0ef20c1319aec61c"
+  },
+  {
+    "key": "kenney_block_right",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/terrain_stone_block_right.png",
+    "path": "assets/kenney/tiles/terrain_stone_block_right.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Reserved: filler block for future area geometry",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "da3463367acb4c84cac85c96dbf87fb145d5330127e4f2e14555ff9ef95ff488"
+  },
+  {
+    "key": "kenney_coin",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/coin_gold.png",
+    "path": "assets/kenney/tiles/coin_gold.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Area 1 optional collectible (world sprite)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "edc38726153392a10c0ddd73a72aeef91bf41baf9b697fd334eb43f9ed12b56c"
+  },
+  {
+    "key": "kenney_hud_coin",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/hud_coin.png",
+    "path": "assets/kenney/tiles/hud_coin.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Collectible counter icon in the HUD/footer",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "3583ade2dead6c120e8674222d103553a5ee4b4fe4db7443958b65415bfc4a3e"
+  },
+  {
+    "key": "kenney_ladder_top",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/ladder_top.png",
+    "path": "assets/kenney/tiles/ladder_top.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Ladder traversal art (top segment), replaces Figma ladder art",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "39b583c88ba4712d0921a69b2edf75f679826ecdbd48fadad6d158b9e9868abe"
+  },
+  {
+    "key": "kenney_ladder_middle",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/ladder_middle.png",
+    "path": "assets/kenney/tiles/ladder_middle.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Ladder traversal art (repeat segment)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "8af18f4f65425316785cd4ff51007f29ba8151cb7958a28e34961da886199b03"
+  },
+  {
+    "key": "kenney_ladder_bottom",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/ladder_bottom.png",
+    "path": "assets/kenney/tiles/ladder_bottom.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Ladder traversal art (bottom segment)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "73abad7e888711b3b8ce364f55cbdc7dc89d9c56461a439fc1d79c4a29907e4c"
+  },
+  {
+    "key": "kenney_bridge",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/bridge.png",
+    "path": "assets/kenney/tiles/bridge.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Function-puzzle bridge deck art, visually distinct from ground/deck terrain",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "0436dc90d29ba7f67b3291018827a0599ca4ba91b7ffb30a0b42314cd191f8f8"
+  },
+  {
+    "key": "kenney_lever",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/lever.png",
+    "path": "assets/kenney/tiles/lever.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Function machine idle state (replaces Figma function_machine_idle art)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "73eb5423dc2a10c9a5ae120a119ecfe6d0069db18c034c43b76c0680d4c711ad"
+  },
+  {
+    "key": "kenney_lever_left",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/lever_left.png",
+    "path": "assets/kenney/tiles/lever_left.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Function machine solved/active state",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "0f2b18eb4d9262280ab2bc0db710a431cbe39131ee1df6480c1cb67ab63c0413"
+  },
+  {
+    "key": "kenney_sign",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/sign.png",
+    "path": "assets/kenney/tiles/sign.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Checkpoint marker (idle state)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "819f2fd43fb5abd2af612e50ad923417bffc4459e616b6e391fca6615d764ef2"
+  },
+  {
+    "key": "kenney_flag_a",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/flag_green_a.png",
+    "path": "assets/kenney/tiles/flag_green_a.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Goal flag (frame A, also checkpoint-active state)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "dd0fb1c58ea696999ff5371257c627fd2c1a48ffdd907a9b96319be075d0aeb9"
+  },
+  {
+    "key": "kenney_flag_b",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/flag_green_b.png",
+    "path": "assets/kenney/tiles/flag_green_b.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Goal flag (frame B, waving animation)",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "fbb0d2865c81c3f8053ff53dd3e23d00197f916746a00aced0b80edf8921b229"
+  },
+  {
+    "key": "kenney_bg_clouds",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Backgrounds/Default/background_clouds.png",
+    "path": "assets/kenney/backgrounds/background_clouds.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Restrained scrolling sky backdrop, replaces all Figma background silhouettes",
+    "dimensions": [
+      256,
+      256
+    ],
+    "sha256": "af584247f5df2ad50c0d53427ff34424038d0aed61f58d7861158e957166983e"
+  },
+  {
+    "key": "kenney_block_blue",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/block_blue.png",
+    "path": "assets/kenney/tiles/block_blue.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Flat-color fill for simple building silhouettes (house/shop/cafe/workshop), non-collidable background layer",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "af762ae23f2edd143e17846b4e967fb3156f011a00478344eba8ee36267b5aa2"
+  },
+  {
+    "key": "kenney_door_closed",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/door_closed.png",
+    "path": "assets/kenney/tiles/door_closed.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Door detail on building silhouettes",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "207791aff17fb5b98b0ae4b2072e9f93c81f7f3a1f1951a4751f8e4349fdfc38"
+  },
+  {
+    "key": "kenney_door_closed_top",
+    "source": "kenney_new-platformer-pack-1.1 (1).zip",
+    "entry": "Sprites/Tiles/Default/door_closed_top.png",
+    "path": "assets/kenney/tiles/door_closed_top.png",
+    "license": "CC0 1.0 (Kenney, kenney.nl)",
+    "status": "temporary",
+    "usage": "Door frame top detail on building silhouettes",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "ecad41dd6e178c571f5d0140f8f0cecbe5882339d3ecd985459cffacd2f66764"
+  }
+]

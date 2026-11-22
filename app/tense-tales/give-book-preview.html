@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Give Book — Phase A1/A2 preview (dev only)</title>
+<link rel="stylesheet" href="styles/give-book-preview.css" />
+</head>
+<body>
+  <main class="gb-wrap">
+    <h1>Aina gives Amir a book — readability pilot</h1>
+    <p class="gb-note">Dev-only preview. Not linked from the game. Three authored states of one scene, same background and characters, no captions in this section.</p>
+
+    <section class="gb-row" id="gbPlain">
+      <div class="gb-frame" data-state="1"><div class="gb-stage" id="stage1"></div></div>
+      <div class="gb-frame" data-state="2"><div class="gb-stage" id="stage2"></div></div>
+      <div class="gb-frame" data-state="3"><div class="gb-stage" id="stage3"></div></div>
+    </section>
+
+    <h2>Labelled version</h2>
+    <section class="gb-row" id="gbLabelled">
+      <div class="gb-frame" data-state="1"><div class="gb-stage" id="stage1b"></div><p class="gb-caption">1. Aina holds the book. Amir's hands are empty.</p></div>
+      <div class="gb-frame" data-state="2"><div class="gb-stage" id="stage2b"></div><p class="gb-caption">2. Aina offers the book. Amir reaches to receive it.</p></div>
+      <div class="gb-frame" data-state="3"><div class="gb-stage" id="stage3b"></div><p class="gb-caption">3. Amir holds the book. Aina's hands are empty.</p></div>
+    </section>
+
+    <pre id="gbFindings" class="gb-findings"></pre>
+  </main>
+
+  <script src="src/tenseTalesNamespace.js"></script>
+  <script src="src/data/assetCatalog.js"></script>
+  <script src="src/utils/characterAnchors.js"></script>
+  <script src="src/utils/sceneValidation.js"></script>
+  <script src="src/utils/sceneComposition.js"></script>
+  <script src="src/giveBookPreview.js"></script>
+</body>
+</html>

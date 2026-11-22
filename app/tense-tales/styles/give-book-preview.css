@@ -1,0 +1,90 @@
+:root {
+  --gb-bg: #faf6ee;
+  --gb-ink: #2c2416;
+  --gb-frame-border: #d8cdb4;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--gb-bg);
+  color: var(--gb-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+.gb-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+h1 { font-size: 22px; margin: 0 0 8px; }
+h2 { font-size: 18px; margin: 32px 0 8px; }
+
+.gb-note {
+  font-size: 14px;
+  color: #6b6150;
+  margin: 0 0 20px;
+}
+
+.gb-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.gb-frame {
+  background: #fff;
+  border: 1px solid var(--gb-frame-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gb-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3.4;
+  overflow: hidden;
+  background: #cceaf2;
+}
+
+.gb-stage .scene-zoom {
+  position: absolute;
+  inset: 0;
+  transform: scale(2.15);
+  transform-origin: 50% 82%;
+}
+
+.gb-stage .scene-layer {
+  position: absolute;
+}
+.gb-stage .scene-surface {
+  position: absolute;
+  display: block;
+}
+
+.gb-caption {
+  margin: 0;
+  padding: 10px 12px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  border-top: 1px solid var(--gb-frame-border);
+}
+
+.gb-findings {
+  margin-top: 24px;
+  padding: 12px;
+  background: #11161f;
+  color: #c8f0c8;
+  font-size: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .gb-row {
+    grid-template-columns: 1fr;
+  }
+}

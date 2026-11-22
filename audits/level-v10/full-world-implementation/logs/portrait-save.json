@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "fixtureBased": true,
+  "reachabilityProof": false,
+  "viewport": "370x740",
+  "reducedMotion": true,
+  "legacyBytesPreserved": true,
+  "restoredCheckpoints": [
+    "cp-c",
+    "cp-e",
+    "cp-f",
+    "cp-g"
+  ],
+  "automaticCloseAndSafeCollision": [
+    "pipe",
+    "final"
+  ],
+  "pauseResume": true,
+  "errors": []
+}

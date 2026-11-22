@@ -1,0 +1,44 @@
+{
+  "desktop-fahami": {
+    "height": 6537,
+    "width": 1440,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 0
+  },
+  "desktop-ulang-kaji": {
+    "height": 2934,
+    "width": 1440,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 0
+  },
+  "desktop-latihan": {
+    "height": 1326,
+    "width": 1440,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 1
+  },
+  "mobile-fahami": {
+    "height": 8631,
+    "width": 390,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 0
+  },
+  "mobile-ulang-kaji": {
+    "height": 3656,
+    "width": 390,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 0
+  },
+  "mobile-latihan": {
+    "height": 1184,
+    "width": 390,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 1
+  }
+}

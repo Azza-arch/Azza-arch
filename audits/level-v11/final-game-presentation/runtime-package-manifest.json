@@ -1,0 +1,283 @@
+{
+  "files": {
+    "app/addmath/rooftop/assets/chill-boy/fall-00.png": {
+      "bytes": 61542,
+      "sha256": "325a75daf85d979c692779067c96d17b2f5b7b1aeceb70bd15541be84b70b839"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-00.png": {
+      "bytes": 44562,
+      "sha256": "d55aa0b784f9e6ab4143184143796df25fb4bee240bfad5b239cb5693ee85de9"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-01.png": {
+      "bytes": 52500,
+      "sha256": "ef15b28c502a30f2ca2a4d2ef6627696e1f5c4cf320a3dd7d7e23b391453458a"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-02.png": {
+      "bytes": 53280,
+      "sha256": "02d8551de9386bfc4411af3f6ecc43d8c61244024e1e81e4d61145d322764c2b"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-03.png": {
+      "bytes": 54203,
+      "sha256": "b910f255c47cfeeb97965f911697b2177070692c600ee53f5d70a5e023016b70"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-04.png": {
+      "bytes": 54244,
+      "sha256": "a9864f652abed818e84b9ecd768e4c852a2d11e222ba6a84210d4b2552303ee9"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-05.png": {
+      "bytes": 53293,
+      "sha256": "09f4a0b65a887a51a9df0d3c276c4511c163418b6d9e4d9d50d4bf7317be012b"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-06.png": {
+      "bytes": 52983,
+      "sha256": "645f348b32d50d267cd9d939f9e38d63204dd4bef64f8bb6edabc0b5cfc3d725"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-07.png": {
+      "bytes": 52356,
+      "sha256": "fad250b59bd2a0c48d0124ce31f7761abd19b60ce7e4b116a417457f9e4ab644"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-08.png": {
+      "bytes": 52626,
+      "sha256": "567e257ae8056b88d917ee5454f2367034349d825b0cd3fa03bf8c203cb581f7"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-09.png": {
+      "bytes": 52651,
+      "sha256": "a41fd1d98b7b440c5d4624bae6299491d1002a43f3bca85ed55bb991d69b8f6e"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-10.png": {
+      "bytes": 52174,
+      "sha256": "c4bc4eb6bfcadc8e0d577161870748a0743a7aa1ec937596543058d5bd3aa884"
+    },
+    "app/addmath/rooftop/assets/chill-boy/idle-11.png": {
+      "bytes": 52975,
+      "sha256": "e173bfdee73ac042da92ec6ff419ec23236670c2d6a56796d7eb4d0206c4188d"
+    },
+    "app/addmath/rooftop/assets/chill-boy/jump-00.png": {
+      "bytes": 60698,
+      "sha256": "6294455059dfe341c908091bbaa804c3e246efc555a7b558044cb76bfe0a2733"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-00.png": {
+      "bytes": 58179,
+      "sha256": "116a24b6a473d01cef241376810efc2279001001804105bc1ecea260d3ad7aac"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-01.png": {
+      "bytes": 52890,
+      "sha256": "76d55f4f81938a038172b2a2a4f3963e6e02c0f9b5e88842945e8ccf31363816"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-02.png": {
+      "bytes": 51513,
+      "sha256": "423136583d77f00171609baa9452b41eb144c80e431bddfeeecd22da7ae66535"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-03.png": {
+      "bytes": 52588,
+      "sha256": "004ef059e838839b8d1f8550794ff986a1e7f9a4b3871744a94f7b4003fa7194"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-04.png": {
+      "bytes": 58664,
+      "sha256": "108937717b0ed8b1d2fcdf3c2a0402ea3e9390aa5a290790fa5ad7f86072b238"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-05.png": {
+      "bytes": 64206,
+      "sha256": "d532a88737b9e60b00dfeb46c99f9e63c4ad68548fb80e59bd9b98b4a05dbae1"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-06.png": {
+      "bytes": 57341,
+      "sha256": "330a44d086a3631eb3fcd68aabbaf38c9999647d854722bc6bda535ea70daba3"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-07.png": {
+      "bytes": 52721,
+      "sha256": "b3cea34cb4abb80ec5fcf8791c404ab9f379b082ba92de5f67b689e22aad5a22"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-08.png": {
+      "bytes": 49948,
+      "sha256": "02ed72eb94450065e4e609af9512dff7ccc16a1692436d375aa372024b351a9b"
+    },
+    "app/addmath/rooftop/assets/chill-boy/run-09.png": {
+      "bytes": 53454,
+      "sha256": "3d11b850fd674cea80d7732913ad235385b97cd48f052524687c62e1607fc0f9"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/KENNEY-PIXEL-PLATFORMER-LICENSE.txt": {
+      "bytes": 710,
+      "sha256": "79ab2b701fe8047758bec141b4613084de4b96581279cbfd3d927414430e3dc1"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/Backgrounds/tile_0015.png": {
+      "bytes": 179,
+      "sha256": "08fff52f58e06c5035aaf4ea78b7c8fd24cf5ae30c17b7a77f29456fcc86f9bc"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0001.png": {
+      "bytes": 184,
+      "sha256": "893280193cadeffc34efe9d474a50ab86de5f0f927ffd69f5575c3832237b095"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0002.png": {
+      "bytes": 162,
+      "sha256": "6b9d8accdcbdf4f972680b1ed73a789a615ae77800ee4512fd81d1f806901063"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0003.png": {
+      "bytes": 189,
+      "sha256": "7f60dc96cabb9358d7173fb8da7456a25c50063143309ae32de62826944e608e"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0004.png": {
+      "bytes": 142,
+      "sha256": "c82caa64467a4f8bbb5524e627aca73797731b3403d43e8a729d894578beafaa"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0005.png": {
+      "bytes": 142,
+      "sha256": "106d36d936ecd7d6511d1f91d98841a27ae62b1d1ffcde6fb771ee290a3df75e"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0006.png": {
+      "bytes": 173,
+      "sha256": "09fddc95e9fb4d1f25a8dc8b6b89c665c6e894a2b283fc88032a142fd1a7a348"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0009.png": {
+      "bytes": 159,
+      "sha256": "99551cfcc833f1aab0d9d0bbf2d958331d8d39eb18d55880286c5468654aae27"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0017.png": {
+      "bytes": 178,
+      "sha256": "d48e9fe1197c99b7bac2c6f465160f89a8082d8059bd709e5de8fa83bfa81f7b"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0018.png": {
+      "bytes": 160,
+      "sha256": "79fb09de43cb074a9f4dac21af9b7aaaf2b65668eb5ae1a529326208809bfd2c"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0019.png": {
+      "bytes": 169,
+      "sha256": "3f81428a03ba43a2726158d52aa3ac8353d3de7735d1339034fb338fa8663722"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0022.png": {
+      "bytes": 157,
+      "sha256": "874fb23846e08ff3f7d7a87ffb85d5a15ddd9c35863f56d3113dd64890040ee1"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0037.png": {
+      "bytes": 147,
+      "sha256": "4dbfdd719110851b3d94c4644da9e11070529ac20758e03307794847bd4a6538"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0038.png": {
+      "bytes": 100,
+      "sha256": "dffc34b815b01c2a199a8fce511b73294a09f0f003a182c4a16fa0e3a407b085"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0039.png": {
+      "bytes": 147,
+      "sha256": "36274da9e60c54838cc9b9ea33396534c0f34b4925f113e06d5a5603d3fb9daa"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0048.png": {
+      "bytes": 183,
+      "sha256": "d920c16fc430f1dc4225ed90ce697ce2893c060c5caf1741a0aa8e1fa12a3753"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0049.png": {
+      "bytes": 134,
+      "sha256": "2f257bd9feafc58282021943ecf707ed9a3b5bb45f36bea793ac3c602c0e0912"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0050.png": {
+      "bytes": 184,
+      "sha256": "a0c8567665250527d3ad8627578b3fbccd2942eebdb6e65da732a7c3e4441278"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0051.png": {
+      "bytes": 158,
+      "sha256": "e9fce3a247892179b3b089dd0c713544417cfa39112d704598353715a353c0ac"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0057.png": {
+      "bytes": 166,
+      "sha256": "4924a02af4cd2d247553ebcb92d08b4ca8f2888196364ea3e4b870b64c934985"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0058.png": {
+      "bytes": 152,
+      "sha256": "00d97963ce521e3d3aa9eaf4a0b184a7652564833606ce41d81e19be98ef3cb1"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0059.png": {
+      "bytes": 163,
+      "sha256": "39867a250de078cd8f677dabbdde0ed0ddfa8bc258d48601b3b590408321e9e8"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0071.png": {
+      "bytes": 121,
+      "sha256": "00e3be84f61b2bedb2d2781e480ab4ab7047f77c1be70144a3af7330dcd93cd5"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0105.png": {
+      "bytes": 181,
+      "sha256": "50fc0a5d1c4a3348c47eb03a28f5382fcf032547db62df1930d6cdc317398567"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0112.png": {
+      "bytes": 198,
+      "sha256": "feab828a65b101d120c5e40b839388c52f7334981c82de77dd67c9bf677a12db"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0124.png": {
+      "bytes": 169,
+      "sha256": "608e6628f4346b511b14fa36b4aacf5b1346f73b388fcf06ad6a8906e5d13957"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0125.png": {
+      "bytes": 179,
+      "sha256": "660b214a92cb4edea9f5fae4be7caae96b68cce82163e235edc320e95d772af0"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0126.png": {
+      "bytes": 196,
+      "sha256": "d4c9a8bc562058512b67efd92bcb0618943017d450ca48e1c6ef9b1dd7fde70a"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0136.png": {
+      "bytes": 188,
+      "sha256": "2f07440f2a50e2cc2fecc19c6480451338bb3ebae47e42ae966431fd60610c8a"
+    },
+    "app/addmath/rooftop/assets/kenney-pixel-platformer/Tiles/tile_0151.png": {
+      "bytes": 161,
+      "sha256": "c958abb4618f9b670006b3baff4cc96937762e4d022065c4fde8656d54e033bd"
+    },
+    "app/addmath/rooftop/assets/manifest.json": {
+      "bytes": 6800,
+      "sha256": "f7da80f9cb48f373c10efdec8652ac0b6ec38a0ff79208454e9e24b8859057ad"
+    },
+    "app/addmath/rooftop/src/audio.js": {
+      "bytes": 11730,
+      "sha256": "c8eeb480e05173d59ea3e3200f500af654097ece62765bda6956186b9f351cc3"
+    },
+    "app/addmath/rooftop/src/level.js": {
+      "bytes": 14852,
+      "sha256": "8a70b098c18b61ceb2fc814e87d79cb14e16089a8702e0131a61c5dcffa77d5a"
+    },
+    "app/addmath/rooftop/src/v11/environment.js": {
+      "bytes": 8710,
+      "sha256": "fa978636a2256037e2fca0973967bf520e4c722e2bc844fcbee5f922d734abfa"
+    },
+    "app/addmath/rooftop/src/v11/game.js": {
+      "bytes": 68474,
+      "sha256": "e8937ef317109f8862c0279e6f2f8017a7413582a555baea242075d1e25ea547"
+    },
+    "app/addmath/rooftop/src/v11/level.js": {
+      "bytes": 8739,
+      "sha256": "1a26dfc2975ce3be50a0af1aa9bd7f6e1408f48807eff05fcd8fd9e254e01a4a"
+    },
+    "app/addmath/rooftop/src/v11/mechanisms.js": {
+      "bytes": 25599,
+      "sha256": "572821eb1def0c754b7a2d93c4f56c15d0d57579af8956ca73a1cfab2a6b52a0"
+    },
+    "app/addmath/rooftop/src/v11/presentation.css": {
+      "bytes": 15772,
+      "sha256": "7f80f78cd599886a9e949d0af4c6dfb0071e4f316b289653b506b943f7bc6d87"
+    },
+    "app/addmath/rooftop/src/v11/presentation.js": {
+      "bytes": 5891,
+      "sha256": "a6e30edde6297c8389e8bc45094a3bebc5df172650d7a3779bce65daa7f7fa50"
+    },
+    "app/addmath/rooftop/src/v11/save.js": {
+      "bytes": 2255,
+      "sha256": "6e13d7c8fd48c19a2c56a6eccf5e75750f145adb8f4a04903a9c1bd395e84ffe"
+    },
+    "app/addmath/rooftop/src/v11/world.css": {
+      "bytes": 5672,
+      "sha256": "1d4468ebb13cc84efc8f2a2e2881bdeaaf257fdd605c6e3251d52ff5f78d0767"
+    },
+    "app/addmath/rooftop/style.css": {
+      "bytes": 11244,
+      "sha256": "0332176a2a7d83bbdc580e33e3c65e084b53548fbdb25d260eacb776798f3dc4"
+    },
+    "app/addmath/rooftop/v11.html": {
+      "bytes": 12377,
+      "sha256": "3aa25cb3da17b44dd45ee03ee31fe4f8bf6f7fb7c8e30a0d5286ab1e286daca3"
+    },
+    "app/addmath/rooftop/vendor/phaser-3.90.0.min.js": {
+      "bytes": 1196122,
+      "sha256": "e92ddef111ba42e92d316979c732311757093688ea1810591cb7aa2858eba7a7"
+    }
+  },
+  "archiveBytes": 1680625,
+  "archiveSha256": "61d221778f30529c0fa2318d709c15600e21359d02c3c3beb19c8e6d3f59f339",
+  "deploymentPerformed": false
+}

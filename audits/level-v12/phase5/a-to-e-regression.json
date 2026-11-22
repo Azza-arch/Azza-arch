@@ -1,0 +1,368 @@
+{
+  "passed": true,
+  "route": "natural keyboard A main path, B lift, D blocks and crossing, E function stages and safe crossing",
+  "optionalBranches": "crate bonus, C, D service skipped",
+  "events": [
+    {
+      "walk": 220,
+      "x": 256,
+      "feet": 1296,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": -1,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 390,
+      "x": 403,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": 0,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 1020,
+      "x": 1030,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": 0,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 1240,
+      "x": 1265,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": 1,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 1400,
+      "x": 1435,
+      "feet": 1242,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": 1,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 1540,
+      "x": 1549,
+      "feet": 1174,
+      "mode": "playing",
+      "grounded": false,
+      "solved": [],
+      "checkpoint": 1,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 1690,
+      "x": 1715,
+      "feet": 1134,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": 1,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 1900,
+      "x": 1923,
+      "feet": 1080,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": 1,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 2000,
+      "x": 2028,
+      "feet": 1080,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [],
+      "checkpoint": 2,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 2520,
+      "x": 2543,
+      "feet": 1080,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 2,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 2700,
+      "x": 2723,
+      "feet": 1026,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 2,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 2900,
+      "x": 2911,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 4,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 3070,
+      "x": 3104,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 4,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 3150,
+      "x": 3181,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 4,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 3237,
+      "x": 3267,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift"
+      ],
+      "checkpoint": 5,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 3915,
+      "x": 3945,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 6,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 4104,
+      "x": 4129,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 4220,
+      "x": 4248,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 4320,
+      "x": 4356,
+      "feet": 918,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "LOCKED"
+    },
+    {
+      "jump": 4480,
+      "x": 4506,
+      "feet": 864,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 4806,
+      "x": 4835,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 4914,
+      "x": 4944,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "LOCKED"
+    },
+    {
+      "walk": 4220,
+      "x": 4252,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "CONFIGURED"
+    },
+    {
+      "jump": 4320,
+      "x": 4347,
+      "feet": 918,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "CONFIGURED"
+    },
+    {
+      "jump": 4480,
+      "x": 4498,
+      "feet": 864,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "CONFIGURED"
+    },
+    {
+      "walk": 4428,
+      "x": 4400,
+      "feet": 864,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "CONFIGURED"
+    },
+    {
+      "walk": 5100,
+      "x": 5131,
+      "feet": 1026,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "CONFIGURED"
+    },
+    {
+      "jump": 5238,
+      "x": 5258,
+      "feet": 947,
+      "mode": "playing",
+      "grounded": false,
+      "solved": [
+        "lift",
+        "number-span"
+      ],
+      "checkpoint": 7,
+      "water": "CONFIGURED"
+    },
+    {
+      "walk": 5598,
+      "x": 5628,
+      "feet": 972,
+      "mode": "playing",
+      "grounded": true,
+      "solved": [
+        "lift",
+        "number-span",
+        "water-crossing"
+      ],
+      "checkpoint": 8,
+      "water": "CROSSING_SAFE"
+    }
+  ],
+  "state": {
+    "x": 5628,
+    "feet": 972,
+    "mode": "playing",
+    "grounded": true,
+    "solved": [
+      "lift",
+      "number-span",
+      "water-crossing"
+    ],
+    "checkpoint": 8,
+    "water": "CROSSING_SAFE"
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": []
+}

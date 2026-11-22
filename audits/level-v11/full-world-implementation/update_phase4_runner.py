@@ -1,0 +1,23 @@
+from pathlib import Path
+p=Path(__file__).with_name('phase4_natural_input.py')
+s=p.read_text(encoding='utf-8-sig')
+s=s.replace('Natural-input R01–R12 verification and real browser captures for V11 Phase 3.', 'Natural-input R01–R16 verification and real browser captures for V11 Phase 4.')
+s=s.replace("checkpointId:'e-entry',solvedGateIds:['lift','number-span']", "checkpointId:'g-river',solvedGateIds:['lift','number-span','water-crossing']")
+s=s.replace("rooftop.scene.checkpointIndex===11\")", "rooftop.scene.checkpointIndex===10\")")
+a=s.index('    # Touch ladder controls')
+b=s.index("    mobile.wait_for_function('()=>rooftop.scene.player.body.blocked.down",a)
+s=s[:a]+s[b:]
+a=s.index('    mobile_context.close()')
+s=s[:a]+'''    mobile.wait_for_function('()=>rooftop.scene.player.body.blocked.down')
+    mobile.locator('[data-action="interact"]').tap()
+    mobile.wait_for_function("()=>rooftop.scene.mode==='mechanism'")
+    mobile.locator('[data-token="5"]').tap(); mobile.locator('#dial-test').tap()
+    mobile.locator('[data-order="fg"]').tap()
+    mobile.wait_for_function("()=>rooftop.scene.mode==='playing'&&!!rooftop.scene.gateBodies['river-crossing']")
+    assert mobile.evaluate("rooftop.scene.riverBridge.every(a=>a.y===972)")
+    mobile.screenshot(path=str(OUT/'phase4-mobile-G-reduced-motion.png'))
+    events.append({'event':'mobile-reduced-motion-river','passed':True,**state(mobile)})
+'''+s[a:]
+s=s.replace("'phase4-menu-desktop.png','phase4-A-gap-checkpoint.png'", "'phase4-A-gap-checkpoint.png','phase4-B-lift-locked-safe.png','phase4-C-bonus-complete.png','phase4-D-R08-span-safe.png'")
+s=s.replace('phase4-R01-R12-contact-sheet.png','phase4-A-G-contact-sheet.png')
+p.write_text(s,encoding='utf-8')

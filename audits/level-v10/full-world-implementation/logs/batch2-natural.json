@@ -1,0 +1,57 @@
+{
+  "stage": 2,
+  "passed": true,
+  "freshStart": true,
+  "teleports": false,
+  "wallSeconds": 36.78,
+  "events": [
+    {
+      "name": "B to D; C skipped",
+      "x": 3185.932233333312,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear"
+      ],
+      "coins": [
+        "coin-b"
+      ],
+      "cp": 4,
+      "elapsed": 16411.63666666665
+    },
+    {
+      "name": "D workshop passed",
+      "x": 3952.4133999999967,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block"
+      ],
+      "coins": [
+        "coin-b",
+        "coin-d-note"
+      ],
+      "cp": 4,
+      "elapsed": 32475.976666666375
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "final": {
+    "x": 3952.4133999999967,
+    "feet": 972,
+    "mode": "playing",
+    "gates": [
+      "gear",
+      "block"
+    ],
+    "coins": [
+      "coin-b",
+      "coin-d-note"
+    ],
+    "cp": 4,
+    "elapsed": 32492.646666666373
+  }
+}

@@ -1,0 +1,247 @@
+--- before/environment.js
++++ after/environment.js
+@@ -137,6 +137,7 @@
+  const riverHandle=s.add.image(-33,-33,leverHandleTexture).setOrigin(0).setScale(3).setDepth(12);
+  s.riverLever=s.add.container(riverPivotX,riverPivotY,[riverHandle]).setDepth(12).setAngle(0);
+  s.riverBridge=s.deck({...GATES[3],y:GATES[3].parkedY});
++ s.riverStatusText=s.label('Jambatan terkunci - dua pengunci diperlukan',7390,810,12);
+  // Door and destination flag use approved Kenney atlas frames.
+  tile(130,8262,864,11);tile(150,8262,918,11);tile(110,8370,918,11);
+  // No D terminal art is used as a fake door or building.
+--- before/game.js
++++ after/game.js
+@@ -498,13 +498,20 @@
+   // never shrinks except via the explicit, confirmed "Mula petualangan
+   // baharu" wipe) — reuses Phase 3's particle helpers and Phase 4's SFX,
+   // no new effect/audio system.
++  unlockSecretCollectibles() {
++    for(const def of COLLECTIBLES){
++      if(!def.requiresSecret||!this.discoveredSecrets.has(def.requiresSecret))continue;
++      const coin=this.collectibles.find(c=>c.active&&c.getData('id')===def.id);
++      if(coin?.body){coin.body.enable=true;coin.refreshBody();}
++    }
++  }
+   discoverSecret(id) {
+     if (this.discoveredSecrets.has(id)) return;
+     const secret = SECRETS.find(s => s.id === id);
+     if (!secret) return;
+     this.discoveredSecrets.add(id);
+     this.say(`secret:${id}`);
+-    if(id==='f-inverse'){const gem=this.collectibles.find(c=>c.getData('id')==='f-cave-gem');if(gem?.body){gem.body.enable=true;gem.refreshBody();}}
++    this.unlockSecretCollectibles();
+     this.writeSave();
+     this.tweens.killTweensOf(this.secretMarkers[id]);
+     this.pulseRing(secret.x, secret.feet - 30, 0xc9a227);
+@@ -540,7 +547,7 @@
+     $('secrets-list').innerHTML = '';
+     for (const s of SECRETS) {
+       const li = document.createElement('li');
+-      if (this.discoveredSecrets.has(s.id)) { li.textContent = `${s.title} — ${s.description}`; }
++      if (this.discoveredSecrets.has(s.id)) { li.textContent = `${s.title||s.name} — ${s.description}`; }
+       else { li.textContent = 'Rahsia belum ditemui.'; li.classList.add('locked'); }
+       $('secrets-list').append(li);
+     }
+--- before/level.js
++++ after/level.js
+@@ -77,9 +77,9 @@
+ // Bounds are the platform's left edge; the deck remains inside the cave
+ // end posts (x=6136 and x=6568). Its safe ledge/checkpoint is F-step2.
+ export const F_MOVING_PLATFORM={id:'F-moving-deck',minX:6150,maxX:6440,y:816,width:108,height:18,speed:72};
+-export const COLLECTIBLES=[{id:'a-ledge',x:855,y:1062},{id:'c-entry',x:1566,y:804},{id:'c-return',x:1836,y:804},{id:'b-return',x:2556,y:1020},{id:'d-service',x:3402,y:696},{id:'e-waterwalk',x:4644,y:1158},{id:'f-ridge',x:5900,y:816},{id:'f-cave-gem',x:6360,y:1080,kind:'gem',requiresSecret:'f-inverse'},{id:'g-farbank',x:7950,y:918}];
++export const COLLECTIBLES=[{id:'a-ledge',x:855,y:1062},{id:'c-entry',x:1566,y:804},{id:'c-return',x:1836,y:804,requiresSecret:'bonus-mapping'},{id:'b-return',x:2556,y:1020},{id:'d-service',x:3402,y:696},{id:'e-waterwalk',x:4644,y:1158},{id:'f-ridge',x:5900,y:816},{id:'f-cave-gem',x:6360,y:1080,kind:'gem',requiresSecret:'f-inverse'},{id:'g-farbank',x:7950,y:918}];
+ export const CRATE_PUZZLE={crate:{id:'crate-1',x:540,feet:1242},floorSwitch:{id:'plate-1',x:810,feet:1242,radius:40},platform:SURFACES.find(s=>s.id==='A-ledge')};
+-export const SECRETS=[{id:'bonus-mapping',x:1782,feet:864,radius:36,name:'Permata Pemetaan',description:'Terokai empat pasangan input dan output di laluan atas.',foundText:'Permata pemetaan diperoleh!'},{id:'f-inverse',x:6400,feet:1134,radius:72,puzzleTerminal:true,name:'Gua Songsang',description:'Daripada output 7, songsangkan f untuk mencari input 3.',foundText:'Hubungan songsang ditemui!'}];
++export const SECRETS=[{id:'bonus-mapping',puzzleTerminal:true,x:1782,feet:864,radius:36,name:'Permata Pemetaan',description:'Terokai empat pasangan input dan output di laluan atas.',foundText:'Permata pemetaan diperoleh!'},{id:'f-inverse',x:6400,feet:1134,radius:72,puzzleTerminal:true,name:'Gua Songsang',description:'Daripada output 7, songsangkan f untuk mencari input 3.',foundText:'Hubungan songsang ditemui!'}];
+ export const BASELINE_QUESTIONS=ORIGINAL_PUZZLES;
+ const numberPuzzle={id:'number',gate:'number-span',check(raw){const value=Number(raw);return {valid:Number.isInteger(value)&&value>=2&&value<=4,correct:Number.isInteger(value)&&value===4};}};
+ const waterComposition={id:'water-crossing',gate:'water-crossing',check(order){const valid=order==='fg'||order==='gf';return {valid,correct:valid&&order==='fg',output:order==='fg'?19:order==='gf'?15:null};}};
+--- before/mechanisms.js
++++ after/mechanisms.js
+@@ -1,3 +1,4 @@
++import {riverInput,riverOrder,riverStatus} from './finale.js';
+ import { GATES, TERMINALS, PUZZLES, CHECKPOINTS, COLLECTIBLES, SECRETS, SPAWN, GOAL } from './level.js';
+ import { SaveManager } from './save.js';
+ import {DialogueQueue,LINES} from './dialogue.js';
+@@ -168,13 +169,13 @@
+       const box = $('mechanism');
+       box.hidden = false;
+       const isD=terminal.kind==='number', isComposition=['composition','water-composition','river-final'].includes(terminal.kind), isWater=terminal.kind==='water-composition', isInverse=terminal.kind==='inverse-f', isRiver=terminal.kind==='river-final', riverOrder=this.solvedGates.has('river-input');
+-      $('mechanism-title').textContent = isD?'Bengkel blok nombor':isInverse?'Hubungan songsang':isRiver?(riverOrder?'Pilih urutan fungsi':'Sungai - latch pertama'):isComposition?'Susun fungsi':'Cuba mesin fungsi';
++      $('mechanism-title').textContent = isD?'Bengkel blok nombor':isInverse?'Hubungan songsang':isRiver?'Misi jambatan sungai':isComposition?'Susun fungsi':'Cuba mesin fungsi';
+       $('mechanism-rule').textContent = isD
+         ? 'g(x)=3x−2. Berjalan ke rak, pilih blok input dan lihat mesin mengira outputnya. Output 10 menetapkan lintasan selamat.'
+         : isInverse
+           ? 'Diberi f(x)=2x+1 pada domain {0,1,2,3}. Setiap input mempunyai output berbeza, jadi songsang wujud pada imej {1,3,5,7}. Output 7 datang daripada input mana? Songsang bukan 1/f(x).'
+         : isRiver
+-          ? (riverOrder?'Input x=2. Bandingkan f kemudian g dengan g kemudian f. Laluan betul memerlukan g(f(2))=13.':'Latch 1: h(x)=4x-3 mesti menghasilkan 17. Cari input, kemudian susun komposisi untuk membuka jambatan.')
++          ? (riverOrder?'Pengunci 1 sudah terbuka. Pengunci 2: input 2 melalui f(x)=2x+1 dan g(x)=3x-2. Bandingkan susunan untuk sasaran 13.':'Dua pengunci mengawal jambatan yang sama. Pengunci 1: uji h(x)=4x-3 untuk sasaran 17. Kemudian periksa pengunci susunan.')
+         : isWater
+           ? 'Input x = 3 melalui dua fungsi f(x) = 2x + 1 dan g(x) = 3x − 2. Susun f kemudian g untuk sasaran 19. Bandingkan hasil susunan songsang.'
+           : isComposition
+@@ -191,7 +192,7 @@
+         button.setAttribute('aria-pressed', String(Number(button.dataset.token) === (terminal.kind === 'lift' ? 3 : isD ? 2 : 0)));
+       });
+       this.selectedInput = terminal.kind === 'lift' ? 3 : isD ? 2 : isWater ? 3 : isRiver ? 0 : isComposition ? 2 : 0;
+-      $('mechanism-value').textContent = isD?'Pilih blok 2, 3 atau 4 pada rak':isInverse?'f(x)=7; cari input asal':isRiver?(riverOrder?'2 -> f(2)=5 -> g(5)=13':`h(${this.selectedInput}) = ${4*this.selectedInput-3}`):isWater?'Input 3 · pilih urutan untuk mengira output':isComposition?'f(2)=5 · g(2)=4':`f(${this.selectedInput}) = ${2 * this.selectedInput + 1}`;
++      $('mechanism-value').textContent = isD?'Pilih blok 2, 3 atau 4 pada rak':isInverse?'f(x)=7; cari input asal':isRiver?(riverOrder?'Pengunci 2 - input 2 - sasaran 13':`h(${this.selectedInput}) = ${4*this.selectedInput-3}`):isWater?'Input 3 · pilih urutan untuk mengira output':isComposition?'f(2)=5 · g(2)=4':`f(${this.selectedInput}) = ${2 * this.selectedInput + 1}`;
+       $('mechanism-feedback').textContent = isD?'Blok terpilih bergerak ke soket. Mesin mengira g(x); output selain 10 boleh dicuba semula.':isInverse?'Output 7 datang daripada input yang mana?':isRiver?(riverOrder?'Bandingkan output perantaraan dan hasil akhir.':'Pilih input 0 hingga 9, kemudian uji.'):isWater?'Pilih susunan paip. Hasil yang betul akan mengisi takungan.':isComposition?'Pilih satu susunan untuk melihat hasilnya.':terminal.kind === 'lift' ? 'Output mesti sepadan dengan 7.' : 'Pilih input, kemudian tekan Lihat output.';
+       $('dial-test').textContent = terminal.kind === 'lift' ? 'Uji pengangkat' : isD?'Uji blok':isInverse?'Uji input':isRiver?(riverOrder?'':'Uji latch'): 'Lihat output';
+       this.numberBlockArts?.forEach((art,n)=>art?.setAlpha(isD&&n===this.selectedInput?1:.68));
+@@ -250,6 +251,7 @@
+         $('mechanism-feedback').textContent = `Pasangan direkodkan: ${this.selectedInput} → ${output}. ${this.mappingInputs.size}/4 diteroka.`;
+         if (this.mappingInputs.size === 4) {
+           this.mappingDone = true;
++          $('mechanism-feedback').textContent='Empat pasangan lengkap: output bertambah 2 apabila input bertambah 1. Koleksi di hujung laluan kini boleh diambil.';
+           this.discoverSecret('bonus-mapping');
+         }
+         this.writeSave();
+@@ -311,17 +313,21 @@
+       this.discoverSecret('f-inverse');
+       this.time.delayedCall(reducedMotion?0:520,()=>this.closeMechanism());
+     },
++    syncRiverStatus() {
++      this.riverStatusText?.setText(riverStatus(this.solvedGates));
++    },
+     testRiverInput() {
+-      const x=this.selectedInput, output=4*x-3;
+-      $('mechanism-value').textContent=`h(${x}) = 4(${x}) - 3 = ${output}`;
+-      if(output!==17){this.say('failed:river-final');SFX.incorrect(audio);$('mechanism-feedback').textContent=`h(${x}) = 4(${x}) - 3 = ${output}. Sasaran 17; cuba input lain.`;return;}
+-      $('mechanism-feedback').textContent='Tepat: h(5)=17. Latch pertama terbuka; sekarang pilih susunan untuk input 2.';
+-      SFX.correct(audio);this.solvedGates.add('river-input');this.writeSave();
+-      $('token-options').hidden=true;$('dial-test').hidden=true;$('pipe-options').hidden=false;
+-      $('mechanism-title').textContent='Latch kedua: susun fungsi';
+-      $('mechanism-rule').textContent='f(x)=2x+1; g(x)=3x−2. Input 2 melalui dua fungsi. Susun untuk sasaran 13.';
+-      $('mechanism-value').textContent='2 -> f(2)=5 -> g(5)=13';
+-      $('mechanism-feedback').textContent='Pilih susunan. Susunan songsang dikira sebenar dan boleh dicuba semula.';
++      if(this.mode!=='mechanism'||this.activePuzzle?.kind!=='river-final'||this.solvedGates.has('river-input'))return;
++      const x=this.selectedInput,result=riverInput(x);if(!result.valid)return;
++      $('mechanism-value').textContent=`h(${x}) = 4(${x}) - 3 = ${result.output}`;
++      if(!result.correct){this.say('failed:river-final');SFX.incorrect(audio);$('mechanism-feedback').textContent=`Output ${result.output}; sasaran 17. Cuba input lain.`;return;}
++      this.solvedGates.add('river-input');this.syncRiverStatus();this.writeSave();SFX.correct(audio);
++      $('mechanism').hidden=true;this.activePuzzle=null;this.mode='mechanism-transition';
++      clearControls();this.input.keyboard.enabled=false;this.physics.world.pause();
++      this.tweens.add({targets:this.riverLever,angle:-24,duration:reducedMotion?0:460,ease:'Sine.inOut',onComplete:()=>{
++        this.mode='playing';this.input.keyboard.enabled=true;this.physics.world.resume();clearControls();$('game').focus({preventScroll:true});
++        announce('h(5)=17. Pengunci pertama terbuka; tuil bergerak separuh. Gunakan konsol yang sama untuk pengunci susunan.');
++      }});
+     },
+     chooseOrder(reverse) {
+       if(this.mode!=='mechanism'||!['composition','river-final'].includes(this.activePuzzle?.kind)) return;
+@@ -336,26 +342,27 @@
+     },
+     chooseRiverOrder(reverse) {
+       if(this.mode!=='mechanism'||this.activePuzzle?.kind!=='river-final'||!this.solvedGates.has('river-input'))return;
+-      const intermediate=reverse?4:5, result=reverse?9:13;
++      const evaluation=riverOrder(reverse?'gf':'fg');
++      const intermediate=evaluation.intermediate, result=evaluation.output;
+       const description=reverse?'g(2)=3(2)-2=4; f(4)=2(4)+1=9.':'f(2)=2(2)+1=5; g(5)=3(5)-2=13.';
+       $('mechanism-value').textContent=`Input 2 -> ${reverse?'g(2)=4 -> f(4)=9':'f(2)=5 -> g(5)=13'}`;
+       $('mechanism-feedback').textContent=reverse?`${description} Sasaran 13. Tukar susunan dan cuba lagi.`:`Betul. ${description} Kedua-dua latch aktif; jambatan sedang bergerak.`;
+       document.querySelectorAll('[data-order]').forEach(button=>button.setAttribute('aria-pressed',String((button.dataset.order==='gf')===reverse)));
+       if(reverse){this.say('failed:river-final');SFX.incorrect(audio);return;}
+-      SFX.correct(audio);this.solvedGates.add('river-composition');this.solvedGates.add('river-crossing');this.writeSave();this.mode='mechanism-transition';
++      SFX.correct(audio);this.solvedGates.add('river-composition');this.syncRiverStatus();this.writeSave();this.mode='mechanism-transition';
+       this.time.delayedCall(reducedMotion?0:250,()=>{
+         $('mechanism').hidden=true;this.activePuzzle=null;clearControls();this.input.keyboard.enabled=false;
+         const settle=()=>this.tweens.add({targets:this.riverBridge,y:GATES[3].y,duration:reducedMotion?0:760,ease:'Sine.inOut',onComplete:()=>{
+           this.riverBridge.forEach(a=>a.y=GATES[3].y);
+           this.gateBodies['river-crossing']=this.platform({id:'river-crossing-open',x:GATES[3].x,y:GATES[3].y,width:GATES[3].width});
+           this.riverLever.setAngle(-52);SFX.checkpoint(audio);
+-          const i=CHECKPOINTS.findIndex(c=>c.id==='g-river-east');if(i>=0){this.checkpointIndex=i;this.checkpointArts[i]?.setFrame(112);}
++          this.solvedGates.add('river-crossing');this.syncRiverStatus();
+           this.mode='playing';this.input.keyboard.enabled=true;this.physics.world.resume();$('game').focus({preventScroll:true});this.writeSave();announce('Jambatan sungai berhenti dan selamat dilalui.');
+         }});
+         if(reducedMotion){this.riverLever.setAngle(-52);settle();return;}
+         // The handle and bridge now respond to the same solved action. The
+         // hinge/base remains fixed; bridge collision is added only on settle.
+-        this.riverLever.setAngle(0);
++        this.riverLever.setAngle(-24);
+         this.tweens.add({targets:this.riverLever,angle:-52,duration:460,ease:'Sine.inOut'});
+         settle();
+       });
+@@ -384,11 +391,13 @@
+       if (this.solvedGates.has('number-span')) this.restoreNumberSpan();
+       if (this.solvedGates.has('water-crossing')) this.restoreWaterworks();
+       else this.restoreWaterExperiment(save);
+-      if (this.solvedGates.has('river-crossing')) this.restoreRiver();
++      if(this.solvedGates.has('river-composition')){this.restoreRiver();this.solvedGates.add('river-crossing');}
++      else if(this.solvedGates.has('river-input'))this.riverLever.setAngle(-24);
++      this.syncRiverStatus();
+       this.levelCompleted=save.completed===true;
+       if (this.mappingDone) this.mappingReadout.setText('0→1   1→3   2→5   3→7');
+       this.collectibles.forEach(c => { if (this.collectedCoinIds.has(c.getData('id'))) c.destroy(); });
+-      if(this.discoveredSecrets.has('f-inverse')){const gem=this.collectibles.find(c=>c.getData('id')==='f-cave-gem');if(gem?.body){gem.body.enable=true;gem.refreshBody();}}
++      this.unlockSecretCollectibles();
+       this.checkpointArts.forEach((art, i) => art.setFrame(i === this.checkpointIndex ? 112 : 111));
+       const cp = CHECKPOINTS[this.checkpointIndex] || SPAWN;
+       this.player.body.reset(cp.x, cp.feet - 30);
+@@ -433,7 +442,10 @@
+     finish() {
+       if(this.levelCompleted||this.mode==='complete')return;
+       const required=['lift','number-span','water-crossing','river-input','river-composition','river-crossing'];
+-      if(!required.every(id=>this.solvedGates.has(id)))return;
++      if(!required.every(id=>this.solvedGates.has(id))||this.mode!=='playing'||Math.abs(this.player.x-GOAL.x)>=62||Math.abs(this.player.body.bottom-GOAL.feet)>=6||!this.player.body.blocked.down)return;
++      // Reaching the real destination also earns its safe restore point,
++      // even if the player jumped past the approach flag.
++      this.checkpointIndex=CHECKPOINTS.findIndex(c=>c.id==='g-goal');
+       this.levelCompleted=true;this.dialogue.seen.add('destination');this.writeSave();this.mode='complete';this.physics.world.pause();clearControls();this.input.keyboard.enabled=false;
+       this.sparkleBurst(GOAL.x,GOAL.feet-70,10,0xffd16b);this.pulseRing(GOAL.x,GOAL.feet-35,0xffd16b);
+       this.time.delayedCall(reducedMotion?0:380,()=>this.showCompletion());
+--- before/save.js
++++ after/save.js
+@@ -21,7 +21,7 @@
+   solvedGateIds,mappingInputs,mappingDone:mappingInputs.length===4,
+   collectedCoinIds:pick(raw.collectedCoinIds,COLLECTIBLES.map(c=>c.id)),
+   discoveredSecretIds:pick(raw.discoveredSecretIds,SECRETS.map(s=>s.id)),
+-  phase1Reviewed:raw.phase1Reviewed===true&&solvedGateIds.includes('lift'),completed:raw.completed===true&&validCompletion,
++  phase1Reviewed:raw.phase1Reviewed===true&&solvedGateIds.includes('lift'),completed:raw.completed===true&&validCompletion&&cp?.id==='g-goal',
+   waterOrder,waterworksState,dialogue:sanitizeDialogue(raw.dialogue),
+   elapsedMs:Number.isFinite(raw.elapsedMs)&&raw.elapsedMs>=0?raw.elapsedMs:0};
+ }
+--- before/finale.js
++++ after/finale.js
+@@ -0,0 +1,13 @@
++// One bridge, two independently observable latches. No optional-route dependency.
++export function riverInput(value){
++ const valid=Number.isInteger(value)&&value>=0&&value<=9;
++ return {valid,output:valid?4*value-3:null,correct:valid&&4*value-3===17};
++}
++export function riverOrder(order){
++ if(!['fg','gf'].includes(order))return null;
++ const intermediate=order==='fg'?2*2+1:3*2-2;
++ return {intermediate,output:order==='fg'?3*intermediate-2:2*intermediate+1,correct:order==='fg'};
++}
++export function riverStatus(solved){
++ return solved.has('river-crossing')?'Jambatan selamat · lintas ke destinasi':solved.has('river-composition')?'Dua pengunci aktif · jambatan disediakan':solved.has('river-input')?'Pengunci 1 terbuka · uji susunan pengunci 2':'Jambatan terkunci · dua pengunci diperlukan';
++}
+--- before/dialogue.js
++++ after/dialogue.js
+@@ -41,6 +41,15 @@
+  constructor(saved){const data=sanitizeDialogue(saved);this.seen=new Set(data.seen);this.pending=data.pending;this.active=null;this.remaining=0;this.cooldown=0;}
+  enqueue(id){if(!Object.hasOwn(LINES,id)||this.seen.has(id)||this.pending.includes(id))return false;this.pending.push(id);return true;}
+  dismiss(){this.active=null;this.remaining=0;this.cooldown=1600;}
++ retireStale(zone,solved){
++  const origins={crate:'A',probe:'B',lift:'B',mapping:'C','bonus-mapping':'C',number:'D','number-span':'D',composition:'D',water:'E','water-crossing':'E','inverse-f':'F','f-inverse':'F','river-final':'G','river-input':'G','river-crossing':'G'};
++  const resolved={lift:'lift',number:'number-span',water:'water-crossing','river-final':'river-input'};
++  const stale=id=>{const [kind,key]=id.split(':');const origin=kind==='zone'?key:origins[key];return (origin&&origin!==zone)||(kind==='failed'&&solved.has(resolved[key]));};
++  let changed=false;
++  this.pending=this.pending.filter(id=>{if(!stale(id))return true;this.seen.add(id);changed=true;return false;});
++  if(this.active&&stale(this.active)){this.dismiss();changed=true;}
++  return changed;
++ }
+  tick(delta,available){
+   if(!available)return false;
+   const dt=Math.max(0,Math.min(delta,100));
+--- before/dialogue-ui.js
++++ after/dialogue-ui.js
+@@ -43,7 +43,9 @@
+  $('mission-indicator').hidden=!playing;
+  const objective=missionObjective(scene);if($('mission-indicator').textContent!==objective)$('mission-indicator').textContent=objective;
+  if(!playing){bubble.hidden=true;return;}
+- const zone=ZONES[scene.currentZoneIndex()].name[0];scene.say(`zone:${zone}`);
++ const zone=ZONES[scene.currentZoneIndex()].name[0];
++ if(queue.retireStale(zone,scene.solvedGates))scene.writeSave();
++ scene.say(`zone:${zone}`);
+  const terminal=scene.nearestTerminal();
+  if(terminal){let kind=terminal.kind;if(kind==='number-input')kind='number';if(kind.startsWith('water-'))kind='water';scene.say(`found:${kind}`);}
+  if(Math.abs(scene.player.x-810)<150&&scene.player.body.bottom>1100)scene.say('found:crate');

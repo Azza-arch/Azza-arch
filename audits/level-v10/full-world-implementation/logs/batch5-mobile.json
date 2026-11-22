@@ -1,0 +1,122 @@
+{
+  "stage": 5,
+  "passed": true,
+  "mobile": true,
+  "freshStart": true,
+  "teleports": false,
+  "wallSeconds": 124.61,
+  "events": [
+    {
+      "name": "B to D; C skipped",
+      "x": 3158.820383333319,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear"
+      ],
+      "coins": [
+        "coin-b"
+      ],
+      "cp": 4,
+      "elapsed": 34315.06333333339
+    },
+    {
+      "name": "D workshop passed",
+      "x": 3937.4557333333305,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block"
+      ],
+      "coins": [
+        "coin-b",
+        "coin-d-note"
+      ],
+      "cp": 4,
+      "elapsed": 55245.88333333365
+    },
+    {
+      "name": "E waterworks passed",
+      "x": 5484.706033333388,
+      "feet": 648,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block",
+        "pipe"
+      ],
+      "coins": [
+        "coin-b",
+        "coin-d-note",
+        "coin-e1",
+        "coin-e2"
+      ],
+      "cp": 5,
+      "elapsed": 78794.9233333339
+    },
+    {
+      "name": "F cave and return passed",
+      "x": 7205.610766666706,
+      "feet": 1188,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block",
+        "pipe"
+      ],
+      "coins": [
+        "coin-b",
+        "coin-d-note",
+        "coin-e1",
+        "coin-e2"
+      ],
+      "cp": 6,
+      "elapsed": 101944.0433333344
+    },
+    {
+      "name": "Full A to G complete",
+      "x": 8310.644316666689,
+      "feet": 1296,
+      "mode": "complete",
+      "gates": [
+        "gear",
+        "block",
+        "pipe",
+        "final"
+      ],
+      "coins": [
+        "coin-b",
+        "coin-d-note",
+        "coin-e1",
+        "coin-e2",
+        "coin-g"
+      ],
+      "cp": 7,
+      "elapsed": 117112.78333333474
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "final": {
+    "x": 8310.644316666689,
+    "feet": 1296,
+    "mode": "complete",
+    "gates": [
+      "gear",
+      "block",
+      "pipe",
+      "final"
+    ],
+    "coins": [
+      "coin-b",
+      "coin-d-note",
+      "coin-e1",
+      "coin-e2",
+      "coin-g"
+    ],
+    "cp": 7,
+    "elapsed": 117112.78333333474
+  }
+}

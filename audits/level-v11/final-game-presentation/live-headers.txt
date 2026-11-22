@@ -1,0 +1,21 @@
+HTTP/1.1 404 Not Found
+Date: Thu, 12 Nov 2026 07:09:59 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+x-frame-options: DENY
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=FarST%2BCotPUEq6%2Bk7A90Dgy54lWlyJxgEJli2amS5YOmzBkAUuGZ1GqE0kIUKmvpo8o1XNuEx9nJOiAsGVRo2fGYsTJXAjm66htmp29kqmw7uARWhC67duVNIA2goULg1mQ%3D"}]}
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Access-Control-Allow-Origin: *
+Cache-Control: no-store
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+content-security-policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' blob: data: https://img.youtube.com https://i.ytimg.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; upgrade-insecure-requests
+cross-origin-opener-policy: same-origin
+permissions-policy: geolocation=(), camera=(), microphone=(), payment=(), interest-cohort=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+Server: cloudflare
+cf-cache-status: DYNAMIC
+CF-RAY: a593b6dfff746be5-SIN
+alt-svc: h3=":443"; ma=86400
+

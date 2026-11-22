@@ -1,0 +1,185 @@
+// METHOD buildEnvironment
+  buildEnvironment() {
+    this.textures.get('kpp_terrain_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
+    this.gateStubs={};this.probeSeen=new Set();this.mappingDone=false;
+    const tile=(i,x,y,w=54,h=54,depth=3)=>this.add.image(x,y,'kpp_terrain_atlas',i).setOrigin(0).setDisplaySize(w,h).setDepth(depth);
+    this.tile=tile;
+    // Only imported Base-pack scenery, all non-colliding.
+    for(let x=-200;x<BATCH_END+600;x+=300) this.add.image(x,1350,'kpp_bg_hill').setOrigin(0,1).setDisplaySize(390,390).setAlpha(.16).setScrollFactor(.25,.65).setDepth(0);
+    const surfaceAt=x=>AB_TERRAIN.find(t=>x>=t.x&&x<t.x+t.width)?.y??Infinity;
+    for(const t of AB_TERRAIN) {
+      const floor=1566;
+      const body=this.add.rectangle(t.x+t.width/2,(t.y+floor)/2,t.width,floor-t.y,0,0);
+      this.physics.add.existing(body,true);this.solids.add(body);body.setData('oneWay',false).setData('id',t.id);this.routePlatforms.push(body);
+      for(let x=t.x;x<t.x+t.width;x+=54) for(let y=t.y;y<floor;y+=54) {
+        const w=Math.min(54,t.x+t.width-x),h=Math.min(54,floor-y);
+        const l=x===t.x&&surfaceAt(x-1)>y,r=x+54>=t.x+t.width&&surfaceAt(t.x+t.width)>y;
+        const frame=y===t.y?(l&&r?20:l?21:r?23:22):(l&&r?120:l?121:r?123:4+((x/54+Math.floor(y/54))%2|0));
+        const art=tile(frame,x,y,54,54,9);art.setCrop(r?18-w/3:0,0,w/3,h/3);
+        if(r&&w<54) art.x-=54-w;
+      }
+    }
+    DECKS.forEach(t=>{this.deck(t);this.platform(t);});
+    for(const l of LADDERS) {
+      for(let y=l.top;y<l.bottom;y+=54) tile(71,l.x-27,y,54,Math.min(54,l.bottom-y),13);
+      const zone=this.add.zone(l.x,(l.top+l.bottom)/2,56,l.bottom-l.top+72);
+      this.physics.add.existing(zone,true);zone.setData('ladder',l);this.ladderZones.push(zone);
+    }
+    // Trees follow actual banks. Vegetation stays away from the jump takeoff.
+    for(const [x,y] of [[160,1296],[900,1296],[1320,1134],[2470,1080],[2840,972]]) this.sceneryTree(x,y);
+    for(const [x,y,f] of [[40,1296,124],[550,1296,125],[820,1296,128],[1190,1188,124],[1420,1134,125],[2410,1080,124],[2770,972,128]])tile(f,x,y-36,36,36,10);
+    // Mill frame: actual timber reaches the bank; no decorative collision.
+    for(const x of [1760,2010]) for(let y=864;y<1080;y+=54)tile(89,x,y,27,54,4);
+    for(let x=1728;x<2052;x+=54)tile(x===1728?48:x===1998?50:49,x,846,54,24,4);
+    for(let x=1782;x<1998;x+=54)tile(91,x,900,54,27,4);
+    tile(64,1933,1026,54,54,12);
+    this.machines.p1=tile(65,1933,1026,54,54,12);
+    this.gearWheel=this.add.container(2010,978).setDepth(5);
+    // Eight actual spike segments form a wheel, mechanically attached to shaft/winch.
+    for(let i=0;i<8;i++) {
+      const a=i*Math.PI/4;
+      this.gearWheel.add(this.add.image(Math.cos(a)*45,Math.sin(a)*45,'kpp_terrain_atlas',68).setDisplaySize(36,36).setRotation(a+Math.PI/2));
+    }
+    this.gearWheel.add(this.add.image(0,0,'kpp_terrain_atlas',157).setDisplaySize(42,42));
+    for(let x=2010;x<2052;x+=18)tile(91,x,1000,18,18,5);
+    tile(69,2034,1026,18,54,5);tile(69,2376,1026,18,54,5);
+    this.label('KINCIR FUNGSI',1960,840,17);
+    this.gearReadout=this.label('f(x) = 2x + 1   •   x = 3',2200,930,15);
+    this.gateLabel=this.label('Jambatan terkunci',2214,1030,14);
+    this.gateStubs.gear=[]; // no floating barrier or false bridge
+    // Café shelter: roof, timber posts and a small table assembled from real frames.
+    for(let x=1566;x<1890;x+=54)tile(x===1566?12:x===1836?15:13,x,594,54,54,4);
+    for(const x of [1566,1863])for(let y=648;y<810;y+=54)tile(89,x,y,27,54,4);
+    tile(49,1690,756,72,18,5);tile(89,1720,774,18,36,5);
+    tile(128,1840,774,36,36,5);tile(124,1520,774,36,36,5);
+    this.label('CAFÉ · pilihan',1728,585,17);
+    this.cafeReadout=this.label('x → f(x)',1740,710,14);
+    tile(84,1433,1080,54,54,11);this.label('Input → fungsi → output',1455,1030,14);
+    this.probeReadout=this.label('D = {0,1,2,3}',1450,990,13);
+    CHECKPOINTS.forEach((cp,i)=>this.checkpointArts[i]=this.add.image(cp.x,cp.feet,'kpp_terrain_atlas',111).setOrigin(.5,1).setDisplaySize(54,54).setDepth(11));
+    this.label('Space · Lompat',700,1210,13);
+    tile(85,2760,918,54,54,11);this.label('Hujung pratonton A/B/C',2760,870,16);
+    this.spawnCollectibles();this.buildSecrets();this.buildCratePuzzle();
+  }
+// METHOD deck
+  deck(data) {
+    const arts=[];
+    for(let x=data.x;x<data.x+data.width;x+=54) {
+      const w=Math.min(54,data.x+data.width-x);
+      const a=this.add.image(x,data.y,'kpp_terrain_atlas',x===data.x?48:x+54>=data.x+data.width?50:49).setOrigin(0).setDisplaySize(54,16).setCrop(0,0,w/3,18).setDepth(10);
+      arts.push(a);
+    }
+    return arts;
+  }
+// METHOD gateArt
+  gateArt(data) { return this.deck(data); }
+// METHOD buildSecrets
+  buildSecrets() {
+    this.secretMarkers={};
+    for(const s of SECRETS) {
+      // No cat exists in Base pack: an honest discovery sign, no new artwork.
+      this.secretMarkers[s.id]=this.tile(84,s.x-18,s.feet-36,36,36,11);
+      this.label('Si Oyen',s.x,s.feet-60,12);
+    }
+  }
+// METHOD nearestTerminal
+  nearestTerminal() {
+    return TERMINALS.find(t=>(t.kind!=='gear'||!this.solvedGates.has(t.gate))&&Math.abs(this.player.x-t.x)<72&&Math.abs(this.player.body.bottom-t.feet)<40);
+  }
+// METHOD openPuzzle
+  openPuzzle() {
+    if(this.mode!=='playing')return;
+    const t=this.nearestTerminal();if(!t)return;
+    this.activeTerminal=t;this.dialValue=t.kind==='gear'?3:0;this.dialBusy=false;this.dialHintLevel=0;
+    this.mode='mechanism';clearControls();this.physics.world.pause();this.input.keyboard.enabled=false;this.prompt.setVisible(false);
+    $('mechanism').hidden=false;$('touch-controls').hidden=true;
+    $('mechanism-title').textContent=t.kind==='gear'?'Putar kincir':t.kind==='probe'?'Cuba satu input':'Pemetaan café';
+    $('mechanism-rule').textContent=t.kind==='gear'?'f(x) = 2x + 1 · x = 3. Pilih output f(3).':'f(x) = 2x + 1 · D={0,1,2,3} · Kodomain={1,2,3,4,5,6,7,8}';
+    $('mechanism-feedback').textContent=t.kind==='mapping'?'Uji setiap input. Satu input mempunyai tepat satu output.':'← / → pilih · Enter uji · H hint · Esc kembali';
+    $('dial-test').disabled=false;$('dial-test').textContent=t.kind==='gear'?'Tarik tuil':'Hantar input';
+    $('dial-preview').hidden=t.kind!=='gear';
+    this.renderDial();$('dial-test').focus();
+  }
+  renderDial() {
+    const gear=this.activeTerminal.kind==='gear';
+    $('mechanism-value').textContent=(gear?'Output dipilih: ':'Input x: ')+this.dialValue;
+    $('dial-less').disabled=this.dialBusy||this.dialValue===0;
+    $('dial-more').disabled=this.dialBusy||this.dialValue===(gear?12:3);
+    if(gear&&!this.solvedGates.has('gear')) {
+      this.tweens.killTweensOf(this.gearWheel);
+      this.tweens.add({targets:this.gearWheel,angle:this.dialValue*15,duration:reducedMotion?0:180});
+      this.gearReadout.setText(`Output ${this.dialValue} → ${this.dialValue*15}°`);
+    }
+  }
+  changeDial(delta) {
+    if(this.mode!=='mechanism'||this.dialBusy)return;
+    this.dialValue=Phaser.Math.Clamp(this.dialValue+delta,0,this.activeTerminal.kind==='gear'?12:3);this.renderDial();
+  }
+  dialHint() {
+    if(this.mode!=='mechanism')return;
+    const hints=this.activeTerminal.kind==='gear'?PUZZLES[0].hints:['Gandakan input, kemudian tambah 1.','0→1, 1→3, 2→5, 3→7. Julat={1,3,5,7}; nilai kodomain lain tidak digunakan.'];
+    $('mechanism-feedback').textContent=hints[Math.min(this.dialHintLevel++,hints.length-1)];
+  }
+  testDial() {
+    if(this.mode!=='mechanism'||this.dialBusy)return;
+    const t=this.activeTerminal,n=this.dialValue;
+    if(t.kind!=='gear') {
+      const value=2*n+1;this.probeSeen.add(n);
+      this.probeReadout.setText(`${n} → 2(${n})+1 → ${value}`);
+      if(t.kind==='mapping')this.cafeReadout.setText(`${n} → 2(${n})+1 → ${value}`);
+      if(t.kind==='mapping') {this.mappingInputs??=new Set();this.mappingInputs.add(n);this.mappingDone=this.mappingInputs.size===4;}
+      $('mechanism-feedback').textContent=`${n} → 2(${n})+1 → ${value}. Julat={1,3,5,7}.`+(this.mappingDone?' Semua pasangan café diterokai!':'');
+      this.writeSave();SFX.ui(audio);return;
+    }
+    const result=PUZZLES[0].check(String(n));
+    if(!result.correct) {
+      this.attempts.p1=(this.attempts.p1||0)+1;
+      $('mechanism-feedback').textContent=`Output ${n} memutar kincir ke ${n*15}°. Belum sepadan dengan f(3). Cuba 2(3)+1 atau minta hint.`;
+      SFX.incorrect(audio);return;
+    }
+    this.dialBusy=true;this.solvedGates.add('gear');this.writeSave();this.renderDial();
+    $('dial-test').disabled=true;$('mechanism-feedback').textContent='f(3) = 2(3)+1 = 7. Kincir 105° menghulurkan jambatan.';
+    this.machines.p1.setFrame(66);this.gearWheel.angle=105;this.gateLabel.setText('Jambatan terbuka');
+    const gate=GATES[0],planks=this.gateArt(gate);
+    planks.forEach(p=>p.setAlpha(0));
+    const park=()=>{planks.forEach(p=>p.setAlpha(1));if(!this.gateBodies.gear)this.gateBodies.gear=this.platform(gate);SFX.bridge(audio);};
+    if(reducedMotion)park();else this.tweens.add({targets:planks,alpha:1,duration:220,delay:this.tweens.stagger(90),onComplete:park});
+    SFX.correct(audio);$('objective').textContent='Jambatan terbuka. Teruskan ke hujung kincir.';
+  }
+// METHOD closePuzzle
+  closePuzzle() {
+    this.previewTimer?.remove();this.cameras.main.startFollow(this.player,true,reducedMotion?1:.14,reducedMotion?1:.16,-85,10);
+    $('mechanism').hidden=true;$('puzzle').close();this.input.keyboard.enabled=true;this.mode='playing';
+    this.activePuzzle=null;this.activeTerminal=null;clearControls();this.physics.world.resume();
+    $('touch-controls').hidden=!touchDevice;$('game').focus({preventScroll:true});
+  }
+// METHOD continueFromSave
+  continueFromSave() {
+    const save=this.pendingSave||SaveManager.load();if(!save){this.startRun();return;}
+    this.checkpointIndex=CHECKPOINTS.findIndex(c=>c.id===save.checkpointId);
+    if(this.checkpointIndex>=0)this.checkpointArts[this.checkpointIndex].setFrame(112);
+    this.mappingDone=save.mappingDone;this.mappingInputs=new Set(save.mappingInputs);
+    if(this.mappingDone)this.cafeReadout.setText('Julat: 1, 3, 5, 7');
+    this.legacyProgress=save.legacyProgress;this.finalLatches=save.finalLatches;
+    if(save.solvedGateIds.includes('gear')) {
+      this.solvedGates.add('gear');this.machines.p1.setFrame(66);this.gearWheel.angle=105;
+      this.gearReadout.setText('f(3) = 7 → 105°');this.gateLabel.setText('Jambatan terbuka');this.gateArt(GATES[0]);this.gateBodies.gear=this.platform(GATES[0]);
+    }
+    for(const id of save.collectedCoinIds){const c=this.collectibles.find(c=>c.active&&c.getData('id')===id);if(c){c.destroy();this.coinsFound++;this.collectedCoinIds.add(id);}}
+    $('coin-count').textContent=`Koleksi: ${this.coinsFound}`;
+    this.respawn();this.startRun();announce('V10 disambung. Save V9 kekal berasingan.');
+  }
+// METHOD writeSave
+  writeSave() {
+    const prior=SaveManager.load();
+    SaveManager.save({checkpointId:CHECKPOINTS[this.checkpointIndex]?.id??null,solvedGateIds:[...this.solvedGates],collectedCoinIds:[...this.collectedCoinIds],discoveredSecretIds:[...this.discoveredSecrets],mappingInputs:[...(this.mappingInputs||[])],mappingDone:!!this.mappingDone,finalLatches:this.finalLatches??prior?.finalLatches??{input:false,composition:false},legacyProgress:this.legacyProgress??prior?.legacyProgress??null,completed:false,batch1Completed:!!this.batch1Completed||!!prior?.batch1Completed,updatedAt:Date.now()});
+  }
+// METHOD finish
+  finish() {
+    this.mode='complete';this.physics.world.pause();clearControls();this.batch1Completed=true;this.writeSave();
+    $('completion-time').textContent=`Sesi ini: ${Math.round(this.elapsed/1000)} saat.`;
+    $('completion-coins').textContent=`Koleksi: ${this.coinsFound}/${COLLECTIBLES.length}`;
+    $('completion-puzzles').textContent='Kincir diselesaikan · Batch 1 sahaja';
+    $('completion-secrets').textContent=`Rahsia: ${this.discoveredSecrets.size}/${SECRETS.length}`;
+    $('touch-controls').hidden=true;$('complete').showModal();
+  }

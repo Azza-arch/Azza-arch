@@ -1,0 +1,42 @@
+ID,Zone,Type,X,Y,Width,Height,Collision,Purpose
+street-0,A,Ground,0,1000,420,20,Yes,Main traversal (ends at FIRST_GAP)
+FIRST_GAP,A,Gap,420,1000,120,n/a,No,Intentional jump challenge (introduces jumping)
+street-540,A/B/C/D,Ground,540,1000,3310,20,Yes,Main traversal (continuous through B/C to workshop-gate)
+town-upper-1,B,Deck (one-way),1300,824,200,16,Yes,Upper route platform 1 of 2
+ladder-1350,B,Ladder,1350,824-1000,56,176,Yes (trigger zone),Connects ground to town-upper-1
+town-upper-2,B,Deck (one-way),1628,824,220,16,Yes,Upper route platform 2 of 2 (128px jump from town-upper-1)
+ladder-1800,B,Ladder,1800,824-1000,56,176,Yes (trigger zone),Reconnects town-upper-2 to ground before café
+cafe-roof,C,Deck (one-way),2700,824,180,16,Yes,Optional café roof (collectible access)
+ladder-2720,C,Ladder,2720,824-1000,56,176,Yes (trigger zone),Connects ground to cafe-roof
+cp1-cafe,C,Checkpoint,2750,1000,n/a,n/a,No (trigger only),Checkpoint 1
+p1-terminal,D,Function machine,3750,1000,n/a,n/a,No (trigger only),Puzzle 1 interaction point (f(x)=2x+1)
+workshop-gate,D,Gate (closed until solved),3850,1000,450,20,No until solved,Mandatory crossing gated by Puzzle 1
+street-4300,E,Ground,4300,1000,450,20,Yes,Lower recovery route under roof-e1/e2
+roof-e1,E,Deck (one-way),4750,824,250,16,Yes,Upper route platform 1 of 2
+ladder-4800,E,Ladder,4800,824-1000,56,176,Yes (trigger zone),Connects ground to roof-e1
+roof-e2,E,Deck (one-way),5128,824,250,16,Yes,Upper route platform 2 of 2 (128px jump from roof-e1)
+ladder-5350,E,Ladder,5350,824-1000,56,176,Yes (trigger zone),Reconnects roof-e2 to ground before rooftop-gate
+p2-terminal,E,Function machine,5570,1000,n/a,n/a,No (trigger only),Puzzle 2 interaction point (f(x)=3x-2)
+rooftop-gate,E,Gate (closed until solved),5650,1000,500,20,No until solved,Mandatory crossing gated by Puzzle 2
+street-6150,F,Ground,6150,1000,550,20,Yes,Approach to hill + cave detour
+gua-alcove,F,Deck (one-way) optional,6400,824,150,16,Yes,Optional cave detour (2 bonus coins)
+ladder-6460,F,Ladder,6460,824-1000,56,176,Yes (trigger zone),Connects ground to gua-alcove (same ladder both ways)
+cp2-bumbung,F,Checkpoint,6200,1000,n/a,n/a,No (trigger only),Checkpoint 2 (positioned at start of F per planning map)
+ladder-6720,F,Ladder,6720,824-1000,56,176,Yes (trigger zone),Main route: ground to hill-plateau
+hill-plateau,F/G,Deck (one-way),6700,824,700,16,Yes,Main elevated route through F and G to goal
+cp3-bukit,F,Checkpoint,6780,824,n/a,n/a,No (trigger only),Checkpoint 3
+p3-terminal,G,Function machine,6820,824,n/a,n/a,No (trigger only),Puzzle 3 interaction point (f(x)=4x-3)
+final-gate,G,Gate (closed until solved),6900,824,350,20,No until solved,Mandatory crossing gated by Puzzle 3
+GOAL,G,Finish trigger,7330,824,n/a,n/a,No (trigger only),Level completion
+SPAWN,A,Spawn point,156,1000,n/a,n/a,n/a,Player start position
+coin-a,A,Collectible,565,940,n/a,n/a,No (overlap only),Optional reward past FIRST_GAP
+coin-b1,B,Collectible,1380,770,n/a,n/a,No (overlap only),Optional reward on town-upper-1
+coin-b2,B,Collectible,1720,770,n/a,n/a,No (overlap only),Optional reward on town-upper-2
+coin-c,C,Collectible,2760,770,n/a,n/a,No (overlap only),Optional reward on cafe-roof
+coin-e1,E,Collectible,4820,770,n/a,n/a,No (overlap only),Optional reward on roof-e1
+coin-e2,E,Collectible,5330,770,n/a,n/a,No (overlap only),Optional reward on roof-e2
+coin-gua1,F,Collectible,6420,770,n/a,n/a,No (overlap only),Cave detour reward 1 of 2
+coin-gua2,F,Collectible,6490,770,n/a,n/a,No (overlap only),Cave detour reward 2 of 2
+coin-g,G,Collectible,7050,770,n/a,n/a,No (overlap only),Optional reward near goal
+hazard-pit-below-1060,ALL,Hazard (implicit),n/a,>1060,n/a,n/a,n/a,"Falling past y=1060 anywhere triggers respawn (world-bottom catch-all)"
+hazard-open-gate-gap,ALL,Hazard (conditional),n/a,>900 inside unsolved gate x-range,n/a,n/a,n/a,"Falling into an UNSOLVED gate's gap triggers respawn; same gap once solved is safe terrain"

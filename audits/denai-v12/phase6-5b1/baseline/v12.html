@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="DENAI Bab 1: Misi Fungsi. Teroka bersama Chill Boy dan uji susunan mesin air dengan fungsi.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>DENAI — Bab 1: Misi Fungsi</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="src/v12/world.css">
+  <link rel="stylesheet" href="src/v12/presentation.css">
+  <link rel="stylesheet" href="src/v12/dialogue.css">
+  <script defer src="vendor/phaser-3.90.0.min.js"></script>
+  <script type="module" src="src/v12/game.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead" aria-label="Status permainan">
+      <span class="level-identity">Level 1</span><span id="hud-collection" aria-label="Koleksi">0 / 9</span>
+      <button type="button" id="pause" disabled aria-label="Jeda permainan">Jeda <kbd>Esc</kbd></button>
+    </header>
+    <div class="game-stage">
+        <section class="game-frame" aria-label="DENAI Bab 1: Misi Fungsi">
+        <div id="game" tabindex="0" role="group" aria-label="Kawasan permainan. A dan D untuk bergerak, Space untuk lompat, W dan S untuk tangga, E untuk mesin."></div>
+        <div class="hud" aria-hidden="true"><span id="objective">Terokai lorong. Cari jalan ke atas.</span><span id="checkpoint-state">Mula di rumah</span></div>
+        <button id="mission-indicator" type="button" hidden aria-label="Misi semasa. Buka nota misi"></button>
+        <aside id="chill-bubble" hidden aria-label="Chill Boy"><p id="dialogue-line" role="status" aria-live="polite"></p><button id="dialogue-dismiss" type="button" aria-label="Tutup dialog Chill Boy">Tutup</button></aside>
+        <div id="zone-toast" class="zone-toast" aria-hidden="true"></div>
+        <div id="coin-count" hidden></div><div id="notice" role="status" aria-live="polite"></div><div id="tutorial" aria-live="polite"></div>
+        <div id="loading" class="loading" role="status">Memuatkan kejiranan… <span id="load-progress">0%</span></div>
+        <section id="welcome" class="welcome" hidden aria-labelledby="welcome-title" tabindex="-1">
+          <div class="title-copy"><h1 id="welcome-title">DENAI<br><span>Bab 1</span></h1>
+            <p class="title-tagline">Misi Fungsi · uji mesin, ikut aliran air.</p>
+            <div class="title-actions">
+              <button type="button" id="start" class="primary">Main Pengembaraan</button>
+              <button type="button" id="continue-btn" class="primary" hidden>Sambung Permainan</button>
+              <button type="button" id="new-adventure" class="secondary" hidden>Pengembaraan Baharu</button>
+              <p id="save-status" class="small" hidden></p>
+            </div>
+            <nav class="menu-section" aria-label="Menu utama">
+              <button type="button" id="level-select-btn">Pilih Level</button>
+              <button type="button" id="how-to-play">Cara Main</button>
+              <button type="button" id="settings-btn">Tetapan</button>
+              <button type="button" id="collection-btn">Koleksi</button>
+            </nav>
+          </div>
+          <div class="title-character" aria-hidden="true"><div class="menu-mascot"></div><div class="title-platform"></div></div>
+          <a class="title-return" href="../">Kembali ke Add Math</a>
+          <button id="import-v9" type="button" hidden>Salin kemajuan serasi</button>
+        </section>
+        <section id="mechanism" role="dialog" aria-modal="true" tabindex="-1" hidden aria-labelledby="mechanism-title"><h2 id="mechanism-title"></h2><p id="mechanism-rule"></p><output id="mechanism-value"></output><p id="mechanism-feedback" role="status" aria-live="polite"></p><div id="token-options" class="mechanism-actions" hidden aria-label="Blok input"><button type="button" data-token="0">Blok 0</button><button type="button" data-token="1">Blok 1</button><button type="button" data-token="2">Blok 2</button><button type="button" data-token="3">Blok 3</button><button type="button" data-token="4" hidden>Blok 4</button><button type="button" data-token="5" hidden>Blok 5</button><button type="button" data-token="6" hidden>Blok 6</button><button type="button" data-token="7" hidden>Blok 7</button><button type="button" data-token="8" hidden>Blok 8</button><button type="button" data-token="9" hidden>Blok 9</button></div><div id="pipe-options" class="mechanism-actions" hidden aria-label="Susunan fungsi"><button type="button" data-order="fg">f kemudian g</button><button type="button" data-order="gf">g kemudian f</button></div><div class="mechanism-actions"><button id="dial-less" type="button" aria-label="Kurangkan nilai">Kurang</button><button id="dial-test" type="button">Uji</button><button id="dial-more" type="button" aria-label="Tambah nilai">+</button><button id="dial-preview" type="button">Lihat jambatan</button><button id="dial-hint" type="button">Hint</button><button id="dial-solution" type="button">Langkah kerja</button><button id="dial-close" type="button">Kembali</button></div><div id="worked-solution" hidden></div></section>
+        <div id="touch-controls" class="touch-controls" aria-label="Kawalan sentuh" hidden>
+          <button type="button" data-action="resetCrate" class="crate-reset">Reset kotak</button><div class="touch-group"><button type="button" data-hold="left" aria-label="Bergerak kiri">←</button><button type="button" data-hold="right" aria-label="Bergerak kanan">→</button></div>
+          <div class="touch-group"><button type="button" data-hold="up" aria-label="Naik tangga">↑</button><button type="button" data-hold="down" aria-label="Turun tangga">↓</button><button type="button" data-action="interact" class="interact">Guna</button><button type="button" data-action="jump" class="jump">Lompat</button></div>
+        </div>
+      </section>
+    </div>
+    <footer class="game-footer">
+      <ol class="route" aria-label="Kemajuan Level 1"><li data-step="0" aria-current="step">Taman</li><li data-step="1">Bukit</li><li data-step="2">Bonus atas</li><li data-step="3">Bengkel</li><li data-step="4">Paip</li><li data-step="5">Gua</li><li data-step="6">Sungai</li></ol>
+      <p id="status" role="status" aria-live="polite">Binaan semakan: teroka taman, naik pengangkat dan singgah laluan bonus.</p>
+    </footer>
+    <p class="portrait-help">Kawalan sentuh tersedia. Putar telefon untuk pandangan bumbung yang lebih luas.</p>
+  </main>
+  <dialog id="puzzle" aria-labelledby="puzzle-title">
+    <button type="button" class="close" id="close-puzzle" aria-label="Tutup mesin">×</button>
+    <h2 id="puzzle-title">Hidupkan mesin</h2>
+    <p id="puzzle-given">Diberi x = 3.</p>
+    <div class="equation" id="equation">f(x) = 2x + 1</div>
+    <p id="puzzle-prompt">Cari f(3).</p>
+    <form id="answer-form" novalidate>
+      <label for="answer" id="answer-label">Jawapan f(3)</label>
+      <div class="answer-row"><input id="answer" name="answer" type="text" inputmode="decimal" autocomplete="off" maxlength="12" aria-describedby="answer-feedback" placeholder="Masukkan nombor"><button type="submit" class="primary">Uji input</button></div>
+      <p id="answer-feedback" role="status" aria-live="polite">Masukkan satu nombor.</p>
+    </form>
+    <div class="hint-area">
+      <ul id="hint-list" class="hint-list"></ul>
+      <button type="button" id="hint-btn" class="secondary">Minta hint</button>
+    </div>
+    <button type="button" id="puzzle-continue" class="primary" hidden>Teruskan →</button>
+    <p class="small">Tingkatan 4 · Fungsi — setiap input dipadankan dengan satu output.</p>
+  </dialog>
+  <dialog id="paused" aria-labelledby="pause-title"><h2 id="pause-title">Rehat sekejap.</h2><p>Lorong ini menunggu.</p>
+    <div class="pause-actions"><button type="button" id="resume" class="primary">Sambung Permainan</button><button type="button" id="restart-checkpoint">Kembali ke Checkpoint</button><button type="button" id="pause-help">Cara Main</button><button type="button" id="pause-settings-btn">Tetapan</button><button type="button" id="pause-collection-btn">Koleksi</button><button type="button" id="restart">Mula Semula</button><button type="button" id="pause-menu">Menu Utama</button><button type="button" id="fullscreen">Skrin penuh</button></div>
+    <details id="mission-notes"><summary>Misi &amp; catatan Chill Boy</summary><p id="mission-summary"></p><p id="mission-current"></p><ul id="mission-history" aria-label="Catatan perjalanan"></ul></details>
+    <a class="dialog-return" href="../">Kembali ke Add Math</a></dialog>
+  <dialog id="help" aria-labelledby="help-title"><button type="button" class="close" id="help-close" aria-label="Tutup cara main">×</button><h2 id="help-title">Cari jalan anda.</h2>
+    <dl class="help-controls"><div><dt>A / D · ← / →</dt><dd>Bergerak</dd></div><div><dt>Space</dt><dd>Lompat</dd></div><div><dt>W / S · ↑ / ↓</dt><dd>Naik atau turun tangga</dd></div><div><dt>E</dt><dd>Gunakan mesin atau pintu</dd></div><div><dt>R</dt><dd>Kembali ke checkpoint</dd></div><div><dt>Esc</dt><dd>Jeda atau tutup panel</dd></div></dl>
+    <p>Telefon: gunakan butang arah, Lompat dan Guna. Butang tangga muncul apabila berhampiran.</p><p>Tolak kotak ke plet untuk membuka laluan bonus. Mesin mengira output daripada input pilihan anda. Jawapan salah boleh dicuba semula tanpa penalti.</p><p>Laluan atas dan laluan bawah bukit ialah pilihan. Bendera menyimpan checkpoint secara automatik.</p></dialog>
+  <dialog id="secret-note" aria-labelledby="secret-note-title">
+    <button type="button" class="close" id="secret-note-close" aria-label="Tutup nota">×</button>
+    <h2 id="secret-note-title">Nota Fungsi Misteri</h2>
+    <p id="secret-note-body" class="small"></p>
+  </dialog>
+  <dialog id="settings" aria-labelledby="settings-title">
+    <button type="button" class="close" id="settings-close" aria-label="Tutup tetapan">×</button>
+    <h2 id="settings-title">Tetapan</h2>
+    <div class="audio-settings">
+      <div class="audio-row"><label for="audio-mute" class="audio-mute-label"><input type="checkbox" id="audio-mute"> Senyapkan bunyi</label></div>
+      <div class="audio-row"><label for="audio-master">Kelantangan utama</label><input type="range" id="audio-master" min="0" max="100" step="1"></div>
+      <div class="audio-row"><label for="audio-sfx">Kelantangan kesan bunyi</label><input type="range" id="audio-sfx" min="0" max="100" step="1"></div>
+    </div>
+  </dialog>
+  <dialog id="collection" aria-labelledby="collection-title">
+    <button type="button" class="close" id="collection-close" aria-label="Tutup koleksi">×</button>
+    <h2 id="collection-title">Koleksi rahsia</h2>
+    <p class="secrets-heading">Penemuan rahsia <span id="secrets-count">0/3</span></p>
+    <ul id="secrets-list" class="hint-list"></ul>
+  </dialog>
+  <dialog id="level-select" aria-labelledby="level-select-title">
+    <button type="button" class="close" id="level-select-close" aria-label="Tutup pilih level">×</button>
+    <h2 id="level-select-title">Pilih Level</h2>
+    <ul class="level-list">
+      <li class="level-card">
+        <div class="level-card-info">
+          <p class="level-card-title">Level 1 — Lorong Atas Bumbung</p>
+          <p class="level-card-topic small">Tingkatan 4 · Fungsi</p>
+          <p class="level-card-status" id="level1-status">Belum mula</p>
+          <p class="level-card-summary small" id="level1-summary" hidden></p>
+        </div>
+        <button type="button" id="level1-action" class="primary">Mula</button>
+      </li>
+    </ul>
+    <p class="small">Permainan penuh: taman, bukit, bengkel, paip air, gua dan sungai.</p>
+  </dialog>
+  <dialog id="complete" aria-labelledby="complete-title"><div class="victory-content"><div class="victory-flag" aria-hidden="true"></div><h2 id="complete-title">LEVEL 1<br><span>SELESAI!</span></h2><p class="victory-message">Dari taman ke sungai.<br>Anda yang membuka jalannya.</p>
+    <p id="destination-reaction" aria-label="Chill Boy"></p><div class="results"><p id="completion-time"></p><p id="completion-coins"></p><p id="completion-secrets"></p></div><p id="completion-puzzles"></p>
+    <div class="dialog-actions"><button type="button" id="replay" class="primary">Main Semula</button><button type="button" id="menu-btn">Menu Utama</button><button type="button" id="complete-level-select" hidden>Pilih Level</button></div><a class="dialog-return" href="../">Kembali ke Add Math</a></div></dialog>
+  <noscript><p>Aktifkan JavaScript untuk bermain. <a href="../">Kembali ke Add Math.</a></p></noscript>
+</body>
+</html>

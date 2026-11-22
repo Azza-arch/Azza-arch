@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    "Normal route exposes no test hook",
+    "Touch cancellation and focus loss clear held movement",
+    "Pause help/settings return focus; title and Continue preserve save",
+    "320\u00d7568: reachable title; touch targets \u226544px; reduced motion",
+    "844\u00d7390: reachable title; touch targets \u226544px; reduced motion",
+    "Level geometry, environment, save sanitizer and shared V9/V10 stylesheet hashes unchanged",
+    "Authored text/button palette contrast \u22654.5:1"
+  ],
+  "errors": [],
+  "metrics": {
+    "portraitRAF": {
+      "medianMs": 16.699999999999818,
+      "over50ms": 0
+    },
+    "resources": {
+      "count": 73,
+      "transferBytes": 2920858
+    },
+    "contrast": {
+      "panel text": 11.15,
+      "secondary text": 9.98,
+      "primary button": 9.17,
+      "title": 8.53
+    }
+  }
+}

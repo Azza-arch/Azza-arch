@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "final": {
+    "x": 527.6538949911693,
+    "feet": 1100,
+    "crate": 220,
+    "plate": false,
+    "coins": [
+      "coin-a"
+    ]
+  },
+  "errors": []
+}

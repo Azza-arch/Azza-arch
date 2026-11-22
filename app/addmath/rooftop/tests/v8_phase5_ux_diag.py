@@ -1,0 +1,82 @@
+from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    b = p.chromium.launch(headless=True)
+    pg = b.new_page(viewport={'width': 1000, 'height': 700})
+    pg.goto('http://127.0.0.1:8765/app/addmath/rooftop/?test', wait_until='networkidle')
+    pg.wait_for_selector('#welcome:not([hidden])')
+    pg.click('#start')
+    pg.wait_for_timeout(200)
+
+    def open_m1():
+        pg.evaluate("()=>{const s=rooftop.scene,b=s.player.body; b.setAllowGravity(true); b.reset(1245,950);}")
+        pg.wait_for_timeout(150)
+        pg.keyboard.press('e')
+        pg.wait_for_selector('#puzzle[open]')
+
+    print('--- 1. P1 wrong answer no longer reveals "7" ---')
+    open_m1()
+    pg.locator('#answer').fill('99')
+    pg.locator('#answer-form button').click()
+    fb = pg.locator('#answer-feedback').inner_text()
+    print('feedback text:', repr(fb))
+    print('contains bare "= 7" leak:', '= 7' in fb or '=7' in fb, '(expect False)')
+    print('gate NOT opened on wrong answer:', pg.evaluate("()=>rooftop.scene.solvedGates.size"), '(expect 0)')
+
+    print('--- 2. Hint nudge appears while hints remain ---')
+    print('nudge present:', 'hint di bawah' in fb, '(expect True - hints available, 0 used)')
+
+    print('--- 3. All 3 hint stages are mathematically correct ---')
+    hints = pg.evaluate("()=>rooftop.constants.PUZZLES.find(p=>p.id==='p1').hints")
+    for i, h in enumerate(hints):
+        print(f'  hint {i+1}:', h)
+    print('3 stages present:', len(hints) == 3)
+
+    print('--- 4. Requesting all hints, nudge disappears once exhausted ---')
+    for _ in range(3):
+        pg.locator('#hint-btn').click()
+    pg.locator('#answer').fill('5')
+    pg.locator('#answer-form button').click()
+    fb2 = pg.locator('#answer-feedback').inner_text()
+    print('feedback after all hints used:', repr(fb2))
+    print('nudge absent once hints exhausted:', 'hint di bawah' not in fb2, '(expect True)')
+    print('hint-btn hidden once exhausted:', pg.evaluate("()=>document.getElementById('hint-btn').hidden"), '(expect True)')
+
+    print('--- 5. Correct answer: dialog stays open with reasoning, Teruskan button appears ---')
+    pg.locator('#answer').fill('7')
+    pg.locator('#answer-form button').click()
+    pg.wait_for_timeout(100)
+    still_open = pg.evaluate("()=>document.getElementById('puzzle').open")
+    mode = pg.evaluate("()=>rooftop.scene.mode")
+    fb3 = pg.locator('#answer-feedback').inner_text()
+    continue_visible = not pg.evaluate("()=>document.getElementById('puzzle-continue').hidden")
+    answer_row_hidden = pg.evaluate("()=>document.querySelector('.answer-row').hidden")
+    print('dialog still open:', still_open, '(expect True)')
+    print('mode still puzzle (world already updated, dialog pending):', mode, '(expect puzzle)')
+    print('feedback shows reasoning:', repr(fb3))
+    print('continue button visible:', continue_visible, '(expect True)')
+    print('answer row hidden:', answer_row_hidden, '(expect True)')
+    print('gate solved (world state already changed while dialog still open):', pg.evaluate("()=>rooftop.scene.solvedGates.has('workshop-gate')"), '(expect True)')
+
+    print('--- 6. Keyboard-only: Enter activates the focused Teruskan button ---')
+    focused_id = pg.evaluate("()=>document.activeElement.id")
+    print('focus is on continue button:', focused_id, '(expect puzzle-continue)')
+    pg.keyboard.press('Enter')
+    pg.wait_for_timeout(100)
+    mode_after = pg.evaluate("()=>rooftop.scene.mode")
+    print('mode after Enter on Teruskan:', mode_after, '(expect playing)')
+
+    print('--- 7. Reopening ANY puzzle (M2, already-unsolved) resets success-state UI cleanly after M1 left it in a solved state ---')
+    pg.evaluate("()=>{const s=rooftop.scene,b=s.player.body; b.setAllowGravity(true); b.reset(2400,630);}")
+    pg.wait_for_timeout(200)
+    pg.keyboard.press('e')
+    pg.wait_for_selector('#puzzle[open]')
+    answer_row_visible = not pg.evaluate("()=>document.querySelector('.answer-row').hidden")
+    continue_hidden = pg.evaluate("()=>document.getElementById('puzzle-continue').hidden")
+    fb4 = pg.locator('#answer-feedback').inner_text()
+    print('answer row visible again on new puzzle:', answer_row_visible, '(expect True)')
+    print('continue button hidden again on new puzzle:', continue_hidden, '(expect True)')
+    print('feedback reset to prompt (not leftover "Betul!"):', 'Betul' not in fb4, fb4)
+
+    b.close()
+    print('done')

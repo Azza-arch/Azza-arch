@@ -1,0 +1,82 @@
+﻿TAP version 13
+# Subtest: A/B terrain has connected climbable steps and a nontrivial crate reward
+ok 1 - A/B terrain has connected climbable steps and a nontrivial crate reward
+  ---
+  duration_ms: 2.3935
+  type: 'test'
+  ...
+# Subtest: each puzzle accepts only its correct answer
+ok 2 - each puzzle accepts only its correct answer
+  ---
+  duration_ms: 0.9071
+  type: 'test'
+  ...
+# Subtest: every gate is wide enough to be unjumpable on every side (V7: gates can sit at the SAME tier on both sides, unlike V6)
+ok 3 - every gate is wide enough to be unjumpable on every side (V7: gates can sit at the SAME tier on both sides, unlike V6)
+  ---
+  duration_ms: 0.2786
+  type: 'test'
+  ...
+# Subtest: every mandatory same-tier jump stays inside the validated flat-jump envelope
+ok 4 - every mandatory same-tier jump stays inside the validated flat-jump envelope
+  ---
+  duration_ms: 0.4729
+  type: 'test'
+  ...
+# Subtest: every rise too big to jump is a ladder, not a jump (V7: rises now vary 80-280px across tiers)
+ok 5 - every rise too big to jump is a ladder, not a jump (V7: rises now vary 80-280px across tiers)
+  ---
+  duration_ms: 1.1036
+  type: 'test'
+  ...
+# Subtest: every ladder lands on a real deck or ground range at both ends
+ok 6 - every ladder lands on a real deck or ground range at both ends
+  ---
+  duration_ms: 1.6852
+  type: 'test'
+  ...
+# Subtest: falling off a deck with ground beneath it lands on continuous ground, not a gate gap
+ok 7 - falling off a deck with ground beneath it lands on continuous ground, not a gate gap
+  ---
+  duration_ms: 0.8127
+  type: 'test'
+  ...
+# Subtest: terminals, gates and checkpoints reference consistent ids
+ok 8 - terminals, gates and checkpoints reference consistent ids
+  ---
+  duration_ms: 0.3424
+  type: 'test'
+  ...
+# Subtest: every terminal sits exactly on its own deck/ground tier (feet matches the surface y)
+ok 9 - every terminal sits exactly on its own deck/ground tier (feet matches the surface y)
+  ---
+  duration_ms: 0.8346
+  type: 'test'
+  ...
+# Subtest: Machine 2 is unreachable from the street or any adjacent deck, reachable only from roof-m2 (V7)
+ok 10 - Machine 2 is unreachable from the street or any adjacent deck, reachable only from roof-m2 (V7)
+  ---
+  duration_ms: 0.8445
+  type: 'test'
+  ...
+# Subtest: zones with yMax correctly disambiguate stacked zones by height
+ok 11 - zones with yMax correctly disambiguate stacked zones by height
+  ---
+  duration_ms: 0.4461
+  type: 'test'
+  ...
+# Subtest: all runtime assets are real unchanged source PNGs
+ok 12 - all runtime assets are real unchanged source PNGs
+  ---
+  duration_ms: 56.8929
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 95.4786

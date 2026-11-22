@@ -1,0 +1,11 @@
+id,x,feet,kind,label
+crate,270,1296,crate,Push / plate / ledge
+probe,1480,1134,probe,D / codomain / range
+gear,1960,1080,gear,P1: f(3) = 7
+cafe,1740,810,optional,Optional mapping tray
+block,3186,972,block,P2: 3x - 2 = 10
+primer,3942,972,pipe,2 > 5 > 13
+pipe,4806,648,pipe,g(f(3)) = 19
+inverse,6650,1242,optional,Optional inverse
+final,7632,1296,final,P3 + familiar pipe order
+exit,8316,1296,exit,Home / reflection

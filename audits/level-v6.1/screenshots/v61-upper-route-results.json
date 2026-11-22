@@ -1,0 +1,182 @@
+{
+  "zoneB": [
+    {
+      "step": "ladder up to awning-b1",
+      "landed_at": {
+        "x": 1280,
+        "y": 870,
+        "feet": 900,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "jump awning-b1 -> awning-b2 (130px, dy=0)",
+      "landed_at": {
+        "x": 1583,
+        "y": 870,
+        "feet": 900,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "jump awning-b2 -> awning-b3 (130px, dy=0)",
+      "landed_at": {
+        "x": 1881,
+        "y": 870,
+        "feet": 900,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "ladder down from awning-b3 to street",
+      "landed_at": {
+        "x": 1850,
+        "y": 970,
+        "feet": 1000,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    }
+  ],
+  "zoneE": [
+    {
+      "step": "jump ground -> roof-e1 (rise 40px)",
+      "landed_at": {
+        "x": 4598,
+        "y": 930,
+        "feet": 960,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "jump roof-e1 -> roof-e2 (rise 64px)",
+      "landed_at": {
+        "x": 4840,
+        "y": 866,
+        "feet": 896,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "ladder climb roof-e2 -> roof-e3 (rise 96px, too big to jump)",
+      "landed_at": {
+        "x": 4900,
+        "y": 770,
+        "feet": 800,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "post-ladder mobility check (not stuck)",
+      "state": {
+        "x": 4957,
+        "y": 770,
+        "feet": 800,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "descending jump roof-e3 -> roof-e4 (drop 140px)",
+      "landed_at": {
+        "x": 5305,
+        "y": 910,
+        "feet": 940,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "descending jump roof-e4 -> street (drop 60px, near M2)",
+      "landed_at": {
+        "x": 5616,
+        "y": 970,
+        "feet": 1000,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "ok": true
+    },
+    {
+      "step": "arrival at M2 terminal after descent chain",
+      "state": {
+        "x": 5543,
+        "y": 970,
+        "feet": 1000,
+        "vx": 0,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "terminal_prompt_visible": true
+    }
+  ],
+  "failedJumpTests": [
+    {
+      "zone": "B",
+      "step": "walk off awning-b1 edge with no jump input",
+      "left_platform": true,
+      "landed_at": {
+        "x": 1487,
+        "y": 970,
+        "feet": 1000,
+        "vx": 280,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "safe_fall_to_street": true
+    },
+    {
+      "zone": "E",
+      "step": "walk off roof-e1 edge with no jump input",
+      "left_platform": true,
+      "landed_at": {
+        "x": 4769,
+        "y": 970,
+        "feet": 1000,
+        "vx": 280,
+        "vy": 0,
+        "ground": true,
+        "climb": false
+      },
+      "safe_fall_to_street": true
+    }
+  ],
+  "pageErrors": []
+}

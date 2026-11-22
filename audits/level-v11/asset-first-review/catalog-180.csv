@@ -1,0 +1,181 @@
+﻿frame,name,category,atlas_x,atlas_y,width,height,function,confidence,native_behavior
+0,Tanah rumput tunggal,terrain,0,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+1,Rumput kiri tertutup,terrain,18,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+2,Rumput tengah tertutup,terrain,36,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+3,Rumput kanan tertutup,terrain,54,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+4,Isi tanah A,terrain,72,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+5,Isi tanah B,terrain,90,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+6,Blok tanah berbingkai,hiasan,108,0,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+7,Serpihan besar,hiasan,126,0,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+8,Serpihan kecil,hiasan,144,0,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+9,Kotak emas kosong,interaksi,162,0,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+10,Kotak tanda !,interaksi,180,0,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+11,Kotak tanda bulat,interaksi,198,0,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+12,Pelantar merah kiri,terrain,216,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+13,Pelantar merah tengah,terrain,234,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+14,Pelantar merah tunggal,terrain,252,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+15,Pelantar merah kanan,terrain,270,0,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+16,Daun tunggal,hiasan,288,0,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+17,Kanopi atas kiri,hiasan,306,0,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+18,Kanopi atas tengah,hiasan,324,0,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+19,Kanopi atas kanan,hiasan,342,0,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+20,Rumput atas tunggal,terrain,0,18,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+21,Rumput atas kiri,terrain,18,18,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+22,Rumput atas tengah,terrain,36,18,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+23,Rumput atas kanan,terrain,54,18,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+24,Tanah sudut dalam A,terrain,72,18,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+25,Tanah sudut dalam B,terrain,90,18,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+26,Kotak kayu diagonal,interaksi,108,18,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+27,Kunci,interaksi,126,18,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+28,Kotak tanda dua arah,interaksi,144,18,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+29,Blok kayu kosong,interaksi,162,18,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+30,Blok kayu tanda T,interaksi,180,18,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+31,Blok kayu tanda bulat,interaksi,198,18,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+32,Batang tepi A,hiasan,216,18,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+33,Air permukaan A,hazard,234,18,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+34,Air bekas atas kiri,hazard,252,18,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+35,Air bekas atas kanan,hazard,270,18,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+36,Daun sisi tunggal,hiasan,288,18,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+37,Kanopi tengah kiri,hiasan,306,18,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+38,Kanopi tengah,hiasan,324,18,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+39,Kanopi tengah kanan,hiasan,342,18,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+40,Tanah jalur tunggal,terrain,0,36,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+41,Tanah jalur kiri,terrain,18,36,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+42,Tanah jalur tengah,terrain,36,36,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+43,Tanah jalur kanan,terrain,54,36,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+44,Hati penuh,hiasan,72,36,18,18,Ikon UI sahaja; katalog ini tidak mencadangkan sistem nyawa baharu.,label deskriptif berdasarkan piksel,tiada; PNG statik
+45,Hati separuh,hiasan,90,36,18,18,Ikon UI sahaja; katalog ini tidak mencadangkan sistem nyawa baharu.,label deskriptif berdasarkan piksel,tiada; PNG statik
+46,Hati kosong,hiasan,108,36,18,18,Ikon UI sahaja; katalog ini tidak mencadangkan sistem nyawa baharu.,label deskriptif berdasarkan piksel,tiada; PNG statik
+47,Kotak kayu silang,interaksi,126,36,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+48,Kayu pelantar kiri,terrain,144,36,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+49,Kayu pelantar tengah,terrain,162,36,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+50,Kayu pelantar kanan,terrain,180,36,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+51,Tangga pendek,interaksi,198,36,18,18,"Tangga visual; perlu zon panjat, titik masuk/keluar dan pelantar selamat.",label deskriptif berdasarkan piksel,tiada; PNG statik
+52,Batang tepi B,hiasan,216,36,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+53,Air permukaan B,hazard,234,36,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+54,Air bekas tengah kiri,hazard,252,36,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+55,Air bekas tengah kanan,hazard,270,36,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+56,Daun bawah tunggal,hiasan,288,36,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+57,Kanopi bawah kiri,hiasan,306,36,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+58,Kanopi bawah tengah,hiasan,324,36,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+59,Kanopi bawah kanan,hiasan,342,36,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+60,Tanah atas rata tunggal,terrain,0,54,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+61,Tanah atas rata kiri,terrain,18,54,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+62,Tanah atas rata tengah,terrain,36,54,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+63,Tanah atas rata kanan,terrain,54,54,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+64,Tuil pose kiri,interaksi,72,54,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+65,Tuil pose tegak,interaksi,90,54,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+66,Tuil pose kanan,interaksi,108,54,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+67,Permata biru,collectible,126,54,18,18,"Ganjaran pilihan; perlu overlap, ID stabil dan save.",label deskriptif berdasarkan piksel,tiada; PNG statik
+68,Duri,hazard,144,54,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+69,Tiang sokongan bercabang,hiasan,162,54,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+70,Bentuk U kecil,hiasan,180,54,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+71,Tangga sambungan,interaksi,198,54,18,18,"Tangga visual; perlu zon panjat, titik masuk/keluar dan pelantar selamat.",label deskriptif berdasarkan piksel,tiada; PNG statik
+72,Akar batang,hiasan,216,54,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+73,Isi air,hazard,234,54,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+74,Air bekas bawah kiri,hazard,252,54,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+75,Air bekas bawah kanan,hazard,270,54,18,18,Duri/air bukan hazard automatik; hanya aktif jika reka bentuk dan recovery ditentukan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+76,Kanopi pendek tunggal,hiasan,288,54,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+77,Kanopi pendek kiri,hiasan,306,54,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+78,Kanopi pendek tengah,hiasan,324,54,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+79,Kanopi pendek kanan,hiasan,342,54,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+80,Terrain pucat tunggal,terrain,0,72,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+81,Terrain pucat kiri,terrain,18,72,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+82,Terrain pucat tengah,terrain,36,72,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+83,Terrain pucat kanan,terrain,54,72,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+84,Papan anak panah kanan,hiasan,72,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+85,Papan kosong,hiasan,90,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+86,Papan anak panah kiri,hiasan,108,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+87,Papan bentuk kiri,hiasan,126,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+88,Papan bentuk kanan,hiasan,144,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+89,Tiang kayu,hiasan,162,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+90,Penyambung kayu kiri,hiasan,180,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+91,Rasuk kayu,hiasan,198,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+92,Penyambung kayu kanan,hiasan,216,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+93,Paip siku atas kiri,interaksi,234,72,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+94,Paip siku atas kanan,interaksi,252,72,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+95,Paip menegak atas,interaksi,270,72,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+96,Dahan berdaun A,hiasan,288,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+97,Daun berjuntai,hiasan,306,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+98,Gumpalan daun kecil,hiasan,324,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+99,Dahan berdaun B,hiasan,342,72,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+100,Terrain pucat terbuka tunggal,terrain,0,90,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+101,Terrain pucat terbuka kiri,terrain,18,90,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+102,Terrain pucat terbuka tengah,terrain,36,90,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+103,Terrain pucat terbuka kanan,terrain,54,90,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+104,Isi tanah bertompok,terrain,72,90,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+105,Pagar silang,hiasan,90,90,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+106,Pagar mendatar,hiasan,108,90,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+107,Butang merah rendah,interaksi,126,90,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+108,Butang merah tinggi,interaksi,144,90,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+109,Hujung bawah tiang,hiasan,162,90,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+110,Tiang bendera,interaksi,180,90,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+111,Bendera pose A,interaksi,198,90,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+112,Bendera pose B,interaksi,216,90,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+113,Paip siku bawah kiri,interaksi,234,90,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+114,Paip siku bawah kanan,interaksi,252,90,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+115,Paip menegak tengah,interaksi,270,90,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+116,Batang sempit,hiasan,288,90,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+117,Cabang batang,hiasan,306,90,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+118,Ranting kecil,hiasan,324,90,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+119,Dahan mendatar,hiasan,342,90,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+120,Tanah sisi kiri A,terrain,0,108,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+121,Tanah sisi kanan A,terrain,18,108,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+122,Tanah sisi kiri B,terrain,36,108,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+123,Tanah sisi kanan B,terrain,54,108,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+124,Tumbuhan kecil,hiasan,72,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+125,Tumbuhan tinggi,hiasan,90,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+126,Pokok konifer kecil,hiasan,108,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+127,Kaktus,hiasan,126,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+128,Cendawan,hiasan,144,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+129,Papan tinggi,hiasan,162,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+130,Pintu bahagian atas,interaksi,180,108,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+131,Batang kelabu sempit,hiasan,198,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+132,Paip mendatar kiri,interaksi,216,108,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+133,Paip mendatar tengah,interaksi,234,108,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+134,Paip mendatar kanan,interaksi,252,108,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+135,Paip menegak bawah,interaksi,270,108,18,18,"Paip statik; fungsi, urutan, aliran dan output semuanya memerlukan kod.",label deskriptif berdasarkan piksel,tiada; PNG statik
+136,Batang pangkal kiri,hiasan,288,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+137,Batang pangkal tengah,hiasan,306,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+138,Batang bercabang sisi,hiasan,324,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+139,Ranting bersudut,hiasan,342,108,18,18,Tiada collision; jangan janjikan mekanik daripada rupa.,label deskriptif berdasarkan piksel,tiada; PNG statik
+140,Tanah bawah tunggal,terrain,0,126,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+141,Tanah bawah kiri,terrain,18,126,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+142,Tanah bawah tengah,terrain,36,126,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+143,Tanah bawah kanan,terrain,54,126,18,18,Cantum tepi/tengah mengikut permukaan sebenar; collision dibina berasingan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+144,Bentuk kecil bertanduk,hiasan,72,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+145,Bentuk nyalaan / makhluk,hiasan,90,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+146,Plat coklat,hiasan,108,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+147,Plat kelabu,hiasan,126,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+148,Suis biru timbul,interaksi,144,126,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+149,Suis biru rendah,interaksi,162,126,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+150,Pintu bahagian bawah,interaksi,180,126,18,18,Komponen visual; perlu kod interaksi dan keadaan.,label deskriptif berdasarkan piksel,tiada; PNG statik
+151,Syiling muka,collectible,198,126,18,18,Dua rupa syiling; bukan bukti urutan animasi lengkap.,label deskriptif berdasarkan piksel,tiada; PNG statik
+152,Syiling sisi,collectible,216,126,18,18,Dua rupa syiling; bukan bukti urutan animasi lengkap.,label deskriptif berdasarkan piksel,tiada; PNG statik
+153,Bentuk pucat bawah kiri,hiasan,234,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+154,Bentuk pucat bawah tengah,hiasan,252,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+155,Bentuk pucat bawah kanan,hiasan,270,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+156,Bentuk pucat kecil,hiasan,288,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+157,Titik berbingkai,hiasan,306,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+158,Simbol silang,hiasan,324,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+159,Simbol garis serong,hiasan,342,126,18,18,Tiada collision; jangan janjikan mekanik daripada rupa. Identiti/tujuan asal belum disahkan; jangan jadikan asas mekanik.,rupa diperiksa; semantik belum disahkan,tiada; PNG statik
+160,Digit A 0,hiasan,0,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+161,Digit A 1,hiasan,18,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+162,Digit A 2,hiasan,36,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+163,Digit A 3,hiasan,54,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+164,Digit A 4,hiasan,72,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+165,Digit A 5,hiasan,90,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+166,Digit A 6,hiasan,108,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+167,Digit A 7,hiasan,126,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+168,Digit A 8,hiasan,144,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+169,Digit A 9,hiasan,162,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+170,Digit B 0,hiasan,180,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+171,Digit B 1,hiasan,198,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+172,Digit B 2,hiasan,216,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+173,Digit B 3,hiasan,234,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+174,Digit B 4,hiasan,252,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+175,Digit B 5,hiasan,270,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+176,Digit B 6,hiasan,288,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+177,Digit B 7,hiasan,306,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+178,Digit B 8,hiasan,324,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik
+179,Digit B 9,hiasan,342,144,18,18,Label nombor pada blok/output; bukan blok fizik dengan sendirinya.,label deskriptif berdasarkan piksel,tiada; PNG statik

@@ -1,0 +1,20 @@
+[
+  {
+    "viewport": "portrait",
+    "passed": true,
+    "wrongAndCorrectInputs": true,
+    "partialContinue": true,
+    "touchCrossing": true,
+    "noEarlyCompletion": true,
+    "errors": []
+  },
+  {
+    "viewport": "landscape",
+    "passed": true,
+    "wrongAndCorrectInputs": true,
+    "partialContinue": true,
+    "touchCrossing": true,
+    "noEarlyCompletion": true,
+    "errors": []
+  }
+]

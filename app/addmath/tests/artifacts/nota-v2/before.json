@@ -1,0 +1,16 @@
+{
+  "desktop-before": {
+    "height": 11040,
+    "width": 1440,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 12
+  },
+  "mobile-before": {
+    "height": 13237,
+    "width": 390,
+    "overflow": false,
+    "mathErrors": 0,
+    "questions": 12
+  }
+}

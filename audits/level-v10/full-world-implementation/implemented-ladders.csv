@@ -1,0 +1,8 @@
+id,x,top,bottom,upper,lower,optional
+LC-in,1566,810,1134,C0,B0,True
+LC-out,1836,810,1080,C0,B2,True
+LD-note,3834,756,972,D-upper,D1,True
+LE-main,4212,756,972,E1,E0,False
+LE-recover,4374,756,1080,E1,E-recovery,False
+LE-pipe,4698,648,810,E3,E2,False
+LF-cave,6588,918,1242,F-roof,F-cave,True

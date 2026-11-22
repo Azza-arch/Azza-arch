@@ -1,0 +1,22 @@
+{
+  "checkedGameFiles": 325,
+  "changed": [],
+  "addedGameFiles": [],
+  "gameUnchanged": true,
+  "missingDocumentLinks": [],
+  "images": {
+    "master-world-topology.png": [
+      2600,
+      1700
+    ],
+    "master-gameplay-blockout.png": [
+      8640,
+      2220
+    ],
+    "master-kenney-composition.png": [
+      8640,
+      2220
+    ]
+  },
+  "scope": "Offline design validation only; no Phaser traversal claimed"
+}

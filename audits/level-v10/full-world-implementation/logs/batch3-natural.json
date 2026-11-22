@@ -1,0 +1,77 @@
+{
+  "stage": 3,
+  "passed": true,
+  "freshStart": true,
+  "teleports": false,
+  "wallSeconds": 53.34,
+  "events": [
+    {
+      "name": "B to D; C skipped",
+      "x": 3176.7583499999787,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear"
+      ],
+      "coins": [
+        "coin-b"
+      ],
+      "cp": 4,
+      "elapsed": 16296.44333333332
+    },
+    {
+      "name": "D workshop passed",
+      "x": 4008.1367833333284,
+      "feet": 972,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block"
+      ],
+      "coins": [
+        "coin-b",
+        "coin-d-note"
+      ],
+      "cp": 4,
+      "elapsed": 32560.78333333295
+    },
+    {
+      "name": "E waterworks passed",
+      "x": 5498.3338500000455,
+      "feet": 648,
+      "mode": "playing",
+      "gates": [
+        "gear",
+        "block",
+        "pipe"
+      ],
+      "coins": [
+        "coin-b",
+        "coin-d-note",
+        "coin-e2"
+      ],
+      "cp": 5,
+      "elapsed": 49943.42333333308
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "final": {
+    "x": 5498.3338500000455,
+    "feet": 648,
+    "mode": "playing",
+    "gates": [
+      "gear",
+      "block",
+      "pipe"
+    ],
+    "coins": [
+      "coin-b",
+      "coin-d-note",
+      "coin-e2"
+    ],
+    "cp": 5,
+    "elapsed": 49960.093333333076
+  }
+}

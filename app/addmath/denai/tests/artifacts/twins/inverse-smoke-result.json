@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "desktop": "full keyboard traversal, three secrets, wrong/correct experiments, three seals, save/reload, fall/respawn, exit/replay",
+  "phones": [
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 320,
+      "height": 740
+    },
+    {
+      "width": 844,
+      "height": 390
+    }
+  ],
+  "errors": []
+}

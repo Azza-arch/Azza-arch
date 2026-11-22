@@ -1,0 +1,42 @@
+[
+  [
+    "A: start -> first gap cleared",
+    2.2796294689178467
+  ],
+  [
+    "A->B: reached Machine 1 (skipped optional cafe detour)",
+    5.157081604003906
+  ],
+  [
+    "M1 solved",
+    6.1862640380859375
+  ],
+  [
+    "D->E: climbed to roof-entry",
+    10.102975845336914
+  ],
+  [
+    "E: reached Machine 2 (skipped optional cave)",
+    13.040233135223389
+  ],
+  [
+    "M2 solved",
+    13.832683563232422
+  ],
+  [
+    "E->F: crossed rooftop-gate (checkpoint 2)",
+    16.25813603401184
+  ],
+  [
+    "F->G: reached checkpoint 3",
+    20.6843318939209
+  ],
+  [
+    "M3 solved",
+    21.412992477416992
+  ],
+  [
+    "TOTAL: level complete",
+    24.013519287109375
+  ]
+]

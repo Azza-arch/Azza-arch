@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T00:00:00+08:00",
+  "title": "Design System: Lorong Atas Bumbung",
+  "extensions": {
+    "shadows": [
+      { "name": "dialog", "value": "0 16px 60px #0003", "purpose": "Separate native modal dialogs from the paused world." }
+    ],
+    "motion": [
+      { "name": "bridge-reveal", "value": "450ms; 18ms stagger", "purpose": "Reveal the solved bridge; skipped when reduced motion is preferred." }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "(max-width: 800px)" },
+      { "name": "portrait", "value": "(max-width: 540px) and (orientation: portrait)" },
+      { "name": "short-landscape", "value": "(max-height: 540px) and (orientation: landscape)" },
+      { "name": "touch", "value": "(pointer: coarse)" }
+    ]
+  }
+}

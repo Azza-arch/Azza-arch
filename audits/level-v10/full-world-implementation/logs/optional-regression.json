@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "teleports": false,
+  "events": [
+    {
+      "name": "Crate, ledge, optional C and saved discoveries passed",
+      "x": 1620,
+      "feet": 810,
+      "mode": "playing",
+      "gates": [],
+      "coins": [
+        "coin-a",
+        "coin-c"
+      ],
+      "cp": 2,
+      "elapsed": 19632.55
+    }
+  ],
+  "errors": []
+}

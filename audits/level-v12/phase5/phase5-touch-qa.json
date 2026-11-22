@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "mobileTouchControls": true,
+  "reducedMotion": "reduce",
+  "B": "input3 activates lift",
+  "D": "block2 retries; block4 activates crossing",
+  "pageErrors": []
+}

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "elapsedSeconds": 40.94,
+  "statesCaptured": [
+    "LOCKED",
+    "CONFIGURED",
+    "RUNNING",
+    "NON_TARGET_RESULT",
+    "TARGET_REACHED",
+    "CROSSING_ACTIVATING",
+    "CROSSING_SAFE"
+  ],
+  "crossingTraversalAttempted": true,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "v11SaveSentinel": "v11-sentinel"
+}

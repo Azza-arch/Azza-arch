@@ -1,0 +1,436 @@
+{
+  "chapter": "t4-2",
+  "status": "review",
+  "subtopic": "2.3",
+  "sp": [
+    "2.3.1",
+    "2.3.2",
+    "2.3.3",
+    "2.3.4",
+    "2.3.5",
+    "2.3.6"
+  ],
+  "sections": [
+    {
+      "index": 0,
+      "kind": "intro",
+      "sp": [],
+      "destination": "fahami/context-disclosure"
+    },
+    {
+      "index": 1,
+      "kind": "concept",
+      "sp": [
+        "2.3.1"
+      ],
+      "destination": "fahami/core"
+    },
+    {
+      "index": 2,
+      "kind": "concept",
+      "sp": [
+        "2.3.2"
+      ],
+      "destination": "fahami/core"
+    },
+    {
+      "index": 3,
+      "kind": "visual",
+      "sp": [],
+      "destination": "fahami/visual-tabs"
+    },
+    {
+      "index": 4,
+      "kind": "concept",
+      "sp": [
+        "2.3.3"
+      ],
+      "destination": "fahami/core"
+    },
+    {
+      "index": 5,
+      "kind": "concept",
+      "sp": [
+        "2.3.4"
+      ],
+      "destination": "fahami/core"
+    },
+    {
+      "index": 6,
+      "kind": "visual",
+      "sp": [],
+      "destination": "fahami/visual-tabs"
+    },
+    {
+      "index": 7,
+      "kind": "concept",
+      "sp": [
+        "2.3.5"
+      ],
+      "destination": "fahami/core"
+    },
+    {
+      "index": 8,
+      "kind": "concept",
+      "sp": [
+        "2.3.6"
+      ],
+      "destination": "fahami/core"
+    },
+    {
+      "index": 9,
+      "kind": "formula",
+      "sp": [],
+      "destination": "ulang-kaji/formulas"
+    },
+    {
+      "index": 10,
+      "kind": "examples",
+      "sp": [],
+      "destination": "fahami/examples"
+    },
+    {
+      "index": 11,
+      "kind": "mistakes",
+      "sp": [],
+      "destination": "fahami/mistakes"
+    },
+    {
+      "index": 12,
+      "kind": "summary",
+      "sp": [],
+      "destination": "fahami/summary"
+    },
+    {
+      "index": 13,
+      "kind": "next",
+      "sp": [],
+      "destination": "fahami/next"
+    }
+  ],
+  "examples": [
+    {
+      "index": 0,
+      "sp": [
+        "2.3.4"
+      ],
+      "destination": "fahami/featured"
+    },
+    {
+      "index": 1,
+      "sp": [
+        "2.3.1"
+      ],
+      "destination": "fahami/additional-disclosure"
+    },
+    {
+      "index": 2,
+      "sp": [
+        "2.3.3"
+      ],
+      "destination": "fahami/featured"
+    },
+    {
+      "index": 3,
+      "sp": [
+        "2.3.4",
+        "2.3.2"
+      ],
+      "destination": "fahami/additional-disclosure"
+    },
+    {
+      "index": 4,
+      "sp": [
+        "2.3.5"
+      ],
+      "destination": "fahami/additional-disclosure"
+    },
+    {
+      "index": 5,
+      "sp": [
+        "2.3.6"
+      ],
+      "destination": "fahami/additional-disclosure"
+    },
+    {
+      "index": 6,
+      "sp": [
+        "2.3.6"
+      ],
+      "destination": "fahami/additional-disclosure"
+    }
+  ],
+  "questions": [
+    {
+      "id": "t4-2.1-01",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-02",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-03",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-04",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-05",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-06",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.3"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-07",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.3"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-08",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.1-09",
+      "subtopic": "2.1",
+      "sp": [
+        "2.1.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-01",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-02",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-03",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-04",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-05",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-06",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-07",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-08",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.2-09",
+      "subtopic": "2.2",
+      "sp": [
+        "2.2.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-01",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.4"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-02",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.3"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-03",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.3"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-04",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.4"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-05",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.4"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-06",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.1",
+        "2.3.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-07",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.6"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-08",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.6"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-09",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.5"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-11",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.2"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-12",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.5"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    },
+    {
+      "id": "t4-2.3-10",
+      "subtopic": "2.3",
+      "sp": [
+        "2.3.1"
+      ],
+      "status": "review",
+      "destination": "latihan"
+    }
+  ]
+}

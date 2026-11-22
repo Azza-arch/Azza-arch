@@ -1,0 +1,410 @@
+{
+  "desktop": {
+    "passed": true,
+    "trials": [
+      {
+        "x": 2044.5169833333352,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 0,
+        "last": {
+          "input": 0,
+          "output": 1
+        },
+        "terminal": "lift",
+        "ys": [
+          1272,
+          1272,
+          1272,
+          1272,
+          1272,
+          1272
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2041.9818166666646,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 1,
+        "last": {
+          "input": 1,
+          "output": 3
+        },
+        "terminal": "lift",
+        "ys": [
+          1230,
+          1230,
+          1230,
+          1230,
+          1230,
+          1230
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2051.318466666662,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 2,
+        "last": {
+          "input": 2,
+          "output": 5
+        },
+        "terminal": "lift",
+        "ys": [
+          1188,
+          1188,
+          1188,
+          1188,
+          1188,
+          1188
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2090.4067166666614,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 4,
+        "last": {
+          "input": 4,
+          "output": 9
+        },
+        "terminal": "lift",
+        "ys": [
+          1146,
+          1146,
+          1146,
+          1146,
+          1146,
+          1146
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2091.710166666667,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 3,
+        "last": {
+          "input": 3,
+          "output": 7
+        },
+        "terminal": null,
+        "ys": [
+          1080,
+          1080,
+          1080,
+          1080,
+          1080,
+          1080
+        ],
+        "collider": true,
+        "solved": [
+          "lift"
+        ]
+      }
+    ],
+    "crossed": {
+      "x": 2490.011533333318,
+      "feet": 1080,
+      "mode": "playing",
+      "input": 3,
+      "last": {
+        "input": 3,
+        "output": 7
+      },
+      "terminal": null,
+      "ys": [
+        1080,
+        1080,
+        1080,
+        1080,
+        1080,
+        1080
+      ],
+      "collider": true,
+      "solved": [
+        "lift"
+      ]
+    },
+    "errors": []
+  },
+  "portrait": {
+    "passed": true,
+    "trials": [
+      {
+        "x": 2032.6781999999962,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 0,
+        "last": {
+          "input": 0,
+          "output": 1
+        },
+        "terminal": "lift",
+        "ys": [
+          1272,
+          1272,
+          1272,
+          1272,
+          1272,
+          1272
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2032.660766666667,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 1,
+        "last": {
+          "input": 1,
+          "output": 3
+        },
+        "terminal": "lift",
+        "ys": [
+          1230,
+          1230,
+          1230,
+          1230,
+          1230,
+          1230
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2037.317666666663,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 2,
+        "last": {
+          "input": 2,
+          "output": 5
+        },
+        "terminal": "lift",
+        "ys": [
+          1188,
+          1188,
+          1188,
+          1188,
+          1188,
+          1188
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2036.5545166666611,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 4,
+        "last": {
+          "input": 4,
+          "output": 9
+        },
+        "terminal": "lift",
+        "ys": [
+          1146,
+          1146,
+          1146,
+          1146,
+          1146,
+          1146
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2032.707433333333,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 3,
+        "last": {
+          "input": 3,
+          "output": 7
+        },
+        "terminal": null,
+        "ys": [
+          1080,
+          1080,
+          1080,
+          1080,
+          1080,
+          1080
+        ],
+        "collider": true,
+        "solved": [
+          "lift"
+        ]
+      }
+    ],
+    "crossed": {
+      "x": 2488.7014999999865,
+      "feet": 1080,
+      "mode": "playing",
+      "input": 3,
+      "last": {
+        "input": 3,
+        "output": 7
+      },
+      "terminal": null,
+      "ys": [
+        1080,
+        1080,
+        1080,
+        1080,
+        1080,
+        1080
+      ],
+      "collider": true,
+      "solved": [
+        "lift"
+      ]
+    },
+    "errors": []
+  },
+  "landscape": {
+    "passed": true,
+    "trials": [
+      {
+        "x": 2033.8345333333284,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 0,
+        "last": {
+          "input": 0,
+          "output": 1
+        },
+        "terminal": "lift",
+        "ys": [
+          1272,
+          1272,
+          1272,
+          1272,
+          1272,
+          1272
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2034.1964999999966,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 1,
+        "last": {
+          "input": 1,
+          "output": 3
+        },
+        "terminal": "lift",
+        "ys": [
+          1230,
+          1230,
+          1230,
+          1230,
+          1230,
+          1230
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2037.2290833333288,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 2,
+        "last": {
+          "input": 2,
+          "output": 5
+        },
+        "terminal": "lift",
+        "ys": [
+          1188,
+          1188,
+          1188,
+          1188,
+          1188,
+          1188
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2037.2417499999956,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 4,
+        "last": {
+          "input": 4,
+          "output": 9
+        },
+        "terminal": "lift",
+        "ys": [
+          1146,
+          1146,
+          1146,
+          1146,
+          1146,
+          1146
+        ],
+        "collider": false,
+        "solved": []
+      },
+      {
+        "x": 2037.3178333333337,
+        "feet": 1080,
+        "mode": "playing",
+        "input": 3,
+        "last": {
+          "input": 3,
+          "output": 7
+        },
+        "terminal": null,
+        "ys": [
+          1080,
+          1080,
+          1080,
+          1080,
+          1080,
+          1080
+        ],
+        "collider": true,
+        "solved": [
+          "lift"
+        ]
+      }
+    ],
+    "crossed": {
+      "x": 2477.8171166666543,
+      "feet": 1080,
+      "mode": "playing",
+      "input": 3,
+      "last": {
+        "input": 3,
+        "output": 7
+      },
+      "terminal": null,
+      "ys": [
+        1080,
+        1080,
+        1080,
+        1080,
+        1080,
+        1080
+      ],
+      "collider": true,
+      "solved": [
+        "lift"
+      ]
+    },
+    "errors": []
+  }
+}

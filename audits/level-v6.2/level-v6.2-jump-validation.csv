@@ -1,0 +1,15 @@
+zone,step_id,type,launch_x,launch_y,landing_x,landing_y,horizontal_gap_px,vertical_change_px,window_min_px,window_max_px,margin_used_px,mandatory,status,recovery
+A,first-gap,jump,300,1000,540,1000,120,0,0,208,88,mandatory,UNCHANGED (live),fall into FIRST_GAP area is the intended one forgiving jump; no change proposed
+B,ladder-up,climb,950,1000,950,900,0,-100,n/a,n/a,n/a,optional,UNCHANGED (live),fall back to street; no respawn
+B,b1-to-b2,jump,1370,900,1500,900,130,0,0,208,78,optional,UNCHANGED (live),miss falls 100px to continuous street
+B,b2-to-b3,jump,1620,900,1750,900,130,0,0,208,78,optional,UNCHANGED (live),miss falls 100px to continuous street
+B,ladder-down,climb,1850,900,1850,1000,0,100,n/a,n/a,n/a,optional,UNCHANGED (live),n/a
+B,lower-street-obstacle,hop,1320,1000,1420,1000,100,0,0,208,180,optional (route choice),NEW (V6.2 B1),no hazard; obstacle is a static non-blocking crate hop, not a gap
+D,workshop-approach,walk,3750,1000,3850,1000,100,0,n/a,n/a,n/a,mandatory,UNCHANGED (live),n/a - already shortened in V6
+E,street-to-e1,jump,4450,1000,4550,960,100,-40,24.4,183.6,75.6,mandatory (V6.2),REUSED from V6.1 (playtested),miss falls to recovery street [4300-5450]
+E,e1-to-e2,jump,4690,960,4800,896,110,-64,43.6,164.4,54.4,mandatory (V6.2),REUSED from V6.1 (playtested),miss falls to recovery street
+E,e2-to-e3,climb,4900,896,4900,800,0,-96,n/a,n/a,n/a,mandatory (V6.2),REUSED from V6.1 (playtested; rise exceeds 96.6px jump max so uses ladder),climb back down, no respawn
+E,e3-to-e4,jump,5040,800,5200,940,160,140,n/a,265,105,mandatory (V6.2),REUSED from V6.1 (playtested descent),miss falls to recovery street
+E,e4-to-pocket,jump,5350,940,5450,1000,100,60,n/a,235,135,mandatory (V6.2),REUSED from V6.1 (playtested descent),miss falls to recovery street (adjacent, not past the lip)
+E,lip-barrier,blocked,5350,1000,5450,1000,100,200,0,208,n/a (exceeds max rise by 103px),mandatory (V6.2),NEW (V6.2 E2),confirms lip is un-jumpable from street: 200px rise vs 96.6px theoretical max
+G,final-approach,walk,6820,824,6900,824,80,0,n/a,n/a,n/a,mandatory,UNCHANGED (live),n/a

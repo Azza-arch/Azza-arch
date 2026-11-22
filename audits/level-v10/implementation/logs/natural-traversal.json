@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "final": {
+    "x": 2821.1459333333164,
+    "feet": 972,
+    "crate": 270,
+    "plate": false,
+    "coins": [
+      "coin-a",
+      "coin-b",
+      "coin-c"
+    ],
+    "gates": [
+      "gear"
+    ],
+    "cp": 3,
+    "mode": "complete"
+  },
+  "errors": []
+}

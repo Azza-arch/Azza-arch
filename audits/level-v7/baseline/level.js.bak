@@ -1,0 +1,189 @@
+// All geometry is in world pixels. Art never determines collision outlines.
+// Physics constants are unchanged from the prior validated prototype (rule:
+// preserve working movement unless a specific bug is verified).
+export const WORLD = { width: 7400, height: 1152, gravity: 1400 };
+export const MOTION = { speed: 280, acceleration: 2100, braking: 2500, jump: 520,
+  climb: 150, coyote: 110, buffer: 130, bodyWidth: 28, bodyHeight: 60 };
+export const SPAWN = { x: 156, feet: 1000 };
+export const GOAL = { x: 7330, feet: 824 };
+
+// Seven zones (A-G), matching the player's own Level 1 planning map
+// ("Lorong Atas Bumbung — Pekan Tanjung, Terengganu"). Geometry below is the
+// source of truth; zone ranges here are descriptive labels only, carved out
+// of the same tested geometry rather than moved.
+export const ZONES = [
+  { id:'taman-perumahan', name:'A · Taman Perumahan', xStart:0, xEnd:1100 },
+  { id:'lorong-pekan', name:'B · Lorong Pekan', xStart:1100, xEnd:2200 },
+  { id:'cafe-atas-angin', name:'C · Café Atas Angin', xStart:2200, xEnd:3100 },
+  { id:'bengkel-fungsi', name:'D · Bengkel Fungsi', xStart:3100, xEnd:4300 },
+  { id:'deretan-bumbung', name:'E · Deretan Bumbung', xStart:4300, xEnd:6150 },
+  { id:'bukit-tanjung-gua', name:'F · Bukit Tanjung & Gua', xStart:6150, xEnd:6800 },
+  { id:'jambatan-destinasi', name:'G · Jambatan Sungai', xStart:6800, xEnd:7400 },
+];
+
+// Continuous safe ground (y=1000) everywhere EXCEPT at FIRST_GAP (a plain,
+// un-gated jump — see below) and where a GATE further on cuts a gap. This
+// is what gives zones B and E a genuine lower recovery route: falling off
+// an upper deck always lands back on real ground, never a void, except
+// specifically inside an unsolved gate's gap or this first jump.
+export const FIRST_GAP = { x: 420, width: 120 };  // Zone A's one meaningful, forgiving jump
+export const GROUND_RANGES = [
+  [0, FIRST_GAP.x],
+  [FIRST_GAP.x + FIRST_GAP.width, 3850],   // rest of residential -> small town -> café -> workshop approach
+  [4300, 5650],   // post-workshop street -> rooftop zone lower route
+  [6150, 7400],   // hill approach (the hill's own rise continues from here)
+];
+
+// Elevated decks: upper-route platforms and landmark roofs. Every deck here
+// reconnects to the continuous ground via at least one ladder in LADDERS.
+//
+// V6.2 (approved design-only pass in audits/level-v6.2/, now implemented —
+// see level-v6.2-final-sanity-check.md for the full derivation):
+// Zone B's upper route was three same-height awnings (dy=0 throughout) whose
+// only justification was two coins — the "coin-only, return to the same
+// street" pattern the V6.2 brief explicitly flags. It is now two platforms
+// at different heights: a single drop-60 jump, the first non-flat jump
+// anywhere in the level before Zone E requires one (PRACTICE before Zone
+// E's mandatory COMBINE/VARY/APPLY chain). No street obstacle was added —
+// an earlier draft that manufactured a ~0.2s "shortcut" this way was
+// rejected in the sanity-check pass as not a meaningful reason to choose
+// the route.
+export const DECKS = [
+  { id:'awning-b1', x:1250, y:900, width:120 },         // Zone B: upper route, tier 1 (ladder-reachable)
+  { id:'awning-b2', x:1510, y:960, width:150 },         // Zone B: descending jump from awning-b1 (gap 140px, drop 60px) — varied height, not a repeat of b1
+  { id:'cafe-roof', x:2700, y:824, width:180 },         // Zone C optional roof
+  { id:'roof-e1', x:4550, y:960, width:140 },           // Zone E: ascending jump from street (gap 100px, rise 40px)
+  { id:'roof-e2', x:4800, y:896, width:160 },           // Zone E: ascending jump from roof-e1 (gap 110px, rise 64px)
+  { id:'roof-e3', x:4880, y:800, width:160 },           // Zone E: ladder climb from roof-e2 (rise 96px — too big to jump, intentionally a ladder). Hosts Machine 2 (see TERMINALS) — 200px above street, >2x the 96.6px max jump rise, so M2 cannot be reached by any jump from the ground.
+  { id:'roof-e4', x:5200, y:940, width:150 },           // Zone E: descending jump from roof-e3 (gap 160px, drop 140px) — the meaningful descent, now an OPTIONAL branch since M2 moved to roof-e3 (street→e1→e2→ladder→e3 is the mandatory path)
+  { id:'hill-plateau', x:6700, y:824, width:700 },      // Zone F/G gentle rise to the finish
+  // "...gua" (cave) from the planning map: a genuinely optional side ledge,
+  // not on the main gold route — reached and left by the same ladder, never
+  // blocking progress if skipped.
+  { id:'gua-alcove', x:6400, y:824, width:150 },
+];
+export const LADDERS = [
+  { x:1280, top:900, bottom:1000 },  // Zone B ladder up (lands on awning-b1 1250-1370) — the one meaningful climb up
+  { x:1630, top:960, bottom:1000 },  // Zone B ladder down (lands on awning-b2 1510-1660, a shorter 40px climb — deliberately different length from the 100px ladder up, avoiding the old "both ladders identical" repetition)
+  { x:2720, top:824, bottom:1000 },  // Zone C optional café roof (lands on cafe-roof 2700-2880)
+  { x:4900, top:800, bottom:896 },   // Zone E's single ladder: roof-e2 (896) <-> roof-e3 (800), the one rise (96px) too big to jump — also the sole route to Machine 2
+  { x:6720, top:824, bottom:1000 },  // Zone F gentle rise (lands on hill-plateau 6700-7400)
+  { x:6460, top:824, bottom:1000 },  // Zone F optional cave ledge (lands on gua-alcove 6400-6550)
+];
+
+// Mandatory crossings. Each is absent (a real gap in the ground) until its
+// matching puzzle is solved, at which point it gets a walkable bridge, same
+// mechanic that was already validated for the single bridge in the prior
+// prototype, generalized to three. Widths all safely exceed the maximum
+// single-jump range (~208px) plus body width, so none can be jumped.
+export const GATES = [
+  { id:'workshop-gate', x:3850, y:1000, width:450 },
+  { id:'rooftop-gate', x:5650, y:1000, width:500 },
+  { id:'final-gate', x:6900, y:824, width:350 },
+];
+
+export const TERMINALS = [
+  { id:'p1', gate:'workshop-gate', x:3750, feet:1000 },
+  // V6.2: relocated from the open street (x:5570, feet:1000 — reachable
+  // without ever touching the rooftop chain) onto roof-e3 itself. feet:800
+  // matches roof-e3's deck height exactly, so standing on the deck lands
+  // well inside nearestTerminal()'s 48px vertical tolerance (game.js), while
+  // the 200px rise from street level (y:1000) is more than double the
+  // 96.6px theoretical max jump rise — no jump from the ground can reach
+  // it, confirmed in level-v6.2-final-sanity-check.md Part 2.
+  { id:'p2', gate:'rooftop-gate', x:5020, feet:800 },
+  { id:'p3', gate:'final-gate', x:6820, feet:824 },
+];
+
+// Positioned to match the planning map exactly: CP1 at the café (C), CP2
+// after the main platforming in Deretan Bumbung (E) — not right after the
+// workshop gate, which was the earlier layout's mismatch — and CP3 partway
+// through Bukit Tanjung & Gua (F), before the final river bridge (G).
+export const CHECKPOINTS = [
+  { id:'cp1-cafe', x:2750, feet:1000 },
+  { id:'cp2-bumbung', x:6200, feet:1000 },
+  { id:'cp3-bukit', x:6780, feet:824 },
+];
+
+export const COLLECTIBLES = [
+  { id:'coin-a', x:565, y:940, area:'taman-perumahan' },  // just past FIRST_GAP, in plain view of the jump
+  { id:'coin-b1', x:1310, y:770, area:'lorong-pekan' },  // above awning-b1 (unchanged position)
+  { id:'coin-b2', x:1585, y:830, area:'lorong-pekan' },  // repositioned above awning-b2 (V6.2 — awning-b3 removed)
+  { id:'coin-c', x:2760, y:770, area:'cafe-atas-angin' },
+  { id:'coin-e1', x:4850, y:770, area:'deretan-bumbung' },  // repositioned above roof-e2 (V6.1)
+  { id:'coin-e2', x:5280, y:770, area:'deretan-bumbung' },  // repositioned above roof-e4 (V6.1)
+  // Cave reward — only found by taking the optional detour.
+  { id:'coin-gua1', x:6420, y:770, area:'bukit-tanjung-gua' },
+  { id:'coin-gua2', x:6490, y:770, area:'bukit-tanjung-gua' },
+  { id:'coin-g', x:7050, y:770, area:'jambatan-destinasi' },
+];
+
+function parseNum(raw) {
+  const text = String(raw).trim();
+  if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(text)) return null;
+  const n = Number(text);
+  return Number.isFinite(n) ? n : null;
+}
+
+// Three required encounters (Phase 5). Puzzle 1 asks for an output given x;
+// puzzles 2 and 3 ask for an input given an output — the UI reads `given`/
+// `prompt`/`inputLabel` to present each correctly without hardcoding text.
+export const PUZZLES = [
+  {
+    id: 'p1', gate: 'workshop-gate',
+    formula: 'f(x) = 2x + 1',
+    given: 'Diberi x = 3.',
+    prompt: 'Cari f(3).',
+    inputLabel: 'Jawapan f(3)',
+    placeholder: 'Contoh: 7',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 7, wrongMessage: n2 => `Anda masukkan ${n2}. f(3) = 2(3) + 1 = 7.` };
+    },
+    solvedMessage: 'f(3) = 2(3) + 1 = 7',
+    hints: [
+      'f(x) = 2x + 1 bermaksud gandakan x, kemudian tambah 1.',
+      'Gantikan x = 3 ke dalam formula: 2(3) + 1.',
+      '2(3) + 1 = 6 + 1 = 7.',
+    ],
+  },
+  {
+    id: 'p2', gate: 'rooftop-gate',
+    formula: 'f(x) = 3x − 2',
+    given: 'Diberi f(x) = 10.',
+    prompt: 'Cari nilai x.',
+    inputLabel: 'Jawapan x',
+    placeholder: 'Contoh: 4',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 4, wrongMessage: n2 => `3(${n2}) − 2 = ${3*n2-2}, bukan 10. Cuba lagi.` };
+    },
+    solvedMessage: '3x − 2 = 10  →  3x = 12  →  x = 4',
+    hints: [
+      '3x − 2 = 10. Cuba asingkan sebutan x.',
+      'Tambah 2 pada kedua-dua belah: 3x = 12.',
+      'Bahagikan dengan 3: x = 4.',
+    ],
+  },
+  {
+    id: 'p3', gate: 'final-gate',
+    formula: 'f(x) = 4x − 3',
+    given: 'Diberi f(x) = 17.',
+    prompt: 'Cari nilai x.',
+    inputLabel: 'Jawapan x',
+    placeholder: 'Contoh: 5',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 5, wrongMessage: n2 => `4(${n2}) − 3 = ${4*n2-3}, bukan 17. Cuba lagi.` };
+    },
+    solvedMessage: '4x − 3 = 17  →  4x = 20  →  x = 5',
+    hints: [
+      '4x − 3 = 17. Cuba asingkan sebutan x.',
+      'Tambah 3 pada kedua-dua belah: 4x = 20.',
+      'Bahagikan dengan 4: x = 5.',
+    ],
+  },
+];

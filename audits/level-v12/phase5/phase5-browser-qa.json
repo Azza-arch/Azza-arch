@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "B": "f(0..4) -> outputs 1,3,5,7,9; non-target presets are visible and non-colliding; f(3)=7 adds collision after the lift settles; pause/Continue restores safely",
+  "D": "g(2)=4 and g(3)=7 move existing blocks to the socket, show output, return home and allow retry; g(4)=10 opens crossing after settle; hint and Continue verified",
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": []
+}

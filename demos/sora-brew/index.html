@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5efe5">
+  <meta name="theme-color" content="#f7f3eb">
   <meta name="description" content="Sora Brew cafe website concept demo.">
   <meta name="robots" content="noindex, follow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'">
   <title>Sora Brew - Cafe Website Concept</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Lato:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../assets/tailwind.css">
   <link rel="stylesheet" href="style.css">
   <script src="demo.js" defer></script>
@@ -31,10 +31,9 @@
         <span class="brand-text"><span class="brand-word">Sora Brew</span><small lang="ja">空のカフェ</small></span>
       </a>
       <nav class="desktop-nav" aria-label="Primary">
-        <a href="#top">Home</a>
         <a href="#menu">Menu</a>
         <a href="#story">Our Story</a>
-        <a href="#outlet">Outlet</a>
+        <a href="#outlet">Contact</a>
       </nav>
       <a class="header-cta" href="#menu">Explore Menu</a>
       <button class="menu-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation">
@@ -43,7 +42,7 @@
     </div>
     <nav class="mobile-nav" id="mobileMenu" aria-label="Mobile primary" inert>
       <div class="mobile-nav-inner">
-        <a href="#top">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Outlet</a>
+        <a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Contact</a>
         <a class="mobile-nav-cta" href="#menu">Explore Menu</a>
       </div>
     </nav>
@@ -53,8 +52,8 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-inner container mx-auto">
         <div class="hero-copy">
-          <h1 class="hero-title" id="hero-title">Good Coffee,<br>Brighter Days<span class="hero-title-dot">.</span></h1>
-          <p class="hero-lede">Specialty coffee, soft bakes and slow little moments inspired by the morning sky.</p>
+          <h1 class="hero-title" id="hero-title">A little taste<br>above the clouds</h1>
+          <p class="hero-lede"><strong>Good Coffee, Brighter Days.</strong><br>Specialty coffee, soft bakes and slow little moments.</p>
           <div class="hero-actions flex flex-row flex-wrap gap-4">
             <a class="button button-primary" href="#menu">Explore Menu<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8h12v4a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M16 9h1a2 2 0 0 1 0 4h-1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M7 4.5c0 1-1 1-1 2M10 4.5c0 1-1 1-1 2M13 4.5c0 1-1 1-1 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
             <a class="button button-secondary" href="#story">Our Story</a>
@@ -64,7 +63,7 @@
           <img class="hero-sakura" src="images/hero/hero-sakura.webp" alt="" loading="eager" decoding="async">
           <img class="hero-bird" src="images/hero/hero-bird.webp" alt="" loading="eager" decoding="async">
           <div class="hero-scene">
-            <img class="hero-photo" src="images/hero/hero-photo.webp" alt="" width="920" height="1150" loading="eager" decoding="async">
+            <img class="hero-photo" src="images/iced-coffee.webp" alt="" width="1024" height="1024" loading="eager" decoding="async">
           </div>
         </figure>
       </div>
@@ -167,8 +166,8 @@
           </div>
           <aside class="menu-gallery" aria-label="Menu photography">
             <figure class="menu-food-feature">
-              <img src="images/croissant-coffee.webp" alt="Golden croissant served with a cappuccino on a wooden cafe table" width="1448" height="1086" loading="lazy" decoding="async">
-              <figcaption>Pastry &amp; coffee pairing <span>Concept photography</span></figcaption>
+              <img src="images/iced-coffee.webp" alt="Iced latte in a clear glass" width="1024" height="1024" loading="lazy" decoding="async">
+              <figcaption>Sora Latte <span>Concept drink photography</span></figcaption>
             </figure>
           </aside>
         </div>
@@ -178,20 +177,22 @@
     <section class="section story-section" id="story" aria-labelledby="story-title" data-replay>
       <div class="container mx-auto story-layout">
         <div class="story-head">
-          <h2 id="story-title">More Than Coffee,<br>a Brighter Everyday</h2>
-          <figure class="story-photo story-photo-wide">
-            <img src="images/cafe-interior.webp" alt="Warm cafe interior with window-side tables, a coffee counter and soft pendant lighting" width="1448" height="1086" loading="lazy" decoding="async">
-            <svg class="story-sun" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="13" fill="#F9C875"/><path d="M30 4v8M30 48v8M4 30h8M48 30h8M11 11l6 6M43 43l6 6M49 11l-6 6M17 43l-6 6" stroke="#F9C875" stroke-width="3" stroke-linecap="round"/></svg>
-            <figcaption>Concept photography.</figcaption>
-          </figure>
+          <p class="story-concept-note">A fictional café concept</p>
+          <h2 id="story-title">Our Story</h2>
         </div>
         <div class="story-copy">
-          <p class="story-concept-note">A fictional neighbourhood cafe concept imagined for Kuala Terengganu; this story is illustrative.</p>
-          <p class="story-intro">Sora Brew imagines a gentler rhythm for the day: a familiar cup, a favourite seat by the window, and a few minutes that belong only to you.</p>
+          <p class="story-intro">At Sora Brew, every cup is a little escape. A place to slow down, breathe, and enjoy the moment.</p>
+          <p class="story-location-note">Inspired by soft clouds, warm sunlight and the comfort of a favourite café seat.</p>
+          <div class="story-gallery" aria-label="Sora Brew concept photography">
+            <figure class="story-photo story-photo-main"><img src="images/cafe-interior.webp" alt="Window-side tables in a warm café interior" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>A place to settle in</figcaption></figure>
+            <figure class="story-photo story-photo-cup"><img src="images/hero-latte.webp" alt="A latte on a café table in morning light" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>A little pause</figcaption></figure>
+            <figure class="story-photo story-photo-room"><img src="images/cafe-exterior.webp" alt="The imagined Sora Brew café exterior" width="1448" height="1086" loading="eager" decoding="async"><figcaption>Room for your day</figcaption></figure>
+          </div>
           <ul class="story-principles">
-            <li><span class="story-num">01</span><div><h3>Unhurried by design</h3><p>No rush between orders, whether you stay five minutes or the whole afternoon.</p></div></li>
-            <li><span class="story-num">02</span><div><h3>A short, thoughtful menu</h3><p>A handful of drinks and pastries done well, not a long list to scroll through.</p></div></li>
-            <li><span class="story-num">03</span><div><h3>Room for every kind of day</h3><p>A quick takeaway and a longer stay both feel equally at home here.</p></div></li>
+            <li><span class="story-num">01</span><div><h3>The day begins</h3><p>Some mornings arrive all at once. Others need a softer start and a familiar cup.</p></div></li>
+            <li><span class="story-num">02</span><div><h3>Take a little pause</h3><p>A few quiet minutes can make room to look up, take a breath and settle in.</p></div></li>
+            <li><span class="story-num">03</span><div><h3>Stay for the small things</h3><p>Window light, a warm pastry, the conversation that runs longer than planned.</p></div></li>
+            <li><span class="story-num">04</span><div><h3>Make it a Sora moment</h3><p>A café concept for good coffee and the brighter parts of an ordinary day.</p></div></li>
           </ul>
         </div>
       </div>
@@ -204,7 +205,7 @@
           <p class="outlet-illustrative">Illustrative outlet details for this concept.</p>
           <p>Visit the imagined Sora Brew corner in Kuala Terengganu.</p>
           <figure class="outlet-photo">
-            <img src="images/cafe-exterior.webp" alt="Concept illustration of a navy-blue cafe exterior with a bright, welcoming entrance" width="1448" height="1086" loading="lazy" decoding="async">
+            <img src="images/cafe-exterior.webp" alt="Concept image of the imagined Sora Brew café exterior" width="1448" height="1086" loading="eager" decoding="async">
             <figcaption>Fictional outlet exterior &mdash; concept image</figcaption>
           </figure>
         </div>

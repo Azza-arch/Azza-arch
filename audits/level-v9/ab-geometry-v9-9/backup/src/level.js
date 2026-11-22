@@ -1,0 +1,306 @@
+// All geometry is in world pixels. Art never determines collision outlines.
+// Physics constants are unchanged from the prior validated prototype (rule:
+// preserve working movement unless a specific bug is verified).
+export const WORLD = { width: 4300, height: 1300, gravity: 1400 };
+export const MOTION = { speed: 280, acceleration: 2100, braking: 2500, jump: 520,
+  climb: 150, coyote: 110, buffer: 130, bodyWidth: 28, bodyHeight: 60 };
+export const SPAWN = { x: 80, feet: 1100 };
+export const GOAL = { x: 4100, feet: 1100 };
+
+// V7 (audits/level-v7/, implemented from docs/level-reference/v7-master-map.png):
+// a genuinely multi-tier world, not seven flat corridors. Four stacked
+// tiers, reused across zones exactly as the reference shows:
+//   GROUND  y=1100  — Zone A (spawn) and Zone F/G (final approach + bridge)
+//   TIER2   y=980   — Zone B (town walkway) and Zone D (workshop walkway)
+//   TIER3   y=820   — Zone C (café, a dead-end detour back down into B)
+//   TIER4   y~660-740 — Zone E (rooftop chain, varied, hosts Machine 2)
+// Every tier change >88px uses a ladder (exceeds the 96.6px theoretical max
+// jump rise: v0²/(2g) = 520²/2800 = 96.6px); every same-tier jump stays
+// inside the verified flat/drop windows — see level-v7-jump-validation.csv
+// for the full per-jump table.
+export const ZONES = [
+  { id:'taman-perumahan', name:'A · Taman Perumahan', xStart:0, xEnd:620 },
+  { id:'lorong-pekan', name:'B · Lorong Pekan', xStart:620, xEnd:1300 },
+  // C shares B's x-range (it sits directly above B, per the reference) —
+  // yMax lets currentZoneIndex() tell them apart by height, not just x.
+  { id:'cafe-atas-angin', name:'C · Café Atas Angin', xStart:620, xEnd:1300, yMax:900 },
+  { id:'bengkel-fungsi', name:'D · Bengkel Fungsi', xStart:1300, xEnd:1750 },
+  { id:'deretan-bumbung', name:'E · Deretan Bumbung', xStart:1700, xEnd:2880, yMax:900 },
+  { id:'bukit-tanjung-gua', name:'F · Bukit Tanjung & Gua', xStart:2880, xEnd:3700 },
+  { id:'jambatan-destinasi', name:'G · Jambatan Sungai', xStart:3700, xEnd:4300 },
+];
+
+// GROUND_RANGES is deliberately NOT continuous across the whole world (that
+// was tried and rejected during design: a world-spanning ground at y=1100
+// would let a player walk from spawn straight to Machine 3 without ever
+// touching B/C/D's Machine 1/E's Machine 2 — a total mandatory-route
+// bypass, far worse than anything V6.2 dealt with). Ground only exists
+// where it cannot shortcut past a gate: under Zone A (ends at the
+// workshop-gate's own x, which sits on a HIGHER tier anyway) and under
+// Zone F/G (reachable only after crossing the rooftop-gate). Zone B's one
+// jump and Zone D's walk have this ground as their safety net; Zone E's
+// jumps do not — E is reached only by climbing, and a miss there safely
+// falls to the last checkpoint (an accepted, standard recovery mechanism,
+// not a bypass route, since nothing is reachable from a checkpoint respawn
+// that wasn't already reachable the normal way).
+export const FIRST_GAP = { x: 420, width: 120 };
+export const GROUND_RANGES = [
+  [0, FIRST_GAP.x],
+  [FIRST_GAP.x + FIRST_GAP.width, 1300],   // Zone A -> all of Zone B (jump recovery)
+  [1600, 1800],                             // Zone D, post-workshop-gate (workshop-approach's own floor)
+  [2880, 3700],                             // Zone F's entire stepped descent + G approach
+  [4000, 4300],                             // Zone G far bank + goal, after final-gate
+];
+
+export const DECKS = [
+  { id:'town-walk-1', x:580, y:980, width:320 },   // B: tier2, hosts ladder up to C
+  { id:'town-walk-2', x:1040, y:980, width:260 },  // B: tier2, gap 140px/dy=0 from town-walk-1, hosts M1 approach
+  { id:'cafe-deck', x:650, y:820, width:380 },     // C: tier3, dead-end detour (CP1), ladder back down to B
+  { id:'workshop-approach', x:1600, y:980, width:200 }, // D: tier2, post-workshop-gate
+  // roof-entry/roof-laundry/roof-m2 carry no ground anywhere beneath them
+  // (confirmed against GROUND_RANGES below) — deliberate: this is the one
+  // chain in the level with no walk-under safety net, so a miss here
+  // recovers via checkpoint respawn, not a local fall. supports:false tells
+  // game.js's deck() not to draw a support pillar down to a floor that
+  // doesn't exist (it would otherwise run for hundreds of px to nothing).
+  { id:'roof-entry', x:1750, y:700, width:200, supports:false },   // E: tier4 entry (ladder up from D), rise 280 (ladder only)
+  { id:'roof-laundry', x:2100, y:740, width:200, supports:false }, // E: gap 150px/drop 40px from roof-entry
+  { id:'roof-m2', x:2260, y:660, width:320, supports:false },      // E: ladder up from roof-laundry (rise 80), hosts Machine 2
+  // f-step1 starts 40px after the gate ends (not flush against it): a
+  // zero-gap step-down was tried first and found to fall through both
+  // f-step1 AND cave-alcove reliably (confirmed directly — the one-way
+  // platform collision check needs a genuine instant of empty air to
+  // register "falling", not a walked transition between two touching
+  // platforms at different heights). A real, if small, gap/drop fixes it
+  // and matches every other deck transition in this codebase, which all
+  // use an actual jump or ladder, never a flush step.
+  { id:'f-step1', x:2920, y:700, width:150 },      // F: first step down after rooftop-gate (gap 40px, drop 40px)
+  { id:'cave-alcove', x:2970, y:880, width:150 },  // F: optional ladder detour, not on the main route
+  { id:'f-step2', x:3220, y:900, width:150 },      // F: gap 150px/drop 200px from f-step1
+];
+
+export const LADDERS = [
+  { x:610, top:980, bottom:1100 },   // A -> B (rise 120, exceeds 96.6px max jump rise)
+  { x:750, top:820, bottom:980 },    // B -> C (rise 160) -- same ladder serves the way back down into B
+  { x:1770, top:700, bottom:980 },   // D -> E (rise 280, single ladder, no intermediate stop needed)
+  { x:2280, top:660, bottom:740 },   // E internal: roof-laundry -> roof-m2 (rise 80, reference shows a ladder here)
+  { x:3000, top:700, bottom:880 },   // F optional: f-step1 -> cave-alcove (not required for progress)
+  { x:3230, top:900, bottom:1100 },  // F -> G (drop 200 to ground; implemented as a ladder for a controlled, readable descent)
+];
+
+// Mandatory crossings. Each is a real gap (no ground/deck) until its
+// puzzle is solved. Width 300px on every gate: safely exceeds the 236px
+// theoretical ceiling (maxRange 208px + bodyWidth 28px) with margin, so
+// none can be jumped even where both sides share the same tier (confirmed
+// for workshop-gate specifically, the one case where before/after sit at
+// the same y=980 and a narrower gate would have been jumpable).
+export const GATES = [
+  { id:'workshop-gate', x:1300, y:980, width:300 },
+  { id:'rooftop-gate', x:2580, y:660, width:300 },
+  { id:'final-gate', x:3700, y:1100, width:300 },
+];
+
+export const TERMINALS = [
+  { id:'p1', gate:'workshop-gate', x:1250, feet:980 },
+  { id:'p2', gate:'rooftop-gate', x:2400, feet:660 },
+  { id:'p3', gate:'final-gate', x:3650, feet:1100 },
+];
+
+export const CHECKPOINTS = [
+  { id:'cp1-cafe', x:950, feet:820 },       // C, the detour's dead end
+  { id:'cp2-rooftop-exit', x:2950, feet:700 }, // right after crossing rooftop-gate into F
+  { id:'cp3-bridge', x:3550, feet:1100 },   // before the final bridge, per the reference
+];
+
+export const COLLECTIBLES = [
+  // V9.6 (audits/level-v9/phase6-real-kenney-layout/): repositioned from
+  // (300,1050) — ground level, trivially collected while just walking past
+  // the crate, giving the crate puzzle no real reward — onto the crate
+  // puzzle's own unlocked ledge (x290-390/y=980), so solving the puzzle
+  // now has a genuine payoff. Still the same existing collectible, not a
+  // new one; CRATE_PUZZLE's own geometry (crate/switch/platform coords) is
+  // completely unchanged.
+  { id:'coin-a', x:340, y:940, area:'taman-perumahan' },
+  { id:'coin-b', x:970, y:940, area:'lorong-pekan' },       // over the B jump gap
+  { id:'coin-c', x:900, y:760, area:'cafe-atas-angin' },
+  { id:'coin-e1', x:1850, y:640, area:'deretan-bumbung' },
+  { id:'coin-e2', x:2350, y:600, area:'deretan-bumbung' },
+  { id:'coin-cave', x:3000, y:820, area:'bukit-tanjung-gua' }, // optional cave reward
+  { id:'coin-g', x:3600, y:1040, area:'jambatan-destinasi' },
+];
+
+// V8 Phase 7 (audits/level-v8/phase7/): three small OPTIONAL discoveries,
+// placed against the live V7 geometry above — not old V6.3 coordinates.
+// Each sits in a genuine side-detour off the mandatory A->G route (never
+// overlapping a machine, ladder, checkpoint or gate, never requiring a new
+// jump/physics capability), so the main adventure stays fully completable
+// without finding any of them. nearestSecret() in game.js only ever adds an
+// optional 'E' prompt — it can't gate progress the way GATES/PUZZLES do.
+export const SECRETS = [
+  {
+    id: 'secret-oyen', zone: 'cafe-atas-angin',
+    x: 680, feet: 820, radius: 75,
+    // cafe-deck spans x:650-1030 (level.js DECKS). The B->C ladder lands
+    // the player at x:750; CP1 and its sign sit further right at x:950.
+    // Walking LEFT instead, toward the deck's own dead end, is the one
+    // genuine off-the-gold-line detour this deck offers.
+    title: 'Si Oyen',
+    foundText: 'Jumpa Si Oyen!',
+    description: 'Seekor kucing kampung yang suka berjemur di tepi café.',
+  },
+  {
+    id: 'secret-function-note', zone: 'bengkel-fungsi', note: true,
+    x: 1615, feet: 980, radius: 40,
+    // workshop-approach (x:1600-1800, also GROUND_RANGES' own floor there)
+    // is the one deck past workshop-gate. Placed right at its own left
+    // edge (just past the gate the player only just crossed), a tight
+    // radius well clear of the deck's x:1700 midpoint — reserved by
+    // tests/probe.py's own "M2 unreachable from workshop-approach" bypass
+    // check, which resets the player to exactly that spot and presses 'e'
+    // expecting nothing nearby to answer it.
+    title: 'Nota Fungsi Misteri',
+    foundText: 'Nota dijumpai!',
+    description: 'Setiap fungsi memadankan setiap input dengan tepat satu output — ujian garis menegak pada graf f(x).',
+    noteText: 'Nota lusuh ditinggalkan oleh seorang pelajar lama:\n\n"Petua: f(x) ialah mesin. Masukkan SATU nombor, keluar SATU jawapan sahaja — tidak pernah dua jawapan untuk input yang sama. Itulah sebab graf sebuah fungsi tidak akan pernah disentuh oleh satu garis menegak lebih daripada sekali (ujian garis menegak). Nota ini tidak memberitahu jawapan mana-mana mesin di sini — cuma cara untuk semak sama ada sesuatu hubungan itu fungsi."',
+  },
+  {
+    id: 'secret-cave-treasure', zone: 'bukit-tanjung-gua',
+    x: 3090, feet: 880, radius: 75,
+    // Inside the existing optional cave-alcove deck (x:2970-3120, reached
+    // via the F optional ladder at x:3000) — the far side of the SAME
+    // detour coin-cave already rewards, not a new area.
+    title: 'Khazanah Gua',
+    foundText: 'Khazanah Gua dijumpai!',
+    description: 'Sekeping duit syiling lama yang tersorok jauh di dalam gua.',
+  },
+];
+
+// V9 Phase 1.1 (audits/level-v9/phase1-layout-repair/): REPOSITIONED after
+// the phase1-prototype pass was confirmed to have a real design defect —
+// the activated platform sat at rise 75px from the ground, LESS than the
+// player's own proven ~96.6px max unaided jump rise, meaning a plain jump
+// already reached roughly that height on its own: activating the switch
+// unlocked nothing a player couldn't already do. Confirmed directly via a
+// live physics test before redesigning (see
+// audits/level-v9/phase1-layout-repair/crate-puzzle-purpose-and-
+// reachability.md), not assumed from the numbers alone.
+//
+// The fix keeps every mechanic identical (crate physics, contact pushing,
+// pressure-switch activation, recovery, manual reset — nothing in
+// game.js's logic changed, only these coordinates) and makes the crate
+// itself part of the solution: the switch sits exactly where the crate
+// must rest to ALSO serve as a stepping stone, and the unlocked ledge's
+// rise (120px, matching Zone B's own established "town tier" height, not
+// an arbitrary number) EXCEEDS the ~96.6px unaided jump ceiling — so the
+// ledge is categorically unreachable by jumping from flat ground, and
+// only becomes reachable by standing on the crate first (effective jump
+// start raised by the crate's own 48px height) then jumping — a classic,
+// immediately legible "push box, climb box, reach ledge" sequence.
+//
+// Still entirely optional and additive — not part of DECKS/GATES/
+// GROUND_RANGES, never read by the mandatory-route collision pipeline.
+// Still placed inside Zone A's own continuous ground segment
+// ([0, FIRST_GAP.x] = [0,420], confirmed by reading GROUND_RANGES above),
+// with MORE clearance from FIRST_GAP (420-540) than the original
+// placement had (30px vs. the prior ~40px — re-verified, not assumed
+// carried over) and still well clear of the A->B ladder (610).
+export const CRATE_PUZZLE = {
+  // Start position: left of the switch, so the natural spawn->A walking
+  // direction (left to right) is also the natural push direction — no
+  // backtracking required to find it.
+  crate: { id: 'crate-1', x: 230, feet: 1100 },
+  // A flat pressure switch, not a raised pedestal — deliberately, so
+  // "resting on top" vs. "touching from the side" can never be
+  // ambiguous: the crate's own x must fall within `radius` of this
+  // switch's x AND the crate must be grounded (not falling past/through
+  // it) for game.js's activation check to pass. Positioned directly
+  // beneath the platform's own span (290-390) so the crate, once pushed
+  // here, is simultaneously "on the switch" AND "in the one spot where
+  // climbing it actually reaches the ledge above" — cause and effect in
+  // one visible location, not two separate ones.
+  floorSwitch: { id: 'switch-1', x: 340, feet: 1100, radius: 40 },
+  // Rise 120px (1100-980) — matches Zone B's own town-tier height
+  // (y:980), a deliberate, meaningful number already established
+  // elsewhere in this level, not invented for this spot. 120px exceeds
+  // the ~96.6px unaided max jump rise (confirmed by direct physics test,
+  // see the reachability report), so this ledge is provably unreachable
+  // without first standing on the crate.
+  platform: { id: 'crate-platform-1', x: 290, y: 980, width: 100 },
+};
+
+function parseNum(raw) {
+  const text = String(raw).trim();
+  if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(text)) return null;
+  const n = Number(text);
+  return Number.isFinite(n) ? n : null;
+}
+
+// Three required encounters, formulas/answers unchanged from V6.
+export const PUZZLES = [
+  {
+    id: 'p1', gate: 'workshop-gate',
+    formula: 'f(x) = 2x + 1',
+    given: 'Diberi x = 3.',
+    prompt: 'Cari f(3).',
+    inputLabel: 'Jawapan f(3)',
+    placeholder: 'Contoh: 7',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      // V8 Phase 5 fix: this previously read
+      // `wrongMessage: n2 => \`Anda masukkan ${n2}. f(3) = 2(3) + 1 = 7.\``
+      // — stating the correct answer (7) on EVERY wrong attempt, unlike
+      // p2/p3's wrongMessage below, which only echoes the student's own
+      // computed value against the target without revealing the answer.
+      // Confirmed as a genuine inconsistency, not a style choice: it made
+      // the hint system (and any attempt at all) pointless after one try.
+      // Fixed to match p2/p3's non-revealing pattern — points back at the
+      // formula to encourage recalculation, never states the target value.
+      return { valid: true, correct: n === 7, wrongMessage: n2 => `Anda masukkan ${n2}. Itu bukan f(3) yang betul — cuba kira semula 2(3) + 1.` };
+    },
+    solvedMessage: 'f(3) = 2(3) + 1 = 7',
+    hints: [
+      'f(x) = 2x + 1 bermaksud gandakan x, kemudian tambah 1.',
+      'Gantikan x = 3 ke dalam formula: 2(3) + 1.',
+      '2(3) + 1 = 6 + 1 = 7.',
+    ],
+  },
+  {
+    id: 'p2', gate: 'rooftop-gate',
+    formula: 'f(x) = 3x − 2',
+    given: 'Diberi f(x) = 10.',
+    prompt: 'Cari nilai x.',
+    inputLabel: 'Jawapan x',
+    placeholder: 'Contoh: 4',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 4, wrongMessage: n2 => `3(${n2}) − 2 = ${3*n2-2}, bukan 10. Cuba lagi.` };
+    },
+    solvedMessage: '3x − 2 = 10  →  3x = 12  →  x = 4',
+    hints: [
+      '3x − 2 = 10. Cuba asingkan sebutan x.',
+      'Tambah 2 pada kedua-dua belah: 3x = 12.',
+      'Bahagikan dengan 3: x = 4.',
+    ],
+  },
+  {
+    id: 'p3', gate: 'final-gate',
+    formula: 'f(x) = 4x − 3',
+    given: 'Diberi f(x) = 17.',
+    prompt: 'Cari nilai x.',
+    inputLabel: 'Jawapan x',
+    placeholder: 'Contoh: 5',
+    check(raw) {
+      const n = parseNum(raw);
+      if (n === null) return { valid: false };
+      return { valid: true, correct: n === 5, wrongMessage: n2 => `4(${n2}) − 3 = ${4*n2-3}, bukan 17. Cuba lagi.` };
+    },
+    solvedMessage: '4x − 3 = 17  →  4x = 20  →  x = 5',
+    hints: [
+      '4x − 3 = 17. Cuba asingkan sebutan x.',
+      'Tambah 3 pada kedua-dua belah: 4x = 20.',
+      'Bahagikan dengan 4: x = 5.',
+    ],
+  },
+];

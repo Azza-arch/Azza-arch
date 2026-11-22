@@ -1,0 +1,12 @@
+import {writeFileSync} from 'node:fs';
+import {SURFACES,LADDERS,CHECKPOINTS,TERMINALS,COLLECTIBLES,ROOMS,GOAL,SPAWN} from '../../../app/addmath/rooftop/src/v11/level.js';
+const rows=[['type','id','room','zone','x','y','width','height','behavior','notes']];
+const add=(type,v,y,w,h,behavior)=>{const r=ROOMS.find(r=>r.id===v.room)||ROOMS.find(r=>v.x>=r.from&&v.x<r.to);rows.push([type,v.id,r?.id,r?.zone,v.x,y,w,h,behavior,v.optional?'optional':'']);};
+for(const s of SURFACES)add('surface',s,s.y,s.width,s.kind==='solid'?1566-s.y:18,s.kind);
+for(const s of LADDERS)add('ladder',s,s.top,56,s.bottom-s.top,'climb both ways');
+for(const s of CHECKPOINTS)add('checkpoint',s,s.feet,0,0,(s.requires||[]).join('+'));
+for(const s of TERMINALS)add('terminal',s,s.feet,0,0,s.kind);
+for(const s of COLLECTIBLES)add('collectible',s,s.y,18,18,s.requiresSecret||'pickup');
+add('spawn',{...SPAWN,id:'player'},SPAWN.feet,28,60,'start');
+add('goal',{...GOAL,id:'destination'},GOAL.feet,0,0,'interact after all gates');
+writeFileSync(new URL('world-coordinates.csv',import.meta.url),rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\n')+'\n');

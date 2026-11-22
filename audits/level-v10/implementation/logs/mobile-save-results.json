@@ -1,0 +1,9 @@
+{
+  "touchMainRoute": "passed; actual multi-touch events, no teleports",
+  "crateReset": "passed",
+  "gearWrongHintPreviewCorrect": "passed",
+  "errors": [],
+  "portraitReducedMotion": "passed",
+  "explicitLegacyImport": "passed; legacy bytes unchanged",
+  "reloadSolvedBridge": "passed"
+}

@@ -1,0 +1,27 @@
+ M app/addmath/src/screens/startScreen.js
+ M app/tense-tales/src/data/assetCatalog.js
+ M app/tense-tales/src/grammar/verbCatalog.js
+ M app/tense-tales/src/utils/characterAnchors.js
+ M demos/anjung-nyiur/demo.js
+ M demos/anjung-nyiur/index.html
+ M demos/anjung-nyiur/style.css
+ M demos/sora-brew/demo.js
+ M demos/sora-brew/images/menu/iced-spanish-latte.webp
+?? .impeccable/critique/2026-11-02T16-01-30Z__demos-sora-brew-index-html.md
+?? app/addmath/rooftop.zip
+?? app/addmath/rooftop/
+?? app/tense-tales/action-gallery.html
+?? app/tense-tales/assets/derived/
+?? app/tense-tales/design-preview.html
+?? app/tense-tales/give-book-preview.html
+?? app/tense-tales/src/actionGalleryPreview.js
+?? app/tense-tales/src/data/actionEngine.js
+?? app/tense-tales/src/data/actionTemplates.js
+?? app/tense-tales/src/data/levelManifest.js
+?? app/tense-tales/src/designPreview.js
+?? app/tense-tales/src/giveBookPreview.js
+?? app/tense-tales/styles/action-gallery.css
+?? app/tense-tales/styles/design-preview.css
+?? app/tense-tales/styles/give-book-preview.css
+?? audits/
+?? tests/

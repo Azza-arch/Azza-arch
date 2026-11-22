@@ -1,0 +1,257 @@
+from playwright.sync_api import sync_playwright
+from pathlib import Path
+import json
+import sys
+
+if '--edges' in sys.argv:
+    from edge_cases import run
+    run()
+    sys.exit(0)
+
+OUT=Path(__file__).parent/'artifacts'
+with sync_playwright() as p:
+    browser=p.chromium.launch(headless=True, args=['--disable-background-timer-throttling','--disable-renderer-backgrounding'])
+    page=browser.new_page(viewport={'width':1440,'height':1000})
+    errors=[]
+    console_errors=[]
+    failed_requests=[]
+    page.on('pageerror',lambda e:errors.append(str(e)))
+    page.on('console',lambda m:console_errors.append(m.text) if m.type=='error' else None)
+    page.on('requestfailed',lambda r:failed_requests.append(r.url))
+    page.goto('http://127.0.0.1:8765/app/addmath/rooftop/?test',wait_until='networkidle')
+    page.wait_for_selector('#welcome:not([hidden])')
+    page.screenshot(path=str(OUT/'desktop-welcome.png'))
+    page.click('#start')
+    page.wait_for_timeout(400)
+    def state():
+        return page.evaluate('''() => {const s=rooftop.scene,b=s.player.body; return {x:s.player.x,y:s.player.y,feet:b.bottom,vx:b.velocity.x,vy:b.velocity.y,ground:b.blocked.down,mode:s.mode,climb:s.climbing,frame:s.visual.frame.texture.key,camera:{x:s.cameras.main.scrollX,y:s.cameras.main.scrollY}}}''')
+    def wait(expression):
+        try:
+            page.wait_for_function('() => {const s=rooftop.scene,b=s.player.body; return '+expression+'}',timeout=45000)
+        except Exception:
+            print('FAILED',expression,json.dumps(state()),'errors',errors,flush=True)
+            page.screenshot(path=str(OUT/'failure.png'))
+            raise
+    def walk(target):
+        x=state()['x']; key='d' if x<target else 'a'
+        page.keyboard.down(key)
+        wait(f's.mode==="complete" || s.player.x {">=" if x<target else "<="} {target}')
+        page.keyboard.up(key)
+        wait('Math.abs(b.velocity.x)<1')
+    def climb(top):
+        page.keyboard.down('w'); wait(f'b.bottom<={top+1} && !s.climbing'); page.keyboard.up('w')
+        wait('b.blocked.down')
+    def jump():
+        page.keyboard.press('Space');wait('b.velocity.y<0')
+    def solve(x, feet, wrong, correct):
+        walk(x)
+        page.keyboard.press('e');page.wait_for_selector('#puzzle[open]')
+        page.locator('#answer').fill(wrong);page.locator('#answer-form button').click()
+        assert '#' not in page.locator('#answer-feedback').inner_text()  # just confirms some feedback rendered
+        page.locator('#answer').fill(correct);page.locator('#answer-form button').click()
+        wait('s.mode==="playing"')
+    # The game frame should now occupy most of a wide viewport, not sit in a
+    # small fixed-width column with large empty margins either side.
+    frame_box=page.locator('.game-frame').bounding_box()
+    assert frame_box['width']/1440>0.75, f"game frame only {frame_box['width']}px wide on a 1440px viewport"
+    assert page.evaluate("document.documentElement.scrollWidth<=document.documentElement.clientWidth+1")
+    assert page.evaluate("document.documentElement.scrollHeight<=document.documentElement.clientHeight+1")
+    # Fullscreen control: present (API supported in this headless Chromium)
+    # and clickable without throwing; real fullscreenElement behavior under
+    # headless automation is not asserted, since it depends on the host's
+    # window manager, not on this code.
+    assert not page.locator('#fullscreen').is_hidden()
+    page.click('#fullscreen');page.wait_for_timeout(200)
+    print('spawn',json.dumps(state()),flush=True)
+    # Zone A's one meaningful jump: a plain 120px ground gap (FIRST_GAP),
+    # no ladder, no detour — must actually be jumped, not walked around.
+    page.keyboard.down('d');wait('s.player.x>=390')
+    page.keyboard.press('Space');wait('b.velocity.y<0')
+    wait('s.player.x>=560');page.keyboard.up('d')
+    wait('b.blocked.down')
+    print('first gap jumped',json.dumps(state()),flush=True)
+    # Zones A-D (Taman Perumahan -> Lorong Pekan -> Café Atas Angin ->
+    # Bengkel Fungsi) are continuous ground beyond this point — no ladder
+    # needed to reach Puzzle 1's workshop machine.
+    # Zone B (Lorong Pekan): V6.2 two-platform varied-height upper route.
+    # Lower street stays fully walkable underneath (verified separately
+    # below); the upper route is optional and is exercised here for its own
+    # sake — natural-input climb, first platform, descending jump, and a
+    # deliberate failed-jump recovery — not because it's required to progress.
+    walk(1280);climb(900)
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-900)<3
+    print('zone B: awning-b1 reached via ladder',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-zoneb-b1.png'))
+    # Deliberate failed jump: walk off awning-b1's far edge with NO jump
+    # input at all — the genuine "missed it" case — confirm a safe fall to
+    # the continuous street below, not a void or stuck state.
+    page.keyboard.down('d');wait('s.player.x>=1390');page.keyboard.up('d');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-1000)<3, 'walking off awning-b1 must land safely on the street'
+    print('zone B failed-jump recovery verified',json.dumps(state()),flush=True)
+    # Real descending jump: awning-b1 -> awning-b2 (gap 140px, drop 60px).
+    walk(1280);climb(900)
+    page.keyboard.down('d');wait('s.player.x>=1350');page.keyboard.press('Space');wait('b.velocity.y<0')
+    wait('s.player.x>=1540');page.keyboard.up('d');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-960)<3, 'descending jump must land on awning-b2 (y=960)'
+    print('zone B: descending jump to awning-b2 landed',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-zoneb-b2.png'))
+    walk(1630)
+    page.keyboard.down('s');wait('b.bottom>=999 && !s.climbing');page.keyboard.up('s');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-1000)<3
+    print('zone B: ladder down to street',json.dumps(state()),flush=True)
+    # Optional lower street route: teleport to mid-span under the awnings
+    # and confirm the street is intact and walkable (no obstacle was added
+    # there — the rejected B1 proposal's street obstacle is NOT present).
+    page.evaluate('rooftop.scene.player.body.reset(1440,970)');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-1000)<3
+    print('zone B lower street confirmed walkable/unobstructed',json.dumps(state()),flush=True)
+    walk(2750)
+    assert page.evaluate("rooftop.scene.checkpointIndex")==0  # CP1, the café
+    print('checkpoint 1 (café)',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-cafe.png'))
+    solve(3750, 1000, '6', '7')
+    print('puzzle1 solved',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-workshop.png'))
+    # Zone E (Deretan Bumbung): Machine 2 now lives on roof-e3 and must be
+    # unreachable from the street — verified before any platforming happens.
+    walk(5020)
+    page.keyboard.press('e');page.wait_for_timeout(300)
+    assert page.evaluate("rooftop.scene.mode")=='playing', 'M2 must remain unreachable from street level'
+    print('M2 street-level bypass blocked (expected)',json.dumps(state()),flush=True)
+    # Deliberate failed jump off roof-e1 (no jump across the next gap):
+    # confirm a safe fall back to the continuous recovery street.
+    walk(4450)
+    page.keyboard.down('d');wait('s.player.x>=4480');page.keyboard.press('Space');wait('b.velocity.y<0')
+    wait('s.player.x>=4620');page.keyboard.up('d');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-960)<3
+    page.keyboard.down('d');wait('s.player.x>=4710');page.keyboard.up('d');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-1000)<3, 'walking off roof-e1 must land safely on the street'
+    print('zone E failed-jump recovery verified',json.dumps(state()),flush=True)
+    # Real traversal: street -> roof-e1 (rise 40) -> roof-e2 (rise 64) -> ladder -> roof-e3 (Machine 2).
+    walk(4450)
+    page.keyboard.down('d');wait('s.player.x>=4480');page.keyboard.press('Space');wait('b.velocity.y<0')
+    wait('s.player.x>=4620');page.keyboard.up('d');wait('b.blocked.down')
+    page.keyboard.down('d');wait('s.player.x>=4710');page.keyboard.press('Space');wait('b.velocity.y<0')
+    wait('s.player.x>=4860');page.keyboard.up('d');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-896)<3
+    page.screenshot(path=str(OUT/'desktop-zonee-chain.png'))
+    walk(4900)
+    page.keyboard.down('w');wait('b.bottom<=801 && !s.climbing');page.keyboard.up('w');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-800)<3
+    print('roof-e3 reached via ladder',json.dumps(state()),flush=True)
+    # Bypass attempt from an adjacent deck (roof-e2, closest horizontally to
+    # the terminal but 96px below it — the vertical check must still block it).
+    page.evaluate('rooftop.scene.player.body.reset(4950,836)');wait('b.blocked.down')
+    page.keyboard.press('e');page.wait_for_timeout(300)
+    assert page.evaluate("rooftop.scene.mode")=='playing', 'M2 must not be reachable from roof-e2'
+    print('M2 bypass from roof-e2 blocked (expected)',json.dumps(state()),flush=True)
+    walk(4900)
+    page.keyboard.down('w');wait('b.bottom<=801 && !s.climbing');page.keyboard.up('w');wait('b.blocked.down')
+    solve(5020, 800, '10', '4')
+    print('puzzle2 solved on roof-e3',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-zonee-m2-solved.png'))
+    assert page.evaluate("rooftop.scene.solvedGates.has('rooftop-gate')")
+    # Descend via the existing (now optional) roof-e4 branch and cross the opened gate.
+    page.keyboard.down('d');wait('s.player.x>=5050');page.keyboard.press('Space');wait('b.velocity.y<0')
+    wait('s.player.x>=5230');page.keyboard.up('d');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-940)<3
+    page.keyboard.down('d');wait('s.player.x>=5360');page.keyboard.press('Space');wait('b.velocity.y<0')
+    wait('s.player.x>=5470');page.keyboard.up('d');wait('b.blocked.down')
+    assert abs(page.evaluate("rooftop.scene.player.body.bottom")-1000)<3
+    print('descended via roof-e4 to street, gate open',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-zonee-descended.png'))
+    # Zone F (Bukit Tanjung & Gua): CP2 sits right after Deretan Bumbung,
+    # at the start of this zone, matching the planning map.
+    walk(6200)
+    assert page.evaluate("rooftop.scene.checkpointIndex")==1
+    print('checkpoint 2 (post-bumbung)',json.dumps(state()),flush=True)
+    # The optional cave detour: off the main route, rewards two coins.
+    # Walking off the short alcove deck afterwards is a safe, ordinary fall
+    # back to continuous ground (exactly the "falling is never punished"
+    # recovery the map's lower routes rely on elsewhere).
+    walk(6460);climb(824)
+    wait('s.coinsFound>=2')
+    print('cave detour collected',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-gua.png'))
+    walk(6718);wait('b.blocked.down')
+    climb(824)
+    print('hill ladder climbed',json.dumps(state()),flush=True)
+    walk(6780)
+    assert page.evaluate("rooftop.scene.checkpointIndex")==2  # CP3, before the bridge
+    print('checkpoint 3 (bukit)',json.dumps(state()),flush=True)
+    solve(6820, 824, '17', '5')
+    print('puzzle3 solved',json.dumps(state()),flush=True)
+    assert page.evaluate("rooftop.scene.solvedGates.size")==3
+    page.screenshot(path=str(OUT/'desktop-jambatan.png'))
+    # R resets location to CP3 (already on the hill-plateau tier) but preserves every solved gate.
+    page.keyboard.press('r');wait('s.player.x<6850')
+    assert page.evaluate('rooftop.scene.solvedGates.size===3 && Math.abs(rooftop.scene.player.body.bottom-824)<3')
+    walk(7330)
+    page.wait_for_selector('#complete[open]')
+    print('complete',json.dumps(state()),flush=True)
+    page.screenshot(path=str(OUT/'desktop-complete.png'))
+    page.click('#replay');wait('s.mode==="playing" && s.solvedGates.size===0 && s.checkpointIndex===-1')
+    # V6.2: Zone B's 3 awnings -> 2 (awning-b3 removed), Zone E unchanged at
+    # 4 (roof-e1..e4, now optional-after-e3 but all still present) -> 9
+    # decks + the 4 unchanged street segments = 13.
+    assert len(page.evaluate('rooftop.scene.routePlatforms.map(p=>p.getData("id"))'))==13
+    page.keyboard.press('Escape');page.wait_for_selector('#paused[open]')
+    before=state();page.wait_for_timeout(300);assert state()['x']==before['x']
+    page.keyboard.press('Escape');wait('s.mode==="playing"')
+    page.screenshot(path=str(OUT/'desktop-playing.png'))
+    print('errors',errors,flush=True)
+    assert not errors and not console_errors and not failed_requests
+    results={'desktop':'passed','errors':errors,'consoleErrors':console_errors,'failedRequests':failed_requests}
+    page.close()
+
+    mobile=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True,device_scale_factor=1)
+    page=mobile.new_page()
+    mobile_errors=[]
+    page.on('pageerror',lambda e:mobile_errors.append(str(e)))
+    page.goto('http://127.0.0.1:8765/app/addmath/rooftop/?test',wait_until='networkidle')
+    page.wait_for_selector('#welcome:not([hidden])')
+    page.screenshot(path=str(OUT/'mobile-welcome.png'))
+    page.tap('#start');wait('b.blocked.down')
+    assert page.locator('#touch-controls').is_visible()
+    cdp=mobile.new_cdp_session(page)
+    def touch_hold(selector):
+        box=page.locator(selector).bounding_box()
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':box['x']+box['width']/2,'y':box['y']+box['height']/2}]})
+    def touch_release():
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
+    touch_hold('[data-hold="right"]');wait('s.player.x>210');touch_release();wait('Math.abs(b.velocity.x)<1')
+    page.tap('[data-action="jump"]');wait('b.velocity.y<0');wait('b.blocked.down')
+    page.screenshot(path=str(OUT/'mobile-playing.png'))
+    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+    page.set_viewport_size({'width':844,'height':390})
+    page.wait_for_timeout(400)
+    page.screenshot(path=str(OUT/'mobile-landscape.png'))
+    # Isolate mobile dialog layout near Puzzle 1's machine, after the desktop route proves reachability.
+    page.evaluate('rooftop.scene.player.body.reset(3750,970)')
+    wait('b.blocked.down')
+    page.tap('[data-action="interact"]');page.wait_for_selector('#puzzle[open]')
+    page.set_viewport_size({'width':390,'height':844})
+    page.locator('#answer').fill('7');page.screenshot(path=str(OUT/'mobile-puzzle.png'))
+    page.tap('#answer-form button');wait('s.solvedGates.size===1')
+    page.tap('#pause');page.wait_for_selector('#paused[open]');page.tap('#resume');wait('s.mode==="playing"')
+    assert not mobile_errors
+    results['mobile']='touch run/jump/interact, rotate, puzzle and pause passed'
+    results['mobileErrors']=mobile_errors
+    page.close()
+
+    page=browser.new_page(viewport={'width':1280,'height':800})
+    page.route('**/chill-boy/idle-00.png',lambda route:route.abort())
+    page.goto('http://127.0.0.1:8765/app/addmath/rooftop/',wait_until='networkidle')
+    page.wait_for_function('document.getElementById("loading").textContent.includes("Aset tidak dapat")')
+    assert not page.locator('#welcome').is_visible()
+    results['missingAsset']='visible failure with asset key, no broken start'
+    page.close()
+
+    page=browser.new_page()
+    page.goto('http://127.0.0.1:8765/app/addmath/',wait_until='domcontentloaded')
+    page.wait_for_selector('#start-mula');assert page.locator('a[href="rooftop/"]').count()==1
+    page.click('#start-mula');page.click('#choose-4');page.wait_for_url('**/#/map/4')
+    results['learningApp']='home, original MULA and Tingkatan 4 map preserved'
+    (OUT/'browser-results.json').write_text(json.dumps(results,indent=2))
+    print(json.dumps(results),flush=True)
+    browser.close()

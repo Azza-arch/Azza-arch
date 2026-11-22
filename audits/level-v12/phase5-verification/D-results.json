@@ -1,0 +1,60 @@
+{
+  "desktop": {
+    "passed": true,
+    "inputOutput": [
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        10
+      ]
+    ],
+    "hintAndExplanation": true,
+    "retry": true,
+    "pauseDuringMotion": true,
+    "collisionAfterSettle": true,
+    "naturalCrossing": true,
+    "saveContinue": true,
+    "reloadDuringExperiment": true,
+    "errors": []
+  },
+  "touch": {
+    "passed": true,
+    "inputOutput": [
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        10
+      ]
+    ],
+    "hintAndExplanation": true,
+    "retry": true,
+    "pauseDuringMotion": true,
+    "collisionAfterSettle": true,
+    "naturalCrossing": true,
+    "saveContinue": true,
+    "reloadDuringExperiment": true,
+    "errors": []
+  }
+}

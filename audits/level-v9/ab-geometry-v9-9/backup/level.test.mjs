@@ -1,0 +1,210 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {MOTION,WORLD,DECKS,GATES,LADDERS,TERMINALS,CHECKPOINTS,PUZZLES,GROUND_RANGES,FIRST_GAP,ZONES} from '../src/level.js';
+
+test('each puzzle accepts only its correct answer',()=>{
+  const cases = {
+    p1: { correct:'7', wrong:['6','8','3',''," ",'abc','NaN','Infinity','<script>'] },
+    p2: { correct:'4', wrong:['10','3','5',''," ",'abc'] },
+    p3: { correct:'5', wrong:['17','4','6',''," ",'abc'] },
+  };
+  for(const puzzle of PUZZLES) {
+    const c = cases[puzzle.id];
+    assert.ok(c, `no test case for ${puzzle.id}`);
+    assert.equal(puzzle.check(c.correct).correct, true, `${puzzle.id} should accept ${c.correct}`);
+    for(const w of c.wrong) {
+      const result = puzzle.check(w);
+      assert.ok(!result.valid || !result.correct, `${puzzle.id} should reject "${w}"`);
+    }
+  }
+});
+
+test('every gate is wide enough to be unjumpable on every side (V7: gates can sit at the SAME tier on both sides, unlike V6)',()=>{
+  const maxRange = 2*MOTION.jump/WORLD.gravity*MOTION.speed; // flat (dy=0) theoretical max, the easiest case to jump
+  for(const gate of GATES) {
+    assert.ok(gate.width > maxRange + MOTION.bodyWidth, `${gate.id} must not be jumpable even at dy=0 (width ${gate.width}, need > ${Math.round(maxRange+MOTION.bodyWidth)})`);
+  }
+});
+
+test('every mandatory same-tier jump stays inside the validated flat-jump envelope',()=>{
+  const maxRange = 2*MOTION.jump/WORLD.gravity*MOTION.speed;
+  // V7's real jump pairs (same-tier or shallow drop, by deck id) — see
+  // level-v7-jump-validation.csv for the full per-jump rise/drop/margin
+  // table, including the ladder-only rises this check deliberately excludes.
+  const jumpPairs = [
+    ['town-walk-1','town-walk-2'],   // B: gap 140, dy 0
+    ['roof-entry','roof-laundry'],   // E: gap 150, drop 40
+  ];
+  for(const [fromId,toId] of jumpPairs) {
+    const from = DECKS.find(d=>d.id===fromId), to = DECKS.find(d=>d.id===toId);
+    assert.ok(from && to, `${fromId}/${toId} must exist in DECKS`);
+    const gap = to.x - (from.x + from.width);
+    assert.ok(gap > 0 && gap < maxRange - 20, `${fromId}->${toId} gap (${gap}) must be a comfortably reachable single jump (conservative flat bound)`);
+  }
+  // Zone A's FIRST_GAP — unchanged rule from every prior pass.
+  assert.ok(FIRST_GAP.width > 0 && FIRST_GAP.width < maxRange - 40,
+    `FIRST_GAP (${FIRST_GAP.width}) must be a comfortable, reachable single jump`);
+  // F's step-to-step jumps (both have full ground recovery beneath them,
+  // so this is checked for comfort, not because a miss is unsafe).
+  const fStep1 = DECKS.find(d=>d.id==='f-step1'), fStep2 = DECKS.find(d=>d.id==='f-step2');
+  const fGap = fStep2.x - (fStep1.x + fStep1.width);
+  assert.ok(fGap > 0, 'f-step1 -> f-step2 must have a real, positive gap');
+});
+
+test('every rise too big to jump is a ladder, not a jump (V7: rises now vary 80-280px across tiers)',()=>{
+  const maxRise = MOTION.jump ** 2 / (2 * WORLD.gravity); // 96.6px
+  // Ladders carrying a rise this large: confirm they really are ladders
+  // (present in LADDERS) and that no DECKS pair spans the same rise as an
+  // implied flat/jump connection instead.
+  const bigRises = [
+    { deckA:'town-walk-1', tierA:980, deckB:'cafe-deck', tierB:820, viaLadderX:750 },
+    { deckA:'workshop-approach', tierA:980, deckB:'roof-entry', tierB:700, viaLadderX:1770 },
+  ];
+  for(const {tierA,tierB,viaLadderX} of bigRises) {
+    assert.ok(Math.abs(tierA-tierB) > maxRise, `rise between tiers (${tierA} vs ${tierB}) should exceed the ${maxRise.toFixed(1)}px max jump rise, confirming a ladder is required`);
+    assert.ok(LADDERS.some(l=>l.x===viaLadderX), `expected a ladder at x=${viaLadderX} for this rise`);
+  }
+});
+
+test('every ladder lands on a real deck or ground range at both ends',()=>{
+  for(const ladder of LADDERS) {
+    assert.ok(DECKS.some(d=>d.y===ladder.top && ladder.x>d.x && ladder.x<d.x+d.width),
+      `ladder at x=${ladder.x} has no deck at its top (y=${ladder.top})`);
+    const bottomOnGround = GROUND_RANGES.some(([l,r])=>ladder.x>l && ladder.x<r && ladder.bottom===1100);
+    const bottomOnDeck = DECKS.some(d=>d.y===ladder.bottom && ladder.x>d.x && ladder.x<d.x+d.width);
+    assert.ok(bottomOnGround || bottomOnDeck, `ladder at x=${ladder.x} has no surface at its bottom (y=${ladder.bottom})`);
+  }
+});
+
+test('falling off a deck with ground beneath it lands on continuous ground, not a gate gap',()=>{
+  // V7: unlike V6, not every deck has ground beneath it — roof-entry,
+  // roof-laundry and roof-m2 deliberately don't (checkpoint-respawn is the
+  // accepted recovery there; see level.js's own comment on GROUND_RANGES).
+  // This test only applies to decks that declare they rely on ground
+  // (supports !== false, the same flag game.js's deck() reads to decide
+  // whether to draw a support pillar at all).
+  const gateGaps = GATES.map(g=>[g.x,g.x+g.width]);
+  const groundBacked = DECKS.filter(d=>d.supports !== false);
+  for(const deck of groundBacked) {
+    const overGate = gateGaps.some(([l,r]) => deck.x < r && deck.x+deck.width > l);
+    if (overGate) continue;
+    const overGround = GROUND_RANGES.some(([l,r]) => deck.x>=l && deck.x+deck.width<=r);
+    assert.ok(overGround, `${deck.id} (x:${deck.x}-${deck.x+deck.width}) declares ground support but is not fully over a GROUND_RANGES span`);
+  }
+  // And the inverse, explicitly: the three no-support decks must NOT be
+  // claimed as ground-backed anywhere in GROUND_RANGES (confirms the
+  // checkpoint-recovery design is deliberate, not an oversight).
+  for(const id of ['roof-entry','roof-laundry','roof-m2']) {
+    const deck = DECKS.find(d=>d.id===id);
+    const overGround = GROUND_RANGES.some(([l,r]) => deck.x>=l && deck.x+deck.width<=r);
+    assert.ok(!overGround, `${id} was assumed to have no ground-recovery below it — found one, design intent changed unexpectedly`);
+  }
+});
+
+test('terminals, gates and checkpoints reference consistent ids',()=>{
+  const gateIds = new Set(GATES.map(g=>g.id));
+  for(const t of TERMINALS) assert.ok(gateIds.has(t.gate), `terminal ${t.id} references unknown gate ${t.gate}`);
+  for(const p of PUZZLES) assert.ok(gateIds.has(p.gate), `puzzle ${p.id} references unknown gate ${p.gate}`);
+  assert.equal(TERMINALS.length, PUZZLES.length);
+  assert.equal(new Set(TERMINALS.map(t=>t.id)).size, TERMINALS.length);
+  assert.equal(CHECKPOINTS.length, 3);
+  for(let i=1;i<CHECKPOINTS.length;i++) assert.ok(CHECKPOINTS[i].x > CHECKPOINTS[i-1].x);
+});
+
+test('every terminal sits exactly on its own deck/ground tier (feet matches the surface y)',()=>{
+  const surfaceYsAt = (x) => {
+    const ys = [];
+    for(const d of DECKS) if (x>d.x && x<d.x+d.width) ys.push(d.y);
+    for(const [l,r] of GROUND_RANGES) if (x>l && x<r) ys.push(1100);
+    return ys;
+  };
+  for(const t of TERMINALS) {
+    const ys = surfaceYsAt(t.x);
+    assert.ok(ys.includes(t.feet), `terminal ${t.id} at x=${t.x}, feet=${t.feet} has no matching surface (found: ${ys.join(',')})`);
+  }
+});
+
+test('Machine 2 is unreachable from the street or any adjacent deck, reachable only from roof-m2 (V7)',()=>{
+  // Mirrors game.js's nearestTerminal() distance check exactly:
+  //   Math.abs(player.x-t.x)<115 && Math.abs(player.body.bottom-t.feet)<48
+  const reaches = (playerX, playerBottom, t) => Math.abs(playerX - t.x) < 115 && Math.abs(playerBottom - t.feet) < 48;
+  const p2 = TERMINALS.find(t => t.id === 'p2');
+  const roofM2 = DECKS.find(d => d.id === 'roof-m2');
+  assert.equal(p2.feet, roofM2.y, 'p2 must sit at exactly roof-m2\'s height');
+  assert.ok(p2.x > roofM2.x && p2.x < roofM2.x + roofM2.width, 'p2 must sit within roof-m2\'s horizontal span');
+  // Unreachable from the nearest ground (there is none under E at all in
+  // V7 — this checks the nearest ground tier regardless, D's workshop
+  // tier, which is both far enough in x and in y).
+  for (const x of [1650, 1700, 1750]) {
+    assert.ok(!reaches(x, 980, p2), `workshop-approach at x=${x}, feet=980 must not reach p2`);
+  }
+  // Unreachable from the horizontally-closest adjacent deck, roof-laundry
+  // (only 80px below p2 — the vertical check must still block it).
+  for (const x of [roofM2.x - 10, roofM2.x]) {
+    assert.ok(!reaches(x, 740, p2), `roof-laundry at x=${x}, feet=740 must not reach p2`);
+  }
+  // Reachable from roof-m2's own surface near the terminal.
+  for (const x of [p2.x - 50, p2.x, p2.x + 50]) {
+    assert.ok(reaches(x, roofM2.y, p2), `roof-m2 at x=${x}, feet=${roofM2.y} must reach p2`);
+  }
+});
+
+test('zones with yMax correctly disambiguate stacked zones by height',()=>{
+  // Mirrors game.js's currentZoneIndex(): last ZONES entry whose x AND
+  // (no yMax or y<=yMax) match wins.
+  const pick = (x,y) => {
+    let best=-1;
+    ZONES.forEach((z,i)=>{ if(x>=z.xStart && x<z.xEnd && (z.yMax===undefined || y<=z.yMax)) best=i; });
+    return best===-1?0:best;
+  };
+  assert.equal(ZONES[pick(900,980)].id, 'lorong-pekan', 'standing on B\'s own tier should read as B');
+  assert.equal(ZONES[pick(900,820)].id, 'cafe-atas-angin', 'standing on C\'s tier (same x as B) should read as C');
+  assert.equal(ZONES[pick(1740,980)].id, 'bengkel-fungsi', 'D\'s own tier should read as D');
+  assert.equal(ZONES[pick(1740,700)].id, 'deretan-bumbung', 'E\'s tier (overlapping D\'s x) should read as E');
+});
+
+test('all runtime assets are real unchanged source PNGs',()=>{
+  const root=new URL('../',import.meta.url);
+  const manifest=JSON.parse(readFileSync(new URL('assets/manifest.json',root)));
+  const provenance=JSON.parse(readFileSync(new URL('assets/provenance.json',root)));
+  // V9.4 (audits/level-v9/kenney-world-release/): 90->85 after removing
+  // the 5 assets/background-legacy/ entries the user intentionally
+  // deleted (rejected visual assets, not restored) — see
+  // asset-recovery-report.md.
+  // V9.5 (audits/level-v9/phase5-kenney-import/): 85->73 after archiving
+  // 12 zero-reference HouseParts/Houses/lamp_wall/laundry_line assets tied
+  // to the rolled-back Phase 8.5 architectural-scenery direction — see
+  // rejected-art-inventory.md.
+  // V9.6 (audits/level-v9/phase6-real-kenney-layout/): 73->84 after
+  // registering 11 real, verified 18px tiles from the official Kenney
+  // Pixel Platformer pack (manually downloaded by the user, CC0) used to
+  // re-skin Zone A/B/C terrain — see asset-import-report.md.
+  // V9.6 terrain-grammar fix (audits/level-v9/terrain-grammar-fix/):
+  // 84->85 after registering one more real tile (the fully-bordered
+  // isolated dirt block, index 6) used for the crate ledge's exposed
+  // underside — see verified-tile-dictionary.md.
+  // V9.7 (audits/level-v9/full-kenney-world/): 85->88 after registering
+  // 3 real bridge tiles (indices 47/48/50) used for every gate's
+  // solved/open state across all of D/E/G — see
+  // terrain-role-inventory.md.
+  // V9.8 (audits/level-v9/visual-acceptance/): 88->89 after registering
+  // the real pack's braced/X-fence tile (index 105) for the locked-gate
+  // stub visual, replacing the production-asset planks — see
+  // visual-acceptance-report.md.
+  // V9.9 (audits/level-v9/world-composition-v9-9/): 89->93 after
+  // registering a real tree (index 126), two bush/tuft variants (124,
+  // 125) and one distant-hill background tile (Backgrounds/15) — see
+  // verified-asset-role-contact-sheet.md. (The grass/bridge seam-fix tile
+  // repoints in this same phase did not change the manifest's key COUNT,
+  // only which file 5 existing keys point to.)
+  // V9.9 resume: nine canopy frames and one trunk, all from the same pack.
+  assert.equal(Object.keys(manifest).length,103);
+  for(const record of provenance){
+    const path=new URL(record.path,root);
+    assert.ok(existsSync(path),record.path);
+    assert.equal(createHash('sha256').update(readFileSync(path)).digest('hex'),record.sha256,record.path);
+    assert.equal(manifest[record.key],record.path);
+  }
+});

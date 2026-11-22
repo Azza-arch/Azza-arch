@@ -1,0 +1,41 @@
+:root { --ag-bg: #faf6ee; --ag-ink: #2c2416; --ag-border: #d8cdb4; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ag-bg); color: var(--ag-ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+.ag-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+h1 { font-size: 22px; margin: 0 0 8px; }
+.ag-note { font-size: 14px; color: #6b6150; margin: 0 0 16px; }
+.ag-globalcontrols { font-size: 14px; margin-bottom: 20px; }
+
+.ag-filterbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.ag-filterbar--sub { margin-bottom: 18px; }
+.ag-filter-btn { font: inherit; font-size: 13px; border: 1px solid var(--ag-border); background: #fff; border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.ag-filter-btn.is-active { background: #8a6d3b; color: #fff; border-color: #8a6d3b; }
+.ag-filter-btn--sub { font-size: 12px; padding: 4px 10px; }
+
+.ag-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+@media (max-width: 760px) { .ag-grid { grid-template-columns: 1fr; } }
+
+.ag-card { background: #fff; border: 1px solid var(--ag-border); border-radius: 10px; overflow: hidden; }
+.ag-card--blocked { background: #fbf4e8; display: flex; flex-direction: column; }
+.ag-badge { font-size: 11px; background: #e8d3a0; color: #6b4f1a; border-radius: 999px; padding: 2px 8px; align-self: center; }
+.ag-blocked-reason { font-size: 13px; line-height: 1.5; color: #6b5a3a; padding: 4px 12px 14px; margin: 0; }
+
+.ag-section-title { font-size: 18px; margin: 32px 0 6px; }
+.ag-section-title--sub { font-size: 15px; margin: 28px 0 6px; color: #4a4330; }
+.ag-card-head { padding: 10px 12px 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.ag-card-title { font-size: 15px; font-weight: 600; margin: 0; }
+.ag-role-toggle { font-size: 12px; color: #6b6150; }
+.ag-role-toggle button { font: inherit; border: 1px solid var(--ag-border); background: #fff; border-radius: 6px; padding: 3px 8px; cursor: pointer; }
+
+.ag-stage { position: relative; width: 100%; aspect-ratio: 4 / 3.4; overflow: hidden; background: #cceaf2; margin-top: 8px; }
+.ag-stage .scene-zoom { position: absolute; inset: 0; transform: scale(2.15); transform-origin: 50% 82%; }
+.ag-stage .scene-layer { position: absolute; }
+.ag-stage .scene-surface { position: absolute; display: block; }
+
+.ag-state-label { padding: 8px 12px; font-size: 13px; color: #4a4330; border-top: 1px solid var(--ag-border); min-height: 1.4em; }
+.ag-controls { display: flex; align-items: center; gap: 6px; padding: 0 12px 12px; flex-wrap: wrap; }
+.ag-controls button { font: inherit; font-size: 13px; border: 1px solid var(--ag-border); background: #f4ecd9; border-radius: 6px; padding: 6px 10px; cursor: pointer; }
+.ag-controls button:disabled { opacity: .4; cursor: default; }
+.ag-dots { display: flex; gap: 4px; margin-left: auto; }
+.ag-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd0ab; }
+.ag-dot.is-active { background: #8a6d3b; }

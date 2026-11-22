@@ -1,0 +1,272 @@
+[
+  {
+    "viewport": "desktop",
+    "zoom": 1.0,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 102,
+    "worldPxVisible": 1353,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.0,
+    "moment": "machine1-approach",
+    "playerScreenH": 102,
+    "worldPxVisible": 1353,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.0,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 102,
+    "worldPxVisible": 1353,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.2,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 122,
+    "worldPxVisible": 1128,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.2,
+    "moment": "machine1-approach",
+    "playerScreenH": 122,
+    "worldPxVisible": 1128,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.2,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 122,
+    "worldPxVisible": 1128,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.3,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 132,
+    "worldPxVisible": 1041,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.3,
+    "moment": "machine1-approach",
+    "playerScreenH": 132,
+    "worldPxVisible": 1041,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "desktop",
+    "zoom": 1.3,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 132,
+    "worldPxVisible": 1041,
+    "canvasCssW": 1390,
+    "canvasCssH": 719,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.0,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 68,
+    "worldPxVisible": 1923,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.0,
+    "moment": "machine1-approach",
+    "playerScreenH": 68,
+    "worldPxVisible": 1923,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.0,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 68,
+    "worldPxVisible": 1923,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.2,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 81,
+    "worldPxVisible": 1603,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.2,
+    "moment": "machine1-approach",
+    "playerScreenH": 81,
+    "worldPxVisible": 1603,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.2,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 81,
+    "worldPxVisible": 1603,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.3,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 88,
+    "worldPxVisible": 1479,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.3,
+    "moment": "machine1-approach",
+    "playerScreenH": 88,
+    "worldPxVisible": 1479,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "short-wide-laptop",
+    "zoom": 1.3,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 88,
+    "worldPxVisible": 1479,
+    "canvasCssW": 1316,
+    "canvasCssH": 479,
+    "hudBottom": 53
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.0,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 49,
+    "worldPxVisible": 1655,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.0,
+    "moment": "machine1-approach",
+    "playerScreenH": 49,
+    "worldPxVisible": 1655,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.0,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 49,
+    "worldPxVisible": 1655,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.2,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 59,
+    "worldPxVisible": 1379,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.2,
+    "moment": "machine1-approach",
+    "playerScreenH": 59,
+    "worldPxVisible": 1379,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.2,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 59,
+    "worldPxVisible": 1379,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.3,
+    "moment": "spawn-first-gap",
+    "playerScreenH": 64,
+    "worldPxVisible": 1273,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.3,
+    "moment": "machine1-approach",
+    "playerScreenH": 64,
+    "worldPxVisible": 1273,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  },
+  {
+    "viewport": "mobile-landscape",
+    "zoom": 1.3,
+    "moment": "ladder-b-to-c",
+    "playerScreenH": 64,
+    "worldPxVisible": 1273,
+    "canvasCssW": 818,
+    "canvasCssH": 346,
+    "hudBottom": 43
+  }
+]

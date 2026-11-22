@@ -1,0 +1,60 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "input": "Playwright starts the real game; scene is then frozen at authored coordinates for composition review.",
+  "zones": [
+    {
+      "zone": "A",
+      "x": 540,
+      "feet": 1242,
+      "label": "crate approach",
+      "screenshot": "zone-A-before.png"
+    },
+    {
+      "zone": "B",
+      "x": 2700,
+      "feet": 1026,
+      "label": "lift and upper landing",
+      "screenshot": "zone-B-before.png"
+    },
+    {
+      "zone": "C",
+      "x": 1692,
+      "feet": 864,
+      "label": "optional mapping deck",
+      "screenshot": "zone-C-before.png"
+    },
+    {
+      "zone": "D",
+      "x": 3420,
+      "feet": 972,
+      "label": "number rack",
+      "screenshot": "zone-D-before.png"
+    },
+    {
+      "zone": "E",
+      "x": 5238,
+      "feet": 972,
+      "label": "waterworks control",
+      "screenshot": "zone-E-before.png"
+    },
+    {
+      "zone": "F",
+      "x": 6020,
+      "feet": 864,
+      "label": "ridge tree",
+      "screenshot": "zone-F-before.png"
+    },
+    {
+      "zone": "G",
+      "x": 7390,
+      "feet": 972,
+      "label": "river lever and locked bridge",
+      "screenshot": "zone-G-before.png"
+    }
+  ],
+  "pageErrors": [],
+  "failedRequests": []
+}

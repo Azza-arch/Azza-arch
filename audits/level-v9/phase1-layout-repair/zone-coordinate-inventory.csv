@@ -1,0 +1,54 @@
+type,id,x_start,x_end,y_top,y_bottom_or_extra,classification,notes
+zone,taman-perumahan,0,620,,,zone-boundary,A · Taman Perumahan
+zone,lorong-pekan,620,1300,,,zone-boundary,B · Lorong Pekan
+zone,cafe-atas-angin,620,1300,,900,zone-boundary,C · Café Atas Angin
+zone,bengkel-fungsi,1300,1750,,,zone-boundary,D · Bengkel Fungsi
+zone,deretan-bumbung,1700,2880,,900,zone-boundary,E · Deretan Bumbung
+zone,bukit-tanjung-gua,2880,3700,,,zone-boundary,F · Bukit Tanjung & Gua
+zone,jambatan-destinasi,3700,4300,,,zone-boundary,G · Jambatan Sungai
+ground,,0,420,1100,,mandatory-traversal,GROUND_RANGES segment
+ground,,540,1300,1100,,mandatory-traversal,GROUND_RANGES segment
+ground,,1600,1800,1100,,mandatory-traversal,GROUND_RANGES segment
+ground,,2880,3700,1100,,mandatory-traversal,GROUND_RANGES segment
+ground,,4000,4300,1100,,mandatory-traversal,GROUND_RANGES segment
+deck,town-walk-1,580,900,980,,mandatory-traversal,supports=true
+deck,town-walk-2,1040,1300,980,,mandatory-traversal,supports=true
+deck,cafe-deck,650,1030,820,,optional-traversal,supports=true
+deck,workshop-approach,1600,1800,980,,mandatory-traversal,supports=true
+deck,roof-entry,1750,1950,700,,mandatory-traversal,supports=False
+deck,roof-laundry,2100,2300,740,,mandatory-traversal,supports=False
+deck,roof-m2,2260,2580,660,,mandatory-traversal,supports=False
+deck,f-step1,2920,3070,700,,mandatory-traversal,supports=true
+deck,cave-alcove,2970,3120,880,,optional-traversal,supports=true
+deck,f-step2,3220,3370,900,,mandatory-traversal,supports=true
+ladder,,610,610,980,1100,mandatory-traversal,
+ladder,,750,750,820,980,mandatory-traversal,
+ladder,,1770,1770,700,980,mandatory-traversal,
+ladder,,2280,2280,660,740,mandatory-traversal,
+ladder,,3000,3000,700,880,mandatory-traversal,
+ladder,,3230,3230,900,1100,mandatory-traversal,
+gate,workshop-gate,1300,1600,980,,mandatory-gate,
+gate,rooftop-gate,2580,2880,660,,mandatory-gate,
+gate,final-gate,3700,4000,1100,,mandatory-gate,
+machine,p1,1250,1250,980,,puzzle-mechanism,gate=workshop-gate
+machine,p2,2400,2400,660,,puzzle-mechanism,gate=rooftop-gate
+machine,p3,3650,3650,1100,,puzzle-mechanism,gate=final-gate
+checkpoint,cp1-cafe,950,950,820,,mandatory-traversal,
+checkpoint,cp2-rooftop-exit,2950,2950,700,,mandatory-traversal,
+checkpoint,cp3-bridge,3550,3550,1100,,mandatory-traversal,
+coin,coin-a,300,300,1050,,optional-traversal,taman-perumahan
+coin,coin-b,970,970,940,,optional-traversal,lorong-pekan
+coin,coin-c,900,900,760,,optional-traversal,cafe-atas-angin
+coin,coin-e1,1850,1850,640,,optional-traversal,deretan-bumbung
+coin,coin-e2,2350,2350,600,,optional-traversal,deretan-bumbung
+coin,coin-cave,3000,3000,820,,optional-traversal,bukit-tanjung-gua
+coin,coin-g,3600,3600,1040,,optional-traversal,jambatan-destinasi
+secret,secret-oyen,680,680,820,,optional-traversal,cafe-atas-angin
+secret,secret-function-note,1615,1615,980,,optional-traversal,bengkel-fungsi
+secret,secret-cave-treasure,3090,3090,880,,optional-traversal,bukit-tanjung-gua
+crate,crate-1,230,230,1100,,puzzle-mechanism,V9.1 crate start
+switch,switch-1,340,340,1100,,puzzle-mechanism,radius=40
+platform,crate-platform-1,290,390,980,,puzzle-mechanism,"V9.1 crate-assisted ledge, rise 120px"
+spawn,,80,80,1100,,mandatory-traversal,
+goal,,4100,4100,1100,,mandatory-traversal,
+gap,FIRST_GAP,420,540,1100,,hazard,

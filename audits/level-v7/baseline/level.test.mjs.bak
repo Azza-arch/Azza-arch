@@ -1,0 +1,140 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {MOTION,WORLD,DECKS,GATES,LADDERS,TERMINALS,CHECKPOINTS,PUZZLES,GROUND_RANGES,FIRST_GAP} from '../src/level.js';
+
+test('each puzzle accepts only its correct answer',()=>{
+  const cases = {
+    p1: { correct:'7', wrong:['6','8','3',''," ",'abc','NaN','Infinity','<script>'] },
+    p2: { correct:'4', wrong:['10','3','5',''," ",'abc'] },
+    p3: { correct:'5', wrong:['17','4','6',''," ",'abc'] },
+  };
+  for(const puzzle of PUZZLES) {
+    const c = cases[puzzle.id];
+    assert.ok(c, `no test case for ${puzzle.id}`);
+    assert.equal(puzzle.check(c.correct).correct, true, `${puzzle.id} should accept ${c.correct}`);
+    for(const w of c.wrong) {
+      const result = puzzle.check(w);
+      assert.ok(!result.valid || !result.correct, `${puzzle.id} should reject "${w}"`);
+    }
+  }
+});
+
+test('every gate is unjumpable and every mandatory jump is reachable',()=>{
+  const maxRange = 2*MOTION.jump/WORLD.gravity*MOTION.speed;
+  for(const gate of GATES) {
+    assert.ok(gate.width > maxRange + MOTION.bodyWidth, `${gate.id} must not be jumpable (width ${gate.width})`);
+  }
+  // V6.2: Zone B is now a single descending jump between two varied-height
+  // platforms (not three same-tier awnings) and Zone E's ascending/
+  // descending chain (jumps only — the one 96px rise between roof-e2 and
+  // roof-e3 is a ladder, checked separately below) must all stay inside the
+  // validated jump envelope. This check is deliberately height-agnostic
+  // (flat-jump bound only) and therefore conservative for any jump with a
+  // drop, same convention already used for roof-e4->street below.
+  const jumpPairs = [
+    ['awning-b1','awning-b2'],
+    ['roof-e1','roof-e2'],
+    ['roof-e3','roof-e4'],
+  ];
+  for(const [fromId,toId] of jumpPairs) {
+    const from = DECKS.find(d=>d.id===fromId), to = DECKS.find(d=>d.id===toId);
+    const gap = to.x - (from.x + from.width);
+    assert.ok(gap > 0 && gap < maxRange - 40, `${fromId}->${toId} gap (${gap}) must be a reachable single jump`);
+  }
+  // roof-e4 -> street is a descending jump back to continuous ground (not a
+  // deck pair) — same conservative flat-jump bound applies; a genuine
+  // descent's true safe range is even larger (see level-v6.1-blueprint.md
+  // §1's descent table), so this check stays strict on purpose.
+  {
+    const e4 = DECKS.find(d=>d.id==='roof-e4');
+    const landingX = 5500; // matches the ladder-free descent landing used by game.js geometry
+    const gap = landingX - (e4.x + e4.width);
+    assert.ok(gap > 0 && gap < maxRange - 40, `roof-e4->street gap (${gap}) must be a reachable descending jump`);
+  }
+  // Zone A's intro jump (FIRST_GAP) is a plain, un-gated ground gap — same
+  // jumpability rule applies directly to its width.
+  assert.ok(FIRST_GAP.width > 0 && FIRST_GAP.width < maxRange - 40,
+    `FIRST_GAP (${FIRST_GAP.width}) must be a comfortable, reachable single jump`);
+});
+
+test('every ladder lands on a real deck or ground range at both ends',()=>{
+  for(const ladder of LADDERS) {
+    assert.ok(DECKS.some(d=>d.y===ladder.top && ladder.x>d.x && ladder.x<d.x+d.width),
+      `ladder at x=${ladder.x} has no deck at its top (y=${ladder.top})`);
+    const bottomOnGround = ladder.bottom===1000 && GROUND_RANGES.some(([l,r])=>ladder.x>l && ladder.x<r);
+    const bottomOnDeck = DECKS.some(d=>d.y===ladder.bottom && ladder.x>d.x && ladder.x<d.x+d.width);
+    assert.ok(bottomOnGround || bottomOnDeck, `ladder at x=${ladder.x} has no surface at its bottom (y=${ladder.bottom})`);
+  }
+});
+
+test('falling off any upper deck lands on continuous ground, not a gate gap',()=>{
+  // Every elevated deck other than the gate-adjacent landing spots must sit
+  // entirely over a GROUND_RANGES span, so missing a jump up there recovers
+  // onto safe lower ground instead of falling into a mandatory-crossing gap.
+  const gateGaps = GATES.map(g=>[g.x,g.x+g.width]);
+  for(const deck of DECKS) {
+    const overGate = gateGaps.some(([l,r]) => deck.x < r && deck.x+deck.width > l);
+    if (overGate) continue; // gate-side landings are expected to sit at a gap edge
+    const overGround = GROUND_RANGES.some(([l,r]) => deck.x>=l && deck.x+deck.width<=r);
+    assert.ok(overGround, `${deck.id} (x:${deck.x}-${deck.x+deck.width}) is not fully over continuous ground`);
+  }
+});
+
+test('terminals, gates and checkpoints reference consistent ids',()=>{
+  const gateIds = new Set(GATES.map(g=>g.id));
+  for(const t of TERMINALS) assert.ok(gateIds.has(t.gate), `terminal ${t.id} references unknown gate ${t.gate}`);
+  for(const p of PUZZLES) assert.ok(gateIds.has(p.gate), `puzzle ${p.id} references unknown gate ${p.gate}`);
+  assert.equal(TERMINALS.length, PUZZLES.length);
+  assert.equal(new Set(TERMINALS.map(t=>t.id)).size, TERMINALS.length);
+  assert.equal(CHECKPOINTS.length, 3);
+  // Checkpoints must be in ascending x order (respawn logic assumes this).
+  for(let i=1;i<CHECKPOINTS.length;i++) assert.ok(CHECKPOINTS[i].x > CHECKPOINTS[i-1].x);
+});
+
+test('Machine 2 sits on roof-e3 and is unreachable from the street or any other deck (V6.2)',()=>{
+  // Mirrors game.js's nearestTerminal() distance check exactly:
+  //   Math.abs(player.x-t.x)<115 && Math.abs(player.body.bottom-t.feet)<48
+  // This is a geometry-level duplicate of that formula (game.js itself needs
+  // Phaser/DOM and is exercised live by tests/probe.py); this test exists so
+  // the bypass property is also checked in the fast, browser-free suite.
+  const reaches = (playerX, playerBottom, t) => Math.abs(playerX - t.x) < 115 && Math.abs(playerBottom - t.feet) < 48;
+  const p2 = TERMINALS.find(t => t.id === 'p2');
+  const e3 = DECKS.find(d => d.id === 'roof-e3');
+  assert.equal(p2.feet, e3.y, 'p2 must sit at exactly roof-e3\'s height');
+  assert.ok(p2.x > e3.x && p2.x < e3.x + e3.width, 'p2 must sit within roof-e3\'s horizontal span');
+  // Unreachable from anywhere on the continuous street (y feet=1000), including
+  // directly beneath the terminal where the x-check alone would pass.
+  for (const x of [4300, p2.x - 50, p2.x, p2.x + 50, 5649]) {
+    assert.ok(!reaches(x, 1000, p2), `street at x=${x}, feet=1000 must not reach p2`);
+  }
+  // Unreachable from every other deck in the Zone E chain, including the
+  // horizontally-closest ones (roof-e2's east edge, roof-e4), where only the
+  // vertical check protects against bypass.
+  for (const deckId of ['roof-e1', 'roof-e2', 'roof-e4']) {
+    const deck = DECKS.find(d => d.id === deckId);
+    for (const x of [deck.x, deck.x + deck.width]) {
+      assert.ok(!reaches(x, deck.y, p2), `${deckId} at x=${x}, feet=${deck.y} must not reach p2`);
+    }
+  }
+  // Reachable from roof-e3's surface near the terminal (the intended route;
+  // the 115px horizontal tolerance means the player must be standing close
+  // to the terminal itself, not merely anywhere on the 160px-wide deck).
+  for (const x of [p2.x - 80, p2.x, p2.x + 19]) {
+    assert.ok(reaches(x, e3.y, p2), `roof-e3 at x=${x}, feet=${e3.y} must reach p2`);
+  }
+});
+
+test('all runtime assets are real unchanged source PNGs',()=>{
+  const root=new URL('../',import.meta.url);
+  const manifest=JSON.parse(readFileSync(new URL('assets/manifest.json',root)));
+  const provenance=JSON.parse(readFileSync(new URL('assets/provenance.json',root)));
+  assert.equal(Object.keys(manifest).length,90);
+  for(const record of provenance){
+    const path=new URL(record.path,root);
+    assert.ok(existsSync(path),record.path);
+    assert.equal(createHash('sha256').update(readFileSync(path)).digest('hex'),record.sha256,record.path);
+    assert.equal(manifest[record.key],record.path);
+  }
+});

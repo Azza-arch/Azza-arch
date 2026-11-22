@@ -1,0 +1,14 @@
+{
+  "idleAnimationFrames": [
+    "idle-01",
+    "idle-03",
+    "idle-04",
+    "idle-06",
+    "idle-07",
+    "idle-09"
+  ],
+  "ladderDown": "passed",
+  "jumpOffLadder": "passed",
+  "touchInstruction": "passed",
+  "errors": []
+}

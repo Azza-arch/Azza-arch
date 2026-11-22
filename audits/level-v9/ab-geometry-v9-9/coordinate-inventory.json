@@ -1,0 +1,440 @@
+{
+  "GROUND_RANGES": {
+    "before": [
+      [
+        0,
+        420
+      ],
+      [
+        540,
+        1300
+      ],
+      [
+        1600,
+        1800
+      ],
+      [
+        2880,
+        3700
+      ],
+      [
+        4000,
+        4300
+      ]
+    ],
+    "after": [
+      [
+        0,
+        528
+      ],
+      [
+        648,
+        1300
+      ],
+      [
+        1600,
+        1800
+      ],
+      [
+        2880,
+        3700
+      ],
+      [
+        4000,
+        4300
+      ]
+    ]
+  },
+  "FIRST_GAP": {
+    "before": {
+      "x": 420,
+      "width": 120
+    },
+    "after": {
+      "x": 528,
+      "width": 120
+    }
+  },
+  "DECKS": {
+    "before": [
+      {
+        "id": "town-walk-1",
+        "x": 580,
+        "y": 980,
+        "width": 320
+      },
+      {
+        "id": "town-walk-2",
+        "x": 1040,
+        "y": 980,
+        "width": 260
+      },
+      {
+        "id": "cafe-deck",
+        "x": 650,
+        "y": 820,
+        "width": 380
+      },
+      {
+        "id": "workshop-approach",
+        "x": 1600,
+        "y": 980,
+        "width": 200
+      },
+      {
+        "id": "roof-entry",
+        "x": 1750,
+        "y": 700,
+        "width": 200,
+        "supports": false
+      },
+      {
+        "id": "roof-laundry",
+        "x": 2100,
+        "y": 740,
+        "width": 200,
+        "supports": false
+      },
+      {
+        "id": "roof-m2",
+        "x": 2260,
+        "y": 660,
+        "width": 320,
+        "supports": false
+      },
+      {
+        "id": "f-step1",
+        "x": 2920,
+        "y": 700,
+        "width": 150
+      },
+      {
+        "id": "cave-alcove",
+        "x": 2970,
+        "y": 880,
+        "width": 150
+      },
+      {
+        "id": "f-step2",
+        "x": 3220,
+        "y": 900,
+        "width": 150
+      }
+    ],
+    "after": [
+      {
+        "id": "town-walk-1",
+        "x": 696,
+        "y": 938,
+        "width": 288
+      },
+      {
+        "id": "town-walk-2",
+        "x": 1158,
+        "y": 980,
+        "width": 142,
+        "terrain": true
+      },
+      {
+        "id": "cafe-deck",
+        "x": 650,
+        "y": 820,
+        "width": 380
+      },
+      {
+        "id": "workshop-approach",
+        "x": 1600,
+        "y": 980,
+        "width": 200
+      },
+      {
+        "id": "roof-entry",
+        "x": 1750,
+        "y": 700,
+        "width": 200,
+        "supports": false
+      },
+      {
+        "id": "roof-laundry",
+        "x": 2100,
+        "y": 740,
+        "width": 200,
+        "supports": false
+      },
+      {
+        "id": "roof-m2",
+        "x": 2260,
+        "y": 660,
+        "width": 320,
+        "supports": false
+      },
+      {
+        "id": "f-step1",
+        "x": 2920,
+        "y": 700,
+        "width": 150
+      },
+      {
+        "id": "cave-alcove",
+        "x": 2970,
+        "y": 880,
+        "width": 150
+      },
+      {
+        "id": "f-step2",
+        "x": 3220,
+        "y": 900,
+        "width": 150
+      }
+    ]
+  },
+  "LADDERS": {
+    "before": [
+      {
+        "x": 610,
+        "top": 980,
+        "bottom": 1100
+      },
+      {
+        "x": 750,
+        "top": 820,
+        "bottom": 980
+      },
+      {
+        "x": 1770,
+        "top": 700,
+        "bottom": 980
+      },
+      {
+        "x": 2280,
+        "top": 660,
+        "bottom": 740
+      },
+      {
+        "x": 3000,
+        "top": 700,
+        "bottom": 880
+      },
+      {
+        "x": 3230,
+        "top": 900,
+        "bottom": 1100
+      }
+    ],
+    "after": [
+      {
+        "x": 710,
+        "top": 938,
+        "bottom": 1100
+      },
+      {
+        "x": 750,
+        "top": 820,
+        "bottom": 938
+      },
+      {
+        "x": 1770,
+        "top": 700,
+        "bottom": 980
+      },
+      {
+        "x": 2280,
+        "top": 660,
+        "bottom": 740
+      },
+      {
+        "x": 3000,
+        "top": 700,
+        "bottom": 880
+      },
+      {
+        "x": 3230,
+        "top": 900,
+        "bottom": 1100
+      }
+    ]
+  },
+  "COLLECTIBLES": {
+    "before": [
+      {
+        "id": "coin-a",
+        "x": 340,
+        "y": 940,
+        "area": "taman-perumahan"
+      },
+      {
+        "id": "coin-b",
+        "x": 970,
+        "y": 940,
+        "area": "lorong-pekan"
+      },
+      {
+        "id": "coin-c",
+        "x": 900,
+        "y": 760,
+        "area": "cafe-atas-angin"
+      },
+      {
+        "id": "coin-e1",
+        "x": 1850,
+        "y": 640,
+        "area": "deretan-bumbung"
+      },
+      {
+        "id": "coin-e2",
+        "x": 2350,
+        "y": 600,
+        "area": "deretan-bumbung"
+      },
+      {
+        "id": "coin-cave",
+        "x": 3000,
+        "y": 820,
+        "area": "bukit-tanjung-gua"
+      },
+      {
+        "id": "coin-g",
+        "x": 3600,
+        "y": 1040,
+        "area": "jambatan-destinasi"
+      }
+    ],
+    "after": [
+      {
+        "id": "coin-a",
+        "x": 432,
+        "y": 916,
+        "area": "taman-perumahan"
+      },
+      {
+        "id": "coin-b",
+        "x": 1098,
+        "y": 900,
+        "area": "lorong-pekan"
+      },
+      {
+        "id": "coin-c",
+        "x": 900,
+        "y": 760,
+        "area": "cafe-atas-angin"
+      },
+      {
+        "id": "coin-e1",
+        "x": 1850,
+        "y": 640,
+        "area": "deretan-bumbung"
+      },
+      {
+        "id": "coin-e2",
+        "x": 2350,
+        "y": 600,
+        "area": "deretan-bumbung"
+      },
+      {
+        "id": "coin-cave",
+        "x": 3000,
+        "y": 820,
+        "area": "bukit-tanjung-gua"
+      },
+      {
+        "id": "coin-g",
+        "x": 3600,
+        "y": 1040,
+        "area": "jambatan-destinasi"
+      }
+    ]
+  },
+  "CRATE_PUZZLE": {
+    "before": {
+      "crate": {
+        "id": "crate-1",
+        "x": 230,
+        "feet": 1100
+      },
+      "floorSwitch": {
+        "id": "switch-1",
+        "x": 340,
+        "feet": 1100,
+        "radius": 40
+      },
+      "platform": {
+        "id": "crate-platform-1",
+        "x": 290,
+        "y": 980,
+        "width": 100
+      }
+    },
+    "after": {
+      "crate": {
+        "id": "crate-1",
+        "x": 220,
+        "feet": 1100
+      },
+      "floorSwitch": {
+        "id": "switch-1",
+        "x": 400,
+        "feet": 1100,
+        "radius": 40
+      },
+      "platform": {
+        "id": "crate-platform-1",
+        "x": 360,
+        "y": 980,
+        "width": 144
+      }
+    }
+  },
+  "AB_TERRAIN": {
+    "before": [],
+    "after": [
+      {
+        "id": "a-ground",
+        "x": 0,
+        "y": 1100,
+        "width": 528
+      },
+      {
+        "id": "b-landing",
+        "x": 648,
+        "y": 1100,
+        "width": 120
+      },
+      {
+        "id": "b-step-1",
+        "x": 768,
+        "y": 1046,
+        "width": 108
+      },
+      {
+        "id": "b-step-2",
+        "x": 876,
+        "y": 992,
+        "width": 108
+      },
+      {
+        "id": "b-crest",
+        "x": 984,
+        "y": 938,
+        "width": 54
+      },
+      {
+        "id": "b-recovery-upper",
+        "x": 1038,
+        "y": 992,
+        "width": 54
+      },
+      {
+        "id": "b-recovery-lower",
+        "x": 1092,
+        "y": 1046,
+        "width": 66
+      },
+      {
+        "id": "town-walk-2",
+        "x": 1158,
+        "y": 980,
+        "width": 142
+      }
+    ]
+  }
+}

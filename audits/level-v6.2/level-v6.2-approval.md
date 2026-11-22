@@ -1,0 +1,51 @@
+# Lorong Atas Bumbung — V6.2 Approval & Recommended Decisions
+
+**Status: design-only. No source file modified; no implementation performed.** Verified via `git status --porcelain app/addmath/rooftop/` at the end of this document.
+
+## FINAL RECOMMENDATION (supersedes §Recommended decisions below — see `level-v6.2-final-sanity-check.md`)
+
+A final sanity-check pass found that **B1 and E2, the decisions originally recorded below, do not survive scrutiny** and replaced them:
+
+1. **Zone B: two-platform, varied-height layout, no manufactured street obstacle** — not B1. B1's ~0.15–0.4s "shortcut" was imperceptible and its street-level crate existed only to produce that number, which Part 4.1 itself forbids ("a platform/obstacle that adds no distinct purpose"). The revised layout removes the redundant third awning, varies `awning-b2`'s height (drop 60px from `awning-b1`), and shortens the down-ladder — removing the three-identical-towers silhouette by construction and giving the route a real reason to exist: it is the level's first non-flat jump, practiced before Zone E requires one. Full comparison in `level-v6.2-final-sanity-check.md` Part 1.
+2. **Zone E: relocate `TERMINALS.p2` onto `roof-e3` (x≈5020, feet=800)** — not E2's raised lip. The lip was **not implementable**: the chain's final descending jump (launched at y=940) can reach no higher than y≈843.4 (per `max_rise = 520²/2800 = 96.6px`), which never clears a lip whose top must sit at y≤903.4 to block a standing street jump — those two requirements are mutually exclusive, a hard contradiction, not a tuning issue. The brief's own literal suggestion of placing the terminal on `roof-e4` was also checked and rejected: `roof-e4` is only a 60px rise from the adjacent street, well inside the safe jump window, so a terminal there would still be bypassable by a direct jump from the ground. `roof-e3` is a 200px rise — more than double the 96.6px max — so a direct street jump to it is categorically impossible, and it reuses the chain's existing ladder chokepoint rather than inventing new geometry. This also requires **zero new topology**: `GROUND_RANGES`, `DECKS`, `LADDERS`, and `GATES` are all unchanged; only `TERMINALS.p2`'s coordinates move. Full derivation and decision table in `level-v6.2-final-sanity-check.md` Part 2.
+3. **Machine 2 placement:** `roof-e3` (feet=800), not the ground-level pocket recorded in decision §3 below.
+4. **Lower recovery route:** `GROUND_RANGES` stays exactly as it is live today, `[4300,5650]`, fully continuous — no split, no pocket, no lip. All five chain jumps keep their already-playtested V6.1 recovery behavior unchanged.
+5. **Mandatory vs. optional split (new, not present in the superseded decisions below):** `street→roof-e1→roof-e2→ladder→roof-e3` is the mandatory path (the only way to reach M2); `roof-e3→roof-e4→street` becomes the optional descent branch, still rewarding `coin-e2`, no longer load-bearing for puzzle access. This satisfies Part 9's explicit mandatory/optional separation, which the superseded pocket design did not cleanly achieve.
+6. Both revisions are **lower** implementation risk than what they replace, not higher — Zone B needs one deck removed and one deck's coordinates/ladder edited (no new prop); Zone E needs a single terminal coordinate change and nothing else.
+7. **Readiness: READY FOR REVIEW**, under the revised Zone B and Zone E designs only. The decisions in the section below are retained as the audit trail of what was first proposed and why it changed, per this project's existing convention of superseding rather than silently editing prior passes — they are no longer the active recommendation.
+
+---
+
+## Recommended decisions (SUPERSEDED — see above; retained as audit trail)
+
+1. **Zone B alternative: B1 (Rooftop shortcut).** Adds one static, non-hazardous street obstacle; keeps the already-shipped V6.1 awning geometry unchanged. Rejected B2 (optional discovery) because it does not resolve the "coin-only, return to the same street" failure case the brief names explicitly in Part 4.1 — see `level-v6.2-route-options.md` §Zone B.
+2. **Zone E alternative: E2 (Rooftop-to-terminal access / enclosed pocket).** Keeps `p2`'s terminal at its existing ground-plane `feet=1000`; blocks street-level bypass with a visible raised-terrain lip (~200px, more than double the 96.6px theoretical max jump rise) instead of relocating the terminal to a new elevated height. Rejected E1 (elevated terminal) as higher implementation risk for an equivalent gameplay outcome — see `level-v6.2-route-options.md` §Zone E comparison table.
+3. **Machine 2 placement:** stays at its current x=5570, moved only in the sense that it now sits inside the new ground-pocket `[5450,5650]` rather than on the open street `[4300,5650]`. No change to `p2`'s formula, answer, or `gate` linkage.
+4. **Lower recovery route:** `GROUND_RANGES`'s single Zone E entry `[4300,5650]` is split into `[4300,5450]` (continuous recovery street under the entire jump chain) + `[5450,5650]` (the now-enclosed terminal pocket, reachable only via the chain's final descending jump). Every mandatory jump in the chain keeps a safe fall-to-recovery-street outcome; the pocket itself is not reachable by walking from the west.
+5. **Camera scope:** out of scope for this pass, per the brief's own instruction and because it is already correctly implemented (`offsetY=10`, `bounds.top=480`, confirmed live in `game.js:71-78`, unchanged since V6.1). No camera change proposed or needed to support B1/E2.
+6. **Existing deck/ladder removal:** none. Zone B's `awning-b1/b2/b3` and both ladders are unchanged. Zone E's `roof-e1`–`roof-e4` and its one ladder are unchanged. The only new geometry is (a) one static street-obstacle prop in Zone B and (b) one raised-terrain lip prop in Zone E — both additive, not replacements, consistent with Part 4.3's "don't add a second ladder/structure merely to solve reachability" by using the lightest-weight element (a static prop) that solves each problem.
+7. **Readiness: READY FOR REVIEW.** Both mandatory-route changes (Zone E's access gating) have full geometric reachability/recovery justification in `level-v6.2-jump-validation.csv`, and both optional-route changes (Zone B's shortcut) have an explicit, quantified reason for the player to choose them. No proposed element requires a physics, camera, or gate-logic change.
+
+## Design review answers (Part 18) (also superseded in part — see note below the table)
+
+*These answers were written against the superseded B1/E2 decisions above. The reasoning in rows 1, 2, and 6 that references the shortcut timing and the lip no longer holds; see `level-v6.2-final-sanity-check.md` for the current answers under the revised Zone B/E designs. Retained unedited as audit trail.*
+
+1. **Why would the player choose this route?** Zone B upper: measurably faster (~0.15–0.4s) plus two coins. Zone E rooftop chain: it is the *only* route to Machine 2 under this design — not a choice, a requirement, which is the entire point of this pass.
+2. **What happens if the player ignores it?** Zone B: reaches the café at effectively the same time, missing only 2 coins — a legitimate, non-punishing choice. Zone E: the player physically cannot ignore the chain and still reach `p2`/`rooftop-gate` — the street dead-ends at the lip.
+3. **What does this platform teach or test?** Zone B: the first INTRODUCE-level route choice with a real (if small) stakes difference. Zone E: a full PRACTICE→COMBINE→VARY→APPLY arc in five consecutive steps (rise 40, rise 64, ladder-rise 96, drop 140, drop 60), ending by delivering the player directly to the puzzle it was gating.
+4. **What happens when the player misses the jump?** Every mandatory jump in both zones falls to an immediately-adjacent, already-continuous recovery street — confirmed per-step in `level-v6.2-jump-validation.csv`'s `recovery` column.
+5. **Can the player recover without an unfair reset?** Yes in all cases — no mandatory jump in this pass requires returning further back than the recovery street directly beneath it; no checkpoint or respawn logic is invoked by a missed jump in either zone.
+6. **Does the player understand where to go next?** Zone B: ladder and awnings are visible from the street (same visual language as every other ladder in the level). Zone E: the lip is a visible solid obstacle (not an invisible wall), and the chain leading up and over it is the only visible way past — satisfying Part 13's explicit "no invisible walls" and Part 4.4's "mandatory traversal should not be avoidable by walking on an empty street beneath it."
+7. **Does the machine visibly affect the world?** Unchanged for M1/M3 (already satisfied, out of scope). For M2: solving it opens `rooftop-gate`, the same visible bridge-appears mechanic already validated for the other two puzzles — no new mechanism introduced.
+8. **Does each zone have a distinct gameplay identity?** Zone B: urban route-choice (flat/flat, reward-plus-small-time). Zone F: environmental discovery (cave alcove, unchanged, distinct from B per the brief's own Part 10 instruction). Zone E: progression-critical traversal (the only zone in the level where the upper route is mandatory, not optional) — now distinct in *function*, not just shape, from Zone B.
+9. **Does the level avoid redundant climbs?** Yes — Zone B retains exactly its existing two ladders (up/down bookends, no mid-sequence ladder, per the already-approved V6.1 rule); Zone E retains its existing single ladder for the one rise too big to jump. No new ladder is added anywhere in this pass.
+10. **Is the design achievable with existing movement physics and approved assets?** Yes — every jump number in `level-v6.2-jump-validation.csv` reuses the already-playtested V6.1 kinematics; every new visual element (crate prop, terrain lip) is representable with the existing Kenney New Platformer Pack per Part 15, with no new art required.
+
+## Source-modification check
+
+```
+git status --porcelain app/addmath/rooftop/
+```
+No source, physics, asset, or UI files were modified during this design pass. All V6.2 deliverables live under `audits/level-v6.2/`, parallel to but outside the live game source, consistent with the V5/V6/V6.1 pattern.
+
+**Stopping here per the explicit "design-only... stop after delivering the design artifacts" instruction.**

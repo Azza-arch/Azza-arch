@@ -1,0 +1,8 @@
+#c-control{position:fixed;z-index:32;top:126px;left:50%;transform:translateX(-50%);width:min(420px,calc(100% - 24px));box-sizing:border-box;background:#6f3e43;color:#fff2ce;border:2px solid #f4ac66;padding:8px 12px;font:16px/1.35 system-ui,sans-serif;pointer-events:none}
+#c-control[hidden]{display:none}
+#c-control .c-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#c-control p{margin:3px 0}
+#c-control button{pointer-events:auto;min-width:80px;min-height:48px;border:2px solid #f4ac66;border-radius:0;background:#6f3e43;color:#fff2ce;font:inherit;padding:6px}
+#c-control button:focus-visible{outline:3px solid #fee481;outline-offset:3px}
+body.c-control-visible #notice,body.c-control-visible #zone-toast,body.c-control-visible #mission-indicator{visibility:hidden}
+@media(max-height:500px){#c-control{top:66px;left:12px;transform:none;width:340px;font-size:16px;padding:6px 10px}#c-control p{margin:0}}

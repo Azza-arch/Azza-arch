@@ -1,0 +1,9 @@
+id,kind,x,feet,gate
+probe,probe,1480,1134,
+p1,gear,1960,1080,gear
+cafe,mapping,1740,810,
+p2,block,3186,972,block
+primer,primer,3942,972,
+pipe,pipe,4806,648,pipe
+inverse,inverse,6650,1242,
+p3,final,7632,1296,final

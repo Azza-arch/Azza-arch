@@ -1,0 +1,14 @@
+zone,step_id,type,launch_x,launch_y,landing_x,landing_y,horizontal_gap_px,vertical_change_px,window_min_px,window_max_px,margin_px,mandatory,fall_location,recovery_route
+A,first-gap,jump,390,1100,560,1100,120,0,0,208,88,mandatory,shallow (lands on FIRST_GAP's own landing),none needed - gap is the intended forgiving jump
+A-B,ladder-up,climb,610,1100,610,980,0,-120,n/a (exceeds 96.6px max jump rise),n/a,n/a,mandatory,fall back to ground,no respawn - climb back down
+B,town-walk-1-to-2,jump,900,980,1040,980,140,0,0,208,68,mandatory,ground at y=1100 (GROUND_RANGES [540,1300]),fall 120px to continuous ground beneath all of B
+B-C,ladder,climb,750,980,750,820,0,-160,n/a (exceeds 96.6px max jump rise),n/a,n/a,optional (C is a dead-end detour),fall back to town-walk-1,no respawn - climb back down (same ladder)
+D-E,ladder,climb,1770,980,1770,700,0,-280,n/a (exceeds 96.6px max jump rise),n/a,n/a,mandatory,fall back to workshop-approach,no respawn - climb back down
+E,roof-entry-to-laundry,jump,1950,700,2100,740,150,40,n/a (drop),227.7,77.7,mandatory,none - no ground beneath this chain (deliberate),falls to checkpoint respawn (CP1)
+E-internal,ladder,climb,2280,740,2280,660,0,-80,60.9,147.1 (technically jumpable; built as a ladder to match the reference and for a deliberate varied-mechanic beat),n/a,mandatory,none - no ground beneath this chain (deliberate),falls to checkpoint respawn (CP1)
+E-F-gate,gate-to-f-step1,jump,2880,660,2920,700,40,40,n/a (drop),227.7,187.7,mandatory,continuous ground at y=1100 ([2880,3700]),fall 360px to continuous ground beneath all of F
+F-optional,ladder,climb,3000,700,3000,880,0,180,n/a (exceeds 96.6px max jump rise),n/a,n/a,optional (cave alcove, not required for progress),ground beneath cave-alcove too,fall to ground, or climb back up
+F,f-step1-to-f-step2,jump,3070,700,3220,900,150,200,n/a (drop),286.3,136.3,mandatory,continuous ground at y=1100,fall to continuous ground beneath all of F
+F-G,ladder,climb,3230,900,3230,1100,0,200,n/a (exceeds 96.6px max jump rise),n/a,n/a,mandatory,already at ground,n/a
+G,final-approach,walk,3650,1100,3700,1100,50,0,n/a,n/a,n/a,mandatory,n/a,n/a
+gate-unjumpable-check,all-3-gates,n/a,n/a,n/a,n/a,n/a,300,n/a,n/a,n/a,mandatory,n/a,"gate width (300px) > flat max jump range + body width (208+28=236px), confirmed for workshop-gate specifically since it is the one case where both sides sit at the same tier (980)"

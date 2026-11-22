@@ -1,0 +1,677 @@
+{
+  "status": "Implemented; desktop natural traversal passed",
+  "world": {
+    "width": 8400,
+    "height": 1600,
+    "gravity": 1400
+  },
+  "surfaces": [
+    {
+      "id": "A0",
+      "x": 0,
+      "y": 1296,
+      "width": 648,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A1",
+      "x": 756,
+      "y": 1296,
+      "width": 270,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A2",
+      "x": 1026,
+      "y": 1242,
+      "width": 108,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A3",
+      "x": 1134,
+      "y": 1188,
+      "width": 108,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A4",
+      "x": 1242,
+      "y": 1134,
+      "width": 162,
+      "kind": "solid",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "A-ledge",
+      "x": 414,
+      "y": 1176,
+      "width": 162,
+      "kind": "optional",
+      "zone": "A",
+      "gate": null
+    },
+    {
+      "id": "B0",
+      "x": 1404,
+      "y": 1134,
+      "width": 270,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B1",
+      "x": 1674,
+      "y": 1080,
+      "width": 108,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B2",
+      "x": 1782,
+      "y": 1080,
+      "width": 270,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "G1",
+      "x": 2052,
+      "y": 1080,
+      "width": 324,
+      "kind": "gate",
+      "zone": "B",
+      "gate": "gear"
+    },
+    {
+      "id": "B3",
+      "x": 2376,
+      "y": 1080,
+      "width": 216,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B4",
+      "x": 2592,
+      "y": 1026,
+      "width": 108,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "B5",
+      "x": 2700,
+      "y": 972,
+      "width": 216,
+      "kind": "solid",
+      "zone": "B",
+      "gate": null
+    },
+    {
+      "id": "C0",
+      "x": 1512,
+      "y": 810,
+      "width": 432,
+      "kind": "optional",
+      "zone": "C",
+      "gate": null
+    },
+    {
+      "id": "D0",
+      "x": 2916,
+      "y": 972,
+      "width": 432,
+      "kind": "solid",
+      "zone": "D",
+      "gate": null
+    },
+    {
+      "id": "G2",
+      "x": 3348,
+      "y": 972,
+      "width": 324,
+      "kind": "gate",
+      "zone": "D",
+      "gate": "block"
+    },
+    {
+      "id": "D1",
+      "x": 3672,
+      "y": 972,
+      "width": 432,
+      "kind": "solid",
+      "zone": "D",
+      "gate": null
+    },
+    {
+      "id": "D-upper",
+      "x": 3780,
+      "y": 756,
+      "width": 270,
+      "kind": "optional",
+      "zone": "D",
+      "gate": null
+    },
+    {
+      "id": "E0",
+      "x": 4104,
+      "y": 972,
+      "width": 216,
+      "kind": "solid",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E1",
+      "x": 4104,
+      "y": 756,
+      "width": 324,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E-recovery",
+      "x": 4320,
+      "y": 1080,
+      "width": 594,
+      "kind": "solid",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E2",
+      "x": 4536,
+      "y": 810,
+      "width": 270,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "E3",
+      "x": 4590,
+      "y": 648,
+      "width": 324,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "G3",
+      "x": 4914,
+      "y": 648,
+      "width": 324,
+      "kind": "gate",
+      "zone": "E",
+      "gate": "pipe"
+    },
+    {
+      "id": "E4",
+      "x": 5238,
+      "y": 648,
+      "width": 432,
+      "kind": "oneway",
+      "zone": "E",
+      "gate": null
+    },
+    {
+      "id": "F0",
+      "x": 5724,
+      "y": 702,
+      "width": 216,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F1",
+      "x": 5940,
+      "y": 756,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F2",
+      "x": 6048,
+      "y": 810,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F3",
+      "x": 6156,
+      "y": 864,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F4",
+      "x": 6264,
+      "y": 918,
+      "width": 216,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F-roof",
+      "x": 6480,
+      "y": 918,
+      "width": 270,
+      "kind": "oneway",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F-cave",
+      "x": 6480,
+      "y": 1242,
+      "width": 270,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F5",
+      "x": 6750,
+      "y": 972,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F6",
+      "x": 6858,
+      "y": 1026,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F7",
+      "x": 6966,
+      "y": 1080,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F8",
+      "x": 7074,
+      "y": 1134,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "F9",
+      "x": 7182,
+      "y": 1188,
+      "width": 108,
+      "kind": "solid",
+      "zone": "F",
+      "gate": null
+    },
+    {
+      "id": "G0",
+      "x": 7290,
+      "y": 1242,
+      "width": 216,
+      "kind": "solid",
+      "zone": "G",
+      "gate": null
+    },
+    {
+      "id": "G-bank",
+      "x": 7506,
+      "y": 1296,
+      "width": 216,
+      "kind": "solid",
+      "zone": "G",
+      "gate": null
+    },
+    {
+      "id": "G4",
+      "x": 7722,
+      "y": 1296,
+      "width": 378,
+      "kind": "gate",
+      "zone": "G",
+      "gate": "final"
+    },
+    {
+      "id": "G-exit",
+      "x": 8100,
+      "y": 1296,
+      "width": 300,
+      "kind": "solid",
+      "zone": "G",
+      "gate": null
+    }
+  ],
+  "ladders": [
+    {
+      "id": "LC-in",
+      "x": 1566,
+      "top": 810,
+      "bottom": 1134,
+      "upper": "C0",
+      "lower": "B0",
+      "optional": true
+    },
+    {
+      "id": "LC-out",
+      "x": 1836,
+      "top": 810,
+      "bottom": 1080,
+      "upper": "C0",
+      "lower": "B2",
+      "optional": true
+    },
+    {
+      "id": "LD-note",
+      "x": 3834,
+      "top": 756,
+      "bottom": 972,
+      "upper": "D-upper",
+      "lower": "D1",
+      "optional": true
+    },
+    {
+      "id": "LE-main",
+      "x": 4212,
+      "top": 756,
+      "bottom": 972,
+      "upper": "E1",
+      "lower": "E0",
+      "optional": false
+    },
+    {
+      "id": "LE-recover",
+      "x": 4374,
+      "top": 756,
+      "bottom": 1080,
+      "upper": "E1",
+      "lower": "E-recovery",
+      "optional": false
+    },
+    {
+      "id": "LE-pipe",
+      "x": 4698,
+      "top": 648,
+      "bottom": 810,
+      "upper": "E3",
+      "lower": "E2",
+      "optional": false
+    },
+    {
+      "id": "LF-cave",
+      "x": 6588,
+      "top": 918,
+      "bottom": 1242,
+      "upper": "F-roof",
+      "lower": "F-cave",
+      "optional": true
+    }
+  ],
+  "gates": [
+    {
+      "id": "gear",
+      "x": 2052,
+      "y": 1080,
+      "width": 324
+    },
+    {
+      "id": "block",
+      "x": 3348,
+      "y": 972,
+      "width": 324
+    },
+    {
+      "id": "pipe",
+      "x": 4914,
+      "y": 648,
+      "width": 324
+    },
+    {
+      "id": "final",
+      "x": 7722,
+      "y": 1296,
+      "width": 378
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "cp-a",
+      "x": 1080,
+      "feet": 1242,
+      "optional": false,
+      "requires": []
+    },
+    {
+      "id": "cp-b",
+      "x": 1900,
+      "feet": 1080,
+      "optional": false,
+      "requires": []
+    },
+    {
+      "id": "cp-c",
+      "x": 1620,
+      "feet": 810,
+      "optional": true,
+      "requires": []
+    },
+    {
+      "id": "cp-b-exit",
+      "x": 2790,
+      "feet": 972,
+      "requires": [
+        "gear"
+      ]
+    },
+    {
+      "id": "cp-d",
+      "x": 3024,
+      "feet": 972,
+      "optional": false,
+      "requires": [
+        "gear"
+      ]
+    },
+    {
+      "id": "cp-e",
+      "x": 4752,
+      "feet": 648,
+      "optional": false,
+      "requires": [
+        "gear",
+        "block"
+      ]
+    },
+    {
+      "id": "cp-f",
+      "x": 5832,
+      "feet": 702,
+      "optional": false,
+      "requires": [
+        "gear",
+        "block",
+        "pipe"
+      ]
+    },
+    {
+      "id": "cp-g",
+      "x": 7560,
+      "feet": 1296,
+      "optional": false,
+      "requires": [
+        "gear",
+        "block",
+        "pipe"
+      ]
+    }
+  ],
+  "terminals": [
+    {
+      "id": "probe",
+      "kind": "probe",
+      "x": 1480,
+      "feet": 1134
+    },
+    {
+      "id": "p1",
+      "kind": "gear",
+      "gate": "gear",
+      "x": 1960,
+      "feet": 1080
+    },
+    {
+      "id": "cafe",
+      "kind": "mapping",
+      "x": 1740,
+      "feet": 810
+    },
+    {
+      "id": "p2",
+      "kind": "block",
+      "gate": "block",
+      "x": 3186,
+      "feet": 972
+    },
+    {
+      "id": "primer",
+      "kind": "primer",
+      "x": 3942,
+      "feet": 972
+    },
+    {
+      "id": "pipe",
+      "kind": "pipe",
+      "gate": "pipe",
+      "x": 4806,
+      "feet": 648
+    },
+    {
+      "id": "inverse",
+      "kind": "inverse",
+      "x": 6650,
+      "feet": 1242
+    },
+    {
+      "id": "p3",
+      "kind": "final",
+      "gate": "final",
+      "x": 7632,
+      "feet": 1296
+    }
+  ],
+  "coins": [
+    {
+      "id": "coin-a",
+      "x": 500,
+      "y": 1112
+    },
+    {
+      "id": "coin-b",
+      "x": 2520,
+      "y": 1020
+    },
+    {
+      "id": "coin-c",
+      "x": 1880,
+      "y": 750
+    },
+    {
+      "id": "coin-d-note",
+      "x": 3996,
+      "y": 696
+    },
+    {
+      "id": "coin-e1",
+      "x": 4536,
+      "y": 750
+    },
+    {
+      "id": "coin-e2",
+      "x": 5508,
+      "y": 588
+    },
+    {
+      "id": "coin-cave",
+      "x": 6690,
+      "y": 1182
+    },
+    {
+      "id": "coin-g",
+      "x": 8210,
+      "y": 1236
+    }
+  ],
+  "secrets": [
+    {
+      "id": "secret-oyen",
+      "zone": "cafe-atas-angin",
+      "x": 1900,
+      "feet": 810,
+      "radius": 48,
+      "title": "Si Oyen",
+      "foundText": "Jumpa Si Oyen!",
+      "description": "Seekor kucing kampung yang suka berjemur di tepi café."
+    },
+    {
+      "id": "secret-function-note",
+      "zone": "bengkel-fungsi",
+      "note": true,
+      "x": 3996,
+      "feet": 756,
+      "radius": 40,
+      "title": "Nota Fungsi Misteri",
+      "foundText": "Nota dijumpai!",
+      "description": "Setiap fungsi memadankan setiap input dengan tepat satu output — ujian garis menegak pada graf f(x).",
+      "noteText": "Nota lusuh ditinggalkan oleh seorang pelajar lama:\n\n\"Petua: f(x) ialah mesin. Masukkan SATU nombor, keluar SATU jawapan sahaja — tidak pernah dua jawapan untuk input yang sama. Itulah sebab graf sebuah fungsi tidak akan pernah disentuh oleh satu garis menegak lebih daripada sekali (ujian garis menegak). Nota ini tidak memberitahu jawapan mana-mana mesin di sini — cuma cara untuk semak sama ada sesuatu hubungan itu fungsi.\""
+    },
+    {
+      "id": "secret-cave-treasure",
+      "zone": "bukit-tanjung-gua",
+      "x": 6700,
+      "feet": 1242,
+      "radius": 36,
+      "title": "Khazanah Gua",
+      "foundText": "Khazanah Gua dijumpai!",
+      "description": "Sekeping duit syiling lama yang tersorok jauh di dalam gua."
+    }
+  ],
+  "goal": {
+    "x": 8316,
+    "feet": 1296
+  },
+  "geometryDifferences": []
+}

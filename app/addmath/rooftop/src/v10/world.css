@@ -1,0 +1,15 @@
+#mechanism { position:absolute;z-index:30;right:16px;top:68px;width:min(360px,46%);padding:16px;background:#fff7e5;color:#293a39;border:3px solid #574564;border-radius:8px;box-shadow:0 8px 24px #263c3d25; }
+#mechanism[hidden] {display:none}
+#mechanism h2 {font-size:1.25rem;margin:0 0 8px}
+#mechanism p {font-size:.9rem;line-height:1.45;margin:8px 0}
+#mechanism output {display:block;font-size:1.4rem;font-weight:700;color:#14666d;font-variant-numeric:tabular-nums}
+.mechanism-actions {display:flex;flex-wrap:wrap;gap:8px}
+.mechanism-actions button {min-width:44px;min-height:44px;padding:8px 12px}
+#dial-test {background:#14666d;color:white}
+#token-options,#pipe-options {margin:8px 0}
+#mechanism [aria-pressed="true"] {background:#e2eddf;border-color:#14666d;color:#183f39;box-shadow:inset 0 0 0 2px #14666d}
+#mechanism button:focus-visible {outline:3px solid #b25c19;outline-offset:3px}
+#mechanism button:disabled {opacity:.5;cursor:default}
+.touch-controls .crate-reset {position:absolute;right:0;bottom:62px;font-size:11px;min-height:44px}
+@media(max-width:600px) and (orientation:portrait) {#mechanism{position:fixed;top:auto;bottom:8px;right:8px;width:calc(100% - 16px);padding:10px;max-height:38dvh;overflow:auto}#mechanism h2{font-size:1.05rem}#mechanism p{font-size:.8rem;margin:4px 0}#mechanism output{font-size:1.1rem}.mechanism-actions{gap:5px}.mechanism-actions button{padding:6px 9px}}
+@media(max-height:500px) {#mechanism{top:40px;max-height:calc(100% - 50px);overflow:auto;padding:8px}#mechanism p{font-size:.8rem;margin:4px 0}}

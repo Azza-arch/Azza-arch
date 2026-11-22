@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "checks": [
+    "G locked screenshot captured from real scene at fixed camera",
+    "Wrong h input and reversed composition preserve locked bridge and absent collider",
+    "Moving screenshot: handle rotates at fixed base while bridge lowers; collision remains absent",
+    "Pause/resume freezes both tweens; final bridge and 324\u00d718 collider align at y=972; fixed base and final handle angle persist",
+    "Reload mid-transition restores safe bridge and collider without replaying unsafe motion",
+    "Reduced-motion mobile reaches identical safe/collidable final state immediately"
+  ],
+  "frames": [
+    {
+      "scenario": "normal with pause/resume",
+      "locked": {
+        "x": 7315,
+        "lever": 0,
+        "bridge": [
+          1242,
+          1242,
+          1242,
+          1242,
+          1242,
+          1242
+        ],
+        "base": [
+          7390,
+          948
+        ]
+      },
+      "moving": {
+        "angle": -27.59710841785204,
+        "bridge": [
+          1181.3045466298668,
+          1181.3045466298668,
+          1181.3045466298668,
+          1181.3045466298668,
+          1181.3045466298668,
+          1181.3045466298668
+        ],
+        "base": [
+          7390,
+          948
+        ],
+        "collider": false
+      },
+      "safe": {
+        "angle": -52,
+        "bridge": [
+          972,
+          972,
+          972,
+          972,
+          972,
+          972
+        ],
+        "body": {
+          "x": 7506,
+          "y": 972,
+          "w": 324,
+          "h": 16
+        },
+        "base": [
+          7390,
+          948
+        ]
+      }
+    },
+    {
+      "scenario": "reload during transition",
+      "restored": {
+        "angle": -52,
+        "bridge": [
+          972,
+          972,
+          972,
+          972,
+          972,
+          972
+        ],
+        "collider": true
+      }
+    },
+    {
+      "scenario": "reduced motion mobile",
+      "result": {
+        "motion": true,
+        "angle": -52,
+        "bridge": [
+          972,
+          972,
+          972,
+          972,
+          972,
+          972
+        ],
+        "collider": true
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": []
+}

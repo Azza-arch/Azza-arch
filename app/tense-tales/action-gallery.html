@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Action library — Phase B preview (dev only)</title>
+<link rel="stylesheet" href="styles/action-gallery.css" />
+</head>
+<body>
+  <main class="ag-wrap">
+    <h1>Small action library — 10-level manifest</h1>
+    <p class="ag-note">Dev-only QA gallery. Filters by level/action. "Blocked" cards show why, not a faked scene. Not wired into the game, no puzzle, nothing committed.</p>
+
+    <div class="ag-globalcontrols">
+      <label><input type="checkbox" id="agReducedMotion" /> Reduced motion (show static states only, no Play)</label>
+    </div>
+
+    <div class="ag-filterbar" id="agLevelFilter"></div>
+    <div class="ag-filterbar ag-filterbar--sub" id="agActionFilter"></div>
+
+    <section class="ag-grid" id="agGrid"></section>
+
+    <h2 class="ag-section-title">Locomotion &amp; action lab (Phase A4, dev-only)</h2>
+    <p class="ag-note">Real multi-frame cycles, not 3-state cards faking motion. Walk uses all 8 walk frames; Run uses all 3 run frames; both translate the character across the frame while cycling.</p>
+    <section class="ag-grid" id="agCycleGrid"></section>
+
+    <h3 class="ag-section-title ag-section-title--sub">New single-beat poses (pose-only previews, no object yet)</h3>
+    <section class="ag-grid" id="agPoseGrid"></section>
+
+    <h2 class="ag-section-title">Phase B1 — pick up / push, with real props</h2>
+    <p class="ag-note">Same object before/during/after, using the shared pickUp()/push() engine — one factory, different prop each time.</p>
+    <section class="ag-grid" id="agB1Grid"></section>
+  </main>
+
+  <script src="src/utils/reduced-motion.js"></script>
+  <script src="src/tenseTalesNamespace.js"></script>
+  <script src="src/data/assetCatalog.js"></script>
+  <script src="src/data/actionEngine.js"></script>
+  <script src="src/data/levelManifest.js"></script>
+  <script src="src/utils/characterAnchors.js"></script>
+  <script src="src/utils/sceneValidation.js"></script>
+  <script src="src/utils/sceneComposition.js"></script>
+  <script src="src/actionGalleryPreview.js"></script>
+</body>
+</html>

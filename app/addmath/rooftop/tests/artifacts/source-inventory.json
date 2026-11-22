@@ -1,0 +1,11180 @@
+[
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      30
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "5e2b2202113999644e21bf5f907c20da157129488f13a8e2542d408bf2113ef1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      120
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "226e03fefd8c86b843bb49d67c86a80d3afc954d3976deedea73e94c80e70f63"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_wall_upper.png",
+    "size": [
+      224,
+      168
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      0,
+      223,
+      167
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "36eb4b825a6ee6cb1ca3b103a2d62222001a88ad55ef9e8e4040fca079fb8b72"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_wall_upper@4x.png",
+    "size": [
+      896,
+      672
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      0,
+      892,
+      668
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "3ac84a96c5f80590588a614a6cc9a9e57b6131a700721a3a1d320f9284e62912"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_wire_span.png",
+    "size": [
+      960,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      21,
+      960,
+      61
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "2eecc54fe3596e83fc263a9203aa5d88be191c40a84f3456c30d9d7853da0e55"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_wire_span@4x.png",
+    "size": [
+      3840,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      86,
+      3840,
+      243
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8224a6cb0f88b893627bf860daa2bc02f00bcbf280374bfea7f2a18210c23899"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_wall_edge_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "5779a631c667419f3e2fc449fcda888b5b50fb4ee9b4701f4ac362c5ff5a7fbe"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_wall_edge_left@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8a9d83aaed70b6a7e95e4c84e4f69424cfb25415d66ac249a5ed66bbef61eefd"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Houses/house_1_full.png",
+    "size": [
+      448,
+      374
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      24,
+      19,
+      346,
+      373
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "74b85585f2ea80a796b56652230b908a37393d3cd0c4ac687b05009e412a70e9"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Houses/house_1_full@4x.png",
+    "size": [
+      1792,
+      1496
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      97,
+      76,
+      1382,
+      1489
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f772c982067e7bd1890f651f25f562dfd82b9cded66945f0cc47e728a8e20501"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center_alt02.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      30
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "63cd23bddbc036f9e854fb00bfc0353b66bff00153b1c292ca7786265c585020"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center_alt02@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      120
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "424987ee2a2b45837565d9d420b0e63cf7a639f6895a1c3e4d151915947e4edb"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/walkway_railing.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      3,
+      64,
+      56
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a12b9db991301bcb120dd17ab2a52f55979b831dc7bcf83c051a81fda54385f5"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/walkway_railing@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      12,
+      256,
+      223
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "74cc4748b21d688dd761adae0a6c57e86defd0db9bfb3bef74a0633a309bc7be"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_inner_corner_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "5f75e4870bbd1f4235de27f940a016e6c3f63c85effb10ca84898322bbfbb928"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_inner_corner_right@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b6cc39b2814466aa1e5181b11603c09e996299e33fefee3cc3525abbe03fe505"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_hanging.png",
+    "size": [
+      48,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      0,
+      43,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8ae03fd64cc5c3302d560f04b1294d095b21cbbcc1b7022eabb448f93c8cd4de"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_hanging@4x.png",
+    "size": [
+      192,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      14,
+      0,
+      172,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "ed6b6427f4f564e55fa96e779b7be5cc807d728e5015516801961e9c7e350ef0"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/answer_pad_idle.png",
+    "size": [
+      32,
+      12
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      32,
+      12
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "1e3c12419800bd0c1884c7939cbf55cc9069e0b24dba5cd0306606f5a7e8e874"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/answer_pad_idle@4x.png",
+    "size": [
+      128,
+      48
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      48
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "c68b4cc958c05afe19dff2ebc318a296b5a358943a6beef85fbd6dbb00434c3a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_bush.png",
+    "size": [
+      117,
+      52
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      11,
+      109,
+      50
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e455a1e5dab35f9206c3321d46b1869a2cfaea6ccbf2adbfe5b2e0cc320dc0a4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_bush@4x.png",
+    "size": [
+      468,
+      208
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      17,
+      44,
+      435,
+      200
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "38cf034ed8ec561dad8719c1fbe417cb7b9460a441e3aaae7c77be6b26eb1e90"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_inner_corner_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "faeaca089647aa95bbcddddaa91e6d2475c0a5101f8d3464078a0b9cfe231fe4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_inner_corner_left@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "9ced2f831b4c2ca6908c20bc9f9aeaf2c405d94046431818537d4873fc233288"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_wall_fill.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "782fa77ff612540b64e5eacbaa25b265e76a2b72df8f90fd8f852668a83d8a5a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_wall_fill@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "5ed2f94f05819ee0f247064b6cb66c1b6331ff5f8bff67c57cf73e3e55967af2"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/function_machine_idle.png",
+    "size": [
+      80,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      2,
+      80,
+      96
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d0749fab74d25edcc608077c69244fc47fc01c5171a2b20c7ac43841939e32ad"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/function_machine_idle@4x.png",
+    "size": [
+      320,
+      384
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      18,
+      10,
+      320,
+      384
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "094f1bde513a6413c4a5937f85ece23a1d25e318cc0e6c6badf602fcacd3cc95"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      30
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "be4b301f0f45b3df5d76486e6aa137f921c408adcec449516a0302f949a8203a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_right@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      120
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "514b1c291c97cd567a68a8818b807b3007e0ee8e67d5c58bf1e19cf0abb3d2f5"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_window_grille.png",
+    "size": [
+      62,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      4,
+      62,
+      63
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "21ba40b6931870001acff6f94a04727b87efa6dc7436a1e8e4b9c0cf6029d46e"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_window_grille@4x.png",
+    "size": [
+      248,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      16,
+      247,
+      252
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b09a5c077fa9fb3d287c8747019e0ee0644ebcaf25addd8894c55e5cd002309d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_flats.png",
+    "size": [
+      192,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      9,
+      20,
+      183,
+      255
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "5017ee0f4d7bf98c926c908345bffee7691dae11b81cb962cf9d28b6223ce37b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_flats@4x.png",
+    "size": [
+      768,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      36,
+      83,
+      732,
+      1021
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "50180819e4bd3e81ca488ed70eacf68a1e0a8016562a946c35c45cec660a39a1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/pipe_straight_v.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      22,
+      0,
+      49,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "fba86deaee0dfbec4e2a087df2124a69a39226a68ff4307b834be86fe9fd0871"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/pipe_straight_v@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      91,
+      0,
+      195,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a4b43185ca2d692f28d9693eacf766017097ad3bef5bfc7e717acce722e7d4fb"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/laundry_line.png",
+    "size": [
+      192,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      6,
+      192,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "38cfe577ef29bcf4e2afeb2618e7b763ee6b24431902084fb322366e88b98e0d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/laundry_line@4x.png",
+    "size": [
+      768,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      25,
+      768,
+      512
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7bc680964281c8dfa9953e2a1014198335f1cd772054964c50daaaef1fc4baf4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_cloud.png",
+    "size": [
+      192,
+      80
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      14,
+      15,
+      190,
+      73
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "9bcccb9c910e169e063388cb4544061fb1fd7c332331e34a73fa63e336dd46ca"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_cloud@4x.png",
+    "size": [
+      768,
+      320
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      59,
+      61,
+      758,
+      290
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "bd1b7ce97d5458c95bedb10123f6aa4b8d93cf2f127f8a018d747067b9ef3c44"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_roof_leanto.png",
+    "size": [
+      127,
+      63
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      125,
+      57
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "9e60580a95203c65a5dac82bcc3e70a28919b941e755a31bc2cfed92c6f3e3d0"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_roof_leanto@4x.png",
+    "size": [
+      508,
+      252
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      10,
+      499,
+      228
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "bf0d8a2025c1d180cf4c4abcbdf807d541c039cf285150cc05f4b92b2e69705b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_wood_center.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      22
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e0a4c85f8c84bbfbe8c9b3ccb77b3dd594a95f17d4cbef15dbb205244c360a2b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_wood_center@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      85
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d347fec982031204f6fb66a308c8583a92878a8e834ad9899efd348ce3b57139"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/flag_pole.png",
+    "size": [
+      24,
+      176
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      0,
+      23,
+      176
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "eca83d5e76ef7a952c08270419134e5e596deaa448e441a90cf376d201962250"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/flag_pole@4x.png",
+    "size": [
+      96,
+      704
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      0,
+      91,
+      704
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "1a0274088af6b6310ed337d8b566abf1f2dfd53cfaded0aa15a0e9892ba56e50"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_post_top.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      0,
+      62,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b9e9f35025c3a5e460ec2608d92526f4f762fcf54f6ceebdf443eeee7f294227"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_post_top@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      10,
+      0,
+      245,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "aae47224afa8a839ddc175a9099a187fc413b138ad021445efbe5be70ad7fb14"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/stairs_stone_up.png",
+    "size": [
+      128,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "c5916536939ecbee4b7e1ac7fce4586fa497f0670039977145d8b511e47cf3f9"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/stairs_stone_up@4x.png",
+    "size": [
+      512,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      512,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "45f42e155f60ef09095501ccaccb9711576097a62409d67dcbae46ca7220f92f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/puzzle_gate_closed.png",
+    "size": [
+      48,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      48,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "98eb113ee6942843e6276ce6620cccbc9d2e19fbb27a83e93055ab798f9d714d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/puzzle_gate_closed@4x.png",
+    "size": [
+      192,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      192,
+      512
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7eede2a2582977e374558e1e6653fe9d6a7edc2346488edac39eb9e98484646c"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_palm.png",
+    "size": [
+      96,
+      192
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      7,
+      95,
+      191
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a0bf03b8d58b98a74ccd9e8fbb0862fbeeb195679b8ca6ebf2da1a2873de3663"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_palm@4x.png",
+    "size": [
+      384,
+      768
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      13,
+      31,
+      379,
+      761
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7074bfc1ae1926ca48b67496e02f6abad47621bba66bf3bf6bdf47109a0f46b5"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_hills.png",
+    "size": [
+      512,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      40,
+      512,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "76dca077e178aac9045b1ab90348698337971a976ee5f7b5617039d043986253"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_hills@4x.png",
+    "size": [
+      2048,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      161,
+      2048,
+      512
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7ebdb9a3492eafbbbb94e17e0a273e9a8b82dc2fc7dcb01db9385bb8f76c07c4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_bottom.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "fc82961cdab486a67840a9c0a1c4f9b9ad84525399a85954b3dc0a0a4f67bc00"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_bottom@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "1dcb89f9f7e1d143297f5472504a31a0313a2e28aea2e95f2e48048e1c5682f7"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_single.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      30
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "3fb087befd6e1caa6fd1e0a6b2344b986338ffc93b93297504725767fdd7842b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_single@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      120
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "cbd97634f9cfa26ebfcc6a1bbd01715d1bf2e8d20ec7b416173986d45a0aa7a2"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_post_base.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      14,
+      0,
+      50,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d866506b3c468eba483aaabcccc3e0b4bd183ec4a09a29d90e0fd38eb3ac3f32"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_post_base@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      57,
+      0,
+      198,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "251770ee99baf1920279d3feb54bfbea0bd6d3346a3ef8ed5a66d983f248e15b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/ladder_bottom.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      10,
+      0,
+      55,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "554c631f2b2e8ac2feca193b25baa0187ccbe1c9f34c316d8527aa1ff3229113"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/ladder_bottom@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      40,
+      0,
+      217,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e3bc99d12406c0d1c217e7ce369b280050fde86a15ed9fa568363f6c9d988cec"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      30
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "dc0e107434fe8c441b5e7e91ca0ae441a42e01ffcbcaa22d913fddc46d595b1b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_left@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      120
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "91fabd61325d6343820cb4796f2680b2e990ed7019107a2b9253deb25bdf2aab"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/water_tank_stand.png",
+    "size": [
+      128,
+      192
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      8,
+      0,
+      120,
+      192
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0ae10e16cf2321dcce66bd53beec692b08f88bda4957c1d185ca714383bbe825"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/water_tank_stand@4x.png",
+    "size": [
+      512,
+      768
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      34,
+      2,
+      479,
+      768
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "93d01010a3b7bd9b92b1129aedc00b03d7cba02c87b9f8324665158c91abbd20"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/aircon_unit.png",
+    "size": [
+      51,
+      48
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      50,
+      47
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "1a6fb0fbf7f332d2efff248ca261c737d3f5b0a510cecf214d5bf49345523c68"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/aircon_unit@4x.png",
+    "size": [
+      204,
+      192
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      198,
+      185
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d7ae4d1611a897f12571733632ce6b6193ffc467508e4ccd98ddebdd82446da4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_pots_pair.png",
+    "size": [
+      97,
+      72
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      3,
+      92,
+      71
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "10b5cf3e661ea0fb6ab0ddac3df78434cd0e213827281620b4ff0ec74b3e4c1f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_pots_pair@4x.png",
+    "size": [
+      388,
+      288
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      25,
+      15,
+      367,
+      285
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "eb217c93bbb0b8cd820abea8b6aa554d582eb9636516fbe7fdc3ed99726098da"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/lamp_wall.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      8,
+      61,
+      61
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "2b9ef6fcb9d4f6820d773a8d6c0a5c9fdfd9ac44d20d300c9ecaa2ec7306f071"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/lamp_wall@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      8,
+      35,
+      243,
+      245
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0479cab661259e8222f6efbeac42c2866fa9f0c84495faa02d50728f008a01e8"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/walkway_railing_post.png",
+    "size": [
+      16,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      16,
+      56
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "c54b24af45d47fc379dc60346021ddf23022bb6be8ca56c1413ab3cdb6507f6a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/walkway_railing_post@4x.png",
+    "size": [
+      64,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      223
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "9f5959bd87c320703a358edbf5bc7ce6f5f495f0415d83115e963b0aedf08b5a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/flag_malaysia.png",
+    "size": [
+      104,
+      56
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      102,
+      53
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "05241f8d6a60df6abdd4492b0450afe35ea2921688c7f48db2e7a789e6418461"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/flag_malaysia@4x.png",
+    "size": [
+      413,
+      224
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      406,
+      210
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "3bf944f4d69b49db268cc23feae78c18e47d0b4af743cc07a4bb431903993182"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_roof_main.png",
+    "size": [
+      193,
+      99
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      1,
+      191,
+      98
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0c3b21c5690322ee07a3e0f0312b7f0f2c1531c6abae93f9f0d30e1ec52529b8"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_roof_main@4x.png",
+    "size": [
+      772,
+      396
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      4,
+      761,
+      391
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f403c58f967c5e021b08f37c4c8a698b64a376ba34861f43226668b696dda2d2"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/fence_metal.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      6,
+      64,
+      58
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "48584fab7d9fc8226b13a928c390bbc371ed4bb80c486874699fd3f661d66696"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/fence_metal@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      25,
+      256,
+      232
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e1a5c4309630d02b8e9dcb42948f897aafcb3a9e0b8cf97d0d760ec541e59078"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_window_tall.png",
+    "size": [
+      68,
+      86
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      4,
+      68,
+      83
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0dc68b244c9446a3ce150213760e25724b8204a1c262647d56ab226f452918fb"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_window_tall@4x.png",
+    "size": [
+      272,
+      344
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      16,
+      270,
+      332
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "88a1fb1caec06fb0b9a02f046019b97524f06d2500f0b2d0e2d49a85f8dd1d7d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/fence_concrete_vent.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      64,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "44aaa0313af95a874f0041ce487f987311c17a082a94e85a396c50d4abecdac7"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/fence_concrete_vent@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f7f33b15dbf4de4038c64600e930ff195b3a4ec8093a655cf1acab1a065bbcd0"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_pot_tall.png",
+    "size": [
+      64,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      11,
+      5,
+      53,
+      95
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "408fc15bb7cd604605dbe5dcad0a221570cc04435f4a2f7d89eeeecb9965b319"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_pot_tall@4x.png",
+    "size": [
+      256,
+      384
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      45,
+      18,
+      210,
+      380
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "5e79aad313625c7993d68405c4d8ca1af00f121d6bb90f03f4dca32f6116b0e4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/answer_sign.png",
+    "size": [
+      32,
+      44
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      32,
+      44
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e33d491f1afc3e050467875646cadf2adb5328988933903aaedc218dd8bb80a3"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/answer_sign@4x.png",
+    "size": [
+      128,
+      176
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      128,
+      176
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "63800dbb152851c0bedc1190e260dda014598c073feeda8c277ac615b57b28ef"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_railing_short.png",
+    "size": [
+      50,
+      41
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      49,
+      41
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "077384f611c87a70b9d53b32ff6070b4d4eb9f64e21465411d6f92c0f7451456"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_railing_short@4x.png",
+    "size": [
+      200,
+      164
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      5,
+      195,
+      162
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "03f99e9c79843d32637bc02b437932e83297bfba89ff7fd22e8b08f4e3efc1de"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/lamp_hanging.png",
+    "size": [
+      37,
+      41
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      35,
+      41
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "3af9994553e880aad0cb7740c3ebf65c8b390edea17ac74987eb217ebae12900"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/lamp_hanging@4x.png",
+    "size": [
+      148,
+      164
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      5,
+      138,
+      164
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7b220e64ea7821002aeddcc6de5f4f0283df561fd90642ca571cbf472a586164"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_pot_leafy.png",
+    "size": [
+      59,
+      57
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      5,
+      53,
+      55
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "c052383331e919aedb3dd85092c069b32d078b7a276393fc5a97d5909ff55983"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/plant_pot_leafy@4x.png",
+    "size": [
+      236,
+      228
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      24,
+      20,
+      212,
+      217
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d00275aa99f9733650af1fb292fef217eea941eae0ea33f59b9784f90ec4c251"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_awning_small.png",
+    "size": [
+      75,
+      31
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      75,
+      30
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "90f84b885fee1726b3f0ecd3e60c5cb685cbdf52784d67c37274ab38f85a29f2"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_awning_small@4x.png",
+    "size": [
+      297,
+      124
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      9,
+      297,
+      118
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "9cb446a2b4efabc0bf7565fb2b20efe23f0268a923c379958e4a5fbd24faf901"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/pipe_elbow.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      22,
+      22,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b4f0d04f8e69c092a548fde4f92bb0f98c32391fb625c832354a65f6b627dd1d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/pipe_elbow@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      91,
+      89,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "acfff30de7a80a2773cef2c84c8f38dd0a8ebe59f3650b96c71c12b35e1c171c"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center_solid.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d8d2504c78d8a3eb1ac60f4ca251363bda440d1bd1c598eed816caa9509cd67c"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center_solid@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8ae023eaad4bb792f489049bb9312961c5c60ae71f4a8707c6b73355493ce3e4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_wood_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      0,
+      64,
+      22
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0cbdd13e24de08e10f74e2f9dff2563caa0a6bb7df183e1f3e7f0feb8d83e18a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_wood_left@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      8,
+      0,
+      256,
+      85
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "3802e9fb4d7b48d4bd60f643f535cc77c855e386a575ac6bfddbd7d2bb5be379"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_roof_porch.png",
+    "size": [
+      213,
+      65
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      1,
+      212,
+      63
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "870704341c06aa747e1703ca4376ee17369c125a34eacbada1b186be23a2016d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_roof_porch@4x.png",
+    "size": [
+      852,
+      260
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      15,
+      7,
+      847,
+      252
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "3a5479ac6f831ab0cdad31b01d0949fe8fae1bb7c82e744a56994a4319cb79ac"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/checkpoint_post_idle.png",
+    "size": [
+      32,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      0,
+      29,
+      96
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0dec00569f7d4c16cc9da26cad7136a8673aa83240713d152d31ea038f3f16ea"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/checkpoint_post_idle@4x.png",
+    "size": [
+      128,
+      384
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      14,
+      3,
+      115,
+      384
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "71da500341b79201ed525c645da391ae5cd3e9b4451df0ae5059e4c60cc89219"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/answer_pad_pressed.png",
+    "size": [
+      32,
+      12
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      32,
+      12
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "3a9f2a42e2a6264f0a3da648328084c320c5d47dd53c7e9081a095f221fa3a4d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/answer_pad_pressed@4x.png",
+    "size": [
+      128,
+      48
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      9,
+      128,
+      48
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "dc82e49336511d742cfe5b4af1c1483f0b4b2e742e80a1b93e8821d711e71b7f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_mosque.png",
+    "size": [
+      176,
+      224
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      29,
+      8,
+      171,
+      223
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7d584c96a7d9530e10eebd72cd03d32c5be7ae6a102f95aa2524853680a0d846"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_mosque@4x.png",
+    "size": [
+      704,
+      896
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      118,
+      31,
+      684,
+      892
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7aa560bd4c72389ae96e060e66b4909d1a382c6f14433c59c20443c0b70a89ce"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_roof_hut.png",
+    "size": [
+      130,
+      90
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      3,
+      129,
+      90
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a42f5d9cc46ce6dd6b693a90f2e78bfccf76508d995e7b3137cb422825b716bb"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_roof_hut@4x.png",
+    "size": [
+      520,
+      360
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      11,
+      513,
+      359
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d23094f3449d6e268d98aaed58c76755861b505f5904d5bf9aa1ce7fb315a72d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/ladder_middle.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      11,
+      0,
+      53,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "075dca9034c40f86212f3997c5c7bf7c0470f9f4815aff7eb7e314cadc23ef55"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/ladder_middle@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      44,
+      0,
+      212,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f224aabdc95e5d4c53e1daf63645342f251e4f6426c8946759ef187318de2144"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_banana.png",
+    "size": [
+      96,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      5,
+      93,
+      126
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "2c9f48a508e127071cc66311dc60d8106b3c4cc766b8cde401bb5c508618cc3c"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_banana@4x.png",
+    "size": [
+      384,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      21,
+      20,
+      371,
+      504
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "42c62d046ae1a7f87eb742fe5117e0cc48c33a263b01d74fde4309941d3c2f4a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_wood_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      63,
+      22
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "6527efa50f5e709db30b0e60d5a142159181b08417e10b867c30bc8d50691dc0"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_wood_right@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      250,
+      85
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b4908304a21afeb1026a303c22850c056d4c9d88a72303a9123ac8bb70978ed8"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_pole.png",
+    "size": [
+      64,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      9,
+      8,
+      55,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "ef8786313e1ea29b2f4a693048afd71885134e03f5bfbed1191cac94b6acf436"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_pole@4x.png",
+    "size": [
+      256,
+      1024
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      37,
+      31,
+      220,
+      1024
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "92cbc162e3cf82636563174cfa0c65c5b8761c1a755f024c442dbe2775a6a8cf"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_thin_ledge.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      16
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "186faf0f7c723eb6a3fbddce7c9764797b823d91707e50520797236b576502ad"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_thin_ledge@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "5741d404c5b3455eab82fbfaad11d1a943b931f0a9a325f3a318c1171a066d22"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_outer_corner_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "4c86896a0d7dae2a06300997ce2283ee85fe4eae27eafca49a977b1ec92f9df1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_outer_corner_left@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b2fbdd83ad8464682e27f2492d3f0732fccc983b3aa5838555ce415944874617"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_house_row.png",
+    "size": [
+      256,
+      160
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      39,
+      252,
+      159
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "20297edc2f80122fcaefdb014bb47774c1b6ab1eb58532cfe2d1afe6ab9077b1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_house_row@4x.png",
+    "size": [
+      1024,
+      640
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      16,
+      156,
+      1008,
+      636
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "2902c7adeb3561151bec88bf7ccd181ad95aaee3e753f64e6e7ee00559c9171e"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_floor_stilts.png",
+    "size": [
+      366,
+      56
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      1,
+      364,
+      55
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7fc69ba8e1341dbfaeb225feab007d434842f996a15d551c923aabd1cfe5f1e8"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_floor_stilts@4x.png",
+    "size": [
+      1464,
+      224
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      8,
+      4,
+      1456,
+      220
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e7243f1d74ec2b1a1d589e26a680caa37565a6ca88584250cf95085ef8177ef0"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_parapet.png",
+    "size": [
+      247,
+      48
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      3,
+      245,
+      47
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "c363a89eedf77b614bfa4cb0c19875513670e2e84789bfe5b238e92f8aa9949e"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_parapet@4x.png",
+    "size": [
+      985,
+      192
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      11,
+      979,
+      188
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f5f5d45b52614de9c0062dc01e6a8fba8509bfc7031f4aa58961549bb408c97f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_gable_timber.png",
+    "size": [
+      125,
+      82
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      124,
+      82
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7e5a9957b00b7821804a9ff0f9f820c40a42d267639233fafeb973e653474a5d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_gable_timber@4x.png",
+    "size": [
+      500,
+      328
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      7,
+      10,
+      494,
+      327
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "1df05cbad34c380e2d00b5591c76a5a3c3539d816274f51a3de1e7c70ae35770"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_wall_upper.png",
+    "size": [
+      231,
+      114
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      229,
+      112
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "4ac2962d4784ec4359905c85587417077f7614cc1de7803ec141758d2cca7c2f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_wall_upper@4x.png",
+    "size": [
+      924,
+      456
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      7,
+      4,
+      915,
+      448
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "fda9f587a48e7146a1b534c0904978dbd3e7cd29bfeae30c1109b59df8a896cd"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_porch_frame.png",
+    "size": [
+      91,
+      121
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      88,
+      121
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b56106dcbdaddf4aaede4709f6962e9540b4ff56b3b0f5a4979e3104a02ee3d8"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_porch_frame@4x.png",
+    "size": [
+      364,
+      484
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      352,
+      483
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "ebdbf049aec82a8cc61bae76736a45cbca6ca72b9fcdef167d77b140b52402aa"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_door_balcony.png",
+    "size": [
+      64,
+      68
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      63,
+      67
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7d0a2235201d59018704658f787d9db2f21f3fbe5bd720dc701c1f7b46b65e2d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_door_balcony@4x.png",
+    "size": [
+      256,
+      272
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      3,
+      251,
+      268
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "31ad8e0a25e782d306bd29caca4887a55f9c16f200b3782333c032b09dca8694"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_steps_front.png",
+    "size": [
+      82,
+      54
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      2,
+      80,
+      53
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "104272d0c69f99fb18f45e70f10db10179e0bedf1129dc787025c833542095bf"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_steps_front@4x.png",
+    "size": [
+      328,
+      216
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      9,
+      8,
+      320,
+      212
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "82cf5ecf676a135dee2ed8000fdea41edb6312876287a41ea4bef5719a3c122f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/puzzle_gate_open.png",
+    "size": [
+      48,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      48,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8e4ae62247b602b0366f9e7be34c12887fb8d2473c94d194e1562e6109015d8f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/puzzle_gate_open@4x.png",
+    "size": [
+      192,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      192,
+      512
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e2863a34ed33b6578359265266a2c86668c6d8a58a2e221bc42bf78e6989e808"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_balcony_railing.png",
+    "size": [
+      107,
+      38
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      1,
+      105,
+      37
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a649bb69df0fd9bc89f61db07ce2c100a8525be57eb56ebd601710038fa3717c"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_balcony_railing@4x.png",
+    "size": [
+      428,
+      152
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      5,
+      419,
+      146
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "964eba536d2dd3fc92f0d29746cf92afabb0fae9a2601e3d545676b1af4bf027"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_downpipe_upper.png",
+    "size": [
+      26,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      7,
+      21,
+      93
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "ae16e7071ba6d8289c3ae8756550125b241a0b864eab9302f97a01f28311fab6"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_downpipe_upper@4x.png",
+    "size": [
+      104,
+      384
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      16,
+      28,
+      82,
+      371
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "95b2c35ac8f843bb946152c36fc255925880b435287f5e1db020054b29f9f6f2"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/stair_railing.png",
+    "size": [
+      128,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      7,
+      128,
+      113
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a73e4741f83781c18eb0285e0e762846716a2e57ad8b8713201b5074ab664b3f"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/stair_railing@4x.png",
+    "size": [
+      512,
+      512
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      30,
+      512,
+      453
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "31e88aabdcc65e8c8b57fde1862a6cb38bb3f2a36b63d27a8cdb823bdb818e3d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_wall_lower.png",
+    "size": [
+      227,
+      131
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      224,
+      130
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e83effa0fc4489a0404b8272f368e525500fa9752ae3d2bc573c094f953c15de"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_wall_lower@4x.png",
+    "size": [
+      908,
+      524
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      5,
+      895,
+      518
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e141769fb4bd63354ef22eefbccafe8176f5802a7c7448856b7c1f0146337691"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_door_double.png",
+    "size": [
+      66,
+      100
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      64,
+      100
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8ae88dcb1e864810142444ebceb2ffbcde8a209e75d7c9d989a3eda048058816"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_door_double@4x.png",
+    "size": [
+      264,
+      400
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      7,
+      9,
+      256,
+      400
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "87df1deeff91f5ed668ff9feaf4acdb5adcd3fecc9646e8cdfe5a314a9b3eb22"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/fence_metal_post.png",
+    "size": [
+      16,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      16,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7b2e5acac6ebd05e47b9ca2e660221d11a6c7b5a0c106a0d01e126051a38e731"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/fence_metal_post@4x.png",
+    "size": [
+      64,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "4799ffa417f15462fc876e3ddcfbaf615a8f47e1756e409371d8f4d98f331a05"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_window_cross.png",
+    "size": [
+      41,
+      53
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      0,
+      41,
+      52
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "15a43864844a39b42e15b71cc0b351fe54b95366629243759366a08ebeab0b53"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_window_cross@4x.png",
+    "size": [
+      164,
+      212
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      3,
+      163,
+      206
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "2adba20488b952b9ea8ff07aa6d380e25b51c381065eb9cf3b59f94441e389a3"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center_alt01.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      30
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "277dfbb743e07347faf56efe03d5508a3a5338d9929ad953bb14308eddce61ff"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_center_alt01@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      120
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "90ec63470d00e1ce2c8b5d8c8b34988fbc98d5e66a70531d4b99490cd419aed5"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_downpipe_lower.png",
+    "size": [
+      31,
+      112
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      1,
+      31,
+      111
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b34ab298d7073cd6554e92b09a3b3ff992083bb1d4e775d305a71f48fe16c753"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_downpipe_lower@4x.png",
+    "size": [
+      124,
+      445
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      12,
+      7,
+      123,
+      445
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d424b58417760e604ec92a9125902b403b037be3bd3712e3dec9953bd1890293"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_wall_edge_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "ace4f6b60a5160a11402b40845066590575e9b630569080e56a4dd3512a43497"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_wall_edge_right@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b40c9ed367f7e4b2395fe081089c782999e1b317c128c7fdbed0614680ee8075"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/pipe_straight_h.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      15,
+      64,
+      41
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e35d9d11f5923cff4a50b975ef4a3f7ac13e0d3dda507c7b3b1207df5bee81bd"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Props/pipe_straight_h@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      62,
+      256,
+      165
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a10efa29f2c926ab6204566157c590be59f12a77b0da6af0a7e4a1ac6e3c0a03"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_outer_corner_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "64c7f12c318dbbfdd761da1dc63c48bbe591848969a26f82dd36f0fb9da04467"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_outer_corner_right@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "6f35c1b4a3c43557b70fda25c7c79049b6323a07935c8fe928343adf131dd113"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_window_small_louver.png",
+    "size": [
+      41,
+      51
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      1,
+      40,
+      49
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "805a719f9b8285fbc939c4e1b98569dc64a3d0f817f3f2fd072778217cd3e820"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_window_small_louver@4x.png",
+    "size": [
+      161,
+      204
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      4,
+      160,
+      196
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "6d948d7437844ba1e037454611b9e4c07e6201e011431c185f8abd2a7ebfd59c"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_wall.png",
+    "size": [
+      342,
+      119
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      341,
+      118
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "9e036e3425458f1419d21ec04b502abf6fd972a652d932b7157278bd0e467535"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_wall@4x.png",
+    "size": [
+      1368,
+      476
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      1364,
+      472
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f0502bd30cb97f93acdc706958daff9536bf869d935ae064851f3e84a6442048"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_tree_round.png",
+    "size": [
+      128,
+      160
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      15,
+      124,
+      158
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "2a6ba94746a606ecb61c6c918a114bcbfead597bea1adcc258f1ba3c81a608d1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_tree_round@4x.png",
+    "size": [
+      512,
+      640
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      16,
+      62,
+      495,
+      633
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "bbfcaf2ce5d060874ac7a37adf308d3c7f510fd08512500d2ce9f7c55eafc4e2"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/ladder_top.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      11,
+      1,
+      59,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "9559d18ed19d68a0e8f1026522c2df11e6329e42bf71ecf169bfdbb8606ff657"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/ladder_top@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      45,
+      5,
+      236,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a64f748cb76de839cbba8699b978cddbe911d70e3a6b00ff6095a8b4acd62eca"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_gable_porch.png",
+    "size": [
+      186,
+      148
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      0,
+      180,
+      145
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f389aa9b74df545022c75e288486f9f5ef01db39450ba7e099cc862b4a4dc7ed"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_gable_porch@4x.png",
+    "size": [
+      744,
+      592
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      23,
+      1,
+      719,
+      579
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8a0de7ca018f5cb7365c7b04a3c4c452906c55270a316f4b7798ef0b3b3c65f9"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_house_gable.png",
+    "size": [
+      160,
+      160
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      10,
+      29,
+      150,
+      159
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0616c254d758a6d66a177912cbebba3648da389a18e4f9f75d56f3496ea9376a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Background/bg_house_gable@4x.png",
+    "size": [
+      640,
+      640
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      40,
+      118,
+      600,
+      636
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "413d48002b656b5d73f89a48717bee5ea57049a11da1249fc38dca9c7d7a63ad"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_window_louver_triple.png",
+    "size": [
+      90,
+      67
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      0,
+      87,
+      67
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b01da63a19c1b1e3f4c44161fd2bbd4b10e48f60b1de04ff47651e3ff34db973"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h1_window_louver_triple@4x.png",
+    "size": [
+      360,
+      266
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      0,
+      348,
+      266
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "edf1ec4229c686ff70c690b505f0fc7faee6e7ac8ec54424b1a799bf50f0b063"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Houses/house_2_full.png",
+    "size": [
+      448,
+      371
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      19,
+      76,
+      429,
+      369
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "079b228bbabce0ad9baababe4c9d2d28eb67d67ead3363deaca0b5ceecb15ade"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Houses/house_2_full@4x.png",
+    "size": [
+      1792,
+      1484
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      78,
+      305,
+      1714,
+      1476
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "6a3f66f938c4204172b47ab68c831c07267e42af9d51f18421cfa83a996b0410"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_slope_up.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "d55d44ec27dcfa5f64eac91955f6f4e447f9e4d546d53a1291932c62ed5d53b8"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_slope_up@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e1fa90229997d96eb9c26b56b6f518b068ef6785c24c40580a8ff0798e29fadb"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/function_machine_active.png",
+    "size": [
+      80,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      0,
+      80,
+      96
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "e7ca005480179e01b90b4dcf57693f042bbfd8a192939248acaf1c911beb149b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/function_machine_active@4x.png",
+    "size": [
+      320,
+      384
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      18,
+      0,
+      320,
+      384
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f9ecb98bc1b5e720099ced9a14032eb5a12ea45fbd2ab3c15ac60a179fa36c39"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_slab_ledge.png",
+    "size": [
+      384,
+      38
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      3,
+      382,
+      35
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "aa6bc2271fdea578af6509b383350470328acfbccfdad2b9d00f095f0802a0ba"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_slab_ledge@4x.png",
+    "size": [
+      1536,
+      152
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      8,
+      12,
+      1528,
+      140
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "a0fbfdd3427f5db7e5e854ee429d33bff66dff140a2710ab242f9ddcaf1d9cf1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_slope_down.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8baca1fe39fa644a472f3a56bfbac90128e173fa6bf2e7b10e60d8ea2d87d0e4"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Ground/ground_slope_down@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "ddb861d996c896126ff224d33dd595601950b0019dfbd1c01c48ab8e3522889e"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_post.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      23,
+      0,
+      41,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "f95f5720ec4a7cf022f4cd77e006b20b0982bb821996844536b021f6036753e8"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Traversal/platform_post@4x.png",
+    "size": [
+      256,
+      256
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      92,
+      0,
+      164,
+      256
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "89d58b506286107cff61311ef8391f1b736261697e929d6d4102997befceaa30"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_porch_posts.png",
+    "size": [
+      128,
+      112
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      127,
+      110
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "509bb3b062b917633dea3a3b668724e84bb9548b205143a37fc1feb5cf05d0d1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_porch_posts@4x.png",
+    "size": [
+      512,
+      448
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      7,
+      9,
+      505,
+      441
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "493d61854177a1cdca01c720dffb6d764b1b6136f2e2d536cce65dab81d68f4a"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_roof_main.png",
+    "size": [
+      416,
+      118
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      6,
+      413,
+      112
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "09a30685f3e557d318233c561645b9e4d0d375f15dd7fa2cc7b6ad07d61acd84"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h2_roof_main@4x.png",
+    "size": [
+      1664,
+      472
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      14,
+      27,
+      1650,
+      447
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "0a162eb4b37698ed4926d4451d5ab67cac52689b94beb3cb6462e3b808035a5b"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_awning.png",
+    "size": [
+      204,
+      52
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      203,
+      51
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "4415436739a196f7eb6f40d75eb0a0d3106b395d66013e396ff6fedcf11a75d6"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_awning@4x.png",
+    "size": [
+      816,
+      208
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      8,
+      809,
+      204
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "4890526d3f8dd06f64f8d0a9ed6a0c66bb576da38e93862fc9cfc955675519a1"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_wall_lower.png",
+    "size": [
+      228,
+      159
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      0,
+      227,
+      159
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "b96adf2dc6a333c4d29adc1488af4ac1938abbc99460287c49de958fcfcbaef5"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_wall_lower@4x.png",
+    "size": [
+      912,
+      633
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      0,
+      908,
+      633
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "8958b3124ae91a4ded32cf3a46579bc3e3d09caeff9a693354f3b20255018ca2"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/checkpoint_post_active.png",
+    "size": [
+      32,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      0,
+      32,
+      96
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "eb60273efea84874a34618b7cecd36aa46140763cc541a29ca52a515da480568"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Puzzle/checkpoint_post_active@4x.png",
+    "size": [
+      128,
+      384
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      14,
+      0,
+      128,
+      384
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7f78f8c5267f1d0ae618af4c572073f48b5af83c4a4fd176af4987dde1bbc61d"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_door_grille.png",
+    "size": [
+      116,
+      130
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      115,
+      129
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "eafe1b0ea3b52dfa80b3b53327e221c6c897ebc5e63927f64d0469f7b2de80c9"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_door_grille@4x.png",
+    "size": [
+      464,
+      520
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      7,
+      7,
+      458,
+      514
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "cc0e06ad8d1f29904c01b883309cdf62444ed80e85cec66b38630865c71b54df"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_window_casement.png",
+    "size": [
+      80,
+      88
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      4,
+      80,
+      85
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "703564d64983d185f93ca09503de2ea4251578470ea9c9e6d59df4df6b205c6e"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/HouseParts/h3_window_casement@4x.png",
+    "size": [
+      320,
+      352
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      16,
+      319,
+      340
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "7b328e1780560af52f9cc96448d5ae022327756d563fb95ac3079bf7a5349ce3"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Houses/house_3_full.png",
+    "size": [
+      448,
+      519
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      26,
+      55,
+      414,
+      517
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "98fd685857e1e47c5182f1317b936bcb6b0cbee6996c64d98efc00b4f884f7e5"
+  },
+  {
+    "archive": "Untitled (1).zip",
+    "file": "Level1/Houses/house_3_full@4x.png",
+    "size": [
+      1792,
+      2076
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      105,
+      219,
+      1656,
+      2069
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      8,
+      33,
+      48
+    ],
+    "sha256": "44b0208209c33ab2bc642c2bac6e7434466bb20c03b90157a5d9c5179e181993"
+  },
+  {
+    "archive": "Untitled (2).zip",
+    "file": "LEVEL 1 \u2014 FINAL (Clean Geometric Ink + Smooth Grayscale).png",
+    "size": [
+      2880,
+      768
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      2880,
+      768
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      15,
+      41,
+      8
+    ],
+    "sha256": "c82292c9f4b15007b1438a07e6c2cad8d422aa9679632af15a9baad116360f98"
+  },
+  {
+    "archive": "Untitled (2).zip",
+    "file": "[SUPERSEDED v1] LEVEL 1 \u2014 COMPOSITION RESET (silhouette blockout, FOR REVIEW).png",
+    "size": [
+      4000,
+      4040
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      4000,
+      4040
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      15,
+      41,
+      8
+    ],
+    "sha256": "8b034af2a592b833e93b56efabe38b65ca6b5fdf43ea01eee584d9fade63dcea"
+  },
+  {
+    "archive": "Untitled (3).zip",
+    "file": "ASSET CONSISTENCY PASS \u2014 KEEP/REFINE/REBUILD (FOR REVIEW).png",
+    "size": [
+      2800,
+      4146
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      2800,
+      4146
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      15,
+      52,
+      44
+    ],
+    "sha256": "9234e32afa4785c058d983653be446a443e323f2ad21a114e079f65c5f67cfb9"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "door_open.png",
+    "size": [
+      64,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      4,
+      59,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "feb2cc67216774433f6825b6e57b9051f70d015c5b245a9cfbab7f403bf19fd0"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "window_plain.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      6,
+      59,
+      59
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "647c4e8641c7a0f2e4c4034502c7cfe22bd369ce4e2c570a143050f56b418269"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "window_shutter.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      6,
+      58,
+      59
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "d3dc9163f0f0d4baa9f438e4558e3fcfcc4f1f5355c617640ac9dd28da46fbc8"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "window_small.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      17,
+      16,
+      48,
+      48
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "b2c5465e6b3acbe1dd1bf15cea5a4e8786661ba51da0ea57b90114620fd06b78"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "fence_concrete.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      12,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "55ca4a7a79057879a2daefd92ba532a2a7bdf68079244b76f72eccdc556e015a"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "gate_closed.png",
+    "size": [
+      128,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      18,
+      128,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "41add3258fb0ea07cf86f560ca4b3776d0c38c8ca5cdb7d81cd7fc4d1bf3221e"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "gate_open.png",
+    "size": [
+      128,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      18,
+      128,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "1b4024b073b00a19b712f4add08b046fba86711a550d18850ffbbbae41220265"
+  },
+  {
+    "archive": "Untitled (4).zip",
+    "file": "door_frame.png",
+    "size": [
+      64,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      60,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      2
+    ],
+    "sha256": "2983da5d59e66c919ab9811054eb74f0f33f038c604a0e8676d12105f9c0f273"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_center_solid.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "d8d2504c78d8a3eb1ac60f4ca251363bda440d1bd1c598eed816caa9509cd67c"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_outer_corner_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "4c86896a0d7dae2a06300997ce2283ee85fe4eae27eafca49a977b1ec92f9df1"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_outer_corner_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "64c7f12c318dbbfdd761da1dc63c48bbe591848969a26f82dd36f0fb9da04467"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_inner_corner_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "faeaca089647aa95bbcddddaa91e6d2475c0a5101f8d3464078a0b9cfe231fe4"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_inner_corner_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "5f75e4870bbd1f4235de27f940a016e6c3f63c85effb10ca84898322bbfbb928"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_wall_fill.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "782fa77ff612540b64e5eacbaa25b265e76a2b72df8f90fd8f852668a83d8a5a"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_bottom.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "fc82961cdab486a67840a9c0a1c4f9b9ad84525399a85954b3dc0a0a4f67bc00"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_thin_ledge.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      16
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "186faf0f7c723eb6a3fbddce7c9764797b823d91707e50520797236b576502ad"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_slope_up.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "d55d44ec27dcfa5f64eac91955f6f4e447f9e4d546d53a1291932c62ed5d53b8"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_slope_down.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "8baca1fe39fa644a472f3a56bfbac90128e173fa6bf2e7b10e60d8ea2d87d0e4"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_wall_edge_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "5779a631c667419f3e2fc449fcda888b5b50fb4ee9b4701f4ac362c5ff5a7fbe"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "ground_wall_edge_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "ace4f6b60a5160a11402b40845066590575e9b630569080e56a4dd3512a43497"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "res_terrace_wall.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "80df24abf882bf5ce4c0d15ac2bf3f4c680d32e0a411bc93075b8a1741a0b403"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "res_terrace_edge_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "9acb07f5c358c0a16787dd6487b5f4be2f43c26846f01ad6ef9baddbd8bf9c15"
+  },
+  {
+    "archive": "Untitled (5).zip",
+    "file": "res_terrace_edge_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      255,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      42,
+      28
+    ],
+    "sha256": "0f34f65c3f627a5eb0a33bd6920d0f4185a9daf135dc2f751535e77d121fdaa6"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Ground.png",
+    "size": [
+      85,
+      18
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      85,
+      18
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "6dcaa8edfd82232a30521e454bb52a520a5682200e30791b0f8442a2d7a72e5d"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Ground/ground_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "806a7711a3727659a67a686eeef9943efa3544a83ea7ba6aefffba09e1f9ecc7"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Ground/ground_center.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "79cc69943f892910b8aec615516b7a612d61866ac78bfe832563e52ddb3a660f"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Ground/ground_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "0cc6f863b20c48082f8db3a0f0e35badac89a4233d23bcf2944b5fa310838db7"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Ground/ground_single.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "067c9f4513849df392c141e4a4baeff78bbc2091f7f93dad58c6e7ea14903cd4"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Ground/ground_center_alt01.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "f951c270be0fa9d6a229eb553d8fda69dab6418bb2117ee8f8708fdcf188261d"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Ground/ground_center_alt02.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "ab9d00fdf833897108c1dcbe86f67018bf5cff5660cc9cb5ce2785a95fc4d63a"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Traversal.png",
+    "size": [
+      107,
+      18
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      107,
+      18
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "74b507f62b2a5155d5691f1a59d27e6bd30964d44405753d3fcb1e1cf3729187"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/ladder_middle.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      0,
+      59,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "5bb18dbc74ff595c7ca2f8c4fb86a5fbf1758491756f001eb00802704847431b"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/platform_wood_center.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      64,
+      22
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "a26a0c3d14f8ca724b83a425e62f751a1d400975652e59c864190fb5d208cfcc"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/platform_wood_left.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      0,
+      64,
+      21
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "9cea08683c142bda3e70619ba24a09869b512815734832674ab9b097c5c77dfa"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/platform_wood_right.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      61,
+      21
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "db6d0d43127efb13f6103aab8042080a9d759b76b35e45db69c4d4509460cc60"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/ladder_top.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      0,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "1d1241f2932ecf3382b3f12e06aa2f166c31a71bcc9c66486162e1829d6774dd"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/ladder_bottom.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      7,
+      0,
+      57,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "6901e11d242a9d19f6da68f225478bd26daf1cd0bb586d0cd9d25c6842426e13"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/platform_post.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      24,
+      0,
+      40,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "53b91699571d51198993e6220dad047821afb18418172a953128b0caf051f365"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/platform_post_top.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      0,
+      61,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "878a08a6c9210e7a4d322045f7e8b31bbdcc978347f5e62a86db3f1b7eb24030"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/platform_post_base.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      14,
+      0,
+      50,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "f1b55219263174a32e6922844054011e10ab85256950896ec364f1af8daa9c32"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/walkway_railing.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      4,
+      64,
+      55
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "7e532d3e352801c6b0fa97115a53e3120dba9f6f9e1522e7e11b5cb3083ef99c"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/stairs_stone_up.png",
+    "size": [
+      135,
+      69
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      133,
+      68
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "3719518787496e744d9f8192084d00e0f96f91f89ef76ba18a0fd1815b06c700"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/stair_railing.png",
+    "size": [
+      130,
+      128
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      8,
+      129,
+      114
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "318dac45f871436b6ce65007ae29d521477381f23c8ed0f05690d947f3b6f517"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Traversal/walkway_railing_post.png",
+    "size": [
+      18,
+      67
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      16,
+      58
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "b647569ef3bee6b812256e6dd50ed6aa53e797f9471a7a2a4b25b8a85ad7ff55"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Props.png",
+    "size": [
+      66,
+      23
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      66,
+      23
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "3f364984662acc55661ea53f81cfbe2b27f9f3e031ee85a948ca99007982b184"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/water_tank_stand.png",
+    "size": [
+      128,
+      198
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      0,
+      124,
+      198
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "58ab58c514066a65e9c6cccd0fa50f5b67ecaa36bc90242c4256b78a3556dfff"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/pipe_straight_v.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      23,
+      0,
+      47,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "90a25a039d83c1ce3f291a14384d7ec8a5b37836423f1c354821585f11b2810e"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/pipe_straight_h.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      17,
+      64,
+      41
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "24029149abf3e6b7b9a4d86b04c07144889595888951583391c89039022f4fba"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/pipe_elbow.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      23,
+      23,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "8ec1172c0d56b8dc1cc24bc052a2e691fbdd24194322b34c9ed2abf1ad724d51"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/lamp_wall.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      9,
+      61,
+      62
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "6bb9488ad893863beeb87353bf3c6b6eac745a8ad2da6e9a5decd345a22a99d4"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/laundry_line.png",
+    "size": [
+      196,
+      130
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      7,
+      194,
+      128
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "f9391da0de48b7d81a26e9d2877578271f9fed2bab4f30368f4eb4f46af290ee"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/fence_concrete_vent.png",
+    "size": [
+      64,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      1,
+      64,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "27f671ab2c641911e35ca3b2831a080d7c2f2315787ef8cf2e62367bcd73a8dd"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/plant_pot_tall.png",
+    "size": [
+      64,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      12,
+      7,
+      52,
+      96
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "b2efa51a1eec423232daa6e259d808c606387a9374059fce2f5d05feef184040"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/plant_hanging.png",
+    "size": [
+      48,
+      65
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      12,
+      43,
+      65
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "012545b59f99b1b03df9773f58c16cdb6732eb44471f9331383eae4207cab8b8"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/aircon_unit.png",
+    "size": [
+      51,
+      48
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      49,
+      46
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "9405c47162fe08d280a2d1fd59caa9158a6b000132bb329dd0cea72bb2fe4a48"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/lamp_hanging.png",
+    "size": [
+      37,
+      41
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      1,
+      35,
+      41
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "c0d71146c26dac5ab781a1e509789b2f9421f18dff3e180eb720337eae56eef8"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/plant_bush.png",
+    "size": [
+      117,
+      52
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      11,
+      109,
+      49
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "20aaf23b99ffd5d5d0194855bc4d641fc89cb08ae241799ed4c8aa5aafb15845"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/plant_pots_pair.png",
+    "size": [
+      97,
+      72
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      9,
+      92,
+      72
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "32bc6a58908359a1121f56d0e273f9d37349a09324d2988b4b9c0bef9b55aae8"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/flag_malaysia.png",
+    "size": [
+      104,
+      56
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      102,
+      53
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "c04cc3561b47603aded80f580d95c93ae85cf7a52f227c3920c9637d33b717f9"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/plant_pot_leafy.png",
+    "size": [
+      59,
+      57
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      5,
+      53,
+      56
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "6002fa1bb55b03e2cfb2cb4fb679f8fe0dcf5860af0f02f2c3d832d03c21b0d0"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Props/flag_pole.png",
+    "size": [
+      24,
+      178
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      0,
+      22,
+      176
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "da0045729ecd0884530fdc050bc82b6bbfe4dfdd5fccede559541d511b37c7d6"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Puzzle.png",
+    "size": [
+      77,
+      18
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      77,
+      18
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "639f8e8940c1108e78b0c2689a1cad97b2dc102225e0c234119899753a1ddc7a"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/function_machine_idle.png",
+    "size": [
+      169,
+      186
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      18,
+      26,
+      169,
+      186
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "6f7ead59d83045fc3a7acf19032397609e151eb40022ec66cee9b0617e806fe6"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/function_machine_active.png",
+    "size": [
+      169,
+      186
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      18,
+      26,
+      169,
+      186
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "695f7dc3a8eafe7ca5eda78250de8a802701597b9db4aafaf44ad1802191de66"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/answer_pad_idle.png",
+    "size": [
+      37,
+      17
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      1,
+      36,
+      15
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "3fbe99eeff06e6831f3f550490e2595a9296c754e8a643d9cf66702407793f03"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/answer_pad_pressed.png",
+    "size": [
+      37,
+      15
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      3,
+      36,
+      13
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "a6bf73fed31d530674566c2047e0a3273a1db62d0d38bc663c91c114e125bbd3"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/answer_sign.png",
+    "size": [
+      32,
+      45
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      31,
+      45
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "e197a9096a6bad6a8ec9454a89a5c484f3550d384c77942337b213b2ae44be5e"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/puzzle_gate_closed.png",
+    "size": [
+      56,
+      131
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      2,
+      54,
+      130
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "b48a62ed5ca42767b41bd2b31f50ad6fcc63e9df40ace8e1a8aa7cf46e3b661f"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/puzzle_gate_open.png",
+    "size": [
+      56,
+      131
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      2,
+      54,
+      130
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "d239fcf9e330e07c9ad0449c09cd8db0f2113dc145f1143d1c222f406c4b93aa"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/checkpoint_post_idle.png",
+    "size": [
+      32,
+      99
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      1,
+      28,
+      97
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "db37886acf1ae638ba6c2c5c826e19998d7077ef916eae133227a620cde29ffc"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Puzzle/checkpoint_post_active.png",
+    "size": [
+      34,
+      100
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      2,
+      32,
+      98
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "ebdfbd243a1dc42d5ea0fd46123c0e58aa96ec74b6ebb9b5db92487df4f126f1"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Background.png",
+    "size": [
+      139,
+      23
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      139,
+      23
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "792c87edd21cc5e785c6f51697df80d69a5f9da1b05c969f64337053056ce951"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "HouseParts.png",
+    "size": [
+      136,
+      18
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      136,
+      18
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "21ef1fedcba9d39d28bf92c726374a2faed8d6add7018387dcdb11070ad35a8e"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_roof_main.png",
+    "size": [
+      193,
+      99
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      3,
+      191,
+      88
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "94a0f48e4ef208f0e1a5f0a6f0df46f4a27fe93a3f9f0529b8407ce8a8a44c32"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_gable_timber.png",
+    "size": [
+      125,
+      82
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      3,
+      122,
+      82
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "2976625109511b5027dcc44b334379c830847bcecf18a51bc1f463a81e5b8a57"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_awning_small.png",
+    "size": [
+      74,
+      31
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      3,
+      74,
+      24
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "44c7c8cb5db41e02aa37b37fa61fbd9580d85268511f4bf2df00810f81da8d21"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_wall_upper.png",
+    "size": [
+      231,
+      114
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      1,
+      229,
+      112
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "2cc92441c176e7418ce032abae73a7ef6505f5d021f79fa87e9814bce46b1f29"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_window_louver_triple.png",
+    "size": [
+      90,
+      66
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      0,
+      86,
+      64
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "771d51875f012c561dfd7dd9a2335d54aa043b058d516ac48b55651a900ac953"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_door_balcony.png",
+    "size": [
+      64,
+      68
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      1,
+      61,
+      66
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "bcdef34b71dd86f6a0274a1af7c10050cfd9cd12aa648e3fa66112c849e4f474"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_balcony_railing.png",
+    "size": [
+      107,
+      38
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      104,
+      36
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "b40f5856dd6fbc4d3a09abccd03574bccd5986487832f8951537d9536248a63e"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_downpipe_upper.png",
+    "size": [
+      26,
+      96
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      7,
+      20,
+      94
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "b62a7354612b1a7a57251a4b92fc712dc141de8d593ee16f3bf231fc5f5932fb"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_roof_leanto.png",
+    "size": [
+      127,
+      63
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      1,
+      124,
+      55
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "97badbf6d3ca9ebe79108ad2855297875cd452ca8d850ac2cab9d93fb357371c"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_roof_porch.png",
+    "size": [
+      213,
+      65
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      3,
+      212,
+      57
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "a0e6b8cc4e19f2b59e52baa52743d2ccf5a5076f63e9f6a59f4c19c008847f5e"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_wall_lower.png",
+    "size": [
+      227,
+      131
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      0,
+      225,
+      131
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "fc263778183c2683101d169236ed06e4340cbb2208d0776380354d8f729e2017"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_porch_frame.png",
+    "size": [
+      91,
+      121
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      1,
+      89,
+      120
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "c6aff336eaf45ce8352d2117a83995aa736583a570b7ea791f41c726b9e5e4f7"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_downpipe_lower.png",
+    "size": [
+      31,
+      111
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      1,
+      30,
+      110
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "4541ea0ace513241c12a72e9e73cfc50cdfb313806ee27431cf8c0e07ff5f144"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_window_small_louver.png",
+    "size": [
+      40,
+      51
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      1,
+      39,
+      49
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "f9fac3f7c744b1309a024f6873a05b933689f63ea519a68071bf1786aaa0c604"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h1_window_cross.png",
+    "size": [
+      41,
+      53
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      40,
+      50
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "3d0e5eae1539d461fa62b3ef1b08700fa650e2bd5bf46d87764cbfbcc5e4b749"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_wall.png",
+    "size": [
+      342,
+      121
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      0,
+      340,
+      121
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "6e4074edd6c2b510e022f48aa6829a4221e2ceef3980deedc8319f9d1708fb0a"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_roof_main.png",
+    "size": [
+      416,
+      118
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      415,
+      112
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "ed44cdcb697073a098e6f68c98522f0cd0b50f294474562fa68d1f1d8d246a73"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_gable_porch.png",
+    "size": [
+      186,
+      148
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      4,
+      180,
+      147
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "720da15c852f7f33e7800a569cb741d1bbfac450722b612faf914333edaf7014"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_window_tall.png",
+    "size": [
+      76,
+      92
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      2,
+      76,
+      91
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "1da30a2685beac4f37b0f87be7cb49db45f9906a1adadec6fe27d483550cce27"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_door_double.png",
+    "size": [
+      66,
+      100
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      1,
+      65,
+      100
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "89fe83eab0305de1f8e4a72ee47898999878dbc2054073080c96649f6e258107"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_porch_posts.png",
+    "size": [
+      128,
+      112
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      128,
+      112
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "9716cf19d4daa55f3df1e343b24e59db9a04bcf05df75b5f5a9582ce9a9289ea"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_railing_short.png",
+    "size": [
+      50,
+      41
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      2,
+      49,
+      40
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "34084e38a3e73513f6c9f781a6491f3967e2dcbc579e440f8b70e6400abeeda6"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_floor_stilts.png",
+    "size": [
+      366,
+      56
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      2,
+      364,
+      54
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "ea0dce64cce4218da462894ef297eb4ec6caa670ee373d1bcd3ef0a5fa93620a"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h2_steps_front.png",
+    "size": [
+      82,
+      54
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      2,
+      80,
+      53
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "a6907fb1403bbff32f267ff595092519201d302f69b39f6a5e2f8edacfbb148f"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_wall_lower.png",
+    "size": [
+      228,
+      159
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      1,
+      225,
+      159
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "39766c291c1639aefd7b0e9cbc62b3b4524e3796d85fdbd7ef69c5fb2325169f"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_door_grille.png",
+    "size": [
+      116,
+      130
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      3,
+      113,
+      127
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "721a578ace1f9e90570d78d0804744050891a5f32ab0050a18cdcdbe3ea97b8d"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_window_grille.png",
+    "size": [
+      62,
+      64
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      5,
+      60,
+      62
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "d84ddf0b108750fefd23dd781b2655c13a2c0819c79250ad22013beda21fc71e"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_slab_ledge.png",
+    "size": [
+      384,
+      38
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      5,
+      381,
+      35
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "d8922287ed29c3048c3111ac07f996d6aa6c77ba1a65bdccde327d406f4ac1b8"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_wall_upper.png",
+    "size": [
+      224,
+      168
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      3,
+      1,
+      221,
+      167
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "24bab438aeb3fca66dfa2458edf5a51dafad221e7f500d328e8acdb7dda93597"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_window_casement.png",
+    "size": [
+      80,
+      88
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      5,
+      78,
+      84
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "4c6ebc0a5ce9384f7e2f1cc980d7b213b7230ce2c7b32ac8a9535e288a8317fa"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_awning.png",
+    "size": [
+      204,
+      52
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      3,
+      201,
+      39
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "212d1eae2413dce02fb2d6198358e5f4c876df246097d5b495539b854f6e0bfc"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_parapet.png",
+    "size": [
+      246,
+      48
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      1,
+      5,
+      242,
+      47
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "c475f3729340f3da174d9cff9b27008363934934fc87c8b243331c3aa4a49ff2"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/HouseParts/h3_roof_hut.png",
+    "size": [
+      130,
+      90
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      2,
+      3,
+      127,
+      89
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "ca3de9155293af63ae78e500d906dd701c6068fc327949ab05e51207a5508b90"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Houses.png",
+    "size": [
+      87,
+      18
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      0,
+      0,
+      87,
+      18
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "6ff8f568988d41cf4df21958ddf6802dc1425f1510746b0983ec97307f24bffb"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Houses/house_1_full.png",
+    "size": [
+      448,
+      381
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      24,
+      6,
+      356,
+      379
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "62a4e99eaf1488e193c3506de466b4cba74911de7cb042d05c1085c3e81be8e3"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Houses/house_2_full.png",
+    "size": [
+      448,
+      371
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      17,
+      80,
+      431,
+      369
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "b0cc41f83170e269a15d94e5b2080009dc48ea6ff47030923c09e011da64a19d"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1/Houses/house_3_full.png",
+    "size": [
+      468,
+      519
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      55,
+      433,
+      518
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "f7227536c2d4960c2fe4e81a55fb1587e1bf2819df44fed0a2b4d6b1d3a0b2c8"
+  },
+  {
+    "archive": "Untitled (6).zip",
+    "file": "Level1 \u2014 added production assets (Clean Geometric).png",
+    "size": [
+      14771,
+      600
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      0,
+      14727,
+      392
+    ],
+    "date": [
+      2026,
+      11,
+      9,
+      16,
+      43,
+      48
+    ],
+    "sha256": "ef18b99a4db9c9c45e70d290ddfbe2ecb65e74014944702c2cb29b2897a42175"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      81,
+      487,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "aa9b61bc785abd7a4a1037dfb07240ca4948aad5cf778f1753a93fab130e4f01"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "2bfafd32fd72eb169953348c1e6edc722b1c49611da26afe20826657b19db4fe"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      204,
+      77,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "56fad42294b128a5bec6f9ab5a5fdcf83748fabac1209a624f3e67456b853207"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      204,
+      76,
+      489,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "332a2098ca4c2a5880dcc66a78cefa02bbbcb5828f7c8d3a32ab38720efad57c"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      205,
+      74,
+      489,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "435124079cfa372accfdca3b7ad7f5c4d1e092a024c5f5b4d4137057681c93df"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      204,
+      77,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "eb5b1834f84bda5c2ed9a10f83a1b680c64615bfe4d3c8c7d1b9200099ad3dae"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "f5c124535a4a291b15d00ee919665fe4336a55a19510e76d26f8d8973cef12f6"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      202,
+      81,
+      487,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "b2fe3ca02f77fe856592c1c71cb5ffef85507101e37bdcd4410abfa983a9f9e3"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_008.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      201,
+      84,
+      486,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "bef25593df309d0e17d8d2fc341c73766df81e3767a5f8503bb8337ce2446f92"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_009.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      86,
+      485,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "31e3af8aadbe637b87f4957301ca736dc22f68c99be9b98abee0b3fb9842aa15"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_010.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      200,
+      84,
+      486,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "80c0b8d66584a5e693912ef51ab19c13d8c864790a5d4c64bf09babf0cfe73c9"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Chill_Idle/SPR_CHILL_BOY_Chill_Idle_011.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      201,
+      82,
+      486,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "4fa909138e7c1fb8b10ef6e2cd0f9beca2824d07d2823c233b58632545b01066"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      81,
+      487,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "d55aa0b784f9e6ab4143184143796df25fb4bee240bfad5b239cb5693ee85de9"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "ef15b28c502a30f2ca2a4d2ef6627696e1f5c4cf320a3dd7d7e23b391453458a"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      204,
+      77,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "02d8551de9386bfc4411af3f6ecc43d8c61244024e1e81e4d61145d322764c2b"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      204,
+      76,
+      489,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "b910f255c47cfeeb97965f911697b2177070692c600ee53f5d70a5e023016b70"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      205,
+      74,
+      489,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "a9864f652abed818e84b9ecd768e4c852a2d11e222ba6a84210d4b2552303ee9"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      204,
+      77,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "09f4a0b65a887a51a9df0d3c276c4511c163418b6d9e4d9d50d4bf7317be012b"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      488,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "645f348b32d50d267cd9d939f9e38d63204dd4bef64f8bb6edabc0b5cfc3d725"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      202,
+      81,
+      487,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "fad250b59bd2a0c48d0124ce31f7761abd19b60ce7e4b116a417457f9e4ab644"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_008.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      201,
+      84,
+      486,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "567e257ae8056b88d917ee5454f2367034349d825b0cd3fa03bf8c203cb581f7"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_009.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      86,
+      485,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "a41fd1d98b7b440c5d4624bae6299491d1002a43f3bca85ed55bb991d69b8f6e"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_010.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      200,
+      84,
+      486,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "c4bc4eb6bfcadc8e0d577161870748a0743a7aa1ec937596543058d5bd3aa884"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/01-Normal_Idle/SPR_CHILL_BOY_Normal_Idle_011.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      201,
+      82,
+      486,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "e173bfdee73ac042da92ec6ff419ec23236670c2d6a56796d7eb4d0206c4188d"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      207,
+      76,
+      491,
+      522
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "2d245de819bd72a199a32cd975d06f233c418f7c8c71f67279235de5e37568cc"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      488,
+      523
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "1874b867dcf78dee4d55449f5b3529e6bd75c2cc3a2ad5e43442eea05fdd2223"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      82,
+      485,
+      522
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "8531d3aec798f0655e956630c0f8c02631a5391a2b640aae132a697538ff117e"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      195,
+      84,
+      481,
+      523
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "4d716351e4d6a1fca73fb924a19f005e58b235767a0ad4f92dc44ef6428c7b5e"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      82,
+      485,
+      528
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "a03a3c2cbcd6aae10321e22b0299fc8f3f237e9d1171cf1f7482ed9d012a489f"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      501,
+      532
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "9c67b97ecde970912849c0d3f563a7f10e7cf26bb830336f6447c3847c0a1b47"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      181,
+      76,
+      523,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "312e79dfc7a525e8728ab88ef0e1a6d59b7466ddd3d2040252ebc7b9df2ce280"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      501,
+      527
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "4eb3d744b85d7cf8361b5f2cbd0cc4a50e8a86eb28bf44e35f79c5ad39b2ea4f"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_008.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      82,
+      485,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "8ca1c971912eb619864041515ad620229929ca288471378a2105767cf648df96"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_009.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      195,
+      84,
+      481,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "43bada53d8679001ff8c1e08dc1a4d953f55c1c1ab7f1115511c574b6749b556"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_010.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      82,
+      485,
+      528
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "c6a411f0b7a6cdb16fede91252c558125fc9ff8e3c01b5214d89ea7a02d517b0"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/02-Normal_Walk/SPR_CHILL_BOY_Normal_Walk_011.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      79,
+      488,
+      531
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "161fc91695ebb0c526fd1d1c5ad4f70526ef2243b6a04c03a4f28c779a0eee7a"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      81,
+      487,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "66d80375b002a8eebf537fb21ac5c8747ede2bf8439ac4f666813bc153e20a41"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      166,
+      75,
+      496,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "128570ffb08348c1fd75bda14b3d923710ad4bd0e717c1e35dd493458fc2acb6"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      223,
+      71,
+      505,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "8d8e73fe71c055df19100ba76181c58f29988f6feb23509bdefa64d6dc734ef4"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      175,
+      77,
+      490,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "829647a0f4c9359a13e6237917a462eea859c29614c042108954bd81b14956f8"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      189,
+      85,
+      523,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "bf41cb4bcfc719b29f2a50f24249fc25f4766e9ee1a616443fea9716a39db505"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      187,
+      86,
+      524,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "550638fff4aae1efaac562c484223968ff2ca69b1789c4d61d912fef68f8b258"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      191,
+      85,
+      519,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "a79ccae043f5b5a9eb697f3a92c398c92aef724b9c5140cc47d6e61fd0df873a"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/03-Normal_Throw/SPR_CHILL_BOY_Normal_Throw_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      197,
+      82,
+      503,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "32a75bfbae4683d772f958f97f5b7ba53545412ed6ac5563d95d210e829c999a"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/04-Normal_Hurt/SPR_CHILL_BOY_Normal_Hurt_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      81,
+      487,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "b17b7c61fbd86da4752b778610f0c1071a7c27beca84f4c585cd076bedb82984"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/04-Normal_Hurt/SPR_CHILL_BOY_Normal_Hurt_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      208,
+      75,
+      495,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "7276932bd5ee7c5d37493707e8b0a48005cd7121a0f4a6655eb5081149ff2d47"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/04-Normal_Hurt/SPR_CHILL_BOY_Normal_Hurt_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      69,
+      503,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "5d8d99768b2c590d7fec67c7a0825cceb8be88313418d987131f641ddc6f136a"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/04-Normal_Hurt/SPR_CHILL_BOY_Normal_Hurt_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      65,
+      511,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "cd1514a5474b69945323be82df254d99f7de11f0f71e062bb25f0b1f600bbf77"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/04-Normal_Hurt/SPR_CHILL_BOY_Normal_Hurt_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      69,
+      503,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "5d8d99768b2c590d7fec67c7a0825cceb8be88313418d987131f641ddc6f136a"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/04-Normal_Hurt/SPR_CHILL_BOY_Normal_Hurt_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      208,
+      75,
+      495,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "7276932bd5ee7c5d37493707e8b0a48005cd7121a0f4a6655eb5081149ff2d47"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      121,
+      36,
+      500,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "f9af11dac680047fa4fe2e0b20203141598ca993e13564f63f439ff3cfac5212"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      182,
+      66,
+      496,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "f65a519e2add158beaf0b6d124ef6a9a91a398f6183bd44ec2248e56b418f15f"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      185,
+      53,
+      491,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "6154b0a33cd720179771270364ccab045f58257658a3990125d168a19580d79d"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      51,
+      508,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "3f07fcf295bd4b5c290845673cf40a8ada293e43233d8f4b529c7013ffdd2367"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      213,
+      69,
+      504,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "50ccd99002f2c8da500df836bf602a80c6f3f88e7a130576f807390f3f07ceba"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      199,
+      36,
+      567,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      54
+    ],
+    "sha256": "dd52d3f95059d83c1003bff03487fd7ed1170df5fce8cd03942cbeca26efa06b"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      213,
+      66,
+      504,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "a1b39000a0d2441905796a52b6af22af58e83d2238b37715ca65bf362f1edc3e"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      197,
+      53,
+      503,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "d5749561538428874b5cf7912af73152d2f84ea16c85fca3f6d208880fa6999a"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_008.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      184,
+      51,
+      490,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "9c6ffd84f43faea5235a0d32a28c8fedefb4d22f72b9a3a1121298b19850e857"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/05-Normal_Dizzy/SPR_CHILL_BOY_Normal_Dizzy_009.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      182,
+      69,
+      496,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      56
+    ],
+    "sha256": "64994ecab91190f12e09d2adb3a8858e16699a9fd49a7ed2f8633ad9f9c6bab1"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      194,
+      68,
+      499,
+      496
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "116a24b6a473d01cef241376810efc2279001001804105bc1ecea260d3ad7aac"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      206,
+      75,
+      490,
+      514
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "76d55f4f81938a038172b2a2a4f3963e6e02c0f9b5e88842945e8ccf31363816"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      196,
+      82,
+      482,
+      523
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "423136583d77f00171609baa9452b41eb144c80e431bddfeeecd22da7ae66535"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      196,
+      82,
+      482,
+      530
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "004ef059e838839b8d1f8550794ff986a1e7f9a4b3871744a94f7b4003fa7194"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      195,
+      75,
+      490,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "108937717b0ed8b1d2fcdf3c2a0402ea3e9390aa5a290790fa5ad7f86072b238"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      176,
+      68,
+      532,
+      498
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "d532a88737b9e60b00dfeb46c99f9e63c4ad68548fb80e59bd9b98b4a05dbae1"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      195,
+      75,
+      490,
+      518
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "330a44d086a3631eb3fcd68aabbaf38c9999647d854722bc6bda535ea70daba3"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      196,
+      82,
+      482,
+      526
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "b3cea34cb4abb80ec5fcf8791c404ab9f379b082ba92de5f67b689e22aad5a22"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_008.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      196,
+      82,
+      482,
+      531
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "02ed72eb94450065e4e609af9512dff7ccc16a1692436d375aa372024b351a9b"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/06-Running/SPR_CHILL_BOY_Running_009.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      206,
+      75,
+      490,
+      524
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "3d11b850fd674cea80d7732913ad235385b97cd48f052524687c62e1607fc0f9"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/07-Jump_Up/SPR_CHILL_BOY_Jump_Up_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      181,
+      6,
+      515,
+      463
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "6294455059dfe341c908091bbaa804c3e246efc555a7b558044cb76bfe0a2733"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/08-Jump_Fall/SPR_CHILL_BOY_Jump_Fall_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      149,
+      31,
+      511,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "325a75daf85d979c692779067c96d17b2f5b7b1aeceb70bd15541be84b70b839"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      173,
+      25,
+      510,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "e4cd343a410f71f32f450e2b13f3153804357996a4bc40990c47744c9ade70f8"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      152,
+      19,
+      507,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "a2255268b09074bcc8e7721f6e1393c855c3af04def8b9d76520e736e25a9b74"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      194,
+      14,
+      501,
+      460
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "98e7aa28a2bfdb7d3974852ab89b2b5a9be8d349bb76631a7b1e94390d815d29"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      158,
+      21,
+      509,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "9f1eda33efef4d4d50c3fcf2b9cd262d2059def1186f6c2dad680babafaed325"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      161,
+      30,
+      510,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "bc5a2c9db4cd8f2d65a79476b541462d4cb7ae7daf20cd0379ee9e0cb84f6ff4"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      158,
+      32,
+      511,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "2ba20c9d0ac6721b8ff46aff48d41e5dc7471060c4b132ece2ee3d7003821f8b"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      162,
+      30,
+      512,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "1a1e29e510d1324a99cd96407a1c1c4e7fe32c15c600a16c72477a7f29a256a9"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/09-Jump_Throw/SPR_CHILL_BOY_Jump_Throw_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      168,
+      27,
+      512,
+      461
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      1,
+      58
+    ],
+    "sha256": "78ac974925caca31b4cccf9515f38e117c04b9946058817acf5bb438e2718020"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_000.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      203,
+      81,
+      487,
+      525
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "123bd3d60c2922a091e2ab5f34d1b97de466daca4787a07c281b47341ee9328d"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_001.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      176,
+      45,
+      515,
+      514
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "42a3313c5d39c140be011220104f0f28fb765bfa9340d6f517d31582f0963bae"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_002.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      148,
+      35,
+      537,
+      480
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "42e8968ff4d2d3c670d3e4a2aad078fc65cfdf718cab59fd0556e92654f97dfa"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_003.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      170,
+      87,
+      593,
+      430
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "fba63935e06c97125b576fcfe045ab982788948db708a5fc5bbbb640791b437f"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_004.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      206,
+      176,
+      625,
+      471
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "7f350e69cbcb7fbec8f5b75b3e995c151476a1bf95051c7644aa6f94748a2157"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_005.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      208,
+      246,
+      625,
+      541
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "fe6b280d72045db894d4d4962249bb87c236e8eb102801e4271c8a236fac1642"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_006.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      202,
+      290,
+      633,
+      580
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "54caee50cea6ddd7577f4b906f1f74533df8aef6fd4661bd307ae7580dcab07c"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_007.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      188,
+      309,
+      647,
+      593
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "19b6f29ea1f100d35ba00f0d1d4b8cb70818a7b99d745a87ee083601a034a6fd"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_008.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      188,
+      309,
+      647,
+      593
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "19b6f29ea1f100d35ba00f0d1d4b8cb70818a7b99d745a87ee083601a034a6fd"
+  },
+  {
+    "archive": "6b4685617198dc462000894496292b56152abb5c (1).zip",
+    "file": "CHILL BOY BASIC ANIMATION/PNG_/CHILL BOY/10-Dead1/SPR_CHILL_BOY_Dead1_009.png",
+    "size": [
+      659,
+      626
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      188,
+      309,
+      647,
+      593
+    ],
+    "date": [
+      2025,
+      4,
+      15,
+      15,
+      2,
+      0
+    ],
+    "sha256": "19b6f29ea1f100d35ba00f0d1d4b8cb70818a7b99d745a87ee083601a034a6fd"
+  }
+]

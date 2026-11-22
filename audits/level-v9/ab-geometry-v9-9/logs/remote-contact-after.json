@@ -1,0 +1,21 @@
+{
+  "player": 754,
+  "crate": 220,
+  "velocity": 0,
+  "touching": {
+    "none": false,
+    "up": false,
+    "down": true,
+    "left": false,
+    "right": true
+  },
+  "blocked": {
+    "none": false,
+    "up": false,
+    "down": true,
+    "left": false,
+    "right": true
+  },
+  "art": 220,
+  "initialCrate": 220
+}

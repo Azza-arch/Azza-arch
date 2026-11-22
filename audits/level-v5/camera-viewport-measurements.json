@@ -1,0 +1,74 @@
+[
+  {
+    "frame": {
+      "w": 1318,
+      "h": 589
+    },
+    "cameraViewport": {
+      "w": 1453,
+      "h": 648
+    },
+    "cameraZoom": 1,
+    "cameraBounds": {
+      "x": 0,
+      "y": 220,
+      "w": 7400,
+      "h": 932
+    },
+    "playerScreenPos": {
+      "x": 156,
+      "y": 466
+    },
+    "scrollWidthOverflow": 0,
+    "scrollHeightOverflow": 0,
+    "viewport": "1366x768"
+  },
+  {
+    "frame": {
+      "w": 1752,
+      "h": 901
+    },
+    "cameraViewport": {
+      "w": 1261,
+      "h": 648
+    },
+    "cameraZoom": 1,
+    "cameraBounds": {
+      "x": 0,
+      "y": 220,
+      "w": 7400,
+      "h": 932
+    },
+    "playerScreenPos": {
+      "x": 156,
+      "y": 466
+    },
+    "scrollWidthOverflow": 0,
+    "scrollHeightOverflow": 0,
+    "viewport": "1920x1080"
+  },
+  {
+    "frame": {
+      "w": 1317,
+      "h": 454
+    },
+    "cameraViewport": {
+      "w": 1885,
+      "h": 648
+    },
+    "cameraZoom": 1,
+    "cameraBounds": {
+      "x": 0,
+      "y": 220,
+      "w": 7400,
+      "h": 932
+    },
+    "playerScreenPos": {
+      "x": 156,
+      "y": 466
+    },
+    "scrollWidthOverflow": 0,
+    "scrollHeightOverflow": 0,
+    "viewport": "1365x633"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "width": 1440,
+    "result": "PASS",
+    "questions": 30,
+    "coreStandards": 6,
+    "examples": 7
+  },
+  {
+    "width": 390,
+    "result": "PASS",
+    "questions": 30,
+    "coreStandards": 6,
+    "examples": 7
+  },
+  {
+    "width": 320,
+    "result": "PASS",
+    "questions": 30,
+    "coreStandards": 6,
+    "examples": 7
+  },
+  {
+    "width": 768,
+    "result": "PASS",
+    "questions": 30,
+    "coreStandards": 6,
+    "examples": 7
+  }
+]

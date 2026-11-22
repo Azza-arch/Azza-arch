@@ -1,0 +1,128 @@
+{
+  "initial": {
+    "player": 80,
+    "crate": 230,
+    "crateVx": 0,
+    "art": 230,
+    "separation": 112,
+    "touch": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    },
+    "blocked": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    }
+  },
+  "idle": {
+    "player": 80,
+    "crate": 230,
+    "crateVx": 0,
+    "art": 230,
+    "separation": 112,
+    "touch": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    },
+    "blocked": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    }
+  },
+  "walk_without_contact": {
+    "player": 137.75296666666668,
+    "crate": 230,
+    "crateVx": 0,
+    "art": 230,
+    "separation": 54.24703333333332,
+    "touch": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    },
+    "blocked": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    }
+  },
+  "contact_push": {
+    "player": 272.4786513016139,
+    "crate": 310.4786513016139,
+    "crateVx": 0,
+    "art": 310.4786513016139,
+    "separation": 0,
+    "touch": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    },
+    "blocked": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    }
+  },
+  "walk_away": {
+    "player": 200.7265679682807,
+    "crate": 310.4786513016139,
+    "crateVx": 0,
+    "art": 310.4786513016139,
+    "separation": 71.75208333333322,
+    "touch": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    },
+    "blocked": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    }
+  },
+  "settled": {
+    "player": 200.7265679682807,
+    "crate": 310.4786513016139,
+    "crateVx": 0,
+    "art": 310.4786513016139,
+    "separation": 71.75208333333322,
+    "touch": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    },
+    "blocked": {
+      "none": false,
+      "up": false,
+      "down": true,
+      "left": false,
+      "right": false
+    }
+  }
+}

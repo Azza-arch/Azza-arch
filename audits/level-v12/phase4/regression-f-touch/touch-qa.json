@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "viewport": "390x844",
+  "touchBoardAndExit": true,
+  "carriedOffsetBefore": 31.578803333339238,
+  "carriedOffsetAfter": 31.578803333339238,
+  "eastLanding": {
+    "mode": "playing",
+    "playerX": 6631.4543666666805,
+    "playerBottom": 972,
+    "grounded": true,
+    "platformX": 6350.005039999991,
+    "platformArtLeft": 6350.005039999991,
+    "platformLeft": 6350.005039999991,
+    "platformRight": 6458.005039999991,
+    "platformTop": 816,
+    "direction": -1
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": []
+}

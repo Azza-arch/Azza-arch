@@ -1,0 +1,3 @@
+PASS: WORLD, motion, spawn, goal, zones, gates, machines, checkpoints, secrets unchanged.
+PASS: C-G decks/ladders/coins unchanged; cafe ladder bottom is the only C connection adjustment.
+PASS: math functions/puzzles, audio.js and save.js byte-identical to baseline.

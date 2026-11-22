@@ -1,0 +1,86 @@
+[
+  {
+    "viewport": [
+      1440,
+      1000
+    ],
+    "playerAndGearUncovered": true,
+    "errors": [],
+    "geometry": {
+      "player": {
+        "left": 604.15,
+        "top": 495.09999999999997,
+        "right": 636.91,
+        "bottom": 565.3
+      },
+      "panel": {
+        "left": 1039,
+        "top": 177,
+        "right": 1399,
+        "bottom": 462.625
+      },
+      "gear": {
+        "x": 749.2299999999999,
+        "y": 445.96
+      },
+      "fps": 57.5,
+      "objects": 525
+    }
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "playerAndGearUncovered": true,
+    "errors": [],
+    "geometry": {
+      "player": {
+        "left": 358.67220535714284,
+        "top": 202.98583482142857,
+        "right": 376.6625803571429,
+        "bottom": 241.53663839285713
+      },
+      "panel": {
+        "left": 455,
+        "top": 83,
+        "right": 815,
+        "bottom": 333.640625
+      },
+      "gear": {
+        "x": 438.3438660714286,
+        "y": 176.00027232142858
+      },
+      "fps": 59.25,
+      "objects": 525
+    }
+  },
+  {
+    "viewport": [
+      370,
+      740
+    ],
+    "playerAndGearUncovered": true,
+    "errors": [],
+    "geometry": {
+      "player": {
+        "left": 94.486,
+        "top": 354.5959642857143,
+        "right": 120.17400000000002,
+        "bottom": 409.6416785714286
+      },
+      "panel": {
+        "left": 8,
+        "top": 492.359375,
+        "right": 362,
+        "bottom": 732
+      },
+      "gear": {
+        "x": 208.24714285714288,
+        "y": 316.0639642857143
+      },
+      "fps": 59.75,
+      "objects": 525
+    }
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "zone": "A",
+    "centerX": 640,
+    "centerY": 1100,
+    "checkpointFixture": "cp-a",
+    "traversalEvidence": false
+  },
+  {
+    "zone": "B",
+    "centerX": 2150,
+    "centerY": 900,
+    "checkpointFixture": "cp-b",
+    "traversalEvidence": false
+  },
+  {
+    "zone": "C",
+    "centerX": 1740,
+    "centerY": 650,
+    "checkpointFixture": "cp-c",
+    "traversalEvidence": false
+  },
+  {
+    "zone": "D",
+    "centerX": 3440,
+    "centerY": 800,
+    "checkpointFixture": "cp-d",
+    "traversalEvidence": false
+  },
+  {
+    "zone": "E",
+    "centerX": 4800,
+    "centerY": 750,
+    "checkpointFixture": "cp-e",
+    "traversalEvidence": false
+  },
+  {
+    "zone": "F",
+    "centerX": 6500,
+    "centerY": 1000,
+    "checkpointFixture": "cp-f",
+    "traversalEvidence": false
+  },
+  {
+    "zone": "G",
+    "centerX": 7800,
+    "centerY": 1110,
+    "checkpointFixture": "cp-g",
+    "traversalEvidence": false
+  }
+]

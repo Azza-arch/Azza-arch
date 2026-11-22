@@ -1,0 +1,167 @@
+{
+  "method": "Fresh headless Chromium pages; scene relocation for focused mechanism checks, not a full traversal.",
+  "views": [
+    {
+      "level": 1,
+      "errors": [],
+      "mutation": false,
+      "server_start": {
+        "exit": 0,
+        "stdout": "{\"pid\":22464,\"port\":8400,\"token\":\"d3764edd-13a0-4b06-875d-f443cb5a39a7\"}\n",
+        "stderr": ""
+      },
+      "mission": {
+        "mission": {
+          "id": "P3",
+          "type": "pattern",
+          "rule": {
+            "a": 1,
+            "b": 4
+          },
+          "clues": [
+            1,
+            2,
+            4
+          ]
+        },
+        "text": {
+          "typeLabel": "Baca corak",
+          "screen": "f(x) = ?",
+          "screenSub": "x = ?  →  7",
+          "rule": "Peraturan mesin ini tersembunyi. Kaji input dan output yang telah direkodkan. Jurang memerlukan tepat 7 papan.",
+          "core": "?",
+          "inLabel": "input x",
+          "clues": [
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "question": "Berdasarkan corak, input x yang mana menghasilkan 7?",
+          "hint": "Lihat berapa banyak output berubah apabila input bertambah 1.",
+          "worked": "Corak: setiap kali x bertambah 1, output bertambah 1.\nPeraturan: f(x) = x + 4\nf(3) = 1(3) + 4 = 7 ✓",
+          "solvedScreen": "f(x) = x + 4  ✓",
+          "summary": "corak f(x) = x + 4, x = 3"
+        }
+      },
+      "overlay_error": "Page.add_script_tag: Loading the script 'http://localhost:8400/detect.js' violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+      "horizontal_overflow": false
+    },
+    {
+      "level": 2,
+      "errors": [],
+      "mutation": false,
+      "default_send": {
+        "input": 2,
+        "order": "fg",
+        "revision": 1,
+        "receivers": {
+          "fg": true,
+          "gf": false
+        },
+        "last": {
+          "input": 2,
+          "order": "fg",
+          "inner": "g",
+          "outer": "f",
+          "middle": 4,
+          "output": 9,
+          "notation": "f(g(2))",
+          "trace": "2 → g → 4 → f → 9"
+        }
+      },
+      "default_two_orders": {
+        "puzzle": {
+          "input": 2,
+          "order": "gf",
+          "revision": 3,
+          "receivers": {
+            "fg": true,
+            "gf": true
+          },
+          "last": {
+            "input": 2,
+            "order": "gf",
+            "inner": "f",
+            "outer": "g",
+            "middle": 5,
+            "output": 25,
+            "notation": "g(f(2))",
+            "trace": "2 → f → 5 → g → 25"
+          }
+        },
+        "bridges": [
+          "twins"
+        ]
+      },
+      "overlay_error": "Page.add_script_tag: Loading the script 'http://localhost:8400/detect.js' violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+      "horizontal_overflow": false
+    },
+    {
+      "level": 3,
+      "errors": [],
+      "mutation": false,
+      "default_reverse": {
+        "output": 13,
+        "seals": {
+          "7": false,
+          "13": true,
+          "15": false
+        },
+        "revision": 1,
+        "last": {
+          "ok": true,
+          "output": 13,
+          "input": 5,
+          "trace": "13 − 3 = 10; 10 ÷ 2 = 5"
+        }
+      },
+      "valid_non_target": {
+        "output": 11,
+        "seals": {
+          "7": false,
+          "13": true,
+          "15": false
+        },
+        "revision": 3,
+        "last": {
+          "ok": true,
+          "output": 11,
+          "input": 4,
+          "trace": "11 − 3 = 8; 8 ÷ 2 = 4"
+        }
+      },
+      "wrap_output": 1,
+      "invalid_output": {
+        "output": 1,
+        "seals": {
+          "7": false,
+          "13": true,
+          "15": false
+        },
+        "revision": 9,
+        "last": {
+          "ok": false,
+          "output": 1,
+          "input": null,
+          "trace": "1 bukan dalam imej f"
+        }
+      },
+      "overlay_error": "Page.add_script_tag: Loading the script 'http://localhost:8400/detect.js' violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+      "horizontal_overflow": false
+    }
+  ],
+  "server_stop": {
+    "exit": 0,
+    "stdout": "Stopped live server on port 8400.\n",
+    "stderr": "{\"ok\":false,\"error\":\"config_missing\",\"path\":\"C:\\\\laragon\\\\www\\\\Azza-arch\\\\audits\\\\denai-levels-1-3-review\\\\.impeccable\\\\live\\\\config.json\"}\nNote: could not remove live script tag ({\"ok\":false,\"error\":\"config_missing\",\"path\":\"C:\\\\laragon\\\\www\\\\Azza-arch\\\\audits\\\\denai-levels-1-3-review\\\\.impeccable\\\\live\\\\config.json\"})\n"
+  }
+}

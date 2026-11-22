@@ -1,0 +1,9 @@
+id,x,feet,optional,requires
+cp-a,1080,1242,False,[]
+cp-b,1900,1080,False,[]
+cp-c,1620,810,True,[]
+cp-b-exit,2790,972,,"[""gear""]"
+cp-d,3024,972,False,"[""gear""]"
+cp-e,4752,648,False,"[""gear"", ""block""]"
+cp-f,5832,702,False,"[""gear"", ""block"", ""pipe""]"
+cp-g,7560,1296,False,"[""gear"", ""block"", ""pipe""]"

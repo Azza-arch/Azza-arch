@@ -1,0 +1,61 @@
+{
+  "desktop": {
+    "firstTrigger": true,
+    "naturalMovementDuringBubble": true,
+    "pauseResume": true,
+    "dismiss": true,
+    "revisitDedup": true,
+    "saveReload": true,
+    "queueCooldown": true,
+    "menuContinue": true,
+    "layout": {
+      "x": 12,
+      "y": 359.140625,
+      "width": 321.25,
+      "height": 64
+    },
+    "errors": []
+  },
+  "portrait": {
+    "firstTrigger": true,
+    "naturalMovementDuringBubble": true,
+    "pauseResume": true,
+    "dismiss": true,
+    "revisitDedup": true,
+    "saveReload": true,
+    "queueCooldown": true,
+    "menuContinue": true,
+    "layout": {
+      "x": 12,
+      "y": 331.9375,
+      "width": 321.25,
+      "height": 64
+    },
+    "errors": []
+  },
+  "landscape": {
+    "firstTrigger": true,
+    "naturalMovementDuringBubble": true,
+    "pauseResume": true,
+    "dismiss": true,
+    "revisitDedup": true,
+    "saveReload": true,
+    "queueCooldown": true,
+    "menuContinue": true,
+    "layout": {
+      "x": 12,
+      "y": 85.609375,
+      "width": 321.25,
+      "height": 64
+    },
+    "errors": []
+  },
+  "eventWiring": {
+    "discovery": true,
+    "failedExperiment": true,
+    "activation": true,
+    "secret": true,
+    "completion": true,
+    "errors": []
+  }
+}

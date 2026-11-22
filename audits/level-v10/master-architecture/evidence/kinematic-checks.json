@@ -1,0 +1,391 @@
+[
+  {
+    "source": "A0",
+    "target": "A1",
+    "kind": "jump",
+    "gap": 108,
+    "rise": 0,
+    "ladder": null,
+    "analyticRange": 208.0,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 806.08,
+      "apexRise": 92.28,
+      "frames": 44
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "A1",
+    "target": "A2",
+    "kind": "jump",
+    "gap": 0,
+    "rise": 54,
+    "ladder": null,
+    "analyticRange": 173.05,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 1072.75,
+      "apexRise": 92.28,
+      "frames": 36
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "A2",
+    "target": "A3",
+    "kind": "jump",
+    "gap": 0,
+    "rise": 54,
+    "ladder": null,
+    "analyticRange": 173.05,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 1180.75,
+      "apexRise": 92.28,
+      "frames": 36
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "A3",
+    "target": "A4",
+    "kind": "jump",
+    "gap": 0,
+    "rise": 54,
+    "ladder": null,
+    "analyticRange": 173.05,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 1288.75,
+      "apexRise": 92.28,
+      "frames": 36
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "A4",
+    "target": "B0",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "B0",
+    "target": "B1",
+    "kind": "jump",
+    "gap": 0,
+    "rise": 54,
+    "ladder": null,
+    "analyticRange": 173.05,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 1720.75,
+      "apexRise": 92.28,
+      "frames": 36
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "B1",
+    "target": "B2",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "B2",
+    "target": "G1",
+    "kind": "gate",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "conditional on gate solved"
+  },
+  {
+    "source": "G1",
+    "target": "B3",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "B3",
+    "target": "B4",
+    "kind": "jump",
+    "gap": 0,
+    "rise": 54,
+    "ladder": null,
+    "analyticRange": 173.05,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 2638.75,
+      "apexRise": 92.28,
+      "frames": 36
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "B4",
+    "target": "B5",
+    "kind": "jump",
+    "gap": 0,
+    "rise": 54,
+    "ladder": null,
+    "analyticRange": 173.05,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 2746.75,
+      "apexRise": 92.28,
+      "frames": 36
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "B5",
+    "target": "D0",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "D0",
+    "target": "G2",
+    "kind": "gate",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "conditional on gate solved"
+  },
+  {
+    "source": "G2",
+    "target": "D1",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "D1",
+    "target": "E0",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "E0",
+    "target": "E1",
+    "kind": "ladder",
+    "gap": -216,
+    "rise": 216,
+    "ladder": "LE-main",
+    "seconds": 1.44,
+    "status": "endpoint checked"
+  },
+  {
+    "source": "E1",
+    "target": "E2",
+    "kind": "jump",
+    "gap": 108,
+    "rise": -54,
+    "ladder": null,
+    "analyticRange": 233.86,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 4586.08,
+      "apexRise": 92.28,
+      "frames": 50
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "E2",
+    "target": "E3",
+    "kind": "ladder",
+    "gap": -216,
+    "rise": 162,
+    "ladder": "LE-pipe",
+    "seconds": 1.08,
+    "status": "endpoint checked"
+  },
+  {
+    "source": "E3",
+    "target": "G3",
+    "kind": "gate",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "conditional on gate solved"
+  },
+  {
+    "source": "G3",
+    "target": "E4",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "E4",
+    "target": "F0",
+    "kind": "jump",
+    "gap": 54,
+    "rise": -54,
+    "ladder": null,
+    "analyticRange": 233.86,
+    "simulation": {
+      "landed": true,
+      "wallClear": true,
+      "landingX": 5772.08,
+      "apexRise": 92.28,
+      "frames": 50
+    },
+    "status": "KINEMATIC PASS; engine proof pending"
+  },
+  {
+    "source": "F0",
+    "target": "F1",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F1",
+    "target": "F2",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F2",
+    "target": "F3",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F3",
+    "target": "F4",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F4",
+    "target": "F-roof",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F-roof",
+    "target": "F5",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F5",
+    "target": "F6",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F6",
+    "target": "F7",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F7",
+    "target": "F8",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F8",
+    "target": "F9",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "F9",
+    "target": "G0",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "G0",
+    "target": "G-bank",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": -54,
+    "ladder": null,
+    "status": "connected / descending surface"
+  },
+  {
+    "source": "G-bank",
+    "target": "G4",
+    "kind": "gate",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "conditional on gate solved"
+  },
+  {
+    "source": "G4",
+    "target": "G-exit",
+    "kind": "walk/drop",
+    "gap": 0,
+    "rise": 0,
+    "ladder": null,
+    "status": "connected / descending surface"
+  }
+]

@@ -1,0 +1,82 @@
+type,id,room,zone,x,y,width,height,behavior,notes
+spawn,player,R01,A,90,1296,28,60,spawn,Safe start
+terrain,A-start,R01,A,0,1296,270,270,solid,Grass top with dirt body to y1566
+terrain,A-step,R01,A,270,1242,162,324,solid,54px rise
+terrain,A-crate,R02,A,432,1242,648,324,solid,Crate practice ground
+terrain,A-landing,R03,A,1188,1242,270,324,solid,Wide landing after 108px gap
+gap,first-gap,R03,A,1080,1242,108,0,void,One mandatory jump before B
+terrain,B-low,R04,B,1458,1188,162,378,solid,54px step ascent
+terrain,B-middle,R04,B,1620,1134,216,432,solid,Probe platform
+terrain,B-control,R05,B,1836,1080,324,486,solid,Lever/control bank
+lift-gap,B-lift,R05,B,2160,1080,324,0,gate,Bridge parks at y1296; safe one-way collision appears at y1080 after movement completes
+terrain,B-bank,R07,B,2484,1080,162,486,solid,Far lift landing
+terrain,B-terrace,R07,B,2646,1026,162,540,solid,54px rise
+terrain,B-overlook,R07,B,2808,972,216,594,solid,Phase 1 end / preview of D
+deck,C-route,R06,C,1458,864,486,18,one-way,Elevated bonus deck
+deck,R02-ledger,R02,A,774,1122,162,18,conditional-one-way,Requires crate plate state
+ladder,C-entry,R06,C,1512,864,0,324,sensor,Connects B-low to C
+ladder,C-return,R06,C,1890,864,0,216,sensor,Returns from C to B-control level
+support,C-left-post,R06,C,1458,882,54,306,visual-only,Timber support rooted at B bank
+support,C-mid-post,R06,C,1620,882,54,252,visual-only,Timber support rooted at B-middle
+support,C-right-post,R06,C,1836,882,54,198,visual-only,Timber support rooted at B-control
+checkpoint,a-safe,R02,A,378,1242,0,0,sensor,Safe start progress
+checkpoint,a-gap,R03,A,1296,1242,0,0,sensor,Far-side recovery
+checkpoint,b-lift,R05,B,2000,1080,0,0,sensor,Requires lift on resume
+checkpoint,c-bonus,R06,C,1566,864,0,0,sensor,Optional return point
+checkpoint,b-review,R07,B,2916,972,0,0,sensor,Requires lift; phase review end
+terminal,probe,R04,B,1692,1134,0,0,interaction,Shows one input/output example
+terminal,lift,R05,B,2070,1080,0,0,interaction,f(3)=7 raises bridge
+terminal,mapping,R06,C,1692,864,0,0,interaction,Optional four-pair matching activity
+collectible,a-ledge,R02,A,855,1062,0,0,pickup,Crate ledge bonus
+collectible,c-entry,R06,C,1566,804,0,0,pickup,C route
+collectible,c-return,R06,C,1836,804,0,0,pickup,C route
+collectible,b-return,R07,B,2556,1020,0,0,pickup,Far lift bank
+terrain,D-approach,R08,D,3024,972,540,594,solid,R07 transition; safe floor to gated span
+gate,D-crossing,R08,D,3564,972,270,16,animated-one-way,Timber art parks at y1188; 16px one-way collision created only after final y972 stop
+terrain,D-landing,R10,D,3834,972,270,594,solid,Safe east bank and composition bay
+deck,D-rack,R08,D,3078,918,216,16,one-way,"Three digit blocks 2,3,4 sit on the supported rack"
+deck,D-service,R09,D,3294,738,216,16,one-way-optional,"Upper bonus shelf, returns by D-service ladder"
+support,D-rack-left,R08,D,3078,810,54,108,visual-only,Post to rack shelf; no collision
+support,D-rack-right,R08,D,3294,810,54,108,visual-only,Post to rack shelf; no collision
+support,D-service-left,R09,D,3294,738,54,234,visual-only,Post rooted at D floor
+support,D-service-right,R09,D,3510,738,54,234,visual-only,Post rooted at D floor
+checkpoint,d-machine,R08,D,3294,972,0,0,sensor,Safe retry checkpoint before input station
+checkpoint,d-crossing,R10,D,3915,972,0,0,sensor,Enabled only when number-span is solved
+terminal,number,R08,D,3420,972,0,0,interaction,Select digit block; g(x)=3x-2; target10; input4
+terminal,composition,R10,D,3960,972,0,0,interaction,"Safe primer at input2: f then g=13, g then f=9"
+socket,number-input,R08,D,3372,918,54,54,visual-only,Frame9 crate form marks input socket
+display,number-output,R08,D,3420,918,54,54,visual-only,"Frame85 output board; calculated text readout is at x3420,y810"
+collectible,d-service,R09,D,3402,696,0,0,pickup,Optional upper-route coin
+support,B-lift-left,R05,B,2106,972,54,108,visual-only,Fixed portal post rooted at the west bank
+support,B-lift-right,R05,B,2484,972,54,108,visual-only,Fixed portal post rooted at the east bank
+beam,B-lift-header,R05,B,2106,954,432,18,visual-only,Fixed header connects the bank posts
+display,composition-board,R10,D,3915,918,54,54,visual-only,"Frame85 board for the two safe order outputs; readout at x3960,y810"
+terrain,E-recovery,R11,E,4104,1296,756,270,solid,Lower safe recovery floor under R11 route; walkable and separate from roof-deck collision
+terrain,E-approach,R12,E,4860,972,432,594,solid,Safe composition station and west bank of water crossing
+terrain,E-lower-crossing,R12,E,5292,1296,216,270,solid,Landing floor beneath locked/open water bridge; paired return ladders
+terrain,E-far-bank,R12,E,5508,972,142,594,solid,Safe landing and E exit bank; >=108px conservative landing width
+deck,E-roof-1,R11,E,4104,1134,216,18,one-way,Upper route first span; supported; takeoff runway before 108px gap
+deck,E-roof-2,R11,E,4428,1080,162,18,one-way,Upper route landing; 54px rise from first deck
+deck,E-roof-3,R11,E,4590,1026,270,18,one-way,Upper route to R12 ladder/approach; return ladder x4752
+ladder,E-entry,R11,E,4158,1134,0,162,sensor,Connects R11 lower floor to upper roof route
+ladder,E-return,R11,E,4752,1026,0,270,sensor,Connects lower recovery to upper route before R12
+ladder,E-recover-left,R12,E,5292,972,0,324,sensor,Return from lower crossing recovery to safe west bank
+ladder,E-recover-right,R12,E,5508,972,0,324,sensor,Return from lower crossing recovery to safe east bank
+support,E-roof-left,R11,E,4104,1152,54,144,visual-only,Frame89 support rooted at R11 recovery floor
+support,E-source-posts,R11,E,4428,810,108,270,visual-only,Rooted on R11 roof-2 deck; supports relocated visible source tank
+support,E-roof2-posts,R11,E,4428,1098,162,198,visual-only,Frame89 pair supports second roof landing
+support,E-roof3-posts,R11,E,4590,864,54,162,visual-only,Frame89 supports third roof deck
+support,E-pipe-supports,R12,E,4860,810,432,162,visual-only,Frame89 posts support the composition conduit/reservoir on west bank
+reservoir,E-source,R11,E,4428,702,108,108,visual-only,"Frames34/35/74/75; visible source, connects at right wall to frame94 elbow"
+pipe,E-source-elbow,R11,E,4536,756,54,54,visual-only,Frame94 at source right wall; joins source to horizontal conduit
+pipe,E-main-conduit,R11-R12,E,4590,756,594,54,visual-only,Frames133 x9 plus134 at x5076; frame133 inlet at x5130 enters reservoir left wall; decorative only
+board,E-function-f,R12,E,4860,702,54,54,visual-only,Frame85; contextual text f(x)=2x+1
+board,E-function-g,R12,E,5022,702,54,54,visual-only,Frame85; contextual text g(x)=3x-2
+reservoir,E-output-reservoir,R12,E,5130,702,108,108,visual-only,Frames34/35/74/75; supported timber cradle; inlet overlays left wall and outlet overlays base
+pipe,E-output-drop,R12,E,5184,756,54,216,visual-only,Frames95/115/135 at y756/810/864 plus frame134 outlet to lever at y918; decorative only
+terminal,E-composition,R12,E,5100,972,0,0,interaction,Input3; choose f→g (19) or g→f (15); controls output bridge
+mechanism,E-water-selector,R12,E,5073,918,54,54,visual-only,Frame85 console plus frame64 output lever; no collision
+gate,E-water-crossing,R12,E,5292,972,216,16,animated-one-way,"Frames48-50 park at y1188; water fills reservoir, then span rises and gets collision at y972"
+checkpoint,e-entry,R11,E,4122,1134,0,0,sensor,Entry checkpoint on first upper landing
+checkpoint,e-crossing,R12,E,5598,972,0,0,sensor,Saved only after water crossing is deployed safely
+collectible,e-waterwalk,R11,E,4500,1026,0,0,pickup,Visible coin on the upper landing; stable save ID e-waterwalk

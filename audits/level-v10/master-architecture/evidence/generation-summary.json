@@ -1,0 +1,31 @@
+{
+  "surfaces": 41,
+  "ladders": 7,
+  "beats": 18,
+  "mainSeconds": [
+    455,
+    725
+  ],
+  "optionalSeconds": [
+    175,
+    285
+  ],
+  "physics": {
+    "gravity": 1400.0,
+    "speed": 280.0,
+    "acceleration": 2100.0,
+    "braking": 2500.0,
+    "jump": 520.0,
+    "bodyWidth": 28.0,
+    "bodyHeight": 60.0,
+    "climb": 150.0,
+    "maxRise": 96.57142857142857,
+    "flatFlight": 0.7428571428571429,
+    "flatRange": 208.0,
+    "runup": 18.666666666666668,
+    "stopDistance": 15.68,
+    "gateFlatUpperBound": 266.8,
+    "cafeToFarBankReachUpperBound": 365.422802270623
+  },
+  "sourceAtlasFramesVerified": 180
+}

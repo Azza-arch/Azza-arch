@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "Pause freezes active timer; Resume restores play",
+    "First latch persists alone; mid-animation reload restores safe bridge",
+    "Unsolved optional F entry and return via opposite ladder; main route reaches G",
+    "F lower route skipped safely",
+    "C upper branch skipped: natural jumps on B main route reach lift",
+    "Restart returns to A"
+  ],
+  "pageErrors": []
+}

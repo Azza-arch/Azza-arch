@@ -1,0 +1,8 @@
+id,x,feet,optional
+cp-a,1080,1242,False
+cp-b,1900,1080,False
+cp-c,1620,810,True
+cp-d,3024,972,False
+cp-e,4752,648,False
+cp-f,5832,702,False
+cp-g,7560,1296,False

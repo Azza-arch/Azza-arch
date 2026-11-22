@@ -1,0 +1,20 @@
+{
+  "desktop": {
+    "passed": true,
+    "errors": []
+  },
+  "portrait": {
+    "passed": true,
+    "errors": []
+  },
+  "partial-continue": {
+    "passed": true,
+    "errors": []
+  },
+  "old-save-migration-complete": {
+    "passed": true
+  },
+  "old-save-migration-partial": {
+    "passed": true
+  }
+}

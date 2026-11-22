@@ -1,0 +1,31 @@
+type,id,x,y,width,height,collision,state_or_note
+surface,E-entry,4104,972,162,54,solid,R11 safe arrival; checkpoint e-entry x4122 feet972
+surface,E-step,4266,918,108,54,solid,54px rise from entry
+surface,E-source-terrace,4374,864,216,54,solid,Source tank rests above
+surface,E-cave-walkway,4590,972,270,18,one-way,Climb-through while using ladder
+surface,E-recovery,4590,1188,270,54,solid,Lower cave safe floor
+surface,E-east-bank,4860,972,162,54,solid,West side of recessed pool
+surface,E-pool-floor,5022,1026,162,54,solid,162px basin floor 54px below banks
+surface,E-control-bank,5184,972,108,54,solid,108px standing bank; terminal x5238
+surface,E-lower-crossing,5292,1296,216,54,solid,Safe recovery below bridge
+surface,E-far-bank,5508,972,142,54,solid,Checkpoint e-crossing x5598 after solve
+gate,water-crossing,5292,972,216,18,one-way,Art parks at y1188; collider appears after art stops at y972
+ladder,E-cave-ladder,4806,972,56,216,trigger,Connects walkway and lower service floor
+ladder,E-recover-left,5292,972,56,324,trigger,Recovery route
+ladder,E-recover-right,5508,972,56,324,trigger,Recovery route
+terminal,water-composition,5238,972,0,0,interaction,Standing spot on control bank
+checkpoint,e-entry,4122,972,0,0,save,Existing checkpoint id retained
+checkpoint,e-crossing,5598,972,0,0,save,Requires water-crossing solved
+collectible,e-waterwalk,4644,1158,0,0,trigger,Reward on lower cave route
+source-water,source-tank,4374,756,108,108,none,Frames 34 35 74 75; source tank on terrace
+pipe,source-outlet,4482,783,54,54,none,Frame 133; straight handoff
+pipe,inlet-rack,4536,783,486,54,none,Frames 133 and 134; ends at elbow x5022
+pipe,inlet-elbow,5022,783,54,54,none,Frame 94; left-to-bottom turn
+pipe,inlet-riser,5022,837,54,216,none,Frames 95 115 115 135; centerline x5049 reaches basin
+pool,output-surface,5022,999,162,54,none,Three frame-33 tiles; low state y999, full state y972
+pipe,outlet-riser,5130,972,54,54,none,Frame 135; enters basin at centerline x5157
+pipe,outlet-elbow,5130,918,54,54,none,Frame 93; turns from riser to rightward run
+pipe,outlet-to-control,5184,918,54,54,none,Frame 134; connects toward control
+lever,water-output,5238,918,54,54,none,Frame 64; collision independent
+support,pipe-rack-beam,4482,846,540,18,none,Frames 48 49 50; 18px beam
+support,pipe-rack-posts,4536,864,54,108,none,Frame 89 posts rooted to deck at x4536 4752 4968

@@ -1,0 +1,91 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {MOTION,WORLD,DECKS,GATES,LADDERS,TERMINALS,CHECKPOINTS,PUZZLES,GROUND_RANGES,FIRST_GAP} from '../src/level.js';
+
+test('each puzzle accepts only its correct answer',()=>{
+  const cases = {
+    p1: { correct:'7', wrong:['6','8','3',''," ",'abc','NaN','Infinity','<script>'] },
+    p2: { correct:'4', wrong:['10','3','5',''," ",'abc'] },
+    p3: { correct:'5', wrong:['17','4','6',''," ",'abc'] },
+  };
+  for(const puzzle of PUZZLES) {
+    const c = cases[puzzle.id];
+    assert.ok(c, `no test case for ${puzzle.id}`);
+    assert.equal(puzzle.check(c.correct).correct, true, `${puzzle.id} should accept ${c.correct}`);
+    for(const w of c.wrong) {
+      const result = puzzle.check(w);
+      assert.ok(!result.valid || !result.correct, `${puzzle.id} should reject "${w}"`);
+    }
+  }
+});
+
+test('every gate is unjumpable and every mandatory jump is reachable',()=>{
+  const maxRange = 2*MOTION.jump/WORLD.gravity*MOTION.speed;
+  for(const gate of GATES) {
+    assert.ok(gate.width > maxRange + MOTION.bodyWidth, `${gate.id} must not be jumpable (width ${gate.width})`);
+  }
+  // The two same-tier upper-route jumps (town B, roof E) must stay inside
+  // the validated jump envelope.
+  const jumpPairs = [
+    ['town-upper-1','town-upper-2'],
+    ['roof-e1','roof-e2'],
+  ];
+  for(const [fromId,toId] of jumpPairs) {
+    const from = DECKS.find(d=>d.id===fromId), to = DECKS.find(d=>d.id===toId);
+    const gap = to.x - (from.x + from.width);
+    assert.ok(gap > 0 && gap < maxRange - 40, `${fromId}->${toId} gap (${gap}) must be a reachable single jump`);
+  }
+  // Zone A's intro jump (FIRST_GAP) is a plain, un-gated ground gap — same
+  // jumpability rule applies directly to its width.
+  assert.ok(FIRST_GAP.width > 0 && FIRST_GAP.width < maxRange - 40,
+    `FIRST_GAP (${FIRST_GAP.width}) must be a comfortable, reachable single jump`);
+});
+
+test('every ladder lands on a real deck or ground range at both ends',()=>{
+  for(const ladder of LADDERS) {
+    assert.ok(DECKS.some(d=>d.y===ladder.top && ladder.x>d.x && ladder.x<d.x+d.width),
+      `ladder at x=${ladder.x} has no deck at its top (y=${ladder.top})`);
+    const bottomOnGround = ladder.bottom===1000 && GROUND_RANGES.some(([l,r])=>ladder.x>l && ladder.x<r);
+    const bottomOnDeck = DECKS.some(d=>d.y===ladder.bottom && ladder.x>d.x && ladder.x<d.x+d.width);
+    assert.ok(bottomOnGround || bottomOnDeck, `ladder at x=${ladder.x} has no surface at its bottom (y=${ladder.bottom})`);
+  }
+});
+
+test('falling off any upper deck lands on continuous ground, not a gate gap',()=>{
+  // Every elevated deck other than the gate-adjacent landing spots must sit
+  // entirely over a GROUND_RANGES span, so missing a jump up there recovers
+  // onto safe lower ground instead of falling into a mandatory-crossing gap.
+  const gateGaps = GATES.map(g=>[g.x,g.x+g.width]);
+  for(const deck of DECKS) {
+    const overGate = gateGaps.some(([l,r]) => deck.x < r && deck.x+deck.width > l);
+    if (overGate) continue; // gate-side landings are expected to sit at a gap edge
+    const overGround = GROUND_RANGES.some(([l,r]) => deck.x>=l && deck.x+deck.width<=r);
+    assert.ok(overGround, `${deck.id} (x:${deck.x}-${deck.x+deck.width}) is not fully over continuous ground`);
+  }
+});
+
+test('terminals, gates and checkpoints reference consistent ids',()=>{
+  const gateIds = new Set(GATES.map(g=>g.id));
+  for(const t of TERMINALS) assert.ok(gateIds.has(t.gate), `terminal ${t.id} references unknown gate ${t.gate}`);
+  for(const p of PUZZLES) assert.ok(gateIds.has(p.gate), `puzzle ${p.id} references unknown gate ${p.gate}`);
+  assert.equal(TERMINALS.length, PUZZLES.length);
+  assert.equal(new Set(TERMINALS.map(t=>t.id)).size, TERMINALS.length);
+  assert.equal(CHECKPOINTS.length, 3);
+  // Checkpoints must be in ascending x order (respawn logic assumes this).
+  for(let i=1;i<CHECKPOINTS.length;i++) assert.ok(CHECKPOINTS[i].x > CHECKPOINTS[i-1].x);
+});
+
+test('all runtime assets are real unchanged source PNGs',()=>{
+  const root=new URL('../',import.meta.url);
+  const manifest=JSON.parse(readFileSync(new URL('assets/manifest.json',root)));
+  const provenance=JSON.parse(readFileSync(new URL('assets/provenance.json',root)));
+  assert.equal(Object.keys(manifest).length,90);
+  for(const record of provenance){
+    const path=new URL(record.path,root);
+    assert.ok(existsSync(path),record.path);
+    assert.equal(createHash('sha256').update(readFileSync(path)).digest('hex'),record.sha256,record.path);
+    assert.equal(manifest[record.key],record.path);
+  }
+});

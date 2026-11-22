@@ -1,0 +1,181 @@
+/* V13 Phase 2 — pixel-adventure visual theme.
+   Built from verified Kenney "UI Pack - Pixel Adventure" (CC0 1.0) sprites,
+   exported from the pack's own Large/Small "Thick outline" sheets:
+     assets/kenney-ui-pixel-adventure/panel.png       (frame 1, 32x32)
+     assets/kenney-ui-pixel-adventure/button-bar.png  (frames 69+70+71, 96x32)
+     assets/kenney-ui-pixel-adventure/badge.png       (frame 4, 32x32)
+     assets/kenney-ui-pixel-adventure/close-icon.png  (small frame 3, 16x16)
+     assets/kenney-ui-pixel-adventure/warning-icon.png(small frame 77, 16x16)
+   Provenance and pixel-level verification notes: see
+   audits/denai-v13/phase2/final-report.md and src/v13/DESIGN.md (palette
+   and font tokens documented there, not invented ad hoc).
+
+   This file loads LAST (after every inherited v12-derived CSS file) and
+   overrides VISUAL properties only (colour, border, background, font,
+   image-rendering). Layout, positioning, responsive breakpoints and
+   safe-area handling are left entirely to the inherited world.css /
+   presentation.css / dialogue.css / b-c-e-g-control.css files, which still
+   own that structural behaviour unchanged — this keeps every already-
+   working accessibility/responsive rule intact and only re-skins it. */
+
+:root{
+  --pk-ink:#fff2ce;
+  --pk-ink-dim:#e8d9b8;
+  --pk-wood-dark:#3a2814;
+  --pk-text-on-panel:#4a3419;
+  --pk-text-on-button:#2b2016;
+  --pk-focus:#fff2b1;
+  --pk-font:ui-monospace, Consolas, 'Courier New', monospace;
+}
+
+/* ---------- Shared pixel-panel skin (dialogs, mechanism, world-aside, bubble) ---------- */
+dialog,
+body #mechanism,
+#b-control, #c-control, #e-control, #g-control,
+#chill-bubble{
+  background:#a9733f;
+  border:none;
+  border-image:url('../../assets/kenney-ui-pixel-adventure/panel.png') 4 fill stretch;
+  border-image-width:14px;
+  image-rendering:pixelated;
+  color:var(--pk-text-on-panel);
+  border-radius:0;
+}
+dialog::backdrop{background:#0b1a14cc}
+dialog h2,#mechanism h2,#mechanism-title{color:var(--pk-text-on-panel);text-shadow:1px 1px 0 #fff3d680}
+dialog p,dialog .small,#mechanism p,#mechanism output,.b-top,.c-top,.e-top,.g-top{color:var(--pk-text-on-panel)}
+#mechanism output,#mechanism-value{color:#5c2e12;font-weight:800}
+#worked-solution{border-top-color:#7a5530}
+kbd{background:#7a5530;border-color:#4a3419;color:var(--pk-ink)}
+
+/* Chill Boy's bubble keeps its own compact bubble shape, re-skinned the
+   same way but smaller, with a pointer-free simple frame so it still reads
+   as "a short aside," not another full dialog. */
+#chill-bubble{border-image-width:10px;background:#c99a5e;max-width:min(280px,calc(100vw - 24px))}
+#chill-bubble #dialogue-line{color:var(--pk-text-on-panel)}
+#dialogue-dismiss{background:var(--pk-wood-dark);color:var(--pk-ink)}
+
+/* ---------- Buttons everywhere: one consistent pixel-button skin ---------- */
+button,
+body #mechanism button,.mechanism-actions button,#token-options button,
+#b-control button,#c-control button,#e-control button,#g-control button,
+.touch-controls button,.menu-section button{
+  font-family:var(--pk-font);
+  background:#8fa3bd;
+  border:none;
+  border-image:url('../../assets/kenney-ui-pixel-adventure/button-bar.png') 0 32 0 32 fill;
+  border-image-width:0 14px;
+  border-image-repeat:stretch;
+  image-rendering:pixelated;
+  color:var(--pk-text-on-button);
+  font-weight:700;
+  border-radius:0;
+  transition:filter .1s, transform .1s;
+}
+button:hover{filter:brightness(1.1)}
+button:active{filter:brightness(.9);transform:translateY(1px)}
+button:disabled{filter:grayscale(.65) brightness(.85);opacity:.7;transform:none}
+button:focus-visible,#mechanism button:focus-visible{outline:3px solid var(--pk-focus);outline-offset:3px}
+::selection{background:var(--pk-focus);color:var(--pk-wood-dark)}
+
+/* Primary / secondary / destructive hierarchy — same real sprite, recoloured
+   via filter (a legitimate re-tint of the verified asset, not a different
+   image) so the three roles stay visually distinct without new art. */
+button.primary,.welcome .primary,.pause-actions #resume,#dial-test{
+  filter:sepia(.55) saturate(2.6) hue-rotate(-28deg) brightness(1.12);
+}
+button.primary:hover,.welcome .primary:hover,#dial-test:hover{filter:sepia(.55) saturate(2.6) hue-rotate(-28deg) brightness(1.22)}
+button.secondary{filter:none}
+button.danger{filter:hue-rotate(150deg) saturate(1.7) brightness(.92)}
+button.danger:hover{filter:hue-rotate(150deg) saturate(1.7) brightness(1.02)}
+
+/* Close ("×") buttons: the pack's own small red X icon instead of a bare
+   glyph, kept as a background image behind the existing "×" text (text
+   stays for any environment where the image fails to load). */
+.close{
+  background-image:url('../../assets/kenney-ui-pixel-adventure/close-icon.png');
+  background-size:28px 28px;background-repeat:no-repeat;background-position:center;
+  border-image:none;background-color:transparent;color:transparent;
+  min-width:36px;min-height:36px;image-rendering:pixelated;
+}
+
+/* [aria-pressed=true] selection state (token/order choices) — same pixel
+   button, a gold inset instead of the old flat colour swap. */
+#mechanism [aria-pressed="true"]{
+  filter:sepia(.55) saturate(2.6) hue-rotate(-28deg) brightness(1.12);
+  box-shadow:inset 0 0 0 3px var(--pk-focus);
+}
+
+/* ---------- HUD: compact chip + icon pause control, no dashboard cards ---------- */
+.masthead{background:none;border:none;box-shadow:none;gap:8px}
+.masthead>*{background:#3a2814e6;border:2px solid #7a5530;border-radius:3px;color:var(--pk-ink);padding:6px 10px;min-height:36px}
+.hud-chip{
+  font-family:var(--pk-font);font-weight:700;display:flex;align-items:center;gap:6px;
+}
+.hud-chip::before{
+  content:"";display:inline-block;width:18px;height:18px;
+  background:url('../../assets/kenney-ui-pixel-adventure/badge.png') center/cover;
+  image-rendering:pixelated;
+}
+.hud-pause{padding:6px 10px;min-height:36px;min-width:44px}
+.hud-pause kbd{font-size:10px}
+
+/* Mission reminder: a slim pill, shown only while useful (existing JS logic
+   unchanged — `#mission-indicator` is hidden except mode==='playing'), not
+   another permanent card. */
+#mission-indicator{
+  background:#3a2814e6;border:2px solid #7a5530;border-radius:999px;
+  color:var(--pk-ink);font-family:var(--pk-font);font-size:12px;
+  padding:6px 14px;max-width:min(60vw,360px);
+}
+
+/* Notice / zone-toast / tutorial toasts: small pixel pills, same restrained
+   treatment, consistent with the HUD chip language. */
+#zone-toast,#notice,#tutorial{
+  background:#3a2814f0;border:2px solid #7a5530;border-radius:3px;color:var(--pk-ink);
+  font-family:var(--pk-font);font-size:13px;
+}
+
+/* ---------- Victory / completion screen ---------- */
+/* #complete is a near-black backdrop, not the warm panel fill the blanket
+   `dialog p{color:var(--pk-text-on-panel)}` rule above assumes — dark-brown
+   text on near-black was confirmed too low-contrast live, so its text
+   gets the light ink color back here, at equal-or-higher specificity. */
+#complete{background:#1c130bf0}
+#complete p,.victory-content p,#completion-puzzles,#destination-reaction{color:var(--pk-ink)}
+.victory-content h2{color:var(--pk-ink);text-shadow:2px 2px 0 #3a2814}
+.victory-content h2 span{color:#ffd16b}
+.results p{color:#ffd16b}
+
+/* ---------- Reduced motion: no new motion introduced by this theme; the
+   inherited @media(prefers-reduced-motion) rules already disable the
+   transitions this file adds (button hover/active, since they use the same
+   `transition`/`filter` properties already covered by presentation.css's
+   existing blanket `*,*::before,*::after{transition:none!important}` rule
+   under that query) — nothing extra needed here. ---------- */
+
+/* ---------- Pause-over-mechanism stacking fix (Phase 2, item 6) ----------
+   Previously: window-blur → pauseRun() could show the native #paused
+   dialog on top of an already-open #mechanism panel without closing it
+   first (both panels stayed visible, stacked). The underlying state
+   machine was already correct (resumeMode/activePuzzle both survive and
+   restore correctly on resume, confirmed in the V12 UI audit) — only the
+   *rendering* overlapped, so a CSS-only fix is the right scope here: hide
+   #mechanism purely visually while mode is 'paused' (driven by the
+   existing `document.body.dataset.mode` attribute presentation.js already
+   sets on every mode change — the same mechanism this project's own CSS
+   already uses for e.g. hiding touch-controls during 'mechanism' mode), and
+   it reappears automatically once mode reverts to 'mechanism' on resume. */
+body[data-mode="paused"] #mechanism{visibility:hidden}
+
+/* The 2-column menu grid (Pilih Level/Cara Main/Tetapan/Koleksi) placed
+   adjacent buttons' end-cap rivet art close enough to visually merge at
+   the shared column gap — confirmed by direct comparison against a
+   full-width button (no artifact there) — widening the gap resolves it
+   without touching the border-image math itself. */
+.welcome .menu-section,.menu-section{gap:14px 18px}
+
+@media(max-width:700px) and (orientation:portrait){
+  .masthead>*{padding:5px 8px;min-height:32px}
+  #mission-indicator{font-size:11px;padding:5px 10px}
+}

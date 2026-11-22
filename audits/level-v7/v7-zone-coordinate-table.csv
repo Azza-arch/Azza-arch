@@ -1,0 +1,41 @@
+zone,element_type,id,x,y_or_feet,width,notes
+A,spawn,SPAWN,80,1100,n/a,ground tier
+A,gap,FIRST_GAP,420,1100,120,plain forgiving jump, no gate
+A,ground,street-0,0,1100,420,
+B,ground,street-540,540,1100,760,spans up to workshop-gate start (1300)
+B,deck,town-walk-1,580,980,320,hosts ladder up to C
+B,deck,town-walk-2,1040,980,260,hosts Machine 1 approach
+B,ladder,ladder-A-B,610,980-1100,n/a,rise 120
+B,collectible,coin-b,970,940,n/a,over the B jump gap
+C,deck,cafe-deck,650,820,380,dead-end detour, ladder back down to B
+C,ladder,ladder-B-C,750,820-980,n/a,rise 160 (bidirectional)
+C,checkpoint,cp1-cafe,950,820,n/a,CP1
+C,collectible,coin-c,900,760,n/a,
+D,terminal,p1,1250,980,n/a,Machine 1
+D,gate,workshop-gate,1300,980,300,
+D,ground,street-1600,1600,1100,200,workshop-approach's own floor
+D,deck,workshop-approach,1600,980,200,post-gate
+E,ladder,ladder-D-E,1770,700-980,n/a,rise 280 (single ladder)
+E,deck,roof-entry,1750,700,200,no ground beneath (supports:false)
+E,collectible,coin-e1,1850,640,n/a,
+E,deck,roof-laundry,2100,740,200,no ground beneath (supports:false)
+E,ladder,ladder-internal,2280,660-740,n/a,rise 80
+E,deck,roof-m2,2260,660,320,no ground beneath (supports:false)
+E,terminal,p2,2400,660,n/a,Machine 2
+E,gate,rooftop-gate,2580,660,300,
+E,collectible,coin-e2,2350,600,n/a,
+F,ground,street-2880,2880,1100,820,spans F's entire stepped descent + G approach
+F,deck,f-step1,2920,700,150,gap40/drop40 from the gate
+F,checkpoint,cp2-rooftop-exit,2950,700,n/a,CP2
+F,ladder,ladder-optional-cave,3000,700-880,n/a,optional, not required
+F,deck,cave-alcove,2970,880,150,optional branch
+F,collectible,coin-cave,3000,820,n/a,optional reward
+F,deck,f-step2,3220,900,150,gap150/drop200 from f-step1
+F,ladder,ladder-F-G,3230,900-1100,n/a,drop 200 to ground
+G,checkpoint,cp3-bridge,3550,1100,n/a,CP3
+G,terminal,p3,3650,1100,n/a,Machine 3
+G,gate,final-gate,3700,1100,300,the bridge
+G,ground,street-4000,4000,1100,300,far bank + goal
+G,goal,GOAL,4100,1100,n/a,
+G,collectible,coin-g,3600,1040,n/a,
+world,dimensions,WORLD,0,0,4300x1300,width x height

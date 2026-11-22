@@ -1,0 +1,30 @@
+{
+  "purpose": "Visual review, not a new traversal certification",
+  "errors": [],
+  "views": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "state": {
+        "mode": "mechanism",
+        "x": 2000,
+        "text": "Konsol hentian pengangkat\n\nPilih input pada konsol, kemudian uji. Output f(x)=2x+1 ialah kod hentian mesin; hanya kod 7 menetapkan lintasan pada aras tebing.\n\nInput 3 · output 7\n\nPerhatikan hentian selepas setiap ujian. Tunggu pengangkut berhenti pada aras tebing sebelum melintas.\n\nBlok 0\nBlok 1\nBlok 2\nBlok 3\nBlok 4\nUji pengangkat\nHint\nLangkah kerja\nKembali"
+      }
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "state": {
+        "mode": "mechanism",
+        "x": 2000,
+        "text": "Konsol hentian pengangkat\n\nPilih input pada konsol, kemudian uji. Output f(x)=2x+1 ialah kod hentian mesin; hanya kod 7 menetapkan lintasan pada aras tebing.\n\nInput 3 · output 7\n\nPerhatikan hentian selepas setiap ujian. Tunggu pengangkut berhenti pada aras tebing sebelum melintas.\n\nBlok 0\nBlok 1\nBlok 2\nBlok 3\nBlok 4\nUji pengangkat\nHint\nLangkah kerja\nKembali"
+      }
+    }
+  ],
+  "runtime_files_unchanged": true,
+  "runtime_file_count": 691
+}

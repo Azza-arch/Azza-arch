@@ -1,0 +1,16 @@
+{
+  "archive": "baseline-v11.1-full.zip",
+  "files": 676,
+  "bytes": 30999314,
+  "sha256": "d80780d8a54869a2d6937d91d10f98d79e5f2dd32026950c065cf234c4508850",
+  "requiredAtlas": "present",
+  "manifestPaths": 103,
+  "missingManifestPaths": 0,
+  "baselineV11SourcesRestored": true,
+  "currentDifferencesFromV11_1": [
+    "app/addmath/rooftop/src/v11/environment.js",
+    "app/addmath/rooftop/src/v11/mechanisms.js"
+  ],
+  "addedFiles": [],
+  "missingFiles": []
+}

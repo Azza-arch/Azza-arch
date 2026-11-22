@@ -1,0 +1,112 @@
+{
+  "source": "tests/probe.py (live run, headless Chromium, natural keyboard input, x,y recorded via rooftop.scene state)",
+  "formula_under_test": "nearestTerminal(): Math.abs(player.x - t.x) < 115 && Math.abs(player.body.bottom - t.feet) < 48",
+  "terminal_under_test": { "id": "p2", "x": 5020, "feet": 800, "gate": "rooftop-gate", "deck": "roof-e3 (x:4880-5040, y:800)" },
+  "cases": [
+    {
+      "name": "M2 unreachable from street directly below",
+      "method": "walk(5020) on continuous street (feet=1000), press E",
+      "expected": "no puzzle opens",
+      "observed": { "mode_after_interact": "playing", "player_feet": 1000 },
+      "result": "PASS"
+    },
+    {
+      "name": "M2 unreachable from street at multiple x offsets",
+      "method": "verified geometrically in tests/level.test.mjs against x in [4300, p2.x-50, p2.x, p2.x+50, 5649], all at feet=1000",
+      "expected": "reaches()==false for every case",
+      "result": "PASS (node --test, see level.test.mjs)"
+    },
+    {
+      "name": "M2 unreachable from roof-e2 (horizontally closest adjacent deck, 96px below)",
+      "method": "teleport to (4950, body.bottom=896 i.e. standing on roof-e2), press E",
+      "expected": "no puzzle opens (vertical 96px gap exceeds the 48px tolerance even though horizontal 70px gap is within the 115px tolerance)",
+      "observed": { "mode_after_interact": "playing", "player_feet": 896 },
+      "result": "PASS"
+    },
+    {
+      "name": "M2 unreachable from roof-e1 and roof-e4 (geometric check)",
+      "method": "verified in tests/level.test.mjs for every x along each deck's span",
+      "expected": "reaches()==false for every case",
+      "result": "PASS (node --test, see level.test.mjs)"
+    },
+    {
+      "name": "M2 reachable from the intended roof-e3 position",
+      "method": "climb ladder (x=4900) to roof-e3, walk to x=5020, press E",
+      "expected": "puzzle opens, prompt text visible",
+      "observed": { "mode_after_interact": "puzzle", "player_feet": 800 },
+      "result": "PASS"
+    },
+    {
+      "name": "Puzzle 2 answer validation unchanged",
+      "method": "submit wrong answer '10' then correct answer '4' at the relocated terminal",
+      "expected": "wrong rejected with hint message, correct accepted, f(x)=3x-2 unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "Solving M2 opens rooftop-gate",
+      "method": "assert rooftop.scene.solvedGates.has('rooftop-gate') immediately after correct answer",
+      "result": "PASS"
+    },
+    {
+      "name": "Player can descend and cross the opened gate after solving",
+      "method": "roof-e3 -> roof-e4 (drop 140, unchanged from V6.1) -> street (drop 60, unchanged from V6.1) -> walk through the now-open rooftop-gate to checkpoint 2",
+      "result": "PASS"
+    },
+    {
+      "name": "Puzzle state persists after leaving the rooftop / falling",
+      "method": "checked via the same solvedGates Set used by every other puzzle (no per-zone special-casing added); covered indirectly by the R-restart regression already in probe.py, which asserts all 3 solved gates persist through a checkpoint reset",
+      "result": "PASS"
+    },
+    {
+      "name": "Zone B: deliberate failed jump off awning-b1 recovers safely",
+      "method": "walk off awning-b1's edge with no jump input",
+      "expected": "lands on continuous street, feet=1000, no respawn",
+      "result": "PASS"
+    },
+    {
+      "name": "Zone B: real descending jump lands on awning-b2",
+      "method": "running jump, gap 140px, drop 60px",
+      "expected": "feet=960 on landing",
+      "result": "PASS"
+    },
+    {
+      "name": "Zone B: lower street remains walkable/unobstructed (no manufactured obstacle)",
+      "method": "teleport to (1440, mid-span under the awnings), confirm grounded at feet=1000",
+      "result": "PASS"
+    },
+    {
+      "name": "Zone E: deliberate failed jump off roof-e1 recovers safely",
+      "method": "walk off roof-e1's edge with no jump input",
+      "expected": "lands on continuous recovery street, feet=1000",
+      "result": "PASS"
+    },
+    {
+      "name": "routePlatforms count matches implemented deck/street total",
+      "method": "rooftop.scene.routePlatforms.length",
+      "expected": 13,
+      "observed": 13,
+      "note": "9 decks (awning-b1, awning-b2, cafe-roof, roof-e1..e4, hill-plateau, gua-alcove) + 4 continuous street segments; was 14 before awning-b3's removal",
+      "result": "PASS"
+    },
+    {
+      "name": "Full level completion still achievable",
+      "method": "full natural-input playthrough, spawn to GOAL, all 3 puzzles solved, all 3 checkpoints reached",
+      "result": "PASS"
+    },
+    {
+      "name": "No console/page/network errors introduced",
+      "method": "playwright pageerror/console/requestfailed listeners across the entire desktop + mobile + missing-asset + Add Math-shell run",
+      "result": "PASS (0 errors)"
+    }
+  ],
+  "unit_tests": {
+    "command": "node --test",
+    "result": "7/7 pass",
+    "new_test": "Machine 2 sits on roof-e3 and is unreachable from the street or any other deck (V6.2)"
+  },
+  "known_unrelated_failure": {
+    "file": "tests/edge_cases.py",
+    "issue": "Fixture resets the player to x=1350, a ladder position from V5 (pre-V6.1) geometry that has not existed since V6.1 shipped (V6.1 moved Zone B's ladders to x=1280/1850). Confirmed pre-existing: awning-b1 (x:1250-1370) and the ladder-up (x:1280) are both unchanged by this V6.2 pass, so this fixture's drift predates this work and is unrelated to it. Left unmodified per this pass's scope (no unrelated source changes).",
+    "action_taken": "none — flagged only"
+  }
+}
