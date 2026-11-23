@@ -269,9 +269,16 @@
     .form-error{border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#fecaca;padding:12px 14px;font-size:.875rem;line-height:1.5}
     @media(max-width:900px){
       .hero-grid,.portfolio-grid,.experience-grid,.contact-box{grid-template-columns:1fr}
-      .service-grid,.price-grid,.care-grid{grid-template-columns:1fr}
       .price-card.featured{transform:none}
       .case-strip{grid-template-columns:1fr}
+    }
+    @media(min-width:601px) and (max-width:900px){
+      .service-grid,.price-grid,.care-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .service-grid>article:last-child,.price-grid>.price-card:last-child,.care-grid>article:last-child{grid-column:1/-1}
+    }
+    @media(max-width:600px){
+      .service-grid,.price-grid,.care-grid{grid-template-columns:1fr}
+      .service-grid>article:last-child,.price-grid>.price-card:last-child,.care-grid>article:last-child{grid-column:auto}
     }
     /* Hero portrait below the stacked breakpoint: centered under the copy, smaller stage. */
     @media(max-width:900px){
@@ -286,10 +293,12 @@
        900px stack point, at a smaller scale than desktop. Overrides both the
        shared stack rule above and the mobile hero-person rules for this band
        only, via source order at equal specificity. */
-    @media(min-width:769px) and (max-width:1024px){
-      .hero-grid{grid-template-columns:1.1fr .9fr;gap:36px}
-      .hero-portrait-wrap{min-height:max(480px,calc(100vh - 112px));margin-top:0}
-      .hero-person{left:auto;right:0;bottom:-65px;width:clamp(320px,34vw,400px);transform:none}
+    @media(min-width:769px) and (max-width:900px){
+      #top{min-height:0;padding-top:100px;padding-bottom:24px}
+      .hero-grid{grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
+      .hero-grid .display{font-size:clamp(3.5rem,8.5vw,4.5rem)}
+      .hero-portrait-wrap{min-height:clamp(380px,55vw,460px);margin-top:0}
+      .hero-person{left:auto;right:0;bottom:-52px;width:clamp(300px,34vw,370px);transform:none}
     }
     @media(max-width:900px){
       /* Raised from 720px: the full nav (logo + 6 links + CTA) measurably
@@ -371,7 +380,7 @@
         </div>
 
         <p class="mt-5 text-sm text-white/80">
-          Need something simpler? <a href="https://kadmehq.com" target="_blank" rel="noopener" class="font-bold" style="color:var(--lime)">Start free with KadMeHQ →</a>
+          Need something simpler? <a href="https://kadmehq.com" target="_blank" rel="noopener" class="font-bold" style="color:var(--lime);white-space:nowrap">Start free with KadMeHQ →</a>
         </p>
       </div>
 
@@ -394,14 +403,46 @@
     <div class="wrap py-7 flex flex-wrap gap-x-10 gap-y-4 justify-between text-sm font-bold text-slate-500">
       <span>Based in Kuala Terengganu</span>
       <span>EduGC 2025 winner (Misi Sejarah 3D)</span>
-      <span>Live platforms: KadMe, Tafaqquh, FoTLI</span>
+      <span>KadMeHQ: personal product</span>
+      <span>Tafaqquh &amp; FoTLI: Oxford EduVision projects</span>
       <span>Talk by email or WhatsApp</span>
       <span>Scope agreed before work starts</span>
     </div>
   </section>
 
+  <!-- SELECTED WORK -->
+  <section id="work" class="py-20" style="background:#070b1a">
+    <div class="wrap">
+      <div class="max-w-3xl" data-aos="fade-up">
+        <h2 class="section-title text-white">Selected work.</h2>
+        <p class="mt-5 text-white/80 leading-8">A mix of my own product, platforms I helped build at Oxford EduVision, and self-initiated fictional website concepts.</p>
+      </div>
+      <div class="mt-12" data-aos="fade-up">
+        <a href="https://kadmehq.com" target="_blank" rel="noopener" class="work-card lead">
+          <div class="shot"><img src="assets/images/projects/kadme.webp" alt="KadMe web app: website builder and digital business card dashboard" width="1600" height="900" loading="lazy" decoding="async"></div>
+          <div class="body"><div class="work-credit mine">Personal product &middot; founder and developer</div><h4>KadMeHQ</h4><p>A website builder and digital business card platform for Malaysian SMEs. I am its solo founder and developer.</p><div class="tech-tags"><span>Laravel</span><span>Livewire</span><span>Tailwind</span></div><span class="visit-link">Visit KadMeHQ &rarr;</span></div>
+        </a>
+      </div>
+      <div class="mt-12" data-aos="fade-up">
+        <div class="mb-5"><div class="work-credit">Oxford EduVision &middot; employer work</div><h3 class="text-white text-2xl font-bold mt-2">Platforms built with the EduVision team</h3></div>
+        <div class="work-grid">
+          <a href="https://tafaqquh.my" target="_blank" rel="noopener" class="work-card"><div class="shot"><img src="assets/images/projects/tafaqquh.webp" alt="Tafaqquh Fi Al-Din platform: Islamic turath study schedules and lessons" width="1600" height="900" loading="lazy" decoding="async"></div><div class="body"><div class="work-credit">Oxford EduVision</div><h4>Tafaqquh Fi Al-Din</h4><p>Structured turath study schedules, teachers and 2,600+ recorded lessons. Developed at Oxford EduVision.</p><span class="visit-link">Visit live site &rarr;</span></div></a>
+          <a href="https://fotli-umt.my" target="_blank" rel="noopener" class="work-card"><div class="shot"><img src="assets/images/projects/fotli.webp" alt="FoTLI competition platform for UMT: entry submission and judging site" width="1600" height="900" loading="lazy" decoding="async"></div><div class="body"><div class="work-credit">Oxford EduVision</div><h4>FoTLI</h4><p>Online innovation competition platform for UMT. I developed it as the sole developer under Oxford EduVision.</p><span class="visit-link">Visit live site &rarr;</span></div></a>
+        </div>
+      </div>
+      <div class="mt-12 pt-10" style="border-top:1px solid rgba(255,255,255,.12)" data-aos="fade-up">
+        <div class="mb-5"><div class="work-credit">Self-initiated fictional concepts &middot; not client projects</div><h3 class="text-white text-2xl font-bold mt-2">Small-business website concepts</h3></div>
+        <div class="concept-mini-grid">
+          <a href="demos/anjung-nyiur/" class="concept-mini"><div class="concept-mini-shot"><img src="demos/anjung-nyiur/images/thumb-card.webp" alt="Anjung Nyiur homestay concept: a traditional timber house on stilts" width="480" height="480" loading="lazy" decoding="async"></div><div class="concept-mini-body"><h4>Anjung Nyiur</h4><p>A fictional homestay concept with room details and a date enquiry.</p><span class="concept-mini-link">View the concept &rarr;</span></div></a>
+          <a href="demos/sora-brew/" class="concept-mini"><div class="concept-mini-shot"><img src="demos/sora-brew/images/thumb-card.webp" alt="Sora Brew cafe website concept preview: latte art in a ceramic cup" width="480" height="480" loading="lazy" decoding="async"></div><div class="concept-mini-body"><h4>Sora Brew</h4><p>A fictional cafe concept with a menu, story and outlet page.</p><span class="concept-mini-link">View the concept &rarr;</span></div></a>
+        </div>
+      </div>
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-5" data-aos="fade-up"><p class="text-white/80 leading-7">I also build educational games, including Tense Tales, Misi Sejarah 3D and Sirah Explorer.</p><div class="flex flex-wrap gap-3"><a href="app/tense-tales/" class="btn-primary">Play Tense Tales <i data-feather="play" class="w-4 h-4"></i></a><a href="work.html#games" class="btn-outline">See all games <i data-feather="arrow-right" class="w-4 h-4"></i></a></div></div>
+    </div>
+  </section>
+
   <!-- SERVICES -->
-  <section id="services" class="py-28 bg-slate-50">
+  <section id="services" class="py-20 bg-slate-50">
     <div class="wrap">
       <div class="max-w-3xl" data-aos="fade-up">
         <h2 class="section-title">Focused web work.<br>No unnecessary complexity.</h2>
@@ -439,7 +480,7 @@
   </section>
 
   <!-- PRICING -->
-  <section id="pricing" class="py-28 bg-white" aria-labelledby="pricing-title">
+  <section id="pricing" class="py-20 bg-white" aria-labelledby="pricing-title">
     <div class="wrap">
       <div class="text-center max-w-2xl mx-auto" data-aos="fade-up">
         <h2 id="pricing-title" class="section-title">Clear packages. Scope agreed first.</h2>
@@ -463,7 +504,7 @@
         </div>
 
         <div class="price-card featured shadow-soft" data-aos="fade-up" data-aos-delay="80">
-          <div class="popular">Recommended</div>
+          <div class="popular">Best fit: several services</div>
           <div class="text-sm uppercase tracking-[.15em] font-extrabold text-slate-500">Business</div>
           <div class="mt-4 text-4xl font-extrabold">RM899</div>
           <p class="mt-3 text-slate-500 leading-7">For a business that needs to explain several services and look organised across more than one page.</p>
@@ -503,7 +544,7 @@
   </section>
 
   <!-- WHAT YOUR PRICE COVERS -->
-  <section id="what-price-covers" class="py-24 bg-slate-50" aria-labelledby="covers-title">
+  <section id="what-price-covers" class="py-20 bg-slate-50" aria-labelledby="covers-title">
     <div class="wrap">
       <div class="max-w-3xl" data-aos="fade-up">
         <h2 id="covers-title" class="section-title">What your price covers.</h2>
@@ -556,110 +597,8 @@
     </div>
   </section>
 
-  <!-- WORK -->
-  <section id="work" class="py-28" style="background:#070b1a">
-    <div class="wrap">
-      <div class="max-w-3xl" data-aos="fade-up">
-        <h2 class="section-title text-white">Real things I’ve built, shipped and contributed to.</h2>
-        <p class="mt-5 text-white/80 leading-8">
-          My freelance focus is websites, but my wider development experience includes public web platforms,
-          a SaaS product of my own and educational games built with Unity.
-        </p>
-      </div>
-
-      <!-- PART A — PRIMARY WEB / PRODUCT WORK -->
-      <div class="mt-14">
-        <div class="mb-6" data-aos="fade-up">
-          <div class="text-xs uppercase tracking-[.2em] font-extrabold" style="color:var(--lime)">Web &amp; Product Work</div>
-          <h3 class="text-white text-2xl font-bold mt-2">Platforms I've designed, built and shipped</h3>
-        </div>
-
-        <!-- Lead: my own product -->
-        <a href="https://kadmehq.com" target="_blank" rel="noopener" class="work-card lead" data-aos="fade-up">
-          <div class="shot">
-            <img src="assets/images/projects/kadme.webp" alt="KadMe web app: website builder and digital business card dashboard" width="1600" height="900" loading="lazy" decoding="async">
-          </div>
-          <div class="body">
-            <div class="work-credit mine">Product I built</div>
-            <h4>KadMe</h4>
-            <p>SaaS website builder and digital business card platform I designed and built for Malaysian SMEs. Solo founder and developer.</p>
-            <div class="tech-tags"><span>Laravel</span><span>Livewire</span><span>Tailwind</span></div>
-            <span class="visit-link">Visit live site →</span>
-          </div>
-        </a>
-
-        <div class="work-grid mt-[22px]">
-          <!-- Tafaqquh — Oxford EduVision work -->
-          <a href="https://tafaqquh.my" target="_blank" rel="noopener" class="work-card" data-aos="fade-up">
-            <!-- extra screenshots can be added inside .shot later without a rebuild -->
-            <div class="shot">
-              <img src="assets/images/projects/tafaqquh.webp" alt="Tafaqquh Fi Al-Din platform: Islamic turath study schedules and lessons" width="1600" height="900" loading="lazy" decoding="async">
-            </div>
-            <div class="body">
-              <div class="work-credit">Oxford EduVision</div>
-              <h4>Tafaqquh Fi Al-Din</h4>
-              <p>Islamic education platform for structured turath study: schedules, teachers, and 2,600+ recorded lessons. Developed at Oxford EduVision.</p>
-              <div class="tech-tags"><span>Laravel</span></div>
-              <span class="visit-link">Visit live site →</span>
-            </div>
-          </a>
-
-          <!-- FoTLI — Oxford EduVision work -->
-          <a href="https://fotli-umt.my" target="_blank" rel="noopener" class="work-card" data-aos="fade-up" data-aos-delay="60">
-            <!-- app-view screenshot to be slotted in here later -->
-            <div class="shot">
-              <img src="assets/images/projects/fotli.webp" alt="FoTLI competition platform for UMT: entry submission and judging site" width="1600" height="900" loading="lazy" decoding="async">
-            </div>
-            <div class="body">
-              <div class="work-credit">Oxford EduVision</div>
-              <h4>FoTLI</h4>
-              <p>Online innovation competition platform for UMT: entry submission, judging, and event site. Sole developer, built under Oxford EduVision.</p>
-              <div class="tech-tags"><span>Laravel</span></div>
-              <span class="visit-link">Visit live site →</span>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Website concepts: closest thing to SME site samples -->
-      <div class="mt-14 pt-10" style="border-top:1px solid rgba(255,255,255,.09)" data-aos="fade-up">
-        <b class="text-white" style="display:block;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px">Website concepts · not client projects</b>
-        <div class="concept-mini-grid">
-          <a href="demos/anjung-nyiur/" class="concept-mini">
-            <div class="concept-mini-shot"><img src="demos/anjung-nyiur/images/thumb-card.webp" alt="Anjung Nyiur homestay concept: a traditional timber house on stilts" width="480" height="480" loading="lazy" decoding="async"></div>
-            <div class="concept-mini-body">
-              <h4>Anjung Nyiur</h4>
-              <p>A mobile-friendly homestay concept with clear room details and an easy date enquiry.</p>
-              <span class="concept-mini-link">View the concept →</span>
-            </div>
-          </a>
-          <a href="demos/sora-brew/" class="concept-mini">
-            <div class="concept-mini-shot"><img src="demos/sora-brew/images/thumb-card.webp" alt="Sora Brew cafe website concept preview: latte art in a ceramic cup" width="480" height="480" loading="lazy" decoding="async"></div>
-            <div class="concept-mini-body">
-              <h4>Sora Brew</h4>
-              <p>A cafe website concept with a menu, story and outlet page. The cafe is fictional.</p>
-              <span class="concept-mini-link">View the concept →</span>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Beyond web + link to the full work page -->
-      <div class="mt-16 pt-14" style="border-top:1px solid rgba(255,255,255,.09);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px" data-aos="fade-up">
-        <p class="text-white/80 leading-7" style="max-width:38rem;margin:0">
-          <b class="text-white" style="display:block;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px">Beyond web</b>
-          I also build educational games, including the browser-based <b class="text-white">Tense Tales</b>, EduGC 2025 winner <b class="text-white">Misi Sejarah 3D</b>, and Sirah Explorer.
-        </p>
-        <div style="display:flex;flex-wrap:wrap;gap:10px">
-          <a href="app/tense-tales/" class="btn-primary" style="flex-shrink:0">Play Tense Tales <i data-feather="play" class="w-4 h-4"></i></a>
-          <a href="work.html#games" class="btn-outline" style="flex-shrink:0">See all games <i data-feather="arrow-right" class="w-4 h-4"></i></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ABOUT -->
-  <section id="about" class="py-28 bg-slate-50">
+  <section id="about" class="py-20 bg-slate-50">
     <div class="wrap about-grid">
       <div class="about-copy">
         <h2 class="section-title text-slate-900">Founder-minded developer from Terengganu.</h2>
@@ -689,6 +628,54 @@
           <span>Oxford EduVision developer</span>
           <span>EduGC 2025 winner</span>
           <span>Software Development graduate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="py-28" style="background:#081844">
+    <div class="wrap experience-grid">
+      <div data-aos="fade-up">
+        <h2 class="section-title text-white">Web, products & interactive learning.</h2>
+        <p class="text-white/80 leading-7 mt-5">My day job and product work give me broader technical experience, while my freelance offer stays intentionally focused.</p>
+      </div>
+
+      <div>
+        <div class="timeline-item" data-aos="fade-up">
+          <div class="text-sm font-bold" style="color:var(--lime)">JAN 2025 – PRESENT</div>
+          <h3 class="text-white text-2xl font-bold mt-2">Web & Game Developer</h3>
+          <div class="text-white/90 mt-1">Oxford EduVision</div>
+          <p class="text-white/80 leading-7 mt-4">
+            Building and contributing to web platforms, internal systems and educational applications including Tafaqquh.my, EduVision Pelaporan and Unity-based educational games.
+          </p>
+        </div>
+
+        <div class="timeline-item" data-aos="fade-up">
+          <div class="text-sm font-bold" style="color:var(--purple)">2026 – PRESENT</div>
+          <h3 class="text-white text-2xl font-bold mt-2">Founder & Developer</h3>
+          <div class="text-white/90 mt-1">KadMeHQ</div>
+          <p class="text-white/80 leading-7 mt-4">
+            Building a Malaysian digital-profile and simple website platform, including product design, publishing flow, subscriptions and the overall user experience.
+          </p>
+        </div>
+
+        <div class="timeline-item" data-aos="fade-up">
+          <div class="text-sm font-bold text-white/80">OCT 2024 – JAN 2025</div>
+          <h3 class="text-white text-2xl font-bold mt-2">Founder & Developer</h3>
+          <div class="text-white/90 mt-1">Lapacee</div>
+          <p class="text-white/80 leading-7 mt-4">
+            Built Lapacee.com, a homegrown Malaysian social networking platform for locals to connect, collaborate and share community experiences. Started in Terengganu; also ran Lapacee Studio as a web design service.
+          </p>
+        </div>
+
+        <div class="timeline-item !pb-0" data-aos="fade-up">
+          <div class="text-sm font-bold text-white/80">OCT 2023 – MAR 2024</div>
+          <h3 class="text-white text-2xl font-bold mt-2">Web Developer Intern</h3>
+          <div class="text-white/90 mt-1">Mysoftcare Solution</div>
+          <p class="text-white/80 leading-7 mt-4">
+            Hands-on experience in full-stack web development, interfaces and practical production workflows.
+          </p>
         </div>
       </div>
     </div>
@@ -730,54 +717,6 @@
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
-  <section id="experience" class="py-28" style="background:#081844">
-    <div class="wrap experience-grid">
-      <div data-aos="fade-up">
-        <h2 class="section-title text-white">Web, products & interactive learning.</h2>
-        <p class="text-white/80 leading-7 mt-5">My day job and product work give me broader technical experience, while my freelance offer stays intentionally focused.</p>
-      </div>
-
-      <div>
-        <div class="timeline-item" data-aos="fade-up">
-          <div class="text-sm font-bold" style="color:var(--lime)">JAN 2025 – PRESENT</div>
-          <h3 class="text-white text-2xl font-bold mt-2">Web & Game Developer</h3>
-          <div class="text-white/90 mt-1">Oxford EduVision</div>
-          <p class="text-white/80 leading-7 mt-4">
-            Building and contributing to web platforms, internal systems and educational applications including Tafaqquh.my, EduVision Pelaporan, SPEED and Unity-based educational games.
-          </p>
-        </div>
-
-        <div class="timeline-item" data-aos="fade-up">
-          <div class="text-sm font-bold" style="color:var(--purple)">2026 – PRESENT</div>
-          <h3 class="text-white text-2xl font-bold mt-2">Founder & Developer</h3>
-          <div class="text-white/90 mt-1">KadMeHQ</div>
-          <p class="text-white/80 leading-7 mt-4">
-            Building a Malaysian digital-profile and simple website platform, including product design, publishing flow, subscriptions and the overall user experience.
-          </p>
-        </div>
-
-        <div class="timeline-item" data-aos="fade-up">
-          <div class="text-sm font-bold text-white/80">OCT 2024 – JAN 2025</div>
-          <h3 class="text-white text-2xl font-bold mt-2">Founder & Developer</h3>
-          <div class="text-white/90 mt-1">Lapacee</div>
-          <p class="text-white/80 leading-7 mt-4">
-            Built Lapacee.com, a homegrown Malaysian social networking platform for locals to connect, collaborate and share community experiences. Started in Terengganu; also ran Lapacee Studio as a web design service.
-          </p>
-        </div>
-
-        <div class="timeline-item !pb-0" data-aos="fade-up">
-          <div class="text-sm font-bold text-white/80">OCT 2023 – MAR 2024</div>
-          <h3 class="text-white text-2xl font-bold mt-2">Web Developer Intern</h3>
-          <div class="text-white/90 mt-1">Mysoftcare Solution</div>
-          <p class="text-white/80 leading-7 mt-4">
-            Hands-on experience in full-stack web development, interfaces and practical production workflows.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- FAQ -->
   <section class="py-24 bg-slate-50">
     <div class="wrap grid md:grid-cols-[.7fr_1.3fr] gap-14">
@@ -804,19 +743,7 @@
         </details>
         <details>
           <summary>How do I contact you?</summary>
-          <p class="mt-4 text-slate-500 leading-7">Email is best for project details, so scope and decisions stay written down. For a quick question, WhatsApp is fine. Boleh berbincang dalam Bahasa Melayu atau English.</p>
-        </details>
-        <details>
-          <summary>Are there yearly costs?</summary>
-          <p class="mt-4 text-slate-500 leading-7">Usually yes, but they go to other companies, not to me. A domain is renewed every year at the registrar's price, and hosting depends on how your site is built. A simple static site may fit a free hosting tier, but free tiers can change, so I do not promise free hosting forever. I confirm the actual third-party cost before you buy.</p>
-        </details>
-        <details>
-          <summary>Is the care plan mandatory?</summary>
-          <p class="mt-4 text-slate-500 leading-7">No. You can look after your own domain, hosting and content updates. The optional care plan for static sites is RM300 per year: a quarterly check and up to four small content updates a year, each taking up to 30 minutes. Unused updates do not carry over. WordPress and dynamic systems need a separately scoped agreement.</p>
-        </details>
-        <details>
-          <summary>Who owns my domain?</summary>
-          <p class="mt-4 text-slate-500 leading-7">You do. I register or transfer the domain in your name where practical, and hand over the hosting access, the site files and a short note on what renews and when. I do not keep a customer's domain under my personal ownership.</p>
+          <p class="mt-4 text-slate-500 leading-7">Email is best for project details, so scope and decisions stay written down. For a quick question, WhatsApp is fine. We can discuss your project in Malay or English.</p>
         </details>
         <details>
           <summary>How do payment and quotations work?</summary>
@@ -883,8 +810,8 @@
         <select id="budget" class="contact-input mb-4" required aria-required="true">
           <option value="" disabled selected>Select budget…</option>
           <option>Below RM500</option>
-          <option>RM500–RM900</option>
-          <option>RM900–RM1,500</option>
+          <option>RM500–RM899</option>
+          <option>RM900–RM1,499</option>
           <option>RM1,500+</option>
           <option>Not sure yet</option>
         </select>
@@ -895,6 +822,8 @@
         <button class="btn-primary w-full mt-5" type="submit">
           Prepare Email <i data-feather="mail" class="w-4 h-4"></i>
         </button>
+
+        <p class="text-white/80 text-xs leading-5 mt-3">This prepares an email draft in your email app; it will not send automatically.</p>
 
         <div id="formFallback" class="form-fallback hidden" role="status" aria-live="polite">
           <p><b>Your email app should now open with the message filled in.</b> Nothing has been sent until you press send there. If nothing opened, use one of these instead:</p>
@@ -912,7 +841,7 @@
         </p>
 
         <p class="text-white/80 text-xs leading-5 mt-3">
-          This opens your email app with the project details pre-filled. No information is stored by this page.
+          No information is stored by this page.
         </p>
 
         <noscript>

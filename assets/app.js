@@ -123,7 +123,18 @@
     });
 
     window.addEventListener('resize', function () {
-      if (window.innerWidth > 900 && isMenuOpen()) closeMobileMenu();
+      if (window.innerWidth > 900 && isMenuOpen()) {
+        var activeElement = document.activeElement;
+        var focusDesktopNav = mobileMenu.contains(activeElement) || activeElement === navToggle;
+        var activeHref = mobileMenu.contains(activeElement) && activeElement.getAttribute('href');
+        closeMobileMenu();
+
+        if (focusDesktopNav) {
+          var desktopLinks = Array.from(navbar.querySelectorAll('.nav-links a'));
+          var focusTarget = desktopLinks.find(function (link) { return link.getAttribute('href') === activeHref; }) || desktopLinks[0];
+          if (focusTarget) focusTarget.focus();
+        }
+      }
     });
   }
 
