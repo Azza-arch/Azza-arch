@@ -172,3 +172,72 @@ export function trigRoots(f, from, to, deg = true, N = 72000) {
 export function trigGraph(f, want, from, to, deg = true, N = 72000) { const g = (t) => f(deg ? (t * Math.PI) / 180 : t); let mx = -Infinity, mn = Infinity; for (let k = 0; k <= N; k++) { const v = g(from + ((to - from) * k) / N); if (Number.isFinite(v)) { mx = Math.max(mx, v); mn = Math.min(mn, v); } }
   if (want === 'max') return mx; if (want === 'min') return mn; if (want === 'amp') return (mx - mn) / 2;
   if (want === 'period') { const S = [7, 23, 41, 66, 97, 133]; for (let T = (to - from) / 3600; T <= to - from; T += (to - from) / 3600) if (S.every((s) => { const a = g(s), b = g(s + T); return !Number.isFinite(a) || !Number.isFinite(b) || Math.abs(a - b) < 1e-6; })) { let lo = T - (to - from) / 3600, hi = T; return Math.round(hi * 1000) / 1000; } return NaN; } return NaN; }
+
+// ---------------------------------------------------------------- T5 Bab 7: linear programming
+// cons: [[a, b, op, c], …] meaning a·x + b·y op c; x ≥ 0 and y ≥ 0 are always added.
+const LP_EPS = 1e-9;
+export function lpHolds(cons, x, y) {
+  if (x < -LP_EPS || y < -LP_EPS) return false;
+  return cons.every(([a, b, op, c]) => { const v = a * x + b * y - c; return op === '<=' ? v <= LP_EPS : op === '>=' ? v >= -LP_EPS : op === '<' ? v < -LP_EPS : op === '>' ? v > LP_EPS : Math.abs(v) <= LP_EPS; });
+}
+// Optimum of obj = p·x + q·y. Continuous: every pairwise intersection of boundary
+// lines that is feasible (vertex enumeration), cross-checked by a grid search that
+// must never beat it. Integer: brute force over every lattice point in [0, bound]².
+export function lpSolve({ cons, obj, goal = 'max', integer = false, bound = 200 }) {
+  const [p, q] = obj, k = (x, y) => p * x + q * y, better = (u, v) => (goal === 'max' ? u > v + LP_EPS : u < v - LP_EPS);
+  const opt = []; let best = null;
+  const consider = (x, y) => { if (!lpHolds(cons, x, y)) return; const v = k(x, y); if (best === null || better(v, best)) { best = v; opt.length = 0; opt.push([x, y]); } else if (Math.abs(v - best) <= 1e-7) opt.push([x, y]); };
+  if (integer) { for (let x = 0; x <= bound; x++) for (let y = 0; y <= bound; y++) consider(x, y); return { value: best, points: opt }; }
+  const lines = [...cons.map(([a, b, , c]) => [a, b, c]), [1, 0, 0], [0, 1, 0]];
+  for (let i = 0; i < lines.length; i++) for (let j = i + 1; j < lines.length; j++) {
+    const [a1, b1, c1] = lines[i], [a2, b2, c2] = lines[j], D = a1 * b2 - a2 * b1; if (Math.abs(D) < 1e-12) continue;
+    consider((c1 * b2 - c2 * b1) / D, (a1 * c2 - a2 * c1) / D);
+  }
+  // grid cross-check (feasible region must be bounded in the optimising direction)
+  for (let i = 0; i <= 2000; i++) for (let j = 0; j <= 2000; j++) { const x = (i * bound) / 2000, y = (j * bound) / 2000; if (lpHolds(cons, x, y) && best !== null && better(k(x, y), best)) return { value: NaN, points: [], unbounded: true }; }
+  const uniq = []; for (const pt of opt) if (!uniq.some((u) => Math.hypot(u[0] - pt[0], u[1] - pt[1]) < 1e-7)) uniq.push(pt);
+  return { value: best, points: uniq };
+}
+export function halfPlaneSame(h1, h2) { // same solution set? sampled on a grid that includes boundary points
+  for (let i = -40; i <= 40; i++) for (let j = -40; j <= 40; j++) { const x = i / 2, y = j / 2; if (lpHolds([h1], x + 50, y + 50) !== lpHolds([h2], x + 50, y + 50)) return false; if (lpHolds([h1], x, y) !== lpHolds([h2], x, y)) return false; }
+  return true;
+}
+
+// ---------------------------------------------------------------- T5 Bab 8: kinematics
+// Functions of t (written with x in the check specs). From a(t) or v(t) the motion is
+// rebuilt by RK4 integration from t = 0 (not by antiderivatives); from s(t), v and a
+// are measured with finite differences.
+export function kinState({ s, v, a, v0 = 0, s0 = 0 }, T, steps = 20000) {
+  if (s) return { s: s(T), v: nd1(s, T), a: nd2(s, T) };
+  if (v) { let S = s0, h = T / steps; for (let k = 0; k < steps; k++) { const t = k * h; S += (h / 6) * (v(t) + 4 * v(t + h / 2) + v(t + h)); } return { s: T === 0 ? s0 : S, v: v(T), a: nd1(v, T) }; }
+  let S = s0, V = v0; const h = T / steps;
+  for (let k = 0; k < steps && T !== 0; k++) { const t = k * h; // RK4 on s' = V, V' = a(t)
+    const k1s = V, k1v = a(t), k2s = V + (h / 2) * k1v, k2v = a(t + h / 2), k3s = V + (h / 2) * k2v, k3v = a(t + h / 2), k4s = V + h * k3v, k4v = a(t + h);
+    S += (h / 6) * (k1s + 2 * k2s + 2 * k3s + k4s); V += (h / 6) * (k1v + 2 * k2v + 2 * k3v + k4v); }
+  return { s: S, v: V, a: a(T) };
+}
+// March the motion forward once from t = 0 (RK4 on s' = v, v' = a; or Simpson steps
+// of v), recording (t, s, v) on a uniform grid up to tEnd.
+export function kinTrack({ s, v, a, v0 = 0, s0 = 0 }, tEnd, N = 40000) {
+  const h = tEnd / N, T = [], S = [], V = [];
+  if (s) { for (let k = 0; k <= N; k++) { const t = k * h; T.push(t); S.push(s(t)); V.push(nd1(s, t)); } return { T, S, V }; }
+  let Sc = s0, Vc = v ? v(0) : v0;
+  for (let k = 0; k <= N; k++) {
+    const t = k * h; T.push(t); S.push(Sc); V.push(v ? v(t) : Vc); if (k === N) break;
+    if (v) { Sc += (h / 6) * (v(t) + 4 * v(t + h / 2) + v(t + h)); continue; }
+    const k1s = Vc, k1v = a(t), k2s = Vc + (h / 2) * k1v, k2v = a(t + h / 2), k3s = Vc + (h / 2) * k2v, k3v = a(t + h / 2), k4s = Vc + h * k3v, k4v = a(t + h);
+    Sc += (h / 6) * (k1s + 2 * k2s + 2 * k3s + k4s); Vc += (h / 6) * (k1v + 2 * k2v + 2 * k3v + k4v);
+  }
+  return { T, S, V };
+}
+// Total distance travelled between t1 and t2: sum of |Δs| over the marched grid.
+export function pathLength(motion, t1, t2, N = 40000) {
+  const { T, S } = kinTrack(motion, t2, N); let d = 0;
+  for (let k = 1; k < T.length; k++) if (T[k] > t1 + 1e-12) d += Math.abs(S[k] - S[k - 1]) * (T[k - 1] >= t1 - 1e-12 ? 1 : (T[k] - t1) / (T[k] - T[k - 1]));
+  return d;
+}
+export function kinExtreme(motion, want, type, from, to, N = 40000) {
+  const { T, S, V } = kinTrack(motion, to, N), arr = want === 's' ? S : V; let best = null;
+  for (let k = 0; k < T.length; k++) if (T[k] >= from - 1e-12) { const x = arr[k]; if (best === null || (type === 'max' ? x > best : x < best)) best = x; }
+  return best;
+}

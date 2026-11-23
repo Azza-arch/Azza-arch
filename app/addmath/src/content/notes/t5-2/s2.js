@@ -15,7 +15,7 @@ const r2 = (v) => +v.toFixed(2);
 
 // ---------------------------------------------------------------- 2.1
 export const S2_1 = {
-  id: '2.1', sk: '2.1', title: 'Had dan Hubungannya dengan Pembezaan', sp: ['2.1.1', '2.1.2'], status: 'review', minutes: 50,
+  id: '2.1', sk: '2.1', title: 'Had dan Hubungannya dengan Pembezaan', sp: ['2.1.1', '2.1.2'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Laju pada satu saat', html: R`<p>Meter laju kereta menunjukkan laju <em>pada saat itu</em>, bukan laju purata sepanjang perjalanan. Tetapi laju ialah jarak ÷ masa, dan dalam "satu saat yang tepat" masa yang berlalu ialah sifar. Bagaimana boleh membahagi dengan sifar? Jawapannya ialah idea <strong>had</strong>: kita lihat apa yang berlaku apabila selang masa <em>menghampiri</em> sifar.</p>` },
     { kind: 'prereq', title: 'Imbas kembali', html: R`<ul><li>Kecerunan garis lurus \(= \dfrac{y_2 - y_1}{x_2 - x_1}\).</li><li>Kembangan: \((x + h)^2 = x^2 + 2xh + h^2\).</li><li>Pemfaktoran dan permudahan pecahan algebra.</li></ul>` },
@@ -55,7 +55,7 @@ export const S2_1 = {
 // ---------------------------------------------------------------- 2.2
 const F = (x) => x ** 3 - 3 * x, FP = (x) => 3 * x * x - 3;
 export const S2_2 = {
-  id: '2.2', sk: '2.2', title: 'Pembezaan Peringkat Pertama', sp: ['2.2.1', '2.2.2', '2.2.3', '2.2.4'], status: 'review', minutes: 60,
+  id: '2.2', sk: '2.2', title: 'Pembezaan Peringkat Pertama', sp: ['2.2.1', '2.2.2', '2.2.3', '2.2.4'], status: 'published', minutes: 60,
   sections: [
     { kind: 'intro', title: 'Jalan pintas', html: R`<p>Daripada prinsip pertama: \(\tfrac{d}{dx}(x) = 1\), \(\tfrac{d}{dx}(x^2) = 2x\), \(\tfrac{d}{dx}(x^3) = 3x^2\), \(\tfrac{d}{dx}(x^{-1}) = -x^{-2}\). Nampak coraknya? Bab ini mengubah corak itu menjadi petua yang pantas.</p>` },
     { kind: 'concept', title: 'Rumus terbitan bagi y = axⁿ', sp: ['2.2.1'], html: R`
@@ -102,7 +102,7 @@ export const S2_2 = {
 // ---------------------------------------------------------------- 2.3
 const G = (x) => x ** 3 - 3 * x * x + 2, GP = (x) => 3 * x * x - 6 * x, GPP = (x) => 6 * x - 6;
 export const S2_3 = {
-  id: '2.3', sk: '2.3', title: 'Pembezaan Peringkat Kedua', sp: ['2.3.1'], status: 'review', minutes: 30,
+  id: '2.3', sk: '2.3', title: 'Pembezaan Peringkat Kedua', sp: ['2.3.1'], status: 'published', minutes: 30,
   sections: [
     { kind: 'intro', title: 'Perubahan kepada perubahan', html: R`<p>Laju memberitahu betapa cepat kedudukan berubah. <strong>Pecutan</strong> memberitahu betapa cepat <em>laju</em> berubah. Dalam matematik, ini ialah terbitan kepada terbitan, iaitu <strong>terbitan kedua</strong>.</p>` },
     { kind: 'concept', title: 'Terbitan kedua', sp: ['2.3.1'], html: R`
@@ -130,7 +130,7 @@ export const S2_3 = {
 // ---------------------------------------------------------------- 2.4
 const BOX = (x) => x * (20 - 2 * x) ** 2;
 export const S2_4 = {
-  id: '2.4', sk: '2.4', title: 'Aplikasi Pembezaan', sp: ['2.4.1', '2.4.2', '2.4.3', '2.4.4', '2.4.5', '2.4.6', '2.4.7', '2.4.8', '2.4.9'], status: 'review', minutes: 90,
+  id: '2.4', sk: '2.4', title: 'Aplikasi Pembezaan', sp: ['2.4.1', '2.4.2', '2.4.3', '2.4.4', '2.4.5', '2.4.6', '2.4.7', '2.4.8', '2.4.9'], status: 'published', minutes: 90,
   sections: [
     { kind: 'intro', title: 'Kotak terbesar', html: R`<p>Daripada sekeping kadbod 20 cm × 20 cm, potong segi empat sama di setiap bucu dan lipat menjadi kotak tanpa penutup. Jika potongan terlalu kecil, kotak cetek; terlalu besar, tapaknya kecil. Saiz potongan manakah memberi isi padu terbesar? Pembezaan menjawab soalan seperti ini, dan juga soalan tentang tangen, kadar perubahan dan anggaran.</p>` },
     { kind: 'concept', title: 'Kecerunan tangen pada titik berlainan', sp: ['2.4.1'], html: R`

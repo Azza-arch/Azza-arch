@@ -1,10 +1,10 @@
-// T5 Bab 2 question bank (status 'review', original). Derivatives, limits,
+// T5 Bab 2 question bank (status 'published' 2026-11-23 by owner decision; mathReviewed empty; original). Derivatives, limits,
 // stationary points and rates are re-derived NUMERICALLY by tests/triangle.mjs
 // (5-point stencils, two-sided limits, sign-change scans) — never by the rules taught.
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't5-2', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-23', note: 'Keputusan produk pemilik: terima dan terbitkan semua kandungan T4 dan T5 yang lulus validator. Semakan matematik manusia belum dibuat (mathReviewed kosong).' } };
+const q = (o) => ({ chapter: 't5-2', status: 'published', provenance: P, review: RV, ...o });
 const TYPE_HINT = R`(Taip kuasa sebagai ^, contohnya 3x^2-4.)`;
 
 export const QUESTIONS = [
@@ -48,7 +48,7 @@ export const QUESTIONS = [
   q({ id: 't5-2.3-02', subtopic: '2.3', sp: ['2.3.1'], difficulty: 'sederhana', type: 'numeric', prompt: R`Diberi \(f(x) = (2x - 3)^5\), cari \(f''(2)\).`, answer: 80, check: { kind: 'deriv-at', f: '(2x-3)^5', x: 2, order: 2 },
     wrong: [{ value: 100, derive: '(10*(2*2-3)^4)^2', feedback: R`\(f''\) bukan \((f')^2\).` }, { value: 20, derive: '20*(2*2-3)^3', feedback: R`Petua rantai pada langkah kedua juga perlu \(\times 2\).` }], solution: [R`\(f'(x) = 10(2x - 3)^4\)`, R`\(f''(x) = 80(2x - 3)^3\)`, R`\(f''(2) = 80\)`] }),
   q({ id: 't5-2.3-03', subtopic: '2.3', sp: ['2.3.1'], difficulty: 'mencabar', type: 'numeric', prompt: R`Diberi \(y = \dfrac{2}{x^2}\), cari nilai \(\dfrac{d^2y}{dx^2}\) apabila \(x = -1\).`, answer: 12, check: { kind: 'deriv-at', f: '2/x^2', x: -1, order: 2 },
-    solution: [R`\(y = 2x^{-2}\), \(\dfrac{dy}{dx} = -4x^{-3}\), \(\dfrac{d^2y}{dx^2} = 12x^{-4}\)`, R`Pada \(x = -1\): \(12\)`] }),
+    wrong: [{ value: -12, feedback: R`\((-1)^{-4} = 1\) (kuasa genap), jadi \(12(-1)^{-4} = 12\).` }, { value: 4, feedback: R`4 ialah \(\tfrac{dy}{dx}\) pada \(x = -1\). Bezakan sekali lagi.` }], solution: [R`\(y = 2x^{-2}\), \(\dfrac{dy}{dx} = -4x^{-3}\), \(\dfrac{d^2y}{dx^2} = 12x^{-4}\)`, R`Pada \(x = -1\): \(12\)`] }),
   q({ id: 't5-2.3-04', subtopic: '2.3', sp: ['2.3.1'], difficulty: 'sederhana', type: 'mcq', prompt: R`Pada suatu titik, \(\dfrac{dy}{dx} = 3\) dan \(\dfrac{d^2y}{dx^2} = -2\). Yang manakah benar?`, check: { kind: 'manual' },
     options: [{ text: 'Graf menaik, tetapi kecerunannya sedang berkurang', correct: true, feedback: R`Betul.` }, { text: 'Graf menurun', correct: false, misconception: 'tanda-kedua', feedback: R`Arah graf ditentukan oleh \(\tfrac{dy}{dx} = 3 > 0\).` }, { text: 'Titik itu titik maksimum', correct: false, misconception: 'maks', feedback: R`Titik maksimum memerlukan \(\tfrac{dy}{dx} = 0\).` }, { text: 'Kecerunan sedang bertambah', correct: false, misconception: 'tanda', feedback: R`\(\tfrac{d^2y}{dx^2} < 0\): berkurang.` }],
     solution: [R`\(\tfrac{dy}{dx} > 0\): menaik. \(\tfrac{d^2y}{dx^2} < 0\): kecerunan berkurang (melengkung ke bawah).`] }),
@@ -87,7 +87,7 @@ export const QUESTIONS = [
   q({ id: 't5-2.4-09', subtopic: '2.4', sp: ['2.4.7'], difficulty: 'mencabar', type: 'numeric', prompt: R`Luas sebuah bulatan berkurang pada kadar \(6\pi\) cm²/s. Cari kadar perubahan jejari apabila jejari 3 cm. (Nilai negatif bermaksud berkurang.)`, answer: -1, unit: 'cm/s', check: { kind: 'rate-inverse', f: 'pi*x^2', x: 3, dydt: -6 * Math.PI },
     wrong: [{ value: 1, derive: '6*pi/(6*pi)', feedback: R`Luas <em>berkurang</em>, jadi \(\tfrac{dL}{dt} = -6\pi\) dan \(\tfrac{dj}{dt}\) negatif.` }], solution: [R`\(\dfrac{dL}{dj} = 2\pi j = 6\pi\)`, R`\(-6\pi = 6\pi \times \dfrac{dj}{dt} \Rightarrow \dfrac{dj}{dt} = -1\) cm/s`, R`Jejari berkurang 1 cm/s.`] }),
   q({ id: 't5-2.4-10', subtopic: '2.4', sp: ['2.4.8'], difficulty: 'sederhana', type: 'numeric', prompt: R`Diberi \(y = x^2 + \dfrac{1}{x}\), gunakan pembezaan untuk mencari nilai hampir bagi \(y\) apabila \(x = 2.02\). Beri jawapan betul kepada tiga tempat perpuluhan.`, answer: 4.575, tolerance: 0.0006, check: { kind: 'small-change', f: 'x^2+1/x', x: 2, dx: 0.02, want: 'approx' },
-    solution: [R`Pada \(x = 2\): \(y = 4.5\), \(\dfrac{dy}{dx} = 2x - \dfrac{1}{x^2} = 3.75\)`, R`\(\delta y \approx 3.75 \times 0.02 = 0.075\)`, R`\(y \approx 4.575\)`] }),
+    wrong: [{ value: 0.075, derive: '3.75*0.02', feedback: R`0.075 ialah \(\delta y\). Nilai hampir \(y = 4.5 + 0.075\).` }], solution: [R`Pada \(x = 2\): \(y = 4.5\), \(\dfrac{dy}{dx} = 2x - \dfrac{1}{x^2} = 3.75\)`, R`\(\delta y \approx 3.75 \times 0.02 = 0.075\)`, R`\(y \approx 4.575\)`] }),
   q({ id: 't5-2.4-11', subtopic: '2.4', sp: ['2.4.9'], difficulty: 'mencabar', type: 'numeric', prompt: R`Sisi sebuah segi empat sama bertambah daripada 8 cm kepada 8.05 cm. Gunakan pembezaan untuk menganggar perubahan peratus luasnya.`, answer: 1.25, unit: '%', check: { kind: 'small-change', f: 'x^2', x: 8, dx: 0.05, want: 'percent' },
     wrong: [{ value: 0.625, derive: '0.05/8*100', feedback: R`Itu perubahan peratus <em>sisi</em>. Luas berubah kira-kira dua kali ganda peratus itu.` }], solution: [R`\(L = x^2\), \(\delta L \approx 2x\,\delta x = 16 \times 0.05 = 0.8\)`, R`Peratus \(\approx \dfrac{0.8}{64} \times 100\% = 1.25\%\)`] }),
   q({ id: 't5-2.4-14', subtopic: '2.4', sp: ['2.4.3'], difficulty: 'sederhana', type: 'numeric', prompt: R`Tangen kepada \(y = x^2 + 2x\) pada \(x = 1\) memotong paksi-\(y\) di \((0, c)\). Cari \(c\).`, answer: -1, check: { kind: 'line-at', line: 'tangent', f: 'x^2+2x', at: 1, x0: 0 },
@@ -99,7 +99,7 @@ export const QUESTIONS = [
   q({ id: 't5-2.4-17', subtopic: '2.4', sp: ['2.4.8'], difficulty: 'mudah', type: 'numeric', prompt: R`Diberi \(y = 4x^3\). Anggarkan perubahan kecil dalam \(y\) apabila \(x\) berkurang dari 2 kepada 1.99.`, answer: -0.48, check: { kind: 'small-change', f: '4x^3', x: 2, dx: -0.01 },
     wrong: [{ value: 0.48, derive: '48*0.01', feedback: R`\(x\) berkurang, jadi \(\delta x = -0.01\) dan \(\delta y\) negatif.` }], solution: [R`\(\dfrac{dy}{dx} = 12x^2 = 48\)`, R`\(\delta y \approx 48 \times (-0.01) = -0.48\)`] }),
   q({ id: 't5-2.4-18', subtopic: '2.4', sp: ['2.4.9'], difficulty: 'sederhana', type: 'numeric', prompt: R`Jejari sebuah bulatan 10 cm bertambah sebanyak 1%. Gunakan pembezaan untuk menganggar perubahan peratus luasnya.`, answer: 2, unit: '%', check: { kind: 'small-change', f: 'pi*x^2', x: 10, dx: 0.1, want: 'percent' },
-    solution: [R`\(\delta j = 0.1\); \(\delta L \approx 2\pi j\,\delta j = 2\pi\)`, R`\(\dfrac{2\pi}{100\pi} \times 100\% = 2\%\)`] }),
+    wrong: [{ value: 1, feedback: R`Luas berkadar dengan \(j^2\), jadi perubahan peratusnya kira-kira dua kali perubahan peratus jejari.` }], solution: [R`\(\delta j = 0.1\); \(\delta L \approx 2\pi j\,\delta j = 2\pi\)`, R`\(\dfrac{2\pi}{100\pi} \times 100\% = 2\%\)`] }),
   q({ id: 't5-2.4-12', subtopic: '2.4', sp: ['2.4.5', '2.4.4'], difficulty: 'mencabar', type: 'reasoning', prompt: R`Dalam masalah kotak, \(\dfrac{dV}{dx} = 0\) memberi \(x = \tfrac{10}{3}\) dan \(x = 10\). Terangkan mengapa \(x = 10\) ditolak, dan bagaimana anda mengesahkan bahawa \(x = \tfrac{10}{3}\) memberi maksimum.`, check: { kind: 'manual' },
     solution: [R`\(x = 10\) memotong seluruh sisi 20 cm (\(20 - 2x = 0\)): tiada tapak, \(V = 0\). Ia di luar domain bermakna \(0 < x < 10\).`, R`\(\tfrac{d^2V}{dx^2} = 24x - 160 = -80 < 0\) pada \(x = \tfrac{10}{3}\): maksimum. (Atau: \(\tfrac{dV}{dx}\) positif sebelum dan negatif selepas.)`] }),
   q({ id: 't5-2.4-13', subtopic: '2.4', sp: ['2.4.1'], difficulty: 'mudah', type: 'mcq', prompt: R`Bagi \(y = 5 - x^2\), pada titik \(x = 2\), graf…`, check: { kind: 'manual' },

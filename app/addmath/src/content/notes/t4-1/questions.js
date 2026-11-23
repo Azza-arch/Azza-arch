@@ -76,7 +76,7 @@ export const QUESTIONS = [
     solution: [R`\(f(2) = 7\)`, R`\(gf(2) = g(7) = 21\)`] }),
   q({ id: 't4-1.2-03', subtopic: '1.2', sp: ['1.2.2'], difficulty: 'sederhana', type: 'expression', prompt: R`Diberi \(f(x) = 4x - 1\) dan \(g(x) = x + 2\). Cari \(fg(x)\).`,
     answer: '4x+7', check: { kind: 'compose-expr', f: '4x-1', g: 'x+2', order: 'fg' },
-    wrong: [{ expr: '4x+1', feedback: R`Itu \(gf(x) = (4x - 1) + 2\). Untuk \(fg\), masukkan \(g(x)\) ke dalam \(f\).` }, { expr: '4x+2-1', feedback: R`Kurungan tertinggal: \(4(x + 2) - 1 = 4x + 8 - 1\).` }],
+    wrong: [{ expr: '4x+1', feedback: R`Dua kemungkinan: (i) itu \(gf(x) = (4x - 1) + 2\); untuk \(fg\), masukkan \(g(x)\) ke dalam \(f\). (ii) Kurungan tertinggal: \(4x + 2 - 1\); sepatutnya \(4(x + 2) - 1 = 4x + 8 - 1\).` }],
     solution: [R`\(fg(x) = f(x + 2) = 4(x + 2) - 1\)`, R`\(= 4x + 8 - 1 = 4x + 7\)`] }),
   q({ id: 't4-1.2-04', subtopic: '1.2', sp: ['1.2.2'], difficulty: 'sederhana', type: 'expression', prompt: R`Diberi \(f(x) = x^2\) dan \(g(x) = 2x - 1\). Cari \(fg(x)\). (Taip kuasa dua sebagai ^2, contohnya (x+1)^2.)`,
     answer: '(2x-1)^2', check: { kind: 'compose-expr', f: 'x^2', g: '2x-1', order: 'fg' },

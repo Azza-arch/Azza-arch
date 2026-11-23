@@ -1,10 +1,10 @@
-// T5 Bab 3 question bank (status 'review', original). Antiderivatives are
+// T5 Bab 3 question bank (status 'published' 2026-11-23 by owner decision; mathReviewed empty; original). Antiderivatives are
 // checked by differentiating the answer numerically; definite integrals, areas
 // and volumes by Simpson's rule (tests/triangle.mjs) — never by the rules taught.
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't5-3', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-23', note: 'Keputusan produk pemilik: terima dan terbitkan semua kandungan T4 dan T5 yang lulus validator. Semakan matematik manusia belum dibuat (mathReviewed kosong).' } };
+const q = (o) => ({ chapter: 't5-3', status: 'published', provenance: P, review: RV, ...o });
 const H = R`(Taip kuasa sebagai ^ dan pecahan dengan /, contohnya x^3/3+2x+c.)`;
 
 export const QUESTIONS = [
@@ -57,7 +57,7 @@ export const QUESTIONS = [
   q({ id: 't5-3.3-05', subtopic: '3.3', sp: ['3.3.3'], difficulty: 'mencabar', type: 'numeric', prompt: R`Cari luas rantau yang dibatasi oleh \(y = x^2 - 4x\) dan paksi-\(x\), betul kepada tiga tempat perpuluhan.`, answer: 10.667, tolerance: 0.0006, unit: 'unit²', check: { kind: 'area-curve', f: 'x^2-4x', a: 0, b: 4 },
     wrong: [{ value: -10.667, derive: '4^3/3-2*4^2', feedback: R`Kamiran negatif kerana rantau di bawah paksi; luas ialah nilai mutlaknya.` }], solution: [R`Titik potong \(x = 0, 4\)`, R`\(\Big[\tfrac{x^3}{3} - 2x^2\Big]_0^4 = -\tfrac{32}{3}\)`, R`Luas \(= \tfrac{32}{3} = 10.667\)`] }),
   q({ id: 't5-3.3-06', subtopic: '3.3', sp: ['3.3.3'], difficulty: 'mencabar', type: 'numeric', prompt: R`Cari luas rantau yang dibatasi oleh \(y = x^2\) dan \(y = x + 2\).`, answer: 4.5, unit: 'unit²', check: { kind: 'area-curve', f: 'x+2', g: 'x^2', a: -1, b: 2 },
-    solution: [R`\(x^2 = x + 2 \Rightarrow x = -1, 2\)`, R`\(\displaystyle\int_{-1}^2 (x + 2 - x^2)\,dx = \Big[\tfrac{x^2}{2} + 2x - \tfrac{x^3}{3}\Big]_{-1}^2 = \tfrac{10}{3} - \left(-\tfrac76\right) = 4.5\)`] }),
+    wrong: [{ value: -4.5, feedback: R`Tolak lengkung bawah daripada lengkung atas: \(\int (x + 2 - x^2)\,dx\). Luas tidak negatif.` }], solution: [R`\(x^2 = x + 2 \Rightarrow x = -1, 2\)`, R`\(\displaystyle\int_{-1}^2 (x + 2 - x^2)\,dx = \Big[\tfrac{x^2}{2} + 2x - \tfrac{x^3}{3}\Big]_{-1}^2 = \tfrac{10}{3} - \left(-\tfrac76\right) = 4.5\)`] }),
   q({ id: 't5-3.3-07', subtopic: '3.3', sp: ['3.3.3'], difficulty: 'mencabar', type: 'numeric', prompt: R`Cari jumlah luas rantau di antara \(y = x^3\) dan paksi-\(x\) dari \(x = -1\) hingga \(x = 2\).`, answer: 4.25, unit: 'unit²', check: { kind: 'area-curve', f: 'x^3', a: -1, b: 2 },
     wrong: [{ value: 3.75, derive: '2^4/4-1/4', feedback: R`Itu kamiran bertanda: bahagian \(-1 \le x \le 0\) di bawah paksi dan membatalkan sebahagian. Pecahkan pada \(x = 0\).` }], solution: [R`\(\int_{-1}^0 x^3\,dx = -\tfrac14\) (luas \(\tfrac14\)); \(\int_0^2 x^3\,dx = 4\)`, R`Jumlah luas \(= 4.25\)`] }),
   q({ id: 't5-3.3-08', subtopic: '3.3', sp: ['3.3.5'], difficulty: 'mencabar', type: 'numeric', prompt: R`Rantau di bawah \(y = 2x + 1\) dari \(x = 0\) hingga \(x = 1\) dikisarkan \(360^\circ\) pada paksi-\(x\). Cari isi padu janaan, betul kepada tiga tempat perpuluhan.`, answer: 13.614, tolerance: 0.0006, unit: 'unit³', check: { kind: 'volume', f: '2x+1', a: 0, b: 1 },
@@ -74,7 +74,7 @@ export const QUESTIONS = [
   q({ id: 't5-3.4-01', subtopic: '3.4', sp: ['3.4.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Air dipam ke dalam tangki pada kadar \(6t + 4\) liter/minit. Berapa liter dipam dari \(t = 1\) hingga \(t = 3\)?`, answer: 32, unit: 'liter', check: { kind: 'integral', f: '6x+4', a: 1, b: 3 },
     wrong: [{ value: 22, derive: '6*3+4', feedback: R`Itu kadar pada \(t = 3\). Jumlah ialah kamiran kadar.` }], solution: [R`\(\Big[3t^2 + 4t\Big]_1^3 = 39 - 7 = 32\) liter`] }),
   q({ id: 't5-3.4-02', subtopic: '3.4', sp: ['3.4.2'], difficulty: 'mencabar', type: 'numeric', prompt: R`Sebuah mangkuk dibentuk dengan mengisarkan lengkung \(x^2 = 4y\) (unit cm) dari \(y = 0\) hingga \(y = 4\) pada paksi-\(y\). Cari kapasiti mangkuk, betul kepada dua tempat perpuluhan.`, answer: 100.53, tolerance: 0.006, unit: 'cm³', check: { kind: 'volume', f: 'sqrt(4x)', a: 0, b: 4 },
-    solution: [R`\(V = \pi\displaystyle\int_0^4 x^2\,dy = \pi\int_0^4 4y\,dy = \pi\Big[2y^2\Big]_0^4 = 32\pi \approx 100.53\) cm³`] }),
+    wrong: [{ value: 32, feedback: R`Faktor \(\pi\) tertinggal: \(V = \pi\int x^2\,dy\).` }], solution: [R`\(V = \pi\displaystyle\int_0^4 x^2\,dy = \pi\int_0^4 4y\,dy = \pi\Big[2y^2\Big]_0^4 = 32\pi \approx 100.53\) cm³`] }),
   q({ id: 't5-3.4-03', subtopic: '3.4', sp: ['3.4.2'], difficulty: 'mencabar', type: 'structured', prompt: R`Keratan rentas sebuah gelongsor taman permainan mempunyai kecerunan \(\dfrac{dy}{dx} = 1.2 - 0.4x\) (meter), bermula di \((0, 0)\).`,
     parts: [
       { prompt: R`Cari ketinggian gelongsor pada \(x = 2\).`, type: 'numeric', answer: 1.6, unit: 'm', check: { kind: 'integral', f: '1.2-0.4x', a: 0, b: 2 }, solution: [R`\(y = 1.2x - 0.2x^2\) (\(c = 0\))`, R`\(y(2) = 2.4 - 0.8 = 1.6\) m`] },

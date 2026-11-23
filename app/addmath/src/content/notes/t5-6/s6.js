@@ -21,7 +21,7 @@ const nice = (v) => (Math.abs(v) > 1e6 ? NaN : v);
 
 // ---------------------------------------------------------------- 6.1
 export const S6_1 = {
-  id: '6.1', sk: '6.1', title: 'Sudut Positif dan Sudut Negatif', sp: ['6.1.1'], status: 'review', minutes: 30,
+  id: '6.1', sk: '6.1', title: 'Sudut Positif dan Sudut Negatif', sp: ['6.1.1'], status: 'published', minutes: 30,
   sections: [
     { kind: 'intro', title: 'Lebih daripada satu pusingan', html: R`<p>Roda kipas tidak berhenti pada 360°. Jarum jam berpusing ke arah bertentangan dengan arah lawan jam. Dalam trigonometri, sudut boleh melebihi \(360^\circ\) dan boleh <strong>negatif</strong>, bergantung pada arah putaran.</p>` },
     { kind: 'concept', title: 'Mewakilkan sudut dalam satah Cartes', sp: ['6.1.1'], html: R`
@@ -48,7 +48,7 @@ export const S6_1 = {
 
 // ---------------------------------------------------------------- 6.2
 export const S6_2 = {
-  id: '6.2', sk: '6.2', title: 'Nisbah Trigonometri bagi Sebarang Sudut', sp: ['6.2.1', '6.2.2'], status: 'review', minutes: 50,
+  id: '6.2', sk: '6.2', title: 'Nisbah Trigonometri bagi Sebarang Sudut', sp: ['6.2.1', '6.2.2'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Melangkaui segi tiga tegak', html: R`<p>Dalam segi tiga tegak, sudut sentiasa kurang daripada \(90^\circ\). Bagaimana dengan \(\sin 150^\circ\) atau \(\kos 300^\circ\)? Dengan <strong>bulatan unit</strong>, setiap sudut mempunyai nilai sinus dan kosinus.</p>` },
     { kind: 'concept', title: 'Sekan, kosekan dan kotangen', sp: ['6.2.1'], html: R`
@@ -83,7 +83,7 @@ export const S6_2 = {
 const TF = [(x) => Math.sin(x * D), (x) => Math.cos(x * D), (x) => Math.tan(x * D)];
 const TN = ['\\sin', '\\kos', '\\tan'];
 export const S6_3 = {
-  id: '6.3', sk: '6.3', title: 'Graf Fungsi Sinus, Kosinus dan Tangen', sp: ['6.3.1', '6.3.2'], status: 'review', minutes: 55,
+  id: '6.3', sk: '6.3', title: 'Graf Fungsi Sinus, Kosinus dan Tangen', sp: ['6.3.1', '6.3.2'], status: 'published', minutes: 55,
   sections: [
     { kind: 'intro', title: 'Gelombang di sekeliling kita', html: R`<p>Ketinggian air pasang surut, voltan arus ulang-alik dan kedudukan kerusi kincir ria berulang secara berkala. Graf sinus dan kosinus memodelkan keadaan ini.</p>` },
     { kind: 'concept', title: 'Graf y = a sin bx + c dan rakan-rakannya', sp: ['6.3.1'], html: R`
@@ -112,7 +112,7 @@ export const S6_3 = {
 
 // ---------------------------------------------------------------- 6.4
 export const S6_4 = {
-  id: '6.4', sk: '6.4', title: 'Identiti Asas', sp: ['6.4.1', '6.4.2'], status: 'review', minutes: 45,
+  id: '6.4', sk: '6.4', title: 'Identiti Asas', sp: ['6.4.1', '6.4.2'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Benar untuk setiap sudut', html: R`<p>Persamaan \(\sin x = 0.5\) benar untuk sudut tertentu sahaja. <strong>Identiti</strong> pula benar untuk <em>semua</em> sudut, seperti \(\sin^2 A + \kos^2 A = 1\). Identiti membolehkan ungkapan rumit dipermudahkan.</p>` },
     { kind: 'concept', title: 'Tiga identiti asas', sp: ['6.4.1'], html: R`
@@ -139,7 +139,7 @@ export const S6_4 = {
 
 // ---------------------------------------------------------------- 6.5
 export const S6_5 = {
-  id: '6.5', sk: '6.5', title: 'Rumus Sudut Majmuk dan Rumus Sudut Berganda', sp: ['6.5.1', '6.5.2', '6.5.3'], status: 'review', minutes: 55,
+  id: '6.5', sk: '6.5', title: 'Rumus Sudut Majmuk dan Rumus Sudut Berganda', sp: ['6.5.1', '6.5.2', '6.5.3'], status: 'published', minutes: 55,
   sections: [
     { kind: 'intro', title: 'sin 75° tanpa kalkulator', html: R`<p>\(75^\circ = 45^\circ + 30^\circ\), dan kita tahu nilai tepat bagi \(45^\circ\) dan \(30^\circ\). Tetapi \(\sin(45^\circ + 30^\circ) \ne \sin 45^\circ + \sin 30^\circ\). Rumus sudut majmuk memberi cara yang betul.</p>` },
     { kind: 'concept', title: 'Rumus sudut majmuk', sp: ['6.5.1'], html: R`
@@ -174,7 +174,7 @@ export const S6_5 = {
 
 // ---------------------------------------------------------------- 6.6
 export const S6_6 = {
-  id: '6.6', sk: '6.6', title: 'Aplikasi Fungsi Trigonometri', sp: ['6.6.1', '6.6.2'], status: 'review', minutes: 50,
+  id: '6.6', sk: '6.6', title: 'Aplikasi Fungsi Trigonometri', sp: ['6.6.1', '6.6.2'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Bilakah air pasang?', html: R`<p>Ketinggian air di sebuah jeti berubah mengikut fungsi sinus. Nelayan perlu tahu <em>bila</em> air cukup dalam untuk bot keluar. Ini memerlukan kita menyelesaikan persamaan trigonometri.</p>` },
     { kind: 'concept', title: 'Menyelesaikan persamaan trigonometri', sp: ['6.6.1'], html: R`

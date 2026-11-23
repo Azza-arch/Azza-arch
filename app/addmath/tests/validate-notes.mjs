@@ -3,13 +3,13 @@
 //   node app/addmath/tests/validate-notes.mjs [report.md]
 // Passing does NOT prove the mathematics or the teaching is right: 'manual'
 // items and all explanations still need human review (listed in the report).
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, existsSync } from 'node:fs';
 import katex from '../vendor/katex/katex.mjs';
 import { CURRICULUM, chapterById } from '../src/content/curriculum.js';
 import { STATUSES } from '../src/content/status.js';
 import { NOTE_MODULES, NOTE_STATUS, attachV3, V3_MODULES } from '../src/content/notes/index.js';
 import { evaluate, f1, roots, sameFunction, extremaOnInterval, isFunctionMapping, parseSet } from './solvers.mjs';
-import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum, simpson, areaBetween, riemann, countBrute, binom, binomStat, binomFind, normal, normalInv, trigRoots, trigGraph } from './triangle.mjs';
+import { triSolve, geo3, circMeasure, circSolve, nd1, nd2, limitAt, stationary, natureAt, extremum, simpson, areaBetween, riemann, countBrute, binom, binomStat, binomFind, normal, normalInv, trigRoots, trigGraph, lpSolve, lpHolds, halfPlaneSame, kinState, pathLength, kinExtreme } from './triangle.mjs';
 
 const errors = [], warnings = [], manual = [], chapterRows = [];
 const err = (id, m) => errors.push(`${id}: ${m}`), warn = (id, m) => warnings.push(`${id}: ${m}`);
@@ -133,6 +133,19 @@ function expected(check, id) {
       const xs = check.pick === 'max' ? Math.max(...r) : check.pick === 'min' ? Math.min(...r) : (r.length > 1 ? (err(id, `${r.length} solutions, add pick`), r[0]) : r[0]);
       return check.want === 'y' ? yx(xs) : xs; }
     case 'vertex-x': { const f = f1(check.rule); let best = null; for (let k = -200000; k <= 200000; k++) { const x = k / 1000; const v = f(x); if (best === null || (check.type === 'max' ? v > best.v : v < best.v)) best = { x, v }; } return best.x; }
+    case 'lp': { // T5 Bab 7: vertex enumeration + grid cross-check, or lattice brute force (tests/triangle.mjs)
+      const r = lpSolve(check); if (r.unbounded || r.value === null) { err(id, 'LP has no bounded optimum'); return NaN; }
+      if (check.want === 'value' || !check.want) return r.value;
+      if (r.points.length > 1) err(id, `${r.points.length} optimal points (${JSON.stringify(r.points)}); ask for the value only`);
+      return check.want === 'x' ? r.points[0][0] : r.points[0][1]; }
+    case 'line-cross': { const [a1, b1, c1] = check.l1, [a2, b2, c2] = check.l2, D = a1 * b2 - a2 * b1; if (Math.abs(D) < 1e-12) { err(id, 'lines are parallel'); return NaN; } return check.want === 'x' ? (c1 * b2 - c2 * b1) / D : (a1 * c2 - a2 * c1) / D; }
+    case 'kin': { // T5 Bab 8: x stands for t in the expressions; motion rebuilt numerically (RK4 / finite differences)
+      const m = { s: check.s && f1(check.s), v: check.v && f1(check.v), a: check.a && f1(check.a), v0: check.v0 ?? 0, s0: check.s0 ?? 0 };
+      return kinState(m, check.at)[check.want]; }
+    case 'kin-extreme': { // largest / smallest s or v over [from, to], scanned on the motion marched forward from t = 0
+      const m = { s: check.s && f1(check.s), v: check.v && f1(check.v), a: check.a && f1(check.a), v0: check.v0 ?? 0, s0: check.s0 ?? 0 };
+      return kinExtreme(m, check.want, check.type, check.from, check.to); }
+    case 'distance': { const m = { s: check.s && f1(check.s), v: check.v && f1(check.v), a: check.a && f1(check.a), v0: check.v0 ?? 0, s0: check.s0 ?? 0 }; return pathLength(m, check.from, check.to); }
     default: return undefined;
   }
 }
@@ -187,6 +200,9 @@ function checkMcq(q, id) {
   else if (c.kind === 'collinear') q.options.forEach((o) => { const col = heronArea(o.data.pts) < 1e-9; if (col !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: collinear = ${col}`); });
   else if (c.kind === 'tri-count') q.options.forEach((o) => { const n = triSolve(o.data.given).length; if ((n === c.count) !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: ${n} triangle(s)`); });
   else if (c.kind === 'nature') q.options.forEach((o) => { const n = natureAt(f1(c.f), c.x); if ((o.data.nature === n) !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: point is ${n}`); });
+  else if (c.kind === 'halfplane') q.options.forEach((o) => { const same = halfPlaneSame(o.data.h, c.target); if (same !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: same region as target = ${same}`); });
+  else if (c.kind === 'lp-point') q.options.forEach((o) => { const inR = lpHolds(c.cons, o.data.pt[0], o.data.pt[1]); if (inR !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: in region = ${inR}`); });
+  else if (c.kind === 'expr-equal') q.options.forEach((o) => { const same = sameFunction(f1(o.data.expr), f1(c.target)); if (same !== !!o.correct) err(id, `option "${strip(o.text)}" key disagrees: equals ${c.target} = ${same}`); });
   else if (c.kind === 'manual') manual.push(`${id} (objektif) — ${strip(q.prompt).slice(0, 110)}`);
   else err(id, `unknown mcq check ${c.kind}`);
 }
@@ -252,6 +268,20 @@ for (const [chapterId, load] of Object.entries(NOTE_MODULES)) {
     sub.sections.filter((s) => s.kind === 'visual').forEach((s, k) => { if (!s.alt || strip(s.alt).length < 40) err(`${chapterId} ${sub.id}`, `visual ${k + 1} lacks a text alternative`); });
     sub.sections.filter((s) => s.kind === 'examples').forEach((s) => s.items.forEach((e, k) => { for (const f of ['question', 'given', 'find', 'method', 'steps', 'check', 'conclusion']) if (!e[f] || (Array.isArray(e[f]) && !e[f].length)) err(`${chapterId} ${sub.id} contoh ${k + 1}`, `missing ${f}`); }));
   }
+  // structural integrity (acceptance audit 2026-11-23): DSKP ids, status consistency, steps, internal links
+  for (const sub of CHAPTER.subtopics) {
+    const where = `${chapterId} ${sub.id}`, sk = meta.contentStandards.find((c) => c.code === sub.sk);
+    if (!sk) err(where, `subtopic SK ${sub.sk} is not a DSKP content standard of ${chapterId}`);
+    else { for (const sp of sub.sp) if (!sk.learningStandards.includes(sp)) err(where, `SP ${sp} does not belong to SK ${sub.sk}`); for (const sp of sk.learningStandards) if (!sub.sp.includes(sp)) err(where, `SK ${sub.sk} learning standard ${sp} missing from the subtopic`); }
+    if (sub.status !== CHAPTER.status) err(where, `subtopic status ${sub.status} differs from chapter status ${CHAPTER.status}`);
+    for (const sec of sub.sections) {
+      for (const sp of sec.sp || []) if (!sub.sp.includes(sp)) err(where, `${sec.kind} section tagged SP ${sp} outside the subtopic`);
+      if (sec.kind === 'examples') sec.items.forEach((e, k) => { if ((e.sp || []).length && !(e.sp || []).some((sp) => sub.sp.includes(sp))) err(`${where} contoh ${k + 1}`, `none of its SP tags (${e.sp}) belongs to the subtopic`); /* extra same-chapter SPs = prerequisites applied (e.g. 1.4 Aplikasi) */ if (!(e.sp || []).length) err(`${where} contoh ${k + 1}`, 'no SP tag'); if (!LEVELS.includes(e.level)) err(`${where} contoh ${k + 1}`, `bad level ${e.level}`); e.steps.forEach((st, j) => { if (!st || !strip(st.do || '').length) err(`${where} contoh ${k + 1}`, `step ${j + 1} is empty`); }); });
+      const hrefs = [...(sec.links || []).map((l) => l.href), ...[...String(sec.html || '').matchAll(/href="([#/][^"]*)"/g)].map((m) => m[1])];
+      for (const h of hrefs) { if (h.startsWith('/')) { const f = new URL(`../../..${h}`, import.meta.url); if (!existsSync(f) && !existsSync(new URL(`../../..${h}index.html`, import.meta.url)) && !existsSync(new URL(`../../..${h}.html`, import.meta.url))) err(where, `site link ${h} does not exist`); continue; } const m = /^#\/(nota|bab|latihan|ulangkaji)\/(t[45]-\d+)(?:\/([\d.]+))?$/.exec(h); if (!m) { err(where, `unrecognised internal link ${h}`); continue; } if (!NOTE_MODULES[m[2]]) err(where, `link ${h}: chapter ${m[2]} has no notes`); else if (m[3]) { const tgt = m[2] === chapterId ? CHAPTER : (await NOTE_MODULES[m[2]]()).CHAPTER; if (!tgt.subtopics.some((x) => x.id === m[3])) err(where, `link ${h}: subtopic ${m[3]} does not exist`); } }
+    }
+  }
+  for (const q of qs) { const sub = CHAPTER.subtopics.find((x) => x.id === q.subtopic); if (!sub) err(q.id, `subtopic ${q.subtopic} does not exist`); else if (!(q.sp || []).some((sp) => sub.sp.includes(sp))) err(q.id, `none of its SP tags (${q.sp}) is taught in subtopic ${q.subtopic}`); if (q.status !== CHAPTER.status) err(q.id, `question status ${q.status} differs from chapter status ${CHAPTER.status}`); if (q.chapter !== chapterId) err(q.id, `chapter field ${q.chapter} ≠ ${chapterId}`); if (!new RegExp(`^${chapterId}\\.${String(q.subtopic).split('.')[1]}-\\d{2}$`).test(q.id)) err(q.id, `id does not follow ${chapterId}.${String(q.subtopic).split('.')[1]}-NN`); }
   const nEx = CHAPTER.subtopics.reduce((n, s) => n + s.sections.filter((x) => x.kind === 'examples').reduce((m, x) => m + x.items.length, 0), 0);
   const nVis = CHAPTER.subtopics.reduce((n, s) => n + s.sections.filter((x) => x.kind === 'visual').length, 0);
   chapterRows.push({ chapterId, title: meta.title, status: CHAPTER.status, subs: CHAPTER.subtopics.length, nEx, nVis, nQ: qs.length, coverage });

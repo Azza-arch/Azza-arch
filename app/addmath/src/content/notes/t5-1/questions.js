@@ -1,9 +1,9 @@
-// T5 Bab 1 question bank (status 'review', original). Arc lengths and areas are
+// T5 Bab 1 question bank (status 'published' 2026-11-23 by owner decision; mathReviewed empty; original). Arc lengths and areas are
 // re-measured on a fine polygon by tests/triangle.mjs (circMeasure / circSolve).
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't5-1', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-23', note: 'Keputusan produk pemilik: terima dan terbitkan semua kandungan T4 dan T5 yang lulus validator. Semakan matematik manusia belum dibuat (mathReviewed kosong).' } };
+const q = (o) => ({ chapter: 't5-1', status: 'published', provenance: P, review: RV, ...o });
 
 export const QUESTIONS = [
   // ---------------------------------------------------------------- 1.1
@@ -24,7 +24,7 @@ export const QUESTIONS = [
   q({ id: 't5-1.2-02', subtopic: '1.2', sp: ['1.2.1'], difficulty: 'sederhana', type: 'numeric', prompt: R`Lengkok sepanjang 22 cm mencangkum sudut 2.75 rad di pusat. Cari jejari.`, answer: 8, unit: 'cm', check: { kind: 'circ', theta: 2.75, solveFor: 'j', want: 'arc', target: 22 },
     wrong: [{ value: 60.5, feedback: R`\(j = \tfrac{s}{\theta}\), bukan \(s\theta\).` }], solution: [R`\(j = \dfrac{22}{2.75} = 8\) cm`] }),
   q({ id: 't5-1.2-03', subtopic: '1.2', sp: ['1.2.1'], difficulty: 'sederhana', type: 'numeric', prompt: R`Dalam bulatan berjejari 5 cm, lengkok sepanjang 13 cm mencangkum sudut \(\theta\) di pusat. Cari \(\theta\) dalam radian.`, answer: 2.6, unit: 'rad', check: { kind: 'circ', j: 5, solveFor: 'theta', want: 'arc', target: 13 },
-    solution: [R`\(\theta = \dfrac{13}{5} = 2.6\) rad`] }),
+    wrong: [{ value: 65, derive: '13*5', feedback: R`\(\theta = \tfrac{s}{j}\), bukan \(s \times j\).` }], solution: [R`\(\theta = \dfrac{13}{5} = 2.6\) rad`] }),
   q({ id: 't5-1.2-04', subtopic: '1.2', sp: ['1.2.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Sektor \(OAB\) berjejari 8 cm dan \(\angle AOB = 2.2\) rad. Cari perimeter tembereng yang dibatasi oleh lengkok \(AB\) dan perentas \(AB\), betul kepada tiga tempat perpuluhan.`, answer: 31.859, tolerance: 0.0006, unit: 'cm', check: { kind: 'circ', j: 8, theta: 2.2, want: 'segment-perimeter' },
     wrong: [{ value: 33.6, feedback: R`\(17.6 + 16\) ialah perimeter <em>sektor</em>. Tembereng: lengkok + perentas.` }], solution: [R`\(s = 8(2.2) = 17.6\)`, R`\(AB = 2(8)\sin 1.1 = 14.259\) (mod RAD)`, R`Perimeter \(= 31.859\) cm`] }),
   q({ id: 't5-1.2-05', subtopic: '1.2', sp: ['1.2.3'], difficulty: 'mencabar', type: 'structured', prompt: R`Sebuah taman berbentuk sektor berjejari 25 m dengan sudut \(120^\circ\) akan dipagar di sekelilingnya.`,
@@ -48,9 +48,9 @@ export const QUESTIONS = [
   q({ id: 't5-1.3-04', subtopic: '1.3', sp: ['1.3.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Sektor \(OAB\) berjejari 9 cm dan \(\angle AOB = 1.4\) rad. Cari luas tembereng, betul kepada tiga tempat perpuluhan.`, answer: 16.789, tolerance: 0.0006, unit: 'cm²', check: { kind: 'circ', j: 9, theta: 1.4, want: 'segment' },
     wrong: [{ value: 55.71, derive: '0.5*81*1.4 - 0.5*81*sin(1.4*pi/180)', feedback: R`Kalkulator dalam mod DEG: \(\sin 1.4^\circ\) terlalu kecil. Guna mod RAD.` }], solution: [R`Sektor \(= 56.7\)`, R`\(\triangle OAB = \tfrac12(81)\sin 1.4 = 39.911\)`, R`Tembereng \(= 16.789\) cm²`] }),
   q({ id: 't5-1.3-05', subtopic: '1.3', sp: ['1.3.2'], difficulty: 'mencabar', type: 'numeric', prompt: R`Perentas \(AB\) dalam bulatan berjejari 6 cm mencangkum sudut \(60^\circ\) di pusat. Cari luas tembereng kecil, betul kepada tiga tempat perpuluhan.`, answer: 3.261, tolerance: 0.0006, unit: 'cm²', check: { kind: 'circ', j: 6, theta: 60, deg: true, want: 'segment' },
-    solution: [R`\(60^\circ = \tfrac{\pi}{3}\)`, R`\(\tfrac12(36)\left(\tfrac{\pi}{3} - \sin\tfrac{\pi}{3}\right) = 18(1.0472 - 0.8660) = 3.261\) cm²`] }),
+    wrong: [{ value: 18.85, derive: '18*pi/3', feedback: R`Itu luas sektor. Tolak luas \(\triangle OAB = \tfrac12 j^2\sin\theta\).` }], solution: [R`\(60^\circ = \tfrac{\pi}{3}\)`, R`\(\tfrac12(36)\left(\tfrac{\pi}{3} - \sin\tfrac{\pi}{3}\right) = 18(1.0472 - 0.8660) = 3.261\) cm²`] }),
   q({ id: 't5-1.3-06', subtopic: '1.3', sp: ['1.3.3'], difficulty: 'mencabar', type: 'numeric', prompt: R`Lampu sorot menerangi kawasan berbentuk sektor dengan jarak 25 m dan sudut \(120^\circ\). Cari luas kawasan yang diterangi, betul kepada dua tempat perpuluhan.`, answer: 654.5, tolerance: 0.006, unit: 'm²', check: { kind: 'circ', j: 25, theta: 120, deg: true, want: 'sector' },
-    solution: [R`\(\tfrac12(625)\left(\tfrac{2\pi}{3}\right) = 654.50\) m²`] }),
+    wrong: [{ value: 1309, derive: '625*2*pi/3', feedback: R`Faktor \(\tfrac12\) dalam \(L = \tfrac12 j^2\theta\) tertinggal.` }, { value: 37500, derive: '0.5*625*120', feedback: R`Sudut mesti dalam radian: \(120^\circ = \tfrac{2\pi}{3}\).` }], solution: [R`\(\tfrac12(625)\left(\tfrac{2\pi}{3}\right) = 654.50\) m²`] }),
   q({ id: 't5-1.3-07', subtopic: '1.3', sp: ['1.3.3', '1.3.1'], difficulty: 'mencabar', type: 'reasoning', prompt: R`Jika jejari sektor digandakan dan sudutnya kekal, apakah yang berlaku kepada (a) panjang lengkok, (b) luas? Terangkan.`, check: { kind: 'manual' },
     solution: [R`(a) \(s = j\theta\) berkadar dengan \(j\): lengkok menjadi 2 kali.`, R`(b) \(L = \tfrac12 j^2\theta\) berkadar dengan \(j^2\): luas menjadi \(2^2 = 4\) kali.`] }),
   // ---------------------------------------------------------------- 1.4
