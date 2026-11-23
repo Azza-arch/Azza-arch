@@ -98,7 +98,7 @@ img { display: block; max-width: 100%; }
 .story-points b { display: block; font-size: 14px; }
 .story-points small { display: block; margin-top: 3px; color: var(--ink-soft); font-size: 13px; }
 
-.room-section { padding: 245px 0 227px; background: var(--cream); }
+.room-section { overflow: hidden; padding: 245px 0 227px; background: var(--cream); } /* clips the full-width photo's reveal scale(1.035): no sideways scroll */
 .room-heading { display: grid; grid-template-columns: 1fr .68fr; align-items: end; gap: 25px 70px; padding-bottom: 42px; }
 .room-heading h2 { font-size: clamp(58px, 7vw, 102px); font-weight: 800; letter-spacing: -.065em; line-height: .82; }
 .room-heading > p { max-width: 390px; justify-self: end; color: var(--ink-soft); font-size: 15px; }
@@ -210,18 +210,20 @@ html.motion-ready .site-header { animation: header-arrive .65s var(--ease) both;
   .site-header.menu-open .mobile-nav { grid-template-rows: 1fr; padding-bottom: 10px; }
   .site-header.menu-open .mobile-nav a { padding-block: 10px; opacity: 1; }
   .site-header.menu-open .mobile-nav a + a { border-top: 1px solid rgba(38,56,65,.12); }
-  .hero, .hero-inner { height: 481px; min-height: 481px; }
+  /* Hero copy sits BELOW the cup on phones (like desktop, only the headline crosses it):
+     the hero grows with its content, the cup keeps its original 232px box. */
+  .hero, .hero-inner { height: auto; min-height: 481px; }
   .hero-inner { width: 100%; align-items: flex-start; }
-  .hero-copy { width: 100%; padding: 70px 22px 0; transform: none; }
+  .hero-copy { width: 100%; padding: 70px 22px 44px; transform: none; }
   .hero h1 { font-size: clamp(58px, 15.5vw, 62px); letter-spacing: -.055em; line-height: .84; }
   .hero h1 span:nth-child(2) { margin-top: 3px; }
   .hero h1 .hero-last { align-self: flex-start; }
-  .hero-copy > p { max-width: 350px; margin-top: 54px; font-size: 16px; }
+  .hero-copy > p { max-width: 350px; margin-top: 150px; font-size: 16px; }
   .hero-actions { gap: 24px; margin-top: 35px; }
   .menu-toggle[aria-expanded="true"]::before { content: "Close"; }
   .hero-actions .button { min-height: 52px; padding-inline: 26px; font-size: 15px; }
   .hero-actions .text-link { font-size: 15px; }
-  .hero-visual { top: 112px; right: -8%; bottom: 137px; width: 78%; }
+  .hero-visual { top: 112px; right: -8%; height: 232px; width: 78%; }
   .hero-drink { --cup-final-scale: .84; top: -8%; right: -5%; width: 100%; height: 120%; }
   .menu-section { min-height: 1700px; padding: 100px 0 80px; }
   .menu-layout { display: block; }
