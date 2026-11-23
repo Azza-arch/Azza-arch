@@ -2,119 +2,101 @@
   const header = document.querySelector(".site-header");
   const toggle = document.getElementById("navToggle");
   const menu = document.getElementById("mobileMenu");
-  const links = [...menu.querySelectorAll("a")];
-  const closeMenu = ({ returnFocus = false } = {}) => {
-    if (!header.classList.contains("menu-open")) return;
+  const closeMenu = (restoreFocus = false) => {
+    if (!header?.classList.contains("menu-open")) return;
     header.classList.remove("menu-open");
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-label", "Open navigation");
     menu.inert = true;
-    menu.setAttribute("aria-hidden", "true");
-    if (returnFocus) toggle.focus();
+    if (restoreFocus) toggle.focus();
   };
-  toggle.addEventListener("click", () => {
+
+  toggle?.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") !== "true";
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
     header.classList.toggle("menu-open", open);
     menu.inert = !open;
-    menu.setAttribute("aria-hidden", String(!open));
   });
-  links.forEach((link) => link.addEventListener("click", () => closeMenu()));
+  menu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => closeMenu()));
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && header.classList.contains("menu-open")) closeMenu({ returnFocus: true });
+    if (event.key === "Escape") closeMenu(true);
   });
   document.addEventListener("click", (event) => {
-    if (header.classList.contains("menu-open") && !header.contains(event.target)) closeMenu();
+    if (header?.classList.contains("menu-open") && !header.contains(event.target)) closeMenu();
   });
   window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768) closeMenu();
+    if (window.innerWidth > 640) closeMenu();
   });
 
   const root = document.documentElement;
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const replaySections = [...document.querySelectorAll("[data-replay]")];
-  const lastHeroAction = document.querySelector(".hero-actions .button-secondary");
-  let revealObserver = null;
-  let heroMotionPlayed = false;
-  let heroMotionTimer = null;
-  let heroAnimationEndHandler = null;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const sections = [...document.querySelectorAll("[data-reveal]")];
+  let observer;
 
-  const stopMotion = () => {
-    root.classList.remove("motion-ready", "hero-motion");
-    revealObserver?.disconnect();
-    revealObserver = null;
-    replaySections.forEach((section) => section.classList.remove("is-in-view"));
-    if (heroMotionTimer !== null) {
-      window.clearTimeout(heroMotionTimer);
-      heroMotionTimer = null;
-    }
-    if (heroAnimationEndHandler) {
-      lastHeroAction?.removeEventListener("animationend", heroAnimationEndHandler);
-      heroAnimationEndHandler = null;
-    }
+  const showAll = () => {
+    root.classList.remove("motion-ready");
+    observer?.disconnect();
+    sections.forEach((section) => section.classList.add("is-in-view"));
   };
 
-  const startMotion = () => {
-    if (reducedMotion.matches || !("IntersectionObserver" in window)) return;
+  const start = () => {
+    observer?.disconnect();
+    if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+      showAll();
+      return;
+    }
+
+    sections.forEach((section) => {
+      const siblingGroups = new Map();
+      section.querySelectorAll("[data-reveal-item], [data-reveal-image]").forEach((item) => {
+        const siblings = siblingGroups.get(item.parentElement) ?? [];
+        siblings.push(item);
+        siblingGroups.set(item.parentElement, siblings);
+      });
+      siblingGroups.forEach((siblings) => siblings.forEach((item, index) => {
+        item.style.setProperty("--reveal-delay", `${Math.min(index * 110, 330)}ms`);
+      }));
+
+      section.querySelectorAll(".menu-group").forEach((group, groupIndex) => {
+        group.style.setProperty("--group-delay", `${groupIndex * 100}ms`);
+        group.querySelectorAll("li").forEach((item, index) => {
+          item.style.setProperty("--item-delay", `${index * 85}ms`);
+        });
+      });
+      section.querySelectorAll(".story-points li, .room-stats > div, .footer-group a").forEach((item, index) => {
+        item.style.setProperty("--item-delay", `${Math.min(index * 100, 300)}ms`);
+      });
+    });
 
     root.classList.add("motion-ready");
-    revealObserver?.disconnect();
-    revealObserver = new IntersectionObserver((entries) => {
+    observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.01) {
-          entry.target.classList.add("is-in-view");
-        } else {
-          entry.target.classList.remove("is-in-view");
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in-view");
+        observer.unobserve(entry.target);
       });
-    }, { threshold: 0 });
-    replaySections.forEach((section) => revealObserver.observe(section));
+    }, { threshold: 0.18, rootMargin: "0px" });
 
-    if (!heroMotionPlayed) {
-      heroMotionPlayed = true;
-      root.classList.add("hero-motion");
-      const clearHeroMotion = () => {
-        root.classList.remove("hero-motion");
-        heroAnimationEndHandler = null;
-        if (heroMotionTimer !== null) {
-          window.clearTimeout(heroMotionTimer);
-          heroMotionTimer = null;
-        }
-      };
-      heroAnimationEndHandler = clearHeroMotion;
-      lastHeroAction?.addEventListener("animationend", clearHeroMotion, { once: true });
-      heroMotionTimer = window.setTimeout(clearHeroMotion, 1200);
-    }
+    sections.forEach((section) => observer.observe(section));
   };
 
-  if (reducedMotion.matches) stopMotion();
-  else startMotion();
+  start();
+  reduceMotion.addEventListener?.("change", start);
+  if (!reduceMotion.addEventListener) reduceMotion.addListener?.(start);
 
-  const handleMotionPreferenceChange = (event) => {
-    if (event.matches) stopMotion();
-    else startMotion();
-  };
-  if (typeof reducedMotion.addEventListener === "function") {
-    reducedMotion.addEventListener("change", handleMotionPreferenceChange);
-  } else {
-    reducedMotion.addListener?.(handleMotionPreferenceChange);
-  }
-  // Mark the section in view as the current navigation item.
-  (() => {
-    const navLinks = [...document.querySelectorAll('.desktop-nav a, .mobile-nav a')];
-    const sections = ['top', 'menu', 'story', 'outlet'].map((id) => document.getElementById(id)).filter(Boolean);
-    if (!navLinks.length || !sections.length || !('IntersectionObserver' in window)) return;
-    const setCurrent = (id) => {
-      navLinks.forEach((link) => {
-        if (link.getAttribute('href') === '#' + id) link.setAttribute('aria-current', 'true');
-        else link.removeAttribute('aria-current');
-      });
-    };
+  const navLinks = [...document.querySelectorAll(".desktop-nav a, .mobile-nav a")];
+  const trackedSections = ["menu", "story", "visit"].map((id) => document.getElementById(id)).filter(Boolean);
+  if ("IntersectionObserver" in window && navLinks.length) {
     const currentObserver = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setCurrent(visible.target.id);
-    }, { rootMargin: '-30% 0px -50% 0px', threshold: [0, 0.25, 0.5, 1] });
-    sections.forEach((section) => currentObserver.observe(section));
-  })();
+      const current = entries.filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!current) return;
+      navLinks.forEach((link) => {
+        if (link.hash === `#${current.target.id}`) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    }, { rootMargin: "-20% 0px -68% 0px", threshold: [0, .15, .4] });
+    trackedSections.forEach((section) => currentObserver.observe(section));
+  }
 })();
