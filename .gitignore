@@ -14,3 +14,6 @@ npm-debug.log
 # /build_production/
 # /source/assets/build/
 demos/sora-brew/images/.audit-temp/
+
+# DENAI trailer: local CapCut/render working files (videos, audio). Not used by the site, game or deploy.
+/app/addmath/denai/design/trailer/
