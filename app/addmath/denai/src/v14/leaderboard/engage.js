@@ -202,9 +202,11 @@ export function openShare(stats){
   },'image/png');
 }
 export function installEngage(){
-  // Short landscape phones: the title column is transformed, so the card is
-  // re-parented to #welcome to sit in the free bottom-right corner.
-  const mq=matchMedia('(max-height:520px) and (min-aspect-ratio:1/1)');
+  // Wherever engage.css makes the card position:fixed (short landscape phones AND
+  // wide landscape screens), the title column is transformed, which would pin the
+  // card inside it over PETA DUNIA / TETAPAN. Re-parent it to #welcome so it sits
+  // in the free bottom-right corner of the screen.
+  const mq=matchMedia('(max-height:520px) and (min-aspect-ratio:1/1), (min-width:900px) and (min-aspect-ratio:1/1)');
   const place=()=>{const c=$('community'),home=document.querySelector('#welcome .title-copy');if(c&&home&&$('welcome'))(mq.matches?$('welcome'):home).append(c);};
   mq.addEventListener?.('change',place);place();
   $('vrank-join')?.addEventListener('submit',join);
