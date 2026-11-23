@@ -3,250 +3,124 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f3eb">
-  <meta name="description" content="Sora Brew cafe website concept demo.">
+  <meta name="theme-color" content="#e8f4f8">
+  <meta name="description" content="Sora Brew — a quiet room for Japanese-style coffee and slow mornings.">
   <meta name="robots" content="noindex, follow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'">
-  <title>Sora Brew - Cafe Website Concept</title>
+  <title>Sora Brew — Morning Above the Clouds</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Lato:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../assets/tailwind.css">
   <link rel="stylesheet" href="style.css">
   <script src="demo.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="concept-bar">
-    <p>Concept demo by haziqbuilds. Fictional cafe, not a real business.</p>
-    <div class="concept-bar-links">
-      <a class="concept-bar-link" href="../../index.html#contact">Ask about a similar site</a>
-      <a class="concept-bar-link concept-bar-back" href="../../work.html#website-concepts"><span aria-hidden="true">←</span> Back to portfolio</a>
+  <header class="site-header" id="top">
+    <div class="container header-row">
+      <a class="brand" href="#top" aria-label="Sora Brew home">Sora Brew<span class="brand-dot">•</span></a>
+      <p class="today-hours">Open today&nbsp; 7:30–18:00</p>
+      <nav class="desktop-nav" aria-label="Primary navigation"><a href="#menu">Menu</a><a href="#story">About</a><a href="#visit">Visit</a></nav>
+      <button class="menu-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation"><span></span><span></span></button>
     </div>
-  </div>
-  <header class="site-header">
-    <div class="container mx-auto header-row">
-      <a class="brand" href="#top" aria-label="Sora Brew home">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="21" cy="10" r="5.4" fill="#F9C875"/><path d="M9 20a5 5 0 0 1-.6-9.97A6.5 6.5 0 0 1 21 8.6 5.5 5.5 0 0 1 23.5 19H9.3a4.9 4.9 0 0 1-.3.01Z" fill="#fff" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-        <span class="brand-text"><span class="brand-word">Sora Brew</span><small lang="ja">空のカフェ</small></span>
-      </a>
-      <nav class="desktop-nav" aria-label="Primary">
-        <a href="#menu">Menu</a>
-        <a href="#story">Our Story</a>
-        <a href="#outlet">Contact</a>
-      </nav>
-      <a class="header-cta" href="#menu">Explore Menu</a>
-      <button class="menu-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <nav class="mobile-nav" id="mobileMenu" aria-label="Mobile primary" inert>
-      <div class="mobile-nav-inner">
-        <a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Contact</a>
-        <a class="mobile-nav-cta" href="#menu">Explore Menu</a>
-      </div>
+    <nav class="mobile-nav" id="mobileMenu" aria-label="Mobile navigation" inert>
+      <div class="mobile-nav-inner"><a href="#menu">Menu</a><a href="#story">About</a><a href="#visit">Visit</a></div>
     </nav>
   </header>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-inner container mx-auto">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner container">
         <div class="hero-copy">
-          <h1 class="hero-title" id="hero-title">A little taste<br>above the clouds</h1>
-          <p class="hero-lede"><strong>Good Coffee, Brighter Days.</strong><br>Specialty coffee, soft bakes and slow little moments.</p>
-          <div class="hero-actions flex flex-row flex-wrap gap-4">
-            <a class="button button-primary" href="#menu">Explore Menu<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8h12v4a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M16 9h1a2 2 0 0 1 0 4h-1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M7 4.5c0 1-1 1-1 2M10 4.5c0 1-1 1-1 2M13 4.5c0 1-1 1-1 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
-            <a class="button button-secondary" href="#story">Our Story</a>
-          </div>
+          <h1 id="hero-title"><span data-hero-line>A little pause,</span><span data-hero-line>above the</span><span class="hero-last" data-hero-line>clouds.</span></h1>
+          <p data-hero-copy>Japanese-style coffee, slow breakfasts and a quiet room in Kuala Terengganu. Come up for air before the day begins.</p>
+          <div class="hero-actions" data-hero-actions><a class="button button-primary" href="#menu">See the menu</a><a class="text-link" href="#visit">Plan a visit <span aria-hidden="true">→</span></a></div>
         </div>
-        <figure class="hero-scene-figure" aria-hidden="true">
-          <img class="hero-sakura" src="images/hero/hero-sakura.webp" alt="" loading="eager" decoding="async">
-          <img class="hero-bird" src="images/hero/hero-bird.webp" alt="" loading="eager" decoding="async">
-          <div class="hero-scene">
-            <img class="hero-photo" src="images/iced-coffee.webp" alt="" width="1024" height="1024" loading="eager" decoding="async">
-          </div>
-        </figure>
-      </div>
-      <ul class="hero-features container mx-auto">
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h13v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span><b>Fresh Brews</b>Curated coffee, brewed daily</span></li>
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17c-1-6 3-11 7-11s8 5 7 11c-1 2-4 2-7 2s-6 0-7-2Z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span><b>Soft Bakes</b>Light treats to pair</span></li>
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15a4 4 0 0 1-.6-7.96A5.2 5.2 0 0 1 14.4 6.3 4.4 4.4 0 0 1 16.4 14.6 4 4 0 0 1 5 15Z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span><b>Calm Space</b>A cosy spot to slow down</span></li>
-      </ul>
-    </section>
-
-    <section class="section drinks-section" id="drinks" aria-labelledby="drinks-title" data-replay>
-      <div class="container mx-auto">
-        <div class="drinks-heading">
-          <div>
-            <h2 id="drinks-title">Signature Drinks</h2>
-          </div>
-          <div class="drinks-controls" role="group" aria-label="Scroll signature drinks">
-            <button type="button" class="drinks-arrow" id="drinksPrev" aria-label="Previous drink"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5 7 10l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <button type="button" class="drinks-arrow" id="drinksNext" aria-label="Next drink"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          </div>
-        </div>
-        <p class="drinks-note">Little cups of sunshine &mdash; four concept drinks previewing the full menu below. Fictional names and sample prices (in ringgit); Sora Brew has not supplied a verified menu.</p>
-        <ul class="drinks-rail" id="drinksRail">
-          <li class="drink-card drink-feature">
-            <span class="drink-badge">人気 Popular</span>
-            <img src="images/iced-coffee.webp" alt="Iced latte in a clear glass" width="480" height="480" loading="lazy" decoding="async">
-            <div class="drink-body">
-              <h3>Sora Latte</h3>
-              <p>Creamy, smooth and our house favourite.</p>
-              <span class="drink-price">RM14.00</span>
-            </div>
-          </li>
-          <li class="drink-card">
-            <img src="images/menu/mocha.webp" alt="Chocolate mocha drink being poured into a cup" width="480" height="480" loading="lazy" decoding="async">
-            <div class="drink-body">
-              <h3>Mocha Cloud</h3>
-              <p>Espresso, chocolate and milk, soft on top.</p>
-              <span class="drink-price">RM15.00</span>
-            </div>
-          </li>
-          <li class="drink-card">
-            <img src="images/menu/iced-spanish-latte.webp" alt="Iced Spanish latte with a caramel swirl in a glass" width="480" height="480" loading="lazy" decoding="async">
-            <div class="drink-body">
-              <h3>Caramel Sky</h3>
-              <p>Sweetened with condensed milk, rich and golden.</p>
-              <span class="drink-price">RM16.00</span>
-            </div>
-          </li>
-          <li class="drink-card">
-            <img src="images/menu/cold-brew.webp" alt="Cold brew coffee in a glass, held in hand" width="480" height="480" loading="lazy" decoding="async">
-            <div class="drink-body">
-              <h3>Kumo Black</h3>
-              <p>Steeped slowly, bold and refreshing.</p>
-              <span class="drink-price">RM15.00</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section menu-section" id="menu" aria-labelledby="menu-title" data-replay>
-      <div class="container mx-auto">
-        <div class="section-heading">
-          <div>
-            <h2 id="menu-title">The Menu</h2>
-          </div>
-          <p>Made for coffee breaks, slow mornings and little treats.</p>
-        </div>
-        <p class="menu-demo-note">Illustrative menu for this website concept. Items, descriptions and sample prices (in ringgit) are made up; Sora Brew has not supplied a verified menu.</p>
-        <div class="menu-board grid md:grid-cols-2 gap-4 p-6">
-          <div class="menu-lists">
-            <section class="menu-category" aria-labelledby="coffee-title">
-              <h3 id="coffee-title">Coffee Classics</h3>
-              <ul class="menu-items">
-                <li><img class="mi-shot" src="images/espresso.webp" alt="Espresso served in a small white cup" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Espresso<small class="mi-desc">Double shot, short and bold</small></span><span class="mi-price">RM8.00</span></li>
-                <li><img class="mi-shot" src="images/menu/long-black.webp" alt="Long black coffee in a white cup, viewed from above" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Long Black<small class="mi-desc">Two shots over hot water</small></span><span class="mi-price">RM10.00</span></li>
-                <li><img class="mi-shot" src="images/menu/flat-white.webp" alt="Flat white with heart latte art in a brown cup" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Flat White<small class="mi-desc">Silky milk, strong coffee flavour</small></span><span class="mi-price">RM13.00</span></li>
-                <li><img class="mi-shot" src="images/menu/cafe-latte.webp" alt="Cafe latte with leaf latte art" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Cafe Latte<small class="mi-desc">Steamed milk with light foam</small></span><span class="mi-price">RM13.00</span></li>
-                <li><img class="mi-shot" src="images/menu/mocha.webp" alt="Chocolate mocha drink being poured into a cup" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Mocha<small class="mi-desc">Espresso, chocolate and milk</small></span><span class="mi-price">RM15.00</span></li>
-              </ul>
-            </section>
-            <section class="menu-category" aria-labelledby="iced-title">
-              <h3 id="iced-title">Iced Coffee</h3>
-              <ul class="menu-items">
-                <li><img class="mi-shot" src="images/menu/americano.webp" alt="Iced Americano in a tall glass" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Iced Americano<small class="mi-desc">Espresso over ice and water</small></span><span class="mi-price">RM11.00</span></li>
-                <li><img class="mi-shot" src="images/iced-coffee.webp" alt="Iced latte in a clear glass" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Iced Latte<small class="mi-desc">Espresso, cold milk and ice</small></span><span class="mi-price">RM14.00</span></li>
-                <li><img class="mi-shot" src="images/menu/iced-spanish-latte.webp" alt="Iced Spanish latte with a caramel swirl in a glass" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Iced Spanish Latte<small class="mi-desc">Sweetened with condensed milk</small></span><span class="mi-price">RM16.00</span></li>
-                <li><img class="mi-shot" src="images/menu/cold-brew.webp" alt="Cold brew coffee in a glass, held in hand" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Cold Brew<small class="mi-desc">Steeped slowly, served cold</small></span><span class="mi-price">RM15.00</span></li>
-              </ul>
-            </section>
-            <section class="menu-category" aria-labelledby="pastry-title">
-              <h3 id="pastry-title">Pastries &amp; Desserts</h3>
-              <ul class="menu-items">
-                <li><img class="mi-shot" src="images/menu/butter-croissant.webp" alt="Butter croissant on a white plate" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Butter Croissant<small class="mi-desc">Flaky layers, salted butter</small></span><span class="mi-price">RM9.00</span></li>
-                <li><img class="mi-shot" src="images/menu/pain-au-chocolat.webp" alt="Pain au chocolat pastries with a dark chocolate filling" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Pain au Chocolat<small class="mi-desc">Croissant pastry, dark chocolate</small></span><span class="mi-price">RM12.00</span></li>
-                <li><img class="mi-shot" src="images/menu/banana-bread.webp" alt="Sliced banana bread on a wooden board" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Banana Bread<small class="mi-desc">Moist and lightly spiced</small></span><span class="mi-price">RM10.00</span></li>
-                <li><img class="mi-shot" src="images/menu/basque-cheesecake.webp" alt="Slice of Basque burnt cheesecake" width="480" height="480" loading="lazy" decoding="async"><span class="mi-name">Basque Cheesecake<small class="mi-desc">Creamy centre, caramelised top</small></span><span class="mi-price">RM16.00</span></li>
-              </ul>
-            </section>
-          </div>
-          <aside class="menu-gallery" aria-label="Menu photography">
-            <figure class="menu-food-feature">
-              <img src="images/iced-coffee.webp" alt="Iced latte in a clear glass" width="1024" height="1024" loading="lazy" decoding="async">
-              <figcaption>Sora Latte <span>Concept drink photography</span></figcaption>
-            </figure>
-          </aside>
+        <div class="hero-visual" aria-label="Iced coffee, Sora Brew signature">
+          <img class="hero-drink" src="images/iced-coffee.webp" alt="Tall iced latte with milk and ice" width="1024" height="1024" fetchpriority="high" data-hero-drink>
         </div>
       </div>
     </section>
 
-    <section class="section story-section" id="story" aria-labelledby="story-title" data-replay>
-      <div class="container mx-auto story-layout">
-        <div class="story-head">
-          <p class="story-concept-note">A fictional café concept</p>
-          <h2 id="story-title">Our Story</h2>
-        </div>
-        <div class="story-copy">
-          <p class="story-intro">At Sora Brew, every cup is a little escape. A place to slow down, breathe, and enjoy the moment.</p>
-          <p class="story-location-note">Inspired by soft clouds, warm sunlight and the comfort of a favourite café seat.</p>
-          <div class="story-gallery" aria-label="Sora Brew concept photography">
-            <figure class="story-photo story-photo-main"><img src="images/cafe-interior.webp" alt="Window-side tables in a warm café interior" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>A place to settle in</figcaption></figure>
-            <figure class="story-photo story-photo-cup"><img src="images/hero-latte.webp" alt="A latte on a café table in morning light" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>A little pause</figcaption></figure>
-            <figure class="story-photo story-photo-room"><img src="images/cafe-exterior.webp" alt="The imagined Sora Brew café exterior" width="1448" height="1086" loading="eager" decoding="async"><figcaption>Room for your day</figcaption></figure>
-          </div>
-          <ul class="story-principles">
-            <li><span class="story-num">01</span><div><h3>The day begins</h3><p>Some mornings arrive all at once. Others need a softer start and a familiar cup.</p></div></li>
-            <li><span class="story-num">02</span><div><h3>Take a little pause</h3><p>A few quiet minutes can make room to look up, take a breath and settle in.</p></div></li>
-            <li><span class="story-num">03</span><div><h3>Stay for the small things</h3><p>Window light, a warm pastry, the conversation that runs longer than planned.</p></div></li>
-            <li><span class="story-num">04</span><div><h3>Make it a Sora moment</h3><p>A café concept for good coffee and the brighter parts of an ordinary day.</p></div></li>
-          </ul>
+    <section class="menu-section" id="menu" aria-labelledby="menu-title" data-reveal>
+      <div class="container menu-layout">
+        <header class="menu-intro"><h2 id="menu-title" data-reveal-item>Today’s<br> menu.</h2><p class="menu-date" data-reveal-item>Monday 23rd November</p><p class="menu-note" data-reveal-item>A short list, written fresh each morning.<span class="menu-note-detail"> Beans roasted in small batches, sweets made in-house before we open.</span> <span class="menu-price-note">Prices in RM.</span></p></header>
+        <div class="menu-groups" data-reveal-item>
+          <section class="menu-group" aria-labelledby="coffee-title"><h3 id="coffee-title">Coffee <span>RM</span></h3><ul>
+            <li><span><b>Cloud Latte</b><small>Double ristretto, oat milk, cloud foam</small></span><b class="price">14</b></li>
+            <li><span><b>Sora Americano</b><small>Long black, single origin of the week</small></span><b class="price">10</b></li>
+            <li class="menu-hover"><span><b>Caramel Drift</b><small>Espresso, burnt caramel, cold milk</small></span><b class="price">15</b></li>
+            <li class="desktop-only"><span><b>Cappuccino</b><small>Classic, 6oz, whole milk</small></span><b class="price">12</b></li>
+          </ul></section>
+          <section class="menu-group" aria-labelledby="bites-title"><h3 id="bites-title">All-day Bites <span>RM</span></h3><ul>
+            <li><span><b>Tamago Sando</b><small>Soft egg, milk bread, kewpie</small></span><b class="price">16</b></li>
+            <li><span><b>Chicken Katsu Sando</b><small>Panko chicken, cabbage, tonkatsu sauce</small></span><b class="price">19</b></li>
+            <li><span><b>Katsu Curry Rice</b><small>Japanese curry, pickles, steamed rice</small></span><b class="price">22</b></li>
+            <li class="desktop-only"><span><b>Creamy Mushroom Pasta</b><small>Shiitake, miso butter, parmesan</small></span><b class="price">21</b></li>
+          </ul></section>
+          <section class="menu-group" aria-labelledby="tea-title"><h3 id="tea-title">Non-Coffee &amp; Tea <span>RM</span></h3><ul>
+            <li><span><b>Hojicha Latte</b><small>Roasted green tea, steamed milk</small></span><b class="price">14</b></li>
+            <li><span><b>Uji Matcha</b><small>Ceremonial grade, whisked to order</small></span><b class="price">15</b></li>
+            <li><span><b>Yuzu Breeze</b><small>Yuzu, honey, sparkling water</small></span><b class="price">13</b></li>
+            <li class="desktop-only"><span><b>Strawberry Cloud</b><small>Fresh strawberry milk, vanilla foam</small></span><b class="price">15</b></li>
+          </ul></section>
+          <section class="menu-group" aria-labelledby="sweet-title"><h3 id="sweet-title">Sweet Little Things <span>RM</span></h3><ul>
+            <li><span><b>Cloud Cheesecake</b><small>Japanese soufflé cheesecake</small></span><b class="price">13</b></li>
+            <li><span><b>Matcha Roll</b><small>Sponge roll, matcha cream</small></span><b class="price">12</b></li>
+            <li><span><b>Mini Dorayaki</b><small>Red bean pancakes, set of three</small></span><b class="price">9</b></li>
+          </ul></section>
+          <p class="menu-footnote">Hover state shown on “Caramel Drift”</p>
         </div>
       </div>
     </section>
 
-    <section class="section outlet-section" id="outlet" aria-labelledby="outlet-title" data-replay>
-      <div class="container mx-auto outlet-layout">
-        <div class="outlet-intro">
-          <h2 id="outlet-title">Find an Outlet</h2>
-          <p class="outlet-illustrative">Illustrative outlet details for this concept.</p>
-          <p>Visit the imagined Sora Brew corner in Kuala Terengganu.</p>
-          <figure class="outlet-photo">
-            <img src="images/cafe-exterior.webp" alt="Concept image of the imagined Sora Brew café exterior" width="1448" height="1086" loading="eager" decoding="async">
-            <figcaption>Fictional outlet exterior &mdash; concept image</figcaption>
-          </figure>
-        </div>
-        <div class="outlet-details">
-          <div class="outlet-placeholder" role="group" aria-label="Fictional cafe outlet details for the demo">
-            <dl>
-              <div><dt>Address</dt><dd>Lot 08, Jalan Pesisir<br>Kuala Terengganu, Terengganu</dd></div>
-              <div><dt>Opening hours</dt><dd>Tue&ndash;Sun &middot; 8:00 am&ndash;8:00 pm<br>Monday &middot; Closed</dd></div>
-              <div><dt>Contact</dt><dd>hello@sorabrew.example</dd></div>
-            </dl>
-            <p>Sample details only, not a real address or a working contact.</p>
+    <section class="story-section section-pad" id="story" aria-labelledby="story-title" data-reveal>
+      <div class="container story-layout">
+        <figure class="story-photo" data-reveal-image><img src="images/sora-story.jpg" alt="A barista serving guests beneath the Sora Brew sign" width="834" height="941" loading="lazy"><figcaption>The Sora Brew room <span>Concept photography</span></figcaption></figure>
+        <div class="story-copy"><h2 id="story-title" data-reveal-item>Morning,<br>above the clouds.</h2>
+          <p class="story-lede" data-reveal-item>In Japanese, sora means sky. The idea came from early mornings on the coast — that soft first hour when the town is still quiet and the clouds sit low over the water.</p>
+          <p data-reveal-item>We built Sora Brew to hold on to that hour. Japanese-style brewing, Malaysian warmth, and a room of wood, linen and morning light, with nothing that shouts.</p>
+          <div class="story-support">
+            <figure class="story-cup-photo" data-reveal-image><img src="images/sora-story-latte.jpg" alt="A Sora Brew latte by a window above the clouds" width="666" height="500" loading="lazy"><figcaption>A slower start</figcaption></figure>
+            <ol class="story-points">
+              <li><span>01</span><div><b>Brewed slowly</b><small>Hand-drip and espresso, dialled in every morning.</small></div></li>
+              <li><span>02</span><div><b>Made in-house</b><small>Sando bread, cheesecake and dorayaki, before we open.</small></div></li>
+              <li><span>03</span><div><b>Room to breathe</b><small>Low music, soft light, window seats facing east.</small></div></li>
+            </ol>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="room-section" aria-labelledby="room-title" data-reveal>
+      <div class="container room-heading"><h2 id="room-title" data-reveal-item>Made for<br>slow mornings.</h2><p data-reveal-item>Forty seats, a long window bar facing the sunrise and a quiet first hour, no calls, no rush. Stay for one cup or the whole morning.</p></div>
+      <figure class="room-photo" data-reveal-image><img src="images/sora-room.jpg" alt="A guest looking out over the clouds from the cafe" width="833" height="444" loading="lazy"></figure>
+      <div class="container room-stats"><div><b>40</b><span>Seats, including a six-seat window bar</span></div><div><b>7:30</b><span>Quiet hour until 9:00. Low music, no calls</span></div><div><b>06</b><span>Single origins rotating on the hand-drip bar</span></div></div>
+    </section>
+
+    <section class="visit-section section-pad" id="visit" aria-labelledby="visit-title" data-reveal>
+      <div class="container visit-layout">
+        <div class="visit-intro"><h2 id="visit-title" data-reveal-item>Come up<br>for air.</h2><div class="visit-actions" data-reveal-item><a class="button button-primary" href="https://maps.google.com/?q=28+Cloud+Lane,+Kuala+Terengganu" target="_blank" rel="noreferrer">Get directions</a><a class="button button-outline" href="mailto:hello@sorabrew.my">Contact us <span aria-hidden="true">→</span></a></div></div>
+        <div class="visit-info"><div class="visit-details">
+          <div data-reveal-item><h3>Hours</h3><p>Mon – Fri&nbsp;&nbsp; 7:30 – 18:00<br>Sat – Sun&nbsp; 8:00 – 19:00<br>Closed on public holidays</p></div>
+          <div data-reveal-item><h3>Find us</h3><p>28 Cloud Lane, Sky Garden District<br>21000 Kuala Terengganu<br>Terengganu, Malaysia</p></div>
+          <div data-reveal-item><h3>Say hello</h3><p><a href="mailto:hello@sorabrew.my">hello@sorabrew.my</a><br><a href="tel:+6090000000">+60 9-000 0000</a><br><a href="#visit">@sorabrew</a></p></div>
+        </div><div class="map-placeholder" role="img" aria-label="Map location embed placeholder" data-reveal-item><span class="map-pin" aria-hidden="true"></span><small>MAP — LOCATION EMBED PLACEHOLDER</small></div>
+          <div class="visit-actions mobile-visit-actions" data-reveal-item><a class="button button-primary" href="https://maps.google.com/?q=28+Cloud+Lane,+Kuala+Terengganu" target="_blank" rel="noreferrer">Get directions</a><a class="button button-outline" href="mailto:hello@sorabrew.my">Contact us <span aria-hidden="true">→</span></a></div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer" data-replay>
-    <div class="container mx-auto footer-main">
-      <div class="footer-about">
-        <a class="brand footer-brand" href="#top">
-          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="21" cy="10" r="5.4" fill="#F9C875"/><path d="M9 20a5 5 0 0 1-.6-9.97A6.5 6.5 0 0 1 21 8.6 5.5 5.5 0 0 1 23.5 19H9.3a4.9 4.9 0 0 1-.3.01Z" fill="#fff" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-          Sora Brew<span class="brand-dot">.</span>
-        </a>
-        <p>Cafe website concept demo<br>Self-initiated by haziqbuilds</p>
-      </div>
-      <div class="footer-group">
-        <p class="footer-group-label">Visit the cafe</p>
-        <nav class="footer-nav" aria-label="Footer">
-          <a href="#top">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#outlet">Outlet</a>
-        </nav>
-      </div>
-      <div class="footer-group">
-        <p class="footer-group-label">About this project</p>
-        <div class="footer-cta">
-          <a class="portfolio-link" href="../../work.html#website-concepts">Back to haziqbuilds Work</a>
-          <a class="portfolio-link" href="../../index.html#contact">Want a site like this? Get in touch</a>
-        </div>
-      </div>
-    </div>
-    <div class="container mx-auto footer-note"><span>Concept preview. Cafe details shown are fictional.</span><span>Copyright 2026 Sora Brew concept</span></div>
+  <footer class="site-footer" data-reveal>
+    <div class="container footer-top"><div class="footer-brand" data-reveal-item><a href="#top">Sora Brew<span>•</span></a><p>Morning above the clouds.<br>Kuala Terengganu, Malaysia.</p></div>
+      <nav class="footer-group" aria-label="Explore" data-reveal-item><h2>Explore</h2><a href="#menu">Menu</a><a href="#story">About</a><a href="#visit">Visit</a></nav>
+      <nav class="footer-group" aria-label="Follow" data-reveal-item><h2>Follow</h2><a href="#visit">Instagram</a><a href="#visit">TikTok</a><a href="#visit">Facebook</a></nav>
+      <div class="footer-group" data-reveal-item><h2>Contact</h2><a href="mailto:hello@sorabrew.my">hello@sorabrew.my</a><a href="tel:+6090000000">+60 9-000 0000</a></div></div>
+    <div class="container footer-wordmark" data-reveal-item>Sora Brew<span>•</span></div>
+    <div class="container footer-bottom" data-reveal-item><span>© 2026 Sora Brew. All rights reserved.</span><a href="#top">Back to top ↑</a></div>
+    <div class="container concept-note" data-reveal-item>Fictional cafe concept. Menu, address, hours and contact details are placeholders. <a href="../../work.html#website-concepts">Concept by haziqbuilds</a>.</div>
   </footer>
 </body>
 </html>
