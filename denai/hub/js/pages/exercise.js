@@ -3,22 +3,31 @@
 //   "Latihan lagi" gives a different set.
 // * Two attempts per question: a first mistake shows targeted feedback only (no
 //   answer, no solution); the answer and full solution appear after a correct
-//   answer or a second mistake.
+//   answer or a second mistake (owner decision D7).
+// * Progressive hints (D7): after the first mistake the learner may reveal the
+//   worked solution one step at a time, but never the last two steps, so a hint
+//   never gives the answer away. Questions with fewer than 3 solution steps get
+//   no step hints. Hints are recorded; a hinted answer is never first-try evidence.
+// * ?jenis=bertulis shows the subtopic's structured and reasoning questions
+//   (written practice, see written.js). They never change mastery.
 // * Every attempt is recorded as a learning event; the set in progress is saved,
 //   so a refresh resumes at the same question. Checking happens in the browser
 //   with the notes app's own checker.
-import { esc, icon, crumbs, tag, LEVEL, emptyState, journeyCompact, masteryTag } from '../ui.js';
-import { chapter, loadChapter, questionPool, GAME, chapterLabel } from '../data.js';
+import { esc, icon, crumbs, tag, LEVEL, emptyState, masteryTag, insufficientNote } from '../ui.js';
+import { chapter, loadChapter, questionPool, writtenPool, gameLevelFor, chapterLabel } from '../data.js';
 import { renderMath, checkSingle, answerHtml } from '../core/content.js';
 import { store } from '../core/store.js';
-import { attempt, setDone } from '../core/events.js';
-import { outcomes, levelFor, poolOf } from '../core/mastery.js';
+import { attempt, setDone, hintUsed } from '../core/events.js';
+import { outcomes, evidence, poolOf } from '../core/mastery.js';
+import { written } from './written.js';
 import { pickSet, mulberry32 } from '../core/practice.js';
 
 const KEYS = 'ABCDEF';
 const TYPE = { mcq: 'Objektif', numeric: 'Jawapan nombor', expression: 'Jawapan ungkapan' };
 const INPUT_HINT = { numeric: 'Contoh format: 7, -2.5 atau 3/4', expression: 'Contoh format: 2x+1, (x-1)/2, 3(x+4)^2' };
 const RETRY_GENERIC = 'Belum tepat. Semak semula langkah anda dan cuba sekali lagi.';
+/** How many solution steps may be shown as hints: all but the last two. */
+export const hintsAllowed = (q) => Math.max(0, (q.solution?.length || 0) - 2);
 
 export async function render(route) {
   const [id, subId] = route.params;
@@ -30,22 +39,27 @@ export async function render(route) {
   const pool = questionPool(ch, sub.id);
   const byId = new Map(pool.map((q) => [q.id, q]));
   const next = ch.subtopics[ch.subtopics.indexOf(sub) + 1];
-  const level = c.hasGame ? GAME.levels.find((l) => l.sub === sub.id) : null;
+  const level = gameLevelFor(id, sub.id);
   const KEY = `${id}/${sub.id}`;
+  const wq = writtenPool(ch, sub.id);
+  const isWritten = route.query.get('jenis') === 'bertulis';
+  const modeNav = wq.length ? `<nav class="seg seg-mode" aria-label="Jenis latihan"><a href="#/latihan/${id}/${sub.id}"${isWritten ? '' : ' aria-current="page"'}>Latihan (${pool.length})</a><a href="#/latihan/${id}/${sub.id}?jenis=bertulis"${isWritten ? ' aria-current="page"' : ''}>Soalan bertulis (${wq.length})</a></nav>` : '';
 
-  const top = `${crumbs([['Hub', '#/hub'], [`Bab ${c.number}`, `#/bab/${id}`], [`${sub.id} ${sub.title}`, `#/nota/${id}/${sub.id}`], ['Latihan']])}
+  const top = `${crumbs([['Belajar', '#/bab'], [`Bab ${c.number}`, `#/bab/${id}`], [`${sub.id} ${sub.title}`, `#/nota/${id}/${sub.id}`], [isWritten ? 'Soalan bertulis' : 'Latihan']])}
     <header class="read-head" style="border:0;padding-bottom:0">
-      <p class="eyebrow">Latihan · ${esc(chapterLabel(c))}</p>
+      <p class="eyebrow">${isWritten ? 'Soalan bertulis' : 'Latihan'} · ${esc(chapterLabel(c))}</p>
       <h1 class="h1">${esc(sub.id)} ${esc(sub.title)}</h1>
-      <div style="margin-top:12px">${journeyCompact('latih')}</div>
+      ${modeNav ? `<div style="margin-top:14px">${modeNav}</div>` : ''}
     </header>`;
 
+  if (isWritten) return written({ c, ch, sub, id, top, wq });
+
   if (!pool.length) {
-    return { title: `Latihan ${sub.id}`, nav: 'bab', surface: 'read', html: `<div class="wrap wrap-read"><div class="read">${top}<div style="margin-top:24px">${emptyState({ ico: 'pencil', title: 'Latihan belum tersedia', text: 'Subtopik ini belum mempunyai soalan yang boleh disemak secara automatik.', actions: `<a class="btn btn-primary" href="#/nota/${id}/${sub.id}">Kembali ke nota</a>` })}</div></div></div>` };
+    return { title: `Latihan ${sub.id}`, nav: 'bab', surface: 'read', preview: c.preview, html: `<div class="wrap wrap-read"><div class="read">${top}<div style="margin-top:24px">${emptyState({ ico: 'pencil', title: 'Latihan automatik belum tersedia', text: 'Subtopik ini belum mempunyai soalan yang boleh disemak secara automatik.', actions: `<a class="btn btn-primary" href="#/nota/${id}/${sub.id}">Kembali ke nota</a>` })}</div></div></div>` };
   }
 
   const html = `<div class="wrap wrap-read"><div class="read">${top}<p class="small muted" id="ex-resume" role="status" hidden></p><div id="ex-host" aria-live="polite"></div>
-    <p class="source-line">Soalan asal daripada bank soalan nota Add Math (bukan soalan SPM sebenar). Setiap soalan ada dua cubaan; jawapan penuh ditunjuk selepas jawapan betul atau cubaan kedua.</p></div></div>`;
+    <p class="source-line">Soalan asal daripada bank soalan nota Add Math (bukan soalan SPM sebenar). Setiap soalan ada dua cubaan. Selepas kesilapan pertama anda boleh minta petunjuk; jawapan dan penyelesaian penuh ditunjuk selepas jawapan betul atau cubaan kedua.</p></div></div>`;
 
   const mount = (view) => {
     const host = view.querySelector('#ex-host');
@@ -77,13 +91,21 @@ export async function render(route) {
     function resolvedHtml(qq) {
       const r = ui.resolved; // { ok, first }
       const fb = qq.type === 'mcq' && ui.pick !== null ? qq.options[ui.pick].feedback : ui.check?.html;
-      const title = r.ok ? (r.first ? 'Betul!' : 'Betul pada cubaan kedua') : 'Belum tepat';
+      const title = r.ok ? (r.first ? 'Betul!' : r.hint ? 'Betul pada cubaan kedua, dengan petunjuk' : 'Betul pada cubaan kedua') : 'Belum tepat';
       return `<div class="feedback ${r.ok ? 'is-right' : 'is-wrong'}" role="status">
           <p class="feedback-title">${icon(r.ok ? 'check' : 'x')}${title}</p>
           ${fb && !(r.ok && qq.type !== 'mcq' && fb === 'Betul.') ? `<div class="prose small">${renderMath(fb)}</div>` : ''}
           ${r.ok ? '' : `<p class="correct-line"><b>Jawapan betul:</b> ${answerHtml(qq)}</p>`}
         </div>
         ${qq.solution?.length ? `<details class="explain"${r.ok ? '' : ' open'}><summary>${icon('bulb')}Penyelesaian penuh</summary><ol class="prose">${qq.solution.map((s) => `<li>${renderMath(s)}</li>`).join('')}</ol></details>` : ''}`;
+    }
+
+    function retryHtml(qq) {
+      const max = hintsAllowed(qq), shown = Math.min(set.cur.hints || 0, max);
+      const steps = shown ? `<div class="hint-box"><p class="hint-title">${icon('bulb')}Petunjuk: ${shown === 1 ? 'langkah pertama' : `${shown} langkah pertama`} penyelesaian</p><ol class="prose small">${qq.solution.slice(0, shown).map((x) => `<li>${renderMath(x)}</li>`).join('')}</ol></div>` : '';
+      const btn = shown < max ? `<button type="button" class="btn btn-quiet btn-sm" data-act="hint">${icon('bulb')}${shown ? 'Petunjuk seterusnya' : 'Tunjuk petunjuk'}</button>` : '';
+      return `<div class="feedback is-retry" role="status"><p class="feedback-title">${icon('refresh')}Cuba sekali lagi</p><div class="prose small">${renderMath(ui.retry)}</div>${steps}
+        <p class="small muted">${max ? `${btn ? '' : 'Semua petunjuk telah ditunjuk. '}Petunjuk tidak pernah menunjukkan jawapan akhir. ` : 'Tiada petunjuk berlangkah untuk soalan ini. '}Jawapan penuh ditunjuk selepas cubaan kedua.</p>${btn ? `<div>${btn}</div>` : ''}</div>`;
     }
 
     function view1() {
@@ -114,7 +136,7 @@ export async function render(route) {
             <div class="qprompt" id="q-prompt">${renderMath(qq.prompt)}</div>
             ${field}
           </div>
-          ${done ? resolvedHtml(qq) : ui.retry ? `<div class="feedback is-retry" role="status"><p class="feedback-title">${icon('refresh')}Cuba sekali lagi</p><div class="prose small">${renderMath(ui.retry)}</div><p class="small muted">Jawapan penuh ditunjuk selepas cubaan kedua.</p></div>` : ''}
+          ${done ? resolvedHtml(qq) : ui.retry ? retryHtml(qq) : ''}
           <div class="qactions">
             <span class="qstatus">${status}</span>
             ${done ? `<button type="button" class="btn btn-primary" data-act="next">${last ? 'Lihat keputusan' : 'Soalan seterusnya'} ${icon('arrow')}</button>`
@@ -145,6 +167,13 @@ export async function render(route) {
         input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && input.value.trim()) { e.preventDefault(); submit(qq); } });
       }
       host.querySelector('[data-act="submit"]')?.addEventListener('click', () => submit(qq));
+      host.querySelector('[data-act="hint"]')?.addEventListener('click', () => {
+        const step = Math.min((set.cur.hints || 0) + 1, hintsAllowed(qq));
+        set.cur.hints = step; save();
+        store.append(hintUsed({ ch: id, sub: sub.id, q: qq.id, set: set.id, step }));
+        view1();
+        host.querySelector('.hint-box')?.setAttribute('tabindex', '-1'); host.querySelector('.hint-box')?.focus({ preventScroll: false });
+      });
       host.querySelector('[data-act="next"]')?.addEventListener('click', advance);
     }
 
@@ -164,17 +193,18 @@ export async function render(route) {
       store.append(attempt({ ch: id, sub: sub.id, q: qq, set: set.id, tryNo, ok, misc }));
       if (!ok && tryNo === 1) {
         // First mistake: targeted feedback only, no answer, no solution.
-        set.cur = { try: 2, wrong: qq.type === 'mcq' ? [ui.pick] : [], text: '' };
+        set.cur = { try: 2, wrong: qq.type === 'mcq' ? [ui.pick] : [], text: '', hints: 0 };
         save();
         ui.retry = fb; ui.pick = null; ui.text = qq.type === 'mcq' ? '' : ui.text;
         view1();
         (host.querySelector('[data-opt]:not([disabled])') || host.querySelector('#ans'))?.focus({ preventScroll: true });
         return;
       }
-      ui.resolved = { ok, first: ok && tryNo === 1 };
+      const hinted = (set.cur.hints || 0) > 0;
+      ui.resolved = { ok, first: ok && tryNo === 1, hint: hinted };
       ui.retry = null; ui.tried = [...set.cur.wrong];
-      set.results.push({ q: qq.id, first: ui.resolved.first, ok });
-      set.cur = { try: 1, wrong: [], text: '' };
+      set.results.push({ q: qq.id, first: ui.resolved.first, ok, hint: hinted });
+      set.cur = { try: 1, wrong: [], text: '', hints: 0 };
       save();
       view1();
       host.querySelector('[data-act="next"]')?.focus({ preventScroll: true });
@@ -193,7 +223,7 @@ export async function render(route) {
       const total = set.qids.length, right = set.results.filter((r) => r.ok).length, first = set.results.filter((r) => r.first).length;
       store.append(setDone({ ch: id, sub: sub.id, set: set.id, total, first, right }));
       const finished = set; store.clearActive(KEY);
-      const lv = levelFor(outcomes(attemptsHere()), poolOf(pool));
+      const ev = evidence(outcomes(attemptsHere()), poolOf(pool)), lv = ev.level;
       const pct = Math.round((right / total) * 100);
       const msg = first === total ? 'Cemerlang! Semua betul pada cubaan pertama.' : pct >= 60 ? 'Bagus. Semak penyelesaian soalan yang tersilap, kemudian teruskan.' : 'Baca semula nota dan cuba set baharu. Penyelesaian penuh ada untuk setiap soalan.';
       host.innerHTML = `<section class="qcard done" style="margin-top:16px" aria-labelledby="h-done">
@@ -202,13 +232,16 @@ export async function render(route) {
         <p>${msg}</p>
         <p style="margin-top:12px">${first} betul pada cubaan pertama · ${right - first} pada cubaan kedua</p>
         <p style="margin-top:12px;display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap"><span class="small muted">Tahap penguasaan ${esc(sub.id)}:</span>${masteryTag(lv)}</p>
-        <ul class="review-list">${finished.qids.map((qid, k) => { const r = finished.results[k]; const qq = byId.get(qid); return `<li class="${r.ok ? 'is-right' : 'is-wrong'}">${icon(r.ok ? 'check' : 'x', r.ok ? (r.first ? 'Betul pada cubaan pertama' : 'Betul pada cubaan kedua') : 'Salah')}<span class="rl-text"><b>S${k + 1}.</b> ${renderMath(qq.prompt)}${r.ok && !r.first ? ' <span class="small muted">(cubaan kedua)</span>' : ''}</span></li>`; }).join('')}</ul>
+        <p class="small muted" style="margin-top:6px">${ev.distinctFirst} soalan berbeza betul pada cubaan pertama setakat ini. Jawapan selepas petunjuk atau pada cubaan kedua tidak dikira sebagai cubaan pertama.</p>
+        ${insufficientNote(ev)}
+        <ul class="review-list">${finished.qids.map((qid, k) => { const r = finished.results[k]; const qq = byId.get(qid); return `<li class="${r.ok ? 'is-right' : 'is-wrong'}">${icon(r.ok ? 'check' : 'x', r.ok ? (r.first ? 'Betul pada cubaan pertama' : 'Betul pada cubaan kedua') : 'Salah')}<span class="rl-text"><b>S${k + 1}.</b> ${renderMath(qq.prompt)}${r.ok && !r.first ? ` <span class="small muted">(cubaan kedua${r.hint ? ', dengan petunjuk' : ''})</span>` : ''}</span></li>`; }).join('')}</ul>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary" data-act="again">${icon('refresh')}Latihan lagi (set baharu)</button>
           ${next ? `<a class="btn btn-primary" href="#/nota/${id}/${next.id}">Nota seterusnya: ${esc(next.id)} ${icon('arrow')}</a>` : `<a class="btn btn-primary" href="#/bab/${id}">Kembali ke Bab ${c.number} ${icon('arrow')}</a>`}
         </div>
-        ${level ? `<p class="notice" style="margin-top:24px;text-align:left">${icon('gamepad')}<span>Sedia untuk cabaran? Konsep ini digunakan dalam <b>Level ${level.no}: ${esc(level.title)}</b>. <a href="#/main">Ke halaman game</a></span></p>` : ''}
-        <p class="small muted" style="margin-top:20px">${store.demo ? 'Mod demo: keputusan ini tidak disimpan.' : 'Keputusan disimpan dalam pelayar ini.'} <a href="#/hub">Kembali ke Learning Hub</a></p>
+        ${wq.length ? `<p style="margin-top:16px"><a class="textlink" href="#/latihan/${id}/${sub.id}?jenis=bertulis">${icon('list')}Cuba soalan bertulis (${wq.length})</a></p>` : ''}
+        ${level ? `<p class="notice" style="margin-top:24px;text-align:left">${icon('gamepad')}<span>Konsep ini digunakan dalam misi game <b>Level ${level.no}: ${esc(level.title)}</b>. <a href="#/main">Lihat di tab Game</a></span></p>` : ''}
+        <p class="small muted" style="margin-top:20px">${store.demo ? 'Mod demo: keputusan ini tidak disimpan.' : 'Keputusan disimpan dalam pelayar ini.'} <a href="#/hub">Kembali ke Utama</a></p>
       </section>`;
       host.querySelector('#h-done').focus({ preventScroll: false });
       host.querySelector('[data-act="again"]').addEventListener('click', () => {
@@ -221,5 +254,5 @@ export async function render(route) {
 
     view1();
   };
-  return { title: `Latihan ${sub.id} ${sub.title}`, nav: 'bab', surface: 'read', html, mount };
+  return { title: `Latihan ${sub.id} ${sub.title}`, nav: 'bab', surface: 'read', preview: c.preview, html, mount };
 }

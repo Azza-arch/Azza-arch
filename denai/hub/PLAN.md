@@ -32,16 +32,19 @@ Branch: `claude/denai-learning-hub`. Read this first in any new session.
 - **Demo data** (`js/demo.js`) is clearly labelled *DATA CONTOH* on every screen that uses it. Only the demo-state choice is stored (`denai-hub-demo-v1`). Exercises are not graded server-side and not saved.
 
 ## Routes
-| # | Page | Hash |
-|---|---|---|
-| 01 | Home | `#/` |
-| 02 | Learning Hub | `#/hub` |
-| 03 | Chapter selection | `#/bab` (`#/bab?t=5`) |
-| 04 | Chapter overview | `#/bab/<id>` |
-| 05 | Concept notes | `#/nota/<id>/<sub>` |
-| 06 | Exercise | `#/latihan/<id>/<sub>` |
-| 07 | Game launch | `#/main` |
-| 08 | My progress | `#/kemajuan` |
+Four tabs (v2): **Utama** `#/hub` · **Belajar** `#/bab` · **Game** `#/main` · **Kemajuan** `#/kemajuan`. `#/` is the landing page (logo).
+
+| Page | Hash |
+|---|---|
+| Landing | `#/` |
+| Utama (student home) | `#/hub` |
+| Belajar: Tingkatan + chapter path | `#/bab` (`#/bab?t=5`) |
+| Chapter: subtopic path | `#/bab/<id>` |
+| Chapter revision sheet | `#/bab/<id>/ulang-kaji` |
+| Note (all sections; `?b=contoh` opens examples) | `#/nota/<id>/<sub>` |
+| Exercise / written questions | `#/latihan/<id>/<sub>`, `?jenis=bertulis` |
+| Game | `#/main` (`?bab=<id>`) |
+| Progress + data controls | `#/kemajuan` |
 
 Play button → `/app/addmath/denai/main` (the real game route).
 
@@ -74,8 +77,11 @@ See `PRODUCT-ROADMAP.md` for the full analysis and later phases.
 - WCAG: `--ink-faint` #5f6679, `.btn-ok` #1b7a55, `--ok` #17704a (all ≥4.5:1, checked in the smoke test).
 - Game progress is not read (Phase 3); game keys are never written.
 
+## Learning Hub v2
+Implemented on this branch; status table, tests and content status in `PRODUCT-ROADMAP.md` → "Implementation status — Learning Hub v2". New module: `js/pages/written.js`.
+
 ## Not done / next
-- Phase 2+ in `PRODUCT-ROADMAP.md` (progressive hints from solution steps, maths input toolbar, stepped examples, chapter path, read-only game bridge).
+- Maths input toolbar on phones; read-only game bridge (open decision O6); game → hub links (O7).
 - Exercise results live in this browser only; no account or sync (Later).
 
 ## Checks

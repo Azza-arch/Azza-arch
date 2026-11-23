@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { sanitizeEvent, attempt, noteDone, setDone, EVENT_VERSION } from '../js/core/events.js';
 import { sanitizeState } from '../js/core/store.js';
-import { outcomes, levelFor, poolOf, bySp } from '../js/core/mastery.js';
+import { outcomes, levelFor, evidence, poolOf, bySp } from '../js/core/mastery.js';
 import { pickSet, mulberry32 } from '../js/core/practice.js';
 
 let n = 0;
@@ -60,17 +60,36 @@ test('3 distinct first-try incl. Sederhana → faham', () => {
   assert.equal(levelFor(outcomes(ev), pool5), 'faham');
 });
 test('mahir needs Cabaran, a clean last 5 and two different days', () => {
-  const s1 = ['a', 'b', 'c', 'd', 'e'].map((id) => A(q(id, { c: 'sederhana', d: 'sederhana', e: 'mencabar' }[id] || 'mudah'), 's1', 1, true, day(1)));
-  assert.equal(levelFor(outcomes(s1), pool5), 'faham', 'one day only');
-  const s2 = ['a', 'b', 'c', 'd', 'e'].map((id) => A(q(id, { c: 'sederhana', d: 'sederhana', e: 'mencabar' }[id] || 'mudah'), 's2', 1, true, day(3)));
-  assert.equal(levelFor(outcomes([...s1, ...s2]), pool5), 'mahir');
+  const D = { c: 'sederhana', d: 'sederhana', e: 'mencabar' };
+  const one = ['a', 'b', 'c', 'd', 'e'].map((id) => A(q(id, D[id] || 'mudah'), 's0', 1, true, day(1)));
+  assert.equal(levelFor(outcomes(one), pool5), 'faham', 'one day only');
+  const s1 = ['a', 'b', 'c'].map((id) => A(q(id, D[id] || 'mudah'), 's1', 1, true, day(1)));
+  const s2 = ['d', 'e'].map((id) => A(q(id, D[id] || 'mudah'), 's2', 1, true, day(3)));
+  assert.equal(levelFor(outcomes([...s1, ...s2]), pool5), 'mahir', 'new questions on a second day');
   const slip = [...s1, ...s2, A(q('a'), 's3', 1, false, day(4)), A(q('a'), 's3', 2, true, day(4))];
   assert.equal(levelFor(outcomes(slip), pool5), 'faham', 'a recent slip drops mahir');
 });
-test('small pools stay reachable', () => {
+test('a bank too small for a level → no level, "insufficient" instead (never lowered)', () => {
   const tiny = poolOf([q('a'), q('b')]);
   const ev = [A(q('a'), 's1', 1, true, day(1)), A(q('b'), 's1', 1, true, day(2))];
-  assert.equal(levelFor(outcomes(ev), tiny), 'mahir');
+  const e = evidence(outcomes(ev), tiny);
+  assert.equal(e.level, 'mencuba'); assert.equal(e.insufficient, 'faham');
+  const four = poolOf([q('a'), q('b'), q('c', 'sederhana'), q('d', 'mencabar')]);
+  const all = ['a', 'b', 'c', 'd'].map((id) => A(q(id, { c: 'sederhana', d: 'mencabar' }[id] || 'mudah'), 's1', 1, true, day(1)));
+  const all2 = ['a', 'b', 'c', 'd'].map((id) => A(q(id, { c: 'sederhana', d: 'mencabar' }[id] || 'mudah'), 's2', 1, true, day(3)));
+  const e4 = evidence(outcomes([...all, ...all2]), four);
+  assert.equal(e4.level, 'faham'); assert.equal(e4.insufficient, 'mahir');
+});
+test('repeating the same questions on another day is not new evidence', () => {
+  const s1 = ['a', 'b', 'c', 'd', 'e'].map((id) => A(q(id, { c: 'sederhana', d: 'sederhana', e: 'mencabar' }[id] || 'mudah'), 's1', 1, true, day(1)));
+  const same = ['a', 'b', 'c', 'd', 'e'].map((id) => A(q(id, { c: 'sederhana', d: 'sederhana', e: 'mencabar' }[id] || 'mudah'), 's2', 1, true, day(3)));
+  const e = evidence(outcomes([...s1, ...same]), pool5);
+  assert.equal(e.level, 'faham', 'same five questions again'); assert.equal(e.days, 1); assert.equal(e.distinctFirst, 5);
+});
+test('the same question answered right three times counts once for Faham', () => {
+  const ev = ['s1', 's2', 's3'].map((s) => A(q('c', 'sederhana'), s, 1, true, day(1)));
+  const e = evidence(outcomes(ev), pool5);
+  assert.equal(e.level, 'mencuba'); assert.equal(e.distinctFirst, 1);
 });
 test('per-SP view counts results', () => {
   const r = outcomes([A(q('a'), 's1', 1, true, day(1)), A(q('b'), 's1', 1, false, day(1))]);

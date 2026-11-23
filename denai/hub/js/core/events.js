@@ -28,6 +28,12 @@ export function sanitizeEvent(e) {
       const misc = str(e.misc, /^[a-z0-9\-]{1,40}$/); if (misc) out.misc = misc;
       return out;
     }
+    case 'hint': {
+      // A hint (one step of the worked solution) shown before the second try.
+      const q = str(e.q), set = str(e.set), step = int(e.step, 1, 10);
+      if (!q || !set || !step) return null;
+      return { ...base, q, set, step };
+    }
     case 'set-done': {
       const set = str(e.set), total = int(e.total, 1, 50), first = int(e.first, 0, 50), right = int(e.right, 0, 50);
       if (!set || !total || first === null || right === null || first > right || right > total) return null;
@@ -45,4 +51,5 @@ export function attempt({ ch, sub, q, set, tryNo, ok, misc }) {
   if (misc) e.misc = misc;
   return e;
 }
+export const hintUsed = ({ ch, sub, q, set, step }) => ({ v: EVENT_VERSION, t: 'hint', at: now(), ch, sub, q, set, step });
 export const setDone = ({ ch, sub, set, total, first, right }) => ({ v: EVENT_VERSION, t: 'set-done', at: now(), ch, sub, set, total, first, right });

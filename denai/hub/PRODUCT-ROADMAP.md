@@ -101,7 +101,7 @@ DENAI today is a well-designed **catalogue**, not yet a **learning loop**. The g
 | Distinct misconception tags | 146 (not a shared taxonomy; most are used once) | same |
 | SP codes covered by questions | 94 | `q.sp` |
 | Authored hints on questions | **0** | No `hint` field in content |
-| T5 Bab 7, 8 | not built | `PROGRESS.md` |
+| T5 Bab 7, 8 | written 2026-11-23, in `review` | `PROGRESS.md` |
 
 ### 2.4 DENAI game — `/app/addmath/denai/main` (do not redesign)
 
@@ -448,7 +448,7 @@ Accounts and sync (M-25), teacher view, game → hub links (M-26, owner approval
 | Dependency | Blocks | Owner action |
 |---|---|---|
 | Tingkatan 5 review and publication (23 subtopics, 172 questions in `review`) | T5 students, half the curriculum | Review in `/app/addmath/?semak=1` and publish |
-| T5 Bab 7 and 8 content | Full T5 coverage | Not built (`PROGRESS.md`) |
+| T5 Bab 7 and 8 content | Full T5 coverage | Written 2026-11-23; awaiting review with the rest of T5 (`PROGRESS.md`) |
 | Hints | True hints (X-4); M-8 is a partial substitute using existing solutions | Decide: author `hint` fields, or accept solution-step reveal |
 | Misconception taxonomy | Review by misconception (P-3) | 146 ad-hoc tags → agree a short shared list |
 | Hub vs notes app role (M-5) | Phase 1 scope | Choose option A/B/C |
@@ -477,3 +477,36 @@ Accounts and sync (M-25), teacher view, game → hub links (M-26, owner approval
 4. Mastery rule (§6): accept the initial proposal for Phase 2?
 5. Is a read-only view of game progress in the hub acceptable (same approach as `/denai/`)?
 6. Timeline for the T5 review.
+
+---
+
+## Implementation status — Learning Hub v2 (2026-11-23, branch `claude/denai-hub-phase1`, not merged)
+
+Built on the owner decisions D1–D15 and review directions A1–A8 (`PRODUCT-BLUEPRINT.md` §3).
+
+| Phase | State | What was built |
+|---|---|---|
+| 1 Foundation | Done | Exactly four tabs: Utama `#/hub`, Belajar `#/bab`, Game `#/main`, Kemajuan `#/kemajuan`. `#/` stays the landing page (logo). Navigation-bar CTA removed. Scroll padding keeps focus clear of the sticky/fixed bars. Owner-preview flag on review content. |
+| 2 Utama | Done | One primary action ("Sambung belajar"; "Mula belajar" for an empty record), the next step and its reason, position in the chapter, at most three revision items. Activity feed, statistics and shortcut cards moved out. |
+| 3 Belajar | Done | Tingkatan → chapter path → subtopic path → Nota / Contoh / Latihan / Soalan bertulis. All 18 DSKP chapters listed with an honest status. Nothing locked. |
+| 4 Notes | Done | Every published explanation section, visual, formula, summary and common mistake of all 30 T4 subtopics. Since the 2026-11-23 content pass, T5 Bab 1–8 (owner preview) also have the V3 layer, so all 59 subtopics use the same Fahami view. |
+| 5 Worked examples | Done | All 148 published examples (104 more in T5 review), main example first, optional step-by-step reveal. |
+| 6 Exercises | Done | Auto-checked sets (196 published questions), two attempts, misconception feedback, progressive hints from existing solution steps (never the last two; none for < 3 steps), resume after reload. Written practice for all 54 structured/reasoning questions: numeric/expression parts checked, reasoning compared with the model solution; never counted for mastery. |
+| 7 Revision | Done | Revision list from real activity (unfinished sets, subtopics at Mencuba with the evidence behind it, notes opened but not finished) on Utama and Kemajuan; chapter revision sheet `#/bab/<id>/ulang-kaji`. No streaks or timers. |
+| 8 Game | Done | Game tab: all four worlds from the game's map with their real state, three missions ↔ subtopic/SP, academic level shown separately, "game records are not mastery evidence". Game, saves and assets untouched. |
+| 9 Progress | Done | Conservative mastery (D13): repeated questions are not new evidence, two study days need new questions, banks too small for a level show "Bukti belum mencukupi" instead of lowered thresholds (6.3, 8.3, 9.3, 9.4 cap at Faham). Hints recorded. Data & settings with "Padam kemajuan saya" (game saves untouched). |
+| 10 QA | Done | See below. |
+
+**Tests run (2026-11-23):** `node denai/hub/tests/core.test.mjs` 18/18 · `node denai/hub/tests/hub-smoke.cjs` 213 checks, all pass (desktop 1280, tablet 820, phone 390; every published and every review subtopic; 154-route link crawl; game boots Phaser 3.90.0) · `bash app/addmath/tests/run-all.sh` all pass · notes-app smoke 410/410.
+
+**Content status (updated by the content completion pass, 2026-11-23; full checklist in `app/addmath/PROGRESS.md`):**
+
+| Content | Status | Learner access |
+|---|---|---|
+| T4 Bab 1–10 (30 subtopics, 148 examples, 250 questions) | Published (owner-approved, validator-checked, every example and manual item AI-reviewed 2026-11-23; `mathReviewed` field empty) | Full |
+| T5 Bab 1–6 (23 subtopics, 104 examples, 172 questions) | `review`; audited 2026-11-23, no mathematical errors found; V3 layer added | Listed as "Sedang disemak" with counts; full content only with `?semak=1` |
+| T5 Bab 7–8 (6 subtopics, 23 examples, 49 questions) | `review`; written 2026-11-23 from DSKP PDF 142 and 146–148, every auto answer re-derived by an independent solver | Listed as "Sedang disemak"; full content only with `?semak=1` |
+
+Content pass checks: `run-all.sh` (now including the checker round trip: 474 answers, 648 misconception responses through the real `checkSingle`) all pass · notes-app smoke 458/458 (all 18 chapters) · hub smoke 214/214 (its T5 expectations updated: Bab 1–8 "Sedang disemak", 29 review subtopics).
+
+**Blockers outside code:** publishing T5 Bab 1–8 needs the owner's / an academic reviewer's sign-off (D8, O8; 106 manual items listed in `app/addmath/tests/last-notes-report.md`); the four small banks need more questions before Mahir can be evidenced; mastery numbers (3 / 5 / 2 days) remain hypotheses until pilot data (O16); no student testing has been run.

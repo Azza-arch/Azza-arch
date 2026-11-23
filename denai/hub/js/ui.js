@@ -71,3 +71,22 @@ export const journeyCompact = (here) => {
 };
 
 export const LEVEL = { mudah: 'Asas', sederhana: 'Sederhana', mencabar: 'Cabaran' };
+
+/** Where a recommended action leads, and what it is called (one vocabulary everywhere). */
+export const actionHref = (a) => (a.kind === 'note' ? `#/nota/${a.ch}/${a.sub}` : `#/latihan/${a.ch}/${a.sub}`);
+export const actionKind = (a) => ({ note: 'Nota', ex: 'Latihan', resume: 'Sambung latihan' }[a.kind]);
+
+/** Honest wording when a subtopic's question bank cannot evidence the next level (D13). */
+export function insufficientNote(ev) {
+  if (!ev || !ev.insufficient) return '';
+  const lv = ev.insufficient === 'mahir' ? 'Mahir' : 'Faham';
+  return `<span class="evidence-note">${icon('info')}Bukti belum mencukupi untuk ${lv}: subtopik ini hanya ada ${ev.total} soalan yang boleh disemak automatik.</span>`;
+}
+
+/** Plain-language rules behind the levels (shown wherever levels are explained). */
+export const MASTERY_RULES = [
+  ['Belum mula', 'Belum ada jawapan latihan untuk subtopik ini.'],
+  ['Mencuba', 'Anda sudah menjawab sekurang-kurangnya satu soalan latihan.'],
+  ['Faham', '3 soalan berbeza betul pada cubaan pertama, termasuk sekurang-kurangnya satu soalan Sederhana atau Cabaran.'],
+  ['Mahir', 'Faham, ditambah soalan Cabaran betul pada cubaan pertama, 5 soalan berbeza terakhir semuanya betul pada cubaan pertama, dan soalan baharu betul pada dua hari yang berlainan.'],
+];

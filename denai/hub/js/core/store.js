@@ -31,13 +31,14 @@ export function isDemoMode() {
 }
 
 // ---------------------------------------------------------------- sanitising
+const int10 = (v) => (Number.isInteger(v) && v >= 0 && v <= 10 ? v : 0);
 const empty = () => ({ v: 1, events: [], active: {} });
 function sanitizeActive(a) {
   if (!a || typeof a !== 'object' || !ID.test(a.id || '') || !Array.isArray(a.qids) || !a.qids.length) return null;
   const qids = a.qids.filter((x) => typeof x === 'string' && ID.test(x)).slice(0, 20);
-  const results = (Array.isArray(a.results) ? a.results : []).filter((r) => r && qids.includes(r.q)).map((r) => ({ q: r.q, first: r.first === true, ok: r.ok === true })).slice(0, qids.length);
+  const results = (Array.isArray(a.results) ? a.results : []).filter((r) => r && qids.includes(r.q)).map((r) => ({ q: r.q, first: r.first === true, ok: r.ok === true, hint: r.hint === true })).slice(0, qids.length);
   const i = Math.min(results.length, qids.length - 1);
-  const cur = a.cur && typeof a.cur === 'object' ? { try: a.cur.try === 2 ? 2 : 1, wrong: Array.isArray(a.cur.wrong) ? a.cur.wrong.filter(Number.isInteger).slice(0, 6) : [], text: typeof a.cur.text === 'string' ? a.cur.text.slice(0, 120) : '' } : { try: 1, wrong: [], text: '' };
+  const cur = a.cur && typeof a.cur === 'object' ? { try: a.cur.try === 2 ? 2 : 1, wrong: Array.isArray(a.cur.wrong) ? a.cur.wrong.filter(Number.isInteger).slice(0, 6) : [], text: typeof a.cur.text === 'string' ? a.cur.text.slice(0, 120) : '', hints: int10(a.cur.hints) } : { try: 1, wrong: [], text: '', hints: 0 };
   return { id: a.id, qids, i, results, cur, startedAt: typeof a.startedAt === 'string' ? a.startedAt : null };
 }
 export function sanitizeState(raw) {
@@ -74,6 +75,8 @@ export const store = {
   active(key) { return backend().read().active[key] || null; },
   setActive(key, a) { const s = backend().read(); const clean = sanitizeActive(a); if (!clean) return; s.active[key] = clean; backend().write(s); },
   clearActive(key) { const s = backend().read(); delete s.active[key]; backend().write(s); },
+  /** Erase the learner's record (real mode: the hub key only; demo: the sample). Game saves are never touched. */
+  reset() { if (demoState) { demoState = empty(); return; } memoryReal = empty(); quotaFailed = false; try { if (LOCAL) localStorage.removeItem(HUB.progress); } catch { /* blocked */ } },
   /** Demo mode only: replace the in-memory sample record. */
   useDemo(events) { demoState = sanitizeState({ v: 1, events, active: {} }); },
 };
