@@ -24,6 +24,7 @@ a { color: var(--ribbon-dark); font-weight: 800; text-underline-offset: 3px; }
 .topbar { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 14px 0 0; }
 .brand { font-family: var(--display); font-weight: 400; color: var(--outline); text-decoration: none; font-size: 18px; }
 .toplink { font-size: 15px; color: var(--outline); }
+.toplinks { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 18px; }
 .hero-grid { max-width: 1180px; margin: 0 auto; display: grid; gap: 24px; padding: 20px 0 30px; align-items: center; position: relative; z-index: 1; }
 @media (min-width: 900px) { .hero-grid { grid-template-columns: 1fr 1.05fr; gap: 40px; padding: 40px 0 70px; } .hero { padding: 0 32px; } }
 .eyebrow { margin: 0; font-weight: 800; font-size: 13.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }

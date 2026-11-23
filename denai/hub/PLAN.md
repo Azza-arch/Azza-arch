@@ -63,7 +63,7 @@ Play button → `/app/addmath/denai/main` (the real game route).
 Content rules kept: only `published` subtopics/questions are shown; T5 chapters appear as *Dalam penyediaan*; only T4-1 claims a game.
 
 ## Not done / next
-- The game landing `/denai/` does not link to the hub yet (left untouched on purpose; add a link when the owner approves the hub).
+- `/denai/` links to the hub from its top bar and footer (owner request, 2026-11-23); the rest of that page is unchanged.
 - Real progress: replace `js/demo.js#getProfile()` with a real source (local or backend); pages only read its shape.
 - Exercise results are not saved (frontend demo).
 
