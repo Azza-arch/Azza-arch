@@ -19,7 +19,7 @@
   /* neutrals */
   --ink: #232a3b;          /* body text, from the game outline slate */
   --ink-soft: #545d73;
-  --ink-faint: #7b8296;
+  --ink-faint: #5f6679;    /* ≥4.6:1 on every hub surface (WCAG AA); was #7b8296 */
   --line: #e3dccd;
   --line-strong: #c9bea8;
   --paper: #fffdf8;        /* reading surface */
@@ -28,7 +28,7 @@
 
   /* semantic */
   --primary: var(--gold); --primary-ink: #3a2814;
-  --ok: #1f8a5a; --ok-bg: #e3f6ee; --ok-line: #9fdcc0;
+  --ok: #17704a; --ok-bg: #e3f6ee; --ok-line: #9fdcc0;
   --bad: #b8433a; --bad-bg: #fdecea; --bad-line: #f1b3ac;
   --info: #1d6f8c; --info-bg: #e4f6fc;
   --focus: #2b62d9;
@@ -103,8 +103,8 @@ ul, ol { margin: 0; padding: 0; }
 .btn-secondary:hover { --b-bg: var(--sky-pale); }
 .btn-quiet { --b-bg: transparent; --b-line: transparent; padding-inline: 12px; color: var(--sky-ink); }
 .btn-quiet:hover { --b-bg: var(--sky-pale); }
-.btn-ok { --b-bg: var(--grass); --b-ink: #fff; --b-line: var(--grass-dark); --b-shadow: var(--grass-dark); }
-.btn-ok:hover { --b-bg: #37c08f; }
+.btn-ok { --b-bg: #1b7a55; --b-ink: #fff; --b-line: #135c40; --b-shadow: #135c40; } /* white text 5.3:1 (was 2.75:1 on --grass) */
+.btn-ok:hover { --b-bg: #176a49; }
 .btn-lg { min-height: 56px; padding: 12px 26px; font-size: var(--fs-lg); border-radius: 14px; }
 .btn-block { width: 100%; }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; box-shadow: none; }
@@ -610,3 +610,34 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
 .formula, .example, .wsteps li, .qprompt, .prose { min-width: 0; }
 .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
 .wsteps li > div, .example-plan > span, .example-end { overflow-x: auto; overflow-y: hidden; }
+
+/* ---------------------------------------------------------------- mode banner (demo / no storage) */
+.modebar { background: var(--ink); color: #fff; font-size: var(--fs-sm); }
+.modebar[hidden] { display: none; }
+.modebar-in { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-top: 10px; padding-bottom: 10px; }
+.modebar .tag-demo { background: var(--gold); color: var(--primary-ink); }
+.modebar-text { flex: 1 1 260px; }
+.modebar-exit { color: #fff; font-weight: 800; }
+.modebar-exit:hover { color: var(--gold-light); }
+.seg-sm { background: rgba(255, 255, 255, .12); border-color: transparent; }
+.seg-sm button { min-height: 36px; color: #fff; padding: 0 12px; }
+.seg-sm [aria-pressed="true"] { color: var(--ink); }
+
+/* ---------------------------------------------------------------- mastery */
+.mastery { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: var(--r-pill); font-size: var(--fs-xs); font-weight: 800; white-space: nowrap; }
+.mastery i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; }
+.mastery-belum { background: #efedea; color: var(--ink-faint); }
+.mastery-mencuba { background: var(--gold-pale); color: #8a5a00; }
+.mastery-mencuba i { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+.mastery-faham { background: var(--sky-pale); color: var(--sky-ink); }
+.mastery-faham i { background: currentColor; }
+.mastery-mahir { background: var(--ok-bg); color: var(--ok); }
+.mastery-mahir i { background: currentColor; box-shadow: 0 0 0 2px var(--ok-bg), 0 0 0 3px currentColor; width: 8px; height: 8px; }
+.mastery-key { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: var(--fs-xs); color: var(--ink-soft); }
+.note-done-row { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; justify-content: space-between; margin-top: var(--s4); padding: var(--s4); border-radius: var(--r-md); background: var(--card); border: 1px solid var(--line); }
+.note-done-row.is-done { background: var(--ok-bg); border-color: var(--ok-line); }
+.attempt-note { font-size: var(--fs-sm); font-weight: 700; color: var(--ink-soft); }
+.option.is-tried { border-color: var(--bad-line); background: var(--bad-bg); opacity: .8; }
+.option.is-tried .opt-key { background: var(--bad); border-color: var(--bad); color: #fff; }
+.feedback.is-retry { background: var(--gold-pale); border-color: #f1d58a; }
+.feedback.is-retry .feedback-title { color: #8a5a00; }

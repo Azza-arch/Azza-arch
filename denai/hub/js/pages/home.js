@@ -1,7 +1,7 @@
 // PAGE 01 — Home: what DENAI is, the learning journey, chapters, the game.
 import { esc, icon } from '../ui.js';
 import { CHAPTERS, GAME, GAME_URL, chaptersOfForm } from '../data.js';
-import { renderMath } from '/app/addmath/src/notes/math.js';
+import { renderMath } from '../core/content.js';
 
 export const JOURNEY = [
   ['bulb', 'Fahami', 'Satu konsep pada satu masa, dengan bahasa yang mudah.', 'var(--sky-pale)'],

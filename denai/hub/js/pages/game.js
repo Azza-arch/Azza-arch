@@ -1,13 +1,11 @@
 // PAGE 07 — Game launch. Connects the notes to the existing Phaser game.
 // The Play button opens the real game route; the game itself is untouched.
-import { esc, icon, crumbs, tag, journeyCompact } from '../ui.js';
+import { esc, icon, crumbs, journeyCompact } from '../ui.js';
 import { chapter, GAME, GAME_URL, GAME_LANDING_URL, subtopicTitle } from '../data.js';
-import { getProfile } from '../demo.js';
-import { renderMath } from '/app/addmath/src/notes/math.js';
+import { renderMath } from '../core/content.js';
 
 export function render(route) {
   const from = chapter(route.query.get('bab') || '');
-  const p = getProfile();
   const gc = chapter(GAME.chapter);
   const notice = from && !from.hasGame
     ? `<p class="notice" style="margin-top:20px">${icon('info')}<span>Bab ${from.number} ${esc(from.title)} belum mempunyai misi game. Game yang tersedia sekarang ialah untuk <b>Bab ${gc.number} ${esc(gc.title)}</b>.</span></p>` : '';
@@ -41,7 +39,7 @@ export function render(route) {
     <section class="section" style="margin-top:48px" aria-labelledby="h-lv">
       <div class="section-head"><div><p class="eyebrow">Konsep pembelajaran berkaitan</p><h2 class="h2" id="h-lv">Setiap level, satu subtopik</h2></div>${journeyCompact('main')}</div>
       <ol class="levels">${GAME.levels.map((l) => `<li class="level"><span class="level-no">${l.no}</span><div>
-        <h3>${esc(l.title)}${p.game[l.no] === 'done' ? ` ${tag('Selesai · data contoh', 'done', 'check')}` : ''}</h3>
+        <h3>${esc(l.title)}</h3>
         <p>${renderMath(l.text)}</p>
         <div class="btn-row" style="gap:4px 16px;margin-top:6px"><a class="textlink small" href="#/nota/${gc.id}/${l.sub}">${icon('book')}Nota ${esc(l.sub)} ${esc(subtopicTitle(gc.id, l.sub))}</a><a class="textlink small" href="#/latihan/${gc.id}/${l.sub}">${icon('pencil')}Latihan</a></div>
       </div></li>`).join('')}</ol>

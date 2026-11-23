@@ -1,9 +1,7 @@
-// Learning Hub data layer. READ-ONLY reuse of the verified Add Math content in
-// /app/addmath/src (chapter names from the DSKP catalogue, published notes and
-// questions, KaTeX, answer checking). Nothing here edits that content.
-import { CURRICULUM, chapterById } from '/app/addmath/src/content/curriculum.js';
-import { NOTE_STATUS, loadChapterNotes } from '/app/addmath/src/content/notes/index.js';
-import { visibleStatus } from '/app/addmath/src/notes/preview.js';
+// Learning Hub data layer. READ-ONLY reuse of the verified Add Math content
+// (via core/content.js: DSKP chapter names, published notes and questions).
+// Nothing here edits that content.
+import { CURRICULUM, chapterById, NOTE_STATUS, loadChapterNotes, visibleStatus } from './core/content.js';
 
 /** The real DENAI game route (served as main.html by Cloudflare Pages). */
 export const GAME_URL = '/app/addmath/denai/main';
@@ -62,8 +60,8 @@ export async function loadChapter(id) {
   return out;
 }
 
-/** Up to `max` auto-checkable questions for one subtopic, in authored order. */
-export function exerciseSet(ch, subId, max = 5) {
-  return ch.questions.filter((q) => q.subtopic === subId && AUTO.has(q.type) && !q.parts).slice(0, max);
+/** Every published, auto-checkable question of one subtopic (the practice pool), in authored order. */
+export function questionPool(ch, subId) {
+  return ch.questions.filter((q) => q.subtopic === subId && AUTO.has(q.type) && !q.parts);
 }
-export const exerciseCount = (ch, subId) => exerciseSet(ch, subId).length;
+export const exerciseCount = (ch, subId) => questionPool(ch, subId).length;

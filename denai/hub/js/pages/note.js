@@ -2,11 +2,14 @@
 // Content is the verified, published note for one subtopic (one learning idea).
 // The hub shows its core; the full note (extra examples, deeper explanations)
 // stays in the Add Math notes app and is linked at the end.
-import { esc, icon, crumbs, LEVEL, journeyCompact } from '../ui.js';
+import { esc, icon, crumbs, LEVEL, journeyCompact, masteryTag } from '../ui.js';
+import { store } from '../core/store.js';
+import { noteOpen, noteDone } from '../core/events.js';
+import { getLearner } from '../core/learner.js';
 import { chapter, loadChapter, exerciseCount, GAME, NOTES_APP_URL, chapterLabel } from '../data.js';
-import { renderMath, tex } from '/app/addmath/src/notes/math.js';
-import { mountVisual } from '/app/addmath/src/notes/visuals.js';
-import { v3Of, sectionsOf, itemsOf } from '/app/addmath/src/notes/v3.js';
+import { renderMath, tex } from '../core/content.js';
+import { mountVisual } from '../core/content.js';
+import { v3Of, sectionsOf, itemsOf } from '../core/content.js';
 
 const SECTIONS = [['fahami', 'FAHAMI', 'k-fahami'], ['contoh', 'CONTOH', 'k-contoh'], ['ulang', 'ULANG KAJI', 'k-ulang'], ['latihan', 'LATIHAN', 'k-latihan']];
 const head = (key, title) => { const [, label, k] = SECTIONS.find((s) => s[0] === key); return `<div class="nsec-head"><span class="nsec-label"><i></i>${label}</span><h2 id="h-${key}">${title}</h2></div>`; };
@@ -38,6 +41,10 @@ export async function render(route) {
   const n = exerciseCount(ch, sub.id);
   const level = c.hasGame ? GAME.levels.find((l) => l.sub === sub.id) : null;
   const fallbackIdea = sectionsOf(sub, 'concept')[0];
+  const l = await getLearner(), done = l.noteDone(id, sub.id), lv = l.level(id, sub.id);
+  const doneRow = (isDone) => isDone
+    ? `<div class="note-done-row is-done" id="note-done"><span><b>${icon('check')} Nota selesai.</b> Langkah seterusnya: latihan.</span>${masteryTag(lv)}</div>`
+    : `<div class="note-done-row" id="note-done"><span><b>Sudah faham idea ini?</b> Tandakan nota selesai, kemudian cuba latihan.</span><button type="button" class="btn btn-secondary" data-act="done">${icon('check')}Saya faham nota ini</button></div>`;
 
   const html = `<div class="wrap wrap-read"><div class="read">
     ${crumbs([['Hub', '#/hub'], [`Bab ${c.number}`, `#/bab/${id}`], [`${sub.id} ${sub.title}`]])}
@@ -71,6 +78,8 @@ export async function render(route) {
 
     <section class="nsec k-latihan" id="latihan" aria-labelledby="h-latihan">
       ${head('latihan', 'Cuba sendiri')}
+      ${doneRow(done)}
+      <div style="margin-top:16px"></div>
       ${n ? `<div class="practice-cta"><div><b>${n} soalan tentang ${esc(sub.title)}</b><p class="small muted" style="margin-top:4px">Pilih atau tulis jawapan, semak, dan baca penyelesaian penuh.</p></div><a class="btn btn-ok btn-lg" href="#/latihan/${id}/${sub.id}">${icon('pencil')}Mula latihan</a></div>`
         : '<p class="muted">Latihan untuk subtopik ini belum tersedia.</p>'}
       ${level ? `<p class="notice" style="margin-top:16px">${icon('gamepad')}<span>Konsep ini digunakan dalam <b>Level ${level.no}: ${esc(level.title)}</b> dalam game DENAI. <a href="#/main">Lihat misi</a></span></p>` : ''}
@@ -84,6 +93,14 @@ export async function render(route) {
   </div></div>`;
 
   const mount = (view) => {
+    // Record the visit once per 30 minutes (refreshes do not inflate it).
+    const lastOpen = [...store.state().events].reverse().find((e) => e.t === 'note-open');
+    if (!(lastOpen && lastOpen.ch === id && lastOpen.sub === sub.id && Date.now() - Date.parse(lastOpen.at) < 30 * 60000)) store.append(noteOpen(id, sub.id));
+    view.querySelector('[data-act="done"]')?.addEventListener('click', () => {
+      store.append(noteDone(id, sub.id));
+      const row = view.querySelector('#note-done'); row.outerHTML = doneRow(true);
+      view.querySelector('#note-done').setAttribute('tabindex', '-1'); view.querySelector('#note-done').focus();
+    });
     const host = view.querySelector('[data-visual]');
     if (host && vis) { try { mountVisual(host, vis.spec); } catch (e) { console.warn('DENAI hub: visual not shown', e); host.closest('figure').hidden = true; } }
     const links = [...view.querySelectorAll('[data-jump]')];

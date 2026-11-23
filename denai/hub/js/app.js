@@ -1,8 +1,10 @@
 // DENAI Learning Hub — app shell + hash router.
 // Hash routes keep refresh/Back working on static hosting with no rewrites.
 // Each page module exports `render(route)` → { title, nav, surface, html, mount? }.
-import { icon, emptyState } from './ui.js';
+import { icon, emptyState, esc } from './ui.js';
 import { GAME_URL, NOTES_APP_URL, GAME_LANDING_URL } from './data.js';
+import { store, isDemoMode } from './core/store.js';
+import { HUB } from './core/keys.js';
 
 const PAGES = {
   '': () => import('./pages/home.js'),
@@ -45,6 +47,27 @@ function shell() {
       <p><a href="${NOTES_APP_URL}">Aplikasi Nota Add Math</a> · <a href="${GAME_LANDING_URL}">Laman game DENAI</a> · <a href="/">haziqbuilds</a></p>
       <p class="small">Senarai bab daripada DSKP KSSM Matematik Tambahan (KPM, 2018). Watak Chill Boy oleh Segel2D · Aset pixel oleh Kenney.</p>
     </div>`;
+}
+
+// Mode banner: demo mode is impossible to miss; a real learner whose browser
+// blocks storage is told progress will not be kept.
+async function modeBanner() {
+  const el = document.getElementById('modebar');
+  if (store.demo) {
+    const { PERSONAS, getPersona } = await import('./demo.js');
+    const cur = getPersona();
+    el.innerHTML = `<div class="wrap modebar-in"><span class="tag tag-demo">Mod demo</span><span class="modebar-text"><strong>Data contoh, bukan rekod pelajar sebenar.</strong> Tiada apa-apa disimpan.</span>
+      <span class="seg seg-sm" role="group" aria-label="Pelajar contoh">${Object.entries(PERSONAS).map(([k, l]) => `<button type="button" data-persona="${k}" aria-pressed="${k === cur}">${esc(l)}</button>`).join('')}</span>
+      <a class="modebar-exit" href="?demo=0${esc(location.hash)}">Keluar mod demo</a></div>`;
+    el.hidden = false;
+    el.querySelectorAll('[data-persona]').forEach((b) => b.addEventListener('click', async () => {
+      const { setPersona, seedDemo } = await import('./demo.js');
+      setPersona(b.dataset.persona); await seedDemo(); await modeBanner(); render();
+    }));
+  } else if (!store.persistent) {
+    el.innerHTML = `<div class="wrap modebar-in"><span class="modebar-text"><strong>Kemajuan tidak dapat disimpan.</strong> Pelayar ini menyekat storan, jadi kemajuan hilang apabila halaman ditutup.</span></div>`;
+    el.hidden = false;
+  } else el.hidden = true;
 }
 
 function setActive(nav) {
@@ -102,6 +125,13 @@ async function render() {
   first = false;
 }
 
-shell();
-window.addEventListener('hashchange', render);
-render();
+async function start() {
+  shell();
+  if (isDemoMode()) { const { seedDemo } = await import('./demo.js'); await seedDemo(); }
+  await modeBanner();
+  window.addEventListener('hashchange', render);
+  // Another tab recorded progress: refresh overview pages (never mid-exercise or mid-note).
+  window.addEventListener('storage', (e) => { if (e.key === HUB.progress && !store.demo && ['', 'hub', 'bab', 'kemajuan'].includes(parseRoute().name)) render(); });
+  render();
+}
+start();
