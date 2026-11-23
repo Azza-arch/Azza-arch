@@ -92,9 +92,11 @@ async function journey(page, mobile) {
   ok(await page.locator('.path-sub .path-node.is-current .btn-primary').count() === 1, 'Chapter path: current subtopic carries the one primary action');
   await page.click('.path-node.is-current .btn-primary'); await settle(page);
   ok(page.url().endsWith('#/nota/t4-1/1.1'), 'Recommended step → note 1.1');
-  ok(await count(page, 'note-open') === 1, 'Note visit recorded once');
+  // Count visits to THIS note only: the journey above also opened two published T5 notes.
+  const opens11 = async () => (await record(page)).events.filter((e) => e.t === 'note-open' && e.ch === 't4-1' && e.sub === '1.1').length;
+  ok(await opens11() === 1, 'Note visit recorded once');
   await reload(page);
-  ok(await count(page, 'note-open') === 1, 'Reload within 30 min does not double-count the visit');
+  ok(await opens11() === 1, 'Reload within 30 min does not double-count the visit');
   // Step-by-step worked example.
   const ex = page.locator('[data-example]').first();
   const totalSteps = await ex.locator('.wsteps > li').count();
@@ -200,7 +202,7 @@ async function dashboard(page, mobile) {
   ok((await page.locator('.prog-summary').innerText()).includes('1 nota selesai'), 'Kemajuan: 1 note completed');
   ok(await page.locator('.activity li').count() >= 2, 'Kemajuan: recent activity (note + set)');
   ok(await page.locator('.review-rows li').count() >= 1, 'Kemajuan: revision list from real activity');
-  ok(await page.locator('.prog-list').nth(1).locator('.prog-ch.is-soon').count() === 8, 'Kemajuan: every Tingkatan 5 chapter listed with its status');
+  ok(await page.locator('.prog-list').nth(1).locator('.prog-ch').count() === 8 && await page.locator('.prog-list').nth(1).locator('.prog-ch.is-soon').count() === 0, 'Kemajuan: every Tingkatan 5 chapter listed, all published (none "soon")');
   ok(await page.locator('text=/disimpan dalam pelayar ini/').count() >= 1, 'Kemajuan: says where progress is stored');
 }
 

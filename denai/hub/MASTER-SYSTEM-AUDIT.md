@@ -13,9 +13,9 @@ Status key: **DONE** implemented and verified by a test or by direct inspection 
 | Area | Verdict |
 |---|---|
 | Learning content (18 bab, 59 subtopik, 275 contoh, 471 soalan) | **DONE** for automated validation; every DSKP standard covered; all answer keys independently re-derived where machine-checkable and accepted by the real checker. No human academic review yet (106 items listed). |
-| Learning Hub (8 routes, 4 tabs, mastery, hints, revision) | **DONE** functionally, but **uncommitted** and **not on `main`**; hub smoke has **8 failing checks**, all in the test itself (§8.2), none in the product. |
+| Learning Hub (8 routes, 4 tabs, mastery, hints, revision) | **DONE**; hub smoke **217/217** after fixing the two test defects (§8.2). Committed and pushed on `claude/denai-hub-phase1`; **not on `origin/main`**. |
 | Notes app | **DONE** (458/458 browser checks on all 18 chapters). |
-| DENAI game (World 1, 3 levels) | Unit tests 11/11 pass; **FAIL (P0)**: on desktop and tablet widths the menu's community card covers the **PETA DUNIA** and **TETAPAN** buttons (on `main` since 18 Nov; game browser checks that use the World Map fail on it). |
+| DENAI game (World 1, 3 levels) | Unit tests 11/11 pass. **FIXED (2026-11-23, after this audit):** the menu's community card covered **PETA DUNIA** and **TETAPAN** on desktop/tablet (on `origin/main` since 18 Nov); one-line fix in `leaderboard/engage.js`. `rc-check` still fails later on stale leaderboard-tab steps (test drift, 8.4). |
 | Backend / accounts / sync | **NOT STARTED** for learning data (browser `localStorage` only). The only backend is PlayFab, used by the game leaderboard with an anonymous device ID. |
 | Release state | `origin/main` still serves the Learning Hub v1 (demo data). Phase 1 is committed on this branch only; Hub v2 and all content work are uncommitted. |
 
@@ -26,7 +26,7 @@ Status key: **DONE** implemented and verified by a test or by direct inspection 
 | # | Item | Status | Evidence | Actual problem | What to do | P |
 |---|---|---|---|---|---|---|
 | 1.1 | Branch / HEAD | DONE | `claude/denai-hub-phase1` @ `d06921d`, tracking `origin/claude/denai-hub-phase1` (up to date). `origin/main` = `87e1965` (PR #17 + #18, Learning Hub v1). The **local** `main` branch is stale at `86ac7f1` (no `denai/hub/` at all); do not merge or compare against it without `git fetch`. | — | — | — |
-| 1.2 | Uncommitted work | PARTIAL | `git status`: 56 modified + 19 untracked files (1578+/638−). | Three layers are mixed in one working tree: **(a)** commit `d06921d` Hub Phase 1 (core/store, events, learner, mastery, keys); **(b)** earlier uncommitted Hub v2 work: `denai/hub/{PLAN.md, hub.css, index.html}`, `js/app.js`, `js/data.js`, `js/ui.js`, `js/core/*`, `js/pages/*`, `js/pages/written.js` (new), `PRODUCT-BLUEPRINT.md`, `UX-PLANNING.md` (new), `tests/core.test.mjs`; **(c)** this session's content work: all of `app/addmath/**` (T5 Bab 7–8, T5 V3, fixes, publication of T5, validators/tests), `denai/hub/PRODUCT-ROADMAP.md` (status section), `denai/hub/tests/hub-smoke.cjs`. Nothing is backed up remotely. | Commit in at least two commits: Hub v2 (b) and content (c); push the branch. Owner decision on merge to `main`. | P0 |
+| 1.2 | Uncommitted work | DONE (after audit) | `git status`: 56 modified + 19 untracked files (1578+/638−). | Three layers are mixed in one working tree: **(a)** commit `d06921d` Hub Phase 1 (core/store, events, learner, mastery, keys); **(b)** earlier uncommitted Hub v2 work: `denai/hub/{PLAN.md, hub.css, index.html}`, `js/app.js`, `js/data.js`, `js/ui.js`, `js/core/*`, `js/pages/*`, `js/pages/written.js` (new), `PRODUCT-BLUEPRINT.md`, `UX-PLANNING.md` (new), `tests/core.test.mjs`; **(c)** this session's content work: all of `app/addmath/**` (T5 Bab 7–8, T5 V3, fixes, publication of T5, validators/tests), `denai/hub/PRODUCT-ROADMAP.md` (status section), `denai/hub/tests/hub-smoke.cjs`. Committed on owner instruction as `70b5870` (Hub v2), `2563725` (content), `5143a8a` (this audit) and pushed to `origin/claude/denai-hub-phase1`; follow-up fixes committed after. | Owner decision on merge to `origin/main`. | P1 |
 | 1.3 | Game code untouched | DONE | `git diff --stat -- app/addmath/denai` is empty; last game commit `0e7b20a`. Hub smoke: "No game save key created or changed". | — | — | — |
 | 1.4 | Modules | DONE | `/denai/` landing (`index.html`, `denai.js`, `players.js`); `/denai/hub/` Learning Hub; `/app/addmath/` notes app (`src/content`, `src/notes`, `src/screens`, `tests`); `/app/addmath/denai/` Phaser 3.90.0 game (`src/v14`, Kenney assets, `tests`); hosting `_headers`, `_redirects` (Cloudflare Pages). | — | — | — |
 | 1.5 | Planning documents | PARTIAL | `denai/hub/`: `PLAN.md`, `PRODUCT-BLUEPRINT.md` (131 KB), `PRODUCT-ROADMAP.md`, `UX-PLANNING.md` (58 KB); `app/addmath/PROGRESS.md`. | Four overlapping plan documents in the hub folder; two are untracked. | Keep `PRODUCT-ROADMAP.md` (status) + `PROGRESS.md` (content) as the sources of truth; archive the rest after commit. | P2 |
@@ -75,7 +75,7 @@ Evidence: `denai/hub/tests/hub-smoke.cjs` runs each journey for real at desktop 
 | 4.5 | Empty / error states | DONE | 404 route `tiada-laluan-*.png` ("Halaman ini tidak wujud" + two exits); empty Kemajuan states; storage-blocked fallback in `core/store.js`. | — | — | — |
 | 4.6 | Loading states | PARTIAL | `.loading` placeholder in `#view` (hub smoke waits on it). | No visual evidence of slow-network behaviour; KaTeX/visual-heavy notes (up to 5 100 px on phone) not tested on throttled CPU. | Throttled-device check. | P2 |
 | 4.7 | Accessibility beyond contrast | UNVERIFIED | Visual alt texts enforced by validator; aria labels present; focus scroll padding tested. | No automated a11y engine (axe) or screen-reader test has been run; keyboard-only journey not tested end to end. | Run axe + keyboard pass (roadmap A-1, A-3). | P1 |
-| 4.8 | Game menu layout | FAIL | §7.2. | — | — | P0 |
+| 4.8 | Game menu layout | FIXED | §7.2. | — | — | — |
 
 ## 5. Functional audit
 
@@ -87,7 +87,7 @@ Evidence: `denai/hub/tests/hub-smoke.cjs` runs each journey for real at desktop 
 | 5.4 | Mastery calculation | DONE (rules) / UNVERIFIED (calibration) | `core/mastery.js`; `core.test.mjs` 18/18; hub smoke: note completion never changes mastery, hinted answers not first-try. | Thresholds (3 / 5 / 2 days) are hypotheses (roadmap O16); no pilot data. | Pilot with students. | P1 |
 | 5.5 | Progress persistence | DONE (local) | Reload keeps notes, sets, active set; erase keeps game saves. | Browser-only (6). | — | — |
 | 5.6 | Demo mode isolation | DONE | "Demo actions never write the real record". | — | — | — |
-| 5.7 | Note-visit de-duplication | DONE (product) / FAIL (test) | `core/events.js` 30-minute rule; failing assertion is a test-ordering defect (8.2). | — | Fix test. | P0 (test) |
+| 5.7 | Note-visit de-duplication | DONE | `core/events.js` 30-minute rule; test-ordering defect fixed (8.2). | — | — | — |
 
 ## 6. Backend and persistence
 
@@ -109,7 +109,7 @@ Evidence: `denai/hub/tests/hub-smoke.cjs` runs each journey for real at desktop 
 | # | Item | Status | Evidence | Problem | What to do | P |
 |---|---|---|---|---|---|---|
 | 7.1 | Game code, Kenney assets, character, missions | DONE (unchanged) | No diff under `app/addmath/denai`; 11/11 game unit tests pass (`analytics`, `cistern`, `inverse`, `progress-course`, `puzzle-session`, `puzzles`, `sluice`, `supply-quest`, `twins`, `workshop-v3`, `workshop`). | — | — | — |
-| 7.2 | Main menu: World Map and Settings buttons | **FAIL** | `menu-check.cjs`, `rc-check.cjs`, `engagement-check.cjs` all stop with "`<aside id="community">` subtree intercepts pointer events" on `#world-map-btn`. Measured centre of `#world-map-btn` covered by the community card at 1280×760, 1440×900 and 1024×768; not at iPhone landscape. Screenshot `evidence/game-menu-1280x760.png`. Introduced by `192adc8` "move menu community card" (2026-11-18), already on `origin/main`. | Desktop/tablet players cannot click **PETA DUNIA** or **TETAPAN** where the card overlaps (MAIN still works). Release-candidate test no longer passes. | Move/resize `#community` so it never overlaps the menu buttons (game change: needs owner approval), then rerun `rc-check`, `menu-check`, `engagement-check`. | **P0** |
+| 7.2 | Main menu: World Map and Settings buttons | **FIXED** | Before: `menu-check`, `rc-check`, `engagement-check` stopped with "`<aside id="community">` subtree intercepts pointer events"; centre of `#world-map-btn` covered at 1280×760, 1440×900, 1024×768 (`evidence/game-menu-*.png`, first run). Cause: `engage.css` makes the card `position:fixed` on wide landscape screens, but it stayed inside the transformed `.title-copy`, so it was pinned over the buttons (introduced by `192adc8`). Fix: `installEngage()` now re-parents the card to `#welcome` for both fixed layouts (it already did for short landscape phones). After: buttons uncovered at all four sizes, card bottom-right; `menu-check`, `engagement-check`, `landing-count-check`, `day05-gameplay-check` (11 viewports), `w1-mobile-check` (10 viewports) pass. | — | Deploy with the next release. | — |
 | 7.3 | Save data | DONE | Unit tests (save migration, forged/corrupt saves); hub smoke: hub never writes game keys; "Erase my progress" leaves game save. | — | — | — |
 | 7.4 | Leaderboard / analytics | DONE (local fakes) | `analytics-check` PASS (default build sends nothing; GPC respected), `landing-count-check` PASS, `puzzle-reload-check` PASS. `engagement-check` FAIL only because of 7.2. | Production PlayFab not contacted (by design of the tests). | — | — |
 | 7.5 | Game progress ≠ mastery | DONE | `core/mastery.js` uses exercise attempts only; `keys.js` lists game keys as read-only and the hub never reads them; hub smoke "Game tab: game records kept apart from mastery". | — | — | — |
@@ -125,15 +125,18 @@ Evidence: `denai/hub/tests/hub-smoke.cjs` runs each journey for real at desktop 
 | `node app/addmath/tests/notes-smoke.cjs` | **PASS 458/458** | all 18 chapters, desktop + phone, after T5 publication |
 | `node app/addmath/tests/notes-browser.cjs` | **PASS 18/18** | Bab 1 interactions (ported to the V3 pages in the acceptance phase) |
 | `node denai/hub/tests/core.test.mjs` | **PASS 18/18** | |
-| `node denai/hub/tests/hub-smoke.cjs` | **FAIL 8** (others pass) | see 8.2 |
+| `node denai/hub/tests/hub-smoke.cjs` | **PASS 217/217** (after fixing 8.2; first run had 8 test-side failures) | see 8.2 |
 | `denai/hub/tests/shots.cjs` (11 routes × 3 widths) | PASS | overflow 0, no console errors |
 | Game unit tests (11 × `*.test.mjs`) | **PASS 11/11** | |
-| Game browser checks (via harness, unmodified tests) | **8 PASS / 3 FAIL** | PASS: `analytics-check`, `landing-count-check`, `puzzle-reload-check`, `l1-playthrough`, `l2-playthrough`, `l3-playthrough`, `w1-mobile-check` (10 viewports), `w1-progression` (fresh profile through all of World 1; needs `NODE_OPTIONS=--require <preload>` because it spawns child processes), `day05-gameplay-check` (11 viewports). FAIL: `menu-check`, `rc-check`, `engagement-check`, all on the same root cause, 7.2. Not run: `bg-theme`, `feel`, `l1-banner`, `l1-v3`, `l2`, `l3`, `l3-cistern`, `view-cull`, `w1-env`, `w1-traversal`, perf probes, screenshot generators (UNVERIFIED this session). |
+| Game browser checks (via harness, unmodified tests) | first run **8 PASS / 3 FAIL**; after the 7.2 fix `menu-check` and `engagement-check` PASS, `rc-check` FAIL on test drift (8.4) | PASS: `analytics-check`, `landing-count-check`, `puzzle-reload-check`, `l1-playthrough`, `l2-playthrough`, `l3-playthrough`, `w1-mobile-check` (10 viewports), `w1-progression` (fresh profile through all of World 1; needs `NODE_OPTIONS=--require <preload>` because it spawns child processes), `day05-gameplay-check` (11 viewports). FAIL: `menu-check`, `rc-check`, `engagement-check`, all on the same root cause, 7.2. Not run: `bg-theme`, `feel`, `l1-banner`, `l1-v3`, `l2`, `l3`, `l3-cistern`, `view-cull`, `w1-env`, `w1-traversal`, perf probes, screenshot generators (UNVERIFIED this session). |
 
-### 8.2 Hub smoke failures (test defects, not product defects)
+### 8.2 Hub smoke failures (test defects, not product defects) — FIXED
 1. **"Note visit recorded once" / "Reload within 30 min does not double-count the visit"** (desktop, tablet, phone = 6 failures). The acceptance-phase edit added two public T5 note visits (`#/nota/t5-2/2.1`, `#/nota/t5-8/8.3`) earlier in the same journey, so the record holds 3 `note-open` events when the test expects 1. Fix: count `note-open` events for `t4-1/1.1` only, or move the T5 visits after the count.
 2. **"Kemajuan: every Tingkatan 5 chapter listed with its status"** (desktop, phone). Asserts 8 `.prog-ch.is-soon` T5 rows; after publication T5 chapters are no longer "soon". Fix: assert 8 T5 rows with no `is-soon`.
-Both are P0 only because the suite must be green before release; product behaviour is correct (`core/events.js` de-duplicates; Kemajuan lists T5 with real status).
+Both fixed after the audit as described; hub smoke 217/217.
+
+### 8.4 `rc-check` test drift
+After the 7.2 fix `rc-check` passes the menu and World Map steps but times out on `[data-lb-tab="classic"]` (line 62). Commit `192adc8` ("simplify leaderboard") intentionally removed the two leaderboard tabs; the release-candidate test still expects them. Not a product defect. **P1:** update `rc-check` to the single-board leaderboard (owner to confirm which board is current: `0e7b20a` submits to the existing PlayFab board).
 
 ### 8.3 Gaps without tests
 - No automated accessibility engine / keyboard-only journey (4.7).
@@ -146,9 +149,9 @@ Both are P0 only because the suite must be green before release; product behavio
 ## 9. Prioritised execution roadmap (from this audit)
 
 **P0 — before any release**
-1. Game menu: stop `#community` covering **PETA DUNIA**/**TETAPAN** on desktop/tablet (7.2); rerun `rc-check`, `menu-check`, `engagement-check`, `w1-progression`. *Game change: owner approval required.*
-2. Fix the two hub smoke test defects (8.2) and rerun the full hub suite to green.
-3. Commit the work in reviewable units (Hub v2; content + validators) and push the branch (1.2). Then the owner decides the merge to `origin/main` (currently Hub v1 with demo data; local `main` is stale, fetch first).
+1. ~~Game menu overlap (7.2)~~ FIXED. ~~Hub smoke test defects (8.2)~~ FIXED. ~~Commit and push (1.2)~~ DONE.
+2. Owner decides the merge of `claude/denai-hub-phase1` into `origin/main` (currently Hub v1 with demo data; local `main` is stale, fetch first). Until then the fixes, the new chapters and Hub v2 are not live.
+3. Update `rc-check` for the simplified leaderboard (8.4) so the release-candidate check is green again.
 
 **P1 — release hardening**
 4. Academic review of the 106 manual items and the worked examples; record `mathReviewed` (2.7).
