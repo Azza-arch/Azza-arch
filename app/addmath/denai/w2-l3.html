@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self';">
+  <title>DENAI · Level 2-3 Gerbang Parabola</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="src/orientation.css">
+  <link rel="stylesheet" href="src/v14/levels/w2/level.css">
+  <script defer src="vendor/phaser-3.90.0.min.js"></script>
+  <script type="module" src="src/v14/levels/w2/level-2-3.js"></script>
+  <script type="module" src="src/orientation.js"></script>
+</head>
+<body>
+  <main class="w2">
+    <div id="w2-frame" class="w2-frame">
+      <div id="w2-game" tabindex="0" role="group" aria-label="Level 2-3 Gerbang Parabola. A dan D bergerak, Space lompat, R kembali ke checkpoint. Di tuil: Q dan E ubah tuil pertama, Z dan X ubah tuil kedua, F untuk pasang atau uji."></div>
+      <section class="w2-hud" aria-label="Stesen">
+        <p class="w2-tag">Dunia 2 · Lembah Batu Kapur · 2-3 Gerbang Parabola</p>
+        <p id="w2-station" class="w2-station"></p>
+        <p id="w2-eq" class="w2-eq"></p>
+        <p class="w2-meta"><span id="w2-vertex"></span> · Syiling <span id="w2-coins">0/12</span></p>
+        <p id="w2-why" class="w2-why"></p>
+        <p id="w2-state" class="w2-state" role="status" aria-live="polite"></p>
+        <p id="w2-keys" class="w2-keys"></p>
+        <p id="w2-save" class="w2-keys" role="status"></p>
+      </section>
+      <a class="w2-menu" href="main.html" aria-label="Kembali ke menu DENAI. Kemajuan disimpan.">☰ Menu</a>
+      <p id="w2-cue" class="w2-cue" role="status" aria-live="polite"></p>
+      <div id="w2-tools" class="w2-tools far" aria-label="Tuil stesen">
+        <div id="w2-l1" class="w2-lever"><button type="button" data-action="l1Down" aria-label="Kurangkan tuil pertama">−</button><output><span id="w2-l1-name">a</span> = <b id="w2-l1-val">1</b></output><button type="button" data-action="l1Up" aria-label="Tambah tuil pertama">+</button></div>
+        <div id="w2-l2" class="w2-lever" hidden><button type="button" data-action="l2Down" aria-label="Kurangkan tuil kedua">−</button><output><span id="w2-l2-name">k</span> = <b id="w2-l2-val">1</b></output><button type="button" data-action="l2Up" aria-label="Tambah tuil kedua">+</button></div>
+        <button type="button" id="w2-lock" data-action="lock" class="w2-lock">Pasang ponton</button>
+      </div>
+      <div id="w2-touch" class="w2-touch" hidden>
+        <div><button type="button" data-hold="left" aria-label="Kiri">←</button><button type="button" data-hold="right" aria-label="Kanan">→</button></div>
+        <div><button type="button" data-action="jump" class="jump">Lompat</button></div>
+      </div>
+      <dialog id="w2-done" class="w2-done" aria-labelledby="w2-done-title">
+        <p class="w2-tag">★ Level 2-3 · Dunia 2 selesai! ★</p>
+        <h1 id="w2-done-title">Gerbang Parabola terbuka!</h1>
+        <p id="w2-done-stats"></p>
+        <p>Anda menyelesaikan persamaan kuadratik, membaca jenis punca daripada b² − 4ac, membina persamaan daripada punca, dan menyelesaikan ketaksamaan. Lembah Batu Kapur kini terhubung semula.</p>
+        <div class="teaser-mini"><p class="w2-tag">Pengembaraan seterusnya</p><p><b>Dunia 3: Kilang &amp; Lombong</b> — sistem persamaan dan pengaturcaraan linear. Sedang dibina.</p></div>
+        <div class="w2-actions"><button type="button" id="w2-replay">Main semula</button><a href="main.html">Ke menu DENAI</a></div>
+      </dialog>
+    </div>
+  </main>
+</body>
+</html>

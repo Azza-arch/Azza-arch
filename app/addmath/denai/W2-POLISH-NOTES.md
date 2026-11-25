@@ -17,6 +17,11 @@ skrin desktop + telefon dan ujian main penuh (fizik dan pengesahan teka-teki tid
 3. **Blok bertindan yang pelik** (tangga batu Stesen D dan tebing peti lif Stesen F): lajur blok 47 / peti 26
    bertindan nampak seperti timbunan kotak, bukan tangga. Perlu bentuk tangga yang padu (tanah dengan
    bahagian atas, atau tangga kayu Kenney) dan animasi naik yang kemas.
+4a. **Gerbang keluar ("KE 2-3", "KE DUNIA 3") — susunan jubin salah** (pemilik, gambar 25 Nov):
+   tiang dibina dengan bingkai *permukaan tanah* 40 yang ditindan, jadi setiap blok ada "atap" batu
+   sendiri dan nampak seperti timbunan kotak. Perlu tiang yang betul (bingkai tepi/isi tanpa atap,
+   atau tiang batu/kayu Kenney), dan rasuk atas dengan bingkai hujung kiri / tengah / kanan.
+   Sama di 2-1, 2-2 dan 2-3 (kod `tile(40, …)` / `tile(42, …)` untuk gerbang). **Keutamaan pertama Fasa 7.**
 4. **Reka bentuk UI yang pelik di setiap dunia** — semak semula seluruh HUD dan papan tanda dalam dunia
    (lihat B).
 

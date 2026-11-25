@@ -13,12 +13,12 @@ const ms = (v) => (Number.isFinite(v) && v > 0 && v < 86400000 ? v : null);
 const running = (run) => !!run && typeof run === 'object' && run.completed !== true
   && ((Number(run.elapsedMs) || 0) > 0 || (run.checkpointId && run.checkpointId !== 'entry') || (Array.isArray(run.coins) && run.coins.length > 0));
 
-/** Levels keyed by game number ('1-1' … '1-3', '2-1', '2-2'): { done, completions, running, bestMs }. */
+/** Levels keyed by game number ('1-1' … '1-3', '2-1' … '2-3'): { done, completions, running, bestMs }. */
 export function gameRecords() {
   const profile = read('denai-profile-v1'), save = read('denai-save-v14'), legacy = read('denai-records-v14');
   const camp = read('denai-campaign-v1'), l3 = read('denai-l3-campaign-v1'), w2all = read('denai-w2-campaign-v1')?.levels || {};
   const w2run = (rec) => !!rec.run && rec.run.completed !== true && ((Number(rec.run.elapsedMs) || 0) > 0 || (rec.run.checkpointId && rec.run.checkpointId !== 'entry') || Object.values(rec.run.solved || {}).some((v) => v === true));
-  const w2 = w2all['w2-l1'] || {}, w22 = w2all['w2-l2'] || {};
+  const w2 = w2all['w2-l1'] || {}, w22 = w2all['w2-l2'] || {}, w23 = w2all['w2-l3'] || {};
   const p1 = profile?.levels?.['w1-l1'] || {};
   const c1 = Math.max(n(p1.completions), save?.completed === true ? 1 : 0, n(legacy?.['bab1-l1-jejak-taman-fungsi']?.completions));
   const l2 = camp?.levels?.['w1-l2'] || {};
@@ -29,6 +29,7 @@ export function gameRecords() {
     // World 2 run: started once it has time on the clock, a checkpoint or a solved station
     '2-1': { completions: n(w2.completions), running: w2run(w2), bestMs: ms(w2.bestMs) },
     '2-2': { completions: n(w22.completions), running: w2run(w22), bestMs: ms(w22.bestMs) },
+    '2-3': { completions: n(w23.completions), running: w2run(w23), bestMs: ms(w23.bestMs) },
   };
   for (const r of Object.values(out)) r.done = r.completions > 0;
   return out;

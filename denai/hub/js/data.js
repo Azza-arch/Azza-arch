@@ -32,7 +32,7 @@ export const GAME = {
 /** Every world on the game's own map (menu/progress.js), with its real state. */
 export const WORLDS = [
   { no: 1, name: 'Hutan & Sungai', topic: 'Fungsi', chapter: 't4-1', state: 'playable' },
-  { no: 2, name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', chapter: 't4-2', state: 'playable', soon: ['2-3 Gerbang Parabola'] },
+  { no: 2, name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', chapter: 't4-2', state: 'playable' },
   { no: 3, name: 'Kilang & Lombong', topic: 'Sistem Persamaan', chapter: 't4-3', state: 'soon' },
   { no: 4, name: 'Tanah Tinggi Ladang', topic: 'Indeks, Surd & Logaritma', chapter: 't4-4', state: 'soon' },
 ];
@@ -42,11 +42,12 @@ export const GAME_W2 = {
   levels: [
     { no: '2-1', title: 'Jejak Lengkung', concept: 'Kesan a, h dan k pada graf', sub: '2.3', sp: ['2.3.4'], text: String.raw`Ubah \(a\), \(h\) dan \(k\) dalam \(y = a(x - h)^2 + k\) supaya lengkung melalui cincin: batu loncatan dan jambatan gantung terbina daripada lengkung itu.` },
     { no: '2-2', title: 'Lembah Puncak', concept: 'Bucu, nilai maksimum dan masalah maksimum', sub: '2.3', sp: ['2.3.3', '2.3.5', '2.3.6'], url: '/app/addmath/denai/w2-l2.html', text: String.raw`Tangkap bola di bucu \(y = -x^2 + 6x - 5\), bunyikan loceng di titik tertinggi \(y = -2x^2 + 8x\), dan cari lebar kandang yang memberi luas maksimum \(A(x) = x(6 - x)\).` },
+    { no: '2-3', title: 'Gerbang Parabola', concept: 'Punca, pembezalayan dan ketaksamaan kuadratik', sub: '2.1', subs: ['2.1', '2.2'], sp: ['2.1.1', '2.1.2', '2.1.3', '2.2.1', '2.2.2', '2.3.2'], url: '/app/addmath/denai/w2-l3.html', text: String.raw`Letak ponton di punca \(x^2 - 6x + 5 = 0\), turunkan rantai sehingga \(b^2 - 4ac = 0\), bina persamaan daripada punca 2 dan 6, dan nyalakan julat \((x - 2)(x - 6) < 0\).` },
   ],
 };
 /** Every playable game world, in map order. */
 export const GAMES = [GAME, GAME_W2];
-export const gameLevelFor = (chId, subId) => GAMES.find((g) => g.chapter === chId)?.levels.find((l) => l.sub === subId) || null;
+export const gameLevelFor = (chId, subId) => GAMES.find((g) => g.chapter === chId)?.levels.find((l) => l.sub === subId || l.subs?.includes(subId)) || null;
 
 const isAvailable = (id) => visibleStatus(NOTE_STATUS[id]);
 

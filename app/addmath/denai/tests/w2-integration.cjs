@@ -24,7 +24,7 @@ const panel = (p) => p.$$eval('#wm-panel .wm-level', (els) => els.map((e) => `${
   // 1. new player: 2-1 locked behind 1-1; 2-2, 2-3 coming soon
   await fresh({});
   res.locked = await openW2();
-  ok(res.locked[0].startsWith('2-1 Dikunci') && res.locked[1].startsWith('2-2 Dikunci') && /Akan datang\(x\)/.test(res.locked[2]), `new player: 2-1 and 2-2 locked, 2-3 coming soon: ${res.locked}`);
+  ok(res.locked[0].startsWith('2-1 Dikunci') && res.locked[1].startsWith('2-2 Dikunci') && res.locked[2].startsWith('2-3 Dikunci'), `new player: 2-1, 2-2, 2-3 locked: ${res.locked}`);
   res.w1Card = await p.$eval('.wm-node[data-world="w2"]', (n) => n.getAttribute('aria-label'));
   await p.screenshot({ path: `${out}/int-1-terkunci.png` });
   // 2. after 1-1: available; Main opens the 2-1 page
@@ -47,7 +47,7 @@ const panel = (p) => p.$$eval('#wm-panel .wm-level', (els) => els.map((e) => `${
   await fresh({ 'denai-profile-v1': W1_DONE, 'denai-w2-campaign-v1': W2(done, { completions: 1, completedRuns: ['r2'], bestMs: 70000 }) });
   res.done = await openW2();
   ok(res.done[0].startsWith('2-1 Selesai') && /Main semula/.test(res.done[0]), `completed: ${res.done}`);
-  ok(res.done[1].startsWith('2-2 Tersedia') && /\[Main\]/.test(res.done[1]), `2-1 done opens 2-2: ${res.done}`);
+  ok(res.done[1].startsWith('2-2 Tersedia') && /\[Main\]/.test(res.done[1]) && res.done[2].startsWith('2-3 Dikunci'), `2-1 done opens 2-2 (2-3 still locked): ${res.done}`);
   await Promise.all([p.waitForURL(/w2-l2\.html$/), p.click('#wm-panel button[data-level="w2-l2"][data-mode="play"]')]);
   await p.waitForFunction(() => window.__w2?.scene?.stations?.some((s) => s.id === 'D')); res.l22 = p.url();
   await p.goto(MAIN); await ready(p); await sleep(400); await openW2();

@@ -65,7 +65,7 @@ export async function render(route) {
     <p class="notice game-sep" style="margin-top:32px">${icon('info')}<span><b>Rekod game bukan bukti penguasaan.</b> Misi selesai, syiling, masa dan pencapaian disimpan oleh game itu sendiri dalam pelayar ini. Learning Hub hanya memaparkan status misi; tahap penguasaan hanya berubah melalui jawapan latihan.</span></p>
 
     <section class="section" style="margin-top:32px" aria-labelledby="h-worlds">
-      <div class="section-head"><div><h2 class="h2" id="h-worlds">Dunia dan misi</h2><p>Dunia 1 serta Level 2-1 dan 2-2 Dunia 2 boleh dimain sekarang. Dunia lain disenaraikan seperti dalam peta game.</p></div></div>
+      <div class="section-head"><div><h2 class="h2" id="h-worlds">Dunia dan misi</h2><p>Dunia 1 dan Dunia 2 boleh dimain sekarang. Dunia lain disenaraikan seperti dalam peta game.</p></div></div>
       <ol class="worlds">${WORLDS.map(world).join('')}</ol>
     </section>
 

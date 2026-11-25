@@ -7,7 +7,7 @@
 > - Keputusan 16 Nov kekal: dibuka selepas 1-1; 1 unit matematik = 1 jubin; set cabaran tetap dahulu.
 > - **Batu loncatan: satu pada setiap x integer, bukan setiap ½ unit** (hirisan Stesen A membuktikan ½ unit membenarkan jawapan salah). Setiap stesen mesti disahkan dengan sampul lompatan sebenar (`analyse` dalam `quadratic.js`): jawapan betul boleh dilalui, setiap jawapan salah gagal secara fizikal.
 > - **Fasa 2–3 (25 Nov): Stesen B dan C direka semula dengan bukti** — lihat §4a dan §4b. Reka bentuk akhir: A = tuil a (batu pada setiap x); B = tuil h dan k, *berpaut* (air mengeras hanya jika masuk kedua-dua corong); C = tuil k, *berpaut* (kabel diikat hanya jika melalui kedua-dua sauh).
-> - **Status:** Fasa 1–5 siap. **Level 2-1 dan 2-2 boleh dimain oleh murid** (halaman `w2-l1.html`, `w2-l2.html`; satu kunci simpanan `denai-w2-campaign-v1`): 2-1 dibuka selepas 1-1, 2-2 selepas 2-1, dalam Peta Dunia; penamat 1-3 → 2-1, penamat 2-1 → 2-2; Learning Hub (tab Game, Bab 2, Kemajuan). Scene, simpanan dan papan pendahulu World 1 tidak disentuh. Seterusnya: Fasa 6 (Level 2-3 Gerbang Parabola).
+> - **Status:** Fasa 1–6 siap — **Dunia 2 lengkap**: 2-1, 2-2 dan 2-3 boleh dimain (halaman `w2-l1/2/3.html`; satu kunci simpanan `denai-w2-campaign-v1`); setiap level dibuka selepas yang sebelumnya; penamat 2-3 = Dunia 2 selesai. Learning Hub memaparkan ketiga-tiga misi. Seterusnya: Fasa 7 (kemas visual & UI, `W2-POLISH-NOTES.md`).
 
 
 Ditulis 15 Nov 2026. Ini pelan reka bentuk untuk dipersetujui pemilik sebelum
@@ -214,6 +214,21 @@ SP: 2.1.1 (menyelesaikan), 2.1.2 (bentuk persamaan daripada punca), 2.1.3
    Bentuk (bina lengkung melalui tiga cincin), Puncak (tangkap di bucu),
    Punca (bina persamaan daripada punca yang diberi, contohnya punca 2 dan 6
    → (x − 2)(x − 6)). Pintu terbuka ke bayangan World 3.
+
+### 6a. Level 2-3 seperti dibina (Fasa 6, 25 Nov 2026)
+Matematik tulen `src/v14/levels/w2/roots.js`; peta `level-2-3-data.js` (48 jubin, 12 syiling, 3 checkpoint).
+| Stesen | Tuil | Jawapan | Mekanisme |
+|---|---|---|---|
+| G Dua Ponton, rantai y = x² − 6x + 5 | ponton kiri {0…3}, kanan {3…6} | x = 1, x = 5 (punca) | jambatan ponton merentas sungai 6 jubin |
+| H Aras Rantai, y = x² − 6x + c | c {5…11}; panel b² − 4ac = 36 − 4c | c = 9 (b² − 4ac = 0, satu titik sentuh) | baldi penuh → jambatan angkat merentas kolam 6 jubin |
+| Meterai Punca | b {−10…0}, c {4…14} dalam x² + bx + c | b = −8, c = 12 ((x − 2)(x − 6)) | lampu meterai pada gerbang |
+| Meterai Ketaksamaan | julat kiri {0…4}, kanan {4…8} | 2 < x < 6 ((x − 2)(x − 6) < 0) | lampu meterai; dua lampu → gerbang batu turun |
+Perubahan daripada §6: Stesen F/G blueprint (ponton, aras rantai) kekal; "Lorong Hujan Batu" (ketaksamaan)
+dan gerbang tiga meterai digabung menjadi **Gerbang Dua Meterai** (punca → persamaan, ketaksamaan),
+kerana bentuk dan bucu sudah dinilai dalam 2-1 dan 2-2. Ujian: `roots.test.mjs`, `level-2-3.test.mjs`
+(level tidak boleh ditamatkan tanpa mana-mana mekanisme), `w2-l3-playthrough.cjs` (fizik sebenar:
+sungai/kolam/gerbang menghalang sebelum diselesaikan, jawapan salah di G, H, P, Q, muat semula,
+Dunia 2 selesai, rekod 2-1/2-2 dan Dunia 1 tidak berubah, telefon).
 
 ## 7. Pemetaan DSKP
 | SP | Di mana |

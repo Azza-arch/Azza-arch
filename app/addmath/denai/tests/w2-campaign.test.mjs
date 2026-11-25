@@ -59,5 +59,10 @@ console.log('w2 campaign: ok');
   st.saveRun(r1);
   assert.deepEqual(JSON.parse(s.getItem(W2_KEY)).levels['w2-l3'], { completions: 2, note: 'future' }, 'unknown level kept');
   assert.equal(st.saveRun(r1, 'w2-l9'), false, 'unknown level id refused');
+  // Level 2-3: seals P and Q count only with their real answers
+  const r3 = newRun('w2-l3');
+  assert.deepEqual(r3.levers, { G: { kiri: 3, kanan: 3 }, H: { c: 5 }, P: { b: -2, c: 4 }, Q: { kiri: 0, kanan: 8 } });
+  const f3 = sanitizeRun({ id: 'x', solved: { G: true, H: true, P: true, Q: true }, levers: { G: { kiri: 1, kanan: 5 }, H: { c: 8 }, P: { b: -8, c: 12 }, Q: { kiri: 2, kanan: 7 } }, checkpointId: 'after-h' }, 'w2-l3');
+  assert.deepEqual(f3.solved, { G: true, H: false, P: true, Q: false }); assert.equal(f3.checkpointId, 'after-g');
 }
 console.log('w2 campaign (2-1 + 2-2): ok');

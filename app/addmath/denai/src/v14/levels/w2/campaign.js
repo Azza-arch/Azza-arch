@@ -8,6 +8,8 @@
 import { STATIONS as S1, buildLevel as build1 } from './level-2-1-data.js';
 import { STATIONS as S2, buildLevel as build2 } from './level-2-2-data.js';
 import { solves } from './peak.js';
+import { STATIONS as S3, buildLevel as build3 } from './level-2-3-data.js';
+import { solvesRoots } from './roots.js';
 
 export const W2_KEY = 'denai-w2-campaign-v1';
 const uniq = (v, allowed) => [...new Set(Array.isArray(v) ? v.filter((x) => allowed.includes(x)) : [])];
@@ -23,6 +25,8 @@ export const LEVEL_DEFS = Object.freeze({
     build1(), { 'after-a': ['A'], 'after-b': ['A', 'B'] }),
   'w2-l2': def(S2.map(({ st }) => ({ id: st.id, levers: st.levers, options: st.options, start: st.start, isAnswer: (c) => solves(st, c) })),
     build2(), { 'after-d': ['D'], 'after-e': ['D', 'E'] }),
+  'w2-l3': def(S3.map(({ st }) => ({ id: st.id, levers: st.levers, options: st.options, start: st.start, isAnswer: (c) => solvesRoots(st, c) })),
+    build3(), { 'after-g': ['G'], 'after-h': ['G', 'H'] }),
 });
 
 export function newRun(levelId = 'w2-l1') {
