@@ -6,7 +6,8 @@
 > - **Pek farm/industrial (Kenney CC0):** dibawa masuk hanya apabila 2-2 (pagar) dan 2-3 (rantai) dibina.
 > - Keputusan 16 Nov kekal: dibuka selepas 1-1; 1 unit matematik = 1 jubin; set cabaran tetap dahulu.
 > - **Batu loncatan: satu pada setiap x integer, bukan setiap ½ unit** (hirisan Stesen A membuktikan ½ unit membenarkan jawapan salah). Setiap stesen mesti disahkan dengan sampul lompatan sebenar (`analyse` dalam `quadratic.js`): jawapan betul boleh dilalui, setiap jawapan salah gagal secara fizikal.
-> - **Status:** Fasa 1 siap — `quadratic.js`, ujian unit dan bilik ujian Stesen A (`lab-w2.html`, noindex, tiada pautan menu) ada di `main`. Kod World 1, simpanan dan papan pendahulu tidak disentuh. Seterusnya: Fasa 2 (Stesen B dan C disahkan secara matematik dan fizik).
+> - **Fasa 2 (25 Nov): Stesen B dan C direka semula dengan bukti** — lihat §4a. B kekal dua tuil (h, k) di bawah bumbung batu kapur; C hanya tuil k (a, h tetap) dengan gerbang batu di tengah.
+> - **Status:** Fasa 1 siap — `quadratic.js`, ujian unit dan bilik ujian Stesen A (`lab-w2.html`, noindex, tiada pautan menu) ada di `main`. Kod World 1, simpanan dan papan pendahulu tidak disentuh. Fasa 2 siap (§4a). Seterusnya: Fasa 3 (peta penuh 2-1 sebagai scene `w2-l1`, masih melalui URL pratonton).
 
 
 Ditulis 15 Nov 2026. Ini pelan reka bentuk untuk dipersetujui pemilik sebelum
@@ -77,6 +78,39 @@ Peta ≈ 4,800 unit, empat bahagian:
 Rahsia (pilihan): dua lengkung alternatif yang juga sah membawa ke pelantar
 tinggi (contohnya di Stesen B, lengkung lain yang melalui cincin emas ketiga).
 15 syiling diletak di sepanjang lengkung yang betul sebagai petunjuk halus.
+
+## 4a. Fasa 2 — Stesen B dan C disahkan (25 Nov 2026)
+
+**Masalah yang ditemui:** dengan susun atur §4, hampir semua jawapan salah boleh dilalui
+(Stesen B: 25/25 gabungan h, k; Stesen C: 15/16). Sebab: lompatan pemain sangat murah hati
+(puncak 1.71 jubin, larian ≈ 3.9 jubin), jadi satu batu di tengah kolam sudah cukup.
+
+**Kaedah:** `analyseStation` dalam `src/v14/levels/w2/quadratic.js` (graf permukaan + simulasi
+lompatan 60 Hz yang sama dengan Arcade Physics, termasuk kepala terhantuk bumbung) dan carian
+menyeluruh atas susun atur. Syarat: jawapan betul boleh dilalui dengan lompatan 5 % lebih lemah;
+setiap tetapan tuil lain gagal dengan lompatan 5 % lebih kuat; laluan betul tidak perlu panjat
+> 1.5 jubin atau celah > 2 jubin. `tests/quadratic.test.mjs` menyemak semuanya.
+
+**Stesen B "Anjakan"** (a = −1; tuil h ∈ {3…7}, k ∈ {1…5}; jawapan h = 5, k = 4):
+kolam (air y = 2) dari x = 2.5 hingga 7.5 di bawah **bumbung batu kapur rendah** (bawah y = 4.5),
+tebing y = 3, cincin (4, 3) dan (6, 3) pada aras tebing. Laluan: tebing → (4, 3) → (6, 3) → tebing
+(celah 1 jubin, tiada panjatan). Bucu (5, 4) berada dalam batu (tiada ruang kepala): lukis lengkung
+masuk ke dalam batu. Lengkung lebih tinggi tertanam dalam batu; lebih rendah tenggelam; teranjak
+meninggalkan celah terlalu jauh untuk dilompat di bawah bumbung rendah. Ini sepadan dengan arah
+visual ("kolam di bawah bumbung batu kapur").
+
+**Stesen C "Jambatan Gantung"** (a = ½, h = 4 tetap; **tuil k sahaja** ∈ {0…4}; jawapan k = 1):
+tiang kabel pepejal di x = 2 dan x = 6 (atas y = 2.5) dengan cincin sauh (2, 3) dan (6, 3);
+tebing y = 1.5; air y = −0.5; **gerbang batu** di atas bahagian tengah (x 3.5–4.5, bawah y = 3.5).
+k = 0: kabel terlalu rendah, tidak boleh panjat ke tiang jauh; k = 2: tiada ruang kepala di bawah
+gerbang; k = 3, 4: batu tertanam dalam gerbang. **Perubahan daripada §4:** blueprint menggerakkan
+a, h dan k di sini, tetapi carian tidak menemui sebarang susun atur dengan (a, k) bersama yang
+mempunyai satu jawapan fizikal. Pelajaran C kini: k menaik/menurunkan seluruh lengkung
+(SP 2.3.4), dengan a positif (terbuka ke atas, ada titik minimum).
+
+**Faktor kegagalan** (`factors`, untuk mesej dalam permainan pada Fasa 3): `buried` (dalam batu),
+`submerged` (tenggelam), `high` (di luar stesen), `roof` (bumbung/gerbang menghalang lompatan),
+`climb` (panjatan melebihi lompatan), `gap` (celah terlalu jauh).
 
 ## 5. Level 2-2 — Lembah Puncak
 SP: 2.3.3 (bentuk am ↔ verteks), 2.3.5 (ciri graf), 2.3.6 (maks/min).

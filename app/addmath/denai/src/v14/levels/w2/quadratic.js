@@ -79,42 +79,74 @@ export function reachAtRise(env, rise, speed) {
   return best;
 }
 
-// Reachability of Station A with real numbers. Nodes are standing surfaces; an edge exists if a
-// jump from one to the other is physically possible. Returns success + the first blocked step.
-export function analyse(a, motion, opts = {}) {
-  const st = opts.station ?? STATION_A;
+// Horizontal distance (world units) a running jump covers before the feet come down to `rise`
+// (world units above take-off; negative = a drop), with an optional ceiling `cap` (world units the
+// feet can rise before the head hits rock: the upward speed is then lost, as in Arcade Physics).
+// Same semi-implicit Euler at 60 Hz as jumpEnvelope. -Infinity if `rise` is never reached falling.
+export function airReach(motion, rise, cap = Infinity, gravity = 1400, hz = 60) {
+  const dt = 1 / hz;
+  let vy = -motion.jump, y = 0, t = 0, best = -Infinity;
+  while (t < 4) {
+    vy += gravity * dt; y += vy * dt; t += dt;
+    if (-y >= cap) { y = -cap; if (vy < 0) vy = 0; }
+    if (vy > 0 && -y < rise) break;                       // fell past the target height
+    if (vy > 0) best = t * motion.speed;                  // last frame still at or above it (conservative)
+  }
+  return best;
+}
+
+// ── Generic station reachability (Phase 2) ──────────────────────────────────
+// A station is described in maths units (1 unit = 1 tile):
+//   surfaces: solid ground the player can stand on and cannot pass through
+//             [{ id, x0, x1, top }]; 'L' (start) and 'R' (goal) must exist
+//   stoneXs:  where stepping stones appear (one per whole x) on y = a(x − h)² + k
+//   water:    stones at or below this are submerged (drawn, no collision)
+//   ceiling:  optional rock overhang [{ x0, x1, y }] (y = its underside): a stone needs
+//             headroom for the player's body, and jumps under it are cut short
+//   top:      stones above this are off the top of the station
+// Nodes are standing surfaces; an edge exists if one real jump can join them.
+const HEAD = (m) => m.bodyHeight / TILE;           // body height in tiles
+export const curveAt = (c, x) => f(c.a, c.h, c.k, x);
+function ceilingOver(st, x0, x1) {                  // lowest overhang above any part of [x0, x1]
+  let y = Infinity;
+  for (const c of st.ceiling || []) if (c.x0 < x1 && c.x1 > x0) y = Math.min(y, c.y);
+  return y;
+}
+export function stationStones(st, c, motion) {
+  return st.stoneXs.map((x) => {
+    const y = curveAt(c, x);
+    const covered = st.surfaces.some((s) => x > s.x0 && x < s.x1);
+    const roof = ceilingOver(st, x - 0.5, x + 0.5);
+    const state = covered ? 'nozzle' : y <= st.water ? 'submerged' : y > st.top ? 'high'
+      : motion && y + HEAD(motion) > roof ? 'buried' : 'solid';
+    return { x, y, state };
+  });
+}
+export function analyseStation(station, c, motion, opts = {}) {
+  let st = station;
   const oneWayTol = opts.oneWayTol ?? 8;     // createPlayer accepts a landing up to 8 units below a deck top
-  const bodyW = motion.bodyWidth;
-  const env = jumpEnvelope(motion, opts.gravity ?? 1400);
-  const T = TILE;
-  const nodes = [
-    { id: 'L', x0: -10, x1: st.perchLeftEdge, top: st.perchTop, solid: true },
-    { id: 'C', x0: st.column.x0, x1: st.column.x1, top: st.column.top, solid: true },
-    { id: 'R', x0: st.perchRightEdge, x1: 20, top: st.perchTop, solid: true },
-  ];
-  for (const s of stones(a, st)) if (s.state === 'solid') nodes.push({ id: `S${s.x}`, x0: s.x - 0.5, x1: s.x + 0.5, top: s.y, solid: false, stone: s });
-  const side = (n) => (n.x1 <= st.column.x0 ? -1 : n.x0 >= st.column.x1 ? 1 : 0);
+  const g = opts.gravity ?? 1400, T = TILE, bodyW = motion.bodyWidth;
+  const env = jumpEnvelope(motion, g);
+  const nodes = st.surfaces.map((s) => ({ ...s, solid: true }));
+  for (const s of stationStones(st, c, motion)) if (s.state === 'solid') nodes.push({ id: `S${s.x}`, x0: s.x - 0.5, x1: s.x + 0.5, top: s.y, solid: false, stone: s });
   const can = (from, to) => {
     if (from === to) return false;
+    const lo = Math.min(from.x0, to.x0), hi = Math.max(from.x1, to.x1);
+    // an overhang above the take-off or the flight path caps the jump (head hits the rock)
+    const roof = ceilingOver(st, lo, hi);
+    const peak = Math.min(env.peak, (roof - from.top - HEAD(motion)) * T);
+    if (peak < 0) return false;
     const rise = (to.top - from.top) * T;
-    const gap = Math.max(0, (to.x0 > from.x1 ? to.x0 - from.x1 : from.x0 > to.x1 ? from.x0 - to.x1 : 0)) * T;
-    // feet can leave with the body half over the edge and land with a sliver on the target
-    const needX = Math.max(0, gap - bodyW + 2);
-    if (rise <= 0) {
-      const drop = -rise; // falling: always reachable horizontally within the fall time if gap is small
-      const tFall = Math.sqrt((2 * drop) / 1400) + (2 * motion.jump) / 1400;
-      if (needX > tFall * motion.speed) return false;
-    } else {
-      const allowed = rise - (to.solid ? 0 : oneWayTol);
-      if (allowed > env.peak) return false;
-      if (needX > reachAtRise(env, Math.max(0, allowed), motion.speed)) return false;
-    }
-    // the nozzle column blocks anything crossing it below its top
-    const sf = side(from), sto = side(to);
-    if (sf && sto && sf !== sto && from.top * T + env.peak <= st.column.top * T) return false;
+    const gap = Math.max(0, to.x0 > from.x1 ? to.x0 - from.x1 : from.x0 > to.x1 ? from.x0 - to.x1 : 0) * T;
+    const needX = Math.max(0, gap - bodyW + 2);  // leave with half the body over the edge, land on a sliver
+    const allowed = rise > 0 ? rise - (to.solid ? 0 : oneWayTol) : rise;
+    if (allowed > peak) return false;
+    if (needX > airReach(motion, Math.max(allowed, rise > 0 ? 0 : rise), Number.isFinite(roof) ? peak : Infinity, g)) return false;
+    // solid ground standing between the two blocks the jump unless the feet clear its top
+    const a0 = Math.min(from.x1, to.x1), a1 = Math.max(from.x0, to.x0);
+    for (const s of nodes) if (s.solid && s !== from && s !== to && s.x0 >= a0 - 1e-9 && s.x1 <= a1 + 1e-9 && from.top * T + peak <= s.top * T) return false;
     return true;
   };
-  // BFS from L
   const seen = new Set(['L']), queue = ['L'], prev = {};
   while (queue.length) {
     const id = queue.shift(), from = nodes.find((n) => n.id === id);
@@ -122,22 +154,114 @@ export function analyse(a, motion, opts = {}) {
   }
   const success = seen.has('R');
   const route = [];
-  if (success) { for (let id = 'R'; id; id = prev[id]) route.unshift(id); }
-  // Explain the first failure in physical terms: the lowest climb the player would need next.
+  if (success) for (let id = 'R'; id; id = prev[id]) route.unshift(id);
+  // Explain a failure the way the player meets it: the next surface ahead of the furthest point
+  // reached, and the best place to try it from (the smallest climb within jumping distance).
   let blocked = null;
+  const factors = [];
   if (!success) {
-    let best = null;
-    for (const fromId of seen) {
-      const from = nodes.find((n) => n.id === fromId);
-      const sameSide = nodes.filter((n) => !seen.has(n.id) && n.id !== 'C' && side(n) === side(from));
-      for (const to of sameSide.length ? sameSide : nodes.filter((n) => n.id === 'C' && !seen.has('C'))) {
-        const rise = to.top - from.top;
-        if (rise > 0 && (!best || rise < best.rise)) best = { from: from.id, to: to.id, rise, x: (to.x0 + to.x1) / 2, top: to.top };
-      }
+    const mid = (n) => (n.x0 + n.x1) / 2, gapOf = (p, q) => Math.max(0, q.x0 > p.x1 ? q.x0 - p.x1 : p.x0 > q.x1 ? p.x0 - q.x1 : 0);
+    const reachedNodes = nodes.filter((n) => seen.has(n.id));
+    const front = reachedNodes.reduce((m, n) => (n.x1 > m.x1 ? n : m));
+    const ahead = nodes.filter((n) => !seen.has(n.id) && mid(n) > mid(front)).sort((p, q) => gapOf(front, p) - gapOf(front, q) || p.x0 - q.x0)[0];
+    if (ahead) {
+      const reachX = airReach(motion, 0, Infinity, g) / T;
+      // try from where the player actually stands near it: the closest surfaces (within 1 tile of the
+      // smallest gap), not a far-off leap across the whole station
+      const near = reachedNodes.filter((n) => gapOf(n, ahead) <= reachX + 1e-9);
+      const minGap = Math.min(...near.map((n) => gapOf(n, ahead)));
+      const tries = near.filter((n) => gapOf(n, ahead) <= minGap + 1 + 1e-9);
+      const from = (tries.length ? tries : [front]).reduce((m, n) => {
+        const dn = ahead.top - n.top, dm = ahead.top - m.top;
+        return dn < dm - 1e-9 || (Math.abs(dn - dm) < 1e-9 && gapOf(n, ahead) < gapOf(m, ahead)) ? n : m;
+      });
+      blocked = { from: from.id, to: ahead.id, rise: ahead.top - from.top, gap: gapOf(from, ahead), x: mid(ahead), top: ahead.top };
+      // the same hop with the rock overhang removed: possible → the rock is what stopped it
+      const saved = st.ceiling; st = { ...st, ceiling: [] };
+      const openAir = can(from, ahead); st = { ...st, ceiling: saved };
+      if (saved?.length && openAir) factors.push('roof');
+      else if (blocked.rise * T - (ahead.solid ? 0 : oneWayTol) > env.peak) factors.push('climb');
+      else factors.push('gap');
     }
-    blocked = best;
+    // stones between the rings that the player can see are unusable
+    const xs = (st.rings || []).map(([x]) => x);
+    if (xs.length) {
+      const between = stationStones(st, c, motion).filter((s2) => s2.x >= Math.min(...xs) && s2.x <= Math.max(...xs));
+      for (const f2 of ['high', 'submerged', 'buried']) if (between.some((s2) => s2.state === f2)) factors.unshift(f2);
+    }
   }
-  return { success, route, reached: [...seen], blocked, peakTiles: env.peak / T };
+  return { success, route, reached: [...seen], blocked, factors, peakTiles: env.peak / T };
+}
+
+// ── Level 2-1 stations B and C (Phase 2, 25 Nov 2026) ───────────────────────
+// Found by an exhaustive layout search (tests/quadratic.test.mjs re-checks them): the correct
+// curve must be walkable with a 5 % weaker jump and every other lever setting must fail with a
+// 5 % stronger jump; the correct route never needs a climb above 1.5 tiles or a gap above 2 tiles.
+// A limestone overhang is what makes the answer unique: the player's jump is generous (peak
+// 1.71 tiles, running reach 3.9 tiles), so in open air almost any curve can be crossed.
+
+// Station B "Anjakan": a = −1 fixed; levers h and k. A pond (water at y = 2) under a low limestone
+// overhang (underside y = 4.5). Rings at the bank height (4, 3) and (6, 3) → only h = 5, k = 4.
+// The vertex (5, 4) sits inside the rock (no headroom): the route is bank → (4, 3) → (6, 3) → bank.
+// Higher curves are buried in the rock, lower ones sink, shifted ones leave a gap too long to jump
+// under the low roof.
+export const STATION_B = Object.freeze({
+  id: 'B', a: -1, levers: ['h', 'k'],
+  options: { h: [3, 4, 5, 6, 7], k: [1, 2, 3, 4, 5] },
+  start: { h: 3, k: 2 }, answer: { a: -1, h: 5, k: 4 },
+  rings: [[4, 3], [6, 3]],
+  surfaces: [{ id: 'L', x0: -10, x1: 2.5, top: 3 }, { id: 'R', x0: 7.5, x1: 20, top: 3 }],
+  stoneXs: [3, 4, 5, 6, 7], water: 2, top: 8.5,
+  ceiling: [{ x0: 1.5, x1: 8.5, y: 4.5 }],
+});
+
+// Station C "Jambatan Gantung": a = ½ and h = 4 fixed (cable between posts at x = 2 and x = 6);
+// lever k raises or lowers the whole cable. Posts (solid, top 2.5) carry the anchor rings (2, 3) and
+// (6, 3) → ½(2 − 4)² + k = 3 → only k = 1. A stone arch (x 3.5–4.5, underside y = 3.5) stands over
+// the middle: a cable that is too high leaves no headroom under the arch; one that is too low cannot
+// be climbed back onto the far post.
+// Design note: the blueprint moved a, h and k here; a search over every layout found no station
+// where (a, k) together has a single physical answer, so C moves k only (a was Station A's lever).
+export const STATION_C = Object.freeze({
+  id: 'C', a: 0.5, h: 4, levers: ['k'],
+  options: { k: [0, 1, 2, 3, 4] },
+  start: { k: 3 }, answer: { a: 0.5, h: 4, k: 1 },
+  rings: [[2, 3], [6, 3]],
+  surfaces: [{ id: 'L', x0: -10, x1: 1.5, top: 1.5 }, { id: 'P1', x0: 1.5, x1: 2.5, top: 2.5 }, { id: 'P2', x0: 5.5, x1: 6.5, top: 2.5 }, { id: 'R', x0: 6.5, x1: 20, top: 1.5 }],
+  stoneXs: [2, 3, 4, 5, 6], water: -0.5, top: 8.5,
+  ceiling: [{ x0: 3.5, x1: 4.5, y: 3.5 }],
+});
+
+/** Every lever setting of a station as a curve { a, h, k }. */
+export function stationCombos(st) {
+  const base = { a: st.a, h: st.h, k: st.k };
+  return st.levers.reduce((acc, lv) => acc.flatMap((c) => st.options[lv].map((v) => ({ ...c, [lv]: v }))), [base]);
+}
+/** Does the curve pass through every ring of the station? (the maths answer, independent of physics) */
+export const passesRings = (st, c) => st.rings.every(([x, y]) => Math.abs(curveAt(c, x) - y) < 1e-9);
+/** Biggest climb and biggest gap (tiles) along a found route — how hard the correct path is to play. */
+export function routeEffort(st, c, motion, route) {
+  const ns = [...st.surfaces, ...stationStones(st, c, motion).filter((s) => s.state === 'solid').map((s) => ({ id: `S${s.x}`, x0: s.x - .5, x1: s.x + .5, top: s.y }))];
+  let rise = 0, gap = 0;
+  for (let i = 1; i < route.length; i++) {
+    const a = ns.find((n) => n.id === route[i - 1]), b = ns.find((n) => n.id === route[i]);
+    rise = Math.max(rise, b.top - a.top); gap = Math.max(gap, b.x0 > a.x1 ? b.x0 - a.x1 : a.x0 > b.x1 ? a.x0 - b.x1 : 0);
+  }
+  return { rise, gap };
+}
+
+// Station A as a generic station (h = 3, k = 4 fixed; the lever moves a).
+const asStation = (st) => ({
+  surfaces: [
+    { id: 'L', x0: -10, x1: st.perchLeftEdge, top: st.perchTop },
+    { id: 'C', x0: st.column.x0, x1: st.column.x1, top: st.column.top },
+    { id: 'R', x0: st.perchRightEdge, x1: 20, top: st.perchTop },
+  ],
+  stoneXs: st.stoneXs, water: st.water, top: st.ceiling, ceiling: [],
+});
+export function analyse(a, motion, opts = {}) {
+  const st = opts.station ?? STATION_A;
+  return analyseStation(asStation(st), { a, h: st.h, k: st.k }, motion, opts);
 }
 
 // Short, concrete reason why the shape is what it is (no long-form text).
