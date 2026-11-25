@@ -4,6 +4,8 @@ import { store } from './store.js';
 import { outcomes, evidence, poolOf, rank } from './mastery.js';
 import { CHAPTERS, chapter, loadChapter, questionPool } from '../data.js';
 
+const NOTE_GRACE_MS = 30 * 60 * 1000;
+
 const key = (ch, sub) => `${ch}/${sub}`;
 
 export function whenText(iso) {
@@ -105,6 +107,8 @@ export async function getLearner() {
     for (const [k, at] of opened) {
       const [ch, sub] = k.split('/');
       if (notesDone.has(k) || attemptsBy.has(k) || out.some((x) => x.ch === ch && x.sub === sub)) continue;
+      // A note the learner is still reading (opened in the last 30 minutes) is not "to revise" yet.
+      if (Date.now() - Date.parse(at) < NOTE_GRACE_MS) continue;
       out.push({ kind: 'note', ch, sub, at, why: 'Nota dibuka tetapi belum selesai.' });
     }
     return out.filter((x) => chapter(x.ch)?.available).sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, limit);

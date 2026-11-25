@@ -1,6 +1,6 @@
 // Registry of every browser-storage key the Learning Hub uses.
 // The hub WRITES only the keys in HUB. Game keys are listed so nobody reuses
-// them by accident; the hub never writes them (and in Phase 1 does not read them).
+// them by accident; the hub never writes them (core/game-records.js only reads them).
 export const HUB = Object.freeze({
   progress: 'denai-hub-progress-v1',   // real learner record (localStorage)
   demoPersona: 'denai-hub-demo-v1',    // demo mode: which sample learner (localStorage)

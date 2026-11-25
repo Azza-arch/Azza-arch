@@ -43,7 +43,7 @@ export async function render(route) {
   const KEY = `${id}/${sub.id}`;
   const wq = writtenPool(ch, sub.id);
   const isWritten = route.query.get('jenis') === 'bertulis';
-  const modeNav = wq.length ? `<nav class="seg seg-mode" aria-label="Jenis latihan"><a href="#/latihan/${id}/${sub.id}"${isWritten ? '' : ' aria-current="page"'}>Latihan (${pool.length})</a><a href="#/latihan/${id}/${sub.id}?jenis=bertulis"${isWritten ? ' aria-current="page"' : ''}>Soalan bertulis (${wq.length})</a></nav>` : '';
+  const modeNav = wq.length ? `<nav class="seg seg-mode" aria-label="Jenis latihan"><a href="#/latihan/${id}/${sub.id}"${isWritten ? '' : ' aria-current="page"'}>Latihan · ${Math.min(5, pool.length)} soalan setiap set</a><a href="#/latihan/${id}/${sub.id}?jenis=bertulis"${isWritten ? ' aria-current="page"' : ''}>Soalan bertulis (${wq.length})</a></nav>` : '';
 
   const top = `${crumbs([['Belajar', '#/bab'], [`Bab ${c.number}`, `#/bab/${id}`], [`${sub.id} ${sub.title}`, `#/nota/${id}/${sub.id}`], [isWritten ? 'Soalan bertulis' : 'Latihan']])}
     <header class="read-head" style="border:0;padding-bottom:0">

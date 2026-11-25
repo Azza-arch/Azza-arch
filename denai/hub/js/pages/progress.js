@@ -11,6 +11,8 @@ import { esc, icon, emptyState, masteryTag, storageNote, actionHref, insufficien
 import { CHAPTERS, chapter, subtopicTitle, STATUS_LABEL } from '../data.js';
 import { getLearner, whenText } from '../core/learner.js';
 import { store } from '../core/store.js';
+import { GAME } from '../data.js';
+import { gameRecords, timeText } from '../core/game-records.js';
 
 export async function render(route) {
   const l = await getLearner(), t = l.totals;
@@ -31,7 +33,15 @@ export async function render(route) {
     }).join('')}</ul>`;
     return `<li class="prog-ch"><div class="prog-ch-head"><span class="num${sum.state === 'done' ? ' is-done' : sum.state === 'progress' ? ' is-progress' : ''}">${sum.state === 'done' ? icon('check') : c.number}</span><div><a href="#/bab/${c.id}"><b>Bab ${c.number}: ${esc(c.title)}</b></a><span class="small muted">${sum.state === 'ready' ? 'Belum mula' : `${sum.mastered} daripada ${sum.total} subtopik Faham atau Mahir`}</span></div>${sum.state === 'done' ? tag('Dikuasai', 'done', 'check') : ''}</div>${subs}</li>`;
   };
-  const form = (f) => `<h3 class="subhead">Tingkatan ${f}</h3><ol class="prog-list">${CHAPTERS.filter((c) => c.form === f).map(chapterRow).join('')}</ol>`;
+  // Started chapters stay open; chapters not started yet (and coming soon) fold away so the page stays short on phones.
+  const form = (f) => {
+    const all = CHAPTERS.filter((c) => c.form === f);
+    const started = all.filter((c) => c.available && l.chapterSummary(c).state !== 'ready');
+    const rest = all.filter((c) => !started.includes(c));
+    return `<h3 class="subhead">Tingkatan ${f}</h3>
+      ${started.length ? `<ol class="prog-list">${started.map(chapterRow).join('')}</ol>` : ''}
+      ${rest.length ? `<details class="more prog-fold"${started.length ? '' : ' open'}><summary>${rest.length} bab belum dimulakan</summary><div class="more-body"><ol class="prog-list">${rest.map(chapterRow).join('')}</ol></div></details>` : ''}`;
+  };
 
   const activity = l.recent.length
     ? `<ul class="activity">${l.recent.map((e) => { const ex = e.t === 'set-done'; return `<li><span class="a-ico${ex ? ' is-ex' : ''}">${icon(ex ? 'pencil' : 'book')}</span><div><b>${esc(e.sub)} ${esc(subtopicTitle(e.ch, e.sub))}</b><span>${ex ? `Latihan · betul ${e.right}/${e.total} (${e.first} pada cubaan pertama)` : 'Nota selesai'} · ${esc(whenText(e.at))}</span></div></li>`; }).join('')}</ul>`
@@ -45,12 +55,19 @@ export async function render(route) {
         <td><a class="textlink small" href="#/latihan/${e.ch}/${e.sub}">Latihan lagi ${icon('arrow')}</a></td></tr>`; }).join('')}</tbody></table></div>`
     : '<p class="small muted">Belum ada set latihan yang diselesaikan.</p>';
 
+  const gr = l.demo ? null : gameRecords();
+  const gameDone = gr ? GAME.levels.filter((lv) => gr[lv.no]?.done).length : 0;
+  const gameHtml = !gr ? '<p class="small muted">Mod demo: rekod game tidak dipaparkan.</p>'
+    : `<p class="small"><b>Dunia 1: ${gameDone} daripada ${GAME.levels.length} misi selesai</b></p><ul class="game-recs">${GAME.levels.map((lv) => { const r = gr[lv.no];
+        return `<li><span><b>${esc(lv.no)} ${esc(lv.title)}</b><small>${r.done ? `Selesai ${r.completions} kali${r.bestMs ? ` · masa terbaik ${timeText(r.bestMs)}` : ''}` : r.running ? 'Sedang dimain' : 'Belum dimain'}</small></span>${r.done ? tag('Selesai', 'done', 'check') : r.running ? tag('Sedang dimain', 'progress') : ''}</li>`; }).join('')}</ul>`;
+
   const html = `<div class="wrap wrap-path">
     <header class="pagehead">
       <p class="eyebrow">Kemajuan</p>
       <h1 class="h1">Kemajuan saya</h1>
       <p class="prog-summary">${t.faham} daripada ${t.notesTotal} subtopik diterbitkan pada tahap Faham atau Mahir · ${t.notesDone} nota selesai · ${t.sets} set latihan</p>
       <div style="margin-top:8px">${storageNote(l)}</div>
+      ${route?.query.has('import') ? `<p class="notice" role="status" style="margin-top:12px">${icon('check')}<span>Rekod dimuat naik: ${Number(route.query.get('import')) || 0} aktiviti baharu ditambah.</span></p>` : ''}
       ${erased && !l.hasActivity ? `<p class="notice" role="status" style="margin-top:12px">${icon('check')}<span>Kemajuan anda telah dipadam daripada pelayar ini.</span></p>` : ''}
     </header>
 
@@ -69,11 +86,17 @@ export async function render(route) {
     <section class="section-sm" aria-labelledby="h-hist"><h2 class="h3" id="h-hist">Sejarah latihan</h2>${history}</section>
 
     <section class="section-sm" aria-labelledby="h-game"><h2 class="h3" id="h-game">Game</h2>
-      <p class="small muted">Misi, syiling dan pencapaian game disimpan oleh game itu sendiri. Learning Hub tidak membacanya dan tidak mengiranya sebagai penguasaan. <a href="#/main">Ke tab Game</a></p></section>
+      ${gameHtml}
+      <p class="small muted" style="margin-top:8px">Rekod ini dibaca daripada simpanan game dalam pelayar ini. Ia tidak dikira sebagai penguasaan. <a href="#/main">Ke tab Game</a></p></section>
 
     <section class="section-sm" aria-labelledby="h-data"><h2 class="h3" id="h-data">Data dan tetapan</h2>
       <div class="card data-card">
         <p class="small">Rekod pembelajaran anda (nota, jawapan latihan, petunjuk) disimpan dalam pelayar ini sahaja. Tiada nama, e-mel atau teks jawapan disimpan, dan tiada data dihantar ke mana-mana.</p>
+        ${l.demo ? '' : `<div class="data-io" style="margin-top:12px">
+          <p class="small"><b>Simpan atau pulihkan rekod.</b> Muat turun rekod anda sebagai fail, kemudian muat naik fail itu di pelayar atau peranti lain. Rekod yang dimuat naik digabungkan dengan rekod sedia ada; tiada apa-apa dipadam.</p>
+          <div class="btn-row" style="margin-top:8px"><button type="button" class="btn btn-secondary" data-io="export" ${l.hasActivity ? '' : 'disabled'}>${icon('arrow')}Muat turun rekod</button>
+            <input type="file" id="io-file" accept=".json,application/json" class="sr-only"><label class="btn btn-quiet" for="io-file">${icon('book')}Muat naik rekod</label></div>
+          <p class="small" id="io-msg" role="status" aria-live="polite" style="margin-top:8px"></p></div>`}
         ${l.demo ? '<p class="small muted" style="margin-top:12px">Mod demo: rekod contoh tidak disimpan.</p>'
           : `<div id="reset-area" style="margin-top:12px"><button type="button" class="btn btn-secondary" data-act="reset" ${l.hasActivity ? '' : 'disabled'}>${icon('x')}Padam kemajuan saya</button></div>`}
         <p class="small muted" style="margin-top:12px">Simpanan game tidak terjejas.</p>
@@ -82,6 +105,23 @@ export async function render(route) {
   </div>`;
 
   const mount = (view) => {
+    const msg = view.querySelector('#io-msg');
+    view.querySelector('[data-io="export"]')?.addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(store.exportData(), null, 1)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = `rekod-denai-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      msg.textContent = 'Fail rekod dimuat turun. Simpan fail ini di tempat yang selamat.';
+    });
+    view.querySelector('#io-file')?.addEventListener('change', async (e) => {
+      const f = e.target.files?.[0]; e.target.value = '';
+      if (!f) return;
+      if (f.size > 2_000_000) { msg.textContent = 'Fail terlalu besar untuk rekod DENAI.'; return; }
+      let added = -1;
+      try { added = store.importData(JSON.parse(await f.text())); } catch { added = -1; }
+      if (added < 0) { msg.textContent = 'Fail ini bukan rekod DENAI Learning Hub. Tiada apa-apa diubah.'; return; }
+      location.hash = `#/kemajuan?import=${added}`;
+    });
     const area = view.querySelector('#reset-area');
     if (!area) return;
     area.addEventListener('click', (e) => {

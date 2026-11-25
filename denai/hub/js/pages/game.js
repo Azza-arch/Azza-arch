@@ -1,12 +1,13 @@
 // Game (#/main, #/main?bab=<id>) — the fourth primary destination (D14).
 // Shows every world on the game's own map with its real state, how each playable
 // mission maps to a subtopic, and keeps game records apart from academic mastery:
-// the hub never reads or writes game saves, and nothing in the game changes a
+// the hub only reads game saves (core/game-records.js), never writes them, and nothing in the game changes a
 // mastery level. The Play button opens the existing Phaser game, unchanged.
 import { esc, icon, masteryTag, tag } from '../ui.js';
 import { chapter, GAME, WORLDS, GAME_URL, GAME_LANDING_URL, subtopicTitle } from '../data.js';
 import { renderMath } from '../core/content.js';
 import { getLearner } from '../core/learner.js';
+import { gameRecords, timeText } from '../core/game-records.js';
 
 const STATE = { playable: ['Boleh dimain', 'done'], development: ['Sedang dibina', 'progress'], soon: ['Akan datang', 'soon'] };
 
@@ -14,11 +15,14 @@ export async function render(route) {
   const from = chapter(route.query.get('bab') || '');
   const gc = chapter(GAME.chapter);
   const l = await getLearner();
+  const gr = l.demo ? null : gameRecords();
+  const rec = (no) => { const r = gr?.[no]; if (!r) return ''; return r.done ? `${tag('Selesai', 'done', 'check')}<span class="small muted"> ${r.completions} kali${r.bestMs ? ` · terbaik ${timeText(r.bestMs)}` : ''}</span>` : r.running ? tag('Sedang dimain', 'progress') : `<span class="small muted">Belum dimain</span>`; };
   const notice = from && !from.hasGame
     ? `<p class="notice" style="margin-top:16px">${icon('info')}<span>Bab ${from.number} ${esc(from.title)} belum mempunyai misi game. Misi yang boleh dimain sekarang ialah untuk <b>Bab ${gc.number} ${esc(gc.title)}</b>.</span></p>` : '';
 
   const missions = `<ol class="levels">${GAME.levels.map((lv) => `<li class="level"><span class="level-no">${lv.no}</span><div>
       <h3>${esc(lv.title)}</h3>
+      ${gr ? `<p class="level-rec">${rec(lv.no)}</p>` : ''}
       <p><b>Konsep:</b> ${esc(lv.concept)} · subtopik ${esc(lv.sub)} ${esc(subtopicTitle(gc.id, lv.sub))} · SP ${esc(lv.sp.join(', '))}</p>
       <p>${renderMath(lv.text)}</p>
       <p class="level-mastery"><span class="small muted">Tahap penguasaan anda bagi ${esc(lv.sub)} (daripada latihan, bukan game):</span>${masteryTag(l.level(gc.id, lv.sub))}</p>
@@ -57,7 +61,7 @@ export async function render(route) {
   </section>
 
   <div class="wrap">
-    <p class="notice game-sep" style="margin-top:32px">${icon('info')}<span><b>Rekod game bukan bukti penguasaan.</b> Misi selesai, syiling, masa dan pencapaian disimpan oleh game itu sendiri dalam pelayar ini. Tahap penguasaan dalam Learning Hub hanya berubah melalui jawapan latihan.</span></p>
+    <p class="notice game-sep" style="margin-top:32px">${icon('info')}<span><b>Rekod game bukan bukti penguasaan.</b> Misi selesai, syiling, masa dan pencapaian disimpan oleh game itu sendiri dalam pelayar ini. Learning Hub hanya memaparkan status misi; tahap penguasaan hanya berubah melalui jawapan latihan.</span></p>
 
     <section class="section" style="margin-top:32px" aria-labelledby="h-worlds">
       <div class="section-head"><div><h2 class="h2" id="h-worlds">Dunia dan misi</h2><p>Hanya Dunia 1 boleh dimain sekarang. Dunia lain disenaraikan seperti dalam peta game.</p></div></div>

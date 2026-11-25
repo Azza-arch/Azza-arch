@@ -77,6 +77,23 @@ export const store = {
   clearActive(key) { const s = backend().read(); delete s.active[key]; backend().write(s); },
   /** Erase the learner's record (real mode: the hub key only; demo: the sample). Game saves are never touched. */
   reset() { if (demoState) { demoState = empty(); return; } memoryReal = empty(); quotaFailed = false; try { if (LOCAL) localStorage.removeItem(HUB.progress); } catch { /* blocked */ } },
+  /** The learner's record as a portable file body (no personal data: ids, codes, booleans, numbers, timestamps). */
+  exportData() { return { app: 'denai-hub', kind: 'learning-record', v: 1, exportedAt: new Date().toISOString(), state: backend().read() }; },
+  /**
+   * Merge an exported record into this browser's record. Nothing is lost:
+   * events from both are kept (duplicates dropped, oldest first) and an
+   * unfinished set is restored only where this browser has none.
+   * Returns the number of new events, or -1 when the file is not a hub record.
+   */
+  importData(obj) {
+    if (!obj || obj.app !== 'denai-hub' || obj.v !== 1 || !obj.state) return -1;
+    const incoming = sanitizeState(obj.state), cur = backend().read();
+    const seen = new Set(cur.events.map((e) => JSON.stringify(e)));
+    const fresh = incoming.events.filter((e) => { const k = JSON.stringify(e); if (seen.has(k)) return false; seen.add(k); return true; });
+    cur.events = [...cur.events, ...fresh].sort((a, b) => a.at.localeCompare(b.at)).slice(-MAX_EVENTS);
+    for (const [k, a] of Object.entries(incoming.active)) if (!cur.active[k]) cur.active[k] = a;
+    backend().write(cur); return fresh.length;
+  },
   /** Demo mode only: replace the in-memory sample record. */
   useDemo(events) { demoState = sanitizeState({ v: 1, events, active: {} }); },
 };
