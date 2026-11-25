@@ -13,7 +13,7 @@ import { buildLandscape } from '../../environment.js';
 import { TILE as T, curveAt, stationStones, analyseStation, passesRings, formatA, formatNum } from './quadratic.js';
 import { buildLevel, LEVEL_ID } from './level-2-1-data.js';
 import { createW2Store, newRun } from './campaign.js';
-import { exitGate, stoneColumn, solidColumns, scaffoldLedges, SLAB } from './art.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -65,6 +65,7 @@ class Level21 extends Phaser.Scene {
     const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'karst' : undefined }));
     const SLABS = L.slabs.map((r) => ({ id: r.id, x: wx(r.x0), y: Math.max(WORLD.top, wy(r.top)), width: (r.x1 - r.x0) * T, bottom: wy(r.bottom), style: 'ruin' }));
     const { tile } = buildLandscape(this, { AB_TERRAIN, SLABS, WORLD: { width: WORLD.width, floor: WORLD.floor }, parallaxShift: 60 });
+    karstBackdrop(this, WORLD.width, wy(-0.5)); // Lembah Batu Kapur: distant limestone towers (art.js)
     this.tileAt = tile;
     this.waterTiles = [];
     this.waterZones = L.waters.map((w) => ({ x0: wx(w.x0), x1: wx(w.x1), top: wy(w.top) }));
@@ -127,13 +128,14 @@ class Level21 extends Phaser.Scene {
     g.lineStyle(1, 0xffffff, .35);
     for (let x = x0; x <= x1; x++) g.lineBetween(X(x), Y(yTop), X(x), Y(st.water));
     for (let y = Math.ceil(st.water); y <= yTop; y++) g.lineBetween(X(x0), Y(y), X(x1), Y(y));
-    const lab = { fontFamily: FONT, fontSize: '13px', color: '#203e36', fontStyle: 'bold' };
+    const lab = { fontFamily: FONT, fontSize: '13px', color: '#203e36', fontStyle: 'bold', stroke: '#fffdf5', strokeThickness: 4 };
     for (let x = x0; x <= x1; x++) this.add.text(X(x), Y(st.water) + 4, String(x), lab).setOrigin(.5, 0).setDepth(9.7);
     const leverFeet = wy(L.terrain.find((t) => s.leverX >= t.x0 && s.leverX <= t.x1).top);
     const lever = this.add.image(wx(s.leverX), leverFeet, 'kpp_terrain_atlas', 64).setOrigin(.5, 1).setScale(3).setDepth(12);
     const screen = this.add.text(wx(s.leverX), leverFeet - 70, '', { fontFamily: FONT, fontSize: '15px', fontStyle: 'bold', color: '#fee481', backgroundColor: '#434a5f', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
-    const sign = this.add.text(wx(s.leverX), leverFeet - 104, s.name, { fontFamily: 'Arial, sans-serif', fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
-    const ringLabels = st.rings.map(([x, y]) => this.add.text(X(x), Y(y) + 22, '', { fontFamily: FONT, fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#203e36', padding: { x: 4, y: 2 } }).setOrigin(.5, 0).setDepth(17));
+    const sign = this.add.text(wx(s.leverX), leverFeet - 104, s.name, { fontFamily: 'Arial, sans-serif', fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12).setVisible(false); // the HUD names the station
+    // ring labels sit ABOVE the ring (the stone at the ring is below it), small, slightly see-through
+    const ringLabels = st.rings.map(([x, y]) => this.add.text(X(x), Y(y) - 22, '', { fontFamily: FONT, fontSize: '12px', fontStyle: 'bold', color: '#fff', backgroundColor: 'rgba(32,62,54,0.85)', padding: { x: 3, y: 1 } }).setOrigin(.5, 1).setDepth(17));
     const failTag = this.add.text(0, 0, '', { fontFamily: 'Arial, sans-serif', fontSize: '15px', fontStyle: 'bold', color: '#fff', backgroundColor: '#b3402a', padding: { x: 7, y: 4 }, align: 'center' }).setOrigin(.5, 1).setDepth(30).setVisible(false);
     return {
       id: st.id, s, st, ox, index, X, Y, lever, screen, sign, ringLabels, failTag, leverFeet,
@@ -190,8 +192,10 @@ class Level21 extends Phaser.Scene {
     st.failTag.setVisible(false);
     if (!res.success && !quiet) {
       const why = res.factors.map((f) => WHY[f]).filter(Boolean);
-      const at = res.blocked ? [res.blocked.x, Math.min(res.blocked.top + 1.6, 8)] : [st.st.stoneXs[2], 6];
-      st.failTag.setText(`Laluan terputus:\n${why.slice(0, 2).join(';\n')}`).setPosition(st.X(at[0]), st.Y(at[1])).setVisible(true);
+      // over the middle of the station (always in view near the lever), above its highest stone
+      const xs = st.st.stoneXs, mid = (xs[0] + xs[xs.length - 1]) / 2;
+      const topY = Math.min(8, Math.max(...stationStones(st.st, st.c, MOTION).filter((q) => q.state === 'solid').map((q) => q.y), 2) + 2.2);
+      st.failTag.setText(`Laluan terputus:\n${why.slice(0, 2).join(';\n')}`).setPosition(st.X(mid), st.Y(topY)).setVisible(true);
     }
     if (!quiet) SFX.ui?.(audio);
     this.draw(st);
@@ -220,7 +224,7 @@ class Level21 extends Phaser.Scene {
       st.ringLabels[i].setText(`x=${x}: y = ${formatNum(cy)}`).setBackgroundColor(hit ? '#1f6e3a' : '#203e36');
     });
     st.screen.setText(s.levers.map((n) => `${n} = ${n === 'a' ? formatA(c[n]) : formatNum(c[n])}`).join('  '));
-    if (st.solved) { st.sign.setBackgroundColor('#1f6e3a').setText(`${st.s.name} ✓`); }
+    if (st.solved) st.screen.setBackgroundColor('#1f6e3a').setText(`${st.screen.text} ✓`);
   }
   // ── HUD (HTML) ─────────────────────────────────────────────────────────
   nearest() {
@@ -279,6 +283,7 @@ class Level21 extends Phaser.Scene {
     const st = this.nearest();
     const near = Math.abs(px - wx(st.s.leverX)) < 80 && Math.abs(feet - st.leverFeet) < 8;
     $('w2-tools').classList.toggle('far', !near);
+    (this.hud ??= document.querySelector('.w2-hud'))?.classList.toggle('compact', !near);
     if (near && !st.solved) {
       if (controls.l1Down) this.step(st, 0, -1);
       if (m.interact || controls.l1Up) this.step(st, 0, 1);

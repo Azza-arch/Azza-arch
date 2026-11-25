@@ -52,3 +52,23 @@ export function scaffoldLedges(tile, wx, wy, pieces, yBase, depth = 9.6) {
     return imgs;
   });
 }
+
+/**
+ * Distant limestone towers (karst) for World 2's identity: flat pale silhouettes on the tile grid,
+ * drawn with Graphics (the game uses the Canvas renderer, where image tints are unreliable), far
+ * behind the forest band (parallax, no collision). A fixed pattern, so every visit looks the same.
+ * Each tower has a stepped top (one tile narrower on one side) like the steep karst hills of Perak.
+ */
+export function karstBackdrop(scene, worldWidth, baseY, { sf = 0.35, depth = 0.6, color = 0x9fd1bb, alpha = 1 } = {}) {
+  const T = 54, TOWERS = [[2, 6], [3, 9], [2, 5], [2, 8], [3, 7], [2, 10], [3, 6], [2, 8]];
+  const g = scene.add.graphics().setScrollFactor(sf, 1).setDepth(depth);
+  g.fillStyle(color, alpha);
+  const span = worldWidth * sf + 1600;
+  for (let x = -200, i = 0; x < span; i++) {
+    const [w, h] = TOWERS[i % TOWERS.length], step = i % 2 ? 0 : 1; // which side steps down
+    g.fillRect(x, baseY - (h - 1) * T, w * T, (h - 1) * T);                 // the body
+    g.fillRect(x + (step ? 0 : T / 2), baseY - h * T, w * T - T / 2, T);    // the stepped top
+    x += w * T + T * (3 + (i * 7) % 5); // uneven gaps: 3–7 tiles
+  }
+  return g;
+}

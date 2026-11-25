@@ -1,7 +1,7 @@
 # Dunia 2 — catatan penambahbaikan visual & UI (belum dibuat)
 
 Dicatat 25 Nov 2026 atas permintaan pemilik semasa Fasa 6 bermula, supaya tidak terlupa.
-**Fasa 7 bahagian 1 siap (25 Nov): A1–A4a dan batu loncatan** (✅ di bawah). Selebihnya belum.
+**Fasa 7 bahagian 1 siap (25 Nov): A1–A4a dan batu loncatan.** **Bahagian B siap (25 Nov): 4, 5, 6, 7, 8, 10, 15, 18** (✅ di bawah). Selebihnya belum.
 Disahkan dengan tangkapan skrin, ujian main penuh 2-1/2-2/2-3, dan `w1-env-check` (perlanggaran Dunia 1
 sama persis dengan `main`). Peraturan jubin kini dalam `src/v14/levels/w2/art.js`.
 
@@ -23,29 +23,29 @@ sama persis dengan `main`). Peraturan jubin kini dalam `src/v14/levels/w2/art.js
    sendiri dan nampak seperti timbunan kotak. Perlu tiang yang betul (bingkai tepi/isi tanpa atap,
    atau tiang batu/kayu Kenney), dan rasuk atas dengan bingkai hujung kiri / tengah / kanan.
    Sama di 2-1, 2-2 dan 2-3 (kod `tile(40, …)` / `tile(42, …)` untuk gerbang). **Keutamaan pertama Fasa 7.**
-4. **Reka bentuk UI yang pelik di setiap dunia** — semak semula seluruh HUD dan papan tanda dalam dunia
+4. ✅ (HUD padat jauh dari stesen, label bertepi, nama stesen digabung ke skrin tuil) **Reka bentuk UI yang pelik di setiap dunia** — semak semula seluruh HUD dan papan tanda dalam dunia
    (lihat B).
 
 - ✅ Batu loncatan 2-1 (dan bilik ujian): bingkai 147 (platform batu kecil), bukan 47 (kotak bercorak X).
 
 ## B. Diperhatikan semasa membina (untuk disemak bersama)
-5. Panel HUD di kiri atas besar dan menutup sebahagian peta di telefon landskap; pertimbang panel yang
+5. ✅ HUD jadi padat (persamaan sahaja) bila jauh dari stesen; skrin rendah (≤500px) sembunyi tag/penerangan. Panel HUD di kiri atas besar dan menutup sebahagian peta di telefon landskap; pertimbang panel yang
    boleh dilipat, atau ringkas → penuh bila dekat tuil.
-6. Label dalam dunia bertindih: nama stesen + skrin tuil + label cincin + label grid kadang-kadang
+6. ✅ Papan nama disembunyikan, nama stesen = skrin tuil (hijau + ✓ bila selesai); label cincin 2-1 kecil dan di atas cincin. Label dalam dunia bertindih: nama stesen + skrin tuil + label cincin + label grid kadang-kadang
    bertindih dengan tiang cawan (D), tebing atau batu.
-7. Label nombor grid (0, 1, 2 …) di bawah tanah kadang-kadang terlukis di atas tanah dan sukar dibaca.
-8. Tag kegagalan merah (2-1) kadang-kadang separuh di luar skrin di sebelah kanan.
+7. ✅ Label grid kini bertepi krim tebal, boleh dibaca di atas tanah. Label nombor grid (0, 1, 2 …) di bawah tanah kadang-kadang terlukis di atas tanah dan sukar dibaca.
+8. ✅ Tag di tengah stesen, di atas batu tertinggi (had y 8). Tag kegagalan merah (2-1) kadang-kadang separuh di luar skrin di sebelah kanan.
 9. Batu "sempit" / batu tenggelam / batu jatuh: pastikan semua keadaan mudah difahami tanpa membaca.
-10. Bendera checkpoint, tiang tuil dan papan nama: gaya berbeza antara stesen; seragamkan.
+10. ✅ Satu gaya papan: skrin tuil sahaja (papan nama berasingan dibuang). Bendera checkpoint, tiang tuil dan papan nama: gaya berbeza antara stesen; seragamkan.
 11. Papan pelan kandang (F): papan putih besar nampak seperti UI, bukan objek dunia; gunakan bingkai
     papan tanda kayu Kenney.
 12. Pagar Kenney Farm di F hanya hiasan; pertimbang pagar yang benar-benar membentuk kandang di tanah.
 13. Pelancar bola (D) dan muncung air (E) guna paip Kenney 95 — semak saiz dan kedudukan.
 14. Kamera: logik kamera Dunia 1 dalam `player-motion.js` guna pemalar ketinggian Dunia 1 (y < 1230);
     Dunia 2 mengimbanginya di Stesen E sahaja. Pertimbang tetapan kamera per level.
-15. Latar belakang: identiti karst Lembah Batu Kapur masih lemah (hanya jalur hijau); keputusan pemilik:
+15. ✅ Siluet menara batu kapur (Graphics, parallax 0.35, di belakang jalur hutan) dalam ketiga-tiga level. Latar belakang: identiti karst Lembah Batu Kapur masih lemah (hanya jalur hijau); keputusan pemilik:
     guna set Kenney sedia ada + blok batu — perlu reka susun atur latar yang lebih jelas.
 16. Belum ada rahsia / laluan pilihan dalam 2-1 dan 2-2 (blueprint: gua bawah tebing, cincin emas ke-3).
 17. Variasi main semula 2-2 (y = −x² + 8x − 12) belum dibina.
-18. Butang MAIN/SAMBUNG di menu utama hanya ikut Dunia 1.
+18. ✅ MAIN/SAMBUNG kini sambung ke level Dunia 2 seterusnya bila Dunia 1 selesai. Butang MAIN/SAMBUNG di menu utama hanya ikut Dunia 1.
 19. Analitik belum merekod level Dunia 2 (analitik dimatikan buat masa ini).

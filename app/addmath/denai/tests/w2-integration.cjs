@@ -34,6 +34,12 @@ const panel = (p) => p.$$eval('#wm-panel .wm-level', (els) => els.map((e) => `${
   await p.screenshot({ path: `${out}/int-2-tersedia.png` });
   await Promise.all([p.waitForURL(/w2-l1\.html$/), p.click('#wm-panel button[data-level="w2-l1"][data-mode="play"]')]);
   await p.waitForFunction(() => window.__w2?.scene?.player); res.launched = p.url();
+  // 2b. World 1 complete: the main menu's MAIN button continues into World 2 (Level 2-1)
+  await fresh({ 'denai-profile-v1': W1_DONE, 'denai-campaign-v1': JSON.stringify({ schemaVersion: 1, levels: { 'w1-l2': { completions: 1 } } }), 'denai-l3-campaign-v1': JSON.stringify({ schemaVersion: 1, completions: 1 }) });
+  res.mainW2 = await p.evaluate(() => ({ main: document.getElementById('play-main').textContent, sub: document.getElementById('play-main-sub').textContent }));
+  ok(res.mainW2.sub === 'Level 2-1 · Jejak Lengkung', `after World 1 the main button points at 2-1: ${JSON.stringify(res.mainW2)}`);
+  await Promise.all([p.waitForURL(/w2-l1\.html$/), p.click('#play-main')]);
+  await p.waitForFunction(() => window.__w2?.scene?.player); res.mainW2url = p.url();
   // 3. a run in progress → Sambung; finished → Selesai, Main semula = fresh run (?baru=1)
   const midRun = { id: 'r1', checkpointId: 'after-a', coins: ['c1'], solved: { A: true, B: false, C: false }, levers: { A: { a: -0.5 }, B: { h: 3, k: 2 }, C: { k: 3 } }, elapsedMs: 40000, completed: false };
   await fresh({ 'denai-profile-v1': W1_DONE, 'denai-w2-campaign-v1': W2(midRun) });

@@ -14,7 +14,7 @@ import { quad } from './peak.js';
 import { pontoonOutcome, chainOutcome, sealPOutcome, sealQOutcome } from './roots.js';
 import { buildLevel, LEVEL_ID, GATE_MX } from './level-2-3-data.js';
 import { createW2Store, newRun } from './campaign.js';
-import { exitGate, stoneColumn, solidColumns, scaffoldLedges, SLAB } from './art.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -47,6 +47,7 @@ class Level23 extends Phaser.Scene {
     if (!this.textures.exists('fx-dot')) { const g = this.add.graphics(); g.fillStyle(0xffffff, 1).fillCircle(4, 4, 4); g.generateTexture('fx-dot', 8, 8); g.destroy(); }
     const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'karst' : undefined }));
     const { tile } = buildLandscape(this, { AB_TERRAIN, SLABS: [], WORLD: { width: WORLD.width, floor: WORLD.floor }, parallaxShift: 60 });
+    karstBackdrop(this, WORLD.width, wy(-0.5)); // Lembah Batu Kapur: distant limestone towers (art.js)
     this.tileAt = tile;
     // water (same wave frames as World 1); falling in → back to the checkpoint
     this.waterTiles = []; this.waterZones = L.waters.map((w) => ({ x0: wx(w.x0), x1: wx(w.x1), top: wy(w.top) }));
@@ -112,7 +113,7 @@ class Level23 extends Phaser.Scene {
     const g = this.add.graphics().setDepth(2.5); g.lineStyle(1, 0xffffff, .38);
     for (let x = x0; x <= x1; x++) g.lineBetween(st.X(x), st.Y(y1), st.X(x), st.Y(y0));
     for (let y = y0; y <= y1; y++) g.lineBetween(st.X(x0), st.Y(y), st.X(x1), st.Y(y));
-    const lab = { fontFamily: FONT, fontSize: '13px', color: '#203e36', fontStyle: 'bold' };
+    const lab = { fontFamily: FONT, fontSize: '13px', color: '#203e36', fontStyle: 'bold', stroke: '#fffdf5', strokeThickness: 4 };
     for (let x = x0; x <= x1; x++) this.add.text(st.X(x), st.Y(0) - 18, String(x), lab).setOrigin(.5, 1).setDepth(9.7);
   }
   buildStation(s) {
@@ -124,7 +125,7 @@ class Level23 extends Phaser.Scene {
     const feet = wy(L.terrain.find((t) => s.leverX >= t.x0 && s.leverX <= t.x1).top);
     const lever = this.add.image(wx(s.leverX), feet, 'kpp_terrain_atlas', 64).setOrigin(.5, 1).setScale(3).setDepth(12);
     const screen = this.add.text(wx(s.leverX), feet - 70, '', { fontFamily: FONT, fontSize: '15px', fontStyle: 'bold', color: '#fee481', backgroundColor: '#434a5f', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
-    const sign = this.add.text(wx(s.leverX), feet - 104, s.name, { fontFamily: 'Arial, sans-serif', fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
+    const sign = this.add.text(wx(s.leverX), feet - 104, s.name, { fontFamily: 'Arial, sans-serif', fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12).setVisible(false); // the HUD names the station
     const o = { id: st.id, s, st, ox, oy, X, Y, lever, screen, sign, leverFeet: feet, c: { ...st.start }, solved: false, result: null, g: this.add.graphics().setDepth(14.5), fx: this.add.graphics().setDepth(15) };
     if (st.id === 'G' || st.id === 'H') {
       this.grid(o, 0, 6, -1, st.id === 'G' ? 6 : 8);
@@ -190,7 +191,7 @@ class Level23 extends Phaser.Scene {
       g.lineStyle(4, st.solved ? 0x2e9d4f : 0x2a6fdb, 1).lineBetween(st.X(c.kiri), st.Y(0), st.X(c.kanan), st.Y(0));
       this.curve(st, f, 0, 8, 0x203e36, .95, (y) => y >= -4 && y <= 6);
     }
-    if (st.solved) st.sign.setBackgroundColor('#1f6e3a').setText(`${st.s.name} ✓`);
+    if (st.solved) st.screen.setBackgroundColor('#1f6e3a').setText(`${st.screen.text} ✓`);
   }
   // ── actions ──
   step(st, lever, dir) {
@@ -294,6 +295,7 @@ class Level23 extends Phaser.Scene {
     const st = this.nearest();
     const near = Math.abs(px - wx(st.s.leverX)) < 80 && Math.abs(feet - st.leverFeet) < 8;
     $('w2-tools').classList.toggle('far', !near);
+    (this.hud ??= document.querySelector('.w2-hud'))?.classList.toggle('compact', !near);
     if (near && !st.solved) {
       if (controls.l1Down) this.step(st, 0, -1);
       if (m.interact || controls.l1Up) this.step(st, 0, 1);

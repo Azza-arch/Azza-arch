@@ -72,7 +72,7 @@ const closeDialogs = (p) => p.evaluate(() => document.querySelectorAll('dialog[o
     await p.click('#lv-menu'); await sleep(2500); res.A.menuFromL3 = { welcome: await p.isVisible('#welcome'), map: await p.isVisible('#world-map-page'), scenes: await active(p) };
     // Reload: everything persisted; MAIN opens the map; replay 1-1 keeps records
     await p.reload(); await ready(p); await sleep(800); res.A.reloadMenu = await p.textContent('#play-main');
-    await p.click('#play-main'); await sleep(500); res.A.mainOpensMap = await p.isVisible('#world-map-page'); await p.click('.wm-node[data-world="w1"]').catch(() => {}); await sleep(300); res.A.levelsAllDone = await levels(p);
+    res.A.reloadMenuSub = await p.textContent('#play-main-sub'); await p.click('#world-map-btn'); await sleep(500); res.A.mainOpensMap = await p.isVisible('#world-map-page'); await p.click('.wm-node[data-world="w1"]').catch(() => {}); await sleep(300); res.A.levelsAllDone = await levels(p);
     await p.screenshot({ path: `${out}/rc-desk-12-level-select-all-done.png` });
     await p.click('#wm-panel button[data-level="w1-l1"][data-mode="replay"]'); await sleep(2000); await closeDialogs(p);
     await win(p, 'Lorong'); await sleep(3500);

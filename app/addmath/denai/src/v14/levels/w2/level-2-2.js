@@ -13,7 +13,7 @@ import { TILE as T, formatNum } from './quadratic.js';
 import { quad, catchOutcome, bellOutcome, penOutcome, penArea } from './peak.js';
 import { buildLevel, LEVEL_ID } from './level-2-2-data.js';
 import { createW2Store, newRun } from './campaign.js';
-import { exitGate, stoneColumn, solidColumns, scaffoldLedges, SLAB } from './art.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -47,6 +47,7 @@ class Level22 extends Phaser.Scene {
     if (!this.textures.exists('fx-dot')) { const g = this.add.graphics(); g.fillStyle(0xffffff, 1).fillCircle(4, 4, 4); g.generateTexture('fx-dot', 8, 8); g.destroy(); }
     const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'karst' : undefined }));
     const { tile } = buildLandscape(this, { AB_TERRAIN, SLABS: [], WORLD: { width: WORLD.width, floor: WORLD.floor }, parallaxShift: 60 });
+    karstBackdrop(this, WORLD.width, wy(-0.5)); // Lembah Batu Kapur: distant limestone towers (art.js)
     this.tileAt = tile;
     tile(106, wx(0), wy(1) - T, 11); tile(105, wx(1), wy(1) - T, 11);
     // landmark: the Loceng Puncak beam high above the plateau (Station E's rail)
@@ -100,7 +101,7 @@ class Level22 extends Phaser.Scene {
     const g = this.add.graphics().setDepth(2.5); g.lineStyle(1, 0xffffff, .38);
     for (let x = x0; x <= x1; x++) g.lineBetween(st.X(x), st.Y(y1), st.X(x), st.Y(y0));
     for (let y = y0; y <= y1; y++) g.lineBetween(st.X(x0), st.Y(y), st.X(x1), st.Y(y));
-    const lab = { fontFamily: FONT, fontSize: '13px', color: '#203e36', fontStyle: 'bold' };
+    const lab = { fontFamily: FONT, fontSize: '13px', color: '#203e36', fontStyle: 'bold', stroke: '#fffdf5', strokeThickness: 4 };
     for (let x = x0; x <= x1; x++) this.add.text(st.X(x), st.Y(y0) + 3, String(x), lab).setOrigin(.5, 0).setDepth(9.7);
     for (let y = y0 + 1; y <= y1; y++) this.add.text(st.X(x0) - 4, st.Y(y), String(y), lab).setOrigin(1, .5).setDepth(2.6);
   }
@@ -109,7 +110,7 @@ class Level22 extends Phaser.Scene {
     const feet = wy(L.terrain.find((t) => s.leverX >= t.x0 && s.leverX <= t.x1).top);
     const lever = this.add.image(wx(s.leverX), feet, 'kpp_terrain_atlas', 64).setOrigin(.5, 1).setScale(3).setDepth(12);
     const screen = this.add.text(wx(s.leverX), feet - 70, '', { fontFamily: FONT, fontSize: '15px', fontStyle: 'bold', color: '#fee481', backgroundColor: '#434a5f', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
-    const sign = this.add.text(wx(s.leverX), feet - 104, s.name, { fontFamily: 'Arial, sans-serif', fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
+    const sign = this.add.text(wx(s.leverX), feet - 104, s.name, { fontFamily: 'Arial, sans-serif', fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12).setVisible(false); // the HUD names the station
     const o = { id: st.id, s, st, ox, oy, X, Y, lever, screen, sign, leverFeet: feet, c: { ...st.start }, solved: false, result: null, trail: this.add.graphics().setDepth(15), fx: this.add.graphics().setDepth(16), parts: [] };
     const pm = L.mechanisms.find((m) => m.station === st.id);
     o.mech = { ...pm, bodies: [], art: [] };
@@ -199,7 +200,7 @@ class Level22 extends Phaser.Scene {
         if (shown) st.barLabels.push(this.add.text(ox + (x - 1) * 32 + 12, base - h - 2, String(a), { fontFamily: FONT, fontSize: '12px', fontStyle: 'bold', color: '#203e36' }).setOrigin(.5, 1).setDepth(9.6));
       }
     }
-    if (st.solved) st.sign.setBackgroundColor('#1f6e3a').setText(`${st.s.name} ✓`);
+    if (st.solved) st.screen.setBackgroundColor('#1f6e3a').setText(`${st.screen.text} ✓`);
   }
   // ── actions ─────────────────────────────────────────────────────────────
   step(st, lever, dir) {
@@ -327,6 +328,7 @@ class Level22 extends Phaser.Scene {
     if (atE !== this.camAtE) { this.camAtE = atE; this.cameras.main.setDeadzone(0, atE ? 0 : 150); } // no vertical slack while framing the bell
     const near = Math.abs(px - wx(st.s.leverX)) < 80 && Math.abs(feet - st.leverFeet) < 8;
     $('w2-tools').classList.toggle('far', !near);
+    (this.hud ??= document.querySelector('.w2-hud'))?.classList.toggle('compact', !near);
     if (near && !st.solved) {
       if (controls.l1Down) this.step(st, 0, -1);
       if (m.interact || controls.l1Up) this.step(st, 0, 1);

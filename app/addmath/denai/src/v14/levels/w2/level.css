@@ -52,3 +52,7 @@ html,body{margin:0;height:100%;background:#203e36;font-family:Arial,system-ui,sa
 .teaser-mini p{margin:2px 0}
 @media (max-height:500px){.w2-menu{min-height:40px;padding:4px 10px;font-size:13px}.w2-cue{top:54px}}
 .w2-actions a.w2-next{background:#ffd16b;color:#19352e}
+.w2-hud.compact .w2-why,.w2-hud.compact .w2-keys,.w2-hud.compact .w2-meta,.w2-hud.compact .w2-tag{display:none}
+.w2-hud.compact{padding:6px 10px}
+.w2-hud.compact .w2-eq{font-size:19px}
+@media (max-height:500px){.w2-hud .w2-tag,.w2-hud .w2-why,.w2-hud .w2-keys{display:none}.w2-hud{max-width:40vw}}
