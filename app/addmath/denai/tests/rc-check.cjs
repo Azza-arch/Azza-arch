@@ -2,8 +2,8 @@
 // victory, progression, replay, save compatibility with an existing (pre-RC)
 // player profile, and the Level 1 leaderboard version guard.
 // PlayFab is NEVER contacted: every *.playfabapi.com request is answered by a
-// local stub (the v2 board is "not configured yet", the classic board has
-// two archive rows). Victory is reached by placing the player on the goal
+// local stub (the single board 'denai_l1_time' returns two rows; statistic
+// writes are refused). Victory is reached by placing the player on the goal
 // with the puzzles marked solved (a test shortcut; real traversal is covered
 // by l1-playthrough.cjs / w1-traversal-check.cjs).
 // Usage: node tests/rc-check.cjs <outdir>   (python3 -m http.server 8790 at the repo root)
@@ -54,14 +54,11 @@ const closeDialogs = (p) => p.evaluate(() => document.querySelectorAll('dialog[o
     await win(p, 'Lorong'); await sleep(3500); // no key press: automatic victory
     res.A.l1Victory = await p.evaluate(() => ({ dialog: document.getElementById('complete').open, mode: window.__game.scene.getScene('Lorong').mode, save: JSON.parse(localStorage.getItem('denai-save-v14') || 'null')?.completed, best: JSON.parse(localStorage.getItem('denai-profile-v1')).levels['w1-l1'].best }));
     await p.screenshot({ path: `${out}/rc-desk-5-victory-1-1.png` });
-    // leaderboard: v2 not configured → prepared message, nothing written to the classic board
+    // leaderboard: the single board (denai_l1_time) shows the stub rows; nothing is written
     await p.evaluate(() => document.getElementById('complete').close()); await p.evaluate(() => { const d = document.getElementById('leaderboard'); document.getElementById('lb-open-settings').click?.(); if (!d.open) { d.showModal(); } });
     await p.evaluate(() => import('/app/addmath/denai/src/v14/leaderboard/ui.js').then((m) => m.renderLeaderboard())); await sleep(1200);
     res.A.lbCurrent = await p.evaluate(() => ({ rows: document.getElementById('lb-rows').textContent, pb: document.getElementById('lb-pb').textContent, submitHidden: document.getElementById('lb-submit').hidden }));
-    await p.screenshot({ path: `${out}/rc-desk-6-leaderboard-v2-not-ready.png` });
-    await p.click('[data-lb-tab="classic"]'); await sleep(1000);
-    res.A.lbClassic = await p.evaluate(() => ({ rows: document.getElementById('lb-rows').textContent, submitHidden: document.getElementById('lb-submit').hidden }));
-    await p.screenshot({ path: `${out}/rc-desk-7-leaderboard-classic.png` });
+    await p.screenshot({ path: `${out}/rc-desk-6-leaderboard.png` });
     await p.evaluate(() => { document.getElementById('leaderboard').close(); document.getElementById('complete').showModal(); });
     // Continue → 1-2
     await p.click('#next-level2'); await sleep(3000); await closeDialogs(p); res.A.l2Scenes = await active(p);
@@ -81,7 +78,7 @@ const closeDialogs = (p) => p.evaluate(() => document.querySelectorAll('dialog[o
     await win(p, 'Lorong'); await sleep(3500);
     res.A.replay = await p.evaluate(() => { const pr = JSON.parse(localStorage.getItem('denai-profile-v1')); return { dialog: document.getElementById('complete').open, completions: pr.levels['w1-l1'].completions, achievements: pr.achievements, l2: JSON.parse(localStorage.getItem('denai-campaign-v1')).levels['w1-l2'].completions, l3: JSON.parse(localStorage.getItem('denai-l3-campaign-v1')).completions }; });
     await p.screenshot({ path: `${out}/rc-desk-13-replay-victory.png` });
-    res.A.playfabCalls = calls; res.A.classicWrites = calls.filter((c) => c.stats?.includes('denai_l1_time')).length; res.A.errs = errs; await ctx.close(); }
+    res.A.playfabCalls = calls; res.A.lbWrites = calls.filter((c) => c.stats?.includes('denai_l1_time')).length; res.A.errs = errs; await ctx.close(); }
   // ── B. Returning player with a pre-RC save ──
   { const ctx = await b.newContext({ viewport: { width: 1280, height: 760 } }); await ctx.addInitScript(HOOK); const calls = []; await playfabStub(ctx, calls);
     const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
@@ -92,7 +89,7 @@ const closeDialogs = (p) => p.evaluate(() => document.querySelectorAll('dialog[o
     await p.keyboard.press('Escape'); await sleep(300);
     await p.evaluate(() => import('/app/addmath/denai/src/v14/leaderboard/ui.js').then((m) => { document.getElementById('leaderboard').showModal(); m.renderLeaderboard(); })); await sleep(1200);
     res.B.lb = await p.evaluate(() => ({ pb: document.getElementById('lb-pb').textContent, submitHidden: document.getElementById('lb-submit').hidden }));
-    res.B.errs = errs; res.B.classicWrites = calls.filter((c) => c.stats?.includes('denai_l1_time')).length; await ctx.close(); }
+    res.B.errs = errs; res.B.lbWrites = calls.filter((c) => c.stats?.includes('denai_l1_time')).length; await ctx.close(); }
   // ── C. Phone (landscape) ──
   { const ctx = await b.newContext({ ...devices['iPhone 13 landscape'] }); await ctx.addInitScript(HOOK); const calls = []; await playfabStub(ctx, calls);
     const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
@@ -111,6 +108,6 @@ const closeDialogs = (p) => p.evaluate(() => document.querySelectorAll('dialog[o
     await p.locator('#lv-next').tap(); await sleep(3000); await closeDialogs(p);
     await p.evaluate(() => { const s = window.__game.scene.getScene('GerbangSongsang'); s.player.body.reset(1500, 1300); }); await sleep(1200); await p.screenshot({ path: `${out}/rc-phone-8-level-1-3.png` });
     await win(p, 'GerbangSongsang'); await sleep(1500); await p.screenshot({ path: `${out}/rc-phone-9-victory-1-3.png` });
-    res.C = { scenes: await active(p), errs, classicWrites: calls.filter((c) => c.stats?.includes('denai_l1_time')).length }; await ctx.close(); }
+    res.C = { scenes: await active(p), errs, lbWrites: calls.filter((c) => c.stats?.includes('denai_l1_time')).length }; await ctx.close(); }
   await b.close(); console.log(JSON.stringify(res, null, 1));
 })();
