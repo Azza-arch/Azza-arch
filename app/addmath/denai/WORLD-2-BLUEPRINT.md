@@ -183,7 +183,7 @@ aktif (fizik murah hati, lompatan 5 % lebih kuat), mudah selepas aktif (fizik ke
 | Stesen | Tuil | Jawapan | Apa yang dilihat | Mekanisme |
 |---|---|---|---|---|
 | D Tangkap di Puncak, y = −x² + 6x − 5 | cawan x, y (1…5) | (3, 4) | lengkung **tidak** dilukis sebelum tembakan (murid meramal bucu, x = −b/2a); jejak bola kekal. Di (2, 3), (4, 3) bola **melantun** (masih naik/turun); di luar lengkung bola lalu di atas/bawah | tangga batu naik tebing 4 jubin |
-| E Loceng, y = −2x² + 8x | loceng x (0…4, langkah ½) | x = 2 | air hanya sampai ketinggian 8 di x = h; panel menunjukkan tinggi air di x yang dipilih. Kamera naik supaya pancutan dan loceng kelihatan | pintu gerbang batu (dinding 7 jubin) turun |
+| E Loceng, y = −2x² + 8x | loceng x (0…4, langkah ½) | x = 2 | air hanya sampai ketinggian 8 di x = h; panel menunjukkan tinggi air di x yang dipilih. Kamera naik supaya semburan air dan loceng kelihatan | pintu gerbang batu (dinding 7 jubin) turun |
 | F Kandang Maksimum, A(x) = x(6 − x) | lebar x (1…5) | x = 3 | papan pelan 6 × 6 (pagar 12 unit) + graf bar luas setiap lebar yang dicuba: naik, puncak, turun | lif kargo (tiga tebing peti) naik ke tebing keluar |
 Peta (`level-2-2-data.js`, 56 jubin): Cerun Angin (lembah y 0) → D → dataran (y 4) → E → F → tebing
 keluar (y 8) → gerbang "KE 2-3". 12 syiling, 3 checkpoint. Ujian: `peak.test.mjs` (satu jawapan setiap

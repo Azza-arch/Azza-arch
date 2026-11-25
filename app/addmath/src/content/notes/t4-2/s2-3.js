@@ -8,8 +8,8 @@ const R = String.raw;
 export const S2_3 = {
   id: '2.3', sk: '2.3', title: 'Fungsi Kuadratik', sp: ['2.3.1', '2.3.2', '2.3.3', '2.3.4', '2.3.5', '2.3.6'], status: 'published', minutes: 60,
   sections: [
-    { kind: 'intro', title: 'Lengkung air pancut', html: R`
-      <p>Air dari pancutan taman bergerak dalam lengkung yang naik, sampai ke titik tertinggi, kemudian turun. Lengkung ini ialah <strong>parabola</strong>, iaitu graf bagi fungsi kuadratik \(f(x) = ax^2 + bx + c\).</p>
+    { kind: 'intro', title: 'Lengkung air mancur', html: R`
+      <p>Air dari air mancur di taman bergerak dalam lengkung yang naik, sampai ke titik tertinggi, kemudian turun. Lengkung ini ialah <strong>parabola</strong>, iaitu graf bagi fungsi kuadratik \(f(x) = ax^2 + bx + c\).</p>
       <p>Dalam subtopik ini, anda akan belajar membaca graf parabola: ke mana ia terbuka, di mana titik tertinggi atau terendahnya, dan berapa kali ia memotong paksi-\(x\). Kemudian kita gunakannya untuk menyelesaikan masalah seperti "berapakah luas maksimum?".</p>` },
     { kind: 'concept', title: 'Kesan a, b dan c', sp: ['2.3.1'], html: R`
       <ul>

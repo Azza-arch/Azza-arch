@@ -329,7 +329,7 @@ Matematik kekal dalam objek dunia, bukan kuiz. Kandungan topik hanya kod dan taj
 | Wilayah | Topik (Peta Dunia sedia ada) | Mekanik dunia dicadangkan | Model puzzle |
 |---|---|---|---|
 | W1 Hutan & Sungai | Fungsi | sedia ada: kos linear, gubahan, songsang; **cabaran pilihan:** Mesin Kunci (gubahan), injap gua (songsang, wujud) | `linear-cost`, `composite-order`, `inverse-linear` (wujud) |
-| W2 Lembah Batu Kapur | Fungsi Kuadratik | lontaran/jambatan lengkung ikut paksi simetri, titik maksimum pada pancutan air gua | model baharu (kuadratik), corak yang sama |
+| W2 Lembah Batu Kapur | Fungsi Kuadratik | lontaran/jambatan lengkung ikut paksi simetri, titik maksimum pada semburan air gua | model baharu (kuadratik), corak yang sama |
 | W3 Kilang & Lombong | Sistem Persamaan | dua konveyor / dua troli lombong mesti seimbang | model baharu (persamaan linear serentak) |
 | W4 Tanah Tinggi | Indeks, Surd & Logaritma | pertumbuhan tanaman di rumah hijau, kunci makmal ikut log | model baharu |
 | Hab | semua | papan cabaran kafe: ulang sesi berseed dari wilayah yang sudah ditamatkan (latihan) | semula guna penjana berseed |

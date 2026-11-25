@@ -26,7 +26,7 @@ const wx = (x) => x * T, wy = (y) => OY - y * T;
 const WORLD = { width: L.width * T, top: Math.floor(wy(L.top)), floor: Math.ceil(wy(L.floor)) };
 const store = createW2Store(globalThis.localStorage);
 const fmt = (v) => formatNum(v);
-const ACTION = { D: 'Tembak', E: 'Pancut', F: 'Susun peti' };
+const ACTION = { D: 'Tembak', E: 'Sembur', F: 'Susun peti' };
 
 class Level22 extends Phaser.Scene {
   constructor() { super('LembahPuncak'); }
@@ -275,7 +275,7 @@ class Level22 extends Phaser.Scene {
     } else if (st.id === 'E') {
       eq = 'y = −2x² + 8x'; meta = `Loceng di x = ${fmt(c.x)}, tinggi 8`;
       why = 'Loceng hanya berbunyi jika air sampai ke ketinggian 8. Di mana air paling tinggi?';
-      state = st.solved ? `Selesai. ${st.s.lesson}.` : !r ? 'Alihkan loceng, kemudian pancut air.' : `Di x = ${fmt(c.x)} air setinggi ${fmt(r.jetY)}.`;
+      state = st.solved ? `Selesai. ${st.s.lesson}.` : !r ? 'Alihkan loceng, kemudian sembur air.' : `Di x = ${fmt(c.x)} air setinggi ${fmt(r.jetY)}.`;
     } else {
       eq = 'A(x) = x(6 − x)'; meta = `Lebar x = ${fmt(c.x)}, panjang ${fmt(6 - c.x)}, pagar 12`;
       why = 'Pagar 12 unit mengelilingi kandang segi empat tepat. Lif kargo hanya naik dengan kesemua 9 peti di dalam.';
