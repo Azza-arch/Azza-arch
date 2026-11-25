@@ -1,0 +1,33 @@
+/* World 2 test room only (lab-w2.html). */
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#203e36;font-family:Arial,system-ui,sans-serif;overscroll-behavior:none}
+.lab{height:100dvh;display:flex}
+.lab-frame{position:relative;flex:1;overflow:hidden}
+#lab-game{position:absolute;inset:0}
+#lab-game:focus{outline:none}
+[hidden]{display:none!important}
+.lab-hud{position:absolute;top:10px;left:10px;max-width:min(430px,46vw);background:#fffdf5ee;border:3px solid #203e36;border-radius:10px;padding:8px 12px;color:#203e36;pointer-events:none}
+.lab-hud p{margin:0}
+.lab-tag{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.lab-tag span{background:#d7a21f;color:#203e36;border-radius:4px;padding:1px 5px;margin-left:4px}
+.lab-eq{font:700 24px/1.25 ui-monospace,Consolas,monospace;margin:2px 0}
+.lab-eq b{color:#2a6fdb}
+.lab-why{font-size:14px;line-height:1.35}
+.lab-state{font-size:13px;margin-top:4px!important;color:#5a4a2a}
+.lab-cue{position:absolute;top:10px;left:50%;transform:translateX(-50%);margin:0;max-width:min(520px,50vw);background:#203e36;color:#fff2ce;font-weight:700;font-size:15px;border-radius:8px;padding:7px 12px;opacity:0;pointer-events:none;text-align:center}
+.lab-hud~.lab-cue{left:auto;right:10px;transform:none}
+.lab-cue.pop{animation:cue 4.2s ease forwards}
+@keyframes cue{0%{opacity:0}6%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.lab-cue.pop{animation:none;opacity:1}}
+.lab-tools{position:absolute;right:10px;bottom:10px;display:flex;gap:6px;align-items:center;background:#fffdf5ee;border:3px solid #203e36;border-radius:10px;padding:6px}
+.lab-tools.far{opacity:.45}
+.lab-tools button,.lab-touch button{touch-action:none;user-select:none;-webkit-user-select:none;min-width:52px;min-height:48px;border:2px solid #203e36;border-radius:8px;background:#fff;color:#203e36;font-weight:700;font-size:17px;cursor:pointer}
+.lab-tools .lab-lock{background:#203e36;color:#fff2ce;min-width:96px}
+.lab-tools .lab-lock[aria-pressed=true]{background:#d7a21f;color:#203e36}
+.lab-a{font:700 24px ui-monospace,Consolas,monospace;min-width:44px;text-align:center;color:#2a6fdb}
+.lab-touch{position:absolute;left:10px;bottom:10px;display:flex;gap:10px;align-items:end}
+.lab-touch>div{display:flex;gap:6px}
+.lab-touch button{background:#fffdf5e6;font-size:22px}
+.lab-touch .jump{background:#203e36;color:#fff;font-size:14px;min-width:76px}
+.lab-touch~.lab-tools,.lab-tools{z-index:2}
+@media (max-height:500px){.lab-hud{padding:5px 8px;max-width:44vw}.lab-eq{font-size:18px}.lab-why{font-size:12px}.lab-state{font-size:11px}.lab-tools button,.lab-touch button{min-height:44px;min-width:46px}.lab-cue{font-size:13px}}
