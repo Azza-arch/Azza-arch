@@ -12,10 +12,10 @@
 
 Ditulis 15 Nov 2026. Ini pelan reka bentuk untuk dipersetujui pemilik sebelum
 sebarang pelaksanaan. Bab: **T4 Bab 2 Fungsi Kuadratik** (DSKP SK 2.1–2.3).
-Mengikut `MASTER-PLAN.md`: matematik mesti mengubah dunia; tiada modal kuiz.
+Mengikut `MASTER-PLAN.md` (dikemas kini 25 Nov: 9 dunia gabungan; Dunia 2 kekal satu bab): matematik mesti mengubah dunia; tiada modal kuiz.
 
 ## 1. Idea teras
-Di Lembah Parabola, **lengkung ialah bahan binaan**. Pemain mengawal mesin
+Di Lembah Batu Kapur, **lengkung ialah bahan binaan**. Pemain mengawal mesin
 "Pancur Lengkung" yang memancarkan air/cahaya mengikut satu fungsi kuadratik.
 Lengkung itu dilukis secara langsung di dunia semasa pemain mengubah tuil, dan
 apabila dikunci ia menjadi **batu loncatan pepejal** di sepanjang parabola.
