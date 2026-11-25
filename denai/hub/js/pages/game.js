@@ -49,7 +49,7 @@ export async function render(route) {
           <h1 class="h1 display" style="font-size:var(--fs-hero);line-height:1;margin-top:10px">Main sambil guna konsep</h1>
           <p class="lead" style="margin-top:14px;color:var(--ink)">Bantu Chill Boy membaiki jambatan, menjalankan bengkel dan memulihkan pintu air. Setiap misi menggunakan satu konsep fungsi daripada nota.</p>
           <div class="btn-row" style="margin-top:24px"><a class="btn btn-primary btn-lg" href="${GAME_URL}" id="play">${icon('play')}Main DENAI</a></div>
-          <p class="hero-note">Game dibuka dalam halaman penuh. Untuk kembali ke sini, tekan butang Kembali pelayar.</p>
+          <p class="hero-note">Game dibuka dalam halaman penuh. Untuk kembali ke sini, tekan "← Learning Hub" di menu game.</p>
         </div>
         <div class="stage">
           <div class="stage-shot"><img src="${GAME.menuShot.src}" width="${GAME.menuShot.w}" height="${GAME.menuShot.h}" alt="${esc(GAME.menuShot.alt)}"></div>

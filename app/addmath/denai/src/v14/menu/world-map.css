@@ -85,3 +85,9 @@ body.world-map-open #welcome,body.world-map-open .masthead,body.world-map-open #
 .wm-node.wm-playable .wm-badge{width:40px;height:40px}
 .wm-node.wm-development.is-selected .wm-badge,.wm-node.wm-soon.is-selected .wm-badge{outline-color:#b9cbd8}
 .wm-dev{background:#26404d;color:#d6e4ee;border-left:4px solid #7f9db5}
+
+/* Main menu: quiet link back to the DENAI Learning Hub, under TETAPAN. */
+.title-actions .hub-return{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:4px 10px;font:650 14px system-ui,sans-serif;color:#19352e;text-decoration:underline;text-underline-offset:3px}
+.title-actions .hub-return:hover{opacity:.75}
+.title-actions .hub-return:focus-visible{outline:3px solid #ffd16b;outline-offset:2px;border-radius:4px}
+@media(max-height:560px) and (orientation:landscape){.title-actions .hub-return{min-height:36px;font-size:12px;padding:2px 8px}}
