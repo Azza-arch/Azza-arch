@@ -2,7 +2,7 @@
 :root {
   --sky: #aee3f5; --sky-pale: #dff4fb; --grass: #2eb082; --grass-dark: #1f8a63; --soil: #c9734a; --soil-dark: #8a4a2e;
   --wood: #a3703a; --wood-light: #c58747; --wood-dark: #6d4b27; --parchment: #fff1d2; --parchment-shade: #ecd6a6; --card: #fffaf0;
-  --gold: #f4b41b; --gold-light: #fee481; --gold-shade: #c98a0e; --ribbon: #e2665b; --ribbon-dark: #8e3f38;
+  --gold: #f4b41b; --gold-light: #fee481; --gold-shade: #c98a0e; --ribbon: #c4473d; --ribbon-dark: #8e3f38;
   --ink: #3a2814; --ink-soft: #6d4b27; --outline: #434a5f; --slate: #2b3245; --ok: #2b8a4e; --bad: #b5443a;
   --display: 'Lilita One', 'Trebuchet MS', system-ui, sans-serif;
   --body: 'Nunito', 'Trebuchet MS', system-ui, sans-serif;
@@ -74,7 +74,7 @@ a { color: var(--ribbon-dark); font-weight: 800; text-underline-offset: 3px; }
 main { max-width: 1180px; margin: 0 auto; padding: 0 16px 40px; }
 @media (min-width: 900px) { main { padding: 0 32px 56px; } }
 .block { padding: 44px 0 6px; }
-.kicker { margin: 0 0 2px; font-weight: 800; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--ribbon); }
+.kicker { margin: 0 0 2px; font-weight: 800; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: #a83a31; }
 h2 { font-family: var(--display); font-weight: 400; font-size: clamp(27px, 5vw, 36px); line-height: 1.12; margin: 0 0 12px; letter-spacing: .01em; }
 .small { font-size: 15px; color: var(--ink-soft); margin: 10px 0 0; }
 .textlink { display: inline-block; margin-top: 12px; }

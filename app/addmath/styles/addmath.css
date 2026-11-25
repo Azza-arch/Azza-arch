@@ -902,7 +902,7 @@ input:focus-visible {
   grid-column: 2;
   grid-row: 1 / span 2;
   font-weight: 800;
-  color: var(--blue);
+  color: #2a56b8;
 }
 
 .game-link-map {

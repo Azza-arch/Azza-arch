@@ -10,7 +10,7 @@
 :root {
   /* brand (from the game) */
   --sky: #aee3f5; --sky-pale: #e4f6fc; --sky-ink: #1d6f8c;
-  --grass: #2eb082; --grass-dark: #1f7f5c; --grass-pale: #e3f6ee;
+  --grass: #2eb082; --grass-dark: #1a6c4e; --grass-pale: #e3f6ee;
   --gold: #f4b41b; --gold-light: #fee481; --gold-shade: #c98a0e; --gold-pale: #fff4d1;
   --ribbon: #e2665b; --ribbon-dark: #a8453b; --ribbon-pale: #fdecea;
   --wood: #a3703a; --wood-dark: #6d4b27; --wood-pale: #f3e6d2;
@@ -366,7 +366,7 @@ a.chip:hover { border-color: var(--line-strong); background: #fdf9f0; color: var
 @media (min-width: 960px) { .game-hero { grid-template-columns: 1fr 1.1fr; gap: var(--s7); } }
 .levels { list-style: none; display: grid; gap: var(--s3); counter-reset: none; }
 .level { display: grid; grid-template-columns: auto 1fr; gap: var(--s3) var(--s4); padding: var(--s4); background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); align-items: start; }
-.level-no { display: grid; place-items: center; min-width: 56px; height: 44px; padding: 0 8px; border-radius: 10px; background: var(--grass); color: #fff; font-family: var(--font-display); font-size: 20px; border: 2px solid var(--grass-dark); }
+.level-no { display: grid; place-items: center; min-width: 56px; height: 44px; padding: 0 8px; border-radius: 10px; background: var(--grass-dark); color: #fff; font-family: var(--font-display); font-size: 20px; border: 2px solid #12513a; }
 .level h3 { font-size: var(--fs-md); }
 .level p { font-size: var(--fs-sm); color: var(--ink-soft); margin-top: 2px; }
 .level .textlink { margin-top: 6px; font-size: var(--fs-sm); }
@@ -425,7 +425,7 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
 .nsec.k-fahami { --k: #1d6f8c; }
 .nsec.k-contoh { --k: #8a5a00; }
 .nsec.k-ulang { --k: #5b3e99; }
-.nsec.k-latihan { --k: #1f7f5c; }
+.nsec.k-latihan { --k: #1a6c4e; }
 .jump a.k-fahami { --k: #1d6f8c; } .jump a.k-contoh { --k: #c98a0e; } .jump a.k-ulang { --k: #5b3e99; } .jump a.k-latihan { --k: #1f8a5a; }
 
 .prose { font-size: var(--fs-md); line-height: 1.75; }

@@ -119,7 +119,7 @@ export async function render(route) {
         if (done) cls = k === correctIdx ? ' is-right' : (k === ui.pick || tried) ? ' is-wrong' : ' is-dim';
         else if (tried) cls = ' is-tried';
         const mark = done && k === correctIdx ? icon('check', 'Jawapan betul') : (done && (k === ui.pick || tried)) || tried ? icon('x', 'Pilihan salah') : '';
-        return `<li><button type="button" class="option${cls}" role="radio" aria-checked="${k === ui.pick}" data-opt="${k}"${done || tried ? ' disabled' : ''}><span class="opt-key">${KEYS[k]}</span><span class="opt-text">${renderMath(o.text)}</span><span class="opt-mark">${mark}</span></button></li>`;
+        return `<li role="none"><button type="button" class="option${cls}" role="radio" aria-checked="${k === ui.pick}" data-opt="${k}"${done || tried ? ' disabled' : ''}><span class="opt-key">${KEYS[k]}</span><span class="opt-text">${renderMath(o.text)}</span><span class="opt-mark">${mark}</span></button></li>`;
       };
       const field = qq.type === 'mcq'
         ? `<ul class="options" role="radiogroup" aria-label="Pilihan jawapan">${qq.options.map(opt).join('')}</ul>`

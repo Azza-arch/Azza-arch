@@ -39,8 +39,8 @@ export async function renderNoteScreen(root, chapterId, subId) {
         <p class="v3-side-head">Bab ${meta.number}: ${esc(meta.title)}</p>
         <ol>${subs.map((s) => `<li><a href="#/nota/${chapterId}/${s.id}"${s === sub ? ' aria-current="page"' : ''}><span>${s.id}</span> ${esc(s.title)}</a></li>`).join('')}</ol>
       </aside>
-      <main class="v3-main">
-        <nav class="v3-top">
+      <div class="v3-main">
+        <nav class="v3-top" aria-label="Navigasi nota">
           <a class="v3-back" href="#/bab/${chapterId}">&larr; Bab ${meta.number}</a>
           <label class="v3-picker"><span class="sr-only">Pilih subtopik</span><select id="v3-sub">${subs.map((s) => `<option value="${s.id}"${s === sub ? ' selected' : ''}>${s.id} ${esc(s.title)}</option>`).join('')}</select></label>
         </nav>
@@ -74,11 +74,11 @@ export async function renderNoteScreen(root, chapterId, subId) {
           ${summary ? more('Ringkasan', `<ul>${summary.points.map((x) => `<li>${renderMath(x)}</li>`).join('')}</ul>`) : ''}
         </section>
 
-        <nav class="v3-end">
+        <nav class="v3-end" aria-label="Langkah seterusnya">
           <a class="btn-primary" href="#/latihan/${chapterId}/${sub.id}">Cuba latihan ${esc(sub.id)} (${nqs} soalan)</a>
           <p class="v3-end-links">${prev ? `<a href="#/nota/${chapterId}/${prev.id}">&larr; ${prev.id} ${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="#/nota/${chapterId}/${next.id}">${next.id} ${esc(next.title)} &rarr;</a>` : `<a href="#/ulangkaji/${chapterId}">Ulang kaji Bab ${meta.number} &rarr;</a>`}</p>
         </nav>
-      </main>
+      </div>
     </div>`;
 
   if (mainVis) mountVisual(root.querySelector('[data-visual="main"]'), mainVis.spec);
