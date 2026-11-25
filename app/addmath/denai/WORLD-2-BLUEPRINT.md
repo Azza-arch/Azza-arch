@@ -7,7 +7,7 @@
 > - Keputusan 16 Nov kekal: dibuka selepas 1-1; 1 unit matematik = 1 jubin; set cabaran tetap dahulu.
 > - **Batu loncatan: satu pada setiap x integer, bukan setiap ½ unit** (hirisan Stesen A membuktikan ½ unit membenarkan jawapan salah). Setiap stesen mesti disahkan dengan sampul lompatan sebenar (`analyse` dalam `quadratic.js`): jawapan betul boleh dilalui, setiap jawapan salah gagal secara fizikal.
 > - **Fasa 2–3 (25 Nov): Stesen B dan C direka semula dengan bukti** — lihat §4a dan §4b. Reka bentuk akhir: A = tuil a (batu pada setiap x); B = tuil h dan k, *berpaut* (air mengeras hanya jika masuk kedua-dua corong); C = tuil k, *berpaut* (kabel diikat hanya jika melalui kedua-dua sauh).
-> - **Status:** Fasa 1–3 siap. Level 2-1 penuh boleh dimain di `w2-l1.html` (pratonton: noindex, tiada pautan menu) dengan simpanan sendiri `denai-w2-campaign-v1`. Kod World 1, simpanan dan papan pendahulu tidak disentuh. Seterusnya: Fasa 4 (integrasi: registry, menu, Peta Dunia, penamat 1-3, Hub).
+> - **Status:** Fasa 1–4 siap. **Level 2-1 boleh dimain oleh murid** (halaman sendiri `w2-l1.html`, simpanan `denai-w2-campaign-v1`): dibuka selepas 1-1 dalam Peta Dunia (Main / Sambung / Main semula), ditawarkan di penamat 1-3 ("Ke Dunia 2"), dan dipaparkan dalam Learning Hub (tab Game, Bab 2, Kemajuan). Scene, simpanan dan papan pendahulu World 1 tidak disentuh. Seterusnya: Fasa 5 (Level 2-2 Lembah Puncak).
 
 
 Ditulis 15 Nov 2026. Ini pelan reka bentuk untuk dipersetujui pemilik sebelum

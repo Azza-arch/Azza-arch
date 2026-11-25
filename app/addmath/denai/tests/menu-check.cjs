@@ -20,7 +20,7 @@ const PROFILE_DONE = JSON.stringify({ schemaVersion: 1, createdAt: '2026-11-01T0
   res.newPlayerMenu = await menu(p); await p.screenshot({ path: `${out}/m-desk-menu-new.png` });
   await p.click('#world-map-btn'); await sleep(500);
   res.newPlayerW1 = await levels(p); await p.screenshot({ path: `${out}/m-desk-worldmap-new.png` });
-  await p.click('.wm-node[data-world="w2"]'); await sleep(300); res.w2 = await levels(p); res.w2dev = await p.textContent('.wm-dev');
+  await p.click('.wm-node[data-world="w2"]'); await sleep(300); res.w2 = await levels(p); res.w2sum = await p.textContent('.wm-world-sum'); // World 2 is playable since Phase 4 (no 'in development' note)
   await p.screenshot({ path: `${out}/m-desk-worldmap-w2.png` });
   await p.click('#wm-back'); await sleep(300);
   // 2. MAIN starts 1-1 directly (no selection modal)

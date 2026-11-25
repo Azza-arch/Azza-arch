@@ -4,7 +4,7 @@ import {createInverseStore} from './core/inverse-campaign.js';
 import {COINS as L2_COINS,SECRETS as L2_SECRETS} from './levels/twin-world.js';
 import {COINS as L3_COINS,SECRETS as L3_SECRETS} from './levels/inverse-world.js';
 import {createCampaignStore} from './core/campaign-store.js';
-import {canPlay} from './levels/registry.js';
+import {canPlay,LEVELS} from './levels/registry.js';
 import {installWorldMap} from './menu/world-map.js';
 import {worldOneLevels,currentLevel} from './menu/progress.js';
 import {createPlayer} from './core/player.js';
@@ -1321,6 +1321,9 @@ function launchLevel(id,mode){
     if(save){activeScene.continueFromSave();return;}
     activeScene.startRun();return;
   }
+  // World 2 levels have their own page (own save key); World 1 scenes and saves are untouched.
+  const page=LEVELS.find(l=>l.id===id)?.page;
+  if(page){location.href=mode==='replay'?`${page}?baru=1`:page;return;}
   if(id==='w1-l2'){if(mode==='replay')startLevelScene('Jambatan',{fresh:true});else launchTwins();return;}
   if(id==='w1-l3'){if(mode==='replay')startLevelScene('GerbangSongsang',{fresh:true});else launchInverse();}
 }

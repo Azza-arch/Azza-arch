@@ -9,6 +9,7 @@ import {loadProfile,LEVEL_KEY} from '../progress.js';
 import {createCampaignStore} from '../core/campaign-store.js';
 import {createInverseStore} from '../core/inverse-campaign.js';
 import {LEVELS,canPlay} from '../levels/registry.js';
+import {createW2Store} from '../levels/w2/campaign.js';
 
 // Status values used by the menu.
 export const STATUS = Object.freeze({ COMPLETED: 'completed', IN_PROGRESS: 'in-progress', AVAILABLE: 'available', LOCKED: 'locked', COMING_SOON: 'coming-soon' });
@@ -18,7 +19,7 @@ export const STATUS = Object.freeze({ COMPLETED: 'completed', IN_PROGRESS: 'in-p
 // map image (assets/world-map/world-map.png, 64 × 16 tiles).
 export const WORLDS = Object.freeze([
   { id: 'w1', num: '1', name: 'Hutan & Sungai', topic: 'Fungsi', state: 'playable', node: [7.5, 58], zone: [0, 19.5] },
-  { id: 'w2', num: '2', name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', state: 'development', node: [28.9, 21], zone: [19.5, 39],
+  { id: 'w2', num: '2', name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', state: 'playable', node: [28.9, 21], zone: [19.5, 39],
     levels: [['w2-l1', '2-1', 'Jejak Lengkung'], ['w2-l2', '2-2', 'Lembah Puncak'], ['w2-l3', '2-3', 'Gerbang Parabola']] },
   { id: 'w3', num: '3', name: 'Kilang & Lombong', topic: 'Sistem Persamaan', state: 'soon', node: [50.8, 52], zone: [39, 59] },
   { id: 'w4', num: '4', name: 'Tanah Tinggi Ladang', topic: 'Indeks, Surd & Logaritma', state: 'soon', node: [75.8, 27], zone: [59, 78] },
@@ -39,7 +40,7 @@ export function worldOneLevels({ storage = globalThis.localStorage, localPreview
   };
   // The same completion list the existing launchers pass to canPlay().
   const completedIds = [campaign.levels['w1-l1'].completed || raw['w1-l1'].completions > 0 ? 'w1-l1' : null, raw['w1-l2'].completions ? 'w1-l2' : null, raw['w1-l3'].completions ? 'w1-l3' : null].filter(Boolean);
-  return LEVELS.map((lv) => {
+  return LEVELS.filter((lv) => lv.id.startsWith('w1-')).map((lv) => {
     const r = raw[lv.id], unlocked = canPlay(lv.id, completedIds, { localPreview });
     const status = r.running && unlocked ? STATUS.IN_PROGRESS : r.completions > 0 ? STATUS.COMPLETED : unlocked ? STATUS.AVAILABLE : STATUS.LOCKED;
     return { id: lv.id, num: NUM[lv.id], title: lv.title, status, unlocked, completions: r.completions, running: r.running, best: r.best, requires: lv.requires ? NUM[lv.requires] : null };
@@ -54,3 +55,19 @@ export function currentLevel(levels) {
   if (running.length) return running.at(-1);
   return levels.find((l) => l.unlocked && l.completions === 0) ?? null;
 }
+
+// World 2 (Lembah Batu Kapur): 2-1 is playable (own page, own save key denai-w2-campaign-v1);
+// 2-2 and 2-3 are listed as coming soon. 2-1 opens once 1-1 is complete.
+export function worldTwoLevels({ storage = globalThis.localStorage, localPreview = false } = {}) {
+  const l1Done = worldOneLevels({ storage, localPreview }).find((l) => l.id === 'w1-l1')?.completions > 0;
+  const rec = createW2Store(storage).load().levels['w2-l1'], run = rec.run;
+  const running = !!run && !run.completed && (run.elapsedMs > 0 || run.checkpointId !== 'entry' || Object.values(run.solved).some(Boolean));
+  const unlocked = canPlay('w2-l1', l1Done ? ['w1-l1'] : [], { localPreview });
+  const status = running && unlocked ? STATUS.IN_PROGRESS : rec.completions > 0 ? STATUS.COMPLETED : unlocked ? STATUS.AVAILABLE : STATUS.LOCKED;
+  return [
+    { id: 'w2-l1', num: '2-1', title: 'Jejak Lengkung', status, unlocked, completions: rec.completions, running, best: rec.bestMs, requires: '1-1' },
+    { id: 'w2-l2', num: '2-2', title: 'Lembah Puncak', status: STATUS.COMING_SOON, unlocked: false, completions: 0 },
+    { id: 'w2-l3', num: '2-3', title: 'Gerbang Parabola', status: STATUS.COMING_SOON, unlocked: false, completions: 0 },
+  ];
+}
+export const levelsOfWorld = (id, opts) => (id === 'w1' ? worldOneLevels(opts) : id === 'w2' ? worldTwoLevels(opts) : []);

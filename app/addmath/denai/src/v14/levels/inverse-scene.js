@@ -245,8 +245,9 @@ export function createInverseScene(Base,{controls,audio,SFX,reducedMotion,BASE_S
     coins:[this.run.coins.length,COINS.length],secrets:[this.run.secrets.length,SECRETS.length],timeMs:this.elapsed,
     newBest:Number.isFinite(best)&&(!Number.isFinite(prevBest)||best<prevBest),
     hint:missing?`Masih ada ${missing} rahsia tersembunyi di gerbang ini…`:coinsLeft?`Semua rahsia ditemukan! ${coinsLeft} syiling masih menunggu.`:'Semua syiling dan rahsia ditemukan. Jejak yang sempurna!',
-    next:null,finale:{kicker:'Dunia 1 selesai!',title:'Dunia 2: Lembah Batu Kapur',quote:'Sedang dibina. Ulang level untuk kumpul syiling dan rahsia yang tertinggal.'},
-    on:{replay:()=>this.scene.restart({fresh:true}),map:()=>this.returnToMenu(true),menu:()=>this.returnToMenu(false)}});
+    // Dunia 1 done: the next adventure is World 2 (its own page).
+    next:{title:'Dunia 2 · Level 2-1: Jejak Lengkung',quote:'Lembah Batu Kapur: bentuk laluan dengan lengkung kuadratik.',label:'Ke Dunia 2'},
+    on:{next:()=>{this.writeSave();location.href='w2-l1.html';},replay:()=>this.scene.restart({fresh:true}),map:()=>this.returnToMenu(true),menu:()=>this.returnToMenu(false)}});
   }
   returnToMenu(toMap=true){this.writeSave();this.time.paused=false;this.tweens.resumeAll();this.input.keyboard.enabled=true;if(toMap)this.game.registry.set('showLevelSelect',true);this.scene.start('Lorong');}
  }

@@ -32,11 +32,20 @@ export const GAME = {
 /** Every world on the game's own map (menu/progress.js), with its real state. */
 export const WORLDS = [
   { no: 1, name: 'Hutan & Sungai', topic: 'Fungsi', chapter: 't4-1', state: 'playable' },
-  { no: 2, name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', chapter: 't4-2', state: 'development', levels: ['2-1 Jejak Lengkung', '2-2 Lembah Puncak', '2-3 Gerbang Parabola'] },
+  { no: 2, name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', chapter: 't4-2', state: 'playable', soon: ['2-2 Lembah Puncak', '2-3 Gerbang Parabola'] },
   { no: 3, name: 'Kilang & Lombong', topic: 'Sistem Persamaan', chapter: 't4-3', state: 'soon' },
   { no: 4, name: 'Tanah Tinggi Ladang', topic: 'Indeks, Surd & Logaritma', chapter: 't4-4', state: 'soon' },
 ];
-export const gameLevelFor = (chId, subId) => (chId === GAME.chapter ? GAME.levels.find((l) => l.sub === subId) || null : null);
+/** World 2 · Lembah Batu Kapur (app/addmath/denai/w2-l1.html; levels/w2/level-2-1-data.js). */
+export const GAME_W2 = {
+  chapter: 't4-2', world: 'Dunia 2', name: 'Lembah Batu Kapur', url: '/app/addmath/denai/w2-l1.html',
+  levels: [
+    { no: '2-1', title: 'Jejak Lengkung', concept: 'Kesan a, h dan k pada graf', sub: '2.3', sp: ['2.3.4'], text: String.raw`Ubah \(a\), \(h\) dan \(k\) dalam \(y = a(x - h)^2 + k\) supaya lengkung melalui cincin: batu loncatan dan jambatan gantung terbina daripada lengkung itu.` },
+  ],
+};
+/** Every playable game world, in map order. */
+export const GAMES = [GAME, GAME_W2];
+export const gameLevelFor = (chId, subId) => GAMES.find((g) => g.chapter === chId)?.levels.find((l) => l.sub === subId) || null;
 
 const isAvailable = (id) => visibleStatus(NOTE_STATUS[id]);
 
@@ -57,7 +66,7 @@ export const CHAPTERS = CURRICULUM.map((c) => ({
   status: contentStatus(c.id),
   available: isAvailable(c.id),
   preview: contentStatus(c.id) === 'review' && isAvailable(c.id),
-  hasGame: c.id === GAME.chapter,
+  hasGame: GAMES.some((g) => g.chapter === c.id),
 }));
 
 export const chapter = (id) => CHAPTERS.find((c) => c.id === id) || null;

@@ -9,6 +9,7 @@ export const HUB = Object.freeze({
 
 export const GAME_READ_ONLY = Object.freeze([
   'denai-save-v14', 'denai-profile-v1', 'denai-records-v14', 'denai-campaign-v1', 'denai-l3-campaign-v1',
+  'denai-w2-campaign-v1',
 ]);
 
 export const NOTES_APP = Object.freeze({ progress: 'addmath-progress-v1', review: 'addmath-semak' });

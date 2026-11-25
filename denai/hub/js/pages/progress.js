@@ -11,7 +11,7 @@ import { esc, icon, emptyState, masteryTag, storageNote, actionHref, insufficien
 import { CHAPTERS, chapter, subtopicTitle, STATUS_LABEL } from '../data.js';
 import { getLearner, whenText } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { GAME } from '../data.js';
+import { GAMES } from '../data.js';
 import { gameRecords, timeText } from '../core/game-records.js';
 
 export async function render(route) {
@@ -56,10 +56,9 @@ export async function render(route) {
     : '<p class="small muted">Belum ada set latihan yang diselesaikan.</p>';
 
   const gr = l.demo ? null : gameRecords();
-  const gameDone = gr ? GAME.levels.filter((lv) => gr[lv.no]?.done).length : 0;
   const gameHtml = !gr ? '<p class="small muted">Mod demo: rekod game tidak dipaparkan.</p>'
-    : `<p class="small"><b>Dunia 1: ${gameDone} daripada ${GAME.levels.length} misi selesai</b></p><ul class="game-recs">${GAME.levels.map((lv) => { const r = gr[lv.no];
-        return `<li><span><b>${esc(lv.no)} ${esc(lv.title)}</b><small>${r.done ? `Selesai ${r.completions} kali${r.bestMs ? ` · masa terbaik ${timeText(r.bestMs)}` : ''}` : r.running ? 'Sedang dimain' : 'Belum dimain'}</small></span>${r.done ? tag('Selesai', 'done', 'check') : r.running ? tag('Sedang dimain', 'progress') : ''}</li>`; }).join('')}</ul>`;
+    : GAMES.map((g) => `<p class="small" style="margin-top:8px"><b>${esc(g.world)} ${esc(g.name)}: ${g.levels.filter((lv) => gr[lv.no]?.done).length} daripada ${g.levels.length} misi selesai</b></p><ul class="game-recs">${g.levels.map((lv) => { const r = gr[lv.no];
+        return `<li><span><b>${esc(lv.no)} ${esc(lv.title)}</b><small>${r.done ? `Selesai ${r.completions} kali${r.bestMs ? ` · masa terbaik ${timeText(r.bestMs)}` : ''}` : r.running ? 'Sedang dimain' : 'Belum dimain'}</small></span>${r.done ? tag('Selesai', 'done', 'check') : r.running ? tag('Sedang dimain', 'progress') : ''}</li>`; }).join('')}</ul>`).join('');
 
   const html = `<div class="wrap wrap-path">
     <header class="pagehead">

@@ -81,6 +81,8 @@ async function journey(page, mobile) {
   // code (preview.js) but has no real content to exercise.
   ok(await page.locator('.path-node .tag-review').count() === 0 && await page.locator('.path-node:has-text("belum ditulis")').count() === 0, 'Tingkatan 5: all 8 chapters published, none "Sedang disemak" or "Belum ditulis"');
   await page.click('.path-link[href="#/bab/t5-2"]'); await settle(page);
+  // the chapter page renders asynchronously (no loading marker): wait for its own heading
+  await page.waitForFunction(() => document.querySelector('#view h1')?.textContent.includes('Pembezaan'), null, { timeout: 10000 }).catch(() => {});
   ok((await h1(page)).includes('Pembezaan') && await page.locator('.path-sub .path-node').count() === 4, 'T5 chapter page: Pembezaan lists its 4 subtopics publicly');
   await go(page, '#/nota/t5-2/2.1');
   ok(page.url().endsWith('#/nota/t5-2/2.1') && (await h1(page)).includes('2.1'), 'Published T5 note opens without owner preview');
@@ -202,7 +204,9 @@ async function dashboard(page, mobile) {
   ok((await page.locator('.prog-summary').innerText()).includes('1 nota selesai'), 'Kemajuan: 1 note completed');
   ok(await page.locator('.activity li').count() >= 2, 'Kemajuan: recent activity (note + set)');
   ok(await page.locator('.review-rows li').count() >= 1, 'Kemajuan: revision list from real activity');
-  ok(await page.locator('.prog-list').nth(1).locator('.prog-ch').count() === 8 && await page.locator('.prog-list').nth(1).locator('.prog-ch.is-soon').count() === 0, 'Kemajuan: every Tingkatan 5 chapter listed, all published (none "soon")');
+  // Kemajuan folds chapters not started yet under "N bab belum dimulakan": count both parts of Tingkatan 5
+  const t5 = await page.evaluate(() => { const h = [...document.querySelectorAll('h3.subhead')].find((e) => e.textContent.includes('Tingkatan 5')); let n = 0, soon = 0; for (let e = h?.nextElementSibling; e && !e.matches('h3'); e = e.nextElementSibling) { n += e.querySelectorAll('.prog-ch').length; soon += e.querySelectorAll('.prog-ch.is-soon').length; } return { n, soon }; });
+  ok(t5.n === 8 && t5.soon === 0, 'Kemajuan: every Tingkatan 5 chapter listed, all published (none "soon")');
   ok(await page.locator('text=/disimpan dalam pelayar ini/').count() >= 1, 'Kemajuan: says where progress is stored');
 }
 
@@ -361,8 +365,9 @@ async function gameTab(page, mobile) {
   console.log('Game tab');
   await tab(page, mobile, 'main'); await settle(page);
   ok(await page.locator('#play').getAttribute('href') === '/app/addmath/denai/main', 'Game tab: Play opens the existing game route');
-  ok(await page.locator('.world').count() === 4 && await page.locator('.world.is-playable').count() === 1, 'Game tab: 4 worlds, only Dunia 1 playable');
-  ok(await page.locator('.world.is-playable .level').count() === 3 && await page.locator('.world:not(.is-playable) .tag').count() === 3, 'Game tab: 3 missions; unavailable worlds clearly labelled');
+  // World 2 Phase 4: Dunia 1 (3 missions) and Dunia 2 Level 2-1 are playable
+  ok(await page.locator('.world').count() === 4 && await page.locator('.world.is-playable').count() === 2, 'Game tab: 4 worlds, Dunia 1 and 2 playable');
+  ok(await page.locator('.world.is-playable .level').count() === 4 && await page.locator('.world:not(.is-playable) .tag').count() === 2 && await page.locator('a[href="/app/addmath/denai/w2-l1.html"]').count() === 1, 'Game tab: 4 missions (2-1 with a play link); unavailable worlds clearly labelled');
   ok((await page.locator('.game-sep').innerText()).includes('bukan bukti penguasaan'), 'Game tab: game records kept apart from mastery');
 }
 

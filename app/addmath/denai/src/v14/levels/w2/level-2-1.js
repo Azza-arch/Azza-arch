@@ -1,4 +1,5 @@
-// World 2 (Lembah Batu Kapur) · Level 2-1 "Jejak Lengkung" — full map, PREVIEW page only (w2-l1.html).
+// World 2 (Lembah Batu Kapur) · Level 2-1 "Jejak Lengkung" — its own page (w2-l1.html), launched from
+// the DENAI World Map and from the end of 1-3.
 // Rabung Masuk → Stesen A (a) → Stesen B (h, k, under a limestone overhang) → Stesen C (k, cable
 // bridge under a stone arch) → stone gate towards 2-2.
 // Reuses the World 1 player body, motion, landscape builder and Kenney assets unchanged. It writes
@@ -85,7 +86,10 @@ class Level21 extends Phaser.Scene {
     this.stations = L.stations.map((s, i) => this.buildStation(s, i));
     // ── Player, camera, input ──
     this.save = store.load().levels[LEVEL_ID];
-    this.run = this.save.run && !this.save.run.completed ? this.save.run : newRun();
+    // ?baru=1 (Main semula from the World Map): a fresh run; lifetime records stay.
+    const fresh = new URLSearchParams(location.search).has('baru');
+    if (fresh) history.replaceState(null, '', location.pathname);
+    this.run = !fresh && this.save.run && !this.save.run.completed ? this.save.run : newRun();
     for (const c of L.coins) if (!this.run.coins.includes(c.id)) this.coinSprites[c.id] = this.add.image(wx(c.x), wy(c.y), 'kpp_terrain_atlas', 151).setScale(3).setDepth(14);
     const cp = L.checkpoints.find((c) => c.id === this.run.checkpointId) || L.checkpoints[0];
     createPlayer(this, { SPAWN: { x: wx(cp.x), feet: wy(cp.y) }, BASE_SCALE, reducedMotion, controls });

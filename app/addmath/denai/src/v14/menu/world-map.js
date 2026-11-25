@@ -2,7 +2,7 @@
 // not a small modal: pixel-art map + level panel on desktop; world cards +
 // full-screen level panel on phones. Reads progress via ./progress.js only;
 // launching is delegated to the existing launchers in game.js.
-import {WORLDS,STATUS,worldOneLevels} from './progress.js';
+import {WORLDS,STATUS,levelsOfWorld} from './progress.js';
 
 const $ = (id) => document.getElementById(id);
 const LABEL = {
@@ -15,11 +15,12 @@ const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls)
 export function installWorldMap({ launch, localPreview = false, onOpen, onClose }) {
   const page = $('world-map-page'), canvas = $('wm-canvas'), cards = $('wm-worlds'), panel = $('wm-panel');
   let selected = 'w1', levels = [];
+  const levelsOf = (w) => levelsOfWorld(w.id, { localPreview });
 
   function worldSummary(w) {
     if (w.state !== 'playable') return w.state === 'development' ? 'Dalam pembangunan' : 'Akan datang';
-    const done = levels.filter((l) => l.completions > 0).length, open = levels.filter((l) => l.unlocked).length;
-    return `Selesai ${done}/${levels.length} · Tersedia ${open}/${levels.length}`;
+    const ls = levelsOf(w), done = ls.filter((l) => l.completions > 0).length, open = ls.filter((l) => l.unlocked).length;
+    return `Selesai ${done}/${ls.length} · Tersedia ${open}/${ls.length}`;
   }
   function levelRow(l) {
     const li = el('li', `wm-level st-${l.status}`);
@@ -37,7 +38,7 @@ export function installWorldMap({ launch, localPreview = false, onOpen, onClose 
     if (l.status === STATUS.IN_PROGRESS) { btn('Sambung', 'continue', true); if (l.completions > 0) btn('Main semula', 'replay'); }
     else if (l.status === STATUS.COMPLETED) btn('Main semula', 'replay', true);
     else if (l.status === STATUS.AVAILABLE) btn('Main', 'play', true);
-    else { const b = btn('Dikunci', 'none'); b.disabled = true; }
+    else { const b = btn(l.status === STATUS.COMING_SOON ? 'Akan datang' : 'Dikunci', 'none'); b.disabled = true; }
     li.append(acts); return li;
   }
   function renderPanel() {
@@ -49,7 +50,7 @@ export function installWorldMap({ launch, localPreview = false, onOpen, onClose 
     if (w.state === 'playable') levels.forEach((l) => list.append(levelRow(l)));
     else if (w.levels) w.levels.forEach(([id, num, title]) => list.append(levelRow({ id, num, title, status: STATUS.COMING_SOON, completions: 0 })));
     else list.append(el('li', 'wm-empty', 'Level untuk dunia ini belum dibina.'));
-    if (w.state === 'development') panel.append(el('p', 'wm-dev', 'Dunia 2 sedang dibina. Level belum boleh dimain.'));
+    if (w.state === 'development') panel.append(el('p', 'wm-dev', `Dunia ${w.num} sedang dibina. Level belum boleh dimain.`));
     panel.append(list);
   }
   function renderNodes() {
@@ -68,7 +69,7 @@ export function installWorldMap({ launch, localPreview = false, onOpen, onClose 
       cards.append(c);
     }
   }
-  function render() { levels = worldOneLevels({ localPreview }); renderNodes(); renderPanel(); }
+  function render() { levels = levelsOf(WORLDS.find((q) => q.id === selected)); renderNodes(); renderPanel(); }
   function select(id, showPanel) { selected = id; render(); if (showPanel) page.classList.add('show-panel'); }
 
   page.addEventListener('click', (e) => {

@@ -41,7 +41,7 @@ hanya direka terperinci apabila tiba gilirannya, dan pengelompokan di bawah masi
 | Dunia | Status | Di mana |
 |---|---|---|
 | 1 Hutan & Sungai: 1-1 Jejak Taman Fungsi, 1-2 Jambatan Berkembar, 1-3 Gerbang Songsang | **boleh dimain (live)** | `main`; `src/v14/levels/registry.js` |
-| 2 Lembah Batu Kapur | **sedang dibina**: Fasa 1–3 di `main` (Level 2-1 penuh di halaman pratonton `w2-l1.html`, belum dalam menu) | `WORLD-2-BLUEPRINT.md` |
+| 2 Lembah Batu Kapur | **2-1 Jejak Lengkung boleh dimain (live)**: Peta Dunia (selepas 1-1), penamat 1-3, Learning Hub; 2-2 dan 2-3 sedang dibina | `WORLD-2-BLUEPRINT.md` |
 | 3–9 | dirancang (jadual di bawah) | dokumen ini |
 
 ## Senarai dunia (cadangan pemilik, 25 Nov 2026 — susunan belum muktamad)
@@ -122,7 +122,7 @@ Ketiga-tiga pek Kenney guna grid 18 px (dipapar 3×), jadi boleh dicampur dalam 
 ## Peta jalan
 1. **Siapkan Dunia 2 Lembah Batu Kapur dahulu** (`WORLD-2-BLUEPRINT.md`):
    - Fasa 3: peta penuh 2-1 Jejak Lengkung (pratonton, tiada pautan menu) — siap;
-   - Fasa 4: integrasi (registry, menu, Peta Dunia, penamat 1-3, Hub);
+   - Fasa 4: integrasi (registry, menu, Peta Dunia, penamat 1-3, Hub) — siap;
    - Fasa 5: 2-2 Lembah Puncak; Fasa 6: 2-3 Gerbang Parabola.
 2. **Dunia 3 Kilang & Lombong** (gabungan Bab 3 + T5 Bab 7): blueprint dahulu, teka-teki disahkan, satu level satu PR.
 3. Dunia seterusnya **satu demi satu**, mengikut susunan yang dipersetujui pemilik.
@@ -132,10 +132,10 @@ Ketiga-tiga pek Kenney guna grid 18 px (dipapar 3×), jadi boleh dicampur dalam 
 - `src/v14/menu/progress.js` `WORLDS`: Dunia 3 "Kilang & Lombong" topik menjadi Sistem Persamaan +
   Pengaturcaraan Linear; Dunia 4 "Tanah Tinggi Ladang" menjadi Indeks, Surd & Logaritma + Janjang;
   Dunia 5–9 belum ada dalam peta; `assets/world-map/world-map.png` hanya ada zon untuk 4 dunia.
-- `denai/hub/js/data.js` `WORLDS` dan pemetaan bab → dunia (setiap dunia kini boleh ada beberapa bab;
-  `GAME.chapter` dan `gameLevelFor` menganggap satu bab).
+- `denai/hub/js/data.js`: sejak Fasa 4 Dunia 2 ada `GAME_W2` dan `GAMES`; untuk dunia gabungan, satu
+  objek game perlu menyokong beberapa bab (`chapter` → senarai bab).
 - Tab Game Hub: notis "Bab X belum mempunyai misi game" patut menyebut dunia yang akan meliputi bab itu.
-- Laman `/denai/`: bahagian "Dunia 2: Lembah Batu Kapur" kekal betul; senarai dunia akan datang (jika ditambah) ikut jadual ini.
+- Laman `/denai/`: bahagian "Dunia 2: Lembah Batu Kapur" masih berkata "Dunia seterusnya sedang dibina"; patut menyebut Level 2-1 kini boleh dimain (selepas 1-1).
 - Dokumen lain yang masih menyebut struktur lama: `WORLD-MAP-MASTERPLAN.md` (cawangan
   `claude/denai-map-masterplan-v2`), `denai/hub/PRODUCT-BLUEPRINT.md` dan `PRODUCT-ROADMAP.md` (Dunia 3–4).
 
