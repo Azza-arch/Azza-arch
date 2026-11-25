@@ -14,6 +14,8 @@ import { quad } from './peak.js';
 import { pontoonOutcome, chainOutcome, sealPOutcome, sealQOutcome } from './roots.js';
 import { buildLevel, LEVEL_ID, GATE_MX } from './level-2-3-data.js';
 import { createW2Store, newRun } from './campaign.js';
+import { setupCamera, updateCamera } from './camera.js';
+import { trackStart, trackDone } from './track.js';
 import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
@@ -60,13 +62,14 @@ class Level23 extends Phaser.Scene {
     this.cpFlags = {};
     for (const cp of L.checkpoints.slice(1)) this.cpFlags[cp.id] = this.add.image(wx(cp.x), wy(cp.y), 'kpp_terrain_atlas', 111).setOrigin(.5, 1).setScale(3).setDepth(11);
     exitGate(tile, wx, wy, L.gate); // pillars without caps under a lintel with closed ends (art.js)
-    this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 4) - 6, 'KE DUNIA 3', { fontFamily: 'Arial, sans-serif', fontSize: '16px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
+    this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 3.5), 'KE DUNIA 3', { fontFamily: 'Arial, sans-serif', fontSize: '15px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, .5).setDepth(12); // a plaque on the lintel's face (the top stays free to stand on)
     this.goal = this.add.image(wx(L.goal.x), wy(L.goal.y), 'kpp_terrain_atlas', 112).setOrigin(.5, 1).setScale(4).setDepth(11);
     // ── save / run ──
     this.save = store.load().levels[LEVEL_ID];
     const fresh = new URLSearchParams(location.search).has('baru');
     if (fresh) history.replaceState(null, '', location.pathname);
     this.run = !fresh && this.save.run && !this.save.run.completed ? this.save.run : newRun(LEVEL_ID);
+    trackStart(LEVEL_ID, !fresh && !!this.save.run && !this.save.run.completed, this.save.completions);
     this.coinSprites = {};
     for (const c of L.coins) if (!this.run.coins.includes(c.id)) this.coinSprites[c.id] = this.add.image(wx(c.x), wy(c.y), 'kpp_terrain_atlas', 151).setScale(3).setDepth(14);
     // ── mechanisms (inactive state) + stations ──
@@ -92,9 +95,7 @@ class Level23 extends Phaser.Scene {
     if (this.run.solved.P) this.mechs.PQ.lamps?.P.setFillStyle(0xfee481); if (this.run.solved.Q) this.mechs.PQ.lamps?.Q.setFillStyle(0xfee481);
     for (const [c, id] of [['after-g', 'G'], ['after-h', 'H']]) if (this.run.solved[id]) this.cpFlags[c]?.setFrame(112);
     this.applyResponsiveZoom();
-    const cam = this.cameras.main;
-    cam.setBounds(0, WORLD.top, WORLD.width, WORLD.floor - WORLD.top);
-    cam.startFollow(this.player, true, .14, .16, -85, this.followOffsetY).setDeadzone(0, 150);
+    setupCamera(this, WORLD); // per-level camera (camera.js)
     this.scale.on('resize', () => this.applyResponsiveZoom());
     this.elapsed = this.run.elapsedMs; this.lastSave = 0; this.busy = false;
     this.active = null; this.updateHud(true); this.writeSave();
@@ -291,6 +292,7 @@ class Level23 extends Phaser.Scene {
     this.elapsed += delta;
     const m = updatePlayer(this, time, delta, { controls, audio, SFX, reducedMotion, BASE_SCALE, WATER: [], WATER_Y: WORLD.floor });
     if (m.respawned) return;
+    updateCamera(this);
     const px = this.player.x, feet = this.player.body.bottom;
     const st = this.nearest();
     const near = Math.abs(px - wx(st.s.leverX)) < 80 && Math.abs(feet - st.leverFeet) < 8;
@@ -318,6 +320,7 @@ class Level23 extends Phaser.Scene {
     const prevBest = store.load().levels[LEVEL_ID].bestMs;
     this.run.completed = true; this.run.checkpointId = 'after-h'; this.writeSave();
     const rec = store.load().levels[LEVEL_ID];
+    trackDone(LEVEL_ID, this.run, rec);
     const t = Math.round(this.elapsed / 1000), mmss = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
     $('w2-done-stats').textContent = `Masa ${mmss} · Syiling ${this.run.coins.length}/${L.coins.length}${Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest) ? ' · Rekod baharu!' : ''}`;
     SFX.victory?.(audio);

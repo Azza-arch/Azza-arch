@@ -111,7 +111,7 @@ export function updatePlayer(scene,time,delta,{controls,audio,SFX,reducedMotion,
     // (or climbing), never mid-jump, and eases slowly — so a jump no longer
     // drags the camera up and down.
     {const cam=scene.cameras.main;if(cam._follow){
-      if(grounded||scene.climbing||scene.camTgt===undefined){let tgt=body.bottom<1230?-110:(scene.followOffsetY??100);
+      if(grounded||scene.climbing||scene.camTgt===undefined){let tgt=body.bottom<(scene.camHighY??1230)?-110:(scene.followOffsetY??100); // camHighY: a level's own 'high ground' line (World 1: 1230)
         if(WATER.some(w=>scene.player.x>w.x-600&&scene.player.x<w.x+w.width+260)){const vh=scene.viewUnits?.h??645;tgt=Math.min(tgt,(body.bottom-30)+vh/2-(WATER_Y+40));}
         {const vh=scene.viewUnits?.h??645;tgt=Math.max(tgt,-(vh/2)+vh*.22+30);} // never push the player's head into the top 22% (HUD band)
         scene.camTgt=tgt;}

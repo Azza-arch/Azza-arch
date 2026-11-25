@@ -72,3 +72,32 @@ export function karstBackdrop(scene, worldWidth, baseY, { sf = 0.35, depth = 0.6
   }
   return g;
 }
+
+/**
+ * An optional secret: stone stepping platforms (frame 147, one-way like the station stones; a platform
+ * marked `lintel` is already drawn, e.g. the exit gate's top) leading to a limestone gem (frame 67).
+ * found: false | true (an earlier run: faint gem) | 'run' (this run: no gem).
+ * Returns { gem, check(px, feet) → true once, when the player reaches the gem }.
+ */
+export function buildSecret(scene, tile, wx, wy, secret, found, depth = 10) {
+  const T = 54;
+  for (const p of secret.platforms) {
+    if (!p.lintel) for (let x = p.x0; x < p.x1 - 1e-9; x++) tile(147, wx(x), wy(p.top), depth);
+    const body = scene.add.rectangle(wx((p.x0 + p.x1) / 2), wy(p.top) + 9, (p.x1 - p.x0) * T, 18, 0, 0);
+    scene.physics.add.existing(body, true); body.setData('oneWay', true); scene.solids.add(body);
+  }
+  const gem = scene.add.image(wx(secret.x), wy(secret.y), 'kpp_terrain_atlas', 67).setScale(3).setDepth(14);
+  let taken = found === 'run';
+  if (taken) gem.setVisible(false);       // found earlier in this same run
+  else if (found) gem.setAlpha(.35); // found in an earlier run: a faint gem shows where it was
+  else if (!matchMedia('(prefers-reduced-motion: reduce)').matches) scene.tweens.add({ targets: gem, y: gem.y - 6, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
+  return {
+    gem,
+    check(px, feet) {
+      if (taken || Math.abs(gem.x - px) > 40 || Math.abs(gem.y - (feet - 30)) > 50) return false;
+      taken = true; scene.tweens.killTweensOf(gem);
+      scene.tweens.add({ targets: gem, y: gem.y - 40, alpha: 0, scale: 4, duration: 500, onComplete: () => gem.destroy() });
+      return true;
+    },
+  };
+}

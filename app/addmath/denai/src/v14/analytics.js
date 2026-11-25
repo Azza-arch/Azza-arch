@@ -9,7 +9,7 @@
 import {LEADERBOARD_CONFIG as CFG} from './leaderboard/config.js';
 import * as PF from './leaderboard/playfab.js';
 
-const LEVELS=['w1-l1','w1-l2','w1-l3'];
+const LEVELS=['w1-l1','w1-l2','w1-l3','w2-l1','w2-l2','w2-l3'];
 const enumOf=list=>v=>list.includes(v)?v:undefined;
 const int=(min,max)=>v=>Number.isInteger(v)&&v>=min&&v<=max?v:undefined;
 const bool=v=>typeof v==='boolean'?v:undefined;
@@ -50,6 +50,13 @@ export function track(name,data){
   if(queue.length>=(cfg().flushEvery||10))flush();
   else if(!timer)timer=setTimeout(()=>flush(),cfg().flushMs||30000);
   return true;
+}
+// World 2 levels run on their own pages, where no PlayFab session exists yet. Only when analytics is
+// on AND this device already has the game's anonymous account (made earlier by the main game) is that
+// same account resumed, so queued events can be sent. A new player is never given an account here.
+export function resumeSession(){
+  let known=false;try{known=!!localStorage.getItem('denai-lb-device');}catch{}
+  if(enabled()&&known)PF.login().then(()=>flush()).catch(()=>{});
 }
 // game_started: once per page session, at the first real launch.
 export function trackGameStart(entry){if(startedThisSession)return;startedThisSession=true;track('game_started',{entry});}

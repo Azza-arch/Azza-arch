@@ -12,3 +12,4 @@ test('unknown events and fields are dropped; strings must be enum values',()=>{
 test('purchase_completed is refused while no checkout exists',()=>{assert.equal(clean('purchase_completed',{offer:'supporter',currency:'MYR',amount_bucket:'<10'}),null);});
 test('durations are bucketed',()=>{assert.equal(durationBucket(45000),60);assert.equal(durationBucket(151000),180);assert.equal(durationBucket(9e6),3601);});
 test('no schema field can carry free text',()=>{for(const [name,spec] of Object.entries(SCHEMA))for(const [k,check] of Object.entries(spec))assert.equal(check('free text here'),undefined,`${name}.${k}`);});
+test('World 2 levels are allowlisted',()=>{assert.deepEqual(clean('level_started',{level:'w2-l2',mode:'replay'}),{level:'w2-l2',mode:'replay'});assert.deepEqual(clean('level_completed',{level:'w2-l9'}),{});});

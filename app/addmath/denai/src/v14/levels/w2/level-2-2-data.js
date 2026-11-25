@@ -3,7 +3,7 @@
 // A vertical level: valley (y 0) → stone steps raised by Station D → plateau (y 4) → stone gate
 // opened by Station E's bell → cargo lift driven by Station F's pen → exit ledge (y 8) → 2-3.
 // Each station's maths origin sits at (ox, oy): maths point (x, y) is global (ox + x, oy + y).
-import { STATION_D, STATION_E, STATION_F, MECHANISMS, TILE } from './peak.js';
+import { STATION_D, STATION_D_ALT, STATION_E, STATION_F, MECHANISMS, TILE } from './peak.js';
 
 export const LEVEL_ID = 'w2-l2';
 export const FLOOR_Y = -2;
@@ -21,6 +21,19 @@ export const STATIONS = [
 
 // Ground (global tiles): [id, x0, x1, top, style]. The two cliffs (x 18 and x 45) are only crossed
 // with the mechanisms; the gate floor (x 29–30) carries Station E's stone gate.
+/** The stations for a run: 'alt' (replays) swaps Station D's curve for y = −x² + 8x − 12. */
+export const VARIANTS = ['base', 'alt'];
+export function stationsFor(variant = 'base') {
+  return variant === 'alt' ? STATIONS.map((s) => (s.mech === 'D' ? { ...s, st: STATION_D_ALT } : s)) : STATIONS;
+}
+/** Which variant a new run uses: the first play and every second replay use the base set. */
+export const variantFor = (completions) => (completions % 2 === 1 ? 'alt' : 'base');
+
+// Secret (optional): stepping stones up from the exit ledge to the top of the exit gate, where a
+// limestone gem waits. Rises ≤ 1.5, gaps ≤ 1 (tests/level-2-2.test.mjs checks it with weak jumps).
+export const SECRET = { id: 'atas-gerbang', label: 'Permata di atas gerbang', x: 52.5, y: 12.6,
+  platforms: [{ x0: 47.5, x1: 48.5, top: 9.5 }, { x0: 49, x1: 50, top: 11 }, { x0: 51, x1: 54, top: 12, lintel: true }] };
+
 const GROUND = [
   ['ridge', 0, 7, 1, 'grass'], ['valley', 7, 18, 0, 'grass'],
   ['plateau-a', 18, 29, 4, 'stone'], ['gate-floor', 29, 30, 4, 'stone'], ['plateau-b', 30, 45, 4, 'stone'],
@@ -33,11 +46,11 @@ function placedMechanism(s) {
   return { id: m.id, station: s.st.id, active: m.active.map(shift), blocking: m.base.filter((p) => m.blocking.includes(p.id)).map(shift) };
 }
 
-export function buildLevel() {
+export function buildLevel(variant = 'base') {
   const terrain = GROUND.map(([id, x0, x1, top, style]) => ({ id, x0, x1, top, style }));
   return {
     terrain, slabs: [], waters: [],
-    stations: STATIONS,
+    stations: stationsFor(variant), variant, secrets: [SECRET],
     mechanisms: STATIONS.map(placedMechanism),
     spawn: { x: 2, y: 1 },
     checkpoints: [

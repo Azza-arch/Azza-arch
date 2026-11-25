@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { MOTION } from '../src/level.js';
 import { analyseStation } from '../src/v14/levels/w2/quadratic.js';
-import { buildLevel, mechanismFromMap, STATIONS, WIDTH, TOP_Y } from '../src/v14/levels/w2/level-2-2-data.js';
+import { buildLevel, mechanismFromMap, STATIONS, WIDTH, TOP_Y, SECRET, stationsFor, variantFor } from '../src/v14/levels/w2/level-2-2-data.js';
 import { quad } from '../src/v14/levels/w2/peak.js';
 const L = buildLevel(), t = L.terrain;
 const weak = { ...MOTION, jump: MOTION.jump * 0.95, speed: MOTION.speed * 0.95 }, strong = { ...MOTION, jump: MOTION.jump * 1.05, speed: MOTION.speed * 1.05 };
@@ -34,3 +34,15 @@ for (const s of STATIONS) assert.ok(t.some((p) => s.leverX >= p.x0 && s.leverX <
 for (const c of [...L.coins, ...L.checkpoints]) assert.ok(c.x > 0 && c.x < WIDTH);
 assert.equal(new Set(L.coins.map((c) => c.id)).size, 12);
 console.log('level 2-2: ok');
+
+// replay variant: the same map and mechanisms, only Station D's curve changes; it fits D's grid (0…6)
+{ const alt = buildLevel('alt'); assert.deepEqual(alt.terrain, L.terrain); assert.equal(alt.stations[0].st.coeff.b, 8);
+  assert.ok(alt.stations[0].st.to <= 6 && alt.stations[0].st.options.x.every((x) => x <= 6));
+  assert.deepEqual(stationsFor('base'), STATIONS); assert.deepEqual([0, 1, 2, 3].map(variantFor), ['base', 'alt', 'base', 'alt']); }
+// secret: from the exit ledge (y 8) up the stones to the gate top, easy with weak jumps (strict),
+// and the gem is in the world and above the gate
+{ const ex = t.find((p) => p.id === 'exit');
+  const sf = [{ id: 'L', x0: ex.x0, x1: SECRET.platforms[0].x0, top: ex.top }, ...SECRET.platforms.slice(0, -1).map((p, i) => ({ id: `p${i}`, ...p })), { id: 'R', ...SECRET.platforms.at(-1) }];
+  assert.ok(analyseStation({ surfaces: sf, stoneXs: [], water: -50, top: 50, ceiling: [], rings: [] }, {}, weak, { strict: true, maxRise: 1.5, maxGap: 2 }).success, 'secret reachable');
+  assert.ok(SECRET.y < TOP_Y - 0.5 && SECRET.x > L.gate.x - 1 && SECRET.x < L.gate.x + 2); }
+console.log('level 2-2 variant + secret: ok');

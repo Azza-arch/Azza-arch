@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { MOTION } from '../src/level.js';
 import { analyseStation, stationCombos } from '../src/v14/levels/w2/quadratic.js';
-import { buildLevel, surfacesFromMap, STATIONS, WIDTH } from '../src/v14/levels/w2/level-2-1-data.js';
+import { buildLevel, surfacesFromMap, STATIONS, WIDTH, SECRET, TOP_Y } from '../src/v14/levels/w2/level-2-1-data.js';
 
 const level = buildLevel();
 const key = (st, c) => st.levers.map((l) => `${l}=${c[l]}`).join(',');
@@ -41,3 +41,11 @@ for (const s of STATIONS) {
 for (const c of [...level.checkpoints, ...level.coins]) assert.ok(c.x > 0 && c.x < WIDTH, `${c.id} inside`);
 assert.equal(new Set(level.coins.map((c) => c.id)).size, level.coins.length);
 console.log('level 2-1: ok');
+
+// secret: from the ridge (y 2) up the stones to the high ledge, easy with weak jumps (strict)
+{ const weak = { ...MOTION, jump: MOTION.jump * 0.95, speed: MOTION.speed * 0.95 }, ridge = level.terrain.find((p) => p.x0 === 0);
+  const [p0, p1, ledge] = SECRET.platforms;
+  const sf = [{ id: 'L', x0: p0.x1, x1: ridge.x1, top: ridge.top }, { id: 'p0', ...p0 }, { id: 'p1', ...p1 }, { id: 'R', ...ledge }];
+  assert.ok(analyseStation({ surfaces: sf, stoneXs: [], water: -50, top: 50, ceiling: [], rings: [] }, {}, weak, { strict: true, maxRise: 1.5, maxGap: 2 }).success, 'secret reachable');
+  assert.ok(SECRET.y < TOP_Y - 1 && level.secrets[0] === SECRET); }
+console.log('level 2-1 secret: ok');

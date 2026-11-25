@@ -191,7 +191,7 @@ stesen; mekanisme), `level-2-2.test.mjs` (mekanisme dibaca semula dari peta; lev
 ditamatkan tanpa mana-mana satu stesen), `w2-l2-playthrough.cjs` (fizik sebenar: jawapan salah di
 D, E, F, muat semula, tamat 12/12, simpanan Dunia 1 dan rekod 2-1 tidak berubah, telefon).
 Aset: Kenney asas + pagar Kenney Farm (bingkai 38–41; hanya `Tilemap/tilemap_packed.png` dan lesen CC0
-dibawa masuk). Variasi main semula (y = −x² + 8x − 12) belum dibina (set tetap dahulu).
+dibawa masuk). Variasi main semula (y = −x² + 8x − 12, bucu (4, 4)) dibina dalam Fasa 7: main semula ke-1, ke-3, … guna lengkung ini di Stesen D. Rahsia: permata di atas gerbang keluar.
 
 ## 6. Level 2-3 — Gerbang Parabola
 SP: 2.1.1 (menyelesaikan), 2.1.2 (bentuk persamaan daripada punca), 2.1.3

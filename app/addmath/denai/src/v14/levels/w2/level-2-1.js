@@ -13,7 +13,9 @@ import { buildLandscape } from '../../environment.js';
 import { TILE as T, curveAt, stationStones, analyseStation, passesRings, formatA, formatNum } from './quadratic.js';
 import { buildLevel, LEVEL_ID } from './level-2-1-data.js';
 import { createW2Store, newRun } from './campaign.js';
-import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, SLAB } from './art.js';
+import { setupCamera, updateCamera } from './camera.js';
+import { trackStart, trackDone } from './track.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, buildSecret, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -80,7 +82,7 @@ class Level21 extends Phaser.Scene {
     for (const cp of L.checkpoints.slice(1)) this.cpFlags[cp.id] = this.add.image(wx(cp.x), wy(cp.y), 'kpp_terrain_atlas', 111).setOrigin(.5, 1).setScale(3).setDepth(11);
     exitGate(tile, wx, wy, L.gate); // pillars without caps under a lintel with closed ends (art.js)
     this.goal = this.add.image(wx(L.goal.x), wy(L.goal.y), 'kpp_terrain_atlas', 112).setOrigin(.5, 1).setScale(4).setDepth(11);
-    this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 4) - 6, 'KE 2-2', { fontFamily: 'Arial, sans-serif', fontSize: '16px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
+    this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 3.5), 'KE 2-2', { fontFamily: 'Arial, sans-serif', fontSize: '15px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, .5).setDepth(12); // a plaque on the lintel's face (the top stays free to stand on)
     // ── Coins (Kenney coin frame, same as World 1) ──
     this.coinSprites = {};
     // ── Stations ──
@@ -91,6 +93,8 @@ class Level21 extends Phaser.Scene {
     const fresh = new URLSearchParams(location.search).has('baru');
     if (fresh) history.replaceState(null, '', location.pathname);
     this.run = !fresh && this.save.run && !this.save.run.completed ? this.save.run : newRun();
+    trackStart('w2-l1', !fresh && !!this.save.run && !this.save.run.completed, this.save.completions);
+    this.secrets = L.secrets.map((q) => ({ q, s: buildSecret(this, tile, wx, wy, q, this.run.secrets.includes(q.id) ? 'run' : this.save.secrets.includes(q.id)) }));
     for (const c of L.coins) if (!this.run.coins.includes(c.id)) this.coinSprites[c.id] = this.add.image(wx(c.x), wy(c.y), 'kpp_terrain_atlas', 151).setScale(3).setDepth(14);
     const cp = L.checkpoints.find((c) => c.id === this.run.checkpointId) || L.checkpoints[0];
     createPlayer(this, { SPAWN: { x: wx(cp.x), feet: wy(cp.y) }, BASE_SCALE, reducedMotion, controls });
@@ -99,9 +103,9 @@ class Level21 extends Phaser.Scene {
     for (const st of this.stations) { Object.assign(st.c, this.run.levers[st.id]); if (this.run.solved[st.id]) { st.solved = true; this.lock(st, true); } this.draw(st); }
     for (const [cp, id] of [['after-a', 'A'], ['after-b', 'B']]) if (this.run.solved[id]) this.cpFlags[cp]?.setFrame(112);
     this.applyResponsiveZoom();
-    const cam = this.cameras.main;
-    cam.setBounds(0, WORLD.top, WORLD.width, WORLD.floor - WORLD.top);
-    cam.startFollow(this.player, true, .14, .16, -85, this.followOffsetY).setDeadzone(0, 150);
+    setupCamera(this, WORLD); // per-level camera (camera.js)
+    // at each station the view holds its water (and what sinks in it) and its top row together
+    this.camZones = this.stations.map((st) => ({ x0: wx(st.s.leverX - 1.5), x1: st.exitX + 60, below: WORLD.floor, centreY: wy((st.st.water - 2.4 + 8.6) / 2), fixed: true }));
     this.scale.on('resize', () => this.applyResponsiveZoom());
     this.elapsed = this.run.elapsedMs; this.lastSave = 0;
     this.active = null; this.updateHud(true);
@@ -169,18 +173,35 @@ class Level21 extends Phaser.Scene {
       if (s.state === 'high') { st.layer.push(this.add.text(st.X(s.x), st.Y(8.6), `↑ y = ${formatNum(s.y)}`, { fontFamily: FONT, fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#8a5a2b', padding: { x: 4, y: 2 } }).setOrigin(.5, 0).setDepth(14)); continue; }
       const img = this.add.image(st.X(s.x - .5), Math.min(st.Y(s.y), WORLD.floor - 60), 'kpp_terrain_atlas', 147).setOrigin(0).setScale(3).setDepth(10); // small stone platform: a stepping stone, top on the curve
       st.layer.push(img);
-      if (s.state === 'loose') { // not supported by both rings: it forms for a moment, then drops into the water
-        img.setAlpha(.6);
-        if (!reducedMotion && !quiet) this.tweens.add({ targets: img, y: WORLD.floor, alpha: 0, duration: 900, ease: 'Quad.in', delay: 250 + 40 * (s.x - st.st.stoneXs[0]) });
-        else img.setAlpha(.2);
+      // Each failed state reads without words (the Canvas renderer ignores tints, so overlays are drawn):
+      if (s.state === 'loose') { // not held by both rings: it shakes, drops and splashes into the water
+        if (!reducedMotion && !quiet) {
+          const d = 40 * (s.x - st.st.stoneXs[0]);
+          this.tweens.add({ targets: img, x: img.x + 4, duration: 50, yoyo: true, repeat: 3, delay: d });
+          this.tweens.add({ targets: img, y: WORLD.floor, alpha: 0, duration: 800, ease: 'Quad.in', delay: 400 + d, onComplete: () => this.splash(st.X(s.x), this.waterTop(st.X(s.x))) });
+        } else img.setAlpha(.2);
         continue;
       }
-      if (s.state === 'submerged') { img.setAlpha(.35).setTint(0x7fb7e6); if (st.Y(s.y) > WORLD.floor - 54) img.setY(WORLD.floor - 60); continue; }
-      if (s.state === 'buried') {
-        // inside the rock, or right under it with no room for the player's body: drawn, never stood on
-        img.setAlpha(.45).setTint(0x8f8a80).setDepth(9.2);
+      if (s.state === 'submerged') { // under the water surface: behind the waves, blue wash, bubbles
+        const top = this.waterTop(st.X(s.x));
+        img.setY(top + 26).setDepth(9.45).setAlpha(.75); // just under the surface, where it can be seen
+        const wash = this.add.graphics().setDepth(9.46); wash.fillStyle(0x1f5fa8, .45).fillRect(st.X(s.x - .5), img.y, T, 54);
+        st.layer.push(wash, ...this.bubbles(st.X(s.x), img.y, top));
+        continue;
+      }
+      if (s.state === 'buried') { // inside the rock or no room for the body: ghost outline + red cross
+        img.setAlpha(.35).setDepth(9.2);
+        const gx = st.X(s.x), gy = st.Y(s.y), mark = this.add.graphics().setDepth(14);
+        mark.lineStyle(2, 0xb3402a, 1);
+        for (let i = 0; i < T; i += 9) mark.lineBetween(gx - T / 2 + i, gy, gx - T / 2 + Math.min(i + 5, T), gy);
+        mark.lineStyle(4, 0xb3402a, 1).lineBetween(gx - 8, gy + 2, gx + 8, gy + 16).lineBetween(gx + 8, gy + 2, gx - 8, gy + 16);
+        st.layer.push(mark);
         const roof = Math.min(...(st.st.ceiling || []).filter((c) => s.x > c.x0 && s.x < c.x1).map((c) => c.y), Infinity);
-        if (s.y < roof) st.layer.push(this.add.text(st.X(s.x), st.Y(s.y) + 20, 'sempit', { fontFamily: 'Arial, sans-serif', fontSize: '12px', fontStyle: 'bold', color: '#fff', backgroundColor: '#6b5a48', padding: { x: 3, y: 1 } }).setOrigin(.5, 0).setDepth(14));
+        if (s.y < roof) { // a low gap: a double arrow from the stone to the rock shows how little room is left
+          const ry = st.Y(Math.min(roof, s.y + 2)); mark.lineStyle(2, 0xffffff, 1).lineBetween(gx + 16, gy - 2, gx + 16, ry + 2)
+            .fillStyle(0xffffff, 1).fillTriangle(gx + 11, gy - 6, gx + 21, gy - 6, gx + 16, gy).fillTriangle(gx + 11, ry + 6, gx + 21, ry + 6, gx + 16, ry);
+          st.layer.push(this.add.text(gx, gy + 20, 'sempit', { fontFamily: 'Arial, sans-serif', fontSize: '12px', fontStyle: 'bold', color: '#fff', backgroundColor: '#6b5a48', padding: { x: 3, y: 1 } }).setOrigin(.5, 0).setDepth(14));
+        }
         continue;
       }
       const body = this.add.rectangle(st.X(s.x), st.Y(s.y) + 9, T, 18, 0, 0);
@@ -200,9 +221,23 @@ class Level21 extends Phaser.Scene {
     if (!quiet) SFX.ui?.(audio);
     this.draw(st);
   }
+  waterTop(x) { return this.waterZones.find((w) => x >= w.x0 && x <= w.x1)?.top ?? WORLD.floor - 60; }
+  splash(x, y) {
+    if (reducedMotion) return;
+    const e = this.add.particles(x, y + 14, 'fx-dot', { speed: { min: 60, max: 160 }, angle: { min: 220, max: 320 }, gravityY: 500, scale: { start: .7, end: .2 }, alpha: { start: .9, end: 0 }, tint: 0xd9f1ff, lifespan: 500, quantity: 8, emitting: false }).setDepth(21);
+    e.explode(8); this.time.delayedCall(600, () => e.destroy());
+  }
+  bubbles(x, from, top) {
+    if (reducedMotion) return [];
+    return [-12, 6, 16].map((dx, i) => {
+      const b = this.add.image(x + dx, from, 'fx-dot').setScale(.6).setAlpha(.8).setDepth(9.47);
+      this.tweens.add({ targets: b, y: top + 20, alpha: 0, duration: 1100, delay: i * 350, repeat: -1 });
+      return b;
+    });
+  }
   unlock(st) {
     st.locked = false;
-    for (const o of st.layer) { if (o.body) this.solids.remove(o, true, true); else o.destroy(); }
+    for (const o of st.layer) { this.tweens.killTweensOf(o); if (o.body) this.solids.remove(o, true, true); else o.destroy(); }
     st.layer = []; st.failTag.setVisible(false); st.lever.setFrame(64); st.analysis = null;
     this.draw(st);
   }
@@ -278,6 +313,7 @@ class Level21 extends Phaser.Scene {
     this.elapsed += delta;
     const m = updatePlayer(this, time, delta, { controls, audio, SFX, reducedMotion, BASE_SCALE, WATER: [], WATER_Y: WORLD.floor });
     if (m.respawned) return;
+    updateCamera(this, this.camZones);
     const px = this.player.x, feet = this.player.body.bottom;
     // levers
     const st = this.nearest();
@@ -313,6 +349,8 @@ class Level21 extends Phaser.Scene {
       const spr = this.coinSprites[c.id];
       if (spr && Math.abs(spr.x - px) < 36 && Math.abs(spr.y - (feet - 30)) < 48) { spr.destroy(); delete this.coinSprites[c.id]; this.run.coins.push(c.id); SFX.coin?.(audio); this.updateHud(true); this.writeSave(); }
     }
+    // secret gem (optional)
+    for (const { q, s } of this.secrets) if (s.check(px, feet)) { this.run.secrets.push(q.id); SFX.checkpoint?.(audio); this.cue(`Rahsia ditemui: ${q.label}!`); this.writeSave(); }
     // finish
     if (px > wx(L.goal.x) - 20 && this.stations.every((s) => s.solved)) { this.finish(); return; }
     if (time - this.lastSave > 5000) { this.lastSave = time; this.writeSave(); }
@@ -322,8 +360,9 @@ class Level21 extends Phaser.Scene {
     const prevBest = store.load().levels[LEVEL_ID].bestMs;
     this.run.completed = true; this.run.checkpointId = 'after-b'; this.writeSave();
     const rec = store.load().levels[LEVEL_ID];
+    trackDone('w2-l1', this.run, rec);
     const t = Math.round(this.elapsed / 1000), mmss = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
-    $('w2-done-stats').textContent = `Masa ${mmss} · Syiling ${this.run.coins.length}/${L.coins.length}${Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest) ? ' · Rekod baharu!' : ''}`;
+    $('w2-done-stats').textContent = `Masa ${mmss} · Syiling ${this.run.coins.length}/${L.coins.length} · Rahsia ${this.run.secrets.length}/${L.secrets.length}${Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest) ? ' · Rekod baharu!' : ''}`;
     SFX.victory?.(audio);
     $('w2-done').showModal(); $('w2-replay').focus();
   }
@@ -349,7 +388,7 @@ async function boot() {
   $('w2-touch').hidden = !touchDevice;
   $('w2-replay').addEventListener('click', () => {
     $('w2-done').close();
-    const sc = game.scene.getScene('LembahJejak'); store.saveRun({ ...newRun() }); sc.scene.restart();
+    const sc = game.scene.getScene('LembahJejak'); store.saveRun(newRun()); sc.scene.restart();
   });
   addEventListener('blur', () => Object.keys(controls).forEach((k) => { controls[k] = false; }));
 }

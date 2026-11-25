@@ -65,4 +65,11 @@ console.log('w2 campaign: ok');
   const f3 = sanitizeRun({ id: 'x', solved: { G: true, H: true, P: true, Q: true }, levers: { G: { kiri: 1, kanan: 5 }, H: { c: 8 }, P: { b: -8, c: 12 }, Q: { kiri: 2, kanan: 7 } }, checkpointId: 'after-h' }, 'w2-l3');
   assert.deepEqual(f3.solved, { G: true, H: false, P: true, Q: false }); assert.equal(f3.checkpointId, 'after-g');
 }
+// 2-2 replay variant: answers are checked against the run's own variant; secrets only from the list
+{ const alt = newRun('w2-l2', 'alt'); assert.equal(alt.variant, 'alt'); assert.deepEqual(alt.levers.D, { x: 2, y: 1 });
+  const a = sanitizeRun({ id: 'v', variant: 'alt', solved: { D: true }, levers: { D: { x: 4, y: 4 } } }, 'w2-l2'); assert.equal(a.solved.D, true);
+  const b = sanitizeRun({ id: 'v', variant: 'base', solved: { D: true }, levers: { D: { x: 4, y: 4 } } }, 'w2-l2'); assert.equal(b.solved.D, false);
+  const c = sanitizeRun({ id: 'v', variant: 'hack', solved: { D: true }, levers: { D: { x: 3, y: 4 } }, secrets: ['atas-gerbang', 'x'] }, 'w2-l2');
+  assert.equal(c.variant, 'base'); assert.equal(c.solved.D, true); assert.deepEqual(c.secrets, ['atas-gerbang']);
+  assert.equal(newRun('w2-l1').variant, 'base'); assert.deepEqual(newRun('w2-l1').secrets, []); }
 console.log('w2 campaign (2-1 + 2-2): ok');

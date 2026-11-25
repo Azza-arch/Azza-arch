@@ -2,13 +2,13 @@
 import assert from 'node:assert/strict';
 import { MOTION } from '../src/level.js';
 import { analyseStation } from '../src/v14/levels/w2/quadratic.js';
-import { STATION_D, STATION_E, STATION_F, catchOutcome, bellOutcome, penOutcome, penArea, solves, combos, vertexOf, quad, MECHANISMS, mechanismStation } from '../src/v14/levels/w2/peak.js';
+import { STATION_D, STATION_D_ALT, STATION_E, STATION_F, catchOutcome, bellOutcome, penOutcome, penArea, solves, combos, vertexOf, quad, MECHANISMS, mechanismStation } from '../src/v14/levels/w2/peak.js';
 const weak = { ...MOTION, jump: MOTION.jump * 0.95, speed: MOTION.speed * 0.95 };
 const strong = { ...MOTION, jump: MOTION.jump * 1.05, speed: MOTION.speed * 1.05 };
 const key = (c) => JSON.stringify(c);
 
 // every station: exactly one lever setting solves it, and it is the stated answer
-for (const st of [STATION_D, STATION_E, STATION_F]) {
+for (const st of [STATION_D, STATION_D_ALT, STATION_E, STATION_F]) {
   const sol = combos(st).filter((c) => solves(st, c));
   assert.deepEqual(sol.map(key), [key(st.answer)], `${st.id}: one solution`);
   assert.ok(!solves(st, st.start), `${st.id}: the lever does not start on the answer`);
@@ -21,6 +21,12 @@ assert.equal(catchOutcome(STATION_D, { x: 2, y: 3 }).result, 'bounce');
 assert.equal(catchOutcome(STATION_D, { x: 4, y: 3 }).result, 'bounce');
 assert.equal(catchOutcome(STATION_D, { x: 3, y: 3 }).result, 'over');
 assert.equal(catchOutcome(STATION_D, { x: 3, y: 5 }).result, 'under');
+// D replay variant: y = −x² + 8x − 12 = −(x − 4)² + 4, roots 2 and 6, caught only at (4, 4)
+assert.deepEqual(vertexOf(-1, 8, -12), { h: 4, k: 4 });
+assert.equal(quad(-1, 8, -12)(2), 0); assert.equal(quad(-1, 8, -12)(6), 0);
+assert.equal(catchOutcome(STATION_D_ALT, { x: 4, y: 4 }).result, 'caught');
+assert.equal(catchOutcome(STATION_D_ALT, { x: 3, y: 3 }).result, 'bounce');
+assert.equal(catchOutcome(STATION_D_ALT, { x: 3, y: 4 }).result, 'under');
 // E: maximum value k = 8 at x = h = 2 (−2x² + 8x = −2(x − 2)² + 8)
 assert.deepEqual(vertexOf(-2, 8, 0), { h: 2, k: 8 });
 for (let x = 0; x <= 4; x += 0.25) assert.ok(Math.abs(quad(-2, 8, 0)(x) - (-2 * (x - 2) ** 2 + 8)) < 1e-9);

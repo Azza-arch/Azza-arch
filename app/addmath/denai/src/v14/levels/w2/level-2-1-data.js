@@ -32,6 +32,10 @@ const LINKS = [
   // Station B left bank (32 → edge) and right bank (→ 48) are generated
   // Station C left bank (48 → edge) and right bank (→ 71) are generated
 ];
+// Secret (optional): stones climbing back over the Rabung Masuk ridge to a high ledge with a limestone
+// gem. Rises ≤ 1.5, gaps ≤ 1 (tests/level-2-1.test.mjs checks it with weak jumps).
+export const SECRET = { id: 'rabung-tinggi', label: 'Permata di atas rabung', x: 8, y: 7.2,
+  platforms: [{ x0: 11.5, x1: 12.5, top: 3.5 }, { x0: 9.5, x1: 10.5, top: 5 }, { x0: 7, x1: 9, top: 6.5 }] };
 const SPAN = { A: [16, 30], B: [32, 48], C: [48, 71] }; // outer ends of each station's banks
 
 /** Terrain columns (solid to the floor), overhang/arch slabs, water and stations' world data. */
@@ -52,7 +56,7 @@ export function buildLevel() {
   terrain.sort((a, b) => a.x0 - b.x0);
   return {
     terrain, slabs, waters,
-    stations: STATIONS,
+    stations: STATIONS, secrets: [SECRET],
     spawn: { x: 2, y: 2 },
     checkpoints: [
       { id: 'entry', x: 2, y: 2, label: 'Rabung Masuk' },

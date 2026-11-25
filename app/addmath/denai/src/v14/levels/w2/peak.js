@@ -20,6 +20,13 @@ export const STATION_D = Object.freeze({
   levers: ['x', 'y'], options: { x: [1, 2, 3, 4, 5], y: [1, 2, 3, 4, 5] },
   start: { x: 1, y: 1 }, answer: { x: 3, y: 4 },
 });
+// Replay variant (every second replay): y = −x² + 8x − 12, roots 2 and 6, vertex (4, 4). Same cup
+// heights, the cup's x range follows the curve; the mechanism behind it is unchanged.
+export const STATION_D_ALT = Object.freeze({
+  id: 'D', coeff: { a: -1, b: 8, c: -12 }, from: 2, to: 6,
+  levers: ['x', 'y'], options: { x: [2, 3, 4, 5, 6], y: [1, 2, 3, 4, 5] },
+  start: { x: 2, y: 1 }, answer: { x: 4, y: 4 },
+});
 export function catchOutcome(st, { x, y }) {
   const { a, b, c } = st.coeff, f = quad(a, b, c), fy = f(x), slope = 2 * a * x + b;
   if (Math.abs(fy - y) > EPS) return { result: fy > y ? 'over' : 'under', ballY: fy, slope };

@@ -11,9 +11,11 @@ import { updatePlayer } from '../../core/player-motion.js';
 import { buildLandscape } from '../../environment.js';
 import { TILE as T, formatNum } from './quadratic.js';
 import { quad, catchOutcome, bellOutcome, penOutcome, penArea } from './peak.js';
-import { buildLevel, LEVEL_ID } from './level-2-2-data.js';
+import { buildLevel, LEVEL_ID, variantFor } from './level-2-2-data.js';
 import { createW2Store, newRun } from './campaign.js';
-import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, SLAB } from './art.js';
+import { setupCamera, updateCamera } from './camera.js';
+import { trackStart, trackDone } from './track.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, karstBackdrop, buildSecret, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -21,12 +23,13 @@ const touchDevice = matchMedia('(pointer: coarse)').matches || new URLSearchPara
 const BASE_SCALE = .158;
 const FONT = 'ui-monospace,Consolas,"Roboto Mono",monospace';
 const controls = { left: false, right: false, up: false, down: false, jump: false, interact: false, restart: false, resetCrate: false, l1Down: false, l1Up: false, l2Down: false, l2Up: false, lock: false };
-const L = buildLevel();
+let L = buildLevel(); // rebuilt in create() for the run's variant (replays: another curve at Station D)
 const OY = 1400;
 const wx = (x) => x * T, wy = (y) => OY - y * T;
 const WORLD = { width: L.width * T, top: Math.floor(wy(L.top)), floor: Math.ceil(wy(L.floor)) };
 const store = createW2Store(globalThis.localStorage);
 const fmt = (v) => formatNum(v);
+const generalForm = ({ a, b, c }) => `y = ${a === -1 ? '−' : a === 1 ? '' : fmt(a)}x² ${b < 0 ? '−' : '+'} ${fmt(Math.abs(b))}x ${c < 0 ? '−' : '+'} ${fmt(Math.abs(c))}`.replace(/ \+ 0$/, '');
 const ACTION = { D: 'Tembak', E: 'Sembur', F: 'Susun peti' };
 
 class Level22 extends Phaser.Scene {
@@ -54,13 +57,16 @@ class Level22 extends Phaser.Scene {
     this.cpFlags = {};
     for (const cp of L.checkpoints.slice(1)) this.cpFlags[cp.id] = this.add.image(wx(cp.x), wy(cp.y), 'kpp_terrain_atlas', 111).setOrigin(.5, 1).setScale(3).setDepth(11);
     exitGate(tile, wx, wy, L.gate); // pillars without caps under a lintel with closed ends (art.js)
-    this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 4) - 6, 'KE 2-3', { fontFamily: 'Arial, sans-serif', fontSize: '16px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
+    this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 3.5), 'KE 2-3', { fontFamily: 'Arial, sans-serif', fontSize: '15px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, .5).setDepth(12); // a plaque on the lintel's face (the top stays free to stand on)
     this.goal = this.add.image(wx(L.goal.x), wy(L.goal.y), 'kpp_terrain_atlas', 112).setOrigin(.5, 1).setScale(4).setDepth(11);
     // ── save / run ──
     this.save = store.load().levels[LEVEL_ID];
     const fresh = new URLSearchParams(location.search).has('baru');
     if (fresh) history.replaceState(null, '', location.pathname);
-    this.run = !fresh && this.save.run && !this.save.run.completed ? this.save.run : newRun(LEVEL_ID);
+    this.run = !fresh && this.save.run && !this.save.run.completed ? this.save.run : newRun(LEVEL_ID, variantFor(this.save.completions));
+    trackStart(LEVEL_ID, !fresh && !!this.save.run && !this.save.run.completed, this.save.completions);
+    L = buildLevel(this.run.variant);
+    this.secrets = L.secrets.map((q) => ({ q, s: buildSecret(this, tile, wx, wy, q, this.run.secrets.includes(q.id) ? 'run' : this.save.secrets.includes(q.id)) }));
     this.coinSprites = {};
     for (const c of L.coins) if (!this.run.coins.includes(c.id)) this.coinSprites[c.id] = this.add.image(wx(c.x), wy(c.y), 'kpp_terrain_atlas', 151).setScale(3).setDepth(14);
     // ── stations + mechanisms ──
@@ -71,20 +77,17 @@ class Level22 extends Phaser.Scene {
     this.input.keyboard.removeCapture(['Q', 'Z', 'X', 'F']);
     for (const st of this.stations) {
       Object.assign(st.c, this.run.levers[st.id]);
-      if (this.run.solved[st.id]) { st.solved = true; this.activate(st, true); if (st.id === 'F') { st.packed = true; st.tried.set(st.c.x, 9); st.crates.forEach((c) => c.setVisible(false)); } }
+      if (this.run.solved[st.id]) { st.solved = true; this.activate(st, true); if (st.id === 'F') { st.packed = true; st.tried.set(st.c.x, 9); } }
       this.draw(st);
     }
     for (const [c, id] of [['after-d', 'D'], ['after-e', 'E']]) if (this.run.solved[id]) this.cpFlags[c]?.setFrame(112);
     this.applyResponsiveZoom();
-    const cam = this.cameras.main;
-    cam.setBounds(0, WORLD.top, WORLD.width, WORLD.floor - WORLD.top);
-    // the camera follows a target that normally sits on the player, but lifts at Station E so the
-    // whole jet and the bell (8 tiles above the plateau) are in view together with the player
-    this.camTarget = this.add.zone(this.player.x, this.player.y, 1, 1);
-    cam.startFollow(this.camTarget, true, .14, .16, -85, this.followOffsetY).setDeadzone(0, 150);
+    { const E = this.stations.find((q) => q.id === 'E'); this.camZones = [{ x0: wx(E.s.leverX - 2), x1: wx(E.ox + E.st.to + 1.5), below: wy(E.oy - 0.5), centreY: wy(E.oy + 4.4) }]; }
+    setupCamera(this, WORLD); // per-level camera (camera.js); Station E adds a framing zone in update()
     this.scale.on('resize', () => this.applyResponsiveZoom());
     this.elapsed = this.run.elapsedMs; this.lastSave = 0; this.busy = false;
     this.active = null; this.updateHud(true); this.writeSave();
+    if (this.run.variant === 'alt' && !this.run.solved.D) this.cue('Main semula: lengkung baharu di Stesen D. Cari bucunya!');
   }
   applyResponsiveZoom() {
     const cam = this.cameras.main, h = this.scale.height || 700;
@@ -116,28 +119,32 @@ class Level22 extends Phaser.Scene {
     o.mech = { ...pm, bodies: [], art: [] };
     if (st.id === 'D') {
       this.grid(o, 0, 6, 0, 6);
-      this.tileAt(95, X(1) - 27, Y(0) - T, 10.5); // launcher: Kenney pipe mouth at the root x = 1
+      this.tileAt(95, X(st.from) - 27, Y(0) - 24, 10.5, 54, 24); // launcher: only the Kenney pipe mouth shows, the ball leaves it at the first root
       o.cupPole = this.add.graphics().setDepth(10.6);
       o.cup = this.add.graphics().setDepth(14.5);
     } else if (st.id === 'E') {
       this.grid(o, 0, 4, 0, 8);
-      this.tileAt(95, X(0) - 27, Y(0) - T, 10.5); // the jet's nozzle at (0, 0)
+      this.tileAt(95, X(0) - 27, Y(0) - 24, 10.5, 54, 24); // the jet's nozzle mouth at (0, 0), flush with the ground
       // rock beam carrying the bell rail: a floating slab from x = −1 to 5, ends closed (art.js SLAB)
       for (let x = -1; x <= 4; x++) this.tileAt(x === -1 ? SLAB[1] : x === 4 ? SLAB[2] : SLAB[3], X(x), Y(9.6), 8.8);
       this.add.graphics().setDepth(9.6).lineStyle(4, 0x5b3a24, 1).lineBetween(X(-0.2), Y(8.6) + 2, X(4.2), Y(8.6) + 2);
       o.bell = this.add.graphics().setDepth(14.5);
     } else if (st.id === 'F') {
-      // a plan board on two posts: the pen seen from above on a 6 × 6 grid, plus the A(x) bars
-      o.board = { x: X(1), y: Y(4.1), cell: 26 };
-      const g = this.add.graphics().setDepth(9.4);
-      g.fillStyle(0xfffdf5, .95).fillRect(o.board.x - 10, o.board.y - 10, 6 * 26 + 20 + 190, 6 * 26 + 20).lineStyle(3, 0x5b3a24, 1).strokeRect(o.board.x - 10, o.board.y - 10, 6 * 26 + 20 + 190, 6 * 26 + 20);
-      this.tileAt(89, X(1) - 27, Y(1.5), 9.3); this.tileAt(89, X(7) - 27, Y(1.5), 9.3);
-      this.add.text(o.board.x + 6 * 26 + 20, o.board.y - 4, 'Luas A(x)', { fontFamily: 'Arial, sans-serif', fontSize: '13px', fontStyle: 'bold', color: '#203e36' }).setDepth(9.5);
+      // a wooden notice board in Kenney's sign style (frame 86 palette) with a paper plan pinned on it:
+      // the pen seen from above on a 6 × 6 grid, plus the A(x) bars. Below it, on the ground, the real
+      // pen: a Farm fence of length 6 − x (one crate per fence piece) and the 9 crates waiting beside it.
+      const cell = 18, W = 6 * cell + 24 + 5 * 32 + 14, H = 6 * cell + 44;
+      o.board = { x: X(1) + 14, y: Y(4.4) + 30, cell };
+      const bx = o.board.x - 14, by = Y(4.4), g = this.add.graphics().setDepth(9.4);
+      for (const px of [bx + 22, bx + W - 34]) g.fillStyle(0x6f3e43, 1).fillRect(px - 3, by + H, 18, Y(0) - by - H).fillStyle(0xcb815e, 1).fillRect(px + 3, by + H, 6, Y(0) - by - H);
+      g.fillStyle(0x6f3e43, 1).fillRect(bx, by, W, H).fillStyle(0xcb815e, 1).fillRect(bx + 6, by + 6, W - 12, H - 12).fillStyle(0xf4ac66, 1).fillRect(bx + 6, by + 6, W - 12, 6);
+      for (const [nx, ny] of [[bx + 9, by + 15], [bx + W - 15, by + 15], [bx + 9, by + H - 15], [bx + W - 15, by + H - 15]]) g.fillStyle(0x9f5a52, 1).fillRect(nx, ny, 6, 6);
+      g.fillStyle(0xfdf4dc, 1).fillRect(o.board.x - 6, o.board.y - 6, W - 28 + 4, 6 * cell + 12); // the pinned paper
+      this.add.text(o.board.x + 6 * cell + 22, o.board.y - 4, 'Luas A(x)', { fontFamily: 'Arial, sans-serif', fontSize: '12px', fontStyle: 'bold', color: '#6f3e43' }).setDepth(9.5);
       o.pen = this.add.graphics().setDepth(9.5); o.bars = this.add.graphics().setDepth(9.5); o.tried = new Map(); o.barLabels = [];
-      // the 9 crates waiting by the lift, and a short Farm fence beside the board
+      o.penX = X(1.6); o.pileX = X(5.4); o.fence = [];
       o.crates = [];
-      for (let i = 0; i < 9; i++) o.crates.push(this.add.image(wx(s.mx - 2.6 + (i % 3) * .55), wy(4) - 18 - Math.floor(i / 3) * 18, 'kpp_terrain_atlas', 26).setOrigin(0, 1).setScale(1).setDepth(11));
-      [38, 39, 40, 41].forEach((f, i) => this.add.image(X(-0.5) + i * 54 - 54 * 4, Y(0), 'kpf_atlas', f).setOrigin(0, 1).setScale(3).setDepth(10.8));
+      for (let i = 0; i < 9; i++) o.crates.push(this.add.image(0, 0, 'kpp_terrain_atlas', 26).setOrigin(0, 1).setScale(1).setDepth(11));
     }
     // mechanism art + bodies (inactive state)
     if (pm.blocking.length) for (const b of pm.blocking) { // the stone gate
@@ -186,21 +193,36 @@ class Level22 extends Phaser.Scene {
       g.lineStyle(2, 0x5b3a24, 1).strokeTriangle(bx - 22, by, bx + 22, by, bx, by - 34);
     } else if (st.id === 'F') {
       const { x: bx, y: by, cell } = st.board, w = c.x, len = 6 - w, g = st.pen; g.clear();
-      g.lineStyle(1, 0xc9bea8, 1); for (let i = 0; i <= 6; i++) { g.lineBetween(bx + i * cell, by, bx + i * cell, by + 6 * cell); g.lineBetween(bx, by + i * cell, bx + 6 * cell, by + i * cell); }
-      g.lineStyle(4, 0x8a5a2b, 1).strokeRect(bx, by, len * cell, w * cell); // the 12-unit fence: length 6 − x by width x
+      g.lineStyle(1, 0xd9c9a6, 1); for (let i = 0; i <= 6; i++) { g.lineBetween(bx + i * cell, by, bx + i * cell, by + 6 * cell); g.lineBetween(bx, by + i * cell, bx + 6 * cell, by + i * cell); }
+      g.lineStyle(3, 0x8a5a2b, 1).strokeRect(bx, by, len * cell, w * cell); // the 12-unit fence: length 6 − x by width x
       const fit = Math.min(w * len, 9);
       if (st.packed) for (let i = 0; i < fit; i++) g.fillStyle(0xb5713a, 1).fillRect(bx + (i % len) * cell + 3, by + Math.floor(i / len) * cell + 3, cell - 6, cell - 6);
       // A(x) bars for every width tried so far: rise, peak, fall
       const b = st.bars; b.clear(); st.barLabels.forEach((t) => t.destroy()); st.barLabels = [];
-      const ox = bx + 6 * cell + 24, base = by + 6 * cell - 4;
+      const ox = bx + 6 * cell + 24, base = by + 6 * cell;
       for (const x of [1, 2, 3, 4, 5]) {
-        const a = penArea(st.st, x), shown = st.tried.has(x), h = a * 12;
+        const a = penArea(st.st, x), shown = st.tried.has(x), h = a * 9;
         b.fillStyle(shown ? (a >= 9 ? 0x2e9d4f : 0x2a6fdb) : 0xe4dccb, 1).fillRect(ox + (x - 1) * 32, base - (shown ? h : 4), 24, shown ? h : 4);
-        st.barLabels.push(this.add.text(ox + (x - 1) * 32 + 12, base + 2, String(x), { fontFamily: FONT, fontSize: '12px', fontStyle: 'bold', color: '#203e36' }).setOrigin(.5, 0).setDepth(9.6));
-        if (shown) st.barLabels.push(this.add.text(ox + (x - 1) * 32 + 12, base - h - 2, String(a), { fontFamily: FONT, fontSize: '12px', fontStyle: 'bold', color: '#203e36' }).setOrigin(.5, 1).setDepth(9.6));
+        st.barLabels.push(this.add.text(ox + (x - 1) * 32 + 12, base + 1, String(x), { fontFamily: FONT, fontSize: '11px', fontStyle: 'bold', color: '#203e36' }).setOrigin(.5, 0).setDepth(9.6));
+        if (shown) st.barLabels.push(this.add.text(ox + (x - 1) * 32 + 12, base - h - 1, String(a), { fontFamily: FONT, fontSize: '11px', fontStyle: 'bold', color: '#203e36' }).setOrigin(.5, 1).setDepth(9.6));
       }
+      this.placePen(st, false);
     }
     if (st.solved) st.screen.setBackgroundColor('#1f6e3a').setText(`${st.screen.text} ✓`);
+  }
+  // the ground pen: fence of length 6 − x (Farm frames single/left/right/middle 38–41, one crate wide
+  // each), crates in rows of 6 − x (x rows = the pen's width) when packed, the rest left in the pile
+  placePen(st, animate) {
+    const len = 6 - st.c.x, ground = wy(4), fit = st.packed ? Math.min(st.c.x * len, 9) : 0;
+    st.fence.forEach((f) => f.destroy());
+    st.fence = Array.from({ length: len }, (_, i) => this.add.image(st.penX + i * 18, ground, 'kpf_atlas', len === 1 ? 38 : i === 0 ? 39 : i === len - 1 ? 40 : 41).setOrigin(0, 1).setDepth(11.2));
+    st.crates.forEach((cr, i) => {
+      const inPen = i < fit, k = i - fit;
+      const x = inPen ? st.penX + (i % len) * 18 : st.pileX + (k % 3) * 18;
+      const y = inPen ? ground - Math.floor(i / len) * 18 : ground - Math.floor(k / 3) * 18;
+      if (animate && !reducedMotion && inPen) this.tweens.add({ targets: cr, x, y, duration: 380, ease: 'Quad.out', delay: 70 * i });
+      else cr.setPosition(x, y);
+    });
   }
   // ── actions ─────────────────────────────────────────────────────────────
   step(st, lever, dir) {
@@ -220,7 +242,7 @@ class Level22 extends Phaser.Scene {
   flight(st, f, from, to, color, stopAt, done) {
     // the ball / water follows the curve; its trail stays visible (an observation, not a punishment)
     this.busy = true; const tr = st.trail; tr.clear(); tr.fillStyle(color, .9);
-    const dot = this.add.image(st.X(from), st.Y(f(from)), 'fx-dot').setScale(2.2).setTint(color).setDepth(16);
+    const dot = this.add.graphics({ x: st.X(from), y: st.Y(f(from)) }).setDepth(16); dot.fillStyle(color, 1).fillCircle(0, 0, 9); // Canvas renderer: no tints, so a drawn ball
     const end = stopAt ?? to, steps = Math.round((end - from) / .05), dur = reducedMotion ? 0 : 1100 * (end - from) / (to - from);
     for (let i = 0; i <= steps; i += 2) { const x = from + i * .05; tr.fillCircle(st.X(x), st.Y(f(x)), 3); }
     const finish = () => { dot.setPosition(st.X(end), st.Y(f(end))); done(dot); this.busy = false; };
@@ -254,8 +276,8 @@ class Level22 extends Phaser.Scene {
   }
   packF(st) {
     const out = penOutcome(st.st, st.c);
-    st.result = out; st.packed = true; st.tried.set(st.c.x, out.area); this.draw(st); this.updateHud(true);
-    if (out.full) { st.crates.forEach((c) => c.setVisible(false)); this.solve(st); this.cue('Kesemua 9 peti muat! Luas maksimum 9 pada x = 3. Lif kargo naik.'); }
+    st.result = out; st.packed = true; st.tried.set(st.c.x, out.area); this.draw(st); this.placePen(st, true); this.updateHud(true);
+    if (out.full) { this.solve(st); this.cue('Kesemua 9 peti muat! Luas maksimum 9 pada x = 3. Lif kargo naik.'); }
     else { SFX.incorrect?.(audio); this.cue(`Luas ${out.area}: hanya ${out.fit} peti muat, ${out.left} tertinggal. Lif perlukan 9.`); }
   }
   solve(st) {
@@ -275,7 +297,7 @@ class Level22 extends Phaser.Scene {
     $('w2-station').textContent = st.s.name + (st.solved ? ' ✓' : '');
     let eq, meta, why, state;
     if (st.id === 'D') {
-      eq = 'y = −x² + 6x − 5'; meta = `Cawan di (${fmt(c.x)}, ${fmt(c.y)})`;
+      eq = generalForm(st.st.coeff); meta = `Cawan di (${fmt(c.x)}, ${fmt(c.y)})`;
       why = 'Bola hanya kekal dalam cawan di titik tertinggi. Bentuk am y = ax² + bx + c: paksi simetri x = −b/2a.';
       state = st.solved ? `Selesai. ${st.s.lesson}.` : !r ? 'Letak cawan (x, y), kemudian tembak.' : r.result === 'bounce' ? 'Bola melantun keluar: di situ bola masih bergerak menegak.' : r.result === 'caught' ? 'Tertangkap!' : 'Bola tidak menyentuh cawan. Perhatikan jejaknya.';
     } else if (st.id === 'E') {
@@ -319,13 +341,7 @@ class Level22 extends Phaser.Scene {
     if (m.respawned) return;
     const px = this.player.x, feet = this.player.body.bottom;
     const st = this.nearest();
-    const E = this.stations.find((q) => q.id === 'E');
-    const atE = px > wx(E.s.leverX - 2) && px < wx(E.ox + E.st.to + 1.5) && feet < wy(E.oy - 0.5);
-    // the shared player module eases the follow offset (World 1 framing); the camera centre is
-    // target − offset, so add the current offset to put the centre where the jet and bell fit
-    const wantY = atE ? Math.min(this.player.y, wy(E.oy + 4.4) + this.cameras.main.followOffset.y) : this.player.y;
-    this.camTarget.setPosition(px, Phaser.Math.Linear(this.camTarget.y, wantY, atE || Math.abs(this.camTarget.y - this.player.y) > 2 ? .08 : 1));
-    if (atE !== this.camAtE) { this.camAtE = atE; this.cameras.main.setDeadzone(0, atE ? 0 : 150); } // no vertical slack while framing the bell
+    updateCamera(this, this.camZones); // Station E: lift the view so the jet and the bell fit together
     const near = Math.abs(px - wx(st.s.leverX)) < 80 && Math.abs(feet - st.leverFeet) < 8;
     $('w2-tools').classList.toggle('far', !near);
     (this.hud ??= document.querySelector('.w2-hud'))?.classList.toggle('compact', !near);
@@ -338,6 +354,7 @@ class Level22 extends Phaser.Scene {
     }
     controls.l1Down = controls.l1Up = controls.l2Down = controls.l2Up = controls.lock = false;
     this.updateHud();
+    for (const { q, s } of this.secrets) if (s.check(px, feet)) { this.run.secrets.push(q.id); SFX.checkpoint?.(audio); this.cue(`Rahsia ditemui: ${q.label}!`); this.writeSave(); }
     for (const c of L.coins) {
       const spr = this.coinSprites[c.id];
       if (spr && Math.abs(spr.x - px) < 36 && Math.abs(spr.y - (feet - 30)) < 48) { spr.destroy(); delete this.coinSprites[c.id]; this.run.coins.push(c.id); SFX.coin?.(audio); this.updateHud(true); this.writeSave(); }
@@ -350,8 +367,9 @@ class Level22 extends Phaser.Scene {
     const prevBest = store.load().levels[LEVEL_ID].bestMs;
     this.run.completed = true; this.run.checkpointId = 'after-e'; this.writeSave();
     const rec = store.load().levels[LEVEL_ID];
+    trackDone(LEVEL_ID, this.run, rec);
     const t = Math.round(this.elapsed / 1000), mmss = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
-    $('w2-done-stats').textContent = `Masa ${mmss} · Syiling ${this.run.coins.length}/${L.coins.length}${Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest) ? ' · Rekod baharu!' : ''}`;
+    $('w2-done-stats').textContent = `Masa ${mmss} · Syiling ${this.run.coins.length}/${L.coins.length} · Rahsia ${this.run.secrets.length}/${L.secrets.length}${Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest) ? ' · Rekod baharu!' : ''}`;
     SFX.victory?.(audio);
     $('w2-done').showModal(); $('w2-replay').focus();
   }
@@ -375,7 +393,7 @@ async function boot() {
     b.addEventListener('contextmenu', (e) => e.preventDefault());
   }
   $('w2-touch').hidden = !touchDevice;
-  $('w2-replay').addEventListener('click', () => { $('w2-done').close(); store.saveRun(newRun(LEVEL_ID), LEVEL_ID); game.scene.getScene('LembahPuncak').scene.restart(); });
+  $('w2-replay').addEventListener('click', () => { $('w2-done').close(); store.saveRun(newRun(LEVEL_ID, variantFor(store.load().levels[LEVEL_ID].completions)), LEVEL_ID); game.scene.getScene('LembahPuncak').scene.restart(); });
   addEventListener('blur', () => Object.keys(controls).forEach((k) => { controls[k] = false; }));
 }
 boot().catch((e) => { console.error(e); $('w2-state').textContent = 'Level gagal dimuatkan.'; });
