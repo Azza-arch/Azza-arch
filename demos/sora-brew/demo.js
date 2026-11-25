@@ -100,3 +100,24 @@
     trackedSections.forEach((section) => currentObserver.observe(section));
   }
 })();
+
+// Visitor counter at the very bottom: each browser is counted once, later visits only read the total.
+(() => {
+  const box = document.getElementById('visitor-count');
+  const out = document.getElementById('visitor-count-value');
+  if (!box || !out || !window.fetch) return;
+  const base = 'https://abacus.jasoncameron.dev';
+  const key = 'haziqbuilds/sora-brew-visitors';
+  let seen = false;
+  try { seen = localStorage.getItem('sora-brew-counted') === '1'; } catch (e) {}
+  fetch(`${base}/${seen ? 'get' : 'hit'}/${key}`, { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(d => {
+      const n = Number(d && d.value);
+      if (!Number.isFinite(n) || n < 1) return;
+      if (!seen) { try { localStorage.setItem('sora-brew-counted', '1'); } catch (e) {} }
+      out.textContent = n.toLocaleString('en-MY');
+      box.hidden = false;
+    })
+    .catch(() => {});
+})();

@@ -144,6 +144,10 @@ img { display: block; max-width: 100%; }
 .footer-bottom a:hover { color: white; }
 .concept-note { margin-top: 12px; color: rgba(232,244,248,.72); font-size: 11px; }
 .concept-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.visitor-count { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-bottom: 6px; color: rgba(232,244,248,.72); font-size: 11px; letter-spacing: .02em; }
+.visitor-count[hidden] { display: none; }
+.visitor-count #visitor-count-value { color: white; font-weight: 700; font-variant-numeric: tabular-nums; }
+.visitor-dot { width: 6px; height: 6px; border-radius: 50%; background: #9fe3b0; box-shadow: 0 0 0 3px rgba(159,227,176,.18); }
 
 /* Scroll entrances stay progressive while all content remains visible without JavaScript. */
 html.motion-ready [data-reveal-item] { opacity: 0; transform: translateY(28px); }
