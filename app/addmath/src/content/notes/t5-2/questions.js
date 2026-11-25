@@ -57,6 +57,8 @@ export const QUESTIONS = [
       { prompt: R`Cari \(f''(x)\). ${TYPE_HINT}`, type: 'expression', answer: '6x-12', check: { kind: 'deriv', f: 'x^3-6x^2+4', order: 2 }, wrong: [{ expr: '3x^2-12x', feedback: R`Itu \(f'(x)\). Bezakan sekali lagi.` }], solution: [R`\(f'(x) = 3x^2 - 12x\), \(f''(x) = 6x - 12\)`] },
       { prompt: R`Cari nilai \(x\) di mana kelengkungan graf bertukar arah (\(f''\) bertukar tanda).`, type: 'numeric', answer: 2, check: { kind: 'inflection', f: 'x^3-6x^2+4', from: -10, to: 10 }, solution: [R`\(6x - 12 = 0 \Rightarrow x = 2\)`, R`\(f'' < 0\) bagi \(x < 2\) dan \(f'' > 0\) bagi \(x > 2\): bertukar tanda.`] },
     ], solution: [R`Terbitan kedua memberitahu arah kelengkungan.`] }),
+  q({ id: 't5-2.3-06', subtopic: '2.3', sp: ['2.3.1'], difficulty: 'sederhana', type: 'numeric', provenance: { ...P, createdAt: '2026-11-25' }, prompt: R`Diberi \(y = x^3 - 4x^2 + 2x\), cari nilai \(\dfrac{d^2y}{dx^2}\) apabila \(x = 3\).`, answer: 10, check: { kind: 'deriv-at', f: 'x^3-4x^2+2x', x: 3, order: 2 },
+    wrong: [{ value: 5, feedback: R`5 ialah \(\tfrac{dy}{dx}\) pada \(x = 3\). Bezakan sekali lagi.` }], solution: [R`\(\dfrac{dy}{dx} = 3x^2 - 8x + 2\)`, R`\(\dfrac{d^2y}{dx^2} = 6x - 8 = 6(3) - 8 = 10\)`] }),
   // ---------------------------------------------------------------- 2.4
   q({ id: 't5-2.4-01', subtopic: '2.4', sp: ['2.4.1'], difficulty: 'mudah', type: 'numeric', prompt: R`Cari kecerunan tangen kepada \(y = 2x^3 - x^2\) pada titik \(x = -1\).`, answer: 8, check: { kind: 'deriv-at', f: '2x^3-x^2', x: -1 },
     wrong: [{ value: -3, derive: '2*(-1)^3-(-1)^2', feedback: R`Itu nilai \(y\). Kecerunan ialah \(\tfrac{dy}{dx}\).` }], solution: [R`\(\dfrac{dy}{dx} = 6x^2 - 2x = 6 + 2 = 8\)`] }),

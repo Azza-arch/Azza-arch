@@ -60,4 +60,6 @@ export const QUESTIONS = [
     ] }),
   q({ id: 't4-8.3-07', subtopic: '8.3', sp: ['8.3.2'], difficulty: 'sederhana', type: 'reasoning', prompt: R`Terangkan mengapa \(\dfrac{\uv{r}}{|\uv{r}|}\) sentiasa mempunyai magnitud 1, dan mengapa vektor sifar tiada vektor unit.`, check: { kind: 'manual' },
     solution: [R`Membahagi dengan skalar positif \(|\uv{r}|\) mengekalkan arah dan membahagi magnitud dengan \(|\uv{r}|\): \(\tfrac{|\uv{r}|}{|\uv{r}|} = 1\).`, R`Vektor sifar mempunyai magnitud 0, jadi kita perlu membahagi dengan 0. Lagipun ia tiada arah.`] }),
+  q({ id: 't4-8.3-08', subtopic: '8.3', sp: ['8.3.1'], difficulty: 'sederhana', type: 'numeric', provenance: { ...P, createdAt: '2026-11-25' }, prompt: R`Diberi \(\vec a = 3\uv{i} + \uv{j}\) dan \(\vec b = -2\uv{i} + 5\uv{j}\). Cari \(|2\vec a - \vec b|\), betul kepada dua tempat perpuluhan.`, answer: 8.54, tolerance: 0.006, check: { kind: 'vec', ops: [[2, [3, 1]], [-1, [-2, 5]]], want: 'mag' },
+    wrong: [{ value: 11, feedback: R`\(|8| + |-3| = 11\) bukan magnitud. Guna \(\sqrt{x^2 + y^2}\).` }], solution: [R`\(2\vec a - \vec b = (6 + 2)\uv{i} + (2 - 5)\uv{j} = 8\uv{i} - 3\uv{j}\)`, R`\(|8\uv{i} - 3\uv{j}| = \sqrt{64 + 9} = \sqrt{73} = 8.54\)`] }),
 ];

@@ -90,7 +90,7 @@ Bab dengan fail nota: 18 daripada 18.
 
 ## t4-6 Hukum Linear (status: published)
 
-3 subtopik · 10 contoh · 3 visual · 23 soalan
+3 subtopik · 10 contoh · 3 visual · 24 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
@@ -99,7 +99,7 @@ Bab dengan fail nota: 18 daripada 18.
 | 6.1.3 | 6.1 | ✓ | ✓ | 2 |
 | 6.1.4 | 6.1 | ✓ | ✓ | 3 |
 | 6.2.1 | 6.2 | ✓ | ✓ | 8 |
-| 6.3.1 | 6.3 | ✓ | ✓ | 6 |
+| 6.3.1 | 6.3 | ✓ | ✓ | 7 |
 
 ## t4-7 Geometri Koordinat (status: published)
 
@@ -122,7 +122,7 @@ Bab dengan fail nota: 18 daripada 18.
 
 ## t4-8 Vektor (status: published)
 
-3 subtopik · 14 contoh · 3 visual · 21 soalan
+3 subtopik · 14 contoh · 3 visual · 22 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
@@ -132,14 +132,14 @@ Bab dengan fail nota: 18 daripada 18.
 | 8.1.4 | 8.1 | ✓ | ✓ | 2 |
 | 8.2.1 | 8.2 | ✓ | ✓ | 4 |
 | 8.2.2 | 8.2 | ✓ | ✓ | 2 |
-| 8.3.1 | 8.3 | ✓ | ✓ | 2 |
+| 8.3.1 | 8.3 | ✓ | ✓ | 3 |
 | 8.3.2 | 8.3 | ✓ | ✓ | 2 |
 | 8.3.3 | 8.3 | ✓ | ✓ | 2 |
 | 8.3.4 | 8.3 | ✓ | ✓ | 2 |
 
 ## t4-9 Penyelesaian Segi Tiga (status: published)
 
-4 subtopik · 16 contoh · 5 visual · 28 soalan
+4 subtopik · 16 contoh · 5 visual · 31 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
@@ -151,10 +151,10 @@ Bab dengan fail nota: 18 daripada 18.
 | 9.2.1 | 9.2 | ✓ | ✓ | 2 |
 | 9.2.2 | 9.2 | ✓ | ✓ | 4 |
 | 9.2.3 | 9.2 | ✓ | ✓ | 2 |
-| 9.3.1 | 9.3 | ✓ | ✓ | 2 |
+| 9.3.1 | 9.3 | ✓ | ✓ | 3 |
 | 9.3.2 | 9.3 | ✓ | ✓ | 2 |
 | 9.3.3 | 9.3 | ✓ | ✓ | 2 |
-| 9.4.1 | 9.4 | ✓ | ✓ | 5 |
+| 9.4.1 | 9.4 | ✓ | ✓ | 7 |
 
 ## t4-10 Nombor Indeks (status: published)
 
@@ -170,22 +170,22 @@ Bab dengan fail nota: 18 daripada 18.
 
 ## t5-1 Sukatan Membulat (status: published)
 
-4 subtopik · 14 contoh · 4 visual · 24 soalan
+4 subtopik · 14 contoh · 4 visual · 26 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
-| 1.1.1 | 1.1 | ✓ | ✓ | 5 |
+| 1.1.1 | 1.1 | ✓ | ✓ | 6 |
 | 1.2.1 | 1.2 | ✓ | ✓ | 3 |
 | 1.2.2 | 1.2 | ✓ | ✓ | 3 |
 | 1.2.3 | 1.2 | ✓ | ✓ | 2 |
 | 1.3.1 | 1.3 | ✓ | ✓ | 4 |
 | 1.3.2 | 1.3 | ✓ | ✓ | 3 |
 | 1.3.3 | 1.3 | ✓ | ✓ | 2 |
-| 1.4.1 | 1.4 | ✓ | ✓ | 5 |
+| 1.4.1 | 1.4 | ✓ | ✓ | 6 |
 
 ## t5-2 Pembezaan (status: published)
 
-4 subtopik · 23 contoh · 4 visual · 38 soalan
+4 subtopik · 23 contoh · 4 visual · 39 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
@@ -195,7 +195,7 @@ Bab dengan fail nota: 18 daripada 18.
 | 2.2.2 | 2.2 | ✓ | ✓ | 3 |
 | 2.2.3 | 2.2 | ✓ | ✓ | 3 |
 | 2.2.4 | 2.2 | ✓ | ✓ | 2 |
-| 2.3.1 | 2.3 | ✓ | ✓ | 5 |
+| 2.3.1 | 2.3 | ✓ | ✓ | 6 |
 | 2.4.1 | 2.4 | ✓ | ✓ | 2 |
 | 2.4.2 | 2.4 | ✓ | ✓ | 2 |
 | 2.4.3 | 2.4 | ✓ | ✓ | 2 |
@@ -208,11 +208,11 @@ Bab dengan fail nota: 18 daripada 18.
 
 ## t5-3 Pengamiran (status: published)
 
-4 subtopik · 18 contoh · 5 visual · 30 soalan
+4 subtopik · 18 contoh · 5 visual · 33 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
-| 3.1.1 | 3.1 | ✓ | ✓ | 5 |
+| 3.1.1 | 3.1 | ✓ | ✓ | 6 |
 | 3.2.1 | 3.2 | ✓ | ✓ | 2 |
 | 3.2.2 | 3.2 | ✓ | ✓ | 3 |
 | 3.2.3 | 3.2 | ✓ | ✓ | 2 |
@@ -222,7 +222,7 @@ Bab dengan fail nota: 18 daripada 18.
 | 3.3.3 | 3.3 | ✓ | ✓ | 4 |
 | 3.3.4 | 3.3 | ✓ | ✓ | 2 |
 | 3.3.5 | 3.3 | ✓ | ✓ | 2 |
-| 3.4.2 | 3.4 | ✓ | ✓ | 5 |
+| 3.4.2 | 3.4 | ✓ | ✓ | 7 |
 
 ## t5-4 Pilih Atur dan Gabungan (status: published)
 
@@ -239,13 +239,13 @@ Bab dengan fail nota: 18 daripada 18.
 
 ## t5-5 Taburan Kebarangkalian (status: published)
 
-3 subtopik · 17 contoh · 3 visual · 26 soalan
+3 subtopik · 17 contoh · 3 visual · 27 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
 | 5.1.1 | 5.1 | ✓ | ✓ | 2 |
 | 5.1.2 | 5.1 | ✓ | ✓ | 2 |
-| 5.1.3 | 5.1 | ✓ | ✓ | 2 |
+| 5.1.3 | 5.1 | ✓ | ✓ | 3 |
 | 5.1.4 | 5.1 | ✓ | ✓ | 2 |
 | 5.2.1 | 5.2 | ✓ | ✓ | 2 |
 | 5.2.2 | 5.2 | ✓ | ✓ | 3 |
@@ -260,21 +260,21 @@ Bab dengan fail nota: 18 daripada 18.
 
 ## t5-6 Fungsi Trigonometri (status: published)
 
-6 subtopik · 21 contoh · 6 visual · 35 soalan
+6 subtopik · 21 contoh · 6 visual · 39 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
-| 6.1.1 | 6.1 | ✓ | ✓ | 5 |
+| 6.1.1 | 6.1 | ✓ | ✓ | 6 |
 | 6.2.1 | 6.2 | ✓ | ✓ | 4 |
 | 6.2.2 | 6.2 | ✓ | ✓ | 3 |
 | 6.3.1 | 6.3 | ✓ | ✓ | 5 |
 | 6.3.2 | 6.3 | ✓ | ✓ | 2 |
-| 6.4.1 | 6.4 | ✓ | ✓ | 2 |
+| 6.4.1 | 6.4 | ✓ | ✓ | 3 |
 | 6.4.2 | 6.4 | ✓ | ✓ | 3 |
 | 6.5.1 | 6.5 | ✓ | ✓ | 2 |
-| 6.5.2 | 6.5 | ✓ | ✓ | 2 |
+| 6.5.2 | 6.5 | ✓ | ✓ | 3 |
 | 6.5.3 | 6.5 | ✓ | ✓ | 2 |
-| 6.6.1 | 6.6 | ✓ | ✓ | 4 |
+| 6.6.1 | 6.6 | ✓ | ✓ | 5 |
 | 6.6.2 | 6.6 | ✓ | ✓ | 2 |
 
 ## t5-7 Pengaturcaraan Linear (status: published)
@@ -288,7 +288,7 @@ Bab dengan fail nota: 18 daripada 18.
 
 ## t5-8 Kinematik Gerakan Linear (status: published)
 
-4 subtopik · 15 contoh · 4 visual · 31 soalan
+4 subtopik · 15 contoh · 4 visual · 32 soalan
 
 | SP | Subtopik | Konsep | Contoh | Soalan |
 |---|---|---|---|---|
@@ -299,7 +299,7 @@ Bab dengan fail nota: 18 daripada 18.
 | 8.2.3 | 8.2 | ✓ | ✓ | 5 |
 | 8.3.1 | 8.3 | ✓ | ✓ | 5 |
 | 8.3.2 | 8.3 | ✓ | ✓ | 3 |
-| 8.4.1 | 8.4 | ✓ | ✓ | 7 |
+| 8.4.1 | 8.4 | ✓ | ✓ | 8 |
 
 ## Ralat
 - tiada

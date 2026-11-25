@@ -104,4 +104,6 @@ export const QUESTIONS = [
     ], solution: [R`Halaju minimum apabila \(a = 0\); jarak dipecahkan pada \(v = 0\).`] }),
   q({ id: 't5-8.4-06', subtopic: '8.4', sp: ['8.4.1'], difficulty: 'mencabar', type: 'reasoning', prompt: R`Dalam soalan bola yang dilambung (\(s = 15t - 5t^2\)), Zul berkata jumlah jarak dalam 3 saat pertama ialah \(s(3) = 0\). Terangkan kesilapannya dan cari jarak yang betul.`, check: { kind: 'manual' },
     solution: [R`\(s(3) = 45 - 45 = 0\) ialah sesaran: bola kembali ke tanah.`, R`Bola bertukar arah pada \(t = 1.5\) (puncak, 11.25 m).`, R`Jarak \(= 11.25 + 11.25 = 22.5\) m.`] }),
+  q({ id: 't5-8.4-08', subtopic: '8.4', sp: ['8.4.1'], difficulty: 'sederhana', type: 'numeric', provenance: { ...P, createdAt: '2026-11-25' }, prompt: R`Halaju zarah yang bermula dari \(O\) ialah \(v = 3t^2 - 12\) ${MS}. Cari jumlah jarak yang dilalui dalam 3 saat pertama (m).`, answer: 23, unit: 'm', check: { kind: 'distance', v: '3x^2-12', from: 0, to: 3 },
+    wrong: [{ value: 9, feedback: R`9 m ialah sesaran \(|s(3)|\). Zarah berpatah balik pada \(t = 2\); kira setiap bahagian berasingan.` }], solution: [R`\(s = t^3 - 12t\); \(v = 0\) apabila \(t = 2\).`, R`\(|s(2) - s(0)| = |-16| = 16\), \(|s(3) - s(2)| = |-9 + 16| = 7\)`, R`Jumlah jarak \(= 16 + 7 = 23\) m`] }),
 ];

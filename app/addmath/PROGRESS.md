@@ -147,7 +147,9 @@ SP = learning standards with concept + example + question; Obj = learning object
 | t5-8 | 8.3 Pengamiran dalam Kinematik Gerakan Linear | review | 2/2 | ✓ | 2·✓·1·3 | 4 | 5 | 5 | 1/1 | 5/5 | 2/7 |
 | t5-8 | 8.4 Aplikasi Kinematik Gerakan Linear | review | 1/1 | ✓ | 1·✓·1·2 | 3 | 4 | 4 | 2/1 | 4/4 | 3/7 |
 
-**Jumlah:** 59 subtopik · 275 contoh · 471 soalan (369 auto, 321 dengan jawapan disemak bebas, 48 berstruktur, 54 penaakulan) · maklum balas salah faham 365/369 · petunjuk berperingkat 95/471
+**Jumlah (2026-11-25):** 59 subtopik · 275 contoh · 488 soalan (386 auto, 338 dengan jawapan disemak bebas, 48 berstruktur, 54 penaakulan) · maklum balas salah faham 382/386 · petunjuk berperingkat 97/488
+
+**2026-11-25: 17 soalan automatik ditambah** supaya setiap subtopik ada sekurang-kurangnya 5 soalan automatik (syarat bukti tahap Mahir di Learning Hub, `MAHIR_WINDOW = 5`). Subtopik: T4 6.3, 8.3, 9.3, 9.4 (+2); T5 1.1, 1.4, 2.3, 3.1, 3.4 (+2), 5.1, 6.1, 6.4, 6.5, 6.6, 8.4. Semua jawapan dikira semula secara bebas oleh `validate-notes` dan diuji melalui `checkSingle` (`checker-roundtrip`: 491 jawapan). Ditanda `provenance.createdAt: 2026-11-25`; diterbitkan atas arahan pemilik; belum disemak oleh guru (tambah kepada senarai semakan manusia).
 
 ### Fixed during this audit
 - `t4-1.2-03`, `t4-2.1-04`: two misconceptions produced the same expression, so the second feedback could never appear. Merged into one feedback naming both causes (found by the new checker round trip).
