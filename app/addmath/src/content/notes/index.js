@@ -17,6 +17,8 @@ export const NOTE_MODULES = {
   't5-4': () => import('./t5-4.js'),
   't5-5': () => import('./t5-5.js'),
   't5-6': () => import('./t5-6.js'),
+  't5-7': () => import('./t5-7.js'),
+  't5-8': () => import('./t5-8.js'),
 };
 // Highest status among a chapter's subtopics, for the catalogue map (kept in
 // sync with the chapter files; tests/validate-content.mjs enforces it).
@@ -31,12 +33,14 @@ export const NOTE_STATUS = {
   't4-8': 'published',
   't4-9': 'published',
   't4-10': 'published',
-  't5-1': 'review',
-  't5-2': 'review',
-  't5-3': 'review',
-  't5-4': 'review',
-  't5-5': 'review',
-  't5-6': 'review',
+  't5-1': 'published',
+  't5-2': 'published',
+  't5-3': 'published',
+  't5-4': 'published',
+  't5-5': 'published',
+  't5-6': 'published',
+  't5-7': 'published',
+  't5-8': 'published',
 };
 
 // V3 "student-first" layer: per-subtopic main idea, overview line, when-to-use,
@@ -53,6 +57,14 @@ export const V3_MODULES = {
   't4-8': () => import('./v3/t4-8.js'),
   't4-9': () => import('./v3/t4-9.js'),
   't4-10': () => import('./v3/t4-10.js'),
+  't5-1': () => import('./v3/t5-1.js'),
+  't5-2': () => import('./v3/t5-2.js'),
+  't5-3': () => import('./v3/t5-3.js'),
+  't5-4': () => import('./v3/t5-4.js'),
+  't5-5': () => import('./v3/t5-5.js'),
+  't5-6': () => import('./v3/t5-6.js'),
+  't5-7': () => import('./v3/t5-7.js'),
+  't5-8': () => import('./v3/t5-8.js'),
 };
 export async function attachV3(id, chapter) {
   const load = V3_MODULES[id];

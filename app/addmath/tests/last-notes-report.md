@@ -1,8 +1,8 @@
 # Laporan pengesahan nota
 
-Bab dengan fail nota: 16 daripada 18.
+Bab dengan fail nota: 18 daripada 18.
 
-**Ralat: 0 · Amaran: 6 · Perlu semakan manusia: 93**
+**Ralat: 0 · Amaran: 0 · Perlu semakan manusia: 106**
 
 ## t4-1 Fungsi (status: published)
 
@@ -168,7 +168,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 10.2.1 | 10.2 | ✓ | ✓ | 4 |
 | 10.2.2 | 10.2 | ✓ | ✓ | 4 |
 
-## t5-1 Sukatan Membulat (status: review)
+## t5-1 Sukatan Membulat (status: published)
 
 4 subtopik · 14 contoh · 4 visual · 24 soalan
 
@@ -183,7 +183,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 1.3.3 | 1.3 | ✓ | ✓ | 2 |
 | 1.4.1 | 1.4 | ✓ | ✓ | 5 |
 
-## t5-2 Pembezaan (status: review)
+## t5-2 Pembezaan (status: published)
 
 4 subtopik · 23 contoh · 4 visual · 38 soalan
 
@@ -206,7 +206,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 2.4.8 | 2.4 | ✓ | ✓ | 2 |
 | 2.4.9 | 2.4 | ✓ | ✓ | 2 |
 
-## t5-3 Pengamiran (status: review)
+## t5-3 Pengamiran (status: published)
 
 4 subtopik · 18 contoh · 5 visual · 30 soalan
 
@@ -224,7 +224,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 3.3.5 | 3.3 | ✓ | ✓ | 2 |
 | 3.4.2 | 3.4 | ✓ | ✓ | 5 |
 
-## t5-4 Pilih Atur dan Gabungan (status: review)
+## t5-4 Pilih Atur dan Gabungan (status: published)
 
 2 subtopik · 11 contoh · 2 visual · 19 soalan
 
@@ -237,7 +237,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 4.2.2 | 4.2 | ✓ | ✓ | 3 |
 | 4.2.3 | 4.2 | ✓ | ✓ | 3 |
 
-## t5-5 Taburan Kebarangkalian (status: review)
+## t5-5 Taburan Kebarangkalian (status: published)
 
 3 subtopik · 17 contoh · 3 visual · 26 soalan
 
@@ -258,7 +258,7 @@ Bab dengan fail nota: 16 daripada 18.
 | 5.3.4 | 5.3 | ✓ | ✓ | 4 |
 | 5.3.5 | 5.3 | ✓ | ✓ | 2 |
 
-## t5-6 Fungsi Trigonometri (status: review)
+## t5-6 Fungsi Trigonometri (status: published)
 
 6 subtopik · 21 contoh · 6 visual · 35 soalan
 
@@ -277,16 +277,35 @@ Bab dengan fail nota: 16 daripada 18.
 | 6.6.1 | 6.6 | ✓ | ✓ | 4 |
 | 6.6.2 | 6.6 | ✓ | ✓ | 2 |
 
+## t5-7 Pengaturcaraan Linear (status: published)
+
+2 subtopik · 8 contoh · 2 visual · 18 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 7.1.1 | 7.1 | ✓ | ✓ | 9 |
+| 7.2.1 | 7.2 | ✓ | ✓ | 9 |
+
+## t5-8 Kinematik Gerakan Linear (status: published)
+
+4 subtopik · 15 contoh · 4 visual · 31 soalan
+
+| SP | Subtopik | Konsep | Contoh | Soalan |
+|---|---|---|---|---|
+| 8.1.1 | 8.1 | ✓ | ✓ | 5 |
+| 8.1.2 | 8.1 | ✓ | ✓ | 3 |
+| 8.2.1 | 8.2 | ✓ | ✓ | 3 |
+| 8.2.2 | 8.2 | ✓ | ✓ | 4 |
+| 8.2.3 | 8.2 | ✓ | ✓ | 5 |
+| 8.3.1 | 8.3 | ✓ | ✓ | 5 |
+| 8.3.2 | 8.3 | ✓ | ✓ | 3 |
+| 8.4.1 | 8.4 | ✓ | ✓ | 7 |
+
 ## Ralat
 - tiada
 
 ## Amaran
-- t5-1: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
-- t5-2: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
-- t5-3: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
-- t5-4: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
-- t5-5: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
-- t5-6: V3 (Fahami/Ulang Kaji ringkas) belum ditulis; halaman guna paparan sandaran
+- tiada
 
 ## Perlu semakan manusia
 - t4-1.1-08 (objektif) — Garis \(x = 1\) dilukis pada graf bulatan \(x^2 + y^2 = 4\). Apakah yang dapat disimpulkan?
@@ -338,7 +357,7 @@ Bab dengan fail nota: 16 daripada 18.
 - t4-9.2-07 (penaakulan) — Gunakan petua kosinus untuk menerangkan mengapa, dalam segi tiga dengan \(A\) cakah, \(a^2 > b^2 + c^2\).
 - t4-9.3-06 (penaakulan) — Dua segi tiga mempunyai sisi \(a = 6\) dan \(b = 5\). Yang pertama mempunyai \(C = 40^\circ\), yang kedua \(C 
 - t4-9.4-03 (objektif) — Piramid tegak \(VABCD\) mempunyai tapak segi empat sama dengan pusat \(O\), dan \(V\) tegak di atas \(O\). Sud
-- t4-9.4-05 (penaakulan) — Dalam soalan piramid di atas, terangkan mengapa \(\angle AVB\) dicari dengan petua kosinus dan bukan dengan \(
+- t4-9.4-05 (penaakulan) — Piramid tegak \(VABCD\) mempunyai tapak segi empat sama bersisi 6 m, dan \(V\) berada 4 m tegak di atas pusat 
 - t4-10.1-02 (objektif) — Indeks harga suatu barang pada tahun asas ialah…
 - t4-10.1-03 (objektif) — Indeks kemalangan jalan raya di sebuah daerah pada 2024 berasaskan 2021 ialah 85. Yang manakah tafsiran yang b
 - t4-10.1-08 (penaakulan) — Harga barang \(X\) naik dari RM2 ke RM3, dan harga barang \(Y\) naik dari RM100 ke RM101. Kedua-duanya naik RM
@@ -382,5 +401,18 @@ Bab dengan fail nota: 16 daripada 18.
 - t5-6.4-05 (penaakulan) — Buktikan \(\dfrac{\sin x}{1 - \kos x} = \dfrac{1 + \kos x}{\sin x}\), dan terangkan langkah utama.
 - t5-6.5-06 (penaakulan) — Tunjukkan bahawa \((\sin x + \kos x)^2 = 1 + \sin 2x\).
 - t5-6.6-04 (objektif) — Seorang murid menyelesaikan \(2\sin^2 x = \sin x\) dengan membahagi kedua-dua belah dengan \(\sin x\), dan men
+- t5-7.1-07(a) (penaakulan) — Tulis tiga ketaksamaan (selain \(x \ge 0\), \(y \ge 0\)) dan terangkan setiap satu.
+- t5-7.1-08 (objektif) — Antara pernyataan berikut, yang manakah menerangkan rantau tersaur dengan betul?
+- t5-7.1-09 (penaakulan) — Hakim melorek rantau bagi \(y \le 2x\) dengan menguji titik \((0, 0)\). Terangkan masalah dengan kaedahnya, da
+- t5-7.2-01 (objektif) — Untung RM5 bagi setiap barang \(x\) dan RM8 bagi setiap barang \(y\). Fungsi objektif bagi jumlah untung ialah
+- t5-7.2-07(b) (penaakulan) — Terangkan mengapa terdapat lebih daripada satu titik yang memberi nilai maksimum.
+- t5-7.2-09 (penaakulan) — Dalam masalah tukang jahit, bucu optimum ialah \((3.86, 3.43)\). Aina membundarkannya kepada \((4, 4)\). Teran
+- t5-8.1-01 (objektif) — Pada suatu ketika, halaju sebuah zarah ialah \(-4\ \text{m s}^{-1}\). Apakah maksudnya?
+- t5-8.1-02 (objektif) — Pasangan manakah terdiri daripada dua kuantiti skalar?
+- t5-8.1-08(c) (penaakulan) — Terangkan mengapa jawapan (b) berbeza daripada magnitud jawapan (a).
+- t5-8.2-08 (objektif) — Sesaran zarah ialah \(s = 5t - 2\) m. Pernyataan manakah benar?
+- t5-8.2-09 (penaakulan) — Pada \(t = 0.5\), zarah dengan \(s = t^3 - 6t^2 + 9t\) mempunyai \(v > 0\) dan \(a < 0\). Huraikan gerakannya 
+- t5-8.3-07 (penaakulan) — Dua zarah mempunyai pecutan yang sama, \(a = 6 - 2t\), tetapi halaju awal berbeza. Terangkan mengapa fungsi ha
+- t5-8.4-06 (penaakulan) — Dalam soalan bola yang dilambung (\(s = 15t - 5t^2\)), Zul berkata jumlah jarak dalam 3 saat pertama ialah \(s
 
 > Lulus pengesahan automatik ≠ diluluskan untuk diterbitkan. Penerangan, contoh dan soalan penaakulan perlu disemak oleh pemilik.

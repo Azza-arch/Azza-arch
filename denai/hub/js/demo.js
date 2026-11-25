@@ -1,71 +1,52 @@
-// DEMO DATA — for UI demonstration only. Not connected to any account, server
-// or to the game's own saves. Every screen that shows it carries a
-// "Data contoh" label. Replace getProfile() with a real source later; the page
-// code only depends on the shape returned here.
-import { chapter } from './data.js';
+// DEMO MODE ONLY (?demo=1). Builds a SAMPLE learner as ordinary learning events
+// so demo screens go through exactly the same code as real ones. The sample
+// lives in memory (store.useDemo) — it is never written to, or mixed with, the
+// real record in localStorage. Every demo screen shows a "Mod demo" banner.
+import { HUB } from './core/keys.js';
+import { store } from './core/store.js';
+import { EVENT_VERSION } from './core/events.js';
+import { loadChapter, questionPool } from './data.js';
 
-const KEY = 'denai-hub-demo-v1';
-export const STATES = { baharu: 'Pelajar Baharu', kembali: 'Pelajar Kembali' };
+export const PERSONAS = { baharu: 'Pelajar Baharu', kembali: 'Pelajar Kembali' };
 
-export function getDemoState() {
-  try { const v = localStorage.getItem(KEY); return v in STATES ? v : 'baharu'; } catch { return 'baharu'; }
+export function getPersona() {
+  try { const v = localStorage.getItem(HUB.demoPersona); return v in PERSONAS ? v : 'baharu'; } catch { return 'baharu'; }
 }
-export function setDemoState(v) {
-  try { localStorage.setItem(KEY, v in STATES ? v : 'baharu'); } catch { /* storage blocked: state lasts for this view only */ }
+export function setPersona(v) {
+  try { localStorage.setItem(HUB.demoPersona, v in PERSONAS ? v : 'baharu'); } catch { /* storage blocked */ }
 }
 
-const NEW = {
-  state: 'baharu',
-  current: null,
-  notesRead: {},
-  chaptersDone: [],
-  exercises: [],
-  game: {},
-  activity: [],
-};
+const ago = (days, minutes = 0) => { const d = new Date(); d.setDate(d.getDate() - days); d.setHours(17, 0, 0, 0); d.setMinutes(d.getMinutes() + minutes); return d.toISOString(); };
+const ORDER = { mudah: 0, sederhana: 1, mencabar: 2 };
 
-const RETURNING = {
-  state: 'kembali',
-  current: { chapter: 't4-2', sub: '2.2' },
-  notesRead: { 't4-1': ['1.1', '1.2', '1.3'], 't4-2': ['2.1'] },
-  chaptersDone: ['t4-1'],
-  exercises: [
-    { chapter: 't4-2', sub: '2.1', score: 2, total: 5, when: 'Semalam' },
-    { chapter: 't4-1', sub: '1.3', score: 3, total: 5, when: '3 hari lalu' },
-    { chapter: 't4-1', sub: '1.2', score: 5, total: 5, when: '4 hari lalu' },
-    { chapter: 't4-1', sub: '1.1', score: 4, total: 5, when: '5 hari lalu' },
-  ],
-  game: { '1-1': 'done', '1-2': 'done', '1-3': 'todo' },
-  activity: [
-    { type: 'ex', chapter: 't4-2', sub: '2.1', text: 'Latihan · skor 2/5', when: 'Semalam' },
-    { type: 'note', chapter: 't4-2', sub: '2.1', text: 'Nota dibaca', when: 'Semalam' },
-    { type: 'game', level: '1-2', text: 'Level 1-2 selesai', when: '3 hari lalu' },
-    { type: 'ex', chapter: 't4-1', sub: '1.3', text: 'Latihan · skor 3/5', when: '3 hari lalu' },
-  ],
-};
-
-export const getProfile = () => (getDemoState() === 'kembali' ? RETURNING : NEW);
-
-/** Learner state of a chapter: soon | done | progress | ready. */
-export function chapterState(p, id) {
-  const c = chapter(id);
-  if (!c?.available) return 'soon';
-  if (p.chaptersDone.includes(id)) return 'done';
-  if (p.current?.chapter === id || p.notesRead[id]?.length) return 'progress';
-  return 'ready';
+async function practice(ch, sub, days, pattern, set) {
+  const c = await loadChapter(ch);
+  const pool = questionPool(c, sub).slice().sort((a, b) => ORDER[a.difficulty] - ORDER[b.difficulty]);
+  const qs = pool.slice(0, pattern.length), out = [];
+  qs.forEach((q, i) => {
+    const base = { v: EVENT_VERSION, t: 'attempt', ch, sub, q: q.id, set, sp: q.sp || [], diff: q.difficulty, type: q.type };
+    const kind = pattern[i];
+    out.push({ ...base, at: ago(days, i * 2), try: 1, ok: kind === 'first' });
+    if (kind !== 'first') out.push({ ...base, at: ago(days, i * 2 + 1), try: 2, ok: kind === 'second' });
+  });
+  const first = pattern.slice(0, qs.length).filter((k) => k === 'first').length, right = pattern.slice(0, qs.length).filter((k) => k !== 'miss').length;
+  out.push({ v: EVENT_VERSION, t: 'set-done', at: ago(days, 12), ch, sub, set, total: qs.length, first, right });
+  return out;
 }
-export function chapterPct(p, id) {
-  const c = chapter(id); if (!c) return 0;
-  const read = p.notesRead[id]?.length || 0;
-  return c.standards.length ? Math.round((read / c.standards.length) * 100) : 0;
-}
-export const noteRead = (p, id, sub) => !!p.notesRead[id]?.includes(sub);
-export const lastExercise = (p, id, sub) => p.exercises.find((e) => e.chapter === id && e.sub === sub) || null;
+const note = (t, ch, sub, days, m = 0) => ({ v: EVENT_VERSION, t, ch, sub, at: ago(days, m) });
 
-/** The single next action the hub recommends. */
-export function nextAction(p) {
-  if (p.state === 'baharu') return { kind: 'note', chapter: 't4-1', sub: '1.1', why: 'Mulakan dengan konsep paling asas: apa itu fungsi, objek dan imej.' };
-  const weak = p.exercises.find((e) => e.score / e.total < 0.6);
-  if (weak) return { kind: 'ex', chapter: weak.chapter, sub: weak.sub, why: `Skor latihan ${weak.sub} ialah ${weak.score}/${weak.total}. Cuba sekali lagi sebelum meneruskan.` };
-  return { kind: 'note', chapter: p.current.chapter, sub: p.current.sub, why: 'Sambung dari tempat anda berhenti.' };
+async function returningEvents() {
+  const ok5 = ['first', 'first', 'first', 'first', 'second'];
+  return [
+    note('note-open', 't4-1', '1.1', 6), note('note-done', 't4-1', '1.1', 6, 20), ...await practice('t4-1', '1.1', 6, ok5, 'demo-s1'),
+    note('note-open', 't4-1', '1.2', 5), note('note-done', 't4-1', '1.2', 5, 25), ...await practice('t4-1', '1.2', 5, ['first', 'first', 'first', 'second', 'first'], 'demo-s2'),
+    note('note-open', 't4-1', '1.3', 3), note('note-done', 't4-1', '1.3', 3, 25), ...await practice('t4-1', '1.3', 3, ['first', 'first', 'first', 'miss', 'first'], 'demo-s3'),
+    note('note-open', 't4-2', '2.1', 1), note('note-done', 't4-2', '2.1', 1, 30), ...await practice('t4-2', '2.1', 1, ['first', 'miss', 'second', 'miss', 'miss'], 'demo-s4'),
+    note('note-open', 't4-2', '2.2', 1, 60),
+  ];
+}
+
+/** Seed the in-memory demo record for the chosen persona. */
+export async function seedDemo() {
+  store.useDemo(getPersona() === 'kembali' ? await returningEvents() : []);
 }

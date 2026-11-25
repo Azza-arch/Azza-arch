@@ -1,7 +1,7 @@
 // PAGE 01 — Home: what DENAI is, the learning journey, chapters, the game.
 import { esc, icon } from '../ui.js';
-import { CHAPTERS, GAME, GAME_URL, chaptersOfForm } from '../data.js';
-import { renderMath } from '/app/addmath/src/notes/math.js';
+import { CHAPTERS, GAME, GAME_URL, chaptersOfForm, STATUS_LABEL } from '../data.js';
+import { renderMath } from '../core/content.js';
 
 export const JOURNEY = [
   ['bulb', 'Fahami', 'Satu konsep pada satu masa, dengan bahasa yang mudah.', 'var(--sky-pale)'],
@@ -13,7 +13,7 @@ export const JOURNEY = [
 
 const chip = (c) => c.available
   ? `<li><a class="chip" href="#/bab/${c.id}"><b>${c.number}</b>${esc(c.title)}</a></li>`
-  : `<li><span class="chip is-soon" title="Dalam penyediaan"><b>${c.number}</b>${esc(c.title)}</span></li>`;
+  : `<li><span class="chip is-soon" title="${STATUS_LABEL[c.status]}"><b>${c.number}</b>${esc(c.title)}<span class="sr-only"> (${STATUS_LABEL[c.status]})</span></span></li>`;
 
 export function render() {
   const t4 = chaptersOfForm(4), t5 = chaptersOfForm(5);
@@ -52,7 +52,7 @@ export function render() {
       </div>
       <div class="grid grid-2 grid-gap-lg">
         <div class="card"><h3 class="h3">Tingkatan 4</h3><p class="muted small" style="margin:4px 0 16px">${t4.filter((c) => c.available).length} daripada ${t4.length} bab tersedia</p><ul class="chip-list">${t4.map(chip).join('')}</ul></div>
-        <div class="card"><h3 class="h3">Tingkatan 5</h3><p class="muted small" style="margin:4px 0 16px">${t5.some((c) => c.available) ? `${t5.filter((c) => c.available).length} daripada ${t5.length} bab tersedia` : 'Nota sedang disemak sebelum diterbitkan'}</p><ul class="chip-list">${t5.map(chip).join('')}</ul></div>
+        <div class="card"><h3 class="h3">Tingkatan 5</h3><p class="muted small" style="margin:4px 0 16px">${t5.some((c) => c.available) ? `${t5.filter((c) => c.available).length} daripada ${t5.length} bab tersedia` : [t5.some((c) => c.status === 'review') ? `Bab ${t5.filter((c) => c.status === 'review').map((c) => c.number).join(', ')} sedang disemak` : '', t5.some((c) => c.status === 'none') ? `Bab ${t5.filter((c) => c.status === 'none').map((c) => c.number).join(', ')} belum ditulis` : ''].filter(Boolean).join('; ')}</p><ul class="chip-list">${t5.map(chip).join('')}</ul></div>
       </div>
       <p style="margin-top:20px"><a class="textlink" href="#/bab">Lihat semua bab ${icon('arrow')}</a></p>
     </section>
@@ -60,7 +60,7 @@ export function render() {
     <section class="section" data-reveal aria-labelledby="h-game">
       <div class="card-game">
         <div class="section-head" style="margin-bottom:20px">
-          <div><p class="eyebrow">Game DENAI · ${GAME.world}</p><h2 class="h2 display" id="h-game">${esc(GAME.name)}</h2></div>
+          <div><p class="eyebrow">Game DENAI</p><h2 class="h2 display" id="h-game">${GAME.world}: ${esc(GAME.name)}</h2></div>
           <span class="tag tag-game">${icon('gamepad')}Bab 1 Fungsi · Tingkatan 4</span>
         </div>
         <p class="lead" style="font-size:var(--fs-md)">Bantu Chill Boy membaiki jambatan, menjalankan bengkel dan memulihkan pintu air dengan fungsi. Tiga level, setiap satu berpadanan dengan satu subtopik dalam nota.</p>
@@ -68,14 +68,14 @@ export function render() {
         <ul class="levels" style="margin-top:20px">${GAME.levels.map((l) => `<li class="level"><span class="level-no">${l.no}</span><div><h3>${esc(l.title)}</h3><p>${renderMath(l.text)}</p></div></li>`).join('')}</ul>
         <div class="btn-row" style="margin-top:24px">
           <a class="btn btn-primary btn-lg" href="${GAME_URL}">${icon('play')}Main DENAI</a>
-          <a class="btn btn-quiet" href="#/main">Hubungan game dengan nota ${icon('arrow')}</a>
+          <a class="btn btn-quiet" href="#/main">Misi dan konsep berkaitan ${icon('arrow')}</a>
         </div>
       </div>
     </section>
 
     <section class="section" data-reveal>
       <div class="card-sky recommend">
-        <div><h2 class="h2 display">Sedia untuk mula?</h2><p style="margin-top:6px">Learning Hub mencadangkan bab pertama dan langkah seterusnya untuk anda.</p></div>
+        <div><h2 class="h2 display">Sedia untuk mula?</h2><p style="margin-top:6px">Utama menunjukkan satu langkah seterusnya untuk anda, berdasarkan apa yang sudah anda buat.</p></div>
         <a class="btn btn-primary btn-lg" href="#/hub">Masuk Learning Hub ${icon('arrow')}</a>
       </div>
     </section>

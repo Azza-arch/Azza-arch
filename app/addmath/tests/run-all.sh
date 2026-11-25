@@ -7,3 +7,4 @@ node app/addmath/tests/validate-content.mjs >/dev/null && echo "validate-content
 node app/addmath/tests/validator-selftest.mjs | tail -1
 node app/addmath/tests/validate-notes.mjs app/addmath/tests/last-notes-report.md >/dev/null && echo "validate-notes: OK (report: app/addmath/tests/last-notes-report.md)"
 node app/addmath/tests/regression.mjs | tail -1
+node app/addmath/tests/checker-roundtrip.mjs

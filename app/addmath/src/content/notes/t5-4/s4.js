@@ -11,7 +11,7 @@ const C = (n, r) => P(n, r) / fact(r);
 
 // ---------------------------------------------------------------- 4.1
 export const S4_1 = {
-  id: '4.1', sk: '4.1', title: 'Pilih Atur', sp: ['4.1.1', '4.1.2', '4.1.3'], status: 'review', minutes: 60,
+  id: '4.1', sk: '4.1', title: 'Pilih Atur', sp: ['4.1.1', '4.1.2', '4.1.3'], status: 'published', minutes: 60,
   sections: [
     { kind: 'intro', title: 'Berapa banyak kata laluan?', html: R`<p>Kunci basikal dengan 3 roda nombor (0 hingga 9) mempunyai 1000 kombinasi. Kata laluan 8 aksara mempunyai berbilion. Bagaimana kita mengira tanpa menyenaraikan setiap satu? Bab ini membina cara mengira yang pantas, bermula daripada satu idea mudah: <strong>petua pendaraban</strong>.</p>` },
     { kind: 'concept', title: 'Petua pendaraban', sp: ['4.1.1'], html: R`
@@ -61,7 +61,7 @@ export const S4_1 = {
 
 // ---------------------------------------------------------------- 4.2
 export const S4_2 = {
-  id: '4.2', sk: '4.2', title: 'Gabungan', sp: ['4.2.1', '4.2.2', '4.2.3'], status: 'review', minutes: 50,
+  id: '4.2', sk: '4.2', title: 'Gabungan', sp: ['4.2.1', '4.2.2', '4.2.3'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Pasukan, bukan barisan', html: R`<p>Memilih 3 pemain untuk pasukan bola tampar: Ali, Bala, Chong ialah pasukan yang sama dengan Chong, Ali, Bala. Tertib tidak penting. Pemilihan seperti ini ialah <strong>gabungan</strong>.</p>` },
     { kind: 'concept', title: 'Pilih atur berbanding gabungan', sp: ['4.2.1'], html: R`

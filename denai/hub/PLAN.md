@@ -32,16 +32,19 @@ Branch: `claude/denai-learning-hub`. Read this first in any new session.
 - **Demo data** (`js/demo.js`) is clearly labelled *DATA CONTOH* on every screen that uses it. Only the demo-state choice is stored (`denai-hub-demo-v1`). Exercises are not graded server-side and not saved.
 
 ## Routes
-| # | Page | Hash |
-|---|---|---|
-| 01 | Home | `#/` |
-| 02 | Learning Hub | `#/hub` |
-| 03 | Chapter selection | `#/bab` (`#/bab?t=5`) |
-| 04 | Chapter overview | `#/bab/<id>` |
-| 05 | Concept notes | `#/nota/<id>/<sub>` |
-| 06 | Exercise | `#/latihan/<id>/<sub>` |
-| 07 | Game launch | `#/main` |
-| 08 | My progress | `#/kemajuan` |
+Four tabs (v2): **Utama** `#/hub` · **Belajar** `#/bab` · **Game** `#/main` · **Kemajuan** `#/kemajuan`. `#/` is the landing page (logo).
+
+| Page | Hash |
+|---|---|
+| Landing | `#/` |
+| Utama (student home) | `#/hub` |
+| Belajar: Tingkatan + chapter path | `#/bab` (`#/bab?t=5`) |
+| Chapter: subtopic path | `#/bab/<id>` |
+| Chapter revision sheet | `#/bab/<id>/ulang-kaji` |
+| Note (all sections; `?b=contoh` opens examples) | `#/nota/<id>/<sub>` |
+| Exercise / written questions | `#/latihan/<id>/<sub>`, `?jenis=bertulis` |
+| Game | `#/main` (`?bab=<id>`) |
+| Progress + data controls | `#/kemajuan` |
 
 Play button → `/app/addmath/denai/main` (the real game route).
 
@@ -62,12 +65,29 @@ Play button → `/app/addmath/denai/main` (the real game route).
 
 Content rules kept: only `published` subtopics/questions are shown; T5 chapters appear as *Dalam penyediaan*; only T4-1 claims a game.
 
+## Phase 1 — Real learning progress (branch `claude/denai-hub-phase1`)
+See `PRODUCT-ROADMAP.md` for the full analysis and later phases.
+- `js/core/`: `keys.js` (storage key registry), `store.js` (ProgressStore, key `denai-hub-progress-v1`),
+  `events.js` (note-open, note-done, attempt, set-done; sanitised, no personal data), `mastery.js`
+  (Belum mula / Mencuba / Faham / Mahir), `practice.js` (set selection), `learner.js` (view model),
+  `content.js` (the only importer of `/app/addmath/src/*`).
+- Demo data only with `?demo=1` (banner "Mod demo", in-memory, never touches the real record); `?demo=0` leaves.
+- Exercise: two attempts (first mistake → feedback only; answer + solution after a right answer or the
+  second mistake), set resumes after reload, "Latihan lagi" draws a new set.
+- WCAG: `--ink-faint` #5f6679, `.btn-ok` #1b7a55, `--ok` #17704a (all ≥4.5:1, checked in the smoke test).
+- Game progress is not read (Phase 3); game keys are never written.
+
+## Learning Hub v2
+Implemented on this branch; status table, tests and content status in `PRODUCT-ROADMAP.md` → "Implementation status — Learning Hub v2". New module: `js/pages/written.js`.
+
 ## Not done / next
-- `/denai/` links to the hub from its top bar and footer (owner request, 2026-11-23); the rest of that page is unchanged.
-- Real progress: replace `js/demo.js#getProfile()` with a real source (local or backend); pages only read its shape.
-- Exercise results are not saved (frontend demo).
+- Maths input toolbar on phones; read-only game bridge (open decision O6); game → hub links (O7).
+- Exercise results live in this browser only; no account or sync (Later).
 
 ## Checks
-No server needed: the tests serve the repo from disk inside Playwright (`tests/serve.cjs`).
-- `node denai/hub/tests/hub-smoke.cjs` — full functional check, desktop + phone.
+No server needed: browser tests serve the repo from disk inside Playwright (`tests/serve.cjs`).
+- `node denai/hub/tests/core.test.mjs` — unit tests: events, store sanitising, mastery, set selection.
+- `node denai/hub/tests/hub-smoke.cjs` — full functional check, desktop + phone (journey, persistence after reload,
+  two attempts, resume, demo isolation, contrast, link crawl, storage keys, Phaser boot).
 - `node denai/hub/tests/shots.cjs <outdir> "#/" "#/hub" …` — screenshots at 1280/820/390 + overflow + console.
+- `bash app/addmath/tests/run-all.sh` — content validators (unchanged content).

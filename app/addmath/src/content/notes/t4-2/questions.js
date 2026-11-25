@@ -23,7 +23,7 @@ export const QUESTIONS = [
     ] }),
   q({ id: 't4-2.1-04', subtopic: '2.1', sp: ['2.1.2'], difficulty: 'sederhana', type: 'expression', prompt: R`Tulis persamaan kuadratik \(x^2 + bx + c = 0\) yang mempunyai punca \(4\) dan \(-2\). Taip ungkapan sebelah kiri sahaja.`,
     answer: 'x^2-2x-8', check: { kind: 'from-roots', roots: [4, -2], lead: 1 },
-    wrong: [{ expr: 'x^2+2x-8', feedback: R`Pekali \(x\) ialah <em>negatif</em> HTP: \(-(4 + (-2)) = -2\).` }, { expr: '(x+4)(x-2)', feedback: R`Punca 4 datang daripada faktor \((x - 4)\), bukan \((x + 4)\).` }],
+    wrong: [{ expr: 'x^2+2x-8', feedback: R`Tanda terbalik. Pekali \(x\) ialah <em>negatif</em> HTP: \(-(4 + (-2)) = -2\). Dalam bentuk faktor, punca 4 datang daripada \((x - 4)\), bukan \((x + 4)\).` }],
     solution: [R`HTP \(= 2\), HDP \(= -8\)`, R`\(x^2 - 2x - 8 = 0\)`] }),
   q({ id: 't4-2.1-05', subtopic: '2.1', sp: ['2.1.2'], difficulty: 'mencabar', type: 'expression', prompt: R`Tulis persamaan kuadratik dengan pekali \(x^2\) bernilai 3, yang mempunyai punca \(\tfrac{2}{3}\) dan \(-1\). Taip ungkapan sebelah kiri.`,
     answer: '3x^2+x-2', check: { kind: 'from-roots', roots: [2 / 3, -1], lead: 3 },

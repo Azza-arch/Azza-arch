@@ -1,9 +1,9 @@
-// T5 Bab 4 question bank (status 'review', original). Every count is re-derived
+// T5 Bab 4 question bank (status 'published' 2026-11-23 by owner decision; mathReviewed empty; original). Every count is re-derived
 // by BRUTE-FORCE ENUMERATION in tests/triangle.mjs (countBrute) — never by formulas.
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't5-4', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-23', note: 'Keputusan produk pemilik: terima dan terbitkan semua kandungan T4 dan T5 yang lulus validator. Semakan matematik manusia belum dibuat (mathReviewed kosong).' } };
+const q = (o) => ({ chapter: 't5-4', status: 'published', provenance: P, review: RV, ...o });
 const L = (s) => [...s];
 const VOWEL = (c) => 'AEIOU'.includes(c);
 const PEOPLE = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'P1', 'P2', 'P3', 'P4'];

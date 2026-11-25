@@ -1,11 +1,11 @@
-// T5 Bab 5 question bank (status 'review', original). Discrete probabilities are
+// T5 Bab 5 question bank (status 'published' 2026-11-23 by owner decision; mathReviewed empty; original). Discrete probabilities are
 // re-derived by enumerating outcomes; binomial values by summing over all 2^n
 // sequences; normal values by integrating the density (tests/triangle.mjs).
 // Normal answers use 4 d.p. table values; tolerance 0.0006 allows table rounding.
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't5-5', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-23', note: 'Keputusan produk pemilik: terima dan terbitkan semua kandungan T4 dan T5 yang lulus validator. Semakan matematik manusia belum dibuat (mathReviewed kosong).' } };
+const q = (o) => ({ chapter: 't5-5', status: 'published', provenance: P, review: RV, ...o });
 const DIE = [1, 2, 3, 4, 5, 6];
 const FR = R`(Boleh taip pecahan, contohnya 3/8.)`;
 
@@ -38,7 +38,7 @@ export const QUESTIONS = [
   q({ id: 't5-5.2-03', subtopic: '5.2', sp: ['5.2.2'], difficulty: 'sederhana', type: 'numeric', prompt: R`Kebarangkalian sebuah telur pecah dalam penghantaran ialah 0.1. Lapan telur dihantar. Cari kebarangkalian sekurang-kurangnya satu pecah, betul kepada empat tempat perpuluhan.`, answer: 0.5695, tolerance: 0.00006, check: { kind: 'binom', n: 8, p: 0.1, want: 'ge', r: 1 },
     wrong: [{ value: 0.3826, derive: '8*0.1*0.9^7', feedback: R`Itu tepat satu. "Sekurang-kurangnya satu" = \(1 - P(X = 0)\).` }], solution: [R`\(1 - 0.9^8 = 1 - 0.4305 = 0.5695\)`] }),
   q({ id: 't5-5.2-04', subtopic: '5.2', sp: ['5.2.2', '5.2.3'], difficulty: 'sederhana', type: 'numeric', prompt: R`\(X \sim B(5, 0.4)\). Cari \(P(X \le 1)\), betul kepada empat tempat perpuluhan.`, answer: 0.337, tolerance: 0.00006, check: { kind: 'binom', n: 5, p: 0.4, want: 'le', r: 1 },
-    solution: [R`\(P(X = 0) = 0.6^5 = 0.07776\)`, R`\(P(X = 1) = 5(0.4)(0.6)^4 = 0.2592\)`, R`Jumlah \(= 0.33696 \approx 0.3370\)`] }),
+    wrong: [{ value: 0.2592, feedback: R`Itu \(P(X = 1)\) sahaja. \(X \le 1\) termasuk \(X = 0\).` }, { value: 0.663, feedback: R`Itu \(P(X \ge 2)\). Soalan meminta \(P(X \le 1)\).` }], solution: [R`\(P(X = 0) = 0.6^5 = 0.07776\)`, R`\(P(X = 1) = 5(0.4)(0.6)^4 = 0.2592\)`, R`Jumlah \(= 0.33696 \approx 0.3370\)`] }),
   q({ id: 't5-5.2-05', subtopic: '5.2', sp: ['5.2.3'], difficulty: 'mencabar', type: 'structured', prompt: R`\(X \sim B(3, 0.5)\).`,
     parts: [
       { prompt: R`Cari \(P(X = 1)\). ${FR}`, type: 'numeric', answer: 0.375, check: { kind: 'binom', n: 3, p: 0.5, r: 1 }, solution: [R`\({}^3C_1(0.5)^3 = \tfrac38\)`] },
@@ -71,9 +71,9 @@ export const QUESTIONS = [
   q({ id: 't5-5.3-05', subtopic: '5.3', sp: ['5.3.4'], difficulty: 'sederhana', type: 'numeric', prompt: R`Cari \(P(-1.2 < Z < -0.4)\), betul kepada empat tempat perpuluhan.`, answer: 0.2295, tolerance: 0.0006, check: { kind: 'normal', want: 'between', a: -1.2, b: -0.4 },
     wrong: [{ value: 0.5403, derive: '1-0.1151-0.3446', feedback: R`Itu luas di antara \(-1.2\) dan \(+0.4\). Kedua-dua had negatif (sebelah kiri), jadi luas \(= Q(0.4) - Q(1.2)\). Lakar dahulu.` }], solution: [R`Dengan simetri: \(P(0.4 < Z < 1.2) = Q(0.4) - Q(1.2)\)`, R`\(= 0.3446 - 0.1151 = 0.2295\)`] }),
   q({ id: 't5-5.3-06', subtopic: '5.3', sp: ['5.3.4'], difficulty: 'sederhana', type: 'numeric', prompt: R`\(X \sim N(165, 6^2)\). Cari \(P(X > 174)\), betul kepada empat tempat perpuluhan.`, answer: 0.0668, tolerance: 0.0006, check: { kind: 'normal', mu: 165, sigma: 6, want: 'gt', a: 174 },
-    solution: [R`\(Z = \tfrac{174 - 165}{6} = 1.5\)`, R`\(Q(1.5) = 0.0668\)`] }),
+    wrong: [{ value: 0.9332, feedback: R`Itu \(P(X < 174)\). Hujung kanan: \(P(Z > 1.5) = Q(1.5)\).` }], solution: [R`\(Z = \tfrac{174 - 165}{6} = 1.5\)`, R`\(Q(1.5) = 0.0668\)`] }),
   q({ id: 't5-5.3-07', subtopic: '5.3', sp: ['5.3.4'], difficulty: 'mencabar', type: 'numeric', prompt: R`Cari \(z\) jika \(P(Z > z) = 0.1\), betul kepada tiga tempat perpuluhan.`, answer: 1.282, tolerance: 0.0006, check: { kind: 'normal-inv', prob: 0.1, tail: 'upper' },
-    solution: [R`Cari 0.1000 dalam badan jadual: \(z \approx 1.282\) (antara 1.28 dan 1.29)`] }),
+    wrong: [{ value: -1.282, feedback: R`\(P(Z > z) = 0.1 < 0.5\), jadi \(z\) di sebelah kanan min: positif.` }], solution: [R`Cari 0.1000 dalam badan jadual: \(z \approx 1.282\) (antara 1.28 dan 1.29)`] }),
   q({ id: 't5-5.3-08', subtopic: '5.3', sp: ['5.3.5'], difficulty: 'mencabar', type: 'structured', prompt: R`Tinggi murid sebuah sekolah \(X \sim N(165, 6^2)\) cm. Sekolah itu ada 400 murid.`,
     parts: [
       { prompt: R`Cari \(P(150 < X < 170)\), betul kepada tiga tempat perpuluhan.`, type: 'numeric', answer: 0.791, tolerance: 0.0006, check: { kind: 'normal', mu: 165, sigma: 6, want: 'between', a: 150, b: 170 }, solution: [R`\(z_1 = -2.5\), \(z_2 = 0.833\)`, R`\(1 - Q(2.5) - Q(0.833) = 1 - 0.0062 - 0.2025 = 0.791\)`] },

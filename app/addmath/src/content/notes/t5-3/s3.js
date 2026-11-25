@@ -12,7 +12,7 @@ const r3 = (v) => +v.toFixed(3);
 
 // ---------------------------------------------------------------- 3.1
 export const S3_1 = {
-  id: '3.1', sk: '3.1', title: 'Pengamiran sebagai Songsangan Pembezaan', sp: ['3.1.1'], status: 'review', minutes: 30,
+  id: '3.1', sk: '3.1', title: 'Pengamiran sebagai Songsangan Pembezaan', sp: ['3.1.1'], status: 'published', minutes: 30,
   sections: [
     { kind: 'intro', title: 'Berundur dari kecerunan', html: R`<p>Dalam Bab 2, kita diberi fungsi dan mencari kecerunannya. Sekarang soalannya terbalik: kita tahu <strong>kecerunan</strong> (atau kadar perubahan) dan mahu mencari fungsi asal. Contohnya, jika kita tahu kadar air mengalir ke dalam tangki setiap minit, berapakah jumlah air? Proses songsang ini ialah <strong>pengamiran</strong>.</p>` },
     { kind: 'concept', title: 'Perkaitan pembezaan dan pengamiran', sp: ['3.1.1'], html: R`
@@ -40,7 +40,7 @@ export const S3_1 = {
 
 // ---------------------------------------------------------------- 3.2
 export const S3_2 = {
-  id: '3.2', sk: '3.2', title: 'Kamiran Tak Tentu', sp: ['3.2.1', '3.2.2', '3.2.3', '3.2.4'], status: 'review', minutes: 50,
+  id: '3.2', sk: '3.2', title: 'Kamiran Tak Tentu', sp: ['3.2.1', '3.2.2', '3.2.3', '3.2.4'], status: 'published', minutes: 50,
   sections: [
     { kind: 'intro', title: 'Membalikkan petua kuasa', html: R`<p>Pembezaan: darab dengan kuasa, kemudian kurangkan kuasa. Pengamiran membalikkan setiap langkah dalam tertib terbalik: <strong>naikkan kuasa, kemudian bahagi</strong> dengan kuasa baharu.</p>` },
     { kind: 'concept', title: 'Rumus kamiran tak tentu', sp: ['3.2.1'], html: R`
@@ -82,7 +82,7 @@ export const S3_2 = {
 // ---------------------------------------------------------------- 3.3
 const SQ = (x) => x * x;
 export const S3_3 = {
-  id: '3.3', sk: '3.3', title: 'Kamiran Tentu', sp: ['3.3.1', '3.3.2', '3.3.3', '3.3.4', '3.3.5'], status: 'review', minutes: 70,
+  id: '3.3', sk: '3.3', title: 'Kamiran Tentu', sp: ['3.3.1', '3.3.2', '3.3.3', '3.3.4', '3.3.5'], status: 'published', minutes: 70,
   sections: [
     { kind: 'intro', title: 'Luas di bawah lengkung', html: R`<p>Luas segi empat tepat dan segi tiga mudah dikira. Tetapi bagaimana dengan luas di bawah lengkung \(y = x^2\)? Idea: pecahkan kepada banyak jalur nipis yang hampir segi empat tepat, jumlahkan, dan biarkan lebar jalur menghampiri sifar. Hasilnya ialah <strong>kamiran tentu</strong>.</p>` },
     { kind: 'concept', title: 'Nilai kamiran tentu dan sifatnya', sp: ['3.3.1'], html: R`
@@ -133,7 +133,7 @@ export const S3_3 = {
 
 // ---------------------------------------------------------------- 3.4
 export const S3_4 = {
-  id: '3.4', sk: '3.4', title: 'Aplikasi Pengamiran', sp: ['3.4.2'], status: 'review', minutes: 35,
+  id: '3.4', sk: '3.4', title: 'Aplikasi Pengamiran', sp: ['3.4.2'], status: 'published', minutes: 35,
   sections: [
     { kind: 'intro', title: 'Daripada kadar kepada jumlah', html: R`<p>Jika kita tahu <em>kadar</em> sesuatu (liter per minit, kos per unit, kelajuan), kamiran memberi <em>jumlah</em> keseluruhan. Bentuk lengkung pula membolehkan kita mengira luas tanah, kapasiti mangkuk atau isi padu bahan.</p><p class="note-small">Nota: DSKP mencetak SK 3.4 dengan SP 3.4.2 sahaja (tiada 3.4.1).</p>` },
     { kind: 'concept', title: 'Menyelesaikan masalah', sp: ['3.4.2'], html: R`

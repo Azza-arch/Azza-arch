@@ -13,7 +13,7 @@ const arcPts = (j, th, n = 90, cx = 0, cy = 0, start = 0) => { const p = []; for
 
 // ---------------------------------------------------------------- 1.1
 export const S1_1 = {
-  id: '1.1', sk: '1.1', title: 'Radian', sp: ['1.1.1'], status: 'review', minutes: 35,
+  id: '1.1', sk: '1.1', title: 'Radian', sp: ['1.1.1'], status: 'published', minutes: 35,
   sections: [
     { kind: 'intro', title: 'Mengapa unit sudut yang baharu?', html: R`<p>Darjah dicipta oleh manusia: 360 dipilih kerana mudah dibahagi. <strong>Radian</strong> pula datang daripada bulatan itu sendiri, iaitu daripada jejarinya. Dengan radian, rumus panjang lengkok dan luas sektor menjadi sangat ringkas, dan radian digunakan dalam kalkulus, fizik (putaran roda, gerakan bandul) dan kejuruteraan.</p>` },
     { kind: 'prereq', title: 'Imbas kembali', html: R`<ul><li>Lilitan bulatan \(= 2\pi j\), luas bulatan \(= \pi j^2\), dengan \(j\) = jejari.</li><li>Satu pusingan lengkap \(= 360^\circ\).</li><li>\(\pi \approx 3.142\).</li></ul>` },
@@ -50,7 +50,7 @@ export const S1_1 = {
 
 // ---------------------------------------------------------------- 1.2
 export const S1_2 = {
-  id: '1.2', sk: '1.2', title: 'Panjang Lengkok Suatu Bulatan', sp: ['1.2.1', '1.2.2', '1.2.3'], status: 'review', minutes: 45,
+  id: '1.2', sk: '1.2', title: 'Panjang Lengkok Suatu Bulatan', sp: ['1.2.1', '1.2.2', '1.2.3'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Jarak hujung bandul', html: R`<p>Hujung sebuah bandul berayun di sepanjang <strong>lengkok</strong> bulatan, bukan garis lurus. Berapa jauh ia bergerak dalam satu ayunan? Kita perlukan panjang lengkok.</p>` },
     { kind: 'concept', title: 'Menerbitkan s = jθ', sp: ['1.2.1'], html: R`
@@ -93,7 +93,7 @@ export const S1_2 = {
 
 // ---------------------------------------------------------------- 1.3
 export const S1_3 = {
-  id: '1.3', sk: '1.3', title: 'Luas Sektor Suatu Bulatan', sp: ['1.3.1', '1.3.2', '1.3.3'], status: 'review', minutes: 45,
+  id: '1.3', sk: '1.3', title: 'Luas Sektor Suatu Bulatan', sp: ['1.3.1', '1.3.2', '1.3.3'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Sepotong piza', html: R`<p>Piza berdiameter 30 cm dipotong kepada 8 potong sama besar. Berapakah luas sepotong? Setiap potong ialah <strong>sektor</strong> bulatan.</p>` },
     { kind: 'concept', title: 'Menerbitkan L = ½j²θ', sp: ['1.3.1'], html: R`
@@ -133,7 +133,7 @@ export const S1_3 = {
 
 // ---------------------------------------------------------------- 1.4
 export const S1_4 = {
-  id: '1.4', sk: '1.4', title: 'Aplikasi Sukatan Membulat', sp: ['1.4.1'], status: 'review', minutes: 40,
+  id: '1.4', sk: '1.4', title: 'Aplikasi Sukatan Membulat', sp: ['1.4.1'], status: 'published', minutes: 40,
   sections: [
     { kind: 'intro', title: 'Pengelap cermin kereta', html: R`<p>Bilah pengelap cermin kereta berputar pada satu pangsi. Ia tidak menyapu sektor penuh: bahagian berhampiran pangsi tidak dilapik getah. Kawasan yang dibersihkan ialah <strong>sektor besar tolak sektor kecil</strong>.</p>` },
     { kind: 'concept', title: 'Strategi', sp: ['1.4.1'], html: R`

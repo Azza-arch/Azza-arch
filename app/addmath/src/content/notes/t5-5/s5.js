@@ -23,7 +23,7 @@ const Phi = (z) => { const n = 400, a = 0, b = Math.abs(z), h = (b - a) / n; let
 
 // ---------------------------------------------------------------- 5.1
 export const S5_1 = {
-  id: '5.1', sk: '5.1', title: 'Pemboleh Ubah Rawak', sp: ['5.1.1', '5.1.2', '5.1.3', '5.1.4'], status: 'review', minutes: 45,
+  id: '5.1', sk: '5.1', title: 'Pemboleh Ubah Rawak', sp: ['5.1.1', '5.1.2', '5.1.3', '5.1.4'], status: 'published', minutes: 45,
   sections: [
     { kind: 'intro', title: 'Nombor yang ditentukan oleh peluang', html: R`<p>Lambung tiga syiling dan kira bilangan kepala. Hasilnya mungkin 0, 1, 2 atau 3, tetapi kita tidak tahu yang mana sebelum melambung. Nilai yang ditentukan oleh hasil sesuatu eksperimen rawak dipanggil <strong>pemboleh ubah rawak</strong>.</p>` },
     { kind: 'prereq', title: 'Imbas kembali', html: R`<ul><li>\(P(A) = \dfrac{n(A)}{n(S)}\) bagi hasil yang sama mungkin.</li><li>Peristiwa tak bersandar: \(P(A \cap B) = P(A) \times P(B)\).</li><li>Peristiwa saling eksklusif: \(P(A \cup B) = P(A) + P(B)\).</li></ul>` },
@@ -62,7 +62,7 @@ export const S5_1 = {
 
 // ---------------------------------------------------------------- 5.2
 export const S5_2 = {
-  id: '5.2', sk: '5.2', title: 'Taburan Binomial', sp: ['5.2.1', '5.2.2', '5.2.3', '5.2.4', '5.2.5'], status: 'review', minutes: 60,
+  id: '5.2', sk: '5.2', title: 'Taburan Binomial', sp: ['5.2.1', '5.2.2', '5.2.3', '5.2.4', '5.2.5'], status: 'published', minutes: 60,
   sections: [
     { kind: 'intro', title: 'Berjaya atau tidak', html: R`<p>Sebiji benih bercambah atau tidak. Seorang pemain menjaringkan atau tidak. Barang lulus pemeriksaan atau rosak. Apabila percubaan seperti ini diulang beberapa kali dengan peluang yang sama, bilangan "kejayaan" mengikut <strong>taburan binomial</strong>.</p>` },
     { kind: 'concept', title: 'Percubaan Bernoulli dan taburan binomial', sp: ['5.2.1'], html: R`
@@ -105,7 +105,7 @@ export const S5_2 = {
 
 // ---------------------------------------------------------------- 5.3
 export const S5_3 = {
-  id: '5.3', sk: '5.3', title: 'Taburan Normal', sp: ['5.3.1', '5.3.2', '5.3.3', '5.3.4', '5.3.5'], status: 'review', minutes: 70,
+  id: '5.3', sk: '5.3', title: 'Taburan Normal', sp: ['5.3.1', '5.3.2', '5.3.3', '5.3.4', '5.3.5'], status: 'published', minutes: 70,
   sections: [
     { kind: 'intro', title: 'Lengkung loceng', html: R`<p>Ukur tinggi 1000 murid dan lukis histogram. Kebanyakan murid berhampiran purata, dan semakin jauh dari purata semakin sedikit. Bentuknya seperti loceng. Banyak data semula jadi (tinggi, jisim, ralat ukuran, markah) mengikut bentuk ini, iaitu <strong>taburan normal</strong>.</p>` },
     { kind: 'concept', title: 'Ciri-ciri graf taburan normal', sp: ['5.3.1'], html: R`

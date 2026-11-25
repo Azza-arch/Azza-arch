@@ -1,19 +1,21 @@
 // Browser smoke test (V3) for every registered notes chapter, desktop + phone.
-// Needs: python3 -m http.server 8790 at the repo root; Playwright.
+// Needs Playwright. Files are served in-process (denai/hub/tests/serve.cjs);
+// set NOTES_SMOKE_SERVER=1 to use python3 -m http.server 8790 at the repo root instead.
 //   node app/addmath/tests/notes-smoke.cjs [chapterId…]
 // Checks: review content hidden publicly; overview lists subtopics; each Fahami
 // page renders (KaTeX, idea, example, visuals incl. optional ones, sliders,
 // no horizontal overflow); Ulang Kaji renders and search filters; Latihan shows
 // one question, the picker covers the chapter, and checking reveals the answer.
 const { chromium, devices } = require('playwright'); const fs = require('fs'); const path = require('path');
-const B = 'http://127.0.0.1:8790/app/addmath/';
+const SERVE = process.env.NOTES_SMOKE_SERVER === '1' ? null : require('../../../denai/hub/tests/serve.cjs');
+const B = SERVE ? `${SERVE.ORIGIN}/app/addmath/` : 'http://127.0.0.1:8790/app/addmath/';
 const idx = fs.readFileSync(path.join(__dirname, '../src/content/notes/index.js'), 'utf8');
 const chapters = process.argv.slice(2).length ? process.argv.slice(2) : [...idx.matchAll(/'(t[45]-\d+)': \(\) => import\('\.\/t/g)].map((m) => m[1]);
 (async () => {
   const b = await chromium.launch(); let pass = 0, total = 0;
   const ok = (n, c, d) => { total++; if (c) pass++; else console.log('FAIL', n, JSON.stringify(d)); };
   for (const [name, opt] of [['desktop', { viewport: { width: 1280, height: 900 } }], ['phone', { ...devices['iPhone 13'] }]]) {
-    const c = await b.newContext(opt); const p = await c.newPage(); const errs = [];
+    const c = await b.newContext(opt); if (SERVE) await SERVE.attach(c); const p = await c.newPage(); const errs = [];
     p.on('pageerror', (e) => errs.push(String(e))); p.on('console', (m) => { if (m.type() === 'error' && !/frame-ancestors/.test(m.text())) errs.push(m.text()); });
     for (const ch of chapters) {
       await p.goto(B + '?semak=0#/bab/' + ch); await p.waitForTimeout(400);

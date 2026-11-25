@@ -41,7 +41,7 @@ export const tag = (text, kind = '', ico = '') => `<span class="tag${kind ? ` ta
 /** Availability + learner state → tag. */
 export function stateTag(state) {
   switch (state) {
-    case 'done': return tag('Selesai', 'done', 'check');
+    case 'done': return tag('Dikuasai', 'done', 'check');
     case 'progress': return tag('Sedang belajar', 'progress', 'clock');
     case 'soon': return tag('Dalam penyediaan', 'soon', 'lock');
     default: return tag('Tersedia', 'ready');
@@ -52,8 +52,15 @@ export function stateTag(state) {
 export const bar = (pct, { gold = false, small = false, label = '' } = {}) =>
   `<div class="bar is-pre${gold ? ' is-gold' : ''}${small ? ' bar-sm' : ''}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}"${label ? ` aria-label="${esc(label)}"` : ''} style="--v:${Math.max(0, Math.min(100, pct))}"><i></i></div>`;
 
-export const demoNote = (extra = '') =>
-  `<p class="demo-note">${tag('Data contoh', 'demo')}<span><strong>Untuk demonstrasi antara muka.</strong> Kemajuan di halaman ini ialah data contoh, tidak disambung ke akaun atau pelayan.${extra ? ` ${extra}` : ''}</span></p>`;
+/** Mastery level badge (levels from core/mastery.js). */
+const MASTERY = { belum: 'Belum mula', mencuba: 'Mencuba', faham: 'Faham', mahir: 'Mahir' };
+export const masteryTag = (lv) => `<span class="mastery mastery-${lv in MASTERY ? lv : 'belum'}"><i aria-hidden="true"></i>${MASTERY[lv] || MASTERY.belum}</span>`;
+export const masteryKey = () => `<p class="mastery-key"><span>Tahap penguasaan:</span>${Object.keys(MASTERY).map(masteryTag).join('')}</p>`;
+
+/** Where the learner's record lives — shown on progress screens. */
+export const storageNote = (l) => (l.demo ? '' : l.persistent
+  ? '<p class="small muted">Kemajuan disimpan dalam pelayar ini sahaja. Jika data pelayar dipadam atau anda bertukar peranti, kemajuan bermula semula.</p>'
+  : '<p class="small muted">Pelayar ini menyekat storan: kemajuan tidak disimpan selepas halaman ditutup.</p>');
 
 export const emptyState = ({ ico = 'info', title, text = '', actions = '' }) =>
   `<div class="empty">${icon(ico)}<h3>${esc(title)}</h3>${text ? `<p>${text}</p>` : ''}${actions ? `<div class="btn-row">${actions}</div>` : ''}</div>`;
@@ -64,3 +71,22 @@ export const journeyCompact = (here) => {
 };
 
 export const LEVEL = { mudah: 'Asas', sederhana: 'Sederhana', mencabar: 'Cabaran' };
+
+/** Where a recommended action leads, and what it is called (one vocabulary everywhere). */
+export const actionHref = (a) => (a.kind === 'note' ? `#/nota/${a.ch}/${a.sub}` : `#/latihan/${a.ch}/${a.sub}`);
+export const actionKind = (a) => ({ note: 'Nota', ex: 'Latihan', resume: 'Sambung latihan' }[a.kind]);
+
+/** Honest wording when a subtopic's question bank cannot evidence the next level (D13). */
+export function insufficientNote(ev) {
+  if (!ev || !ev.insufficient) return '';
+  const lv = ev.insufficient === 'mahir' ? 'Mahir' : 'Faham';
+  return `<span class="evidence-note">${icon('info')}Bukti belum mencukupi untuk ${lv}: subtopik ini hanya ada ${ev.total} soalan yang boleh disemak automatik.</span>`;
+}
+
+/** Plain-language rules behind the levels (shown wherever levels are explained). */
+export const MASTERY_RULES = [
+  ['Belum mula', 'Belum ada jawapan latihan untuk subtopik ini.'],
+  ['Mencuba', 'Anda sudah menjawab sekurang-kurangnya satu soalan latihan.'],
+  ['Faham', '3 soalan berbeza betul pada cubaan pertama, termasuk sekurang-kurangnya satu soalan Sederhana atau Cabaran.'],
+  ['Mahir', 'Faham, ditambah soalan Cabaran betul pada cubaan pertama, 5 soalan berbeza terakhir semuanya betul pada cubaan pertama, dan soalan baharu betul pada dua hari yang berlainan.'],
+];

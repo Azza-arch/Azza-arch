@@ -1,11 +1,11 @@
-// T5 Bab 6 question bank (status 'review', original). Values are re-evaluated
+// T5 Bab 6 question bank (status 'published' 2026-11-23 by owner decision; mathReviewed empty; original). Values are re-evaluated
 // numerically; equation solutions are found by scanning the interval for every
 // root (tests/triangle.mjs trigRoots); graph properties are measured numerically.
 // Expressions in checks use x in RADIANS; angles in prompts are degrees.
 const R = String.raw;
 const P = { origin: 'original', author: 'Claude', createdAt: '2026-11-14', note: 'Ditulis asal untuk laman ini; bukan soalan SPM sebenar.' };
-const RV = { autoChecked: true, mathReviewed: null, ownerApproved: null };
-const q = (o) => ({ chapter: 't5-6', status: 'review', provenance: P, review: RV, ...o });
+const RV = { autoChecked: true, mathReviewed: null, ownerApproved: { by: 'pemilik', date: '2026-11-23', note: 'Keputusan produk pemilik: terima dan terbitkan semua kandungan T4 dan T5 yang lulus validator. Semakan matematik manusia belum dibuat (mathReviewed kosong).' } };
+const q = (o) => ({ chapter: 't5-6', status: 'published', provenance: P, review: RV, ...o });
 const EX = R`(Boleh taip bentuk tepat, contohnya -sqrt(3)/2, atau perpuluhan 4 tempat.)`;
 const FN = R`(Taip fungsi dengan kurungan, contohnya kos(x), sin(x)^2, sek(x).)`;
 
@@ -54,7 +54,7 @@ export const QUESTIONS = [
   q({ id: 't5-6.3-05', subtopic: '6.3', sp: ['6.3.2'], difficulty: 'mencabar', type: 'numeric', prompt: R`Dengan melakar graf, cari bilangan penyelesaian bagi \(|\sin 2x| = \tfrac12\) untuk \(0^\circ \le x \le 360^\circ\).`, answer: 8, check: { kind: 'trig-solve', f: 'abs(sin(2x))-0.5', from: 0, to: 360, want: 'count' },
     wrong: [{ value: 4, derive: '4', feedback: R`Itu bilangan bagi \(\sin 2x = \tfrac12\). Nilai mutlak menambah persilangan pada bonggol yang dipantulkan.` }], solution: [R`\(y = |\sin 2x|\) mempunyai 4 bonggol dalam \(0^\circ\)–\(360^\circ\)`, R`Garis \(y = \tfrac12\) memotong setiap bonggol dua kali: 8`] }),
   q({ id: 't5-6.3-06', subtopic: '6.3', sp: ['6.3.2'], difficulty: 'mencabar', type: 'numeric', prompt: R`Dengan melakar \(y = 3\kos x\) dan garis yang sesuai, cari bilangan penyelesaian bagi \(3\kos x = \dfrac{x}{90^\circ} - 1\) untuk \(0^\circ \le x \le 360^\circ\).`, answer: 3, check: { kind: 'trig-solve', f: '3cos(x)-(2x/pi-1)', from: 0, to: 360, want: 'count' },
-    solution: [R`Garis \(y = \tfrac{x}{90} - 1\): dari \((0, -1)\) ke \((360, 3)\)`, R`Lengkung: \(3\) di \(0^\circ\), \(-3\) di \(180^\circ\), \(3\) di \(360^\circ\)`, R`Lengkung di atas garis pada 0°, di bawah pada 180°: dua persilangan dalam selang`, R`Pada \(x = 360^\circ\), kedua-dua bernilai 3: satu lagi penyelesaian di hujung selang`, R`Jumlah: 3`] }),
+    wrong: [{ value: 2, feedback: R`Semak hujung selang: pada \(x = 360^\circ\), \(3\kos x = 3\) dan \(\tfrac{360}{90} - 1 = 3\). Itu penyelesaian ketiga.` }], solution: [R`Garis \(y = \tfrac{x}{90} - 1\): dari \((0, -1)\) ke \((360, 3)\)`, R`Lengkung: \(3\) di \(0^\circ\), \(-3\) di \(180^\circ\), \(3\) di \(360^\circ\)`, R`Lengkung di atas garis pada 0°, di bawah pada 180°: dua persilangan dalam selang`, R`Pada \(x = 360^\circ\), kedua-dua bernilai 3: satu lagi penyelesaian di hujung selang`, R`Jumlah: 3`] }),
   q({ id: 't5-6.3-07', subtopic: '6.3', sp: ['6.3.1'], difficulty: 'sederhana', type: 'reasoning', prompt: R`Terangkan kesan pemalar \(c\) dalam \(y = 2\sin x + c\), dan mengapa graf \(y = 2\sin x + 3\) tidak pernah memotong paksi-\(x\).`, check: { kind: 'manual' },
     solution: [R`\(c\) menganjak graf secara menegak tanpa mengubah amplitud atau kala.`, R`\(2\sin x\) berjulat \([-2, 2]\), jadi \(2\sin x + 3\) berjulat \([1, 5]\).`, R`Nilai minimum 1 > 0, jadi \(y\) tidak pernah sifar.`] }),
   // ---------------------------------------------------------------- 6.4
