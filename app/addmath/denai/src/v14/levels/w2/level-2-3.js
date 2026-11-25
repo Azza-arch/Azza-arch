@@ -14,6 +14,7 @@ import { quad } from './peak.js';
 import { pontoonOutcome, chainOutcome, sealPOutcome, sealQOutcome } from './roots.js';
 import { buildLevel, LEVEL_ID, GATE_MX } from './level-2-3-data.js';
 import { createW2Store, newRun } from './campaign.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -44,7 +45,7 @@ class Level23 extends Phaser.Scene {
     this.physics.world.setBounds(0, WORLD.top, WORLD.width, WORLD.floor + 40 - WORLD.top);
     this.cameras.main.setBackgroundColor('#aee3f5');
     if (!this.textures.exists('fx-dot')) { const g = this.add.graphics(); g.fillStyle(0xffffff, 1).fillCircle(4, 4, 4); g.generateTexture('fx-dot', 8, 8); g.destroy(); }
-    const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'stone' : undefined }));
+    const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'karst' : undefined }));
     const { tile } = buildLandscape(this, { AB_TERRAIN, SLABS: [], WORLD: { width: WORLD.width, floor: WORLD.floor }, parallaxShift: 60 });
     this.tileAt = tile;
     // water (same wave frames as World 1); falling in → back to the checkpoint
@@ -57,8 +58,7 @@ class Level23 extends Phaser.Scene {
     tile(106, wx(0), wy(1) - T, 11); tile(105, wx(1), wy(1) - T, 11);
     this.cpFlags = {};
     for (const cp of L.checkpoints.slice(1)) this.cpFlags[cp.id] = this.add.image(wx(cp.x), wy(cp.y), 'kpp_terrain_atlas', 111).setOrigin(.5, 1).setScale(3).setDepth(11);
-    for (let y = L.gate.y; y < L.gate.y + 3; y++) { tile(40, wx(L.gate.x - 1), wy(y + 1), 8.8); tile(40, wx(L.gate.x + 1), wy(y + 1), 8.8); }
-    for (let x = L.gate.x - 1; x <= L.gate.x + 1; x++) tile(42, wx(x), wy(L.gate.y + 4), 8.8);
+    exitGate(tile, wx, wy, L.gate); // pillars without caps under a lintel with closed ends (art.js)
     this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 4) - 6, 'KE DUNIA 3', { fontFamily: 'Arial, sans-serif', fontSize: '16px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
     this.goal = this.add.image(wx(L.goal.x), wy(L.goal.y), 'kpp_terrain_atlas', 112).setOrigin(.5, 1).setScale(4).setDepth(11);
     // ── save / run ──
@@ -75,7 +75,7 @@ class Level23 extends Phaser.Scene {
       for (const b of m.blocking) { // the stone gate with two seal lamps
         const body = this.add.rectangle(wx(b.x0 + .5), wy((b.top + 1) / 2), (b.x1 - b.x0) * T, (b.top - 1) * T, 0, 0);
         this.physics.add.existing(body, true); this.solids.add(body); o.bodies.push(body);
-        for (let y = 1; y < b.top; y++) o.art.push(this.tileAt(y === b.top - 1 ? 40 : 120, wx(b.x0), wy(y + 1), 9.1));
+        o.art.push(...stoneColumn(this.tileAt, wx, wy, b.x0, 1, b.top)); // one solid stone column (art.js)
         o.lamps = { P: this.add.circle(wx(b.x0 + .5), wy(6.5), 11, 0x5a4a3a).setStrokeStyle(3, 0x203e36).setDepth(9.3), Q: this.add.circle(wx(b.x0 + .5), wy(5.3), 11, 0x5a4a3a).setStrokeStyle(3, 0x203e36).setDepth(9.3) };
         o.art.push(o.lamps.P, o.lamps.Q);
       }

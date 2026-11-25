@@ -13,6 +13,7 @@ import { TILE as T, formatNum } from './quadratic.js';
 import { quad, catchOutcome, bellOutcome, penOutcome, penArea } from './peak.js';
 import { buildLevel, LEVEL_ID } from './level-2-2-data.js';
 import { createW2Store, newRun } from './campaign.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -44,15 +45,14 @@ class Level22 extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#aee3f5');
     this.textures.get('kpf_atlas').setFilter(Phaser.Textures.FilterMode.NEAREST);
     if (!this.textures.exists('fx-dot')) { const g = this.add.graphics(); g.fillStyle(0xffffff, 1).fillCircle(4, 4, 4); g.generateTexture('fx-dot', 8, 8); g.destroy(); }
-    const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'stone' : undefined }));
+    const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'karst' : undefined }));
     const { tile } = buildLandscape(this, { AB_TERRAIN, SLABS: [], WORLD: { width: WORLD.width, floor: WORLD.floor }, parallaxShift: 60 });
     this.tileAt = tile;
     tile(106, wx(0), wy(1) - T, 11); tile(105, wx(1), wy(1) - T, 11);
     // landmark: the Loceng Puncak beam high above the plateau (Station E's rail)
     this.cpFlags = {};
     for (const cp of L.checkpoints.slice(1)) this.cpFlags[cp.id] = this.add.image(wx(cp.x), wy(cp.y), 'kpp_terrain_atlas', 111).setOrigin(.5, 1).setScale(3).setDepth(11);
-    for (let y = L.gate.y; y < L.gate.y + 3; y++) { tile(40, wx(L.gate.x - 1), wy(y + 1), 8.8); tile(40, wx(L.gate.x + 1), wy(y + 1), 8.8); }
-    for (let x = L.gate.x - 1; x <= L.gate.x + 1; x++) tile(42, wx(x), wy(L.gate.y + 4), 8.8);
+    exitGate(tile, wx, wy, L.gate); // pillars without caps under a lintel with closed ends (art.js)
     this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 4) - 6, 'KE 2-3', { fontFamily: 'Arial, sans-serif', fontSize: '16px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
     this.goal = this.add.image(wx(L.goal.x), wy(L.goal.y), 'kpp_terrain_atlas', 112).setOrigin(.5, 1).setScale(4).setDepth(11);
     // ── save / run ──
@@ -119,10 +119,11 @@ class Level22 extends Phaser.Scene {
       o.cupPole = this.add.graphics().setDepth(10.6);
       o.cup = this.add.graphics().setDepth(14.5);
     } else if (st.id === 'E') {
-      this.grid(o, 0, 4, 0, 9);
+      this.grid(o, 0, 4, 0, 8);
       this.tileAt(95, X(0) - 27, Y(0) - T, 10.5); // the jet's nozzle at (0, 0)
-      for (let x = -0.5; x <= 4.5; x += 1) this.tileAt(42, X(x), Y(8.9), 8.8, 54, 54); // rock beam carrying the bell rail
-      this.add.graphics().setDepth(9.6).lineStyle(4, 0x5b3a24, 1).lineBetween(X(-0.2), Y(8.7), X(4.2), Y(8.7));
+      // rock beam carrying the bell rail: a floating slab from x = −1 to 5, ends closed (art.js SLAB)
+      for (let x = -1; x <= 4; x++) this.tileAt(x === -1 ? SLAB[1] : x === 4 ? SLAB[2] : SLAB[3], X(x), Y(9.6), 8.8);
+      this.add.graphics().setDepth(9.6).lineStyle(4, 0x5b3a24, 1).lineBetween(X(-0.2), Y(8.6) + 2, X(4.2), Y(8.6) + 2);
       o.bell = this.add.graphics().setDepth(14.5);
     } else if (st.id === 'F') {
       // a plan board on two posts: the pen seen from above on a 6 × 6 grid, plus the A(x) bars
@@ -141,7 +142,7 @@ class Level22 extends Phaser.Scene {
     if (pm.blocking.length) for (const b of pm.blocking) { // the stone gate
       const body = this.add.rectangle(wx(b.x0 + .5), wy((b.top + 4) / 2), (b.x1 - b.x0) * T, (b.top - 4) * T, 0, 0);
       this.physics.add.existing(body, true); this.solids.add(body); o.mech.bodies.push(body);
-      for (let y = 4; y < b.top; y++) o.mech.art.push(this.tileAt(y === b.top - 1 ? 40 : 120, wx(b.x0), wy(y + 1), 9.1));
+      o.mech.art.push(...stoneColumn(this.tileAt, wx, wy, b.x0, 4, b.top)); // one solid stone column (art.js)
     }
     return o;
   }
@@ -154,16 +155,20 @@ class Level22 extends Phaser.Scene {
       for (const a of m.art) { if (quiet || reducedMotion) a.destroy(); else this.tweens.add({ targets: a, y: a.y + 7 * T, alpha: 0, duration: 900, ease: 'Quad.in', onComplete: () => a.destroy() }); }
       m.art = [];
     }
+    // D: a solid earth staircase up the cliff; F: wooden scaffold ledges on poles (art.js)
+    const plank = st.id === 'F';
     for (const p of m.active) {
-      const body = this.add.rectangle(wx((p.x0 + p.x1) / 2), wy(p.top) + 27, (p.x1 - p.x0) * T, T, 0, 0);
+      const h = plank ? 30 : T, body = this.add.rectangle(wx((p.x0 + p.x1) / 2), wy(p.top) + h / 2, (p.x1 - p.x0) * T, h, 0, 0);
       this.physics.add.existing(body, true); this.solids.add(body); m.bodies.push(body);
-      const frame = st.id === 'F' ? 26 : 47;
-      for (let y = st.id === 'F' ? p.top - 1 : 0; y < p.top; y++) {
-        const img = this.add.image(wx(p.x0), wy(y + 1), 'kpp_terrain_atlas', frame).setOrigin(0).setScale(3).setDepth(10);
-        if (!quiet && !reducedMotion) { const to = img.y; img.y += (p.top - y + 2) * T * .6; img.setAlpha(0); this.tweens.add({ targets: img, y: to, alpha: 1, duration: 700, ease: 'Back.out', delay: 120 * (p.x0 - m.active[0].x0) }); }
-        m.art.push(img);
-      }
     }
+    const ground = (x, y) => L.terrain.some((t) => x >= t.x0 && x < t.x1 && y < t.top);
+    const groups = plank ? scaffoldLedges(this.tileAt, wx, wy, m.active, 4) : solidColumns(this.tileAt, wx, wy, m.active, 0, ground);
+    groups.forEach((imgs, i) => {
+      for (const img of imgs) {
+        m.art.push(img);
+        if (!quiet && !reducedMotion) { const to = img.y; img.y += (m.active[i].top - (plank ? 4 : 0)) * T; img.setAlpha(0); this.tweens.add({ targets: img, y: to, alpha: 1, duration: 700, ease: 'Back.out', delay: 140 * i }); }
+      }
+    });
   }
   // ── drawing ─────────────────────────────────────────────────────────────
   draw(st) {
@@ -175,7 +180,7 @@ class Level22 extends Phaser.Scene {
       cup.lineStyle(2, 0x5b3a24, 1).strokeRect(st.X(c.x) - 22, st.Y(c.y) - 14, 44, 24);
     } else if (st.id === 'E') {
       const g = st.bell; g.clear(); const bx = st.X(c.x), by = st.Y(8);
-      g.lineStyle(3, 0x5b3a24, 1).lineBetween(bx, st.Y(8.7), bx, by - 30);
+      g.lineStyle(3, 0x5b3a24, 1).lineBetween(bx, st.Y(8.6) + 2, bx, by - 30);
       g.fillStyle(st.solved ? 0xfee481 : 0xd7a21f, 1).fillTriangle(bx - 22, by, bx + 22, by, bx, by - 34).fillCircle(bx, by + 4, 6);
       g.lineStyle(2, 0x5b3a24, 1).strokeTriangle(bx - 22, by, bx + 22, by, bx, by - 34);
     } else if (st.id === 'F') {

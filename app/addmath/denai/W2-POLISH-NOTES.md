@@ -1,29 +1,32 @@
 # Dunia 2 — catatan penambahbaikan visual & UI (belum dibuat)
 
 Dicatat 25 Nov 2026 atas permintaan pemilik semasa Fasa 6 bermula, supaya tidak terlupa.
-**Belum diubah.** Dibuat dalam satu fasa "kemas" selepas Level 2-3, kemudian disahkan dengan tangkapan
-skrin desktop + telefon dan ujian main penuh (fizik dan pengesahan teka-teki tidak boleh berubah).
+**Fasa 7 bahagian 1 siap (25 Nov): A1–A4a dan batu loncatan** (✅ di bawah). Selebihnya belum.
+Disahkan dengan tangkapan skrin, ujian main penuh 2-1/2-2/2-3, dan `w1-env-check` (perlanggaran Dunia 1
+sama persis dengan `main`). Peraturan jubin kini dalam `src/v14/levels/w2/art.js`.
 
 ## A. Daripada pemilik (dengan gambar)
-1. **Garis tebal melintang pada tanah batu** (Level 2-2, dataran dan tebing; juga mana-mana tanah gaya
+1. ✅ **Garis tebal melintang pada tanah batu** — gaya baharu `karst` dalam `buildLandscape` guna permukaan 60–63 (tiada garis bawah); Dunia 1 (`stone`, 40–43) tidak berubah. (Level 2-2, dataran dan tebing; juga mana-mana tanah gaya
    `stone`). Tanah sudah ada garis tepi sendiri; baris batu atas (bingkai Kenney 40–43) melukis satu lagi
    garis gelap di bawahnya, jadi kelihatan garis tebal yang tidak perlu di sepanjang tanah.
    Punca kemungkinan: `style: 'stone'` dalam `buildLandscape` hanya menukar baris atas; baris tanah di
    bawahnya bermula dengan bingkai yang ada garis atas. Juga semak sambungan antara kepingan tanah yang
    bersebelahan pada ketinggian sama (`plateau-a` / `gate-floor` / `plateau-b`).
-2. **Rasuk batu loceng tiada garis tebal di hujung** (Level 2-2, Stesen E). Semua jubin rasuk guna
+2. ✅ **Rasuk batu loceng tiada garis tebal di hujung** — kini slab terapung pada grid (41 / 42 / 43), x −1 hingga 5. (Level 2-2, Stesen E). Semua jubin rasuk guna
    bingkai tengah (42); hujung kiri/kanan perlu bingkai hujung (41 / 43) supaya bentuknya tertutup, dan
    kedudukan perlu ikut grid jubin (sekarang bermula di x = −0.5).
-3. **Blok bertindan yang pelik** (tangga batu Stesen D dan tebing peti lif Stesen F): lajur blok 47 / peti 26
+3. ✅ **Blok bertindan yang pelik** — D: tangga tanah padu (`solidColumns`, bingkai dipilih ikut jiran); F: perancah papan kayu 146 di atas tiang 89. (tangga batu Stesen D dan tebing peti lif Stesen F): lajur blok 47 / peti 26
    bertindan nampak seperti timbunan kotak, bukan tangga. Perlu bentuk tangga yang padu (tanah dengan
    bahagian atas, atau tangga kayu Kenney) dan animasi naik yang kemas.
-4a. **Gerbang keluar ("KE 2-3", "KE DUNIA 3") — susunan jubin salah** (pemilik, gambar 25 Nov):
+4a. ✅ **Gerbang keluar ("KE 2-3", "KE DUNIA 3") — susunan jubin salah** — kini tiang isi 120 tanpa atap di bawah rasuk 41/42/43 (`exitGate`); dinding gerbang batu E dan 2-3 guna `stoneColumn` (penutup 60 + isi 120). (pemilik, gambar 25 Nov):
    tiang dibina dengan bingkai *permukaan tanah* 40 yang ditindan, jadi setiap blok ada "atap" batu
    sendiri dan nampak seperti timbunan kotak. Perlu tiang yang betul (bingkai tepi/isi tanpa atap,
    atau tiang batu/kayu Kenney), dan rasuk atas dengan bingkai hujung kiri / tengah / kanan.
    Sama di 2-1, 2-2 dan 2-3 (kod `tile(40, …)` / `tile(42, …)` untuk gerbang). **Keutamaan pertama Fasa 7.**
 4. **Reka bentuk UI yang pelik di setiap dunia** — semak semula seluruh HUD dan papan tanda dalam dunia
    (lihat B).
+
+- ✅ Batu loncatan 2-1 (dan bilik ujian): bingkai 147 (platform batu kecil), bukan 47 (kotak bercorak X).
 
 ## B. Diperhatikan semasa membina (untuk disemak bersama)
 5. Panel HUD di kiri atas besar dan menutup sebahagian peta di telefon landskap; pertimbang panel yang

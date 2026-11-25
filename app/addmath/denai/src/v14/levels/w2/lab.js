@@ -123,7 +123,7 @@ class LabScene extends Phaser.Scene {
         const t = this.add.text(wx(s.x), wy(8.6), `↑ y = ${formatNum(s.y)}`, { fontFamily: FONT, fontSize: '15px', fontStyle: 'bold', color: '#fff', backgroundColor: '#8a5a2b', padding: { x: 4, y: 2 } }).setOrigin(.5, 0).setDepth(14);
         this.stoneLayer.push(t); continue;
       }
-      const img = this.add.image(wx(s.x - .5), wy(s.y), 'kpp_terrain_atlas', 47).setOrigin(0).setScale(3).setDepth(10);
+      const img = this.add.image(wx(s.x - .5), wy(s.y), 'kpp_terrain_atlas', 147).setOrigin(0).setScale(3).setDepth(10); // small stone platform: a stepping stone, top on the curve
       this.stoneLayer.push(img);
       if (s.state === 'submerged') { img.setAlpha(.35).setTint(0x7fb7e6); if (wy(s.y) > WORLD.floor - 54) img.setY(WORLD.floor - 60); continue; }
       // Collision matches the drawn stone: full tile wide, top edge exactly on the curve point.

@@ -7,7 +7,7 @@ import { STATION_D, STATION_E, STATION_F, MECHANISMS, TILE } from './peak.js';
 
 export const LEVEL_ID = 'w2-l2';
 export const FLOOR_Y = -2;
-export const TOP_Y = 13.5;      // the bell hangs at y = 12
+export const TOP_Y = 14;        // the bell hangs at y = 12 under a rock beam (top 13.6)
 export const WIDTH = 56;
 
 export const STATIONS = [

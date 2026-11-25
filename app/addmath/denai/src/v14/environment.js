@@ -115,8 +115,10 @@ export function buildLandscape(s,{AB_TERRAIN,SLABS=[],DECKS=[],WALLS=[],LADDERS=
   s.physics.add.existing(b,true);s.solids.add(b);b.setData('oneWay',false).setData('id',t.id);s.routePlatforms.push(b);
   for(let x=t.x;x<t.x+t.width;x+=54)for(let y=t.y;y<floor;y+=54){
    const left=x===t.x&&!filled(x-1,y),right=x+54>=t.x+t.width&&!filled(x+54,y);
-   const stone=t.style==='stone'&&y===t.y;
-   const frame=stone?(left&&right?40:left?41:right?43:42):y===t.y?(left&&right?20:left?21:right?23:22):y+54>=floor?(left&&right?140:left?141:right?143:142):(left&&right?120:left?121:right?123:4+((x/54+y/54)&1));
+   // 'karst' (World 2): the tan/stone surface without a bottom outline (frames 60–63), so the ground
+   // below continues seamlessly; 'stone' keeps World 1's frames 40–43 unchanged.
+   const stone=(t.style==='stone'||t.style==='karst')&&y===t.y,karst=t.style==='karst';
+   const frame=stone?(karst?(left&&right?60:left?61:right?63:62):(left&&right?40:left?41:right?43:42)):y===t.y?(left&&right?20:left?21:right?23:22):y+54>=floor?(left&&right?140:left?141:right?143:142):(left&&right?120:left?121:right?123:4+((x/54+y/54)&1));
    tile(frame,x,y,9,Math.min(54,t.x+t.width-x),Math.min(54,floor-y));
   }
  }

@@ -13,6 +13,7 @@ import { buildLandscape } from '../../environment.js';
 import { TILE as T, curveAt, stationStones, analyseStation, passesRings, formatA, formatNum } from './quadratic.js';
 import { buildLevel, LEVEL_ID } from './level-2-1-data.js';
 import { createW2Store, newRun } from './campaign.js';
+import { exitGate, stoneColumn, solidColumns, scaffoldLedges, SLAB } from './art.js';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -61,7 +62,7 @@ class Level21 extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#aee3f5');
     if (!this.textures.exists('fx-dot')) { const g = this.add.graphics(); g.fillStyle(0xffffff, 1).fillCircle(4, 4, 4); g.generateTexture('fx-dot', 8, 8); g.destroy(); }
     // ── Ground, limestone overhang / arch, water (all from level-2-1-data.js) ──
-    const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'stone' : undefined }));
+    const AB_TERRAIN = L.terrain.map((t) => ({ id: t.id, x: wx(t.x0), y: wy(t.top), width: (t.x1 - t.x0) * T, style: t.style === 'stone' ? 'karst' : undefined }));
     const SLABS = L.slabs.map((r) => ({ id: r.id, x: wx(r.x0), y: Math.max(WORLD.top, wy(r.top)), width: (r.x1 - r.x0) * T, bottom: wy(r.bottom), style: 'ruin' }));
     const { tile } = buildLandscape(this, { AB_TERRAIN, SLABS, WORLD: { width: WORLD.width, floor: WORLD.floor }, parallaxShift: 60 });
     this.tileAt = tile;
@@ -76,8 +77,7 @@ class Level21 extends Phaser.Scene {
     tile(106, wx(0), wy(2) - T, 11); tile(105, wx(1), wy(2) - T, 11);
     this.cpFlags = {};
     for (const cp of L.checkpoints.slice(1)) this.cpFlags[cp.id] = this.add.image(wx(cp.x), wy(cp.y), 'kpp_terrain_atlas', 111).setOrigin(.5, 1).setScale(3).setDepth(11);
-    for (let y = L.gate.y; y < L.gate.y + 3; y++) { tile(40, wx(L.gate.x - 1), wy(y + 1), 8.8); tile(40, wx(L.gate.x + 1), wy(y + 1), 8.8); }
-    for (let x = L.gate.x - 1; x <= L.gate.x + 1; x++) tile(42, wx(x), wy(L.gate.y + 4), 8.8);
+    exitGate(tile, wx, wy, L.gate); // pillars without caps under a lintel with closed ends (art.js)
     this.goal = this.add.image(wx(L.goal.x), wy(L.goal.y), 'kpp_terrain_atlas', 112).setOrigin(.5, 1).setScale(4).setDepth(11);
     this.add.text(wx(L.gate.x + .5), wy(L.gate.y + 4) - 6, 'KE 2-2', { fontFamily: 'Arial, sans-serif', fontSize: '16px', fontStyle: 'bold', color: '#fff2ce', backgroundColor: '#203e36', padding: { x: 6, y: 3 } }).setOrigin(.5, 1).setDepth(12);
     // ── Coins (Kenney coin frame, same as World 1) ──
@@ -165,7 +165,7 @@ class Level21 extends Phaser.Scene {
     for (const s of stationStones(st.st, st.c, MOTION)) {
       if (s.state === 'nozzle') continue;
       if (s.state === 'high') { st.layer.push(this.add.text(st.X(s.x), st.Y(8.6), `↑ y = ${formatNum(s.y)}`, { fontFamily: FONT, fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#8a5a2b', padding: { x: 4, y: 2 } }).setOrigin(.5, 0).setDepth(14)); continue; }
-      const img = this.add.image(st.X(s.x - .5), Math.min(st.Y(s.y), WORLD.floor - 60), 'kpp_terrain_atlas', 47).setOrigin(0).setScale(3).setDepth(10);
+      const img = this.add.image(st.X(s.x - .5), Math.min(st.Y(s.y), WORLD.floor - 60), 'kpp_terrain_atlas', 147).setOrigin(0).setScale(3).setDepth(10); // small stone platform: a stepping stone, top on the curve
       st.layer.push(img);
       if (s.state === 'loose') { // not supported by both rings: it forms for a moment, then drops into the water
         img.setAlpha(.6);
