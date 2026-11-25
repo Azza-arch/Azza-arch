@@ -18,13 +18,13 @@ assert.equal(formatA(-0.5), '−½');
 console.log('quadratic: ok');
 
 // ── Phase 2: stations B and C (generic analyser) ──
-import { STATION_B, STATION_C, stationCombos, passesRings, analyseStation, routeEffort, airReach, jumpEnvelope as env2, reachAtRise } from '../src/v14/levels/w2/quadratic.js';
+import { STATION_A_LEVEL, STATION_B, STATION_C, stationCombos, passesRings, analyseStation, routeEffort, airReach, jumpEnvelope as env2, reachAtRise } from '../src/v14/levels/w2/quadratic.js';
 const weakM = { ...MOTION, jump: MOTION.jump * 0.95, speed: MOTION.speed * 0.95 };
 const strongM = { ...MOTION, jump: MOTION.jump * 1.05, speed: MOTION.speed * 1.05 };
 const key = (st, c) => st.levers.map((l) => `${l}=${c[l]}`).join(',');
 // open-air reach from the new step simulation agrees with the Station A envelope
 { const e = env2(MOTION); for (const rise of [0, 27, 54, 81]) assert.ok(Math.abs(airReach(MOTION, rise) - reachAtRise(e, rise, MOTION.speed)) < 1e-6, `airReach rise ${rise}`); }
-for (const st of [STATION_B, STATION_C]) {
+for (const st of [STATION_A_LEVEL, STATION_B, STATION_C]) {
   const combos = stationCombos(st);
   // maths: the rings pick exactly one lever setting, and it is the answer
   const byRings = combos.filter((c) => passesRings(st, c));
@@ -37,7 +37,8 @@ for (const st of [STATION_B, STATION_C]) {
     else { const r = analyseStation(st, c, strongM); assert.ok(!r.success, `${st.id} ${key(st, c)} must fail with a 5% stronger jump`); assert.ok(analyseStation(st, c, MOTION).factors.length, `${st.id} ${key(st, c)} explains the failure`); }
   }
   // the correct route is gentle for a Form 4 player: no climb above 1.5 tiles, no gap above 2 tiles
-  const ok = analyseStation(st, st.answer, MOTION), eff = routeEffort(st, st.answer, MOTION, ok.route);
+  const ok = analyseStation(st, st.answer, MOTION, { maxRise: 1.5, maxGap: 2 }), eff = routeEffort(st, st.answer, MOTION, ok.route);
+  assert.ok(ok.success, `${st.id}: an easy route exists`);
   assert.ok(eff.rise <= 1.5 && eff.gap <= 2, `${st.id} route effort ${JSON.stringify(eff)}`);
 }
 // B: vertex (5, 4) and both rings at bank height; failures read the way they look

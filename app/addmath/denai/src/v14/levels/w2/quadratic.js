@@ -139,6 +139,9 @@ export function analyseStation(station, c, motion, opts = {}) {
     const rise = (to.top - from.top) * T;
     const gap = Math.max(0, to.x0 > from.x1 ? to.x0 - from.x1 : from.x0 > to.x1 ? from.x0 - to.x1 : 0) * T;
     const needX = Math.max(0, gap - bodyW + 2);  // leave with half the body over the edge, land on a sliver
+    // optional comfort limits (tiles): "is there a route a Form 4 player finds easy?"
+    if (opts.maxRise != null && rise > opts.maxRise * T + 1e-6) return false;
+    if (opts.maxGap != null && gap > opts.maxGap * T + 1e-6) return false;
     const allowed = rise > 0 ? rise - (to.solid ? 0 : oneWayTol) : rise;
     if (allowed > peak) return false;
     if (needX > airReach(motion, Math.max(allowed, rise > 0 ? 0 : rise), Number.isFinite(roof) ? peak : Infinity, g)) return false;
@@ -212,7 +215,7 @@ export const STATION_B = Object.freeze({
   rings: [[4, 3], [6, 3]],
   surfaces: [{ id: 'L', x0: -10, x1: 2.5, top: 3 }, { id: 'R', x0: 7.5, x1: 20, top: 3 }],
   stoneXs: [3, 4, 5, 6, 7], water: 2, top: 8.5,
-  ceiling: [{ x0: 1.5, x1: 8.5, y: 4.5 }],
+  ceiling: [{ x0: 1.5, x1: 8.5, y: 4.5, top: 9.5 }],
 });
 
 // Station C "Jambatan Gantung": a = ½ and h = 4 fixed (cable between posts at x = 2 and x = 6);
@@ -229,7 +232,9 @@ export const STATION_C = Object.freeze({
   rings: [[2, 3], [6, 3]],
   surfaces: [{ id: 'L', x0: -10, x1: 1.5, top: 1.5 }, { id: 'P1', x0: 1.5, x1: 2.5, top: 2.5 }, { id: 'P2', x0: 5.5, x1: 6.5, top: 2.5 }, { id: 'R', x0: 6.5, x1: 20, top: 1.5 }],
   stoneXs: [2, 3, 4, 5, 6], water: -0.5, top: 8.5,
-  ceiling: [{ x0: 3.5, x1: 4.5, y: 3.5 }],
+  // the arch: a keystone hanging over the middle (underside 3.5) from a rock band (underside 7) that
+  // spans the posts; the band is far above any jump here, it only holds the keystone up
+  ceiling: [{ x0: 3.5, x1: 4.5, y: 3.5, top: 7 }, { x0: 1.5, x1: 6.5, y: 7, top: 8 }],
 });
 
 /** Every lever setting of a station as a curve { a, h, k }. */
@@ -258,6 +263,12 @@ const asStation = (st) => ({
     { id: 'R', x0: st.perchRightEdge, x1: 20, top: st.perchTop },
   ],
   stoneXs: st.stoneXs, water: st.water, top: st.ceiling, ceiling: [],
+});
+// Station A in the same shape as B and C (one lever, a), for the Level 2-1 map.
+export const STATION_A_LEVEL = Object.freeze({
+  ...asStation(STATION_A), id: 'A', a: STATION_A.start, h: STATION_A.h, k: STATION_A.k, levers: ['a'],
+  options: { a: STATION_A.options }, start: { a: STATION_A.start }, answer: { a: STATION_A.answer, h: STATION_A.h, k: STATION_A.k },
+  rings: STATION_A.rings,
 });
 export function analyse(a, motion, opts = {}) {
   const st = opts.station ?? STATION_A;
