@@ -365,9 +365,9 @@ async function gameTab(page, mobile) {
   console.log('Game tab');
   await tab(page, mobile, 'main'); await settle(page);
   ok(await page.locator('#play').getAttribute('href') === '/app/addmath/denai/main', 'Game tab: Play opens the existing game route');
-  // World 2 Phase 4: Dunia 1 (3 missions) and Dunia 2 Level 2-1 are playable
+  // World 2: Dunia 1 (3 missions) and Dunia 2 Levels 2-1, 2-2 are playable
   ok(await page.locator('.world').count() === 4 && await page.locator('.world.is-playable').count() === 2, 'Game tab: 4 worlds, Dunia 1 and 2 playable');
-  ok(await page.locator('.world.is-playable .level').count() === 4 && await page.locator('.world:not(.is-playable) .tag').count() === 2 && await page.locator('a[href="/app/addmath/denai/w2-l1.html"]').count() === 1, 'Game tab: 4 missions (2-1 with a play link); unavailable worlds clearly labelled');
+  ok(await page.locator('.world.is-playable .level').count() === 5 && await page.locator('.world:not(.is-playable) .tag').count() === 2 && await page.locator('a[href="/app/addmath/denai/w2-l1.html"]').count() === 1 && await page.locator('a[href="/app/addmath/denai/w2-l2.html"]').count() === 1, 'Game tab: 5 missions (2-1 and 2-2 with play links); unavailable worlds clearly labelled');
   ok((await page.locator('.game-sep').innerText()).includes('bukan bukti penguasaan'), 'Game tab: game records kept apart from mastery');
 }
 

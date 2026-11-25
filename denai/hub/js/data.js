@@ -32,7 +32,7 @@ export const GAME = {
 /** Every world on the game's own map (menu/progress.js), with its real state. */
 export const WORLDS = [
   { no: 1, name: 'Hutan & Sungai', topic: 'Fungsi', chapter: 't4-1', state: 'playable' },
-  { no: 2, name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', chapter: 't4-2', state: 'playable', soon: ['2-2 Lembah Puncak', '2-3 Gerbang Parabola'] },
+  { no: 2, name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', chapter: 't4-2', state: 'playable', soon: ['2-3 Gerbang Parabola'] },
   { no: 3, name: 'Kilang & Lombong', topic: 'Sistem Persamaan', chapter: 't4-3', state: 'soon' },
   { no: 4, name: 'Tanah Tinggi Ladang', topic: 'Indeks, Surd & Logaritma', chapter: 't4-4', state: 'soon' },
 ];
@@ -41,6 +41,7 @@ export const GAME_W2 = {
   chapter: 't4-2', world: 'Dunia 2', name: 'Lembah Batu Kapur', url: '/app/addmath/denai/w2-l1.html',
   levels: [
     { no: '2-1', title: 'Jejak Lengkung', concept: 'Kesan a, h dan k pada graf', sub: '2.3', sp: ['2.3.4'], text: String.raw`Ubah \(a\), \(h\) dan \(k\) dalam \(y = a(x - h)^2 + k\) supaya lengkung melalui cincin: batu loncatan dan jambatan gantung terbina daripada lengkung itu.` },
+    { no: '2-2', title: 'Lembah Puncak', concept: 'Bucu, nilai maksimum dan masalah maksimum', sub: '2.3', sp: ['2.3.3', '2.3.5', '2.3.6'], url: '/app/addmath/denai/w2-l2.html', text: String.raw`Tangkap bola di bucu \(y = -x^2 + 6x - 5\), bunyikan loceng di titik tertinggi \(y = -2x^2 + 8x\), dan cari lebar kandang yang memberi luas maksimum \(A(x) = x(6 - x)\).` },
   ],
 };
 /** Every playable game world, in map order. */

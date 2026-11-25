@@ -38,3 +38,26 @@ assert.equal(newer.getItem(W2_KEY), JSON.stringify({ schemaVersion: 2, levels: {
 // storage unavailable: no throw
 assert.equal(createW2Store({ getItem: () => { throw new Error('blocked'); }, setItem: () => { throw new Error('blocked'); } }).saveRun(newRun()), false);
 console.log('w2 campaign: ok');
+
+// ── Level 2-2 in the same key; saving one level never drops another ──
+{
+  const s = mem(), st = createW2Store(s);
+  const r1 = newRun(); r1.levers.A = { a: -0.5 }; r1.solved.A = true; st.saveRun(r1);
+  const r2 = newRun('w2-l2');
+  assert.deepEqual(r2.levers, { D: { x: 1, y: 1 }, E: { x: 0.5 }, F: { x: 1 } });
+  r2.levers.D = { x: 3, y: 4 }; r2.solved.D = true; r2.checkpointId = 'after-d'; r2.coins = ['d1', 'c1'];
+  assert.ok(st.saveRun(r2, 'w2-l2'));
+  const back = st.load().levels;
+  assert.equal(back['w2-l1'].run.solved.A, true, '2-1 record kept after saving 2-2');
+  assert.equal(back['w2-l2'].run.solved.D, true); assert.equal(back['w2-l2'].run.checkpointId, 'after-d');
+  assert.deepEqual(back['w2-l2'].run.coins, ['d1'], '2-1 coin ids are not valid in 2-2');
+  // a fake 2-2 save: only real answers count (D needs the vertex, E the bell at x = 2, F x = 3)
+  const fake = sanitizeRun({ id: 'f', solved: { D: true, E: true, F: true }, levers: { D: { x: 2, y: 3 }, E: { x: 2 }, F: { x: 4 } }, checkpointId: 'after-e', completed: true }, 'w2-l2');
+  assert.deepEqual(fake.solved, { D: false, E: true, F: false }); assert.equal(fake.checkpointId, 'entry'); assert.equal(fake.completed, false);
+  // a level this release does not know survives a save
+  const raw = JSON.parse(s.getItem(W2_KEY)); raw.levels['w2-l3'] = { completions: 2, note: 'future' }; s.setItem(W2_KEY, JSON.stringify(raw));
+  st.saveRun(r1);
+  assert.deepEqual(JSON.parse(s.getItem(W2_KEY)).levels['w2-l3'], { completions: 2, note: 'future' }, 'unknown level kept');
+  assert.equal(st.saveRun(r1, 'w2-l9'), false, 'unknown level id refused');
+}
+console.log('w2 campaign (2-1 + 2-2): ok');

@@ -41,7 +41,7 @@ hanya direka terperinci apabila tiba gilirannya, dan pengelompokan di bawah masi
 | Dunia | Status | Di mana |
 |---|---|---|
 | 1 Hutan & Sungai: 1-1 Jejak Taman Fungsi, 1-2 Jambatan Berkembar, 1-3 Gerbang Songsang | **boleh dimain (live)** | `main`; `src/v14/levels/registry.js` |
-| 2 Lembah Batu Kapur | **2-1 Jejak Lengkung boleh dimain (live)**: Peta Dunia (selepas 1-1), penamat 1-3, Learning Hub; 2-2 dan 2-3 sedang dibina | `WORLD-2-BLUEPRINT.md` |
+| 2 Lembah Batu Kapur | **2-1 Jejak Lengkung dan 2-2 Lembah Puncak boleh dimain (live)**: Peta Dunia, penamat 1-3 dan 2-1, Learning Hub; 2-3 sedang dibina | `WORLD-2-BLUEPRINT.md` |
 | 3–9 | dirancang (jadual di bawah) | dokumen ini |
 
 ## Senarai dunia (cadangan pemilik, 25 Nov 2026 — susunan belum muktamad)
@@ -113,7 +113,7 @@ Kekalkan identiti visual DENAI. **Jangan redesign Chill Boy atau aset yang stabi
 |---|---|---|---|
 | Kenney Pixel Platformer (asas) | `assets/kenney-pixel-platformer/` (di `main`) | CC0 | sedang digunakan oleh Dunia 1 dan 2 |
 | Kenney Pixel Platformer Industrial Expansion | `assets/kenney-pixel-platformer-industrial/` (cawangan `claude/denai-w2-slice`, belum di `main`) | CC0 | dibawa masuk apabila 2-3 (rantai) atau Dunia 3 dibina |
-| Kenney Pixel Platformer Farm Expansion | `assets/kenney-pixel-platformer-farm/` (cawangan `claude/denai-w2-slice`, belum di `main`) | CC0 | dibawa masuk apabila 2-2 (pagar) atau Dunia 4 dibina |
+| Kenney Pixel Platformer Farm Expansion | `assets/kenney-pixel-platformer-farm/` (di `main` sejak 2-2: tilemap + lesen) | CC0 | pagar kandang 2-2; Dunia 4 |
 | Chill Boy (Segel2D, versi percuma) | `assets/chill-boy/` | lihat SOURCE-README | watak pemain; tidak diubah |
 
 Ketiga-tiga pek Kenney guna grid 18 px (dipapar 3×), jadi boleh dicampur dalam satu peta.
@@ -123,7 +123,7 @@ Ketiga-tiga pek Kenney guna grid 18 px (dipapar 3×), jadi boleh dicampur dalam 
 1. **Siapkan Dunia 2 Lembah Batu Kapur dahulu** (`WORLD-2-BLUEPRINT.md`):
    - Fasa 3: peta penuh 2-1 Jejak Lengkung (pratonton, tiada pautan menu) — siap;
    - Fasa 4: integrasi (registry, menu, Peta Dunia, penamat 1-3, Hub) — siap;
-   - Fasa 5: 2-2 Lembah Puncak; Fasa 6: 2-3 Gerbang Parabola.
+   - Fasa 5: 2-2 Lembah Puncak — siap; Fasa 6: 2-3 Gerbang Parabola.
 2. **Dunia 3 Kilang & Lombong** (gabungan Bab 3 + T5 Bab 7): blueprint dahulu, teka-teki disahkan, satu level satu PR.
 3. Dunia seterusnya **satu demi satu**, mengikut susunan yang dipersetujui pemilik.
 4. Peta dunia dalam game dikemas kini kepada 9 dunia apabila Dunia 3 hampir siap.

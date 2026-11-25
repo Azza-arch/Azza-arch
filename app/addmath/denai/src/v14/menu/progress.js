@@ -56,17 +56,22 @@ export function currentLevel(levels) {
   return levels.find((l) => l.unlocked && l.completions === 0) ?? null;
 }
 
-// World 2 (Lembah Batu Kapur): 2-1 is playable (own page, own save key denai-w2-campaign-v1);
-// 2-2 and 2-3 are listed as coming soon. 2-1 opens once 1-1 is complete.
+// World 2 (Lembah Batu Kapur): 2-1 and 2-2 are playable (own pages, one save key
+// denai-w2-campaign-v1); 2-3 is listed as coming soon. 2-1 opens after 1-1, 2-2 after 2-1.
 export function worldTwoLevels({ storage = globalThis.localStorage, localPreview = false } = {}) {
   const l1Done = worldOneLevels({ storage, localPreview }).find((l) => l.id === 'w1-l1')?.completions > 0;
-  const rec = createW2Store(storage).load().levels['w2-l1'], run = rec.run;
-  const running = !!run && !run.completed && (run.elapsedMs > 0 || run.checkpointId !== 'entry' || Object.values(run.solved).some(Boolean));
-  const unlocked = canPlay('w2-l1', l1Done ? ['w1-l1'] : [], { localPreview });
-  const status = running && unlocked ? STATUS.IN_PROGRESS : rec.completions > 0 ? STATUS.COMPLETED : unlocked ? STATUS.AVAILABLE : STATUS.LOCKED;
+  const recs = createW2Store(storage).load().levels;
+  const done = [l1Done ? 'w1-l1' : null, recs['w2-l1'].completions > 0 ? 'w2-l1' : null].filter(Boolean);
+  const row = (id, num, title, requires) => {
+    const rec = recs[id], run = rec.run;
+    const running = !!run && !run.completed && (run.elapsedMs > 0 || run.checkpointId !== 'entry' || Object.values(run.solved).some(Boolean));
+    const unlocked = canPlay(id, done, { localPreview });
+    const status = running && unlocked ? STATUS.IN_PROGRESS : rec.completions > 0 ? STATUS.COMPLETED : unlocked ? STATUS.AVAILABLE : STATUS.LOCKED;
+    return { id, num, title, status, unlocked, completions: rec.completions, running, best: rec.bestMs, requires };
+  };
   return [
-    { id: 'w2-l1', num: '2-1', title: 'Jejak Lengkung', status, unlocked, completions: rec.completions, running, best: rec.bestMs, requires: '1-1' },
-    { id: 'w2-l2', num: '2-2', title: 'Lembah Puncak', status: STATUS.COMING_SOON, unlocked: false, completions: 0 },
+    row('w2-l1', '2-1', 'Jejak Lengkung', '1-1'),
+    row('w2-l2', '2-2', 'Lembah Puncak', '2-1'),
     { id: 'w2-l3', num: '2-3', title: 'Gerbang Parabola', status: STATUS.COMING_SOON, unlocked: false, completions: 0 },
   ];
 }

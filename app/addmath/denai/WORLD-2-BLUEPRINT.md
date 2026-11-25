@@ -7,7 +7,7 @@
 > - Keputusan 16 Nov kekal: dibuka selepas 1-1; 1 unit matematik = 1 jubin; set cabaran tetap dahulu.
 > - **Batu loncatan: satu pada setiap x integer, bukan setiap ½ unit** (hirisan Stesen A membuktikan ½ unit membenarkan jawapan salah). Setiap stesen mesti disahkan dengan sampul lompatan sebenar (`analyse` dalam `quadratic.js`): jawapan betul boleh dilalui, setiap jawapan salah gagal secara fizikal.
 > - **Fasa 2–3 (25 Nov): Stesen B dan C direka semula dengan bukti** — lihat §4a dan §4b. Reka bentuk akhir: A = tuil a (batu pada setiap x); B = tuil h dan k, *berpaut* (air mengeras hanya jika masuk kedua-dua corong); C = tuil k, *berpaut* (kabel diikat hanya jika melalui kedua-dua sauh).
-> - **Status:** Fasa 1–4 siap. **Level 2-1 boleh dimain oleh murid** (halaman sendiri `w2-l1.html`, simpanan `denai-w2-campaign-v1`): dibuka selepas 1-1 dalam Peta Dunia (Main / Sambung / Main semula), ditawarkan di penamat 1-3 ("Ke Dunia 2"), dan dipaparkan dalam Learning Hub (tab Game, Bab 2, Kemajuan). Scene, simpanan dan papan pendahulu World 1 tidak disentuh. Seterusnya: Fasa 5 (Level 2-2 Lembah Puncak).
+> - **Status:** Fasa 1–5 siap. **Level 2-1 dan 2-2 boleh dimain oleh murid** (halaman `w2-l1.html`, `w2-l2.html`; satu kunci simpanan `denai-w2-campaign-v1`): 2-1 dibuka selepas 1-1, 2-2 selepas 2-1, dalam Peta Dunia; penamat 1-3 → 2-1, penamat 2-1 → 2-2; Learning Hub (tab Game, Bab 2, Kemajuan). Scene, simpanan dan papan pendahulu World 1 tidak disentuh. Seterusnya: Fasa 6 (Level 2-3 Gerbang Parabola).
 
 
 Ditulis 15 Nov 2026. Ini pelan reka bentuk untuk dipersetujui pemilik sebelum
@@ -175,6 +175,23 @@ Di sini mesin memberi persamaan dalam **bentuk am**; pemain mesti meramal bucu.
 
 Stesen alternatif untuk main semula (variasi berbenih seperti L1):
 y = −x² + 8x − 12 (bucu (4, 4)).
+
+### 5a. Level 2-2 seperti dibina (Fasa 5, 25 Nov 2026)
+Tiga stesen *sasar / optimum*: jawapan disemak tepat (matematik, `src/v14/levels/w2/peak.js`), dan
+kejayaan menghidupkan mekanisme tetap yang disahkan seperti semua laluan Dunia 2 — mustahil sebelum
+aktif (fizik murah hati, lompatan 5 % lebih kuat), mudah selepas aktif (fizik ketat, dari berdiri).
+| Stesen | Tuil | Jawapan | Apa yang dilihat | Mekanisme |
+|---|---|---|---|---|
+| D Tangkap di Puncak, y = −x² + 6x − 5 | cawan x, y (1…5) | (3, 4) | lengkung **tidak** dilukis sebelum tembakan (murid meramal bucu, x = −b/2a); jejak bola kekal. Di (2, 3), (4, 3) bola **melantun** (masih naik/turun); di luar lengkung bola lalu di atas/bawah | tangga batu naik tebing 4 jubin |
+| E Loceng, y = −2x² + 8x | loceng x (0…4, langkah ½) | x = 2 | air hanya sampai ketinggian 8 di x = h; panel menunjukkan tinggi air di x yang dipilih. Kamera naik supaya pancutan dan loceng kelihatan | pintu gerbang batu (dinding 7 jubin) turun |
+| F Kandang Maksimum, A(x) = x(6 − x) | lebar x (1…5) | x = 3 | papan pelan 6 × 6 (pagar 12 unit) + graf bar luas setiap lebar yang dicuba: naik, puncak, turun | lif kargo (tiga tebing peti) naik ke tebing keluar |
+Peta (`level-2-2-data.js`, 56 jubin): Cerun Angin (lembah y 0) → D → dataran (y 4) → E → F → tebing
+keluar (y 8) → gerbang "KE 2-3". 12 syiling, 3 checkpoint. Ujian: `peak.test.mjs` (satu jawapan setiap
+stesen; mekanisme), `level-2-2.test.mjs` (mekanisme dibaca semula dari peta; level **tidak boleh**
+ditamatkan tanpa mana-mana satu stesen), `w2-l2-playthrough.cjs` (fizik sebenar: jawapan salah di
+D, E, F, muat semula, tamat 12/12, simpanan Dunia 1 dan rekod 2-1 tidak berubah, telefon).
+Aset: Kenney asas + pagar Kenney Farm (bingkai 38–41; hanya `Tilemap/tilemap_packed.png` dan lesen CC0
+dibawa masuk). Variasi main semula (y = −x² + 8x − 12) belum dibina (set tetap dahulu).
 
 ## 6. Level 2-3 — Gerbang Parabola
 SP: 2.1.1 (menyelesaikan), 2.1.2 (bentuk persamaan daripada punca), 2.1.3

@@ -27,7 +27,7 @@ export async function render(route) {
       <p><b>Konsep:</b> ${esc(lv.concept)} · subtopik ${esc(lv.sub)} ${esc(subtopicTitle(gc.id, lv.sub))} · SP ${esc(lv.sp.join(', '))}</p>
       <p>${renderMath(lv.text)}</p>
       <p class="level-mastery"><span class="small muted">Tahap penguasaan anda bagi ${esc(lv.sub)} (daripada latihan, bukan game):</span>${masteryTag(l.level(gc.id, lv.sub))}</p>
-      <p class="path-actions"><a href="#/nota/${gc.id}/${lv.sub}">${icon('book')}Nota ${esc(lv.sub)}</a><a href="#/latihan/${gc.id}/${lv.sub}">${icon('pencil')}Latihan ${esc(lv.sub)}</a>${g.url ? `<a href="${g.url}">${icon('play')}Main Level ${esc(lv.no)}</a>` : ''}</p>
+      <p class="path-actions"><a href="#/nota/${gc.id}/${lv.sub}">${icon('book')}Nota ${esc(lv.sub)}</a><a href="#/latihan/${gc.id}/${lv.sub}">${icon('pencil')}Latihan ${esc(lv.sub)}</a>${lv.url || g.url ? `<a href="${lv.url || g.url}">${icon('play')}Main Level ${esc(lv.no)}</a>` : ''}</p>
     </div></li>`).join('')}</ol>`; };
 
   const world = (w) => {
@@ -65,7 +65,7 @@ export async function render(route) {
     <p class="notice game-sep" style="margin-top:32px">${icon('info')}<span><b>Rekod game bukan bukti penguasaan.</b> Misi selesai, syiling, masa dan pencapaian disimpan oleh game itu sendiri dalam pelayar ini. Learning Hub hanya memaparkan status misi; tahap penguasaan hanya berubah melalui jawapan latihan.</span></p>
 
     <section class="section" style="margin-top:32px" aria-labelledby="h-worlds">
-      <div class="section-head"><div><h2 class="h2" id="h-worlds">Dunia dan misi</h2><p>Dunia 1 dan Level 2-1 Dunia 2 boleh dimain sekarang. Dunia lain disenaraikan seperti dalam peta game.</p></div></div>
+      <div class="section-head"><div><h2 class="h2" id="h-worlds">Dunia dan misi</h2><p>Dunia 1 serta Level 2-1 dan 2-2 Dunia 2 boleh dimain sekarang. Dunia lain disenaraikan seperti dalam peta game.</p></div></div>
       <ol class="worlds">${WORLDS.map(world).join('')}</ol>
     </section>
 
