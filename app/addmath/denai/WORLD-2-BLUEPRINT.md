@@ -6,8 +6,8 @@
 > - **Pek farm/industrial (Kenney CC0):** dibawa masuk hanya apabila 2-2 (pagar) dan 2-3 (rantai) dibina.
 > - Keputusan 16 Nov kekal: dibuka selepas 1-1; 1 unit matematik = 1 jubin; set cabaran tetap dahulu.
 > - **Batu loncatan: satu pada setiap x integer, bukan setiap ½ unit** (hirisan Stesen A membuktikan ½ unit membenarkan jawapan salah). Setiap stesen mesti disahkan dengan sampul lompatan sebenar (`analyse` dalam `quadratic.js`): jawapan betul boleh dilalui, setiap jawapan salah gagal secara fizikal.
-> - **Fasa 2 (25 Nov): Stesen B dan C direka semula dengan bukti** — lihat §4a. B kekal dua tuil (h, k) di bawah bumbung batu kapur; C hanya tuil k (a, h tetap) dengan gerbang batu di tengah.
-> - **Status:** Fasa 1 siap — `quadratic.js`, ujian unit dan bilik ujian Stesen A (`lab-w2.html`, noindex, tiada pautan menu) ada di `main`. Kod World 1, simpanan dan papan pendahulu tidak disentuh. Fasa 2 siap (§4a). Seterusnya: Fasa 3 (peta penuh 2-1 sebagai scene `w2-l1`, masih melalui URL pratonton).
+> - **Fasa 2–3 (25 Nov): Stesen B dan C direka semula dengan bukti** — lihat §4a dan §4b. Reka bentuk akhir: A = tuil a (batu pada setiap x); B = tuil h dan k, *berpaut* (air mengeras hanya jika masuk kedua-dua corong); C = tuil k, *berpaut* (kabel diikat hanya jika melalui kedua-dua sauh).
+> - **Status:** Fasa 1–3 siap. Level 2-1 penuh boleh dimain di `w2-l1.html` (pratonton: noindex, tiada pautan menu) dengan simpanan sendiri `denai-w2-campaign-v1`. Kod World 1, simpanan dan papan pendahulu tidak disentuh. Seterusnya: Fasa 4 (integrasi: registry, menu, Peta Dunia, penamat 1-3, Hub).
 
 
 Ditulis 15 Nov 2026. Ini pelan reka bentuk untuk dipersetujui pemilik sebelum
@@ -111,6 +111,47 @@ mempunyai satu jawapan fizikal. Pelajaran C kini: k menaik/menurunkan seluruh le
 **Faktor kegagalan** (`factors`, untuk mesej dalam permainan pada Fasa 3): `buried` (dalam batu),
 `submerged` (tenggelam), `high` (di luar stesen), `roof` (bumbung/gerbang menghalang lompatan),
 `climb` (panjatan melebihi lompatan), `gap` (celah terlalu jauh).
+
+## 4b. Fasa 3 — peta penuh 2-1 dan model fizik yang jujur (25 Nov 2026)
+
+**Ujian pelayar menemui dua kelemahan model §4a** (ujian main penuh dengan fizik sebenar,
+`tests/w2-l1-playthrough.cjs`):
+1. Laluan B §4a memerlukan lompatan berlari yang tepat di bawah bumbung rendah (lompatan dari
+   berdiri hanya ≈ 44 unit, perlu ≈ 68): terlalu sukar untuk murid T4.
+2. Model mengenakan had bumbung pada *seluruh* lompatan; sebenarnya pemain melompat di udara terbuka
+   dan hanya masuk ke bawah batu di hujung lengkung. Jawapan salah B (5, 3) berjaya dilalui dalam pelayar.
+
+**Model kini dua mod** (`analyseStation`, opsyen `strict`):
+- **Ketat** — untuk membuktikan jawapan BETUL mudah: lompat dari berdiri, dari tengah batu (atau ½ jubin
+  dari hujung tebing), mendarat dengan ≥ 10 unit di atas sasaran, bumbung menghadkan seluruh lompatan.
+- **Murah hati** — untuk membuktikan jawapan SALAH gagal: trajektori 2D pada laju penuh dari beberapa
+  titik lompat; batu hanya menghalang kepala di tempat badan benar-benar berada.
+
+**Penemuan:** dengan fizik yang jujur, Chill Boy melompat celah hingga ≈ 4 jubin. Mekanik "batu pada
+setiap x" hanya membezakan perubahan *ketinggian* yang besar (Stesen A, tuil a, kekal). Anjakan 1 jubin
+(h) atau ½–1 jubin (k) masih dalam jangkauan lompatan, jadi tiada susun atur dengan satu jawapan
+fizikal untuk B (11 346 susun atur dicuba) atau C.
+
+**Penyelesaian: binaan berpaut** (`anchored: true`). Struktur hanya wujud jika lengkung melalui kedua-dua
+cincin — air mesti masuk kedua-dua corong (B); kabel mesti diikat pada kedua-dua sauh di atas tiang (C).
+Jika tidak, batu terbentuk seketika lalu jatuh ke air (pemerhatian, bukan hukuman). Disahkan:
+- matematik: hanya satu tetapan tuil melalui kedua-dua cincin;
+- tanpa binaan, stesen **mustahil** dilalui walaupun dengan lompatan 5 % lebih kuat (mod murah hati);
+- dengan binaan betul, laluan **mudah** dengan lompatan 5 % lebih lemah dari berdiri (mod ketat);
+- peta dibaca semula daripada tanah sebenar dan memberi keputusan yang sama (`tests/level-2-1.test.mjs`).
+
+**Stesen B akhir "Anjakan":** bentuk Stesen A (a = −½) tetap; tuil h ∈ {3…7}, k ∈ {2…6}; corong (3, 2)
+dan (7, 2) → h = 5, k = 4; batu 2, 3½, 4, 3½, 2; tebing y = 1, kolam x 2.5–7.5. Pelajaran: h dan k
+mengalihkan bentuk yang sama; bucu = (h, k). Tiada bumbung diperlukan.
+**Stesen C akhir:** seperti §4a (a = ½, h = 4, tuil k, sauh (2, 3) dan (6, 3), gerbang batu di tengah),
+kini berpaut.
+
+**Level 2-1 (pratonton `w2-l1.html`):** Rabung Masuk → Stesen A → checkpoint → Stesen B → checkpoint →
+Stesen C → gerbang batu "KE 2-2". 71 jubin, 12 syiling, 3 checkpoint, aset Kenney asas dan Chill Boy
+sahaja. Peta dijana daripada `level-2-1-data.js`, iaitu daripada definisi stesen yang sama yang diuji.
+Simpanan `denai-w2-campaign-v1` (`campaign.js`): stesen dikira selesai hanya dengan jawapan sebenar.
+Ujian: unit (peta = matematik, simpanan) dan main penuh dalam pelayar (jawapan salah di B dan C,
+muat semula, tamat 12/12, simpanan Dunia 1 tidak berubah, telefon landskap).
 
 ## 5. Level 2-2 — Lembah Puncak
 SP: 2.3.3 (bentuk am ↔ verteks), 2.3.5 (ciri graf), 2.3.6 (maks/min).

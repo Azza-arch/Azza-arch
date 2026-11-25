@@ -24,7 +24,8 @@ for (const s of STATIONS) {
     const right = key(s.st, c) === key(s.st, s.st.answer);
     assert.equal(analyseStation(fromMap, c, MOTION).success, right, `${s.st.id} on the map, ${key(s.st, c)}`);
   }
-  assert.ok(analyseStation(fromMap, s.st.answer, MOTION, { maxRise: 1.5, maxGap: 2 }).success, `${s.st.id}: easy route on the map`);
+  const weak = { ...MOTION, jump: MOTION.jump * 0.95, speed: MOTION.speed * 0.95 };
+  assert.ok(analyseStation(fromMap, s.st.answer, weak, { strict: true, maxRise: 1.5, maxGap: 2 }).success, `${s.st.id}: easy route on the map (standing take-off)`);
 }
 
 // 3. The paths between stations are walkable without any puzzle: no step up higher than 1 tile.

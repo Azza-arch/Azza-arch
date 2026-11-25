@@ -34,6 +34,7 @@ const WHY = {
   roof: 'batu kapur di atas menghalang lompatan',
   climb: 'terlalu tinggi untuk dipanjat',
   gap: 'celah terlalu jauh',
+  loose: 'lengkung tidak melalui kedua-dua cincin, jadi tiada binaan',
 };
 function equationHtml(s, c) {
   const b = (v, on) => (on ? `<b>${v}</b>` : v);
@@ -160,10 +161,22 @@ class Level21 extends Phaser.Scene {
     for (const s of stationStones(st.st, st.c, MOTION)) {
       if (s.state === 'nozzle') continue;
       if (s.state === 'high') { st.layer.push(this.add.text(st.X(s.x), st.Y(8.6), `↑ y = ${formatNum(s.y)}`, { fontFamily: FONT, fontSize: '14px', fontStyle: 'bold', color: '#fff', backgroundColor: '#8a5a2b', padding: { x: 4, y: 2 } }).setOrigin(.5, 0).setDepth(14)); continue; }
-      const img = this.add.image(st.X(s.x - .5), st.Y(s.y), 'kpp_terrain_atlas', 47).setOrigin(0).setScale(3).setDepth(10);
+      const img = this.add.image(st.X(s.x - .5), Math.min(st.Y(s.y), WORLD.floor - 60), 'kpp_terrain_atlas', 47).setOrigin(0).setScale(3).setDepth(10);
       st.layer.push(img);
+      if (s.state === 'loose') { // not supported by both rings: it forms for a moment, then drops into the water
+        img.setAlpha(.6);
+        if (!reducedMotion && !quiet) this.tweens.add({ targets: img, y: WORLD.floor, alpha: 0, duration: 900, ease: 'Quad.in', delay: 250 + 40 * (s.x - st.st.stoneXs[0]) });
+        else img.setAlpha(.2);
+        continue;
+      }
       if (s.state === 'submerged') { img.setAlpha(.35).setTint(0x7fb7e6); if (st.Y(s.y) > WORLD.floor - 54) img.setY(WORLD.floor - 60); continue; }
-      if (s.state === 'buried') { img.setAlpha(.45).setTint(0x8f8a80).setDepth(9.2); continue; }
+      if (s.state === 'buried') {
+        // inside the rock, or right under it with no room for the player's body: drawn, never stood on
+        img.setAlpha(.45).setTint(0x8f8a80).setDepth(9.2);
+        const roof = Math.min(...(st.st.ceiling || []).filter((c) => s.x > c.x0 && s.x < c.x1).map((c) => c.y), Infinity);
+        if (s.y < roof) st.layer.push(this.add.text(st.X(s.x), st.Y(s.y) + 20, 'sempit', { fontFamily: 'Arial, sans-serif', fontSize: '12px', fontStyle: 'bold', color: '#fff', backgroundColor: '#6b5a48', padding: { x: 3, y: 1 } }).setOrigin(.5, 0).setDepth(14));
+        continue;
+      }
       const body = this.add.rectangle(st.X(s.x), st.Y(s.y) + 9, T, 18, 0, 0);
       this.physics.add.existing(body, true); body.setData('oneWay', true).setData('stone', s); this.solids.add(body);
       st.layer.push(body);
@@ -218,11 +231,11 @@ class Level21 extends Phaser.Scene {
     $('w2-station').textContent = st.s.name + (st.solved ? ' ✓' : '');
     $('w2-eq').innerHTML = equationHtml(st.s, c);
     const rings = s.rings.map(([x, y]) => `x = ${x}: y = ${formatNum(curveAt(c, x))}${Math.abs(curveAt(c, x) - y) < 1e-9 ? ' ✓' : ` (cincin di ${formatNum(y)})`}`).join(' · ');
-    $('w2-why').textContent = rings;
+    $('w2-why').textContent = `${rings}. ${st.s.rule}`;
     $('w2-vertex').textContent = `Bucu: (${formatNum(c.h)}, ${formatNum(c.k)})`;
     let state;
     if (st.solved) state = `Selesai. ${st.s.lesson}.`;
-    else if (st.locked) state = st.analysis.success ? 'Laluan terbina. Cuba lalui!' : `Laluan terputus: ${st.analysis.factors.map((f) => WHY[f]).join('; ')}. Ubah tuil, cuba lagi.`;
+    else if (st.locked) state = st.analysis.success ? (stationStones(s, c, MOTION).some((q) => q.state === 'buried') ? 'Laluan terbina. Batu bertanda "sempit" tiada ruang untuk berdiri: guna batu di cincin.' : 'Laluan terbina. Cuba lalui!') : `Laluan terputus: ${st.analysis.factors.map((f) => WHY[f]).join('; ')}. Ubah tuil, cuba lagi.`;
     else state = passesRings(s, c) ? 'Lengkung melalui kedua-dua cincin. Kunci untuk membina batu.' : 'Ubah tuil supaya lengkung melalui kedua-dua cincin, kemudian kunci.';
     $('w2-state').textContent = state;
     // lever buttons for this station

@@ -16,9 +16,9 @@ export const WIDTH = 71;        // tiles
 
 // Stations in play order. leverX: where the lever post stands (global tiles), on the left bank.
 export const STATIONS = [
-  { st: STATION_A_LEVEL, ox: 20.5, leverX: 19, name: 'Stesen A · Bukaan', eq: 'a', lesson: 'a mengubah bukaan: |a| besar = sempit, a negatif = terbuka ke bawah' },
-  { st: STATION_B, ox: 34.5, leverX: 34.5, name: 'Stesen B · Anjakan', eq: 'hk', lesson: 'h dan k mengalihkan seluruh lengkung: bucu = (h, k)' },
-  { st: STATION_C, ox: 52.5, leverX: 51.5, name: 'Stesen C · Jambatan Gantung', eq: 'k', lesson: 'k menaikkan atau menurunkan seluruh lengkung; a positif = ada titik minimum' },
+  { st: STATION_A_LEVEL, ox: 20.5, leverX: 19, name: 'Stesen A · Bukaan', eq: 'a', rule: 'Batu terbina pada setiap x di sepanjang lengkung.', lesson: 'a mengubah bukaan: |a| besar = sempit, a negatif = terbuka ke bawah' },
+  { st: STATION_B, ox: 34.5, leverX: 34.5, name: 'Stesen B · Anjakan', eq: 'hk', rule: 'Air hanya mengeras menjadi batu jika masuk kedua-dua corong (cincin).', lesson: 'h dan k mengalihkan bentuk yang sama: bucu = (h, k)' },
+  { st: STATION_C, ox: 52.5, leverX: 51.5, name: 'Stesen C · Jambatan Gantung', eq: 'k', rule: 'Kabel hanya boleh diikat jika melalui kedua-dua sauh (cincin) di atas tiang.', lesson: 'k menaikkan atau menurunkan seluruh lengkung; a positif = ada titik minimum' },
 ];
 
 // Ground between the stations (global tiles): [x0, x1, top, style].
@@ -26,9 +26,9 @@ const LINKS = [
   [0, 14, 2, 'grass'],           // Rabung Masuk: the ridge from World 1
   [14, 16, 1, 'grass'],          // step down into the valley
   // Station A left bank (16 → its own edge) is generated
-  // Station A right bank → steps up to Station B's bank height (3)
+  // Station A right bank → a small rocky rise, then down to Station B's bank (1)
   [30, 31, 1.5, 'stone'],
-  [31, 32, 2.5, 'stone'],
+  [31, 32, 2, 'stone'],
   // Station B left bank (32 → edge) and right bank (→ 48) are generated
   // Station C left bank (48 → edge) and right bank (→ 71) are generated
 ];
@@ -63,7 +63,7 @@ export function buildLevel() {
     coins: [
       ['c1', 4, 3], ['c2', 6, 3], ['c3', 8, 3], ['c4', 10, 3],
       ['c5', 20.5 + 2, 4.4], ['c6', 20.5 + 4, 4.4],
-      ['c7', 34.5 + 4, 3.8], ['c8', 34.5 + 6, 3.8],
+      ['c7', 34.5 + 4, 4.2], ['c8', 34.5 + 6, 4.2],
       ['c9', 52.5 + 3, 2.3], ['c10', 52.5 + 5, 2.3],
       ['c11', 62, 2.5], ['c12', 64, 2.5],
     ].map(([id, x, y]) => ({ id, x, y })),

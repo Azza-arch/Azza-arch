@@ -70,7 +70,7 @@ async function keys(p, list) { for (const k of list) { await p.keyboard.press(k)
   res.Bstart = await p.evaluate(() => __h.st('B'));
   await keys(p, ['e', 'e', 'x', 'f']); // h 3 → 5, k 2 → 3
   res.Bwrong = await p.evaluate(() => __h.st('B'));
-  ok(res.Bwrong.c.h === 5 && res.Bwrong.c.k === 3 && res.Bwrong.success === false && res.Bwrong.factors.includes('submerged'), 'B (5,3) fails: sinks');
+  ok(res.Bwrong.c.h === 5 && res.Bwrong.c.k === 3 && res.Bwrong.success === false && res.Bwrong.factors.includes('loose'), 'B (5,3) fails: misses the rings, nothing hardens');
   await p.screenshot({ path: `${out}/l21-2-b-salah.png` });
   await p.evaluate(() => __h.go(36.8));
   res.BwrongTry = await p.evaluate(() => __h.hop(39.5));
@@ -81,11 +81,10 @@ async function keys(p, list) { for (const k of list) { await p.keyboard.press(k)
   await keys(p, ['x', 'f']);
   res.B = await p.evaluate(() => __h.st('B'));
   ok(res.B.c.h === 5 && res.B.c.k === 4 && res.B.success, 'B (5,4) valid');
-  // route found by the analyser: bank → (4, 3) → (6, 3) → bank; the stones at x = 3 and 7 are under
-  // water and the vertex (5, 4) is inside the rock, so each step is a short hop under the low roof
+  // route: the stones 2, 3½, 4, 3½, 2 at x = 3…7 (global 37.5…41.5), one hop each, then the bank
   await p.evaluate(() => __h.go(36.8));
   res.Bhops = [];
-  for (const x of [38.5, 40.5, 42.6]) res.Bhops.push(await p.evaluate((x) => __h.hop(x), x));
+  for (const x of [37.5, 38.5, 39.5, 40.5, 41.5, 43]) res.Bhops.push(await p.evaluate((x) => __h.hop(x), x));
   await p.screenshot({ path: `${out}/l21-3-b-betul.png` });
   res.afterB = await p.evaluate(() => __h.go(44.5));
   ok(res.afterB.solved.B && res.afterB.cp === 'after-b', 'B solved, checkpoint after-b');
@@ -97,11 +96,11 @@ async function keys(p, list) { for (const k of list) { await p.keyboard.press(k)
   await p.evaluate(() => __h.go(51.5));
   await keys(p, ['q', 'f']); // k 3 → 2
   res.Cwrong = await p.evaluate(() => __h.st('C'));
-  ok(res.Cwrong.c.k === 2 && res.Cwrong.success === false && res.Cwrong.factors.includes('roof'), 'C k=2 fails: the arch');
+  ok(res.Cwrong.c.k === 2 && res.Cwrong.success === false && res.Cwrong.factors.includes('loose'), 'C k=2 fails: the cable misses the anchors');
   await p.evaluate(() => __h.go(53.7)); await p.evaluate(() => __h.hop(54.5)); await p.evaluate(() => __h.go(55.3));
   res.CwrongTry = await p.evaluate(async () => { await __h.hop(57.5); await __h.hop(58.5); return __h.state(); });
   await p.screenshot({ path: `${out}/l21-4-c-salah.png` });
-  ok(!res.CwrongTry.solved.C && res.CwrongTry.x < 57.1, 'C k=2: the arch stops the player');
+  ok(!res.CwrongTry.solved.C && res.CwrongTry.x < 57.1, 'C k=2: no bridge, the player cannot cross');
   await p.evaluate(() => __h.go(51.5));
   await keys(p, ['q', 'f']); // k 2 (locked: unlocks) → 1, lock
   res.C = await p.evaluate(() => __h.st('C'));

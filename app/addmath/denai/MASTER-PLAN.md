@@ -41,7 +41,7 @@ hanya direka terperinci apabila tiba gilirannya, dan pengelompokan di bawah masi
 | Dunia | Status | Di mana |
 |---|---|---|
 | 1 Hutan & Sungai: 1-1 Jejak Taman Fungsi, 1-2 Jambatan Berkembar, 1-3 Gerbang Songsang | **boleh dimain (live)** | `main`; `src/v14/levels/registry.js` |
-| 2 Lembah Batu Kapur | **sedang dibina**: Fasa 1–2 di `main` (Stesen A, matematik dan pengesahan Stesen B, C); Fasa 3 (peta penuh 2-1) dalam cawangan `claude/denai-w2-phase3` | `WORLD-2-BLUEPRINT.md` |
+| 2 Lembah Batu Kapur | **sedang dibina**: Fasa 1–3 di `main` (Level 2-1 penuh di halaman pratonton `w2-l1.html`, belum dalam menu) | `WORLD-2-BLUEPRINT.md` |
 | 3–9 | dirancang (jadual di bawah) | dokumen ini |
 
 ## Senarai dunia (cadangan pemilik, 25 Nov 2026 — susunan belum muktamad)
@@ -95,9 +95,15 @@ tetapan salah boleh dilalui).
 5. **Geometri peta dijana daripada definisi yang sama yang diuji** (contoh: `level-2-1-data.js` dijana
    daripada stesen dalam `quadratic.js`, dan ujian membaca semula tanah peta untuk menganalisis setiap
    stesen sekali lagi).
-6. Faktor kegagalan yang dipaparkan kepada murid mesti benar dari segi fizik (contoh: `buried`,
-   `submerged`, `roof`, `climb`, `gap` dalam Dunia 2).
-7. Setiap level juga perlu ujian pelayar laluan penuh dengan fizik sebenar (desktop + telefon landskap)
+6. **Fizik yang jujur dua arah** (pelajaran Fasa 3 Dunia 2): buktikan jawapan betul dengan model
+   *ketat* (lompat dari berdiri, tanpa ketepatan), dan jawapan salah dengan model *murah hati*
+   (trajektori 2D pada laju penuh; batu hanya menghalang di tempat badan berada). Lompatan Chill Boy
+   menyeberang celah hingga ≈ 4 jubin, jadi perubahan kecil (anjakan 1 jubin) biasanya tidak boleh
+   dibezakan oleh lompatan sahaja: guna **binaan berpaut** (struktur hanya wujud jika jawapan melalui
+   semua sauh/cincin, dan tanpa struktur celah mesti mustahil) dan sahkan kedua-dua syarat itu.
+7. Faktor kegagalan yang dipaparkan kepada murid mesti benar dari segi fizik (contoh: `buried`,
+   `submerged`, `roof`, `climb`, `gap`, `loose` dalam Dunia 2).
+8. Setiap level juga perlu ujian pelayar laluan penuh dengan fizik sebenar (desktop + telefon landskap)
    sebelum masuk ke menu.
 
 ## Aset
@@ -115,7 +121,7 @@ Ketiga-tiga pek Kenney guna grid 18 px (dipapar 3×), jadi boleh dicampur dalam 
 
 ## Peta jalan
 1. **Siapkan Dunia 2 Lembah Batu Kapur dahulu** (`WORLD-2-BLUEPRINT.md`):
-   - Fasa 3: peta penuh 2-1 Jejak Lengkung (pratonton, tiada pautan menu) — sedang berjalan;
+   - Fasa 3: peta penuh 2-1 Jejak Lengkung (pratonton, tiada pautan menu) — siap;
    - Fasa 4: integrasi (registry, menu, Peta Dunia, penamat 1-3, Hub);
    - Fasa 5: 2-2 Lembah Puncak; Fasa 6: 2-3 Gerbang Parabola.
 2. **Dunia 3 Kilang & Lombong** (gabungan Bab 3 + T5 Bab 7): blueprint dahulu, teka-teki disahkan, satu level satu PR.

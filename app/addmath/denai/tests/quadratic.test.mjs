@@ -37,20 +37,18 @@ for (const st of [STATION_A_LEVEL, STATION_B, STATION_C]) {
     else { const r = analyseStation(st, c, strongM); assert.ok(!r.success, `${st.id} ${key(st, c)} must fail with a 5% stronger jump`); assert.ok(analyseStation(st, c, MOTION).factors.length, `${st.id} ${key(st, c)} explains the failure`); }
   }
   // the correct route is gentle for a Form 4 player: no climb above 1.5 tiles, no gap above 2 tiles
-  const ok = analyseStation(st, st.answer, MOTION, { maxRise: 1.5, maxGap: 2 }), eff = routeEffort(st, st.answer, MOTION, ok.route);
-  assert.ok(ok.success, `${st.id}: an easy route exists`);
+  // easy = possible with a 5% weaker jump taken from a STANDSTILL in the middle of each stone
+  const ok = analyseStation(st, st.answer, weakM, { strict: true, maxRise: 1.5, maxGap: 2 }), eff = routeEffort(st, st.answer, MOTION, ok.route);
+  assert.ok(ok.success, `${st.id}: an easy route exists (standing take-off)`);
   assert.ok(eff.rise <= 1.5 && eff.gap <= 2, `${st.id} route effort ${JSON.stringify(eff)}`);
 }
-// B: vertex (5, 4) and both rings at bank height; failures read the way they look
-assert.deepEqual(STATION_B.answer, { a: -1, h: 5, k: 4 });
-const fB = (h, k) => analyseStation(STATION_B, { a: -1, h, k }, MOTION).factors;
-assert.ok(fB(5, 5).includes('buried'), 'B (5,5): the curve is inside the rock');
-assert.ok(fB(5, 3).includes('submerged') && fB(5, 3).includes('roof'), 'B (5,3): sinks; the remaining gap is too long under the low roof');
-assert.ok(fB(4, 4).includes('buried'), 'B (4,4): shifted left, part of it in the rock');
-// C: one lever k (½(x − 4)² + k through the posts' rings (2, 3), (6, 3) → k = 1)
+// Anchored stations (B, C): with nothing built the station cannot be crossed, even with a 5% stronger
+// jump (so every wrong setting fails physically), and a wrong setting is explained as 'loose'.
+for (const st of [STATION_B, STATION_C]) {
+  const empty = { ...st, stoneXs: [] };
+  assert.ok(!analyseStation(empty, st.answer, strongM).success, `${st.id}: empty station is impassable`);
+  for (const c of stationCombos(st)) if (key(st, c) !== key(st, st.answer)) assert.ok(analyseStation(st, c, MOTION).factors.includes('loose'), `${st.id} ${key(st, c)} explained as loose`);
+}
+assert.deepEqual(STATION_B.answer, { a: -0.5, h: 5, k: 4 });
 assert.deepEqual(STATION_C.levers, ['k']);
-const fC = (k) => analyseStation(STATION_C, { a: 0.5, h: 4, k }, MOTION).factors;
-assert.deepEqual(fC(0), ['climb'], 'C k=0: too low to climb back onto the far post');
-assert.deepEqual(fC(2), ['roof'], 'C k=2: no headroom under the stone arch');
-assert.ok(fC(3).includes('buried') && fC(4).includes('buried'), 'C k=3, 4: stones inside the arch');
 console.log('quadratic stations B, C: ok');
