@@ -1,0 +1,47 @@
+/* World 2 · Level 2-1 preview page (w2-l1.html). Same look as the Station A test room. */
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#203e36;font-family:Arial,system-ui,sans-serif;overscroll-behavior:none}
+.w2{height:100dvh;display:flex}
+.w2-frame{position:relative;flex:1;overflow:hidden}
+#w2-game{position:absolute;inset:0}
+#w2-game:focus{outline:none}
+[hidden]{display:none!important}
+.w2-hud{position:absolute;top:10px;left:10px;max-width:min(440px,46vw);background:#fffdf5ee;border:3px solid #203e36;border-radius:10px;padding:8px 12px;color:#203e36;pointer-events:none}
+.w2-hud p{margin:0}
+.w2-tag{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.w2-tag span{background:#d7a21f;color:#203e36;border-radius:4px;padding:1px 5px;margin-left:4px}
+.w2-station{font-weight:700;font-size:15px;margin-top:2px!important}
+.w2-eq{font:700 23px/1.25 ui-monospace,Consolas,monospace;margin:2px 0!important}
+.w2-eq b{color:#2a6fdb}
+.w2-meta{font-size:13px;font-weight:700}
+.w2-why{font-size:13px;line-height:1.35}
+.w2-state{font-size:13px;margin-top:4px!important;color:#5a4a2a}
+.w2-keys{font-size:12px;color:#5a6a60}
+.w2-cue{position:absolute;top:10px;right:10px;margin:0;max-width:min(460px,46vw);background:#203e36;color:#fff2ce;font-weight:700;font-size:15px;border-radius:8px;padding:7px 12px;opacity:0;pointer-events:none;text-align:center}
+.w2-cue.pop{animation:cue 4.2s ease forwards}
+@keyframes cue{0%{opacity:0}6%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.w2-cue.pop{animation:none;opacity:1}}
+.w2-tools{position:absolute;right:10px;bottom:10px;z-index:2;display:flex;gap:8px;align-items:center;background:#fffdf5ee;border:3px solid #203e36;border-radius:10px;padding:6px}
+.w2-tools.far{opacity:.45}
+.w2-lever{display:flex;gap:4px;align-items:center}
+.w2-lever output{font:700 18px ui-monospace,Consolas,monospace;min-width:72px;text-align:center;color:#203e36}
+.w2-lever output b{color:#2a6fdb}
+.w2-tools button,.w2-touch button{touch-action:none;user-select:none;-webkit-user-select:none;min-width:48px;min-height:48px;border:2px solid #203e36;border-radius:8px;background:#fff;color:#203e36;font-weight:700;font-size:20px;cursor:pointer}
+.w2-tools .w2-lock{background:#203e36;color:#fff2ce;min-width:96px;font-size:16px}
+.w2-tools .w2-lock[aria-pressed=true]{background:#d7a21f;color:#203e36}
+.w2-tools .w2-lock:disabled{background:#1f6e3a;color:#fff;cursor:default}
+.w2-tools button:focus-visible,.w2-touch button:focus-visible,.w2-actions :focus-visible{outline:3px solid #d7a21f;outline-offset:2px}
+.w2-touch{position:absolute;left:10px;bottom:10px;display:flex;gap:10px;align-items:end}
+.w2-touch>div{display:flex;gap:6px}
+.w2-touch button{background:#fffdf5e6;font-size:22px}
+.w2-touch .jump{background:#203e36;color:#fff;font-size:14px;min-width:76px}
+.w2-done{border:3px solid #203e36;border-radius:12px;background:#fffdf5;color:#203e36;max-width:min(460px,92vw);padding:18px 20px}
+.w2-done::backdrop{background:#0b1a1580}
+.w2-done h1{margin:4px 0 8px;font-size:24px}
+.w2-done p{margin:6px 0;line-height:1.4}
+.w2-note{font-size:13px;color:#5a6a60}
+.w2-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.w2-actions button,.w2-actions a{min-height:44px;padding:10px 16px;border:2px solid #203e36;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer}
+.w2-actions button{background:#ffd16b;color:#19352e}
+.w2-actions a{background:#fff;color:#203e36}
+@media (max-height:500px){.w2-hud{padding:5px 8px;max-width:46vw}.w2-eq{font-size:17px}.w2-why,.w2-state{font-size:11px}.w2-station{font-size:13px}.w2-keys{display:none}.w2-tools button,.w2-touch button{min-height:44px;min-width:44px}.w2-lever output{font-size:15px;min-width:60px}.w2-cue{font-size:13px}}
