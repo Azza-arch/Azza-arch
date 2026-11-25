@@ -123,7 +123,8 @@ Ketiga-tiga pek Kenney guna grid 18 px (dipapar 3×), jadi boleh dicampur dalam 
 1. **Siapkan Dunia 2 Lembah Batu Kapur dahulu** (`WORLD-2-BLUEPRINT.md`):
    - Fasa 3: peta penuh 2-1 Jejak Lengkung (pratonton, tiada pautan menu) — siap;
    - Fasa 4: integrasi (registry, menu, Peta Dunia, penamat 1-3, Hub) — siap;
-   - Fasa 5: 2-2 Lembah Puncak — siap; Fasa 6: 2-3 Gerbang Parabola.
+   - Fasa 5: 2-2 Lembah Puncak — siap; Fasa 6: 2-3 Gerbang Parabola;
+   - Fasa 7: kemas visual & UI Dunia 2 (`W2-POLISH-NOTES.md`: garis tanah, rasuk loceng, tangga, HUD).
 2. **Dunia 3 Kilang & Lombong** (gabungan Bab 3 + T5 Bab 7): blueprint dahulu, teka-teki disahkan, satu level satu PR.
 3. Dunia seterusnya **satu demi satu**, mengikut susunan yang dipersetujui pemilik.
 4. Peta dunia dalam game dikemas kini kepada 9 dunia apabila Dunia 3 hampir siap.
