@@ -44,7 +44,7 @@ function shell() {
   document.getElementById('tabbar').innerHTML = `<ul>${links('')}</ul>`;
   document.getElementById('foot').innerHTML = `<div class="wrap foot-in">
       <p><b>DENAI Learning Hub</b> · Matematik Tambahan KSSM Tingkatan 4 &amp; 5</p>
-      <p><a href="${NOTES_APP_URL}">Aplikasi Nota Add Math</a> · <a href="${GAME_LANDING_URL}">Laman game DENAI</a> · <a href="/">haziqbuilds</a></p>
+      <p><a href="${NOTES_APP_URL}">Nota rujukan Add Math</a> · <a href="${GAME_LANDING_URL}">Laman game DENAI</a> · <a href="/">haziqbuilds</a></p>
       <p class="small">Senarai bab daripada DSKP KSSM Matematik Tambahan (KPM, 2018). Watak Chill Boy oleh Segel2D · Aset pixel oleh Kenney.</p>
     </div>`;
 }

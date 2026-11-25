@@ -241,7 +241,7 @@ Measured contrast (WCAG 2.x):
 | M-2 | Move the demo toggle behind `?demo=1` (owner/teacher preview only); real students see their own state | J-2 | Critical |
 | M-3 | Contrast fixes for the four failing token pairs | §3.10 | Critical |
 | M-4 | Varied practice sets: draw from all auto-checked questions of the subtopic, mixed by difficulty, new set on retry, "Latihan lagi" | X-1, X-2, X-7 | Critical |
-| M-5 | **Product decision** on hub vs notes app roles (see §5.3) | J-6 | Critical |
+| M-5 | **Product decision** on hub vs notes app roles (see §5.3). **DECIDED 2026-11-25: option A** | J-6 | Done |
 | M-6 | Mastery per subtopic (and per SP) computed from attempts | P-2, D-2 | High |
 | M-7 | Second attempt before the answer is revealed; solution after the second miss or on request | X-3 | High |
 | M-8 | Progressive solution reveal ("Tunjuk langkah 1") built from the **existing** `solution` steps; no new content | X-4 (partly) | High |
@@ -288,7 +288,10 @@ Hub: Continue (last real location) · Review due (wrong answers from earlier) ·
 Progress: mastery per subtopic, practice history, game levels (real)
 ```
 
-### 5.3 Role of the two learning UIs (decision needed — M-5)
+### 5.3 Role of the two learning UIs (M-5: decided 2026-11-25, option A)
+
+**Owner decision (2026-11-25):** the Learning Hub is the student front door. The notes app stays as the full reference: every notes screen shows a bar linking to the matching Hub page and stating that its answers are not counted in Hub progress. Option B remains the later path once the Hub has parity.
+
 
 | Option | Description | Recommendation |
 |---|---|---|
