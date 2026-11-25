@@ -41,8 +41,9 @@ hanya direka terperinci apabila tiba gilirannya, dan pengelompokan di bawah masi
 | Dunia | Status | Di mana |
 |---|---|---|
 | 1 Hutan & Sungai: 1-1 Jejak Taman Fungsi, 1-2 Jambatan Berkembar, 1-3 Gerbang Songsang | **boleh dimain (live)** | `main`; `src/v14/levels/registry.js` |
-| 2 Lembah Batu Kapur | **lengkap (live)**: 2-1 Jejak Lengkung, 2-2 Lembah Puncak, 2-3 Gerbang Parabola; kemas visual (Fasa 7) belum | `WORLD-2-BLUEPRINT.md`, `W2-POLISH-NOTES.md` |
-| 3–9 | dirancang (jadual di bawah) | dokumen ini |
+| 2 Lembah Batu Kapur | **lengkap (live)**: 2-1 Jejak Lengkung, 2-2 Lembah Puncak, 2-3 Gerbang Parabola; kemas visual Fasa 7 siap | `WORLD-2-BLUEPRINT.md`, `W2-POLISH-NOTES.md` |
+| 3 Kilang & Lombong | **boleh dimain (live)**: 3-1 Tiga Injap, 3-2 Rel Memotong Cerun, 3-3 Bilik Kawalan, 3-4 Loji Optimum | `WORLD-3-BLUEPRINT.md`, `src/v14/levels/w3/` |
+| 4–9 | dirancang (jadual di bawah) | dokumen ini |
 
 ## Senarai dunia (cadangan pemilik, 25 Nov 2026 — susunan belum muktamad)
 "Asas" = Kenney Pixel Platformer (sedang digunakan). Industrial dan Farm = pek Kenney CC0 yang sudah ada
@@ -52,8 +53,8 @@ dalam repo cawangan (lihat Aset). Level ialah cadangan kerja; tajuk boleh beruba
 |---|---|---|---|---|---|---|---|---|
 | 1 | **Hutan & Sungai** | T4 Bab 1 Fungsi | hutan, sungai, jambatan kayu, mesin ringan | 1-1 Jejak Taman Fungsi · 1-2 Jambatan Berkembar · 1-3 Gerbang Songsang | C(x) = 4x + 6 menentukan papan jambatan; susunan dua mesin gf/fg; f⁻¹ memulihkan tetapan pintu air | Asas, Chill Boy | **siap (live)** | kemas kini kecil sahaja |
 | 2 | **Lembah Batu Kapur** | T4 Bab 2 Fungsi Kuadratik | lembah karst, tebing, bumbung batu, sungai, pancur air | 2-1 Jejak Lengkung · 2-2 Lembah Puncak · 2-3 Gerbang Parabola | a, h, k membentuk batu loncatan; bucu = titik tertinggi untuk tangkap/loceng; punca = tempat ponton; pembezalayan = rantai sampai / sentuh / tak sampai | Asas (batu 40–43, air), Farm (pagar kandang 2-2) | **siap (live)**; kemas visual Fasa 7 | **kemas dahulu** |
-| 3 | **Kilang & Lombong** | T4 Bab 3 Sistem Persamaan + T5 Bab 7 Pengaturcaraan Linear | kilang, paip, lombong, bilik kawalan | 3-1 Tiga Injap (3 pemboleh ubah) · 3-2 Rel Memotong Cerun (linear + tak linear) · 3-3 Bilik Kawalan (rantau tersaur, kekangan) · 3-4 Loji Optimum (kemuncak) | nilai yang memenuhi semua syarat serentak menghidupkan mesin; rantau tersaur menjadi lantai selamat; fungsi objektif memilih pengeluaran terbaik untuk membuka pintu | Industrial | dirancang | **seterusnya** |
-| 4 | **Tanah Tinggi Ladang** | T4 Bab 4 Indeks, Surd & Logaritma + T4 Bab 5 Janjang | ladang teres, rumah hijau, pengairan | 4-1 Kebun Akar (indeks, surd) · 4-2 Rumah Hijau Log · 4-3 Teres Janjang (JA, JG) · 4-4 Ladang Gabungan (kemuncak) | sisi surd menentukan petak; log mencari masa pertumbuhan; teres naik ikut beza sepunya, air dibahagi ikut nisbah sepunya; kemuncak: pertumbuhan berganda = JG + log mencari n | Farm + Asas | dirancang | tinggi |
+| 3 | **Kilang & Lombong** | T4 Bab 3 Sistem Persamaan + T5 Bab 7 Pengaturcaraan Linear | kilang, paip, lombong, bilik kawalan | 3-1 Tiga Injap (3 pemboleh ubah) · 3-2 Rel Memotong Cerun (linear + tak linear) · 3-3 Bilik Kawalan (rantau tersaur, kekangan) · 3-4 Loji Optimum (kemuncak) | nilai yang memenuhi semua syarat serentak menghidupkan mesin; rantau tersaur menjadi lantai selamat; fungsi objektif memilih pengeluaran terbaik untuk membuka pintu | Industrial | **siap (live)** | kemas kini kecil |
+| 4 | **Tanah Tinggi Ladang** | T4 Bab 4 Indeks, Surd & Logaritma + T4 Bab 5 Janjang | ladang teres, rumah hijau, pengairan | 4-1 Kebun Akar (indeks, surd) · 4-2 Rumah Hijau Log · 4-3 Teres Janjang (JA, JG) · 4-4 Ladang Gabungan (kemuncak) | sisi surd menentukan petak; log mencari masa pertumbuhan; teres naik ikut beza sepunya, air dibahagi ikut nisbah sepunya; kemuncak: pertumbuhan berganda = JG + log mencari n | Farm + Asas | dirancang | **seterusnya** |
 | 5 | **Tapak Ukur** (cadangan) | T4 Bab 6 Hukum Linear + T4 Bab 7 Geometri Koordinat | tapak binaan di dataran, kren, tiang ukur | 5-1 Garis Ukur (bahagi tembereng, luas poligon) · 5-2 Jejak Lokus · 5-3 Data Kren (Y lawan X) · 5-4 Tapak Gabungan (kemuncak) | titik bahagi meletak tiang; luas poligon menentukan bahan; lokus membuka laluan rahsia; garis lurus daripada data memberi pemalar untuk menetapkan kren | Industrial (kren, gelegar) + Asas | dirancang | sederhana |
 | 6 | **Gua & Tebing Angin** (cadangan) | T4 Bab 8 Vektor + T4 Bab 9 Penyelesaian Segi Tiga | gua, runtuhan batu, tebing berangin, menara pemerhati | 6-1 Jejak Arah · 6-2 Arus & Angin (laju paduan) · 6-3 Menara Sudut (petua sinus/kosinus, kes ambiguiti) · 6-4 Kuil Vektor (kemuncak) | vektor paduan menolak batu atau mengemudi rakit; petua sinus/kosinus mencari tinggi dan jarak untuk memasang tali; kes ambiguiti = dua kedudukan yang sah | Asas (batu) | dirancang | sederhana |
 | 7 | **Teluk Kincir** (cadangan) | T5 Bab 1 Sukatan Membulat + T5 Bab 6 Fungsi Trigonometri | teluk, kincir air, jeti pasang surut, rumah api | 7-1 Kincir Air (radian, lengkok, sektor) · 7-2 Jeti Pasang Surut (graf sin/kos) · 7-3 Menara Identiti · 7-4 Teluk Gabungan (kemuncak) | sudut radian memutar kincir ke panjang lengkok yang betul; graf sinus menentukan bila air cukup tinggi untuk bot; persamaan trigonometri menyelaraskan dua gelombang | Asas (air) + Industrial (gear, paip) | dirancang | kemudian |
@@ -112,7 +113,7 @@ Kekalkan identiti visual DENAI. **Jangan redesign Chill Boy atau aset yang stabi
 | Pek | Lokasi | Lesen | Nota |
 |---|---|---|---|
 | Kenney Pixel Platformer (asas) | `assets/kenney-pixel-platformer/` (di `main`) | CC0 | sedang digunakan oleh Dunia 1 dan 2 |
-| Kenney Pixel Platformer Industrial Expansion | `assets/kenney-pixel-platformer-industrial/` (cawangan `claude/denai-w2-slice`, belum di `main`) | CC0 | dibawa masuk apabila 2-3 (rantai) atau Dunia 3 dibina |
+| Kenney Pixel Platformer Industrial Expansion | `assets/kenney-pixel-platformer-industrial/` (di `main` sejak Dunia 3: tilemap + lesen) | CC0 | Dunia 3 (lantai logam, dek bahaya, lampu amaran); Dunia 5, 7, 8 |
 | Kenney Pixel Platformer Farm Expansion | `assets/kenney-pixel-platformer-farm/` (di `main` sejak 2-2: tilemap + lesen) | CC0 | pagar kandang 2-2; Dunia 4 |
 | Chill Boy (Segel2D, versi percuma) | `assets/chill-boy/` | lihat SOURCE-README | watak pemain; tidak diubah |
 
@@ -125,7 +126,7 @@ Ketiga-tiga pek Kenney guna grid 18 px (dipapar 3×), jadi boleh dicampur dalam 
    - Fasa 4: integrasi (registry, menu, Peta Dunia, penamat 1-3, Hub) — siap;
    - Fasa 5: 2-2 Lembah Puncak — siap; Fasa 6: 2-3 Gerbang Parabola — siap;
    - Fasa 7: kemas visual & UI Dunia 2 (`W2-POLISH-NOTES.md`: garis tanah, rasuk loceng, tangga, HUD).
-2. **Dunia 3 Kilang & Lombong** (gabungan Bab 3 + T5 Bab 7): blueprint dahulu, teka-teki disahkan, satu level satu PR.
+2. **Dunia 3 Kilang & Lombong** (gabungan Bab 3 + T5 Bab 7) — siap: empat level, disahkan, diintegrasi (menu, Peta Dunia, Hub, laman) (`WORLD-3-BLUEPRINT.md`).
 3. Dunia seterusnya **satu demi satu**, mengikut susunan yang dipersetujui pemilik.
 4. Peta dunia dalam game dikemas kini kepada 9 dunia apabila Dunia 3 hampir siap.
 

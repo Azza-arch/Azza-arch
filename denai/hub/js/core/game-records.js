@@ -16,7 +16,7 @@ const running = (run) => !!run && typeof run === 'object' && run.completed !== t
 /** Levels keyed by game number ('1-1' … '1-3', '2-1' … '2-3'): { done, completions, running, bestMs }. */
 export function gameRecords() {
   const profile = read('denai-profile-v1'), save = read('denai-save-v14'), legacy = read('denai-records-v14');
-  const camp = read('denai-campaign-v1'), l3 = read('denai-l3-campaign-v1'), w2all = read('denai-w2-campaign-v1')?.levels || {};
+  const camp = read('denai-campaign-v1'), l3 = read('denai-l3-campaign-v1'), w2all = read('denai-w2-campaign-v1')?.levels || {}, w3all = read('denai-w3-campaign-v1')?.levels || {};
   const w2run = (rec) => !!rec.run && rec.run.completed !== true && ((Number(rec.run.elapsedMs) || 0) > 0 || (rec.run.checkpointId && rec.run.checkpointId !== 'entry') || Object.values(rec.run.solved || {}).some((v) => v === true));
   const w2 = w2all['w2-l1'] || {}, w22 = w2all['w2-l2'] || {}, w23 = w2all['w2-l3'] || {};
   const p1 = profile?.levels?.['w1-l1'] || {};
@@ -30,6 +30,8 @@ export function gameRecords() {
     '2-1': { completions: n(w2.completions), running: w2run(w2), bestMs: ms(w2.bestMs) },
     '2-2': { completions: n(w22.completions), running: w2run(w22), bestMs: ms(w22.bestMs) },
     '2-3': { completions: n(w23.completions), running: w2run(w23), bestMs: ms(w23.bestMs) },
+    // World 3 (same record shape, its own key)
+    ...Object.fromEntries(['1', '2', '3', '4'].map((k) => { const r = w3all[`w3-l${k}`] || {}; return [`3-${k}`, { completions: n(r.completions), running: w2run(r), bestMs: ms(r.bestMs) }]; })),
   };
   for (const r of Object.values(out)) r.done = r.completions > 0;
   return out;

@@ -365,9 +365,9 @@ async function gameTab(page, mobile) {
   console.log('Game tab');
   await tab(page, mobile, 'main'); await settle(page);
   ok(await page.locator('#play').getAttribute('href') === '/app/addmath/denai/main', 'Game tab: Play opens the existing game route');
-  // World 2 complete: Dunia 1 (3 missions) and Dunia 2 (3 missions) are playable
-  ok(await page.locator('.world').count() === 4 && await page.locator('.world.is-playable').count() === 2, 'Game tab: 4 worlds, Dunia 1 and 2 playable');
-  ok(await page.locator('.world.is-playable .level').count() === 6 && await page.locator('.world:not(.is-playable) .tag').count() === 2 && await page.locator('a[href^="/app/addmath/denai/w2-l"]').count() === 3, 'Game tab: 6 missions (2-1, 2-2, 2-3 with play links); unavailable worlds clearly labelled');
+  // Dunia 1 (3 missions), Dunia 2 (3) and Dunia 3 (4, two chapters) are playable
+  ok(await page.locator('.world').count() === 4 && await page.locator('.world.is-playable').count() === 3, 'Game tab: 4 worlds, Dunia 1, 2 and 3 playable');
+  ok(await page.locator('.world.is-playable .level').count() === 10 && await page.locator('.world:not(.is-playable) .tag').count() === 1 && await page.locator('a[href^="/app/addmath/denai/w2-l"]').count() === 3 && await page.locator('a[href^="/app/addmath/denai/w3-l"]').count() === 4, 'Game tab: 10 missions (2-x and 3-x with play links); unavailable worlds clearly labelled');
   ok((await page.locator('.game-sep').innerText()).includes('bukan bukti penguasaan'), 'Game tab: game records kept apart from mastery');
 }
 

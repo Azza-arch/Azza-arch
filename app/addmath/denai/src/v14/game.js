@@ -6,7 +6,7 @@ import {COINS as L3_COINS,SECRETS as L3_SECRETS} from './levels/inverse-world.js
 import {createCampaignStore} from './core/campaign-store.js';
 import {canPlay,LEVELS} from './levels/registry.js';
 import {installWorldMap} from './menu/world-map.js';
-import {worldOneLevels,worldTwoLevels,currentLevel} from './menu/progress.js';
+import {worldOneLevels,worldTwoLevels,worldThreeLevels,currentLevel} from './menu/progress.js';
 import {createPlayer} from './core/player.js';
 import {updatePlayer} from './core/player-motion.js';
 import {syncBControl,B_STOPS} from './b-control.js';
@@ -1333,10 +1333,10 @@ const worldMap=installWorldMap({launch:launchLevel,localPreview,onClose:(toMenu)
 }});
 function refreshPlayMain(){
   // World 1 first; once it is done, MAIN / SAMBUNG follows World 2 (its own pages, via launchLevel).
-  const levels=worldOneLevels({localPreview}),w1=currentLevel(levels),w2=w1?[]:worldTwoLevels({localPreview}),cur=w1??currentLevel(w2);
+  const levels=worldOneLevels({localPreview}),w1=currentLevel(levels),w2=w1?[]:worldTwoLevels({localPreview}),c2=w1?null:currentLevel(w2),w3=w1||c2?[]:worldThreeLevels({localPreview}),cur=w1??c2??currentLevel(w3);
   const started=levels.some(l=>l.completions||l.running);
   $('play-main').textContent=started&&cur?'SAMBUNG':'MAIN';
-  $('play-main-sub').textContent=cur?`Level ${cur.num} · ${cur.title}`:w2.length?'Dunia 1 dan 2 selesai · pilih level di Peta Dunia':'Dunia 1 selesai · pilih level di Peta Dunia';
+  $('play-main-sub').textContent=cur?`Level ${cur.num} · ${cur.title}`:w3.length?'Dunia 1–3 selesai · pilih level di Peta Dunia':'Dunia 1 selesai · pilih level di Peta Dunia';
   return cur;
 }
 $('play-main').addEventListener('click',()=>{

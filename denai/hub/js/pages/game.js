@@ -4,7 +4,7 @@
 // the hub only reads game saves (core/game-records.js), never writes them, and nothing in the game changes a
 // mastery level. The Play button opens the existing Phaser game, unchanged.
 import { esc, icon, masteryTag, tag } from '../ui.js';
-import { chapter, GAME, GAMES, WORLDS, GAME_URL, GAME_LANDING_URL, subtopicTitle } from '../data.js';
+import { chapter, GAME, GAMES, WORLDS, GAME_URL, GAME_LANDING_URL, subtopicTitle, gameChapters } from '../data.js';
 import { renderMath } from '../core/content.js';
 import { getLearner } from '../core/learner.js';
 import { gameRecords, timeText } from '../core/game-records.js';
@@ -17,24 +17,24 @@ export async function render(route) {
   const l = await getLearner();
   const gr = l.demo ? null : gameRecords();
   const rec = (no) => { const r = gr?.[no]; if (!r) return ''; return r.done ? `${tag('Selesai', 'done', 'check')}<span class="small muted"> ${r.completions} kali${r.bestMs ? ` · terbaik ${timeText(r.bestMs)}` : ''}</span>` : r.running ? tag('Sedang dimain', 'progress') : `<span class="small muted">Belum dimain</span>`; };
-  const withGame = GAMES.map((g) => chapter(g.chapter)).map((c) => `<b>Bab ${c.number} ${esc(c.title)}</b>`).join(' dan ');
+  const withGame = GAMES.flatMap((g) => gameChapters(g).map(chapter)).map((c) => `<b>Bab ${c.number} ${esc(c.title)}</b>`).join(' dan ');
   const notice = from && !from.hasGame
     ? `<p class="notice" style="margin-top:16px">${icon('info')}<span>Bab ${from.number} ${esc(from.title)} belum mempunyai misi game. Misi yang boleh dimain sekarang ialah untuk ${withGame}.</span></p>` : '';
 
-  const missionsOf = (g) => { const gc = chapter(g.chapter); return `<ol class="levels">${g.levels.map((lv) => `<li class="level"><span class="level-no">${lv.no}</span><div>
+  const missionsOf = (g) => `<ol class="levels">${g.levels.map((lv) => { const gc = chapter(lv.chapter ?? g.chapter); return `<li class="level"><span class="level-no">${lv.no}</span><div>
       <h3>${esc(lv.title)}</h3>
       ${gr ? `<p class="level-rec">${rec(lv.no)}</p>` : ''}
       <p><b>Konsep:</b> ${esc(lv.concept)} · subtopik ${esc(lv.sub)} ${esc(subtopicTitle(gc.id, lv.sub))} · SP ${esc(lv.sp.join(', '))}</p>
       <p>${renderMath(lv.text)}</p>
       <p class="level-mastery"><span class="small muted">Tahap penguasaan anda bagi ${esc(lv.sub)} (daripada latihan, bukan game):</span>${masteryTag(l.level(gc.id, lv.sub))}</p>
       <p class="path-actions"><a href="#/nota/${gc.id}/${lv.sub}">${icon('book')}Nota ${esc(lv.sub)}</a><a href="#/latihan/${gc.id}/${lv.sub}">${icon('pencil')}Latihan ${esc(lv.sub)}</a>${lv.url || g.url ? `<a href="${lv.url || g.url}">${icon('play')}Main Level ${esc(lv.no)}</a>` : ''}</p>
-    </div></li>`).join('')}</ol>`; };
+    </div></li>`; }).join('')}</ol>`;
 
   const world = (w) => {
     const [label, kind] = STATE[w.state];
     const c = chapter(w.chapter);
     return `<li class="world${w.state === 'playable' ? ' is-playable' : ''}">
-      <div class="world-head"><span class="world-no">${w.no}</span><div><h3>Dunia ${w.no}: ${esc(w.name)}</h3><p class="small muted">${esc(w.topic)} · Tingkatan ${c.form} Bab ${c.number}</p></div>${tag(label, kind)}</div>
+      <div class="world-head"><span class="world-no">${w.no}</span><div><h3>Dunia ${w.no}: ${esc(w.name)}</h3><p class="small muted">${esc(w.topic)} · ${(w.chapters ?? [w.chapter]).map(chapter).map((x) => `Tingkatan ${x.form} Bab ${x.number}`).join(' + ')}</p></div>${tag(label, kind)}</div>
       ${w.state === 'playable' ? missionsOf(GAMES.find((g) => g.chapter === w.chapter)) + (w.soon ? `<p class="small muted world-note">Akan datang: ${w.soon.map(esc).join(', ')}.</p>` : '')
         : `<p class="small muted world-note">${w.state === 'development' ? `Misi sedang dibina dalam game${w.levels ? ` (${w.levels.map(esc).join(', ')})` : ''}. Belum boleh dimain.` : 'Belum dibina.'} Sementara itu, pelajari topik ini dalam <a href="#/bab/${c.id}">Belajar: Bab ${c.number}</a>.</p>`}
     </li>`;

@@ -33,7 +33,7 @@ export const GAME = {
 export const WORLDS = [
   { no: 1, name: 'Hutan & Sungai', topic: 'Fungsi', chapter: 't4-1', state: 'playable' },
   { no: 2, name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', chapter: 't4-2', state: 'playable' },
-  { no: 3, name: 'Kilang & Lombong', topic: 'Sistem Persamaan', chapter: 't4-3', state: 'soon' },
+  { no: 3, name: 'Kilang & Lombong', topic: 'Sistem Persamaan & Pengaturcaraan Linear', chapter: 't4-3', chapters: ['t4-3', 't5-7'], state: 'playable' },
   { no: 4, name: 'Tanah Tinggi Ladang', topic: 'Indeks, Surd & Logaritma', chapter: 't4-4', state: 'soon' },
 ];
 /** World 2 · Lembah Batu Kapur (app/addmath/denai/w2-l1.html; levels/w2/level-2-1-data.js). */
@@ -45,9 +45,24 @@ export const GAME_W2 = {
     { no: '2-3', title: 'Gerbang Parabola', concept: 'Punca, pembezalayan dan ketaksamaan kuadratik', sub: '2.1', subs: ['2.1', '2.2'], sp: ['2.1.1', '2.1.2', '2.1.3', '2.2.1', '2.2.2', '2.3.2'], url: '/app/addmath/denai/w2-l3.html', text: String.raw`Letak ponton di punca \(x^2 - 6x + 5 = 0\), turunkan rantai sehingga \(b^2 - 4ac = 0\), bina persamaan daripada punca 2 dan 6, dan nyalakan julat \((x - 2)(x - 6) < 0\).` },
   ],
 };
-/** Every playable game world, in map order. */
-export const GAMES = [GAME, GAME_W2];
-export const gameLevelFor = (chId, subId) => GAMES.find((g) => g.chapter === chId)?.levels.find((l) => l.sub === subId || l.subs?.includes(subId)) || null;
+/** World 3 · Kilang & Lombong (app/addmath/denai/w3-l1.html … w3-l4.html; levels/w3/systems.js). A combined
+ *  world: T4 Bab 3 (3-1, 3-2) and T5 Bab 7 (3-3, 3-4); each level names its own chapter. */
+export const GAME_W3 = {
+  chapter: 't4-3', chapters: ['t4-3', 't5-7'], world: 'Dunia 3', name: 'Kilang & Lombong', url: '/app/addmath/denai/w3-l1.html',
+  levels: [
+    { no: '3-1', title: 'Tiga Injap', concept: 'Sistem persamaan linear dalam tiga pemboleh ubah', chapter: 't4-3', sub: '3.1', sp: ['3.1.1', '3.1.2', '3.1.3'], url: '/app/addmath/denai/w3-l1.html', text: String.raw`Tetapkan injap supaya setiap tangki tepat pada tanda: \(x + y + z = 6,\ 2x + y - z = 1,\ x - y + 2z = 5\) memberi \((1, 2, 3)\).` },
+    { no: '3-2', title: 'Rel Memotong Cerun', concept: 'Persamaan serentak linear dan tak linear', chapter: 't4-3', sub: '3.2', sp: ['3.2.1', '3.2.2'], url: '/app/addmath/denai/w3-l2.html', text: String.raw`Pasang pengapit rel \(y = x + 1\) pada cerun \(y = x^2 - 1\) di kedua-dua titik persilangan, dan muatkan plat \(x + y = 7,\ xy = 12\).` },
+    { no: '3-3', title: 'Bilik Kawalan', concept: 'Ketaksamaan linear dan rantau tersaur', chapter: 't5-7', sub: '7.1', sp: ['7.1.1'], url: '/app/addmath/denai/w3-l3.html', text: String.raw`Pilih tanda setiap kekangan, contohnya \(x + y \le 7,\ y \ge 2,\ y \le 2x\): hanya pelantar dalam rantau tersaur menyala.` },
+    { no: '3-4', title: 'Loji Optimum', concept: 'Fungsi objektif: maksimum dan minimum', chapter: 't5-7', sub: '7.2', sp: ['7.2.1'], url: '/app/addmath/denai/w3-l4.html', text: String.raw`Gerakkan garis \(3x + 2y = k\) hingga menyentuh bucu terakhir rantau (P maksimum 19), dan cari kos minimum \(C = 2x + 3y\).` },
+  ],
+};
+/** Every playable game world, in map order. A world may cover several chapters (`chapters`). */
+export const GAMES = [GAME, GAME_W2, GAME_W3];
+export const gameChapters = (g) => g.chapters ?? [g.chapter];
+export const gameLevelFor = (chId, subId) => {
+  for (const g of GAMES) if (gameChapters(g).includes(chId)) { const lv = g.levels.find((l) => (l.chapter ?? g.chapter) === chId && (l.sub === subId || l.subs?.includes(subId))); if (lv) return lv; }
+  return null;
+};
 
 const isAvailable = (id) => visibleStatus(NOTE_STATUS[id]);
 
@@ -68,7 +83,7 @@ export const CHAPTERS = CURRICULUM.map((c) => ({
   status: contentStatus(c.id),
   available: isAvailable(c.id),
   preview: contentStatus(c.id) === 'review' && isAvailable(c.id),
-  hasGame: GAMES.some((g) => g.chapter === c.id),
+  hasGame: GAMES.some((g) => gameChapters(g).includes(c.id)),
 }));
 
 export const chapter = (id) => CHAPTERS.find((c) => c.id === id) || null;

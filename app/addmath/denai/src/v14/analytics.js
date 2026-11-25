@@ -9,7 +9,7 @@
 import {LEADERBOARD_CONFIG as CFG} from './leaderboard/config.js';
 import * as PF from './leaderboard/playfab.js';
 
-const LEVELS=['w1-l1','w1-l2','w1-l3','w2-l1','w2-l2','w2-l3'];
+const LEVELS=['w1-l1','w1-l2','w1-l3','w2-l1','w2-l2','w2-l3','w3-l1','w3-l2','w3-l3','w3-l4'];
 const enumOf=list=>v=>list.includes(v)?v:undefined;
 const int=(min,max)=>v=>Number.isInteger(v)&&v>=min&&v<=max?v:undefined;
 const bool=v=>typeof v==='boolean'?v:undefined;

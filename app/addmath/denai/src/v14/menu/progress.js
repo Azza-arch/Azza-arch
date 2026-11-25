@@ -10,6 +10,7 @@ import {createCampaignStore} from '../core/campaign-store.js';
 import {createInverseStore} from '../core/inverse-campaign.js';
 import {LEVELS,canPlay} from '../levels/registry.js';
 import {createW2Store} from '../levels/w2/campaign.js';
+import {createW3Store} from '../levels/w3/campaign.js';
 
 // Status values used by the menu.
 export const STATUS = Object.freeze({ COMPLETED: 'completed', IN_PROGRESS: 'in-progress', AVAILABLE: 'available', LOCKED: 'locked', COMING_SOON: 'coming-soon' });
@@ -21,7 +22,8 @@ export const WORLDS = Object.freeze([
   { id: 'w1', num: '1', name: 'Hutan & Sungai', topic: 'Fungsi', state: 'playable', node: [7.5, 58], zone: [0, 19.5] },
   { id: 'w2', num: '2', name: 'Lembah Batu Kapur', topic: 'Fungsi Kuadratik', state: 'playable', node: [28.9, 21], zone: [19.5, 39],
     levels: [['w2-l1', '2-1', 'Jejak Lengkung'], ['w2-l2', '2-2', 'Lembah Puncak'], ['w2-l3', '2-3', 'Gerbang Parabola']] },
-  { id: 'w3', num: '3', name: 'Kilang & Lombong', topic: 'Sistem Persamaan', state: 'soon', node: [50.8, 52], zone: [39, 59] },
+  { id: 'w3', num: '3', name: 'Kilang & Lombong', topic: 'Sistem Persamaan & Pengaturcaraan Linear', state: 'playable', node: [50.8, 52], zone: [39, 59],
+    levels: [['w3-l1', '3-1', 'Tiga Injap'], ['w3-l2', '3-2', 'Rel Memotong Cerun'], ['w3-l3', '3-3', 'Bilik Kawalan'], ['w3-l4', '3-4', 'Loji Optimum']] },
   { id: 'w4', num: '4', name: 'Tanah Tinggi Ladang', topic: 'Indeks, Surd & Logaritma', state: 'soon', node: [75.8, 27], zone: [59, 78] },
 ]);
 
@@ -60,19 +62,23 @@ export function currentLevel(levels) {
 // denai-w2-campaign-v1). 2-1 opens after 1-1, 2-2 after 2-1, 2-3 after 2-2.
 export function worldTwoLevels({ storage = globalThis.localStorage, localPreview = false } = {}) {
   const l1Done = worldOneLevels({ storage, localPreview }).find((l) => l.id === 'w1-l1')?.completions > 0;
-  const recs = createW2Store(storage).load().levels;
-  const done = [l1Done ? 'w1-l1' : null, recs['w2-l1'].completions > 0 ? 'w2-l1' : null, recs['w2-l2'].completions > 0 ? 'w2-l2' : null].filter(Boolean);
-  const row = (id, num, title, requires) => {
+  return pageLevels(createW2Store(storage).load().levels, [['w2-l1', '2-1', 'Jejak Lengkung', '1-1'], ['w2-l2', '2-2', 'Lembah Puncak', '2-1'], ['w2-l3', '2-3', 'Gerbang Parabola', '2-2']], l1Done ? ['w1-l1'] : [], localPreview);
+}
+// World 3 (Kilang & Lombong): 3-1 … 3-4 (own pages, one save key denai-w3-campaign-v1).
+// 3-1 opens after 2-3, then each level after the one before.
+export function worldThreeLevels({ storage = globalThis.localStorage, localPreview = false } = {}) {
+  const w2Done = createW2Store(storage).load().levels['w2-l3'].completions > 0;
+  return pageLevels(createW3Store(storage).load().levels, [['w3-l1', '3-1', 'Tiga Injap', '2-3'], ['w3-l2', '3-2', 'Rel Memotong Cerun', '3-1'], ['w3-l3', '3-3', 'Bilik Kawalan', '3-2'], ['w3-l4', '3-4', 'Loji Optimum', '3-3']], w2Done ? ['w2-l3'] : [], localPreview);
+}
+// rows for levels that run on their own page, from their world's save records
+function pageLevels(recs, list, before, localPreview) {
+  const done = [...before, ...list.filter(([id]) => recs[id].completions > 0).map(([id]) => id)];
+  return list.map(([id, num, title, requires]) => {
     const rec = recs[id], run = rec.run;
     const running = !!run && !run.completed && (run.elapsedMs > 0 || run.checkpointId !== 'entry' || Object.values(run.solved).some(Boolean));
     const unlocked = canPlay(id, done, { localPreview });
     const status = running && unlocked ? STATUS.IN_PROGRESS : rec.completions > 0 ? STATUS.COMPLETED : unlocked ? STATUS.AVAILABLE : STATUS.LOCKED;
     return { id, num, title, status, unlocked, completions: rec.completions, running, best: rec.bestMs, requires };
-  };
-  return [
-    row('w2-l1', '2-1', 'Jejak Lengkung', '1-1'),
-    row('w2-l2', '2-2', 'Lembah Puncak', '2-1'),
-    row('w2-l3', '2-3', 'Gerbang Parabola', '2-2'),
-  ];
+  });
 }
-export const levelsOfWorld = (id, opts) => (id === 'w1' ? worldOneLevels(opts) : id === 'w2' ? worldTwoLevels(opts) : []);
+export const levelsOfWorld = (id, opts) => (id === 'w1' ? worldOneLevels(opts) : id === 'w2' ? worldTwoLevels(opts) : id === 'w3' ? worldThreeLevels(opts) : []);
