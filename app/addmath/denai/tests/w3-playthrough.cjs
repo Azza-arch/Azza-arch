@@ -102,8 +102,8 @@ const answerOf = (st) => st.answer ?? (st.type === 'intersect' ? { [st.levers[0]
   const q = await phone.newPage(); q.on('pageerror', (e) => errs.push(e.message));
   await q.goto(BASE + 'w3-l3.html?touch'); await q.waitForFunction(() => window.__w3?.scene?.player); await sleep(800);
   await q.evaluate(() => { const { scene, wx } = window.__w3; scene.player.body.reset(wx(4.5), scene.stations[0].leverFeet - 31); }); await sleep(900);
-  res.phone = await q.evaluate(() => { const r = document.getElementById('w2-tools').getBoundingClientRect(), j = document.querySelector('#w2-touch .jump').getBoundingClientRect(); return { w: innerWidth, h: innerHeight, right: r.right, left: r.left, top: r.top, jumpRight: j.right, touch: !document.getElementById('w2-touch').hidden }; });
-  ok(res.phone.left >= res.phone.jumpRight && res.phone.right <= res.phone.w + 1 && res.phone.top > res.phone.h * .45 && res.phone.touch, `phone: levers fit beside the touch pad ${JSON.stringify(res.phone)}`);
+  res.phone = await q.evaluate(() => { const r = document.getElementById('w2-tools').getBoundingClientRect(), j = document.querySelector('#w2-touch .jump').getBoundingClientRect(), a = document.querySelector('#w2-touch [data-hold="right"]').getBoundingClientRect(); return { w: innerWidth, h: innerHeight, left: r.left, right: r.right, top: r.top, arrowsRight: a.right, jumpLeft: j.left, touch: !document.getElementById('w2-touch').hidden }; });
+  ok(res.phone.left >= res.phone.arrowsRight && res.phone.right <= res.phone.jumpLeft && res.phone.top > res.phone.h * .45 && res.phone.touch, `phone: levers sit between the arrows and the jump button ${JSON.stringify(res.phone)}`);
   await q.screenshot({ path: `${out}/w3-telefon.png` });
   await phone.close(); await b.close();
   ok(!errs.length, `page errors: ${errs.join(' | ')}`);
