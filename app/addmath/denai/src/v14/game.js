@@ -6,6 +6,7 @@ import {COINS as L3_COINS,SECRETS as L3_SECRETS} from './levels/inverse-world.js
 import {createCampaignStore} from './core/campaign-store.js';
 import {canPlay,LEVELS} from './levels/registry.js';
 import {installWorldMap} from './menu/world-map.js';
+import {responsiveZoom} from './core/zoom.js';
 import {worldOneLevels,worldTwoLevels,worldThreeLevels,currentLevel} from './menu/progress.js';
 import {createPlayer} from './core/player.js';
 import {updatePlayer} from './core/player-motion.js';
@@ -567,10 +568,7 @@ class Rooftop extends Phaser.Scene {
     // player and MORE world on screen than desktop. They now use 1/6 steps
     // (still whole device pixels on 2× screens) and a closer ~480-unit view,
     // close to the 513 units already tested on iPhone landscape.
-    const short=h<420,STEP=short?6:3,TARGET=short?480:610,MIN=short?380:480,MAX=short?560:740;
-    let best=null;
-    for(let n=1;n<=STEP*8;n++){const k=n/STEP,view=h/k;if(view<MIN||view>MAX)continue;if(!best||Math.abs(view-TARGET)<Math.abs(h/best-TARGET))best=k;}
-    if(!best)best=Math.max(1/STEP,Math.round(h/TARGET*STEP)/STEP);
+    const best=responsiveZoom(h); // shared with the World 2 / 3 pages (core/zoom.js)
     cam.setZoom(best);
     this.viewUnits={w:this.scale.width/best,h:h/best};
     // Player sits lower in the frame: less dirt below the feet, more of the
@@ -1345,6 +1343,8 @@ $('play-main').addEventListener('click',()=>{
   launchLevel(cur.id,cur.status==='in-progress'?'continue':'play');
 });
 $('world-map-btn').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);worldMap.open();});
+// main.html?peta=1 (the "Peta Dunia" buttons of the World 2 / 3 level pages): open the map once the menu is up
+if(new URLSearchParams(location.search).has('peta')){history.replaceState(null,'',location.pathname);const openMap=(n=0)=>{if(!$('welcome').hidden){worldMap.open();return;}if(n<150)setTimeout(()=>openMap(n+1),200);};openMap();}
 $('settings-main').addEventListener('click',()=>{audio.unlock();SFX.ui(audio);openSettings();});
 {const base=Rooftop.prototype.refreshMenu;Rooftop.prototype.refreshMenu=function(){base.call(this);refreshPlayMain();renderMenuCommunity();};}
 function savedSummary(save){

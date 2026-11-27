@@ -62,8 +62,9 @@ const panel = (p) => p.$$eval('#wm-panel .wm-level', (els) => els.map((e) => `${
   await p.waitForFunction(() => window.__w2?.scene?.player); await sleep(300);
   res.replay = await p.evaluate(() => ({ url: location.search, cp: __w2.scene.run.checkpointId, solved: Object.values(__w2.scene.run.solved).some(Boolean), completions: __w2.store.load().levels['w2-l1'].completions }));
   ok(res.replay.url === '' && res.replay.cp === 'entry' && !res.replay.solved && res.replay.completions === 1, `replay: fresh run, records kept ${JSON.stringify(res.replay)}`);
-  // 4. the 2-1 page: Menu returns to the DENAI menu
-  await Promise.all([p.waitForURL(/main\.html$/), p.click('.w2-menu')]); await ready(p);
+  // 4. the 2-1 page: pause → Menu utama returns to the DENAI menu (World 1's pause menu)
+  await p.click('#pause'); await sleep(300);
+  await Promise.all([p.waitForURL(/main\.html$/), p.click('#paused [data-href="main.html"]')]); await ready(p);
   res.menuBack = true;
   // 5. 1-3 finale offers World 2
   await p.evaluate(() => { const s = window.__game.scene.getScene('Lorong'); s.scene.start('GerbangSongsang', { fresh: true }); }); await sleep(2500);

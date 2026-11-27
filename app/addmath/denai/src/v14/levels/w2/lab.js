@@ -1,6 +1,7 @@
 // World 2 (Lembah Batu Kapur) · Level 2-1 · Stesen A "Bukaan" — VERTICAL SLICE in a separate test room.
 // Loaded only by lab-w2.html. Reuses the World 1 player body, motion, landscape and
 // assets unchanged; World 1 code, saves and leaderboard are not touched.
+import { responsiveZoom } from '../../core/zoom.js';
 import { MOTION } from '../../level.js';
 import { audio, SFX } from '../../../audio.js';
 import { createPlayer } from '../../core/player.js';
@@ -80,9 +81,7 @@ class LabScene extends Phaser.Scene {
   applyResponsiveZoom() {
     // Same rule as World 1 (game.js): zoom n/3 so the view is ~610 world units tall.
     const cam = this.cameras.main, h = this.scale.height || 700;
-    let best = null;
-    for (let n = 1; n <= 24; n++) { const k = n / 3, view = h / k; if (view < 480 || view > 740) continue; if (!best || Math.abs(view - 610) < Math.abs(h / best - 610)) best = k; }
-    if (!best) best = Math.max(1 / 3, Math.round(h / 610 * 3) / 3);
+    const best = responsiveZoom(h); // the same rule as World 1 (core/zoom.js)
     cam.setZoom(best);
     this.viewUnits = { w: this.scale.width / best, h: h / best };
     this.followOffsetY = Math.round(this.viewUnits.h * .16);

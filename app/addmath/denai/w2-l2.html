@@ -8,43 +8,73 @@
   <title>DENAI · Level 2-2 Lembah Puncak</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="src/orientation.css">
+  <link rel="stylesheet" href="src/v14/presentation.css">
+  <link rel="stylesheet" href="src/v14/ui-system.css">
+  <link rel="stylesheet" href="src/v14/ui/v4.css">
   <link rel="stylesheet" href="src/v14/levels/w2/level.css">
   <script defer src="vendor/phaser-3.90.0.min.js"></script>
   <script type="module" src="src/v14/levels/w2/level-2-2.js"></script>
   <script type="module" src="src/orientation.js"></script>
+  <link rel="stylesheet" href="src/v14/ui/level-shell.css">
+  <script type="module" src="src/v14/ui/level-shell.js"></script>
 </head>
 <body>
-  <main class="w2">
+  <main class="lv w2">
     <div id="w2-frame" class="w2-frame">
       <div id="w2-game" tabindex="0" role="group" aria-label="Level 2-2 Lembah Puncak. A dan D bergerak, Space lompat, R kembali ke checkpoint. Di tuil: Q dan E ubah tuil pertama, Z dan X ubah tuil kedua, F untuk tembak, sembur atau susun."></div>
       <section class="w2-hud" aria-label="Stesen">
         <p class="w2-tag">Dunia 2 · Lembah Batu Kapur · 2-2 Lembah Puncak</p>
         <p id="w2-station" class="w2-station"></p>
         <p id="w2-eq" class="w2-eq"></p>
-        <p class="w2-meta"><span id="w2-vertex"></span> · Syiling <span id="w2-coins">0/12</span></p>
+        <p class="w2-meta"><span id="w2-vertex"></span></p>
         <p id="w2-why" class="w2-why"></p>
         <p id="w2-state" class="w2-state" role="status" aria-live="polite"></p>
         <p id="w2-keys" class="w2-keys"></p>
         <p id="w2-save" class="w2-keys" role="status"></p>
       </section>
-      <a class="w2-menu" href="main.html" aria-label="Kembali ke menu DENAI. Kemajuan disimpan.">☰ Menu</a>
+      <header class="masthead lv-masthead" aria-label="Status permainan">
+        <span class="hud-plaque"><span class="hud-chip hud-area">2-2</span><span class="hud-sep" aria-hidden="true"></span><span id="w2-coins" class="hud-chip hud-coins" aria-label="Syiling">0</span></span>
+        <button type="button" id="journal-btn" class="hud-journal" aria-label="Papan stesen (J)" aria-pressed="false"><span class="jb-icon" aria-hidden="true"></span></button>
+        <button type="button" id="pause" aria-label="Jeda permainan (Esc)"><span class="pause-glyph" aria-hidden="true"></span></button>
+      </header>
+      <button type="button" id="quest-pin" aria-label="Stesen semasa — buka papan stesen"><span class="qp-mark">◆</span><span id="quest-pin-text"></span></button>
       <p id="w2-cue" class="w2-cue" role="status" aria-live="polite"></p>
       <div id="w2-tools" class="w2-tools far" aria-label="Tuil stesen">
         <div id="w2-l1" class="w2-lever"><button type="button" data-action="l1Down" aria-label="Kurangkan tuil pertama">−</button><output><span id="w2-l1-name">a</span> = <b id="w2-l1-val">1</b></output><button type="button" data-action="l1Up" aria-label="Tambah tuil pertama">+</button></div>
         <div id="w2-l2" class="w2-lever" hidden><button type="button" data-action="l2Down" aria-label="Kurangkan tuil kedua">−</button><output><span id="w2-l2-name">k</span> = <b id="w2-l2-val">1</b></output><button type="button" data-action="l2Up" aria-label="Tambah tuil kedua">+</button></div>
         <button type="button" id="w2-lock" data-action="lock" class="w2-lock">Tembak</button>
       </div>
-      <div id="w2-touch" class="w2-touch" hidden>
-        <div><button type="button" data-hold="left" aria-label="Kiri">←</button><button type="button" data-hold="right" aria-label="Kanan">→</button></div>
-        <div><button type="button" data-action="jump" class="jump">Lompat</button></div>
+      <div id="w2-touch" class="touch-controls lv-touch" aria-label="Kawalan sentuh" hidden>
+        <div class="touch-group"><button type="button" data-hold="left" aria-label="Bergerak kiri">←</button><button type="button" data-hold="right" aria-label="Bergerak kanan">→</button></div>
+        <div class="touch-group"><button type="button" data-action="jump" class="jump">Lompat</button></div>
       </div>
-      <dialog id="w2-done" class="w2-done" aria-labelledby="w2-done-title">
-        <p class="w2-tag">★ Level 2-2 ★</p>
-        <h1 id="w2-done-title">Lembah Puncak selesai!</h1>
-        <p id="w2-done-stats"></p>
-        <p>Anda menemui bucu daripada bentuk am, nilai maksimum k pada x = h, dan luas maksimum kandang. Titik tertinggi atau terendah sentiasa di bucu.</p>
-        <div class="teaser-mini"><p class="w2-tag">Pengembaraan seterusnya</p><p><b>Level 2-3: Gerbang Parabola</b> — di mana lengkung mencecah air, dan berapa kali?</p></div>
-        <div class="w2-actions"><a class="w2-next" href="w2-l3.html">Teruskan ke Level 2-3</a><button type="button" id="w2-replay">Main semula</button><a href="main.html">Ke menu DENAI</a></div>
+      <dialog id="complete" class="victory" aria-labelledby="complete-title">
+        <div class="victory-panel">
+          <p class="victory-kicker">★ Level 2-2 ★</p>
+          <div class="banner-wrap"><h2 id="complete-title" class="ribbon">Pengembaraan selesai!</h2></div>
+          <p class="victory-quote">“Anda menemui bucu daripada bentuk am, nilai maksimum k pada x = h, dan luas maksimum kandang. Titik tertinggi atau terendah sentiasa di bucu.”</p>
+          <div class="victory-stats">
+            <p class="vstat"><span class="vicon vicon-coin" aria-hidden="true"></span><b id="completion-coins">0/0</b><small>Syiling</small></p>
+            <p class="vstat"><span class="vicon vicon-gem" aria-hidden="true"></span><b id="completion-secrets">0/0</b><small>Rahsia</small></p>
+            <p class="vstat"><span class="vicon vicon-flag" aria-hidden="true"></span><b id="completion-time">0:00</b><small>Masa</small></p>
+          </div>
+          <p id="completion-pb" class="victory-hint"></p>
+          <aside class="teaser" aria-label="Pengembaraan seterusnya">
+            <div class="teaser-art" aria-hidden="true"><span class="sil sil-machine"></span><span class="sil sil-plank"></span><span class="sil sil-q">?</span><span class="sil sil-plank"></span><span class="sil sil-machine"></span></div>
+            <p class="teaser-kicker">Pengembaraan seterusnya</p>
+            <p class="teaser-title">Level 2-3: Gerbang Parabola</p>
+            <p class="teaser-quote">di mana lengkung mencecah air, dan berapa kali?</p>
+            <button type="button" class="primary" data-href="w2-l3.html">Teruskan ke Level 2-3</button>
+          </aside>
+          <div class="victory-actions">
+            <button type="button" id="w2-replay" class="secondary">Main semula</button>
+            <button type="button" class="secondary" data-href="main.html?peta=1">Peta Dunia</button>
+            <button type="button" class="link-btn" data-href="main.html">Menu utama</button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="paused" aria-labelledby="pause-title"><div class="banner-wrap"><h2 id="pause-title" class="ribbon">Jeda</h2></div>
+        <div class="pause-actions"><button type="button" id="resume" class="primary">Sambung</button><button type="button" id="restart-checkpoint" class="secondary">Kembali ke checkpoint</button><button type="button" id="restart" class="secondary">Mula semula</button><button type="button" id="fullscreen" class="secondary">Skrin penuh</button><button type="button" class="secondary" data-href="main.html?peta=1">Peta Dunia</button><button type="button" class="secondary" data-href="main.html">Menu utama</button></div>
       </dialog>
     </div>
   </main>

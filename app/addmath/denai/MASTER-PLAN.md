@@ -107,6 +107,19 @@ tetapan salah boleh dilalui).
 8. Setiap level juga perlu ujian pelayar laluan penuh dengan fizik sebenar (desktop + telefon landskap)
    sebelum masuk ke menu.
 
+## Peraturan UI (wajib untuk semua dunia, sejak 27 Nov 2026)
+Audit 27 Nov: Dunia 2 dan 3 dibina dengan UI web ringkas yang berbeza daripada Dunia 1, dan zoom mereka jatuh
+ke separuh pada telefon sebenar (pemain 33px berbanding 66px). Kini semua level berkongsi satu kerangka:
+1. **Zoom:** satu peraturan, `src/v14/core/zoom.js` (`responsiveZoom`), untuk `main.html` dan setiap halaman level.
+2. **Kerangka level** (`src/v14/ui/level-shell.js` + `.css`, atas `ui-system.css` dan `ui/v4.css` Dunia 1):
+   - plak kayu (level · syiling), cip stesen dan papan stesen (jurnal, kekunci J)
+   - butang jeda dengan kad Jeda Dunia 1 (Sambung, Checkpoint, Mula semula, Skrin penuh, Peta Dunia, Menu)
+   - kawalan sentuh bulat kayu dan butang Lompat kuning
+   - kad kemenangan Dunia 1 (reben, syiling / rahsia / masa, pengembaraan seterusnya)
+3. Halaman level baharu mesti guna kerangka ini; jangan buat HUD, dialog atau butang sendiri.
+4. `tests/ui-consistency.cjs` mesti lulus. Ia menguji setiap level di desktop, telefon landskap dan telefon
+   dengan bar pelayar, dan gagal jika zoom berbeza atau mana-mana elemen kerangka hilang.
+
 ## Aset
 Kekalkan identiti visual DENAI. **Jangan redesign Chill Boy atau aset yang stabil.**
 

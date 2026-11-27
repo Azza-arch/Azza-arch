@@ -98,7 +98,7 @@ async function keys(p, list) { for (const k of list) { await p.keyboard.press(k)
   await p.screenshot({ path: `${out}/l23-3-meterai.png` });
   // ── through the gate: World 2 complete ──
   await p.evaluate(() => __h.go(46.9)); await sleep(800);
-  res.finish = await p.evaluate(() => ({ open: document.getElementById('w2-done').open, title: document.getElementById('w2-done-title').textContent, save: JSON.parse(localStorage.getItem('denai-w2-campaign-v1')) }));
+  res.finish = await p.evaluate(() => ({ open: document.getElementById('complete').open, title: document.getElementById('complete-title').textContent, save: JSON.parse(localStorage.getItem('denai-w2-campaign-v1')) }));
   ok(res.finish.open && res.finish.save.levels['w2-l3'].completions === 1, `finish: World 2 complete ${res.finish.title}`);
   ok(res.finish.save.levels['w2-l1'].bestMs === 60000 && res.finish.save.levels['w2-l2'].bestMs === 90000, '2-1 and 2-2 records untouched');
   await p.screenshot({ path: `${out}/l23-4-tamat.png` });

@@ -95,7 +95,7 @@ async function keys(p, list) { for (const k of list) { await p.keyboard.press(k)
   ok(res.afterF.feet > 7.9, `up the cargo lift to the exit ledge ${JSON.stringify(res.afterF)}`);
   // ── finish ──
   await p.evaluate(() => __h.go(54.3)); await sleep(700);
-  res.finish = await p.evaluate(() => ({ open: document.getElementById('w2-done').open, stats: document.getElementById('w2-done-stats').textContent, save: JSON.parse(localStorage.getItem('denai-w2-campaign-v1')) }));
+  res.finish = await p.evaluate(() => ({ open: document.getElementById('complete').open, stats: ['completion-coins', 'completion-secrets', 'completion-time', 'completion-pb'].map((i) => document.getElementById(i).textContent).join(' · '), save: JSON.parse(localStorage.getItem('denai-w2-campaign-v1')) }));
   ok(res.finish.open && res.finish.save.levels['w2-l2'].completions === 1, 'finish dialog, one 2-2 completion');
   ok(res.finish.save.levels['w2-l1'].completions === 1 && res.finish.save.levels['w2-l1'].bestMs === 60000, '2-1 record untouched');
   await p.screenshot({ path: `${out}/l22-7-tamat.png` });

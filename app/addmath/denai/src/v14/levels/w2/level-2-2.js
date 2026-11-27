@@ -4,6 +4,8 @@
 // pen that holds all 9 crates → the cargo lift rises → exit towards 2-3.
 // Reuses the World 1 player body, motion, landscape builder, Kenney assets (base + Farm fence) and
 // Chill Boy unchanged; writes only its own record in the World 2 save key (campaign.js).
+import { showVictory } from '../../ui/level-shell.js';
+import { responsiveZoom } from '../../core/zoom.js';
 import { MOTION } from '../../level.js';
 import { audio, SFX } from '../../../audio.js';
 import { createPlayer } from '../../core/player.js';
@@ -91,9 +93,7 @@ class Level22 extends Phaser.Scene {
   }
   applyResponsiveZoom() {
     const cam = this.cameras.main, h = this.scale.height || 700;
-    let best = null;
-    for (let n = 1; n <= 24; n++) { const k = n / 3, view = h / k; if (view < 480 || view > 740) continue; if (!best || Math.abs(view - 610) < Math.abs(h / best - 610)) best = k; }
-    if (!best) best = Math.max(1 / 3, Math.round(h / 610 * 3) / 3);
+    const best = responsiveZoom(h); // the same rule as World 1 (core/zoom.js)
     cam.setZoom(best);
     this.viewUnits = { w: this.scale.width / best, h: h / best };
     this.followOffsetY = Math.round(this.viewUnits.h * .16);
@@ -369,9 +369,8 @@ class Level22 extends Phaser.Scene {
     const rec = store.load().levels[LEVEL_ID];
     trackDone(LEVEL_ID, this.run, rec);
     const t = Math.round(this.elapsed / 1000), mmss = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
-    $('w2-done-stats').textContent = `Masa ${mmss} · Syiling ${this.run.coins.length}/${L.coins.length} · Rahsia ${this.run.secrets.length}/${L.secrets.length}${Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest) ? ' · Rekod baharu!' : ''}`;
+    showVictory({ coins: this.run.coins.length, coinsTotal: L.coins.length, secrets: (this.run.secrets || []).length, secretsTotal: (L.secrets || []).length, ms: this.elapsed, newBest: Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest), bestMs: rec.bestMs }); // World 1's victory card (ui/level-shell.js)
     SFX.victory?.(audio);
-    $('w2-done').showModal(); $('w2-replay').focus();
   }
 }
 
@@ -393,7 +392,7 @@ async function boot() {
     b.addEventListener('contextmenu', (e) => e.preventDefault());
   }
   $('w2-touch').hidden = !touchDevice;
-  $('w2-replay').addEventListener('click', () => { $('w2-done').close(); store.saveRun(newRun(LEVEL_ID, variantFor(store.load().levels[LEVEL_ID].completions)), LEVEL_ID); game.scene.getScene('LembahPuncak').scene.restart(); });
+  $('w2-replay').addEventListener('click', () => { $('complete').close(); store.saveRun(newRun(LEVEL_ID, variantFor(store.load().levels[LEVEL_ID].completions)), LEVEL_ID); game.scene.getScene('LembahPuncak').scene.restart(); });
   addEventListener('blur', () => Object.keys(controls).forEach((k) => { controls[k] = false; }));
 }
 boot().catch((e) => { console.error(e); $('w2-state').textContent = 'Level gagal dimuatkan.'; });

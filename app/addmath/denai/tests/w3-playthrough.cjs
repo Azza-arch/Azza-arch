@@ -89,7 +89,7 @@ const answerOf = (st) => st.answer ?? (st.type === 'intersect' ? { [st.levers[0]
     }
     const L = await p.evaluate(() => ({ goal: window.__w3.L.goal }));
     await p.evaluate((x) => __h.go(x), L.goal.x + 0.2); await sleep(800);
-    res[lid] = await p.evaluate(() => ({ done: document.getElementById('w2-done').open, stats: document.getElementById('w2-done-stats').textContent, rec: JSON.parse(localStorage.getItem('denai-w3-campaign-v1')).levels }));
+    res[lid] = await p.evaluate(() => ({ done: document.getElementById('complete').open, stats: ['completion-coins', 'completion-secrets', 'completion-time', 'completion-pb'].map((i) => document.getElementById(i).textContent).join(' · '), rec: JSON.parse(localStorage.getItem('denai-w3-campaign-v1')).levels }));
     ok(res[lid].done, `${lid}: finished`);
     ok(res[lid].rec[lid]?.completions === 1, `${lid}: one completion saved`);
     await p.screenshot({ path: `${out}/${lid}-tamat.png` });

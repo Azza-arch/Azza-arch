@@ -3,6 +3,8 @@
 // only draws them with the Kenney Industrial pack (plus base-pack levers, coins and flags), runs the
 // levers, and turns a solved station into its mechanism. Reuses the World 1 player body and motion,
 // World 2's camera / secret / analytics helpers and Chill Boy unchanged. Saves only its own key.
+import { showVictory } from '../../ui/level-shell.js';
+import { responsiveZoom } from '../../core/zoom.js';
 import { MOTION } from '../../level.js';
 import { audio, SFX } from '../../../audio.js';
 import { createPlayer } from '../../core/player.js';
@@ -105,9 +107,7 @@ export function bootLevel(levelId) {
     }
     applyResponsiveZoom() {
       const cam = this.cameras.main, h = this.scale.height || 700;
-      let best = null;
-      for (let n = 1; n <= 24; n++) { const k = n / 3, view = h / k; if (view < 480 || view > 740) continue; if (!best || Math.abs(view - 610) < Math.abs(h / best - 610)) best = k; }
-      if (!best) best = Math.max(1 / 3, Math.round(h / 610 * 3) / 3);
+      const best = responsiveZoom(h); // the same rule as World 1 (core/zoom.js)
       cam.setZoom(best);
       this.viewUnits = { w: this.scale.width / best, h: h / best };
       this.followOffsetY = Math.round(this.viewUnits.h * .16);
@@ -489,9 +489,8 @@ export function bootLevel(levelId) {
       const rec = store.load().levels[levelId];
       trackDone(levelId, this.run, rec);
       const t = Math.round(this.elapsed / 1000), mmss = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
-      $('w2-done-stats').textContent = `Masa ${mmss} · Syiling ${this.run.coins.length}/${L.coins.length} · Rahsia ${this.run.secrets.length}/${L.secrets.length}${Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest) ? ' · Rekod baharu!' : ''}`;
+      showVictory({ coins: this.run.coins.length, coinsTotal: L.coins.length, secrets: (this.run.secrets || []).length, secretsTotal: (L.secrets || []).length, ms: this.elapsed, newBest: Number.isFinite(rec.bestMs) && (!Number.isFinite(prevBest) || rec.bestMs < prevBest), bestMs: rec.bestMs }); // World 1's victory card (ui/level-shell.js)
       SFX.victory?.(audio);
-      $('w2-done').showModal(); $('w2-replay').focus();
     }
   }
 
@@ -513,7 +512,7 @@ export function bootLevel(levelId) {
       b.addEventListener('contextmenu', (e) => e.preventDefault());
     }
     $('w2-touch').hidden = !touchDevice;
-    $('w2-replay').addEventListener('click', () => { $('w2-done').close(); store.saveRun(newRun(levelId), levelId); game.scene.getScene(`W3-${levelId}`).scene.restart(); });
+    $('w2-replay').addEventListener('click', () => { $('complete').close(); store.saveRun(newRun(levelId), levelId); game.scene.getScene(`W3-${levelId}`).scene.restart(); });
     addEventListener('blur', () => Object.keys(controls).forEach((k) => { controls[k] = false; }));
   }
   boot().catch((e) => { console.error(e); $('w2-state').textContent = 'Level gagal dimuatkan.'; });

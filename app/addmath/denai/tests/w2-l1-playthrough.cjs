@@ -112,7 +112,7 @@ async function keys(p, list) { for (const k of list) { await p.keyboard.press(k)
   await p.screenshot({ path: `${out}/l21-5-selepas-c.png` });
   // ── finish ──
   await p.evaluate(() => __h.go(68.3)); await sleep(600);
-  res.finish = await p.evaluate(() => ({ open: document.getElementById('w2-done').open, stats: document.getElementById('w2-done-stats').textContent, rec: JSON.parse(localStorage.getItem('denai-w2-campaign-v1')).levels['w2-l1'] }));
+  res.finish = await p.evaluate(() => ({ open: document.getElementById('complete').open, stats: ['completion-coins', 'completion-secrets', 'completion-time', 'completion-pb'].map((i) => document.getElementById(i).textContent).join(' · '), rec: JSON.parse(localStorage.getItem('denai-w2-campaign-v1')).levels['w2-l1'] }));
   ok(res.finish.open && res.finish.rec.completions === 1, 'finish dialog, one completion saved');
   await p.screenshot({ path: `${out}/l21-6-tamat.png` });
   res.keys = await p.evaluate(() => Object.keys(localStorage).sort());

@@ -1,0 +1,60 @@
+/* World 1's level shell on the World 2 / 3 pages (loaded after ui-system.css, ui/v4.css and the level
+   styles). Same materials as World 1 (ui/v4.css): wood = HUD and navigation, parchment = boards and
+   notes, gold = the main action. Only layout for the station board and lever panel is new. */
+.lv{font-family:var(--ui-font)}
+.lv .w2-frame{background:#163a30}
+/* top bar: World 1's masthead (plaque left; board + pause right) */
+.lv .lv-masthead{display:flex;align-items:flex-start;gap:8px;pointer-events:none}
+.lv .lv-masthead>*{pointer-events:auto}
+.lv .lv-masthead #journal-btn{margin-left:auto}
+.lv .lv-masthead #journal-btn[aria-pressed="true"]{background:var(--wood-dark)}
+/* station board: World 1's parchment note; full near a lever or when opened, otherwise only the pin */
+.lv .w2-hud{top:calc(max(16px,env(safe-area-inset-top)) + 58px);left:max(18px,env(safe-area-inset-left));z-index:22;
+  background:var(--parchment);color:var(--ink);border:3px solid var(--wood-dark);border-radius:4px;box-shadow:0 3px 0 #0003;padding:8px 12px 9px;max-width:min(440px,46vw)}
+.lv .w2-hud .w2-tag{display:none}
+.lv .w2-hud .w2-station{font:800 15px/1.25 var(--ui-font);color:var(--ink)}
+.lv .w2-hud .w2-eq{color:var(--ink)}
+.lv .w2-hud .w2-eq b{color:#2a6fdb}
+.lv .w2-hud .w2-meta,.lv .w2-hud .w2-why{color:var(--ink-soft)}
+.lv .w2-hud .w2-state{color:var(--wood-dark);font-weight:700}
+.lv .w2-hud .w2-keys{color:var(--ink-soft);opacity:.85}
+.lv .w2-hud.compact{display:none}
+body.lv-board .lv .w2-hud,body.lv-board .lv .w2-hud.compact{display:block}
+body.lv-board .lv .w2-hud.compact :is(.w2-why,.w2-keys,.w2-meta){display:block}
+.lv .w2-frame:has(.w2-hud:not(.compact)) #quest-pin,body.lv-board #quest-pin{display:none}
+.lv #quest-pin:empty{display:none}
+/* cue: a parchment note under the pause button */
+.lv .w2-cue{top:calc(max(16px,env(safe-area-inset-top)) + 58px);right:max(18px,env(safe-area-inset-right));background:var(--parchment);color:var(--ink);
+  border:3px solid var(--wood-dark);border-radius:4px;box-shadow:0 3px 0 #0003;font:700 14px/1.35 var(--ui-font)}
+/* lever panel: parchment with wood buttons, the action in gold (World 1's primary) */
+.lv .w2-tools{background:var(--parchment);border:3px solid var(--wood-dark);border-radius:4px;box-shadow:0 3px 0 #0003;right:max(18px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom))}
+.lv .w2-tools.far{display:none} /* as World 1: the machine panel only shows at the machine */
+.lv .w2-lever output{color:var(--ink);font-family:var(--num-font)}
+.lv .w2-lever output b{color:#2a6fdb}
+.lv .w2-tools button{background:var(--wood);color:var(--parchment);border:0;border-radius:4px;box-shadow:inset 0 -5px 0 var(--wood-dark),0 3px 0 #0004;text-shadow:1px 1px 0 var(--wood-dark);font:800 22px/1 var(--ui-font);padding:0 0 4px}
+.lv .w2-tools button:active{transform:translateY(2px);box-shadow:inset 0 -2px 0 var(--wood-dark),0 1px 0 #0004}
+.lv .w2-tools .w2-lock{background:var(--gold);color:var(--ink);text-shadow:none;box-shadow:inset 0 -5px 0 var(--gold-shade),0 3px 0 var(--outline-warm);font:800 16px/1 var(--ui-font);padding:0 12px 4px}
+.lv .w2-tools .w2-lock[aria-pressed=true]{background:var(--gold-light)}
+.lv .w2-tools .w2-lock:disabled{background:var(--ok);color:#fff;box-shadow:inset 0 -5px 0 var(--ok-dark);opacity:1}
+/* touch: World 1's round wood arrows (left) and gold jump (right); the lever panel sits between them */
+.lv .lv-touch{position:absolute;z-index:23;left:max(18px,env(safe-area-inset-left));right:max(18px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}
+.lv .lv-touch .touch-group{display:flex;pointer-events:auto}
+.lv .lv-touch[hidden]{display:none}
+body[data-mode="paused"] .lv .lv-touch,body[data-mode="complete"] .lv .lv-touch{display:none}
+.lv .w2-frame:has(.lv-touch:not([hidden])) .w2-tools{right:50%;transform:translateX(50%);max-width:calc(100% - 340px);flex-wrap:wrap;justify-content:center}
+/* victory and pause: World 1's cards (#complete, #paused in ui-system.css); fill the level page */
+.lv #complete[open]{display:grid}
+.lv #complete .victory-panel{margin:auto}
+.lv #complete .victory-hint.is-record{color:var(--ribbon-dark);font-weight:800}
+.lv #paused .pause-actions{display:grid;grid-template-columns:1fr;gap:10px}
+@media (max-height:500px){
+  .lv .w2-hud{top:calc(max(10px,env(safe-area-inset-top)) + 50px);max-width:40vw;padding:5px 9px}
+  .lv .w2-cue{top:calc(max(10px,env(safe-area-inset-top)) + 50px);font-size:12px;max-width:44vw}
+  .lv .w2-tools button{min-width:40px;min-height:40px;font-size:18px}
+  .lv .w2-tools .w2-lock{min-width:74px;font-size:13px}
+  .lv .w2-frame:has(.lv-touch:not([hidden])) .w2-tools{max-width:calc(100% - 300px);bottom:max(8px,env(safe-area-inset-bottom));gap:4px;padding:4px}
+  .lv .w2-frame:has(.lv-touch:not([hidden])) .w2-lever output{font-size:13px;min-width:0}
+  .lv #paused .pause-actions{grid-template-columns:repeat(3,1fr)}
+}
+/* while a card is open the HUD steps back, as in World 1 */
+body[data-mode="complete"] .lv :is(.lv-masthead,.w2-hud,.w2-tools,#quest-pin,.w2-cue){display:none}
